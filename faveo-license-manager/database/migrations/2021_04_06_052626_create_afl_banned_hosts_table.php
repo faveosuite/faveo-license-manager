@@ -14,11 +14,12 @@ class CreateAflBannedHostsTable extends Migration
     public function up()
     {
         Schema::create('afl_banned_hosts', function (Blueprint $table) {
+            $table->primary('banned_host_id');
             $table->increments('banned_host_id')->unique();
             $table->string('banned_host_ip',125);
             $table->string('banned_host_comments',250);
             $table->date('banned_host_date');
-            $table->foreignId('banned_host_blocks');
+            $table->mediumInteger('banned_host_blocks');
             $table->date('banned_host_last_block_date');
             $table->timestamps();
         });

@@ -14,6 +14,7 @@ class CreateAflInstallationsTable extends Migration
     public function up()
     {
         Schema::create('afl_installations', function (Blueprint $table) {
+            $table->primary('installation_id');
             $table->increments('installation_id')->unique();
             $table->foreignId('product_id');
             $table->foreignId('client_id')->nullable();

@@ -14,6 +14,7 @@ class CreateAflProductsTable extends Migration
     public function up()
     {
         Schema::create('afl_products', function (Blueprint $table) {
+            $table->primary('product_id');
             $table->increments('product_id')->unique();
             $table->string('product_title', 125);
             $table->string('product_description', 250);

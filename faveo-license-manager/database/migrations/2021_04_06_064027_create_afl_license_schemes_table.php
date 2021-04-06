@@ -14,6 +14,7 @@ class CreateAflLicenseSchemesTable extends Migration
     public function up()
     {
         Schema::create('afl_license_schemes', function (Blueprint $table) {
+            $table->primary('scheme_id');
             $table->increments('scheme_id');
             $table->text('scheme_query');
             $table->boolean('scheme_status');

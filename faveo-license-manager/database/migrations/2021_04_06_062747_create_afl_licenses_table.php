@@ -14,9 +14,10 @@ class CreateAflLicensesTable extends Migration
     public function up()
     {
         Schema::create('afl_licenses', function (Blueprint $table) {
+            $table->primary('license_id');
             $table->increments('license_id')->unique();
-            $table->mediumInteger('product_id');
-            $table->mediumInteger('client_id')->nullable();
+            $table->foreignId('product_id');
+            $table->foreignId('client_id')->nullable();
             $table->string('license_code',125)->nullable();
             $table->string('license_order_number',125);
             $table->string('license_ip',125);

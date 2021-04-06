@@ -14,7 +14,7 @@ class CreateAflAdminsTable extends Migration
     public function up()
     {
         Schema::create('afl_admins', function (Blueprint $table) {
-            $table->primary(['admin_id']);
+            $table->primary('admin_id');
             $table->increments('admin_id')->unique();
             $table->string('admin_fname',125);
             $table->string('admin_lname',125);
@@ -24,7 +24,7 @@ class CreateAflAdminsTable extends Migration
             $table->string('admin_reset',125);
             $table->boolean('admin_data_authenticity');
             $table->string('admin_ip',125);
-            $table->unsignedBigInteger('admin_type_id')->unique();
+            $table->foreignId('admin_type_id');
             $table->date('admin_date');
             $table->string('admin_hash',125);
             $table->boolean('admin_status');

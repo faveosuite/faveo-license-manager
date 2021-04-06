@@ -14,6 +14,7 @@ class CreateAflCallbacksTable extends Migration
     public function up()
     {
         Schema::create('afl_callbacks', function (Blueprint $table) {
+            $table->primary('callback_id');
             $table->increments('callback_id');
             $table->foreignId('product_id');
             $table->foreignId('client_id')->nullable();
