@@ -9,6 +9,9 @@ body {
 .box.box-primary {
     border-top-color: #007bff;
 }
+.dropdown-menu-lg .dropdown-item {
+    padding: 10px;
+}
 
 .box {
     position: relative;

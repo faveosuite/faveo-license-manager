@@ -5,9 +5,16 @@ body {
 .dropdown-item {
     color: #3c8dbc;
 }
-
+.dropdown-menu-lg .dropdown-item {
+    padding: 10px;
+}
 .box.box-primary {
     border-top-color: #007bff;
+}
+.btn-default {
+    background-color: #f4f4f4;
+    color: #444;
+    border-color: #ddd;
 }
 
 .box {
@@ -140,6 +147,10 @@ a:hover {
 @media only screen and (max-width: 768px) {
     .wrapper{
         overflow-x: hidden;
+    }
+    .pagination{
+        margin-bottom: 10px;
+        margin-top: 10px;
     }
 }
 #pagination {
