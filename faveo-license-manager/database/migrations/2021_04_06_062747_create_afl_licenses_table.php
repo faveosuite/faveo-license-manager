@@ -16,13 +16,20 @@ class CreateAflLicensesTable extends Migration
         Schema::create('afl_licenses', function (Blueprint $table) {
             $table->primary('license_id');
             $table->increments('license_id')->unique();
-            $table->foreignId('product_id');
-            $table->foreignId('client_id')->nullable();
+
+            $table->foreignId('product_id')
+                ->constrained('afl_products','product_id')
+                ->onDelete('cascade');
+
+            $table->foreignId('client_id')->nullable()
+                ->constrained('afl_clients','client_id')
+                ->onDelete('cascade');
+
             $table->string('license_code',125)->nullable();
             $table->string('license_order_number',125);
             $table->string('license_ip',125);
             $table->string('license_domain',125);
-            $table->boolean('license_require_domain');
+            $table->tinyInteger('license_require_domain');
             $table->smallInteger('license_limit');
             $table->date('license_date');
             $table->date('license_cancel_date');
@@ -33,19 +40,11 @@ class CreateAflLicensesTable extends Migration
             $table->date('license_support_date');
             $table->date('license_support_email_date');
             $table->string('license_comments',250);
-            $table->boolean('license_envato');
+            $table->tinyInteger('license_envato');
             $table->boolean('license_status');
             $table->timestamps();
 
-            $table->foreign('client_id')
-                ->references('client_id')
-                ->on('afl_clients')
-                ->onDelete('cascade');
 
-            $table->foreign('product_id')
-                ->references('product_id')
-                ->on('afl_products')
-                ->onDelete('cascade');
         });
     }
 

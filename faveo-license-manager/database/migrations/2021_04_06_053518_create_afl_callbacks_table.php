@@ -15,9 +15,16 @@ class CreateAflCallbacksTable extends Migration
     {
         Schema::create('afl_callbacks', function (Blueprint $table) {
             $table->primary('callback_id');
-            $table->increments('callback_id');
-            $table->foreignId('product_id');
-            $table->foreignId('client_id')->nullable();
+            $table->increments('callback_id')->unique();
+
+            $table->foreignId('product_id')
+                ->constrained('afl_products','product_id')
+                ->onDelete('cascade');
+
+            $table->foreignId('client_id')->nullable()
+                ->constrained('afl_clients','client_id')
+                ->onDelete('cascade');
+
             $table->string('license_code',125)->nullable();
             $table->string('callback_ip',125);
             $table->string('callback_domain',125);
@@ -25,15 +32,6 @@ class CreateAflCallbacksTable extends Migration
             $table->boolean('callback_status');
             $table->timestamps();
 
-            $table->foreign('client_id')
-                ->references('client_id')
-                ->on('afl_clients')
-                ->onDelete('cascade');
-
-            $table->foreign('product_id')
-                ->references('product_id')
-                ->on('afl_products')
-                ->onDelete('cascade');
         });
     }
 

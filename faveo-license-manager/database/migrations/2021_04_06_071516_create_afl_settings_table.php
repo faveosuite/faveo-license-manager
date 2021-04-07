@@ -28,7 +28,7 @@ class CreateAflSettingsTable extends Migration
             $table->smallInteger('RECORDE_ON_INDEX_PAGE');
             $table->smallInteger('RECORDE_ON_SEARCH_PAGE');
             $table->boolean('API_STATUS');
-            $table->tinyInteger('BANNED_HOSTS');
+            $table->boolean('BANNED_HOSTS');
             $table->string('BANNED_HOST_MESSAGE',125);
             $table->tinyInteger('FAILED_LOGINS_LIMIT');
             $table->tinyInteger('FAILED_LICENSINGS_LIMIT');

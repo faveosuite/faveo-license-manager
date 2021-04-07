@@ -15,7 +15,7 @@ class CreateAflReportsTable extends Migration
     {
         Schema::create('afl_reports', function (Blueprint $table) {
             $table->primary('report_id');
-            $table->increments('report_id');
+            $table->increments('report_id')->unique();
             $table->foreignId('product_id');
             $table->foreignId('account_id')->nullable();
             $table->string('license_code',125)->nullable();

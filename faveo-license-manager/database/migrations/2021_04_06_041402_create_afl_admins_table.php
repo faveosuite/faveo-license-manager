@@ -24,16 +24,16 @@ class CreateAflAdminsTable extends Migration
             $table->string('admin_reset',125);
             $table->boolean('admin_data_authenticity');
             $table->string('admin_ip',125);
-            $table->foreignId('admin_type_id');
+
+            $table->foreignId('admin_type_id')
+                ->constrained('afl_admin_types','admin_type_id')
+                ->onDelete('cascade');
+
             $table->date('admin_date');
             $table->string('admin_hash',125);
             $table->boolean('admin_status');
 
             $table->timestamps();
-            $table->foreign('admin_type_id')
-                ->references('admin_type_id')
-                ->on('afl_admin_types')
-                ->onDelete('cascade');
         });
     }
 

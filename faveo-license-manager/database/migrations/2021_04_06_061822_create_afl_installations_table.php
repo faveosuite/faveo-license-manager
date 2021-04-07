@@ -16,8 +16,15 @@ class CreateAflInstallationsTable extends Migration
         Schema::create('afl_installations', function (Blueprint $table) {
             $table->primary('installation_id');
             $table->increments('installation_id')->unique();
-            $table->foreignId('product_id');
-            $table->foreignId('client_id')->nullable();
+
+            $table->foreignId('product_id')
+                  ->constrained('afl_product_id','product_id')
+                  ->onDelete('cascade');
+
+            $table->foreignId('client_id')->nullable()
+                  ->constrained('afl_clients','client_id')
+                  ->onDelete('cascade');
+
             $table->string('license_code',125)->nullable();
             $table->string('installation_ip',125);
             $table->string('installation_domain',125);
@@ -27,15 +34,7 @@ class CreateAflInstallationsTable extends Migration
             $table->string('installation_hash',125);
             $table->timestamps();
 
-            $table->foreign('client_id')
-                ->references('client_id')
-                ->on('afl_clients')
-                ->onDelete('cascade');
 
-            $table->foreign('product_id')
-                ->references('product_id')
-                ->on('afl_products')
-                ->onDelete('cascade');
         });
     }
 

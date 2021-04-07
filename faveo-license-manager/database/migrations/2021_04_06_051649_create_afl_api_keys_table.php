@@ -18,14 +18,14 @@ class CreateAflApiKeysTable extends Migration
             $table->increments('api_key_id')->unique();
             $table->string('api_key_secret',125);
             $table->string('api_key-ip',125);
-            $table->boolean('api_key_clients_add');
-            $table->boolean('api_key_clients_edit');
-            $table->boolean('api_key_licenses_add');
-            $table->boolean('api_key_licenses_edit');
-            $table->boolean('api_key_products_add');
-            $table->boolean('api_key_products_edit');
-            $table->boolean('api_key_installations_edit');
-            $table->boolean('api_key_search');
+            $table->tinyInteger('api_key_clients_add');
+            $table->tinyInteger('api_key_clients_edit');
+            $table->tinyInteger('api_key_licenses_add');
+            $table->tinyInteger('api_key_licenses_edit');
+            $table->tinyInteger('api_key_products_add');
+            $table->tinyInteger('api_key_products_edit');
+            $table->tinyInteger('api_key_installations_edit');
+            $table->tinyInteger('api_key_search');
             $table->boolean('api_key_status');
 
 
