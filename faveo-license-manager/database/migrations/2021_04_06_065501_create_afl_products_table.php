@@ -16,14 +16,14 @@ class CreateAflProductsTable extends Migration
         Schema::create('afl_products', function (Blueprint $table) {
             $table->primary('product_id');
             $table->increments('product_id')->unique();
-            $table->string('product_title', 125);
+            $table->string('product_title', 125)->unique();
             $table->string('product_description', 250);
-            $table->string('product_sku', 125);
+            $table->string('product_sku', 125)->unique();
             $table->string('product_url_homepage', 125);
             $table->string('product_url_download', 125);
             $table->date('product_date');
             $table->string('product_version', 125);
-            $table->integer('product_envato_id');
+            $table->integer('product_envato_id')->default('null')->unique();
             $table->boolean('product_status');
             $table->timestamps();
         });

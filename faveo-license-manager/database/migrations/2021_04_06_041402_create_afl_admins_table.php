@@ -18,7 +18,7 @@ class CreateAflAdminsTable extends Migration
             $table->increments('admin_id')->unique();
             $table->string('admin_fname',125);
             $table->string('admin_lname',125);
-            $table->string('admin_email',125);
+            $table->string('admin_email',125)->unique();
             $table->string('admin_password',125);
             $table->string('admin_reset',125);
             $table->string('admin_reset',125);
@@ -30,7 +30,7 @@ class CreateAflAdminsTable extends Migration
                 ->onDelete('cascade');
 
             $table->date('admin_date');
-            $table->string('admin_hash',125);
+            $table->string('admin_hash',125)->unique();
             $table->boolean('admin_status');
 
             $table->timestamps();

@@ -21,11 +21,11 @@ class CreateAflCallbacksTable extends Migration
                 ->constrained('afl_products','product_id')
                 ->onDelete('cascade');
 
-            $table->foreignId('client_id')->nullable()
+            $table->foreignId('client_id')->default('null')
                 ->constrained('afl_clients','client_id')
                 ->onDelete('cascade');
 
-            $table->string('license_code',125)->nullable();
+            $table->string('license_code',125)->default('null');
             $table->string('callback_ip',125);
             $table->string('callback_domain',125);
             $table->dateTime('callback_date_time');

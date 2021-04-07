@@ -18,10 +18,10 @@ class CreateAflClientsTable extends Migration
             $table->increments('client_id')->unique();
             $table->string('client_fname',125);
             $table->string('client_lname',125);
-            $table->string('client_email',125);
+            $table->string('client_email',125)->unique();
             $table->date('client_active_date');
             $table->date('client_cancel_date');
-            $table->boolean('client_status');
+            $table->boolean('client_status')->default('1');
             $table->timestamps();
         });
     }

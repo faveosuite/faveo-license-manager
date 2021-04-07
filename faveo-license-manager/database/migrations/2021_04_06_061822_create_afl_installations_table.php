@@ -17,17 +17,17 @@ class CreateAflInstallationsTable extends Migration
             $table->primary('installation_id');
             $table->increments('installation_id')->unique();
 
-            $table->foreignId('product_id')
+            $table->foreignId('product_id')->unique()
                   ->constrained('afl_product_id','product_id')
                   ->onDelete('cascade');
 
-            $table->foreignId('client_id')->nullable()
+            $table->foreignId('client_id')->default('null')
                   ->constrained('afl_clients','client_id')
                   ->onDelete('cascade');
 
-            $table->string('license_code',125)->nullable();
-            $table->string('installation_ip',125);
-            $table->string('installation_domain',125);
+            $table->string('license_code',125)->default('null');
+            $table->string('installation_ip',125)->unique();
+            $table->string('installation_domain',125)->unique();
             $table->boolean('installation_disable_ip_verification');
             $table->date('installation_date');
             $table->boolean('installation_status');

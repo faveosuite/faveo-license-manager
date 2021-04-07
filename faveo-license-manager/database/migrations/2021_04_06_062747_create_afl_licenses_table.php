@@ -17,15 +17,16 @@ class CreateAflLicensesTable extends Migration
             $table->primary('license_id');
             $table->increments('license_id')->unique();
 
-            $table->foreignId('product_id')
+            $table->foreignId('product_id')->unique()
                 ->constrained('afl_products','product_id')
                 ->onDelete('cascade');
 
-            $table->foreignId('client_id')->nullable()
+            $table->foreignId('client_id')
+                ->default('null')->unique()
                 ->constrained('afl_clients','client_id')
                 ->onDelete('cascade');
 
-            $table->string('license_code',125)->nullable();
+            $table->string('license_code',125)->default('null')->unique();
             $table->string('license_order_number',125);
             $table->string('license_ip',125);
             $table->string('license_domain',125);

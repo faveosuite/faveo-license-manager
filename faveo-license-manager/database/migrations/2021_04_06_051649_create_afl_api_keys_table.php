@@ -16,7 +16,7 @@ class CreateAflApiKeysTable extends Migration
         Schema::create('afl_api_keys', function (Blueprint $table) {
             $table->primary('api_key_id');
             $table->increments('api_key_id')->unique();
-            $table->string('api_key_secret',125);
+            $table->string('api_key_secret',125)->unique();
             $table->string('api_key-ip',125);
             $table->tinyInteger('api_key_clients_add');
             $table->tinyInteger('api_key_clients_edit');

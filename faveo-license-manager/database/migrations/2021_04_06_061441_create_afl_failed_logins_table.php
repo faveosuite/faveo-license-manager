@@ -16,7 +16,7 @@ class CreateAflFailedLoginsTable extends Migration
         Schema::create('afl_failed_logins', function (Blueprint $table) {
             $table->primary('failed_login_id');
             $table->increments('failed_login_id')->unique();
-            $table->string('failed_login_ip',125);
+            $table->string('failed_login_ip',125)->unique();
             $table->integer('failed_login_attempts');
             $table->date('failed_login_last_attempt_date');
             $table->timestamps();

@@ -17,8 +17,8 @@ class CreateAflReportsTable extends Migration
             $table->primary('report_id');
             $table->increments('report_id')->unique();
             $table->foreignId('product_id');
-            $table->foreignId('account_id')->nullable();
-            $table->string('license_code',125)->nullable();
+            $table->foreignId('account_id')->default('null');
+            $table->string('license_code',125)->default('null');
             $table->dateTime('report_date_time');
             $table->string('report_text',5000);
             $table->tinyInteger('report_system');

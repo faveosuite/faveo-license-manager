@@ -16,8 +16,8 @@ class CreateAflAdminTypesTable extends Migration
         Schema::create('afl_admin_types', function (Blueprint $table) {
             $table->primary('admin_type_id');
             $table->increments('admin_type_id')->unique();
-            $table->string('admin_type_name',125);
-            $table->string('admin_type_title',125);
+            $table->string('admin_type_name',125)->unique();
+            $table->string('admin_type_title',125)->unique();
             $table->boolean('admin_type_status');
             $table->timestamps();
         });
