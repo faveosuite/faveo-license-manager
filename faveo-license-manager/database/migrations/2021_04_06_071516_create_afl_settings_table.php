@@ -51,7 +51,7 @@ class CreateAflSettingsTable extends Migration
             $table->smallInteger('DATABASE_CLEANUP_REPORTS_SYSTEM');
             $table->smallInteger('DATABASE_CLEANUP_REPORTS_LICENSES');
             $table->date('DATABASE_CLEANUP_DATE');
-            $table->string('NEWS_TEXT',5000);
+            $table->longText('NEWS_TEXT');
             $table->date('NEWS_DATE');
             $table->string('ENVATO_API_TOKEN',125);
             $table->string('DATABASE_VERSION',125);

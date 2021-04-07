@@ -20,7 +20,7 @@ class CreateAflReportsTable extends Migration
             $table->foreignId('account_id')->default('null');
             $table->string('license_code',125)->default('null');
             $table->dateTime('report_date_time');
-            $table->string('report_text',5000);
+            $table->longText('report_text');
             $table->tinyInteger('report_system');
             $table->boolean('report_status');
             $table->timestamps();
