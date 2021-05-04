@@ -14,7 +14,7 @@ class CreateAflProfilesTable extends Migration
     public function up()
     {
         Schema::create('afl_profiles', function (Blueprint $table) {
-            $table->primary('SETTING_ID');
+            //$table->primary('SETTING_ID');
             $table->foreignId('SETTING_ID')->unique();
             $table->string('ROOT_URL',250);
             $table->string('CLIENT_EMAIL',250);

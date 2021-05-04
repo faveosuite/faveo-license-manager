@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\afl_admins;
 
-class afl_products extends Model
+class oauth_access_token extends Model
 {
     use HasFactory;
-    protected $guarded =[];
-    protected $primaryKey = 'product_id';
+
+    public function afl_admin(){
+        return belongsTo('afl_admins');
+    }
 }

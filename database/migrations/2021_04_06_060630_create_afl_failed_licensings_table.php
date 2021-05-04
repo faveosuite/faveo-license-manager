@@ -14,7 +14,7 @@ class CreateAflFailedLicensingsTable extends Migration
     public function up()
     {
         Schema::create('afl_failed_licensings', function (Blueprint $table) {
-            $table->primary('failed_licensing_id');
+            //$table->primary('failed_licensing_id');
             $table->increments('failed_licensing_id')->unique();
             $table->string('failed_licensing_ip',125)->unique();
             $table->integer('failed_licensing_attempts');

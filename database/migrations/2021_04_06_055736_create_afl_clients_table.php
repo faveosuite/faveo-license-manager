@@ -14,7 +14,7 @@ class CreateAflClientsTable extends Migration
     public function up()
     {
         Schema::create('afl_clients', function (Blueprint $table) {
-            $table->primary('client_id');
+            //$table->primary('client_id');
             $table->increments('client_id')->unique();
             $table->string('client_fname',125);
             $table->string('client_lname',125);

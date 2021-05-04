@@ -14,7 +14,7 @@ class CreateAflNotificationsTable extends Migration
     public function up()
     {
         Schema::create('afl_notifications', function (Blueprint $table) {
-            $table->primary('notifications_id');
+            //$table->primary('notifications_id');
             $table->increments('notification_id')->unique();
             $table->string('notification_product_not_found',250);
             $table->string('notification_product_inactive',250);

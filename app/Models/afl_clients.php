@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class afl_clients extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }

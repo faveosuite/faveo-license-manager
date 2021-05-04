@@ -14,20 +14,20 @@ class CreateAflInstallationsTable extends Migration
     public function up()
     {
         Schema::create('afl_installations', function (Blueprint $table) {
-            $table->primary('installation_id');
+            //$table->primary('installation_id');
             $table->increments('installation_id')->unique();
 
-            $table->foreignId('product_id')->unique()
+            $table->integer('product_id')->unique()
                   ->constrained('afl_product_id','product_id')
                   ->onDelete('cascade');
 
-            $table->foreignId('client_id')->default('null')
+            $table->integer('client_id')
                   ->constrained('afl_clients','client_id')
                   ->onDelete('cascade');
 
-            $table->string('license_code',125)->default('null');
+            $table->string('license_code',125)->unique();
             $table->string('installation_ip',125)->unique();
-            $table->string('installation_domain',125)->unique();
+            $table->string('installation_domain',125)->default('null');
             $table->boolean('installation_disable_ip_verification');
             $table->date('installation_date');
             $table->boolean('installation_status');

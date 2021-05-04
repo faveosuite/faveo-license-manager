@@ -14,15 +14,14 @@ class CreateAflLicensesTable extends Migration
     public function up()
     {
         Schema::create('afl_licenses', function (Blueprint $table) {
-            $table->primary('license_id');
+            //$table->primary('license_id');
             $table->increments('license_id')->unique();
 
-            $table->foreignId('product_id')->unique()
+            $table->integer('product_id')->unique()
                 ->constrained('afl_products','product_id')
                 ->onDelete('cascade');
 
-            $table->foreignId('client_id')
-                ->default('null')->unique()
+            $table->integer('client_id')
                 ->constrained('afl_clients','client_id')
                 ->onDelete('cascade');
 

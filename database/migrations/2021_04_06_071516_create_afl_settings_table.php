@@ -15,7 +15,7 @@ class CreateAflSettingsTable extends Migration
     {
         Schema::create('afl_settings', function (Blueprint $table) {
 
-            $table->primary('SETTING_ID');
+            //$table->primary('SETTING_ID');
             $table->increments('SETTING_ID')->unique();
             $table->string('ROOT_URL',125);
             $table->string('CLIENT_EMAIL',125);
