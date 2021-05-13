@@ -11,4 +11,14 @@ class AflProducts extends Model
     protected $guarded =[];
 
     protected $primaryKey = 'product_id';
+
+    public function license()
+    {
+        return $this->belongTo(AflLicenses::class);
+    }
+
+    public function installation(){
+        
+        return $this->belongsTo(AflInstallations::class);
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+<<<<<<< HEAD
 
 use App\Notifications\PasswordResetNotification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -28,4 +29,12 @@ public function AauthAcessToken(){
     return $this->hasMany('App\Models\oauth_access_token');
 }
 
+=======
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+class AflProfiles extends Model
+{
+    use HasFactory;
+>>>>>>> 34fd2bf (installlicense completed and correction of connection test done)
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AflClients extends Model
 {
     use HasFactory;
+<<<<<<< HEAD
     protected $guarded =[];
 
     protected $primaryKey = 'client_id';
@@ -21,4 +22,9 @@ class AflClients extends Model
     {
         return $this->hasMany(AflInstallations::class);
     }
+=======
+   protected $guarded =[];
+
+    protected $primaryKey = 'client_id';
+>>>>>>> 34fd2bf (installlicense completed and correction of connection test done)
 }
