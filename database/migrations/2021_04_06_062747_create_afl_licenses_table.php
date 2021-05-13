@@ -20,7 +20,7 @@ class CreateAflLicensesTable extends Migration
                 ->constrained('afl_products','product_id')
                 ->onDelete('cascade');
 
-            $table->integer('client_id')
+            $table->integer('client_id')->nullable()
                 ->constrained('afl_clients','client_id')
                 ->onDelete('cascade');
 

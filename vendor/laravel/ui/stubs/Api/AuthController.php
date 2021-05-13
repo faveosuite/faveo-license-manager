@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Api;
 
 
 use App\Http\Requests\ResetRequest;
-use App\Models\afl_admins;
-use App\Models\oauth_access_token;
 
+use App\Http\Requests\SessionRequest;
+use App\Models\AflAdmins;
+use App\Models\AflAdminSessions;
+use App\Models\OauthAccessToken;
 use http\Message;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -20,37 +22,38 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
-
-
-
-
 use Lcobucci\JWT\Token\Parser;
+use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\Lang;
 
 
+
+
+/**
+ * Consist of functionalities for Authentication in Auto Faveo licenser 
+ * Class AuthController
+ * @package App\Http\Controllers\Api
+ */
 class  AuthController extends Controller
 {
     
-    public function register(Request $request){
+     /**
+     * To Register an user to Auto faveo licenser
+     * @param RegisterRequest $request
+     * @return response you have registered successfuly along with a unique access token
+    */
+    public function register(RegisterRequest $request){
 
         $date = Carbon::now();
-        $filled = $request->validate([
-            'admin_fname'=> 'required|string',
-            'admin_lname'=> 'required|string',
-            'admin_email' => 'required|string|unique:afl_admins,admin_email',
-            'admin_password'=> 'required|string|min:8|confirmed',
-            'admin_ip'=> 'string',
-            'admin_date' => 'string'
-
-        ]);
-        $admin = afl_admins::create([
-            'admin_fname'=>$filled['admin_fname'],
-            'admin_lname'=>$filled['admin_lname'],
-            'admin_email'=>$filled['admin_email'],
-            'admin_password'=>bcrypt($filled['admin_password']),
+        $hash = \generateRandomString(64);
+        $admin = AflAdmins::create([
+            'admin_fname'=>$request->get('admin_fname'),
+            'admin_lname'=>$request->get('admin_lname'),
+            'admin_email'=>$request->get('admin_email'),
+            'admin_password'=>bcrypt($request->get('admin_password')),
             'admin_ip'=> $request->ip(),
-            'admin_date'=> $date->toDateString()
-
-
+            'admin_date'=> $date->toDateString(),
+            'admin_hash' => $hash
         ]);
 
         $token = $admin->createToken('AFL')->accessToken;
@@ -60,23 +63,28 @@ class  AuthController extends Controller
             'token'=> $token
         ];
 
-        return response($response,201);
+        return \successResponse(Lang::get('lang.registered'),$response,201);
     }
+    
 
-    public function login(Request $request)
+    /**
+     * To Login an user to Auto faveo licenser
+     * @param Request $request
+     * @return response you have LoggedIn successfuly along with a unique access token
+    */
+    public function login(Request $request,SessionRequest $req)
     {
 
-        $filled = $request->validate([
+       $filled = $request->validate([
             'admin_email' => 'required|string',
             'admin_password'=> 'required|string|min:8',
 
         ]);
-          $admin = afl_admins::where('admin_email',$filled['admin_email'])->first();
+
+          $admin = AflAdmins::where('admin_email',$filled['admin_email'])->first();
 
           if( !$admin || !Hash::check($filled['admin_password'],$admin->admin_password)){
-              return response([
-                  'message'=>'Login credentials invalid'
-              ],401);
+              return \errorResponse(Lang::get('auth.failed'),401);
           }
 
         $token = $admin->createToken('AFL')->accessToken;
@@ -86,19 +94,23 @@ class  AuthController extends Controller
             'user'=> $admin,
             'token'=> $token
         ];
-
-        return response($response,201);
-
+    
+        return \successResponse(Lang::get('lang.Login'),$response,200);
     }
 
+
+
+    /**
+     * To Send a reset link as email to users who have forgotten the password
+     * @param Request $request
+     * @return response With a check your email and mail to the registered email address
+    */
    public function forgot(Request $request){
 
         $email = $request->input('admin_email');
 
-        if(afl_admins::where('admin_email',$email)->doesntExist()){
-            return response([
-                'message'=> 'User doesn\'t exist'
-            ],404);
+        if(AflAdmins::where('admin_email',$email)->doesntExist()){
+            return \errorResponse(Lang::get('auth.failed'),404);
         }
         $tokens = Str::random(10);
         try {
@@ -110,106 +122,87 @@ class  AuthController extends Controller
             $token = array(
                 'token'=>$tokens
             );
-
+           // $from = Config::get('constants.Mail.From');
             Mail::send('emails.myTestMail', $token, function ($message) use ($email){
 
-              $message->from('admin@example.com', 'Forgot Password');
+              $message->from(config('constants.Mail.From'), 'Forgot Password');
               $message->to($email)->subject('Password Reset Link');
                               
             }
 
              );
 
-            return \response(['message'=>'check your email!']);
+            return \successResponse(Lang::get('passwords.sent'),$token,200);
         }
         catch(\Exception $exception){
-            return \response([
-                'message' => $exception->getMessage()
-            ],400);
+            return  \errorResponse($exception->getMessage(),400);
         }
 
     }
+    
 
+
+    /**
+     * Used to reset the password after validating email,password and token
+     * @param Request $request
+     * @return response password has been changed 
+    */
     public function reset(Request $request)
     {
 
-       /* $token = $request->input('token');
-        if(!$PasswordResets = DB::table('password_resets')->where('token',$token)->first()){
-
-            return \response(['message'=>'invalid token'],400);
-        }
-
-    
-
-        if(!$admin = afl_admins::where('admin_email', $PasswordResets->email)->first()){
-            return \response(['message'=> 'user doesn\'t exist'],404);
-        }
-    
-        $admin->admin_password  = Hash::make($request->input('admin_password'));
-        $admin->save();
-        return \response(['message'=> 'Passsword has been changed']);*/
-        
-    //Validate input
     $validator = Validator::make($request->all(), [
         'email' => 'required|email|exists:afl_admins,admin_email',
         'password' => 'required|confirmed',
         'token' => 'required'
         ]);
-          
-    //check if payload is valid before moving on
+
+    
     if ($validator->fails()) {
-        return response([
-            'message'=> 'Please complete the form'
-            ]);
+        return \errorResponse(Lang::get('lang.form'),401);
     }
 
     $password = $request->password;
-// Validate the token
     $tokenData = DB::table('password_resets')->where('token', $request->token)->first();
 
     if (!$tokenData) {
-    return \response(['message' => 'Your token data is invalid']);
+    return \errorResponse(Lang::get('passwords.token'),401);
     }
-   
-    $admin = afl_admins::where('admin_email', $tokenData->email)->first();
+
+    $admin = AflAdmins::where('admin_email', $tokenData->email)->first();
 
     if (!$admin){
-        return response(['message'=>'email is invalid']);
+        return \errorResponse(Lang::get('passwords.user'),401);
     }
-    //Hash and update the new password
+
     $admin->admin_password = \Hash::make($password);
     $admin->update(); //or $admin->save();
     
+    // Auth::login($admin);
+    $details = DB::table('password_resets')->where('email', $admin->admin_email)->delete();
 
-    //login the user immediately they change password successfully
-    Auth::login($admin);
-
-    //Delete the token
-    DB::table('password_resets')->where('email', $admin->admin_email)->delete();
-
-    //Send Email Reset Success Email
-    if ($this->sendSuccessEmail($tokenData->email)) {
-        return \response(['message'=> 'Success']);
-    } else {
-        return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
-    }
+    return \successResponse(Lang::get('passwords.reset'),$details,201);
     }
 
-    public function logout(Request $request){
+
+
+    /**
+     * To Logout of the Auto Faveo Licenser 
+     * @param Request $request
+     * @param $user_id
+     * @return response You have logged out successfuly after revoking the token
+    */
+    public function logout(Request $request,$user_id){
          
-         // if (Auth::check()) {
-            //Auth::user()->AauthAcessToken()->delete();      
-         //}  
-        DB::table('oauth_access_tokens')
-        ->where('user_id', Auth::user())
+         /* if (Auth::check()) {
+            Auth::user()->AauthAcessToken()->delete(); 
+            return \response(['message'=> 'logout']);     
+         }  */
+        $logout=DB::table('oauth_access_tokens')
+        ->where('user_id',$user_id)
         ->update([
             'revoked' => true
-            
         ]);
-         return \response(['message'=> 'You are logged out'],200);
-
-        
-
+         return \successResponse(Lang::get('lang.Logout'),$logout,201);
     }
 
 

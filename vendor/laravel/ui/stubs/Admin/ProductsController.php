@@ -2,47 +2,339 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\AflProducts;
+use App\Models\AflApiKeys;
+use App\Models\AflCallbacks;
+use App\Models\AflInstallations;
+use App\Models\AflLicenses;
+
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Http\Requests\ProductRequest;
-use App\Models\afl_products;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\DB;
+use App\Traits\Settings;
+use App\Traits\Version;
 
+
+/**
+ * Consist of functionalities for the Product page in Auto Faveo licenser 
+ * Class ProductsController
+ * @package App\Http\Controllers\Admin
+ */
 class ProductsController extends Controller
 {
-    public function store(ProductRequest $request){
+    
+    /**
+     * stores the product details into the database
+     * @param ProductRequest $request
+     *
+     * @return response that a product details is added
+    */
+public function productAdd(ProductRequest $request,$api_key_secret,$product_title,$product_sku,$product_status,$product_description=null, $product_url_homepage=null, $product_url_download=null, $product_version=null, $product_envato_id=null)
 
-       $date = Carbon::now();
-       $product = new afl_products(array(           
-            'product_title'=> $request->get('product_title'),
-            'product_description' => $request->get('product_description'),
-            'product_sku' => $request->get('product_sku'),
-            'product_url_homepage'=>$request->get('product_url_homepage'),
-            'product_url_download'=>$request->get('product_url_download') ,
-            'product_date'=> $date->toDateString(),
-            'product_version'=> $request->get('product_version'),
-            'product_envato_id'=> $request->get('product_envato_id'),
-            'product_status'=> $request->get('product_status')
-       ));
-       $product->save();
-       return response([
-           'message'=> 'Product Updated',
-           'product'=> $product
-          
-       ]);
+     {
+        $api_action_success=0;
+        $api_error_detected=0; 
+        $added_records =0; 
+        if (null!==(\request()->server('REMOTE_ADDR'))) 
+        {
+             $ip_address=request()->server('REMOTE_ADDR');
+             } 
+             else {
+                 $ip_address=$request->ip();
+                 }
 
+       if(!empty($api_key_secret))
+       {
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        if(empty($api))
+        {
+            return \errorResponse(Lang::get('lang.invalid_api_key'),404);
+        }
+        else
+        {
+        $api_ip = new AflApiKeys();
+        $api_ips= $api_ip->pluck('api_key_ip');
+
+          if(!empty($api_ips))
+          {
+                if (!$api_ips->contains($ip_address))
+                   {   
+                    $api_error_detected=1;
+                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    }
+                    else{
+                        $api_action_success=1;
+                    }
+          }
+        }
+        if($product_description==null)
+        {
+            $product_description = $request->get('product_description');
+        }
+        if ($product_url_homepage==null) 
+        {
+            $product_url_homepage = $request->get('product_url_homepage');
+        }
+        if ( $product_url_download==null) {
+             
+             $product_url_download = $request->get('product_url_download');
+        }
+
+        if($product_version=null)
+        {
+            $product_version = $request->get('product_version');
+        }
+
+        if($product_envato_id==null)
+        {
+            $product_envato_id = $request->get('product_envato_id');
+        }
+
+          if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
+                {
+                if (!empty($product_url_homepage) && !filter_var($product_url_homepage, FILTER_VALIDATE_URL))
+                    {
+                    $api_error_detected=1;
+                    return \errorResponse(Lang::get('lang.error_producturl'),400);
+                    }
+
+                if (!empty($product_envato_id) && !aflValidateIntegerValue($product_envato_id))
+                    {
+                    $api_error_detected=1;
+                    return errorResponse(Lang::get('lang.error_product_envato'),400);
+                    }
+
+                if ($api_error_detected!=1)
+                    {
+                    if (!aflValidateIntegerValue($product_envato_id))
+                        {
+                        $product_envato_id=null;
+                        }
+
+                    $product_date=date("Y-m-d");
+
+                    //$added_records=doMysqlQuery("INSERT IGNORE INTO apl_products (product_title, product_description, product_sku, product_url_homepage, product_url_download, product_date, product_version, product_envato_id, product_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", array($product_title, $product_description, $product_sku, $product_url_homepage, $product_url_download, $product_date, $product_version, $product_envato_id, $product_status), array("s", "s", "s", "s", "s", "s", "s", "i", "i"));
+                    try{
+                        $in=DB::table('afl_products')->insertOrIgnore([
+                            'product_title' => $product_title, 
+                            'product_description' => $product_description, 
+                            'product_sku' => $product_sku, 
+                            'product_url_homepage' => $product_url_homepage, 
+                            'product_url_download' => $product_url_download, 
+                            'product_date' => $product_date, 
+                            'product_version' => $product_version, 
+                            'product_envato_id' => $product_envato_id, 
+                            'product_status' => $product_status
+                        ]);
+                        $added_records +=1;
+                    }
+                    catch(Exception $e){
+                        $added_records+=0;
+                    }
+                    if (!aflValidateIntegerValue($added_records))
+                        {
+                        $api_error_detected=1;
+                         return \errorResponse(Lang::get('lang.invalid'),400);
+                        }
+                    else
+                        {
+                        $api_action_success=1;
+                        return \successResponse(Lang::get('lang.sucess'),$in,201);
+                        }
+                    }
+                }
+                else
+                {
+                    return \successResponse(Lang::get('lang.invalid'),400);
+                }
     }
+  
+    }
+
+
+
+     /**
+     * Shows the product details from the database
+     * @param
+     *
+     * @return array of all the products that is present in the database
+    */
     public function show(){
-        $products = afl_products::all();
-        return response($products);
+        $products = AflProducts::all();
+        return \successResponse(Lang::get('lang.Product_Show'),$products,200);
     }
 
-     public function destroy($product_title)
+
+    
+     /**
+     * Deletes the product details from the database by using product id
+     * @param $product_id
+     *
+     * @return response that a product has been deleted 
+    */
+    //delete product
+public function deleteProduct($product_id)
     {
-        $product = afl_products::where('product_title',$product_title)->firstOrFail();
-        $product->delete();
-        return response([$product_title,'Product is deleted']);
+    $removed_records=0;
+
+    if (aflValidateIntegerValue($product_id))
+        {
+        DB::beginTransaction();//mysqli_begin_transaction($GLOBALS["mysqli"]);
+        $transaction_errors_array=array();
+        try{
+        AFlCallbacks::where('product_id',$product_id)->delete();//doMysqlQuery("DELETE FROM apl_callbacks WHERE product_id=?", array($product_id), array("i")); //delete callbacks
+        AFlInstallations::where('product_id',$product_id)->delete();//doMysqlQuery("DELETE FROM apl_installations WHERE product_id=?", array($product_id), array("i")); //delete installations
+        AFlLicenses::where('product_id',$product_id)->delete();//doMysqlQuery("DELETE FROM apl_licenses WHERE product_id=?", array($product_id), array("i")); //delete licenses
+        $removed_records+=AFlProducts::where('product_id',$product_id)->delete();//$removed_records+=doMysqlQuery("DELETE FROM apl_products WHERE product_id=?", array($product_id), array("i"));
+        DB::commit();
+        }
+        catch(Exception $e){
+             $transaction_errors_array[]=$e->getMessage();
+             DB::rollBack();
+             $removed_records=0;
+        }
+        }
+    return \successResponse(Lang::get('lang.delete'),$removed_records,200);
+    }
+
+        /* public function edit($product_id)
+       {
+
+        $ticket = Ticket::where('product_id',$product_id)->firstOrFail();
+        return view('',compact('ticket'));
+
+       }*/
+         
+     /**
+     * Updates the product details from the database by using the product title
+     * 
+     * @param Request $request
+     * @param $product_title
+     *
+     * @return response that a product has been Updated
+    */
+
+Public function productUpdate(ProductRequest $request,$api_key_secret, $product_id, $product_title,$product_sku,$product_status,$product_description=null, $product_url_homepage=null, $product_url_download=null, $product_version=null, $product_envato_id=null){
+ 
+
+if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_array=DB::table('afl_products')->where('product_id','=','?')->setBindings(['product_id'=>$product_id])->get())) //invalid record
+    {
+     \errorResponse(Lang::get('lang.invalid'));
+    exit();
+    }
+
+        $api_action_success=0;
+        $api_error_detected=0; 
+        $updated_records = 0; 
+        if (null!==(\request()->server('REMOTE_ADDR'))) 
+        {
+             $ip_address=request()->server('REMOTE_ADDR');
+             } 
+             else {
+                 $ip_address=$request->ip();
+                 }
+
+       if(!empty($api_key_secret))
+       {
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        if(empty($api))
+        {
+            return \errorResponse(Lang::get('lang.invalid_api_key'),404);
+        }
+        else
+        {
+        $api_ip = new AflApiKeys();
+        $api_ips= $api_ip->pluck('api_key_ip');
+
+          if(!empty($api_ips))
+          {
+                if (!$api_ips->contains($ip_address))
+                   {   
+                    $api_error_detected=1;
+                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    }
+                    else{
+                        $api_action_success=1;
+                    }
+          }
+        }
+         if($product_description==null)
+        {
+            $product_description = $request->get('product_description');
+        }
+        if ($product_url_homepage==null) 
+        {
+            $product_url_homepage = $request->get('product_url_homepage');
+        }
+        if ( $product_url_download==null) {
+             
+             $product_url_download = $request->get('product_url_download');
+        }
+
+        if($product_version=null)
+        {
+            $product_version = $request->get('product_version');
+        }
+
+        if($product_envato_id==null)
+        {
+            $product_envato_id = $request->get('product_envato_id');
+        }
+         if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
+                {
+                if (!empty($product_url_homepage) && !filter_var($product_url_homepage, FILTER_VALIDATE_URL))
+                    {
+                    $api_error_detected=1;
+                    return \errorResponse(Lang::get('lang.url_error'),400);
+                    }
+
+                if (!empty($product_envato_id) && !aflValidateIntegerValue($product_envato_id))
+                    {
+                    $api_error_detected=1;
+                    return \errorResponse(Lang::get('lang.envato_error'),400);
+                    }
+
+                if ($api_error_detected!=1)
+                    {
+                    if (!aflValidateIntegerValue($product_envato_id))
+                        {
+                        $product_envato_id=null;
+                        }
+
+                    $updated_records+=DB::table('afl_products')
+                                      ->where('product_id',$product_id)
+                                      ->update([
+                                          'product_title'=> $product_title, 
+                                          'product_description'=> $product_description, 
+                                          'product_sku'=> $product_sku, 
+                                          'product_url_homepage'=> $product_url_homepage, 
+                                          'product_url_download'=> $product_url_download, 
+                                          'product_version'=> $product_version, 
+                                          'product_envato_id'=> $product_envato_id, 
+                                          'product_status'=> $product_status
+                                      ]);//doMysqlQuery("UPDATE apl_products SET product_title=?, product_description=?, product_sku=?, product_url_homepage=?, product_url_download=?, product_version=?, product_envato_id=?, product_status=? WHERE product_id=?", array($product_title, $product_description, $product_sku, $product_url_homepage, $product_url_download, $product_version, $product_envato_id, $product_status, $product_id), array("s", "s", "s", "s", "s", "s", "i", "i", "i"));
+                    
+                    if (!aflValidateIntegerValue($updated_records))
+                        {
+                        $api_error_detected=1;
+                        return \errorResponse(Lang::get('lang.error'),400);
+                        }
+                    else
+                        {
+                        return \successResponse(Lang::get('lang.Product_Update'),$updated_records,200);
+                        }
+                    }
+                }
+                else{
+                    return \errorResponse(Lang::get('lang.invalid'),400);
+                }     
+
+    }
+
     }
 
 }

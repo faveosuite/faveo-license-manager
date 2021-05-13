@@ -2,7 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\afl_products;
+use App\Models\AflProducts;
+use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
@@ -25,9 +26,9 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_title'=> 'required|string|unique:afl_products,product_title',
+            'product_title'=> 'string|unique:afl_products,product_title',
             'product_description' => 'string',
-            'product_sku' => 'required|string|unique:afl_products,product_sku',
+            'product_sku' => 'string|unique:afl_products,product_sku',
             'product_url_homepage'=> 'string',
             'product_url_download'=> 'string',
             'product_date'=> 'date',
