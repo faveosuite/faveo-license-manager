@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AflApiKeys extends Model
 {
     use HasFactory;
+<<<<<<< HEAD
     protected $fillable = [ 
            'api_key_secret',
            'api_key_ip',
@@ -24,4 +25,6 @@ class AflApiKeys extends Model
     protected $primaryKey = 'api_key_id';
     public $timestamps = false;
 
+=======
+>>>>>>> 34fd2bf (installlicense completed and correction of connection test done)
 }
