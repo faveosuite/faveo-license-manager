@@ -11,6 +11,7 @@ class AflProducts extends Model
     protected $guarded =[];
 
     protected $primaryKey = 'product_id';
+<<<<<<< HEAD
     public $timestamps = false;
 
     public function license()
@@ -22,4 +23,6 @@ class AflProducts extends Model
         
         return $this->belongsTo(AflInstallations::class);
     }
+=======
+>>>>>>> 34fd2bf (installlicense completed and correction of connection test done)
 }

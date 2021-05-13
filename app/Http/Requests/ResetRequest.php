@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+namespace App\Models;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ResetRequest extends FormRequest
