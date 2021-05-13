@@ -182,17 +182,19 @@ class  AuthController extends Controller
     
 
     //login the user immediately they change password successfully
-    Auth::login($admin);
+   // Auth::login($admin);
 
     //Delete the token
     DB::table('password_resets')->where('email', $admin->admin_email)->delete();
 
+    return \response(['message'=> 'Password reset complete']);
+
     //Send Email Reset Success Email
-    if ($this->sendSuccessEmail($tokenData->email)) {
+   /* if ($this->sendSuccessEmail($tokenData->email)) {
         return \response(['message'=> 'Success']);
     } else {
         return redirect()->back()->withErrors(['email' => trans('A Network Error occurred. Please try again.')]);
-    }
+    }*/
     }
 
     public function logout(Request $request){
