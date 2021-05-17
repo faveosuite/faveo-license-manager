@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use App\Models\afl_products;
+use App\Models\AflProducts;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest

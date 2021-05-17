@@ -3,9 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-use App\Models\AflClients;
-
-class ClientRequest extends FormRequest
+use App\Models\AflAdmins;
+class RegisterRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,12 +24,15 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_fname'=> 'required|string',
-            'client_lname'=> 'required|string',
-            'client_email'=> 'required|string|unique:afl_clients,client_email',
-            'client_active_date'=>'String',
-            'client_cancel_date'=> 'String',
-            'client_status'=>'boolean'
+            
+            'admin_fname'=> 'required|string',
+            'admin_lname'=> 'required|string',
+            'admin_email' => 'required|string|unique:afl_admins,admin_email',
+            'admin_password'=> 'required|string|min:8|confirmed',
+            'admin_ip'=> 'string',
+            'admin_date' => 'string'
+
+       
         ];
     }
 }
