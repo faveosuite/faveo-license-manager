@@ -19,7 +19,7 @@ class CreateAflAdminSessionsTable extends Migration
             $table->string('admin_hash',125);
             $table->string('admin_session_hash',125);
             $table->date('admin_session_date');
-            $table->date('admin_session_expiry_date');
+            $table->date('admin_session_expiry_date')->nullable();
             $table->timestamps();
         });
     }

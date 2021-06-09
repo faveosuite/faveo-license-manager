@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Models\AflAdmins;
+use App\Http\Controllers\Api\AuthController;
+use Illuminate\Foundation\Http\FormRequest;
+
 class RegisterRequest extends FormRequest
 {
     /**

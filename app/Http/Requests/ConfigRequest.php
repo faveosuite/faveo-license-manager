@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-namespace App\Models;
 use Illuminate\Foundation\Http\FormRequest;
-
-class ResetRequest extends FormRequest
+use App\Http\Controllers\Admin\ConfigGenerateController;
+class ConfigRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,13 @@ class ResetRequest extends FormRequest
     public function rules()
     {
         return [
-         
-            'token'=>'required',
-            'password'=>'required',
-            'password_confirm'=>'required|same:password'
+            'product_id' =>'numeric',
+            'License_Storage_type' => 'string',
+            'Delete_Cancelled_License' => 'boolean',
+            'Delete_Cracked_License' => 'boolean',
+            'God_Mode' => 'boolean'
+             
+
         ];
     }
 }

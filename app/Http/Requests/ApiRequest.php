@@ -1,0 +1,43 @@
+<?php
+
+namespace App\Http\Requests;
+
+use Illuminate\Foundation\Http\FormRequest;
+use App\Models\AflApiKeys;
+use App\Http\Controllers\Admin\ApiController;
+
+class ApiRequest extends FormRequest
+{
+    /**
+     * Determine if the user is authorized to make this request.
+     *
+     * @return bool
+     */
+    public function authorize()
+    {
+        return true;
+    }
+
+    /**
+     * Get the validation rules that apply to the request.
+     *
+     * @return array
+     */
+    public function rules()
+    {
+        return [
+       
+            'api_key_secret' => 'required|string|unique:afl_api_keys,api_key_secret',
+            'api_key_ip'     => 'string',
+            'api_key_clients_add'=> 'boolean',
+            'api_key_clients_edit' => 'boolean',
+            'api_key_licenses_add'=> 'boolean',
+            'api_key_licenses_edit'=> 'boolean',
+            'api_key_products_add' => 'boolean',
+            'api_key_products_edit' => 'boolean',
+            'api_key_installations_edit' => 'boolean',
+            'api_key_search' => 'boolean',
+            'api_key_status' => 'boolean'
+        ];
+    }
+}

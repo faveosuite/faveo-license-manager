@@ -342,6 +342,185 @@ function successResponse($message = '', $data = '', $statusCode = FAVEO_SUCCESS_
 
     return $settings_row;
     }
+      /**
+     * verify date and/or time according to provided format (such as Y-m-d, Y-m-d H:i, H:i, and so on)    
+     * @param $datetime
+     * @param $format
+     * @return $result  
+    */
+     function aflVerifyDateTime($datetime, $format)
+    {
+    $result=false;
+
+    if (!empty($datetime) && !empty($format))
+        {
+        $datetime=DateTime::createFromFormat($format, $datetime);
+        $errors=DateTime::getLastErrors();
+
+        if ($datetime && empty($errors['warning_count'])) //datetime OK
+            {
+            $result=true;
+            }
+        }
+
+    return $result;
+    }
 
 
+//create report
+function createReport($report_text, $account_id, $report_system, $report_status)
+    {
+    if (!empty($report_text) && aflValidateIntegerValue($report_system, 0, 1))
+        {
+        $report_date_time=date("Y-m-d H:i:s");
 
+       // doMysqlQuery("INSERT IGNORE INTO apl_reports (account_id, report_date_time, report_text, report_system, report_status) VALUES (?, ?, ?, ?, ?)", array($account_id, $report_date_time, $report_text, $report_system, $report_status), array("i", "s", "s", "i", "i"));
+       try{
+           DB::table('afl_reports')->insertOrIgnore([
+               'account_id' => $account_id,
+               'report_date_time' => $report_date_time,
+               'report_text' => $report_text,
+               'report_system' => $report_system,
+               'report_status' => $report_status
+           ]);
+           return 1;
+       }
+       catch(Exception $e){
+          return 0;
+       }
+        }
+    }
+
+//set default start date
+function setDefaultDateFrom($RECORDS_HIDE_DAYS)
+    {
+    if (aflValidateIntegerValue($RECORDS_HIDE_DAYS)) //hide records older than RECORDS_HIDE_DAYS days
+        {
+        $date_from=date("Y-m-d", strtotime("-$RECORDS_HIDE_DAYS days"));
+        }
+    else //set start date empty (all records will be included)
+        {
+        $date_from="";
+        }
+
+    return $date_from;
+    }
+    
+//format client
+function formatClient($license_code, $client_email)
+    {
+    if (!empty($license_code))
+        {
+        $client_formatted=$license_code;
+        }
+    else
+        {
+        if (filter_var($client_email, FILTER_VALIDATE_EMAIL))
+            {
+            $client_formatted=$client_email;
+            }
+        else
+            {
+            $client_formatted="Unknown Client";
+            }
+        }
+
+    return $client_formatted;
+    }
+    
+//remove seconds from (date)timestamp
+function removeSeconds($timestamp)
+    {
+    if (!empty($timestamp) && (aflVerifyDateTime($timestamp, "Y-m-d H:i:s") ||aflVerifyDateTime($timestamp, "H:i:s")))
+        {
+        $timestamp=substr($timestamp, 0, -3);
+        }
+
+    return $timestamp;
+    }
+//format and return array with item status class and text
+function returnFormattedStatusArray($status, $active_text="Active", $inactive_text="Inactive", $other_text="Other", $unknown_text="Unknown", $null_text="")
+    {
+    if (is_null($status)) //don't apply formatting at all
+        {
+        $item_array['status_class']="";
+        $item_array['status_text']=$null_text;
+        }
+    elseif (isZero($status)) //inactive
+        {
+        $item_array['status_class']="text-red";
+        $item_array['status_text']=$inactive_text;
+        }
+    elseif ($status==1) //active
+        {
+        $item_array['status_class']="text-green";
+        $item_array['status_text']=$active_text;
+        }
+    elseif ($status==2) //other
+        {
+        $item_array['status_class']="text-yellow";
+        $item_array['status_text']=$other_text;
+        }
+    else //unknown
+        {
+        $item_array['status_class']="text-blue";
+        $item_array['status_text']=$unknown_text;
+        }
+
+    return $item_array;
+    }
+
+
+    
+//format array with report status text and class
+function returnFormattedReportStatusArray($status, $success_text="Success", $error_text="Error", $warning_text="Warning", $unknown_text="Unknown")
+    {
+    if (isZero($status)) //error
+        {
+        $item_array['status_class']="text-red";
+        $item_array['status_text']=$error_text;
+        }
+    elseif ($status==1) //success
+        {
+        $item_array['status_class']="text-green";
+        $item_array['status_text']=$success_text;
+        }
+    elseif ($status==2) //warning
+        {
+        $item_array['status_class']="text-yellow";
+        $item_array['status_text']=$warning_text;
+        }
+    else //unknown
+        {
+        $item_array['status_class']="text-blue";
+        $item_array['status_text']=$unknown_text;
+        }
+
+    return $item_array;
+    }
+    
+//check if argument is equal to zero (only returns true if argument is 0 or "0", returns false when argument is empty or null)
+function isZero($argument)
+    {
+    $result=false;
+
+    if (strlen($argument)==1 && filter_var($argument, FILTER_VALIDATE_INT, array("options"=>array("min_range"=>0, "max_range"=>0)))!==false)
+        {
+        $result=true;
+        }
+
+    return $result;
+    }
+    
+//generate secure random string
+function generateRandomString($string_length=0)
+    {
+    if (!aflValidateIntegerValue($string_length))
+        {
+        $string_length=mt_rand(16,64);
+        }
+
+    $random_string=substr(bin2hex(openssl_random_pseudo_bytes($string_length)), 0, $string_length); //bin2hex makes string twice longer, truncate it to specified length
+
+    return $random_string;
+    }

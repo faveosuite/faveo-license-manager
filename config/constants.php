@@ -105,8 +105,8 @@ return
         'AFL_DIRECTORY' => __DIR__
         ],
 
-       'MAil'=>[
-            'From'=> 'sandesh.menath@ladbirdweb.com'
+       'Mail'=>[
+            'From'=> 'admin@example.com'
        ]
 
 

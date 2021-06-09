@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AflBannedHosts extends Model
 {
     use HasFactory;
+    protected $guarded =[];
+    protected $primaryKey = 'banned_host_id';
+
 }

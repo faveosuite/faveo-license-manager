@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests;
 
-namespace App\Models;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetRequest extends FormRequest
+class BannedHostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +24,11 @@ class ResetRequest extends FormRequest
     public function rules()
     {
         return [
-         
-            'token'=>'required',
-            'password'=>'required',
-            'password_confirm'=>'required|same:password'
+            'banned_host_ip' => 'string|unique:afl_banned_host, banned_host_ip',
+            'banned_host_comments' => 'nullable|string',
+            'banned_host_date' => 'date',
+            'banned_host_blocks' => 'numeric',
+            'banned_host_last_block_date' => 'date'
         ];
     }
 }

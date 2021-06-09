@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests;
-
-namespace App\Models;
+namespace App\Http\Requests\Settings;
+use App\Models\AflSettings;
+use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetRequest extends FormRequest
+class AdvancedSettingRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,8 @@ class ResetRequest extends FormRequest
     public function rules()
     {
         return [
-         
-            'token'=>'required',
-            'password'=>'required',
-            'password_confirm'=>'required|same:password'
+            'API_STATUS' => 'required|boolean',
+            'ENVATO_API_TOKEN' => 'string'
         ];
     }
 }

@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Requests;
-
-namespace App\Models;
+use App\Models\AflInstallations;
+use App\Http\Controllers\Admin\InstallationController;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetRequest extends FormRequest
+class InstallationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,10 @@ class ResetRequest extends FormRequest
     public function rules()
     {
         return [
-         
-            'token'=>'required',
-            'password'=>'required',
-            'password_confirm'=>'required|same:password'
+            'installation_ip' => 'string|unique:afl_installations,installation_ip',
+            'installation_status' => 'boolean',
+            'installation_disable_ip_verification'=>'boolean'
+            
         ];
     }
 }

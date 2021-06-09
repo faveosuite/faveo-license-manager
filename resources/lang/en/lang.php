@@ -30,6 +30,32 @@ return[
    'Logout'=>'You have has logged out successfully from Auto Faveo Licenser',
    'registered' => 'You Have registered successfuly to Auto Faveo Licenser',
 
-   'form'=> 'The details entered into the form seems to be incomplete'
+   'form'=> 'The details entered into the form seems to be incomplete',
+   'invalid' => 'There are invalid details present in this request',
+
+   'License_add' => 'License has been successfully added to the Auto faveo License Manager',
+   'License_edit' => 'License details has been successfully edited and updated in Auto Faveo Licenser',
+
+   'install_edit' => 'Installation details has been successfully edited and updates in Auto Faveo Licenser',
+
+   'banned_add' => 'A new Banned Host has been added from Auto Faveo Licenser',
+   'banned_edit' => 'Banned Host details of Auto Faveo Licenser has been updated',
+   'delete' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database',
+
+   'settings_updated' => 'The above settings of Auto Faveo license manager has been updated ',
+   'settings_created' => 'The above settings of Auto Faveo license manager has been created ',
+
+   'notifications' => 'the server notification details has been updated',
+   'emails' => 'Email notification details regarding the Auto Faveo License Expiry has been updated',
+
+   'no_edit' =>'Invalid record details, duplicated data, or database error.',
+   'edit' => 'The details of Auto Licnese Manager user has been updated',
+
+   'got_it' => 'The search results are as follows for the above search',
+
+    'config' => 'The config file has been updated by the given values in config generator',
+    'no_config' => "Something went wrong so no config file was generated"
+
+   
 
 ];

@@ -21,25 +21,25 @@ class CreateAflLicensesTable extends Migration
                 ->constrained('afl_products','product_id')
                 ->onDelete('cascade');
 
-            $table->integer('client_id')
+            $table->integer('client_id')->nullable()
                 ->constrained('afl_clients','client_id')
                 ->onDelete('cascade');
 
-            $table->string('license_code',125)->default('null')->unique();
-            $table->string('license_order_number',125);
-            $table->string('license_ip',125);
-            $table->string('license_domain',125);
+            $table->string('license_code',125)->nullable();
+            $table->string('license_order_number',125)->nullable();
+            $table->string('license_ip',125)->nullable();
+            $table->string('license_domain',125)->nullable();
             $table->tinyInteger('license_require_domain');
-            $table->smallInteger('license_limit');
+            $table->smallInteger('license_limit')->nullable();
             $table->date('license_date');
             $table->date('license_cancel_date');
-            $table->date('license_expire_date');
-            $table->date('license_expire_email_date');
-            $table->date('license_updates_date');
-            $table->date('license_updates_email_date');
-            $table->date('license_support_date');
-            $table->date('license_support_email_date');
-            $table->string('license_comments',250);
+            $table->date('license_expire_date')->nullable();
+            $table->date('license_expire_email_date')->nullable();
+            $table->date('license_updates_date')->nullable();
+            $table->date('license_updates_email_date')->nullable();
+            $table->date('license_support_date')->nullable();
+            $table->date('license_support_email_date')->nullable();
+            $table->string('license_comments',250)->nullable();
             $table->tinyInteger('license_envato');
             $table->boolean('license_status');
             $table->timestamps();

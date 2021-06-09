@@ -1,11 +1,11 @@
 <?php
 
 namespace App\Http\Requests;
-
-namespace App\Models;
+use App\Models\AflAdmins;
+use App\Http\Controllers\EditProfilesController;
 use Illuminate\Foundation\Http\FormRequest;
 
-class ResetRequest extends FormRequest
+class EditProfilesRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +25,12 @@ class ResetRequest extends FormRequest
     public function rules()
     {
         return [
-         
-            'token'=>'required',
-            'password'=>'required',
-            'password_confirm'=>'required|same:password'
+            'admin_fname' => 'string',
+            'admin_lname' => 'string',
+            'admin_email' => 'required|string|confirmed|',
+            'admin_password' => 'required|string|min:8|confirmed',
+            'admin_ip' => 'string',
+            'admin_data_authenticity' => 'required|boolean'
         ];
     }
 }

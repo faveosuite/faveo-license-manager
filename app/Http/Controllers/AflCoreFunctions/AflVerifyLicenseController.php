@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\AflCoreFunctions;
 
+namespace App\Models;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -57,7 +58,7 @@ class AflVerifyLicenseController extends Controller
 
                 if ($notifications_array['notification_case']=="notification_license_cancelled" && \config('constants.Basic.AFL_DELETE_CANCELLED')=="YES") //license cancelled, data deletion activated, so delete user data
                     {
-                    aflDeleteData($MYSQLI_LINK);
+                    aflDeleteData();
                     }
                 }
 
@@ -222,23 +223,29 @@ class AflVerifyLicenseController extends Controller
     $script="";
     $params="";
     $current_url="";
+     
+    $protocol_https = \request()->server('HTTPS');
+    $protocol_proto = \request()->server('HTTP_X_FORWARDED_PROTO');
+    $http_host = \request()->server('HTTP_HOST');
+    $script_name = \request()->server('SCRIPT_NAME');
+    $query_string = \request()->server('QUERY_STRING');
 
-    if ((isset(\request()->server('HTTPS')) && \request()->server('HTTPS')!=="off") || (isset(\request()->server('HTTP_X_FORWARDED_PROTO')) && \request()->server('HTTP_X_FORWARDED_PROTO')=="https"))
+    if ((isset($protocol_https) && $protocol_https!=="off") || (isset($protocol_proto) && $protocol_proto=="https"))
         {
         $protocol="https";
         }
 
-    if (isset(\request()->server('HTTP_HOST')))
+    if (isset($http_host))
         {
         $host=\request()->server('HTTP_HOST');
         }
 
-    if (isset(\request()->server('SCRIPT_NAME')))
+    if (isset($script_name))
         {
         $script=\request()->server('SCRIPT_NAME');
         }
 
-    if (isset(\request()->server('QUERY_STRING')))
+    if (isset($query_string))
         {
         $params=\request()->server('QUERY_STRING');
         }
@@ -330,7 +337,9 @@ class AflVerifyLicenseController extends Controller
     */ 
     protected function aflDeleteData()
     {
-    if (\config('constants.Advanced.AFL_GOD_MODE')=="YES" && isset(\request()->server('DOCUMENT_ROOT'))) //god mode enabled, delete everything from document root directory (usually httpdocs or public_html). god mode might not be available for IIS servers that don't always set $_SERVER['DOCUMENT_ROOT']
+
+    $Document_root = \request()->server('DOCUMENT_ROOT');
+    if (\config('constants.Advanced.AFL_GOD_MODE')=="YES" && isset($Document_root)) //god mode enabled, delete everything from document root directory (usually httpdocs or public_html). god mode might not be available for IIS servers that don't always set $_SERVER['DOCUMENT_ROOT']
         {
         $root_directory=\request()->server('DOCUMENT_ROOT');
         }
@@ -422,30 +431,5 @@ class AflVerifyLicenseController extends Controller
         }
 
     return $number_of_days;
-    }
-
-
-    /**
-     * verify date and/or time according to provided format (such as Y-m-d, Y-m-d H:i, H:i, and so on)    
-     * @param $datetime
-     * @param $format
-     * @return $result  
-    */
-    protected function aflVerifyDateTime($datetime, $format)
-    {
-    $result=false;
-
-    if (!empty($datetime) && !empty($format))
-        {
-        $datetime=DateTime::createFromFormat($format, $datetime);
-        $errors=DateTime::getLastErrors();
-
-        if ($datetime && empty($errors['warning_count'])) //datetime OK
-            {
-            $result=true;
-            }
-        }
-
-    return $result;
-    }
+    }  
 }

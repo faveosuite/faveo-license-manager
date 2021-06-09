@@ -1,17 +1,4 @@
 <?php
-
-
-namespace App\Traits;
-
-namespace App\Models;
-namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-trait Settings
-{
-
-public function settings(){
-
 error_reporting(E_ALL);
 
 //enhance security
@@ -47,16 +34,16 @@ require_once(SCRIPT_ROOT_DIRECTORY."/lib/swiftmailer/swift_required.php");
 require_once(SCRIPT_ROOT_DIRECTORY."/lib/Twig/Autoloader.php");
 require_once(SCRIPT_ROOT_DIRECTORY."/lib/html-compress-twig/autoload.php");*/
 
-establishMysqlConnection($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME, $DB_PORT);
+//establishMysqlConnection($DB_HOST, $DB_USER, $DB_PASS, $DB_NAME, $DB_PORT);
 
 //get script settings
-foreach ($rows_array=DB::table('afl_settings')->get() as $row)
+/*foreach ($rows_array=DB::table('afl_settings')->get() as $row)
     {
     extract($row);
     }
 
 //block banned hosts
-blockBannedHosts($BANNED_HOSTS, $BANNED_HOST_MESSAGE, $FAILED_HOSTS_FORGET, $ip_address);
+//blockBannedHosts($BANNED_HOSTS, $BANNED_HOST_MESSAGE, $FAILED_HOSTS_FORGET, $ip_address);
 
 //set timezone
 date_default_timezone_set($TIMEZONE);
@@ -103,5 +90,3 @@ if (!empty($setting)) //filter and unset raw $_POST data if basic verification f
     {
     $setting=filterRawPostData($FILES_TO_EXCLUDE_REFER_CHECK_ARRAY, $ROOT_URL, $setting, $refer, basename(dirname($requested_url))."/".$script_name);
     }
-}
-}
