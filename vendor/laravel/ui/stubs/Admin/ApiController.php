@@ -14,20 +14,8 @@ use App\Http\Requests\ApiRequest;
 
 class ApiController extends Controller
 {
-//use Settings, Version;
-/*public $action_success=0; //will be changed to 1 later only if everything OK
-public $error_detected=0; //will be changed to 1 later if error occurs
-public $error_details=""; //will be filled with errors (if any)
-public $added_records=0;
-public $updated_records=0;
-public $removed_records=0;
 
-
-public $api_action_success=0;
-public $api_error_detected=0;
-public $api_error_details="";
-public $formatted_api_string=""; //used only by this file to forward API requests to other files*/
-
+      
       public function apiKeyAdd(ApiRequest $request)
        {
            $error_detected =0;
