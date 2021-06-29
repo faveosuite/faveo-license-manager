@@ -171,8 +171,6 @@ class AflInstallLicenseController extends Controller
     return $script_signature;
     }
 
-
-
 }
 
 
