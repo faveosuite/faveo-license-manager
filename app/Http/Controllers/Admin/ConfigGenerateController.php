@@ -8,10 +8,21 @@ use App\Http\Requests\ConfigRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
+
+
+/**
+ * Consist of functionalities for the Configuration Generator page in Auto Faveo licenser 
+ * Class ConfigGenerateController
+ * @package App\Http\Controllers\Admin
+ */
 class ConfigGenerateController extends Controller
 {
 
-
+    /**
+     * To generate a afl_core_configurations file
+     * @param ConfigRequest $request
+     * @return the details that has to be updated or added to afl_core_configurations
+     */
     public function configGenerate(ConfigRequest $request){
 
 
@@ -26,12 +37,12 @@ class ConfigGenerateController extends Controller
         $god_mode = $request->get('God_Mode');
 
         
-        $ROOT_URL = "https://www.demo.phpmillion.com/apl"; // still need to get it from faveo billing
+    $ROOT_URL = "https://www.demo.phpmillion.com/apl"; // need to get it from faveo billing so this is temporary to check if this api is working
 
-   /*if (!isset($product_id) || !aflValidateIntegerValue($product_id))
+    if (!isset($product_id) || !aflValidateIntegerValue($product_id))
     {
     $product_id=0;
-    }*/
+    }
     if (!isset($config_afl_days) || !aflValidateIntegerValue($config_afl_days))
     {
     $config_afl_days=7;
@@ -58,7 +69,7 @@ class ConfigGenerateController extends Controller
          if(empty($product))
          {
             $error_detected = 1;
-            return \errorResponse(Lang::get('lang.invalid'),400);
+            return errorResponse(Lang::get('lang.invalid'),400);
          }              
         
         if($error_detected!=1){
@@ -96,17 +107,17 @@ class ConfigGenerateController extends Controller
             if (empty($config_file_content)) //no content
                 {
                 $error_detected=1;
-                return \errorResponse(Lang::get('lang.invalid'),400);
+                return errorResponse(Lang::get('lang.invalid'),400);
                 }
             else //everything OK
                 {
-                return \successResponse(Lang::get('lang.config'),$config_file_content,200);
+                return successResponse(Lang::get('lang.config'),$config_file_content,200);
                 }
         }
          }
          else{
              $error_detected =1;
-             return  \errorResponse(Lang::get('lang.no_config'),400);
+             return  errorResponse(Lang::get('lang.no_config'),400);
          } 
         
     }

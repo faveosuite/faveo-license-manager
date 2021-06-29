@@ -19,8 +19,8 @@ class CreateAflBannedHostsTable extends Migration
             $table->string('banned_host_ip',125)->unique();
             $table->string('banned_host_comments',250)->nullable();
             $table->date('banned_host_date');
-            $table->mediumInteger('banned_host_blocks');
-            $table->date('banned_host_last_block_date');
+            $table->mediumInteger('banned_host_blocks')->nullable();
+            $table->date('banned_host_last_block_date')->nullable();
             $table->timestamps();
         });
     }

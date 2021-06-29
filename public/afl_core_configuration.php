@@ -21,7 +21,7 @@ define("AFL_DAYS", 7);
 define("AFL_STORAGE", "FILE");
 
 //Name of table (will be automatically created during installation) to store license signature and other details. Only used when "APL_STORAGE" set to "DATABASE". The more "harmless" name, the better. Cannot be modified after installing script.
-define("AFL_DATABASE_TABLE", "user_data");
+define("AFL_DATABASE_TABLE", "afl_licenses");
 
 //Name and location (relative to directory where "apl_core_configuration.php" file is located, cannot be moved outside this directory) of file to store license signature and other details. Can have ANY name and extension. The more "harmless" location and name, the better. Cannot be modified after installing script. Only used when "APL_STORAGE" set to "FILE" (file itself can be safely deleted otherwise).
 define("AFL_LICENSE_FILE_LOCATION", "signature/license.key.example");
