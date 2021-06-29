@@ -41,7 +41,7 @@ Route::post('/forgot',[AuthController::class,'forgot']);
 Route::post('/reset',[AuthController::class,'reset']);
 
 
-Route::get('/ConnectionTest',[ConnectionController::class,'connection']);
+Route::post('/ConnectionTest/{product_id}/{connection_hash}',[ConnectionController::class,'connection']);
 Route::get('/InstallLicenseManager',[AflInstallLicenseController::class,'aflInstallLicense']);
 Route::get('/VerifyLicense', [AflVerifyLicenseController::class,'aflVerifyLicense']);
 
