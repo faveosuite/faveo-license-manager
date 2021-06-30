@@ -9,8 +9,22 @@ use App\Http\Requests\NotificationRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
+
+
+/**
+ * Consist of functionalities for the custom Notification page in Auto Faveo licenser 
+ * Class NotificationsController
+ * @package App\Http\Controllers\Admin
+ */
 class NotificationsController extends Controller
 {
+
+  /**
+   * To ADD or UPDATE custom notifications field of license manager
+   * @param NotificationRequest $request
+   * @param $notification_id
+   * @return success response if the record is added or updated
+   */
   public function notifications(NotificationRequest $request, $notification_id){
 
       $notific = AflNotifications::find($notification_id);
@@ -36,7 +50,7 @@ class NotificationsController extends Controller
             'notification_unknown_error' => $request->get( 'notification_unknown_error')
             ));
             $not->save();
-            return \successResponse(Lang::get('lang.notifications'),$not,201);
+            return successResponse(Lang::get('lang.notifications'),$not,201);
 
       }
       else{
@@ -59,7 +73,7 @@ class NotificationsController extends Controller
               $notific->notification_host_banned = $request->get('notification_host_banned');
               $notific->notification_unknown_error = $request->get( 'notification_unknown_error');
               $notific->save();
-              return \successResponse(Lang::get('lang.notifications'),$notific,200);
+              return successResponse(Lang::get('lang.notifications'),$notific,200);
       }
 
   }

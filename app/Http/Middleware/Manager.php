@@ -2,8 +2,12 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\AflAdmins;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Api\AuthController;
 
 class Manager
 {
@@ -16,6 +20,16 @@ class Manager
      */
     public function handle(Request $request, Closure $next)
     {
-        return $next($request);
+            $token=$request->bearerToken();
+            $tok = DB::table('oauth_access_tokens')->where('id',$token)->get('revoked');
+            if(!empty($tok) && $tok!='1'){
+             return $next($request);
+           
+        }
+        else {   
+          return redirect('/login');
+        }
+
     }
 }
+

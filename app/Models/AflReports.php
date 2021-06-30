@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AflReports extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    protected $primaryKey = 'report_id';
 }
