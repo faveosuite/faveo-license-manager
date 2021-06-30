@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Models\AflApiKeys;
-use App\Http\Controllers\Admin\ApiController;
+use App\Http\Controllers\Admin\ApiKeysController;
 
 class ApiRequest extends FormRequest
 {

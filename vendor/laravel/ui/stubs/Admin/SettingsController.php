@@ -13,10 +13,21 @@ use App\Http\Requests\Settings\CleanUpSettingRequest;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
+
+/**
+ * Consist of functionalities for the Settings page in Auto Faveo licenser 
+ * Class  SettingsController
+ * @package App\Http\Controllers\Admin
+ */
 class SettingsController extends Controller
 {
 
-    
+    /**
+     * To Add or Update the general settings of license manager
+     * @param GeneralSettingsRequest $request
+     * @param $SETTING_ID
+     * @return $gen with a success response leaving the other fields to be null if not filled
+     */
     public function generalSettingsCreate(GeneralSettingsRequest $request,$SETTING_ID){
 
      $genset = AflSettings::find($SETTING_ID);
@@ -32,7 +43,7 @@ class SettingsController extends Controller
 
         ]);
         $gen->save();
-        return \successResponse(Lang::get('lang.settings_created'),$gen,201);
+        return successResponse(Lang::get('lang.settings_created'),$gen,201);
     }
     else{
             
@@ -50,6 +61,13 @@ class SettingsController extends Controller
    
     }
 
+
+    /**
+     * To Add or Update the advanced settings of license manager
+     * @param AdvancedSettingsRequest $request
+     * @param $SETTING_ID
+     * @return $advset with a success response leaving the other fields to be null if not filled
+     */
     public function advancedSettings(AdvancedSettingRequest $request,$SETTING_ID){
           
           $advset = AflSettings::find($SETTING_ID);
@@ -59,17 +77,24 @@ class SettingsController extends Controller
                   'ENVATO_API_TOKEN' => $request->get('ENVATO_API_TOKEN')
               ]);
               $adv->save();
-              return \successResponse(Lang::get('lang.settings_created'),$adv,201);        
+              return successResponse(Lang::get('lang.settings_created'),$adv,201);        
               }
               else{
                   $advset->API_STATUS = $request->get('API_STATUS');
                   $advset->ENVATO_API_TOKEN = $request->get('ENVATO_API_TOKEN');
                   $advset->save();
-                  return \successResponse(Lang::get('lang.settings_updated'),$advset,200);
+                  return successResponse(Lang::get('lang.settings_updated'),$advset,200);
               }
           
     }
 
+
+     /**
+     * To Add or Update the Security settings of license manager
+     * @param SecuritySettingsRequest $request
+     * @param $SETTING_ID
+     * @return $secset with a success response leaving the other fields to be null if not filled
+     */
     public function securitySettings(SecuritySettingRequest $request,$SETTING_ID){
 
         $secset = AflSettings::find($SETTING_ID);
@@ -85,7 +110,7 @@ class SettingsController extends Controller
             'WHITELISTED_IP' => $request->get('WHITELISTED_IP')
             ]);
             $sec->save();
-            return \successResponse(Lang::get('lang.settings_created'),$sec,201);
+            return successResponse(Lang::get('lang.settings_created'),$sec,201);
         }
         else{
             $secset->MIN_PASSWORD_LENGTH= $request->get('MIN_PASSWORD_LENGTH');
@@ -97,11 +122,18 @@ class SettingsController extends Controller
              $secset->FAILED_HOSTS_FORGET = $request->get('FAILED_HOSTS_FORGET');
              $secset->WHITELISTED_IP = $request->get('WHITELISTED_IP');
              $secset->save();
-             return \successResponse(lang::get('lang.settings_updated'),$secset,200);
+             return successResponse(lang::get('lang.settings_updated'),$secset,200);
         }
 
     }
 
+
+    /**
+     * To Add or Update the email settings of license manager
+     * @param EmailSettingsRequest $request
+     * @param $SETTING_ID
+     * @return $emaset with a success response leaving the other fields to be null if not filled
+     */
     public function emailSettings(EmailSettingRequest $request,$SETTING_ID){
 
           $emaset = AflSettings::find($SETTING_ID);
@@ -115,7 +147,7 @@ class SettingsController extends Controller
             'EMAIL_EXPIRING_SUPPORT_DAYS' => $request->get('EMAIL_EXPIRING_SUPPORT_DAYS') 
             ]);
             $ema->save();
-            return \successResponse(Lang::get('lang.settings_created'),$ema,201);
+            return successResponse(Lang::get('lang.settings_created'),$ema,201);
         }
         else{
              $emaset->EMAIL_FROM_NAME= $request->get('EMAIL_FROM_NAME');
@@ -126,10 +158,18 @@ class SettingsController extends Controller
              $emaset->EMAIL_EXPIRING_SUPPORT_DAYS = $request->get('EMAIL_EXPIRING_SUPPORT_DAYS');
           
              $emaset->save();
-             return \successResponse(lang::get('lang.settings_updated'),$emaset,200);
+             return successResponse(lang::get('lang.settings_updated'),$emaset,200);
         }
     }
 
+       
+        
+    /**
+     * To Add or Update the cleanup settings of license manager
+     * @param CleanUpSettingsRequest $request
+     * @param $SETTING_ID
+     * @return $clean with a success response leaving the other fields to be null if not filled
+     */
        public function cleanUpSettings(CleanUpSettingRequest $request, $SETTING_ID){
 
         $cleanup = AflSettings::find($SETTING_ID);
@@ -142,7 +182,7 @@ class SettingsController extends Controller
             'DATABASE_CLEANUP_REPORTS_LICENSES' => $request->get('DATABASE_CLEANUP_REPORTS_LICENSES')
             ]);
             $clean->save();
-            return \successResponse(Lang::get('lang.settings_created'),$clean,201);
+            return successResponse(Lang::get('lang.settings_created'),$clean,201);
         }
         else{
              $cleanup->DATABASE_CLEANUP_ENABLED= $request->get('DATABASE_CLEANUP_ENABLED');
@@ -152,7 +192,7 @@ class SettingsController extends Controller
              $cleanup->DATABASE_CLEANUP_REPORTS_LICENSES = $request->get('DATABASE_CLEANUP_REPORTS_LICENSES');
           
              $cleanup->save();
-             return \successResponse(lang::get('lang.settings_updated'),$cleanup,200);
+             return successResponse(lang::get('lang.settings_updated'),$cleanup,200);
         }
     }
 

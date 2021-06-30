@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers\AflCoreFunctions;
 
-namespace App\Models;
+use App\Models\AflAdmins;
+use App\Models\AflNotifications;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -24,45 +26,50 @@ class AflVerifyLicenseController extends Controller
      * checks user input
      * 
      * @param $FORCE_VERIFICATION
-     *
-     * @return notifications_array with error messages if something wrong 
+     * @param $license_code
+     * @return notifications_array with error messages if something wrong  
     */ 
-   public function aflVerifyLicense(/*$MYSQLI_LINK=null,*/$FORCE_VERIFICATION=0)
+   public function aflVerifyLicense(Request $request,$FORCE_VERIFICATION=0)
     {
     $notifications_array=array();
     $update_lrd_value=0;
     $update_lcd_value=0;
     $updated_records=0;
-
+    //$license_code = $request->get('license_code');
+    
     if (empty($apl_core_notifications=aflCheckSettings())) //only continue if script is properly configured
         {
-        if (aflCheckData()) //only continue if license is installed and properly configured
+        if ($this->aflCheckData()) //only continue if license is installed and properly configured
             {
-            extract(aflGetLicenseData()); //get license data
-
-            if (aflGetDaysBetweenDates(aflCustomDecrypt($LCD, \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY), date("Y-m-d"))<\config('constants.Basic.AFL_DAYS') && aflCustomDecrypt($LCD, \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY)<=date("Y-m-d") && aplCustomDecrypt($LRD, \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY)<=date("Y-m-d") && $FORCE_VERIFICATION===0) //the only case when no verification is needed, return notification_license_ok case, so script can continue working
+            $settings_row=$this->aflGetLicenseData();
+            foreach($settings_row as $set)
+            {
+                extract($set);
+            } //get license data
+            
+            if ($this->aflGetDaysBetweenDates($this->aflCustomDecrypt($LCD, config('constants.Basic.AFL_SALT').$INSTALLATION_KEY), date("Y-m-d"))<config('constants.Basic.AFL_DAYS') && $this->aflCustomDecrypt($LCD, config('constants.Basic.AFL_SALT').$INSTALLATION_KEY)<=date("Y-m-d") && $this->aflCustomDecrypt($LRD, config('constants.Basic.AFL_SALT').$INSTALLATION_KEY)<=date("Y-m-d") && $FORCE_VERIFICATION===0) //the only case when no verification is needed, return notification_license_ok case, so script can continue working
                 {
                 $notifications_array['notification_case']="notification_license_ok";
-                $notifications_array['notification_text']=\config('constants.Basic.APL_NOTIFICATION_BYPASS_VERIFICATION');
+                $notifications_array['notification_text']=config('constants.Basic.APL_NOTIFICATION_BYPASS_VERIFICATION');
                 }
             else //time to verify license (or use forced verification)
                 {
-                $post_info="product_id=".rawurlencode(\config('constants.Basic.AFL_PRODUCT_ID'))."&client_email=".rawurlencode($CLIENT_EMAIL)."&license_code=".rawurlencode($LICENSE_CODE)."&root_url=".rawurlencode($ROOT_URL)."&installation_hash=".rawurlencode($INSTALLATION_HASH)."&license_signature=".rawurlencode(aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE));
+                $post_info="product_id=".rawurlencode(config('constants.Basic.AFL_PRODUCT_ID'))."&client_email=".rawurlencode($CLIENT_EMAIL)."&license_code=".rawurlencode($LICENSE_CODE)."&root_url=".rawurlencode($ROOT_URL)."&installation_hash=".rawurlencode($INSTALLATION_HASH)."&license_signature=".rawurlencode(aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE));
 
-                $content_array=aflCustomPost(\config('constants.Basic.AFL_ROOT_URL')."/afl_callbacks/license_verify.php", $post_info, $ROOT_URL);
+                $content_array=aflCustomPost(config('constants.Basic.AFL_ROOT_URL')."/api/license_verify.php", $post_info, $ROOT_URL);
                 $notifications_array=aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE); //process response from Auto PHP Licenser server
                 if ($notifications_array['notification_case']=="notification_license_ok") //everything OK
                     {
                     $update_lcd_value=1;
                     }
 
-                if ($notifications_array['notification_case']=="notification_license_cancelled" && \config('constants.Basic.AFL_DELETE_CANCELLED')=="YES") //license cancelled, data deletion activated, so delete user data
+                if ($notifications_array['notification_case']=="notification_license_cancelled" && config('constants.Basic.AFL_DELETE_CANCELLED')=="YES") //license cancelled, data deletion activated, so delete user data
                     {
-                    aflDeleteData();
+                    $this->aflDeleteData();
                     }
                 }
 
-            if (aflCustomDecrypt($LRD, \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY)<date("Y-m-d")) //used to make sure database gets updated only once a day, not every time script is executed. do it BEFORE new $INSTALLATION_KEY is generated
+            if ($this->aflCustomDecrypt($LRD, config('constants.Basic.AFL_SALT').$INSTALLATION_KEY)<date("Y-m-d")) //used to make sure database gets updated only once a day, not every time script is executed. do it BEFORE new $INSTALLATION_KEY is generated
                 {
                 $update_lrd_value=1;
                 }
@@ -75,18 +82,20 @@ class AflVerifyLicenseController extends Controller
                     }
                 else //get existing DECRYPTED $LCD value because it will need to be re-encrypted using new $INSTALLATION_KEY in case license verification didn't succeed
                     {
-                    $LCD=aflCustomDecrypt($LCD, \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY);
+                    $LCD=$this->aflCustomDecrypt($LCD, config('constants.Basic.AFL_SALT').$INSTALLATION_KEY);
                     }
 
-                $INSTALLATION_KEY=aflCustomEncrypt(bcrypt(date("Y-m-d")), \config('constants.Basic.AFL_SALT').$ROOT_URL); //generate $INSTALLATION_KEY first because it will be used as salt to encrypt LCD and LRD!!!
-                $LCD=aflCustomEncrypt($LCD, \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //finally encrypt $LCD value (it will contain either DECRYPTED old date, either non-encrypted today's date)
-                $LRD=aflCustomEncrypt(date("Y-m-d"), \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //generate new $LRD value every time database needs to be updated (because if LCD is higher than LRD, cracking attempt will be detected).
+                $INSTALLATION_KEY=aflCustomEncrypt(bcrypt(date("Y-m-d")), config('constants.Basic.AFL_SALT').$ROOT_URL); //generate $INSTALLATION_KEY first because it will be used as salt to encrypt LCD and LRD!!!
+                $LCD=aflCustomEncrypt($LCD, config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //finally encrypt $LCD value (it will contain either DECRYPTED old date, either non-encrypted today's date)
+                $LRD=aflCustomEncrypt(date("Y-m-d"), config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //generate new $LRD value every time database needs to be updated (because if LCD is higher than LRD, cracking attempt will be detected).
 
-                if (\config('constants.Basic.APL_STORAGE')=="DATABASE") //license stored in database
+                if (config('constants.Basic.APL_STORAGE')=="DATABASE") //license stored in database
                     { 
-                       $stmt= DB::table(\config('constants.Basic.AFL_DATABASE_TABLE')) //will return the number of rows affected
+                       $stmt= DB::table(config('constants.Basic.AFL_DATABASE_TABLE')) //will return the number of rows affected
                               ->where('id','id')  //updating all rows in the table 
-                              ->update(array('LCD' => $LCD,'LRD'=>$LRD,'INSTALLATION_KEY'=>$INSTALLATION_KEY)); 
+                              ->update(array('LCD' => $LCD,
+                                             'LRD'=>$LRD,
+                                             'INSTALLATION_KEY'=>$INSTALLATION_KEY)); 
 
                         if($stmt>0){
                             $updated_records = $updated_records + $stmt;
@@ -94,18 +103,18 @@ class AflVerifyLicenseController extends Controller
 
                     if (!aflValidateIntegerValue($updated_records)) //updating database failed
                         {
-                        echo \config('constants.Basic.AFL_NOTIFICATION_DATABASE_WRITE_ERROR');
+                        echo config('constants.Basic.AFL_NOTIFICATION_DATABASE_WRITE_ERROR');
                         exit();
                         }
                     }
 
-                if (\config('constants.Basic.APL_STORAGE')=="FILE") //license stored in file
+                if (config('constants.Basic.APL_STORAGE')=="FILE") //license stored in file
                     {
-                    $handle=@fopen(\config('constants.Basic.AFL_DIRECTORY')."/".\config('constants.Basic.AFL_LICENSE_FILE_LOCATION'), "w+");
+                    $handle=@fopen(config('constants.Basic.AFL_DIRECTORY')."/".config('constants.Basic.AFL_LICENSE_FILE_LOCATION'), "w+");
                     $fwrite=@fwrite($handle, "<ROOT_URL>$ROOT_URL</ROOT_URL><CLIENT_EMAIL>$CLIENT_EMAIL</CLIENT_EMAIL><LICENSE_CODE>$LICENSE_CODE</LICENSE_CODE><LCD>$LCD</LCD><LRD>$LRD</LRD><INSTALLATION_KEY>$INSTALLATION_KEY</INSTALLATION_KEY><INSTALLATION_HASH>$INSTALLATION_HASH</INSTALLATION_HASH>");
                     if ($fwrite===false) //updating file failed
                         {
-                        echo \config('constants.Basic.AFL_NOTIFICATION_DATABASE_WRITE_ERROR');
+                        return config('constants.Basic.AFL_NOTIFICATION_DATABASE_WRITE_ERROR');
                         exit();
                         }
                     @fclose($handle);
@@ -115,7 +124,7 @@ class AflVerifyLicenseController extends Controller
         else //license is not installed yet or corrupted
             {
             $notifications_array['notification_case']="notification_license_corrupted";
-            $notifications_array['notification_text']=\config('constants.Basic.AFL_NOTIFICATION_LICENSE_CORRUPTED');
+            $notifications_array['notification_text']=config('constants.Basic.AFL_NOTIFICATION_LICENSE_CORRUPTED');
             }
         }
     else //script is not properly configured
@@ -134,25 +143,28 @@ class AflVerifyLicenseController extends Controller
      *
      * @return $result if everything is ok or a an error detected 
     */
-    protected function aflCheckData(/*$MYSQLI_LINK=null*/)
+    protected function aflCheckData()
     {
     $error_detected=0;
     $cracking_detected=0;
     $result=false;
 
-    extract(aflGetLicenseData()); //get license data
-
+    $settings_row=$this->aflGetLicenseData();
+    foreach($settings_row as $set){
+        extract($set);
+    } //get license data
+    
     if (!empty($ROOT_URL) && !empty($INSTALLATION_HASH) && !empty($INSTALLATION_KEY) && !empty($LCD) && !empty($LRD)) //do further check only if essential variables are valid
         {
-        $LCD=aflCustomDecrypt($LCD,  \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //decrypt $LCD value for easier data check
-        $LRD=aflCustomDecrypt($LRD,  \config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //decrypt $LRD value for easier data check
+        $LCD=$this->aflCustomDecrypt($LCD,config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //decrypt $LCD value for easier data check
+        $LRD=$this->aflCustomDecrypt($LRD,config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //decrypt $LRD value for easier data check
 
         if (!filter_var($ROOT_URL, FILTER_VALIDATE_URL) || !ctype_alnum(substr($ROOT_URL, -1))) //invalid installation url
             {
             $error_detected=1;
             }
 
-        if (filter_var(aflGetCurrentUrl(), FILTER_VALIDATE_URL) && stristr(aflGetRootUrl(aflGetCurrentUrl(), 1, 1, 0, 1), aplGetRootUrl("$ROOT_URL/", 1, 1, 0, 1))===false) //script is opened via browser (current_url set), but current_url is different from value in database
+        if (filter_var($this->aflGetCurrentUrl(), FILTER_VALIDATE_URL) && stristr($this->aflGetRootUrl(aflGetCurrentUrl(), 1, 1, 0, 1), $this->aflGetRootUrl("$ROOT_URL/", 1, 1, 0, 1))===false) //script is opened via browser (current_url set), but current_url is different from value in database
             {
             $error_detected=1;
             }
@@ -162,7 +174,7 @@ class AflVerifyLicenseController extends Controller
             $error_detected=1;
             }
 
-        if (empty($INSTALLATION_KEY) || !password_verify($LRD, aflCustomDecrypt($INSTALLATION_KEY,  \config('constants.Basic.AFL_SALT').$ROOT_URL))) //invalid installation key (value - current date ("Y-m-d") encrypted with password_hash and then encrypted with custom function (salt - $ROOT_URL). Put simply, it's LRD value, only encrypted different way)
+        if (empty($INSTALLATION_KEY) || !password_verify($LRD, $this->aflCustomDecrypt($INSTALLATION_KEY,  config('constants.Basic.AFL_SALT').$ROOT_URL))) //invalid installation key (value - current date ("Y-m-d") encrypted with password_hash and then encrypted with custom function (salt - $ROOT_URL). Put simply, it's LRD value, only encrypted different way)
             {
             $error_detected=1;
             }
@@ -224,11 +236,11 @@ class AflVerifyLicenseController extends Controller
     $params="";
     $current_url="";
      
-    $protocol_https = \request()->server('HTTPS');
-    $protocol_proto = \request()->server('HTTP_X_FORWARDED_PROTO');
-    $http_host = \request()->server('HTTP_HOST');
-    $script_name = \request()->server('SCRIPT_NAME');
-    $query_string = \request()->server('QUERY_STRING');
+    $protocol_https = request()->server('HTTPS');
+    $protocol_proto = request()->server('HTTP_X_FORWARDED_PROTO');
+    $http_host = request()->server('HTTP_HOST');
+    $script_name = request()->server('SCRIPT_NAME');
+    $query_string = request()->server('QUERY_STRING');
 
     if ((isset($protocol_https) && $protocol_https!=="off") || (isset($protocol_proto) && $protocol_proto=="https"))
         {
@@ -237,17 +249,17 @@ class AflVerifyLicenseController extends Controller
 
     if (isset($http_host))
         {
-        $host=\request()->server('HTTP_HOST');
+        $host=request()->server('HTTP_HOST');
         }
 
     if (isset($script_name))
         {
-        $script=\request()->server('SCRIPT_NAME');
+        $script=request()->server('SCRIPT_NAME');
         }
 
     if (isset($query_string))
         {
-        $params=\request()->server('QUERY_STRING');
+        $params=request()->server('QUERY_STRING');
         }
 
     if (!empty($protocol) && !empty($host) && !empty($script)) //basic checks ok
@@ -273,7 +285,7 @@ class AflVerifyLicenseController extends Controller
 
 
 
-      /**
+     /**
      * return root url from long url (http://www.domain.com/path/file.php?aa=xx becomes http://www.domain.com/path/), remove scheme, www. and last slash if needed
      * @param $url
      * @param $remove_scheme
@@ -338,10 +350,10 @@ class AflVerifyLicenseController extends Controller
     protected function aflDeleteData()
     {
 
-    $Document_root = \request()->server('DOCUMENT_ROOT');
-    if (\config('constants.Advanced.AFL_GOD_MODE')=="YES" && isset($Document_root)) //god mode enabled, delete everything from document root directory (usually httpdocs or public_html). god mode might not be available for IIS servers that don't always set $_SERVER['DOCUMENT_ROOT']
+    $Document_root = request()->server('DOCUMENT_ROOT');
+    if (config('constants.Advanced.AFL_GOD_MODE')=="YES" && isset($Document_root)) //god mode enabled, delete everything from document root directory (usually httpdocs or public_html). god mode might not be available for IIS servers that don't always set $_SERVER['DOCUMENT_ROOT']
         {
-        $root_directory=\request()->server('DOCUMENT_ROOT');
+        $root_directory=request()->server('DOCUMENT_ROOT');
         }
     else
         {
@@ -354,7 +366,7 @@ class AflVerifyLicenseController extends Controller
         }
     rmdir($root_directory);
 
-    if (\config('constants.Basic.AFL_STORAGE')=="DATABASE") //license stored in database, delete MySQL data
+    if (config('constants.Basic.AFL_STORAGE')=="DATABASE") //license stored in database, delete MySQL data
         {
         $database_tables_array=array();
 
@@ -432,4 +444,33 @@ class AflVerifyLicenseController extends Controller
 
     return $number_of_days;
     }  
+
+
+    /**
+     * retrives the license data wheather it's stored in a database or file
+     *
+     * @return setting_row array consisting of license data
+    */  
+    public function aflGetLicenseData()
+    {
+    $settings_row=array();
+ 
+    if (config('constants.Basic.AFL_STORAGE')=="DATABASE") //license stored in database (use @ before mysqli_ function to prevent errors when function is executed by aplInstallLicense function)
+        {
+
+        $settings_results= config('constants.Basic.AFL_DATABASE_TABLE');
+        
+        $settings_row = DB::table($settings_results)->get()->toArray();
+    
+        }
+
+    if (config('constants.Basic.AFL_STORAGE')=="FILE") //license stored in file
+        {
+        
+        $settings_row=aflParseLicenseFile();
+        }
+    
+    return $settings_row;
+    
+    }
 }

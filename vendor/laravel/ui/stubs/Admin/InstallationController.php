@@ -12,15 +12,39 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use App\Http\Requests\InstallationRequest;
 
+
+
+
+/**
+ * Consist of functionalities for the Installation page in Auto Faveo licenser 
+ * Class InstallationController
+ * @package App\Http\Controllers\Admin
+ */
 class InstallationController extends Controller
 {
     
+/**
+ * To Update intallation details in license manager
+ * @param InstallationRequest $request
+ * @param $api_key_secret 
+ * @param $installation_id 
+ * @param $installation_ip 
+ * @param $installation_status 
+ * @param $installation_disable_ip 
+ * @return success response if the record was found and updated 
+ */
+public function installationUpdate(InstallationRequest $request){
 
-public function installationUpdate(InstallationRequest $request,$api_key_secret,$installation_id, $installation_ip, $installation_status, $installation_disable_ip = null){
+    
+    $api_key_secret = $request->get('api_key_secret');
+    $installation_id = $request->get('installation_id');
+    $installation_ip = $request->get('installation_ip'); 
+    $installation_status = $request->get('installation_status');
+    $installation_disable_ip = $request->get('installation_disable_ip');
 
 if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || empty($rows_array=AflInstallations::where('installation_id',$installation_id)->get())) //invalid record
     {
-    return \errorResponse(Lang::get('lang.invalid'),400);
+    return errorResponse(Lang::get('lang.invalid'),400);
     exit();
     }
      
@@ -28,7 +52,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
         $api_action_success=0;
         $api_error_detected=0;  
         $updated_records=0;
-        if (null!==(\request()->server('REMOTE_ADDR'))) 
+        if (null!==(request()->server('REMOTE_ADDR'))) 
         {
              $ip_address=request()->server('REMOTE_ADDR');
              } 
@@ -41,7 +65,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
         if(empty($api))
         {
-            return \errorResponse(Lang::get('lang.invalid_api_key'),404);
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
         }
         else
         {
@@ -53,7 +77,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
                 if (!$api_ips->contains($ip_address))
                    {   
                     $api_error_detected=1;
-                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
@@ -79,7 +103,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
                     if (!aflValidateIntegerValue($updated_records))
                         {
                         $error_detected=1;
-                        return \errorResponse(Lang::get('lang.invalid'),400);
+                        return errorResponse(Lang::get('lang.invalid'),400);
                         }
                     else
                         {
@@ -92,12 +116,12 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
                              extract($row);
                             
                         }
-                        return \successResponse(Lang::get('lang.done'),$row,200);
+                        return successResponse(Lang::get('lang.done'),$row,200);
                         }
                     }
                 }
                 else{
-                    return \errorResponse(Lang::get('lang.error'),400);
+                    return errorResponse(Lang::get('lang.error'),400);
                 }
     
     }
@@ -105,10 +129,15 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
 
 
     
-//delete installation
-public function deleteInstallation($installation_id)
+/**
+ * To Delete intallation details in license manager
+ * @param $installation_id 
+ * @return success response if the record was found and deleted
+ */
+public function deleteInstallation(InstallationRequest $request)
     {
     $removed_records=0;
+    $installation_id = $request->get('installation_id');
 
     if (aflValidateIntegerValue($installation_id))
         {
@@ -117,6 +146,6 @@ public function deleteInstallation($installation_id)
         //doMysqlQuery("DELETE FROM apl_installations WHERE installation_id=?", array($installation_id), array("i"));  
         }
 
-    return \successResponse(Lang::get('lang.delete'),$removed_records,200);
+    return successResponse(Lang::get('lang.delete'),$removed_records,200);
     }
 }
