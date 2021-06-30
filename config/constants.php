@@ -6,10 +6,10 @@ return
    'Basic' => [
 
 //Random salt used for encryption. It should contain random symbols (16 or more recommended) and be different for each application you want to protect. Cannot be modified after installing script.
-     'AFL_SALT' => 'some_random_text', 
+     'AFL_SALT' => 'cdce5e19a1bf72a7', 
 
 //The URL (without / at the end) where Auto Faveo Licenser from /WEB directory is installed on your server. No matter how many applications you want to protect, a single installation is enough.
-     'AFL_ROOT_URL' => '',
+     'AFL_ROOT_URL' => 'http://www.licenselaravel.com/',
 
 //Unique numeric ID of product that needs to be licensed. Can be obtained by going to Products > View Products tab in Auto Faveo Licenser dashboard and selecting product to be licensed. At the end of URL, you will see something like products_edit.php?product_id=NUMBER, where NUMBER is unique product ID. Cannot be modified after installing script.
      'AFL_PRODUCT_ID' => 1,
@@ -18,13 +18,13 @@ return
      'AFL_DAYS' => 7,
      
 //Place to store license signature and other details. "DATABASE" means data will be stored in MySQL database (recommended), "FILE" means data will be stored in local file. Only use "FILE" if your application doesn't support MySQL. Otherwise, "DATABASE" should always be used. Cannot be modified after installing script.
-     'AFL_STORAGE' => 'FILE',
+     'AFL_STORAGE' => 'DATABASE',
 
 //Name of table (will be automatically created during installation) to store license signature and other details. Only used when "AFL_STORAGE" set to "DATABASE". The more "harmless" name, the better. Cannot be modified after installing script.
-     'AFL_DATABASE_TABLE'=> 'faveo_license',
+     'AFL_DATABASE_TABLE'=> 'afl_licenses',
 
 //Name and location (relative to directory where " ***enter the location when completed*** " file is located, cannot be moved outside this directory) of file to store license signature and other details. Can have ANY name and extension. The more "harmless" location and name, the better. Cannot be modified after installing script. Only used when "AFL_STORAGE" set to "FILE" (file itself can be safely deleted otherwise).
-     'AFL_LICENSE_FILE_LOCATION' => 'signature/license.key.example',
+     'AFL_LICENSE_FILE_LOCATION' => 'public\License.example.key',
 
 //Notification to be displayed when connection to server can't be established. Other notifications will be automatically fetched from server.
      'AFL_NOTIFICATION_NO_CONNECTION' => 'Can\'t connect to licensing server.',
@@ -56,7 +56,7 @@ return
      'AFL_INCLUDE_KEY_CONFIG' => 'some_random_text',
 
 //IP address of your Auto Faveo Licenser installation. If IP address is set, script will always check if "APL_ROOT_URL" resolves to this IP address (very useful against users who may try blocking or nullrouting your domain on their servers). However, use it with caution because if IP address of your server is changed in future, old installations of protected script will stop working (you will need to update this file with new IP and send updated file to end user). If you want to verify licensing server, but don't want to lock it to specific IP address, you can use APL_ROOT_NAMESERVERS option (because nameservers change is unlikely).
-     'AFL_ROOT_IP' =>  '',
+     'AFL_ROOT_IP' =>  '79.98.28.185',
 
 //Nameservers of your domain with Auto Faveo Licenser installation (only works with domains and NOT subdomains). If nameservers are set, script will always check if "APL_ROOT_NAMESERVERS" match actual DNS records (very useful against users who may try blocking or nullrouting your domain on their servers). However, use it with caution because if nameservers of your domain are changed in future, old installations of protected script will stop working (you will need to update this file with new nameservers and send updated file to end user). Nameservers should be formatted as an array. For example: array("ns1.phpmillion.com", "ns2.phpmillion.com"). Nameservers are NOT CAse SensitIVE.
 //'AFL_ROOT_NAMESERVERS' => array(), //ATTENTION! THIS FEATURE ONLY WORKS WITH PHP 7.0 AND HIGHER, ONLY UNCOMMENT THIS LINE IF PROTECTED SCRIPT WILL RUN ON COMPATIBLE SERVER!

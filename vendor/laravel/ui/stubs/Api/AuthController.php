@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\ResetRequest;
 
-use App\Http\Requests\SessionRequest;
+//use App\Http\Requests\SessionRequest;
 use App\Models\AflAdmins;
 use App\Models\AflAdminSessions;
 use App\Models\OauthAccessToken;
@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Lang;
 
 
 
+
 /**
  * Consist of functionalities for Authentication in Auto Faveo licenser 
  * Class AuthController
@@ -45,7 +46,7 @@ class  AuthController extends Controller
     public function register(RegisterRequest $request){
 
         $date = Carbon::now();
-        $hash = \generateRandomString(64);
+        $hash = generateRandomString(64);
         $admin = AflAdmins::create([
             'admin_fname'=>$request->get('admin_fname'),
             'admin_lname'=>$request->get('admin_lname'),
@@ -56,14 +57,13 @@ class  AuthController extends Controller
             'admin_hash' => $hash
         ]);
 
-        $token = $admin->createToken('AFL')->accessToken;
+        //$token = $admin->createToken('AFL')->accessToken;
 
         $response = [
             'user'=> $admin,
-            'token'=> $token
         ];
 
-        return \successResponse(Lang::get('lang.registered'),$response,201);
+        return successResponse(Lang::get('lang.registered'),$response,201);
     }
     
 
@@ -72,7 +72,7 @@ class  AuthController extends Controller
      * @param Request $request
      * @return response you have LoggedIn successfuly along with a unique access token
     */
-    public function login(Request $request,SessionRequest $req)
+    public function login(Request $request)
     {
 
        $filled = $request->validate([
@@ -84,18 +84,22 @@ class  AuthController extends Controller
           $admin = AflAdmins::where('admin_email',$filled['admin_email'])->first();
 
           if( !$admin || !Hash::check($filled['admin_password'],$admin->admin_password)){
-              return \errorResponse(Lang::get('auth.failed'),401);
+              return errorResponse(Lang::get('auth.failed'),401);
           }
+         
 
-        $token = $admin->createToken('AFL')->accessToken;
+        $tokenobj = $admin->createToken('AFL');
+        $token = $tokenobj->accessToken;
+        $token_id = $tokenobj->token->id;
 
+         //dd($token_id);
         $response = [
             'message'=> 'logged in',
             'user'=> $admin,
-            'token'=> $token
+            'token'=> $token_id
         ];
     
-        return \successResponse(Lang::get('lang.Login'),$response,200);
+        return successResponse(Lang::get('lang.Login'),$response,200);
     }
 
 
@@ -110,7 +114,7 @@ class  AuthController extends Controller
         $email = $request->input('admin_email');
 
         if(AflAdmins::where('admin_email',$email)->doesntExist()){
-            return \errorResponse(Lang::get('auth.failed'),404);
+            return errorResponse(Lang::get('auth.failed'),404);
         }
         $tokens = Str::random(10);
         try {
@@ -132,10 +136,10 @@ class  AuthController extends Controller
 
              );
 
-            return \successResponse(Lang::get('passwords.sent'),$token,200);
+            return successResponse(Lang::get('passwords.sent'),$token,200);
         }
-        catch(\Exception $exception){
-            return  \errorResponse($exception->getMessage(),400);
+        catch(Exception $exception){
+            return  errorResponse($exception->getMessage(),400);
         }
 
     }
@@ -158,20 +162,20 @@ class  AuthController extends Controller
 
     
     if ($validator->fails()) {
-        return \errorResponse(Lang::get('lang.form'),401);
+        return errorResponse(Lang::get('lang.form'),401);
     }
 
     $password = $request->password;
     $tokenData = DB::table('password_resets')->where('token', $request->token)->first();
 
     if (!$tokenData) {
-    return \errorResponse(Lang::get('passwords.token'),401);
+    return errorResponse(Lang::get('passwords.token'),401);
     }
 
     $admin = AflAdmins::where('admin_email', $tokenData->email)->first();
 
     if (!$admin){
-        return \errorResponse(Lang::get('passwords.user'),401);
+        return errorResponse(Lang::get('passwords.user'),401);
     }
 
     $admin->admin_password = \Hash::make($password);
@@ -180,7 +184,7 @@ class  AuthController extends Controller
     // Auth::login($admin);
     $details = DB::table('password_resets')->where('email', $admin->admin_email)->delete();
 
-    return \successResponse(Lang::get('passwords.reset'),$details,201);
+    return successResponse(Lang::get('passwords.reset'),$details,201);
     }
 
 
@@ -202,7 +206,7 @@ class  AuthController extends Controller
         ->update([
             'revoked' => true
         ]);
-         return \successResponse(Lang::get('lang.Logout'),$logout,201);
+         return successResponse(Lang::get('lang.Logout'),$logout,201);
     }
 
 

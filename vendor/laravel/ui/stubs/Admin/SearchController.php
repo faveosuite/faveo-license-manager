@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
-namespace App\Models;
+//namespace App\Models;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Settings;
 use App\Traits\Version;
+use App\Models\AflApiKeys;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -28,17 +29,16 @@ public $api_error_detected=0;
 public $api_error_details="";
 public $logged_admin_id=0; //used for compatibility with createReport function in the same file in /apl_admin directory. since admin is not logged in when API is called, $logged_admin_id must be 0*/
 
-public function search(Request $request,$api_key_secret,$search_type, $search_keyword){
-/*if (!empty($_POST) && is_array($_POST) && array_walk_recursive($_POST, "sanitizeSubmittedData", array("script_name"=>$script_name, "html_fields"=>$FORM_FIELDS_WITH_TAGS))) //sanitize super variable with all POST values
-    {
-    extract($_POST, EXTR_SKIP); //extract sanitized data (don't overwrite existing variables)
-    }
-else //block invalid requests to callback file immediately
-    {
-    exit();
-    }*/
+public function search(Request $request){
+
+    $RECORDS_ARCHIVE_DAYS=11;
+    $RECORDS_ON_SEARCH_PAGE=1;
+    $api_key_secret = $request->get('api_key_secret');
+    $search_type = $request->get('search_type');
+    $search_keyword = $request->get('search_keyword');
     $date_from = $request->get('date_from');
     $date_to = $request->get('date_to');
+
     $SUPPORTED_API_SEARCHES_ARRAY=array("banned_host", "callback", "client", "installation", "license", "product", "report");
 
 //set default values for essential variables (mostly submitted to dropdown functions) when no values are set or values need to be reset
@@ -54,7 +54,7 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
 
         $api_action_success=0;
         $api_error_detected=0;  
-        if (null!==(\request()->server('REMOTE_ADDR'))) 
+        if (null!==(request()->server('REMOTE_ADDR'))) 
         {
              $ip_address=request()->server('REMOTE_ADDR');
              } 
@@ -79,7 +79,7 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
                 if (!$api_ips->contains($ip_address))
                    {   
                     $api_error_detected=1;
-                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
@@ -93,13 +93,13 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
         if (!in_array($search_type, $SUPPORTED_API_SEARCHES_ARRAY))
             {
             $api_error_detected=1;
-            return \errorResponse(Lang::get('invalid_search_type'),400);
+            return errorResponse(Lang::get('invalid_search_type'),400);
             }
 
         if (mb_strlen(trim($search_keyword), "UTF-8")<3)
             {
             $api_error_detected=1;
-             return \errorResponse(Lang::get('invalid_search_term_min_3_characters'),400);
+             return errorResponse(Lang::get('invalid_search_term_min_3_characters'),400);
             }
 
         if ($api_error_detected!=1)
@@ -107,48 +107,48 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
             if ($search_type=="banned_host")
                 {
                 $elements_to_unset_array=array(); //elements to be removed from final array because of security or other reasons for this search type
-                $rows_array=returnBannedHostsArray($date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
+                $rows_array=$this->returnBannedHostsArray($date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
                 }
 
             if ($search_type=="callback")
                 {
                 $elements_to_unset_array=array("product_title", "product_description", "product_sku", "product_url_homepage", "product_url_download", "product_date", "product_version", "product_envato_id", "product_status", "client_fname", "client_lname", "client_email",  "client_active_date", "client_cancel_date", "client_status", "client_formatted", "callback_status_formatted"); //elements to be removed from final array because of security or other reasons for this search type
-                $rows_array=returnCallbacksArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
+                $rows_array=$this->returnCallbacksArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
                 }
 
             if ($search_type=="client")
                 {
                 $elements_to_unset_array=array("client_status_formatted"); //elements to be removed from final array because of security or other reasons for this search type
-                $rows_array=returnClientsArray($search_keyword, $RECORDS_ON_SEARCH_PAGE);
+                $rows_array=$this->returnClientsArray($search_keyword, $RECORDS_ON_SEARCH_PAGE);
                 }
 
             if ($search_type=="installation")
                 {
                 $elements_to_unset_array=array("product_title", "product_description", "product_sku", "product_url_homepage", "product_url_download", "product_date", "product_version", "product_envato_id", "product_status", "client_fname", "client_lname", "client_email",  "client_active_date", "client_cancel_date", "client_status", "client_formatted", "installation_status_formatted"); //elements to be removed from final array because of security or other reasons for this search type
-                $rows_array=returnInstallationsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
+                $rows_array=$this->returnInstallationsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
                 }
 
             if ($search_type=="license")
                 {
                 $elements_to_unset_array=array("product_title", "product_description", "product_sku", "product_url_homepage", "product_url_download", "product_date", "product_version", "product_envato_id", "product_status", "client_fname", "client_lname", "client_email",  "client_active_date", "client_cancel_date", "client_status", "client_formatted", "license_status_formatted"); //elements to be removed from final array because of security or other reasons for this search type
-                $rows_array=returnLicensesArray(0, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
+                $rows_array=$this->returnLicensesArray(0, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
                 }
 
             if ($search_type=="product")
                 {
                 $elements_to_unset_array=array("product_status_formatted"); //elements to be removed from final array because of security or other reasons for this search type
-                $rows_array=returnProductsArray($search_keyword, $RECORDS_ON_SEARCH_PAGE);
+                $rows_array=$this->returnProductsArray($search_keyword, $RECORDS_ON_SEARCH_PAGE);
                 }
 
             if ($search_type=="report")
                 {
                 $elements_to_unset_array=array("account_id", "client_fname", "client_lname", "client_email", "client_active_date", "client_cancel_date", "client_status", "client_formatted", "report_status_formatted"); //elements to be removed from final array because of security or other reasons for this search type
-                $rows_array=returnLicenseReportsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
+                $rows_array=$this->returnLicenseReportsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
                 }
 
             if (empty($rows_array))
                 {
-                 return \errorResponse(Lang::get('lang.No_results_found'),400);
+                 return errorResponse(Lang::get('lang.No_results_found'),400);
                 }
             else
                 {
@@ -158,20 +158,20 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
 
         if ($api_action_success==1) //everything OK
             {
-            unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
+            $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
             $page_message=$rows_array;
-            return \successResponse(Lang::get('lang.search_complete'),$page_message,200);
+            return successResponse(Lang::get('lang.search_complete'),$page_message,200);
             }
         else //display error message
             {
             
-              return \errorResponse(Lang::get('lang.search_error'),400);
+              return errorResponse(Lang::get('lang.search_error'),400);
 
             }
         }
         else
         {
-            return \errorResponse(Lang::get('lang.invalid'),400);
+            return errorResponse(Lang::get('lang.invalid'),400);
         }
             
         
@@ -194,7 +194,7 @@ public function unsetArrayElements($array, $keys_to_unset_array)
             {
             if (is_array($value)) //it's a multi-dimensional array, re-apply function to each sub-array
                 {
-                unsetArrayElements($value, $keys_to_unset_array);
+                $this->unsetArrayElements($value, $keys_to_unset_array);
                 }
             }
         }
@@ -589,7 +589,7 @@ public function returnProductsArray($search_keyword="", $results_limit=0)
                              DB::raw("SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1 AS latest_installation_date"),
                              DB::raw("SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1 AS latest_callback_date_time"),
                              DB::raw("SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1 AS latest_report_date_time")
-                            )->where('product_title','like',$search_keyword)
+                    )->where('product_title','like',$search_keyword)
                             ->where('product_sku','like',$search_keyword)
                             ->orderBy('product_title')
                             ->limit($results_limit)->get();

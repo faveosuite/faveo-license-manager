@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AflFailedLicensings extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    protected $primaryKey = 'failed_licensing_id';
 }

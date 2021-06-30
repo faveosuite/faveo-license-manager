@@ -30,16 +30,37 @@ class ProductsController extends Controller
     /**
      * stores the product details into the database
      * @param ProductRequest $request
+     * @param $api_key_secret 
+     * @param $product_title
+     * @param $product_sku
+     * @param $product_status 
+     * @param $product_description
+     * @param $product_url_homepage
+     * @param $product_url_download
+     * @param $product_version
+     * @param $product_envato_id
      *
-     * @return response that a product details is added
+     * @return response that a product details is added with a success response
     */
-public function productAdd(ProductRequest $request,$api_key_secret,$product_title,$product_sku,$product_status,$product_description=null, $product_url_homepage=null, $product_url_download=null, $product_version=null, $product_envato_id=null)
+public function productAdd(ProductRequest $request)
 
      {
         $api_action_success=0;
         $api_error_detected=0; 
         $added_records =0; 
-        if (null!==(\request()->server('REMOTE_ADDR'))) 
+        
+        $api_key_secret = $request->get('api_key_secret');
+        $product_title = $request->get('product_title');
+        $product_sku = $request->get('product_sku');
+        $product_status = $request->get('product_status');
+        $product_description= $request->get('product_description'); 
+        $product_url_homepage= $request->get('product_url_homepage'); 
+        $product_url_download= $request->get('product_url_download'); 
+        $product_version= $request->get('product_version'); 
+        $product_envato_id= $request->get('product_envato_id');
+
+
+        if (null!==(request()->server('REMOTE_ADDR'))) 
         {
              $ip_address=request()->server('REMOTE_ADDR');
              } 
@@ -52,7 +73,7 @@ public function productAdd(ProductRequest $request,$api_key_secret,$product_titl
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
         if(empty($api))
         {
-            return \errorResponse(Lang::get('lang.invalid_api_key'),404);
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
         }
         else
         {
@@ -64,42 +85,21 @@ public function productAdd(ProductRequest $request,$api_key_secret,$product_titl
                 if (!$api_ips->contains($ip_address))
                    {   
                     $api_error_detected=1;
-                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
                     }
           }
         }
-        if($product_description==null)
-        {
-            $product_description = $request->get('product_description');
-        }
-        if ($product_url_homepage==null) 
-        {
-            $product_url_homepage = $request->get('product_url_homepage');
-        }
-        if ( $product_url_download==null) {
-             
-             $product_url_download = $request->get('product_url_download');
-        }
-
-        if($product_version=null)
-        {
-            $product_version = $request->get('product_version');
-        }
-
-        if($product_envato_id==null)
-        {
-            $product_envato_id = $request->get('product_envato_id');
-        }
+        
 
           if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
                 {
                 if (!empty($product_url_homepage) && !filter_var($product_url_homepage, FILTER_VALIDATE_URL))
                     {
                     $api_error_detected=1;
-                    return \errorResponse(Lang::get('lang.error_producturl'),400);
+                    return errorResponse(Lang::get('lang.error_producturl'),400);
                     }
 
                 if (!empty($product_envato_id) && !aflValidateIntegerValue($product_envato_id))
@@ -138,18 +138,18 @@ public function productAdd(ProductRequest $request,$api_key_secret,$product_titl
                     if (!aflValidateIntegerValue($added_records))
                         {
                         $api_error_detected=1;
-                         return \errorResponse(Lang::get('lang.invalid'),400);
+                         return errorResponse(Lang::get('lang.invalid'),400);
                         }
                     else
                         {
                         $api_action_success=1;
-                        return \successResponse(Lang::get('lang.sucess'),$in,201);
+                        return successResponse(Lang::get('lang.sucess'),$in,201);
                         }
                     }
                 }
                 else
                 {
-                    return \successResponse(Lang::get('lang.invalid'),400);
+                    return successResponse(Lang::get('lang.invalid'),400);
                 }
     }
   
@@ -165,7 +165,7 @@ public function productAdd(ProductRequest $request,$api_key_secret,$product_titl
     */
     public function show(){
         $products = AflProducts::all();
-        return \successResponse(Lang::get('lang.Product_Show'),$products,200);
+        return successResponse(Lang::get('lang.Product_Show'),$products,200);
     }
 
 
@@ -174,12 +174,13 @@ public function productAdd(ProductRequest $request,$api_key_secret,$product_titl
      * Deletes the product details from the database by using product id
      * @param $product_id
      *
-     * @return response that a product has been deleted 
+     * @return response that a product has been deleted  with it's cascaded values
     */
     //delete product
-public function deleteProduct($product_id)
+public function deleteProduct(ProductRequest $request)
     {
     $removed_records=0;
+    $product_id = $request->get('product_id');
 
     if (aflValidateIntegerValue($product_id))
         {
@@ -196,9 +197,10 @@ public function deleteProduct($product_id)
              $transaction_errors_array[]=$e->getMessage();
              DB::rollBack();
              $removed_records=0;
+             return errorResponse(Lang::get('lang.invalid'),400);
         }
         }
-    return \successResponse(Lang::get('lang.delete'),$removed_records,200);
+    return successResponse(Lang::get('lang.delete'),$removed_records,200);
     }
 
         /* public function edit($product_id)
@@ -209,28 +211,48 @@ public function deleteProduct($product_id)
 
        }*/
          
-     /**
-     * Updates the product details from the database by using the product title
-     * 
-     * @param Request $request
+       /**
+     * Updates the product details into the database
+     * @param ProductRequest $request
+     * @param $api_key_secret 
+     * @param $product_id
      * @param $product_title
+     * @param $product_sku
+     * @param $product_status 
+     * @param $product_description
+     * @param $product_url_homepage
+     * @param $product_url_download
+     * @param $product_version
+     * @param $product_envato_id
      *
-     * @return response that a product has been Updated
+     * @return response that a product details of the records found is Updated with a success response
     */
 
-Public function productUpdate(ProductRequest $request,$api_key_secret, $product_id, $product_title,$product_sku,$product_status,$product_description=null, $product_url_homepage=null, $product_url_download=null, $product_version=null, $product_envato_id=null){
+Public function productUpdate(Request $request){
  
+
+        $api_key_secret = $request->get('api_key_secret');
+        $product_id = $request->get('product_id');
+        $product_title = $request->get('product_title');
+        $product_sku = $request->get('product_sku');
+        $product_status = $request->get('product_status');
+        $product_description= $request->get('product_description'); 
+        $product_url_homepage= $request->get('product_url_homepage'); 
+        $product_url_download= $request->get('product_url_download'); 
+        $product_version= $request->get('product_version'); 
+        $product_envato_id= $request->get('product_envato_id');
+
 
 if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_array=DB::table('afl_products')->where('product_id','=','?')->setBindings(['product_id'=>$product_id])->get())) //invalid record
     {
-     \errorResponse(Lang::get('lang.invalid'));
+     errorResponse(Lang::get('lang.invalid'));
     exit();
     }
 
         $api_action_success=0;
         $api_error_detected=0; 
         $updated_records = 0; 
-        if (null!==(\request()->server('REMOTE_ADDR'))) 
+        if (null!==(request()->server('REMOTE_ADDR'))) 
         {
              $ip_address=request()->server('REMOTE_ADDR');
              } 
@@ -243,7 +265,7 @@ if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_a
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
         if(empty($api))
         {
-            return \errorResponse(Lang::get('lang.invalid_api_key'),404);
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
         }
         else
         {
@@ -255,47 +277,25 @@ if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_a
                 if (!$api_ips->contains($ip_address))
                    {   
                     $api_error_detected=1;
-                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
                     }
           }
         }
-         if($product_description==null)
-        {
-            $product_description = $request->get('product_description');
-        }
-        if ($product_url_homepage==null) 
-        {
-            $product_url_homepage = $request->get('product_url_homepage');
-        }
-        if ( $product_url_download==null) {
-             
-             $product_url_download = $request->get('product_url_download');
-        }
-
-        if($product_version=null)
-        {
-            $product_version = $request->get('product_version');
-        }
-
-        if($product_envato_id==null)
-        {
-            $product_envato_id = $request->get('product_envato_id');
-        }
          if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
                 {
                 if (!empty($product_url_homepage) && !filter_var($product_url_homepage, FILTER_VALIDATE_URL))
                     {
                     $api_error_detected=1;
-                    return \errorResponse(Lang::get('lang.url_error'),400);
+                    return errorResponse(Lang::get('lang.url_error'),400);
                     }
 
                 if (!empty($product_envato_id) && !aflValidateIntegerValue($product_envato_id))
                     {
                     $api_error_detected=1;
-                    return \errorResponse(Lang::get('lang.envato_error'),400);
+                    return errorResponse(Lang::get('lang.envato_error'),400);
                     }
 
                 if ($api_error_detected!=1)
@@ -321,16 +321,16 @@ if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_a
                     if (!aflValidateIntegerValue($updated_records))
                         {
                         $api_error_detected=1;
-                        return \errorResponse(Lang::get('lang.error'),400);
+                        return errorResponse(Lang::get('lang.error'),400);
                         }
                     else
                         {
-                        return \successResponse(Lang::get('lang.Product_Update'),$updated_records,200);
+                        return successResponse(Lang::get('lang.Product_Update'),$updated_records,200);
                         }
                     }
                 }
                 else{
-                    return \errorResponse(Lang::get('lang.invalid'),400);
+                    return errorResponse(Lang::get('lang.invalid'),400);
                 }     
 
     }

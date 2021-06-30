@@ -13,29 +13,54 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use App\Http\Requests\BannedHostRequest;
 
+
+
+
+
+/**
+ * Consist of functionalities for the Banned Host page in Auto Faveo licenser 
+ * Class BannedHostController
+ * @package App\Http\Controllers\Admin
+ */
 class BannedHostController extends Controller
 {
-//use Settings, Version;
 
-public function bannedHostAdd(BannedHostRequest $request,$api_key_secret,$banned_host_ip,$banned_host_comments=null)
+/**
+ *To Add Banned hosts of License manager
+ *@param BannedHostRequest $request
+ *@param  $api_key_secret
+ *@param $banned_host_ip 
+ *@param $banned_host_comments
+ *@return array of details of banned host if added successfully 
+ */
+public function bannedHostAdd(BannedHostRequest $request)
 
      {
         $api_action_success=0;
-        $api_error_detected=0;  
-        if (null!==(\request()->server('REMOTE_ADDR'))) 
+        $api_error_detected=0; 
+      
+       $api_key_secret = $request->input('api_key_secret');
+       $banned_host_ip = $request->input('banned_host_ip');
+       $banned_host_comments = $request->input('banned_host_comments'); 
+       $banned_host_blocks = $request->input('banned_host_blocks');
+       $banned_host_last_block_date= $request->input('banned_host_last_block_date');
+       
+        if (null!==(request()->server('REMOTE_ADDR'))) 
         {
              $ip_address=request()->server('REMOTE_ADDR');
              } 
              else {
                  $ip_address=$request->ip();
                  }
+       
+       
 
        if(!empty($api_key_secret))
        {
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
         if(empty($api))
         {
-            return \errorResponse(Lang::get('lang.invalid_api_key'),404);
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
         }
         else
         {
@@ -47,14 +72,14 @@ public function bannedHostAdd(BannedHostRequest $request,$api_key_secret,$banned
                 if (!$api_ips->contains($ip_address))
                    {   
                     $api_error_detected=1;
-                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
                     }
           }
         }
-
+     
     if(empty($banned_host_comments)){
         $banned_host_comments = $request->get('banned_host_comments');
     }
@@ -65,22 +90,37 @@ public function bannedHostAdd(BannedHostRequest $request,$api_key_secret,$banned
                        'banned_host_ip' => $banned_host_ip,
                        'banned_host_comments' => $banned_host_comments,
                        'banned_host_date' => $banned_host_date,
-                       'banned_host_blocks' => $request->get('banned_host_blocks'),
-                       'banned_host_last_block_date' => $request->get('banned_host_last_block_date')
+                       'banned_host_blocks' => $banned_host_blocks,
+                       'banned_host_last_block_date' => $banned_host_last_block_date
                        ));
     $banned->save();
-    return \successResponse(Lang::get('lang.banned_add'),$banned,201);
+    return successResponse(Lang::get('lang.banned_add'),$banned,201);
 }  
 else{
-     return \errorResponse(Lang::get('lang.invalid'),400);
+     return errorResponse(Lang::get('lang.invalid'),400);
 }
     }
 }
 
- public function bannedHostUpdate(BannedHostRequest $request,$api_key_secret, $banned_host_id, $banned_host_ip, $banned_host_comments=null) 
+
+
+/**
+ *To Edit Banned hosts of License manager
+ *@param BannedHostRequest $request
+ *@param  $api_key_secret
+ *@param $banned_host_ip 
+ *@param $banned_host_comments
+ * @return array of details of edited banned host if Updated successfully 
+ */
+ public function bannedHostUpdate(Request $request) 
 {
-        $api_action_success=0;
-        $api_error_detected=0;  
+       $api_action_success=0;
+       $api_error_detected=0; 
+       $banned_host_id =$request->get('banned_host_id');
+       $api_key_secret = $request->get('api_key_secret');
+       $banned_host_ip = $request->get('banned_host_ip');
+       $banned_host_comments = $request->get('banned_host_comments'); 
+
         if (null!==(\request()->server('REMOTE_ADDR'))) 
         {
              $ip_address=request()->server('REMOTE_ADDR');
@@ -92,7 +132,7 @@ else{
 if (empty($banned_host_id) || !aflValidateIntegerValue($banned_host_id) || 
     empty($rows_array=AflBannedHosts::where('banned_host_id',$banned_host_id)->get()->toArray())) //invalid record
     {
-    return \errorResponse(Lang::get('lang.invalid'));
+    return errorResponse(Lang::get('lang.invalid'));
     exit();
     }
 
@@ -101,7 +141,7 @@ if (empty($banned_host_id) || !aflValidateIntegerValue($banned_host_id) ||
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
         if(empty($api))
         {
-            return \errorResponse(Lang::get('lang.invalid_api_key'),404);
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
         }
         else
         {
@@ -113,7 +153,7 @@ if (empty($banned_host_id) || !aflValidateIntegerValue($banned_host_id) ||
                 if (!$api_ips->contains($ip_address))
                    {   
                     $api_error_detected=1;
-                    return \response(['message' => 'Api Access from this ip is not allowed']);
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
@@ -133,20 +173,25 @@ if (empty($banned_host_id) || !aflValidateIntegerValue($banned_host_id) ||
                        ]);
     
     
-    return \successResponse(Lang::get('lang.banned_edit'),$banned,201);
+    return successResponse(Lang::get('lang.banned_edit'),$banned,201);
     }  
 else{
-     return \errorResponse(Lang::get('lang.invalid'),400);
+     return errorResponse(Lang::get('lang.invalid'),400);
 }
     }
    
 }
 
-//delete banned host
-public function deleteBannedHost($banned_host_id)
+
+/**
+ *To Delete Banned hosts of License manager
+ *@param $banned_host_id
+ * @return success response of how many records deleted if deleted successfully
+ */
+public function deleteBannedHost(Request $request)
     {
     $removed_records=0;
-
+    $banned_host_id = $request->get('banned_host_id');
     if (aflValidateIntegerValue($banned_host_id))
         {
 
@@ -164,5 +209,15 @@ public function deleteBannedHost($banned_host_id)
         }
 
     return successResponse(Lang::get('lang.delete'),$removed_records,201);
+    }
+
+
+    public function test(){
+
+        $settings_results= config('constants.Basic.AFL_DATABASE_TABLE');
+        
+        $settings_row = DB::table($settings_results)->get()->toArray();
+
+        return $settings_row;
     }
 }

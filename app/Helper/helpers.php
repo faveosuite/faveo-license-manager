@@ -1,75 +1,75 @@
 <?php 
 
-
 //check Auto Faveo Licenser core configuration and return an array with error messages if something wrong
 function aflCheckSettings()
     {
     $notifications_array=array();
     
 
-    if (empty(\config('constants.Basic.AFL_SALT')) || \config('constants.Basic.AFL_SALT') =="some_random_text") //invalid encryption salt
+    if (empty(config('constants.Basic.AFL_SALT')) || config('constants.Basic.AFL_SALT') =="some_random_text") //invalid encryption salt
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_SALT');
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_SALT');
         }
 
-    if (!filter_var(\config('constants.Basic.AFL_ROOT_URL'), FILTER_VALIDATE_URL) || !ctype_alnum(substr(\config('constants.Basic.AFL_ROOT_URL'), -1))) //invalid Auto Faveo Licenser server URL
+    if (!filter_var(config('constants.Basic.AFL_ROOT_URL'), FILTER_VALIDATE_URL) || !ctype_alnum(substr(config('constants.Basic.AFL_ROOT_URL'), -1))) //invalid Auto Faveo Licenser server URL
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_ROOT_URL');
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_ROOT_URL');
         }
 
-    if (!aflValidateIntegerValue(\config('constants.Basic.AFL_PRODUCT_ID'))) //invalid product ID
+    if (!aflValidateIntegerValue(config('constants.Basic.AFL_PRODUCT_ID'))) //invalid product ID
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_PRODUCT_ID');
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_PRODUCT_ID');
         }
 
-    if (!aflValidateIntegerValue(\config('constants.Basic.AFL_DAYS'), 1, 365)) //invalid verification period
+    if (!aflValidateIntegerValue(config('constants.Basic.AFL_DAYS'), 1, 365)) //invalid verification period
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_VERIFICATION_PERIOD');
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_VERIFICATION_PERIOD');
         }
 
-    if (\config('constants.Basic.AFL_STORAGE')!="DATABASE" && \config('constants.Basic.AFL_STORAGE')!="FILE") //invalid license storage
+    if (config('constants.Basic.AFL_STORAGE')!="DATABASE" && config('constants.Basic.AFL_STORAGE')!="FILE") //invalid license storage
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_STORAGE');
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_STORAGE');
         }
 
-    if (\config('constants.Basic.AFL_STORAGE')=="DATABASE" && !ctype_alnum(str_ireplace(array("_"), "", \config('constants.Basic.AFL_DATABASE_TABLE')))) //invalid license table name
+    if (config('constants.Basic.AFL_STORAGE')=="DATABASE" && !ctype_alnum(str_ireplace(array("_"), "", config('constants.Basic.AFL_DATABASE_TABLE')))) //invalid license table name
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_TABLE');
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_TABLE');
         }
 
-    if (\config('constants.Basic.AFL_STORAGE')=="FILE" && !@is_writable(\config('constants.Extra.AFL_DIRECTORY')."/".\config('constants.Basic.AFL_LICENSE_FILE_LOCATION'))) //invalid license file or permissions
+    if (config('constants.Basic.AFL_STORAGE')=="FILE" && !@is_writable(config('constants.Extra.AFL_DIRECTORY')."/".config('constants.Basic.AFL_LICENSE_FILE_LOCATION'))) //invalid license file or permissions
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_LICENSE_FILE');
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_LICENSE_FILE');
         }
 
-    if (!empty(\config('constants.Advanced.AFL_ROOT_IP')) && !filter_var(\config('constants.Advanced.AFL_ROOT_IP'), FILTER_VALIDATE_IP)) //invalid Auto PHP Licenser server IP
+    if (!empty(config('constants.Advanced.AFL_ROOT_IP')) && !filter_var(config('constants.Advanced.AFL_ROOT_IP'), FILTER_VALIDATE_IP)) //invalid Auto PHP Licenser server IP
         {
         $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_ROOT_IP');
         }
 
-    if (!empty(\config('constants.Advanced.AFL_ROOT_IP')) && !in_array(\config('constants.Advanced.AFL_ROOT_IP'), gethostbynamel(aflGetRawDomain(\config('constants.Basic.AFL_ROOT_URL'))))) //actual IP address of Auto PHP Licenser server doesn't match specified IP address
+    if (!empty(config('constants.Advanced.AFL_ROOT_IP')) && !in_array(config('constants.Advanced.AFL_ROOT_IP'), gethostbynamel(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL'))))) //actual IP address of Auto PHP Licenser server doesn't match specified IP address
         {
-        $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_DNS');
+           //dd(gethostbynamel(aflGetRawDomain(\config('constants.Basic.AFL_ROOT_URL'))));
+        $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_DNS');
         }
 
-    if (defined("APL_ROOT_NAMESERVERS") && !empty(\config('constants.Advanced.AFL_ROOT_NAMESERVERS'))) //check if nameservers are valid (use "defined" to check if nameservers are set because APL_ROOT_NAMESERVERS is commented by default to prevent errors in PHP<7)
+    if (defined("APL_ROOT_NAMESERVERS") && !empty(config('constants.Advanced.AFL_ROOT_NAMESERVERS'))) //check if nameservers are valid (use "defined" to check if nameservers are set because APL_ROOT_NAMESERVERS is commented by default to prevent errors in PHP<7)
         {
-        foreach (\config('constants.Advanced.AFL_ROOT_NAMESERVERS') as $nameserver)
+        foreach (config('constants.Advanced.AFL_ROOT_NAMESERVERS') as $nameserver)
             {
             if (!aflValidateRawDomain($nameserver)) //invalid Auto PHP Licenser server nameservers
                 {
-                $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_ROOT_NAMESERVERS');
+                $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_ROOT_NAMESERVERS');
                 break;
                 }
             }
         }
       
-    if (defined("APL_ROOT_NAMESERVERS") && !empty(\config('constants.Advanced.AFL_ROOT_NAMESERVERS'))) //check if actual nameservers of Auto PHP Licenser server domain match specified nameservers (use "defined" to check if nameservers are set because APL_ROOT_NAMESERVERS is commented by default to prevent errors in PHP<7)
+    if (defined("APL_ROOT_NAMESERVERS") && !empty(config('constants.Advanced.AFL_ROOT_NAMESERVERS'))) //check if actual nameservers of Auto PHP Licenser server domain match specified nameservers (use "defined" to check if nameservers are set because APL_ROOT_NAMESERVERS is commented by default to prevent errors in PHP<7)
         {
-        $apl_root_nameservers_array=\config('constants.Advanced.AFL_ROOT_NAMESERVERS'); //create a variable from constant in order to use sort and other array functions
+        $apl_root_nameservers_array=config('constants.Advanced.AFL_ROOT_NAMESERVERS'); //create a variable from constant in order to use sort and other array functions
         $fetched_nameservers_array=array();
 
-        $dns_records_array=dns_get_record(aflGetRawDomain(\config('constants.Basic.AFL_ROOT_URL')), DNS_NS);
+        $dns_records_array=dns_get_record(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL')), DNS_NS);
         foreach ($dns_records_array as $record)
             {
             $fetched_nameservers_array[]=$record['target'];
@@ -82,7 +82,7 @@ function aflCheckSettings()
         sort($fetched_nameservers_array);
         if ($apl_root_nameservers_array!=$fetched_nameservers_array)
             {
-            $notifications_array[]=\config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_DNS'); //actual nameservers of Auto PHP Licenser server don't match specified nameservers
+            $notifications_array[]=config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_DNS'); //actual nameservers of Auto PHP Licenser server don't match specified nameservers
             }
         }
 
@@ -122,10 +122,9 @@ function aflCheckSettings()
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
         curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-
         //this function is called by curl for each header received - https://stackoverflow.com/questions/9183178/can-php-curl-retrieve-response-headers-and-body-in-a-single-request
         curl_setopt($ch, CURLOPT_HEADERFUNCTION,
-            function($curl, $header) use (&$formatted_headers_array)
+            function($curl, $header) use ($formatted_headers_array)
                 {
                 $len=strlen($header);
                 $header=explode(":", $header, 2);
@@ -142,11 +141,12 @@ function aflCheckSettings()
         $result=curl_exec($ch);
         $curl_error=curl_error($ch); //returns a human readable error (if any)
         curl_close($ch);
-
         $server_response_array['headers']=$formatted_headers_array;
         $server_response_array['error']=$curl_error;
         $server_response_array['body']=$result;
+       
         }
+        //dd($server_response_array);
 
     return $server_response_array;
     }
@@ -157,9 +157,8 @@ function aflCheckSettings()
     
 //process response from Auto PHP Licenser server. if response received, validate it and parse notifications and data (if any). if response not received or is invalid, return a corresponding notification
 function aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
-    {   
+ {   
     $notifications_array=array();
-
     if (!empty($content_array)) //response received, validate it
         {
         if (!empty($content_array['headers']['notification_server_signature']) && aflVerifyServerSignature($content_array['headers']['notification_server_signature'], $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)) //response valid
@@ -191,18 +190,21 @@ function aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $
 //verify signature received from Auto PHP Licenser server
 function aflVerifyServerSignature($notification_server_signature, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
     {
+        
     $result=false;
     $root_ips_array=gethostbynamel(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL')));
-
+    
     if (!empty($notification_server_signature) && !empty($ROOT_URL) && isset($CLIENT_EMAIL) && isset($LICENSE_CODE) && !empty($root_ips_array))
         {
+            
         if (hash("sha256", implode("", $root_ips_array).config('constants.Basic.AFL_PRODUCT_ID').$LICENSE_CODE.$CLIENT_EMAIL.$ROOT_URL.gmdate("Y-m-d"))==$notification_server_signature)
             {
             $result=true;
             }
         }
-
+ 
     return $result;
+    
     }
 
 
@@ -318,30 +320,8 @@ function successResponse($message = '', $data = '', $statusCode = FAVEO_SUCCESS_
 
     return response()->json($response, $statusCode);
 }
-    /**
-     * retrives the license data wheather it's stored in a database or file
-     *
-     * @return setting_row array consisting of license data
-    */   
-   function aflGetLicenseData(/*$MYSQLI_LINK=null*/)
-    {
-    $settings_row=array();
-
-    if (config('constants.Basic.AFL_STORAGE')=="DATABASE") //license stored in database (use @ before mysqli_ function to prevent errors when function is executed by aplInstallLicense function)
-        {
-
-        //$settings_results=@mysqli_query($MYSQLI_LINK, "SELECT * FROM ".config('constants.Basic.AFL_DATABASE_TABLE'));
-        $settings_row = FaveoLicense::all();
-
-        }
-
-    if (config('constants.Basic.AFL_STORAGE')=="FILE") //license stored in file
-        {
-        $settings_row=aflParseLicenseFile();
-        }
-
-    return $settings_row;
-    }
+    
+  
       /**
      * verify date and/or time according to provided format (such as Y-m-d, Y-m-d H:i, H:i, and so on)    
      * @param $datetime
@@ -523,4 +503,50 @@ function generateRandomString($string_length=0)
     $random_string=substr(bin2hex(openssl_random_pseudo_bytes($string_length)), 0, $string_length); //bin2hex makes string twice longer, truncate it to specified length
 
     return $random_string;
+    }
+
+//parse license file and make an array with license data
+function aflParseLicenseFile()
+    {
+    $license_data_array=array();
+
+    if (@is_readable(config('constants.Extra.AFL_DIRECTORY')."/". config('constants.Basic.AFL_LICENSE_FILE_LOCATION')))
+        {
+        $file_content=file_get_contents(config('constants.Extra.AFL_DIRECTORY')."/".config('constants.Basic.AFL_LICENSE_FILE_LOCATION'));
+        preg_match_all("/<([A-Z_]+)>(.*?)<\/([A-Z_]+)>/", $file_content, $matches, PREG_SET_ORDER);
+        if (!empty($matches))
+            {
+            foreach ($matches as $value)
+                {
+                if (!empty($value[1]) && $value[1]==$value[3])
+                    {
+                    $license_data_array[$value[1]]=$value[2];
+                    }
+                }
+            }
+        }
+
+    return $license_data_array;
+    }
+
+     
+     /** generate signature to be submitted to Auto Faveo Licenser server    
+     * 
+     * @param $ROOT_URL
+     * @param $CLIENT_EMAIL
+     * @param $LICENSE_CODE
+     *
+     * @return Hashed $script_signature
+    */ 
+    function aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
+    {
+    $script_signature="";
+    $root_ips_array=gethostbynamel(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL')));
+
+    if (!empty($ROOT_URL) && isset($CLIENT_EMAIL) && isset($LICENSE_CODE) && !empty($root_ips_array))
+        {
+        $script_signature=Hash::make(gmdate("Y-m-d").$ROOT_URL.$CLIENT_EMAIL.$LICENSE_CODE.config('constants.Basic.AFL_PRODUCT_ID').implode("", $root_ips_array));
+        }
+
+    return $script_signature;
     }
