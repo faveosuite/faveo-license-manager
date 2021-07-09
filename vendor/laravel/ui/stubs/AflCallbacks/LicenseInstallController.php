@@ -18,7 +18,7 @@ class LicenseInstallController extends Controller
      * This is used by script on user's machine to check if license is active and add installation details to Auto PHP Licenser database during installation of protected script
      * api format for example:  http://127.0.0.1:8000/api/licenseinstall?product_id=1&root_url=https://www.license.com&client_email=sandeshm40450@gamil.com&license_code=vvbdjvsbjbdvb&installation_hash=aa33da99a04490b20b01c40cced3d2981ca6e29e6fd30ccfd63961a83e798856&license_signature=e930f7623d746b7f81ad4b61af3b7ad1390358529799342eaa1736fa56696dba
      * 
-     * @return success response with a license report
+     * @return success response with a message
      * */
     public function licenseInstall(Request $request)
     {
@@ -89,7 +89,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
     $client_formatted=formatClient($license_code, $client_email);
 
     $product_array=AflProducts::where('product_id',$product_id)->get()->toArray();
-    //fetchRow("SELECT * FROM apl_products WHERE product_id=?", array($product_id), array("i")); //check if product exists, so it's possible to generate reports with product name even if product is inactive or license doesn't exist
+ //check if product exists, so it's possible to generate reports with product name even if product is inactive or license doesn't exist
 
     if (empty($product_array)) //product doesn't exist
         {
@@ -121,9 +121,6 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                 $license_array=AflLicenses::where('license_code',$license_code)
                                           ->where('product_id',$product_id)->get()->toArray();
                      
-                //fetchRow("SELECT * FROM apl_licenses WHERE license_code=? AND product_id=?", array($license_code, $product_id), array("s", "i"));
-
-
                 }
                  
             else //search for email-based license
@@ -132,8 +129,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                     ->join('afl_clients',' apl_licenses.client_id','=','apl_clients.client_id')
                                     ->where('afl_clients.client_email',$client_email)
                                     ->where('afl_clients.client_status',1)
-                                    ->where('afl_licenses.product_id',$product_id)->get();
-                                     //fetchRow("SELECT * FROM apl_licenses JOIN apl_clients ON apl_licenses.client_id=apl_clients.client_id AND apl_clients.client_email=? AND apl_clients.client_status=? WHERE apl_licenses.product_id=?", array($client_email, 1, $product_id), array("s", "i", "i"));
+                                    ->where('afl_licenses.product_id',$product_id)->get()->toArray();
                 }
        
             if (empty($license_array)) //license doesn't exist
@@ -148,7 +144,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                     {
                     extract($row);
                     }
-
+                
                 if (!verifyScriptSignature($license_signature, $product_id, $root_url, $client_email, $license_code)) //invalid signature
                     {
                     $error_detected=1;
@@ -221,7 +217,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                 $this_installation_owner_array=AflInstallations::where('product_id',$product_id)
                                                                 ->where('installation_ip',$ip_address)
                                                                 ->where('installation_domain',$installation_domain)
-                                                                ->get()->toArray();//fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND installation_ip=? AND installation_domain=?", array($product_id, $ip_address, $installation_domain), array("i", "s", "s"));
+                                                                ->get()->toArray();
 
             
                 if (!empty($this_installation_owner_array)) //installation exists, check whom it belongs to
@@ -242,12 +238,9 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                                ->orWhere('installation_ip',$ip_address)
                                                                ->orWhere('installation_domain',$installation_domain)
                                                                ->get()->toArray();
-                    //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND (client_id=? OR license_code=?) AND (installation_ip!=? OR installation_domain!=?)", array($product_id, $client_id, $license_code, $ip_address, $installation_domain), array("i", "i", "s", "s", "s")); //check if new installation will not exceed limit - THIS PART SHOULD ONLY BE USED IN LICENSE_INSTALL.PHP FILE
                 
                     if (count($other_installations_array)>=$license_limit) //client can't make new installation because it would exceed his current limit
-                        {
-
-                            
+                        {    
                         $error_detected=1;
                         $error_details=setValue($error_details, "maximum installations limit ($license_limit) reached");
                         $notification_case=setValue($notification_case, "notification_license_limit");
@@ -257,7 +250,6 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                                ->orWhere('client_id',$client_id)
                                                                ->orWhere('license_code',$license_code)
                                                                ->get()->toArray();
-                                                               //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND (client_id=? OR license_code=?)", array($product_id, $client_id, $license_code), array("i", "i", "s")); //check how many installations client has
                    
                     if (count($all_installations_array)>$license_limit) //client has more installations than he is allowed to (most likely limit was changed after installations were made)
                         {
@@ -298,7 +290,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                                ->Where('installation_domain',$installation_domain)
                                                                ->where('installation_hash',$installation_hash)
                                                                ->get()->toArray();
-                                                               //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND (client_id=? OR license_code=?) AND installation_ip=? AND installation_domain=? AND installation_hash=?", array($product_id, $client_id, $license_code, $ip_address, $installation_domain, $installation_hash), array("i", "i", "s", "s", "s", "s")); //always perform verification with IP, but without status, for new installations
+                                                                //always perform verification with IP, but without status, for new installations
                         
                         if (!empty($this_installation_array)) //this is existing installation, update its details in database
                             {
@@ -316,7 +308,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                  'installation_status'=>$installation_status, 
                                                  'installation_hash'=> $installation_hash
                                              ]);
-                            //doMysqlQuery("UPDATE apl_installations SET installation_date=?, installation_status=?, installation_hash=? WHERE installation_id=?", array($installation_date, $installation_status, $installation_hash, $installation_id), array("s", "i", "s", "i")); //don't check if $updated_records is more than 0 because when installation_date variable is the same (script re-installed Nth time same day), $updated_records will be 0
+                             //don't check if $updated_records is more than 0 because when installation_date variable is the same (script re-installed Nth time same day), $updated_records will be 0
                             }
                         else //this is new installation, add its details to database
                             {
@@ -333,7 +325,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                     'installation_status'=>$installation_status, 
                                     'installation_hash'=> $installation_hash
                                 ]);
-                                //doMysqlQuery("INSERT IGNORE INTO apl_installations (client_id, license_code, product_id, installation_ip, installation_domain, installation_date, installation_status, installation_hash) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", array($client_id, $license_code, $product_id, $ip_address, $installation_domain, $installation_date, $installation_status, $installation_hash), array("i", "s", "i", "s", "s", "s", "i", "s"));
+                               
                                 $action_success=1;
                                 $notification_case=setValue($notification_case, "notification_license_ok");
                                
@@ -383,8 +375,8 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
         {
         $report_text="$product_title installation at $installation_domain ($ip_address) could not be performed because of this reason: $error_details.";
         }
-
-    returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
+        //dd($license_expire_date);
+    returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version,$license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
     //return successResponse(Lang::get('lang.success'),$api,201);
     }
 else //possible cracking attempt, set variables required for reports function to null and generate cracking report
@@ -395,8 +387,8 @@ else //possible cracking attempt, set variables required for reports function to
     $report_text="Host $ip_address sent invalid data to requested_url and was rejected. Host sent this data: ".json_encode($_POST).".";
        return errorResponse(Lang::get('lang.invalid'),404);
     }
-
-return successResponse(Lang::get('lang.success_license_install'),createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success),200);
+createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success);
+return successResponse(Lang::get('lang.success_license_install'),$notification_case,200);
 
 //return successResponse(Lang::get('lang.success'),$report,200); //always create report, no matter result
 if ($action_success!=1) //record failed licensing attempt and ban host if needed

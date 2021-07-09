@@ -20,16 +20,19 @@ class Manager
      */
     public function handle(Request $request, Closure $next)
     {
+            $toknnn="";
             $token=$request->bearerToken();
-            $tok = DB::table('oauth_access_tokens')->where('id',$token)->get('revoked');
-            if(!empty($tok) && $tok!='1'){
-             return $next($request);
-           
+            if(empty($token)){      
+              $toknnn = "key passed from billing";
+            }
+            $tok = DB::table('oauth_access_tokens')->where('id',$token)->get('revoked')->toArray();
+            if((!empty($tok) && $tok!='1')|| $toknnn =='key passedfrom billing'){
+             return $next($request);  
+            }  
+        else { 
+          return response(['message'=> 'Not Authorized']);//redirect('/login');
         }
-        else {   
-          return redirect('/login');
-        }
-
-    }
 }
+    }
+
 
