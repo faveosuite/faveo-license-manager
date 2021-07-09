@@ -87,10 +87,11 @@ $removed_records=0;
 if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPORTED_BROWSERS_ARRAY) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url==$refer && $installation_hash==hash("sha256", $root_url.$client_email.$license_code) && !empty($license_signature) && isValidLicenseRequest($license_code, $client_email)===true)
     {
     $notification_case="";
-    $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1); //make url without scheme, www. and / at the end because this type of url is stored on server (add / at the end before processing because software stores root url without /)
+    $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1); 
+    //make url without scheme, www. and / at the end because this type of url is stored on server (add / at the end before processing because software stores root url without /)
     $client_formatted=formatClient($license_code, $client_email);
 
-    $product_array=AflProducts::where('product_id',$product_id)->get()->toArray();//fetchRow("SELECT * FROM apl_products WHERE product_id=?", array($product_id), array("i")); //check if product exists, so it's possible to generate reports with product name even if product is inactive or license doesn't exist
+    $product_array=AflProducts::where('product_id',$product_id)->get()->toArray();
     if (empty($product_array)) //product doesn't exist
         {
         $error_detected=1;
@@ -118,14 +119,14 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
             if (!empty($license_code)) //search for code-based license
                 {
                 $license_array=AflLicenses::where('license_code',$license_code)
-                                           ->where('product_id',$product_id)->get()->toArray();//fetchRow("SELECT * FROM apl_licenses WHERE license_code=? AND product_id=?", array($license_code, $product_id), array("s", "i"));
+                                           ->where('product_id',$product_id)->get()->toArray();
                 }
             else //search for email-based license
                 {
                 $license_array=AflLicenses::join('afl_clients','afl_licenses.client_id','=','apl_clients.client_id')
                                            ->where('afl_clients.client_email',$client_email)
                                            ->where('afl_clients.client_status',1)
-                                           ->where('afl_licenses.product_id',$product_id);//fetchRow("SELECT * FROM apl_licenses JOIN apl_clients ON apl_licenses.client_id=apl_clients.client_id AND apl_clients.client_email=? AND apl_clients.client_status=? WHERE apl_licenses.product_id=?", array($client_email, 1, $product_id), array("s", "i", "i"));
+                                           ->where('afl_licenses.product_id',$product_id)->get()->toArray();
                 }
 
             if (empty($license_array)) //license doesn't exist
@@ -275,9 +276,9 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                                   ->orWhere('installation_disable_ip_verification',1)
                                                                   ->where('installation_domain',$installation_domain)
                                                                   ->where('installation_hash',$installation_hash)
-                                                                  ->where('installation_status',1)->get();
-                                                                  //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND (client_id=? OR license_code=?) AND (installation_ip=? OR installation_disable_ip_verification=?) AND installation_domain=? AND installation_hash=? AND installation_status=?", array($product_id, $client_id, $license_code, $ip_address, 1, $installation_domain, $installation_hash, 1), array("i", "i", "s", "s", "i", "s", "s", "i"));
-                        if (!empty($this_installation_array)) //installation exists and is active
+                                                                  ->where('installation_status',1)->get()->toArray();
+
+                            if (!empty($this_installation_array)) //installation exists and is active
                             {
                             $action_success=1;
                             $notification_case=setValue($notification_case, "notification_license_ok");
@@ -336,8 +337,8 @@ else //possible cracking attempt, set variables required for reports function to
 
     //dd($SMART_REPORTS,$product_id,$client_id,$license_code,$report_text,$action_success);
 
-//createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success);
-return successResponse(Lang::get('lang.success_license_verify'),createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success),200);
+createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success);
+return successResponse(Lang::get('lang.success_license_verify'),$notification_case,200);
  //always create report, no matter result
 if ($action_success!=1) //record failed licensing attempt and ban host if needed
     {
@@ -350,7 +351,7 @@ if ($action_success!=1) //record failed licensing attempt and ban host if needed
 
 
 //create license callback
-function createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $license_code, $callback_ip, $callback_domain, $callback_status)
+public function createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $license_code, $callback_ip, $callback_domain, $callback_status)
     {
     $date_today=date("Y-m-d");
     $callback_date_time=date("Y-m-d H:i:s");
@@ -362,7 +363,7 @@ function createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $license
                     ->where('callback_domain',$callback_domain)
                     ->whereRaw('callback_date_time BETWEEN ? AND ?',["$date_today 00:00:00", "$date_today 23:59:59"])
                     ->where('callback_status',$callback_status)->get()->toArray();
-                  //fetchRow("SELECT * FROM apl_callbacks WHERE product_id=? AND (client_id=? OR license_code=?) AND callback_ip=? AND callback_domain=? AND callback_date_time BETWEEN ? AND ? AND callback_status=?", array($product_id, $client_id, $license_code, $callback_ip, $callback_domain, "$date_today 00:00:00", "$date_today 23:59:59", $callback_status), array("i", "i", "s", "s", "s", "s", "s", "i"));
+                
         }
     if (empty($rows_array)) //no identical callback found (or SMART_REPORTS disabled)
         {   
@@ -375,7 +376,7 @@ function createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $license
             'callback_date_time'=>$callback_date_time, 
             'callback_status'=> $callback_status
         ]);
-        //doMysqlQuery("INSERT IGNORE INTO apl_callbacks (product_id, client_id, license_code, callback_ip, callback_domain, callback_date_time, callback_status) VALUES (?, ?, ?, ?, ?, ?, ?)", array($product_id, $client_id, $license_code, $callback_ip, $callback_domain, $callback_date_time, $callback_status), array("i", "i", "s", "s", "s", "s", "i"));
+       
         }
     
     }

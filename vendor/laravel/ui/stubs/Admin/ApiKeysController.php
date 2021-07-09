@@ -65,9 +65,6 @@ class ApiKeysController extends Controller
            catch(Exception $e){
                return $e->getMessage();
            }
-    
- 
-
 }
 
 

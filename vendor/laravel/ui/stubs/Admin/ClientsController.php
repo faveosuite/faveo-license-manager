@@ -162,7 +162,31 @@ class ClientsController extends Controller
     public function deleteClient(Request $request)
     {
     $client_id = $request->get('client_id');
-    $removed_records=0;
+    $removed_records=0;  
+    if(!empty($api_key_secret))
+       {
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        if(empty($api))
+        {
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
+        }
+        else
+        {
+        $api_ip = new AflApiKeys();
+        $api_ips= $api_ip->pluck('api_key_ip');
+
+          if(!empty($api_ips))
+          {
+                if (!$api_ips->contains($ip_address))
+                   {   
+                    $api_error_detected=1;
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
+                    }
+                    else{
+                        $api_action_success=1;
+                    }
+          }
+        }
 
     if (aflValidateIntegerValue($client_id))
         {
@@ -189,6 +213,7 @@ class ClientsController extends Controller
         }
 
     return $removed_records;
+}
     }
 
         /* public function edit($client_id)
