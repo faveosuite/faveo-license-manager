@@ -14,4 +14,10 @@ class AflInstallations extends Model
     public function product(){
         return $this->hasMany(AflProducts::class);
     }
+
+     public function client(){
+        
+        return $this->belongsToMany(AflClients::class);
+    }
+
 }

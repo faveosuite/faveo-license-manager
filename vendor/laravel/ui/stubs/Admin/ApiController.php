@@ -31,6 +31,7 @@ $formatted_api_string=""; //used only by this file to forward API requests to ot
      {
      extract((array)$set);
      }
+     
 $api_key_secret = $request->get('api_key_secret');
 $api_function = $request->get('api_function');  
 $ip_address = $request->ip();

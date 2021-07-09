@@ -16,4 +16,9 @@ class AflClients extends Model
     {
         return $this->hasMany(AflLicenses::class);
     }
+
+    public function installation()
+    {
+        return $this->hasMany(AflInstallations::class);
+    }
 }

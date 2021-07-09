@@ -95,7 +95,6 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
     $result=false;
     $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
     
-
     if (!empty($root_ips_array) && !empty($license_signature))
         {
         if (hash("sha256", gmdate("Y-m-d").$root_url.$client_email.$license_code.$product_id.implode("", $root_ips_array))==$license_signature)
@@ -103,7 +102,6 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
             $result=true;
             }
         }
-
     return $result;
     }
 

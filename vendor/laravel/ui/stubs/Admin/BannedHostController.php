@@ -190,6 +190,32 @@ else{
  */
 public function deleteBannedHost(Request $request)
     {
+
+
+      if(!empty($api_key_secret))
+       {
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        if(empty($api))
+        {
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
+        }
+        else
+        {
+        $api_ip = new AflApiKeys();
+        $api_ips= $api_ip->pluck('api_key_ip');
+
+          if(!empty($api_ips))
+          {
+                if (!$api_ips->contains($ip_address))
+                   {   
+                    $api_error_detected=1;
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
+                    }
+                    else{
+                        $api_action_success=1;
+                    }
+          }
+        }
     $removed_records=0;
     $banned_host_id = $request->get('banned_host_id');
     if (aflValidateIntegerValue($banned_host_id))
@@ -208,7 +234,9 @@ public function deleteBannedHost(Request $request)
        // $removed_records+=doMysqlQuery("DELETE FROM apl_banned_hosts WHERE banned_host_id=?", array($banned_host_id), array("i"));
         }
 
+
     return successResponse(Lang::get('lang.delete'),$removed_records,201);
+}
     }
 
 

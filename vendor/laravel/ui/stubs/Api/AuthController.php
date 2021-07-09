@@ -196,16 +196,12 @@ class  AuthController extends Controller
      * @return response You have logged out successfuly after revoking the token
     */
     public function logout(Request $request,$user_id){
-         
-         /* if (Auth::check()) {
-            Auth::user()->AauthAcessToken()->delete(); 
-            return \response(['message'=> 'logout']);     
-         }  */
+        
         $logout=DB::table('oauth_access_tokens')
-        ->where('user_id',$user_id)
-        ->update([
+                   ->where('user_id',$user_id)
+                   ->update([
             'revoked' => true
-        ]);
+             ]);
          return successResponse(Lang::get('lang.Logout'),$logout,201);
     }
 
