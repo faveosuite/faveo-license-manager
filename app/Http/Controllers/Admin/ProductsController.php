@@ -65,7 +65,9 @@ public function productAdd(ProductRequest $request)
              $ip_address=request()->server('REMOTE_ADDR');
              } 
              else {
+
                  $ip_address=$request->ip();
+
                  }
 
        if(!empty($api_key_secret))
@@ -118,6 +120,7 @@ public function productAdd(ProductRequest $request)
                     $product_date=date("Y-m-d");
 
                     //$added_records=doMysqlQuery("INSERT IGNORE INTO apl_products (product_title, product_description, product_sku, product_url_homepage, product_url_download, product_date, product_version, product_envato_id, product_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)", array($product_title, $product_description, $product_sku, $product_url_homepage, $product_url_download, $product_date, $product_version, $product_envato_id, $product_status), array("s", "s", "s", "s", "s", "s", "s", "i", "i"));
+
                     try{
                         $in=DB::table('afl_products')->insertOrIgnore([
                             'product_title' => $product_title, 
@@ -181,6 +184,30 @@ public function deleteProduct(ProductRequest $request)
     {
     $removed_records=0;
     $product_id = $request->get('product_id');
+      if(!empty($api_key_secret))
+       {
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        if(empty($api))
+        {
+            return errorResponse(Lang::get('lang.invalid_api_key'),404);
+        }
+        else
+        {
+        $api_ip = new AflApiKeys();
+        $api_ips= $api_ip->pluck('api_key_ip');
+
+          if(!empty($api_ips))
+          {
+                if (!$api_ips->contains($ip_address))
+                   {   
+                    $api_error_detected=1;
+                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
+                    }
+                    else{
+                        $api_action_success=1;
+                    }
+          }
+        }
 
     if (aflValidateIntegerValue($product_id))
         {
@@ -188,9 +215,13 @@ public function deleteProduct(ProductRequest $request)
         $transaction_errors_array=array();
         try{
         AFlCallbacks::where('product_id',$product_id)->delete();//doMysqlQuery("DELETE FROM apl_callbacks WHERE product_id=?", array($product_id), array("i")); //delete callbacks
+
         AFlInstallations::where('product_id',$product_id)->delete();//doMysqlQuery("DELETE FROM apl_installations WHERE product_id=?", array($product_id), array("i")); //delete installations
+
         AFlLicenses::where('product_id',$product_id)->delete();//doMysqlQuery("DELETE FROM apl_licenses WHERE product_id=?", array($product_id), array("i")); //delete licenses
+
         $removed_records+=AFlProducts::where('product_id',$product_id)->delete();//$removed_records+=doMysqlQuery("DELETE FROM apl_products WHERE product_id=?", array($product_id), array("i"));
+        
         DB::commit();
         }
         catch(Exception $e){
@@ -201,6 +232,7 @@ public function deleteProduct(ProductRequest $request)
         }
         }
     return successResponse(Lang::get('lang.delete'),$removed_records,200);
+}
     }
 
         /* public function edit($product_id)
@@ -316,7 +348,8 @@ if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_a
                                           'product_version'=> $product_version, 
                                           'product_envato_id'=> $product_envato_id, 
                                           'product_status'=> $product_status
-                                      ]);//doMysqlQuery("UPDATE apl_products SET product_title=?, product_description=?, product_sku=?, product_url_homepage=?, product_url_download=?, product_version=?, product_envato_id=?, product_status=? WHERE product_id=?", array($product_title, $product_description, $product_sku, $product_url_homepage, $product_url_download, $product_version, $product_envato_id, $product_status, $product_id), array("s", "s", "s", "s", "s", "s", "i", "i", "i"));
+                                      ]);
+                                      //doMysqlQuery("UPDATE apl_products SET product_title=?, product_description=?, product_sku=?, product_url_homepage=?, product_url_download=?, product_version=?, product_envato_id=?, product_status=? WHERE product_id=?", array($product_title, $product_description, $product_sku, $product_url_homepage, $product_url_download, $product_version, $product_envato_id, $product_status, $product_id), array("s", "s", "s", "s", "s", "s", "i", "i", "i"));
                     
                     if (!aflValidateIntegerValue($updated_records))
                         {

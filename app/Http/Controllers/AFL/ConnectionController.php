@@ -31,10 +31,9 @@ class ConnectionController extends Controller
     */
        public function connection(Request $request)
        {
-       
         //set supported browsers (internal requests only coming from these browsers will be processed)
         $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
-        //$connection_hash=rawurlencode(hash("sha256", "ConnectionController")); //should be passed from billing or helpdesk
+        //$connection_hash=rawurlencode(hash("sha256", "connection_test")); //should be passed from helpdesk
 
         //dd($connection_hash);
         $product_id = $request->input('product_id');
@@ -74,7 +73,7 @@ class ConnectionController extends Controller
         && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connection_test"))
         {     
                $rows_array =[$ip_address,$user_agent,$refer,$product_id,$connection_hash];
-               return successResponse(Lang::get('lang.Connection_OK'),$rows_array,200);
+               echo "<connection_test>OK</connection_test>";
         }
         else{
           return errorResponse(Lang::get('lang.invalid_connection'),400);

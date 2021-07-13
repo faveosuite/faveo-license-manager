@@ -86,7 +86,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
     $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1); //make url without scheme, www. and / at the end because this type of url is stored on server (add / at the end before processing because software stores root url without /)
     $client_formatted=formatClient($license_code, $client_email);
 
-    $product_array=AflProducts::where('product_id',$product_id)->get()->toArray();//fetchRow("SELECT * FROM apl_products WHERE product_id=?", array($product_id), array("i")); //check if product exists, so it's possible to generate reports with product name even if product is inactive or license doesn't exist
+    $product_array=AflProducts::where('product_id',$product_id)->get()->toArray();
     if (empty($product_array)) //product doesn't exist
         {
         $error_detected=1;
@@ -114,7 +114,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
             if (!empty($license_code)) //search for code-based license
                 {
                 $license_array=AflLicenses::where('license_code',$license_code)
-                                 ->where('product_id',$product_id)->get()->toArray();//fetchRow("SELECT * FROM apl_licenses WHERE license_code=? AND product_id=?", array($license_code, $product_id), array("s", "i"));
+                                 ->where('product_id',$product_id)->get()->toArray();
                 }
             else //search for email-based license
                 {
@@ -122,8 +122,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                   ->where('afl_clients.client_email',$client_email)
                                   ->where('afl_clients.client_status',1)
                                   ->where('afl_licenses.product_id',$product_id)
-                                  ->get()->toArray(); //fetchRow("SELECT * FROM apl_licenses JOIN apl_clients ON apl_licenses.client_id=apl_clients.client_id AND apl_clients.client_email=? AND apl_clients.client_status=? WHERE apl_licenses.product_id=?", array($client_email, 1, $product_id), array("s", "i", "i"));
-                }
+                                  ->get()->toArray(); 
             
             if (empty($license_array)) //license doesn't exist
                 {
@@ -212,7 +211,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                                 ->where('installation_ip',$ip_address)
                                                                 ->where('installation_domain',$installation_domain)
                                                                 ->get()->toArray();
-                                                    //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND installation_ip=? AND installation_domain=?", array($product_id, $ip_address, $installation_domain), array("i", "s", "s"));
+                                                  
                 if (!empty($this_installation_owner_array)) //installation exists, check whom it belongs to
                     {
                         
@@ -274,13 +273,13 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                                   ->where('installation_domain',$installation_domain)
                                                                   ->where('installation_hash',$installation_hash)
                                                                   ->where('installation_status',1)->get()->toArray();
-                                                                  //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND (client_id=? OR license_code=?) AND (installation_ip=? OR installation_disable_ip_verification=?) AND installation_domain=? AND installation_hash=? AND installation_status=?", array($product_id, $client_id, $license_code, $ip_address, 1, $installation_domain, $installation_hash, 1), array("i", "i", "s", "s", "i", "s", "s", "i"));
+                                                                  
                         if (!empty($this_installation_array)) //installation exists and is active
                             {
                             $mysql_scheme_rows=AflLicenseSchemes::where('scheme_id',1)
                                                   ->where('scheme_status',1)->get()->toArray();
                                                 
-                                                  //fetchRow("SELECT * FROM apl_license_schemes WHERE scheme_id=? AND scheme_status=?", array(1, 1), array("i", "i")); //fetch MySQL scheme
+                                                 
                             if (!empty($mysql_scheme_rows)) //scheme exists
                                 {
                                 $action_success=1;
@@ -341,8 +340,8 @@ else //possible cracking attempt, set variables required for reports function to
     return errorResponse(Lang::get('lang.invalid'),404);
     }
 
-;
-return successResponse(Lang::get('lang.success_license_scheme'),createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success),200); //always create report, no matter result
+createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success);
+return successResponse(Lang::get('lang.success_license_scheme'),$notification_case,200); //always create report, no matter result
 if ($action_success!=1) //record failed licensing attempt and ban host if needed
     {
     recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_address);
