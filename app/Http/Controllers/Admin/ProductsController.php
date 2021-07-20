@@ -15,8 +15,7 @@ use App\Http\Requests\ProductRequest;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\DB;
-use App\Traits\Settings;
-use App\Traits\Version;
+
 
 
 /**

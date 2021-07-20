@@ -6,8 +6,6 @@ use App\Models\AflLicenses;
 use App\Models\AflApiKeys;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Traits\Settings;
-use App\Traits\Version;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use App\Http\Requests\LicenseRequest;
@@ -539,7 +537,7 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
  */
 public function deleteLicense(LicenseRequest $request)
     {
-        
+
     $api_error_detected=0;
     $api_action_success=0;
     $removed_records=0;
