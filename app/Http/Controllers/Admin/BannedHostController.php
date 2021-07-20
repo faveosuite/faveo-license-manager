@@ -191,6 +191,22 @@ else{
 public function deleteBannedHost(Request $request)
     {
 
+        $api_action_success=0;
+        $api_error_detected=0;
+        
+      $api_key_secret = $request->get('api_key_secret');
+      $removed_records=0;
+      $banned_host_id = $request->get('banned_host_id');
+    
+        if (null!==(request()->server('REMOTE_ADDR'))) 
+        {
+             $ip_address=request()->server('REMOTE_ADDR');
+             } 
+             else {
+
+                 $ip_address=$request->ip();
+
+                 }
 
       if(!empty($api_key_secret))
        {
@@ -216,8 +232,7 @@ public function deleteBannedHost(Request $request)
                     }
           }
         }
-    $removed_records=0;
-    $banned_host_id = $request->get('banned_host_id');
+    
     if (aflValidateIntegerValue($banned_host_id))
         {
 

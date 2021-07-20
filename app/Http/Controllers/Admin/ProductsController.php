@@ -182,8 +182,22 @@ public function productAdd(ProductRequest $request)
     //delete product
 public function deleteProduct(ProductRequest $request)
     {
+    $api_error_detected=0;
+    $api_action_success=0;
     $removed_records=0;
     $product_id = $request->get('product_id');
+    $api_key_secret = $request->get('api_key_secret');
+    
+        if (null!==(request()->server('REMOTE_ADDR'))) 
+        {
+             $ip_address=request()->server('REMOTE_ADDR');
+             } 
+             else {
+
+                 $ip_address=$request->ip();
+
+                 }
+
       if(!empty($api_key_secret))
        {
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
@@ -233,6 +247,7 @@ public function deleteProduct(ProductRequest $request)
         }
     return successResponse(Lang::get('lang.delete'),$removed_records,200);
 }
+
     }
 
         /* public function edit($product_id)
