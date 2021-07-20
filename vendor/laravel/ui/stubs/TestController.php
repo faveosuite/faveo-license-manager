@@ -30,7 +30,7 @@ class TestController extends Controller
     {
         $url =  $request->get('url');
         $api_key_secret = $request->get('api_key_secret');
-        $addProduct = $this->postCurl($url."admin/products/add", "api_key_secret=$api_key_secret&api_function=products_add&product_title=$product_name&product_sku=$product_sku&product_status=1");
+        $addProduct = $this->postCurl($url."api/admin/products/add", "api_key_secret=$api_key_secret&api_function=products_add&product_title=$product_name&product_sku=$product_sku&product_status=1");
         dd($addProduct);
 
     }
