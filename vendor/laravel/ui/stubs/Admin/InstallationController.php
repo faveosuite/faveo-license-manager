@@ -136,8 +136,12 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
  */
 public function deleteInstallation(InstallationRequest $request)
     {
+        
+    $api_action_success=0;
+    $api_error_detected=0;
     $removed_records=0;
     $installation_id = $request->get('installation_id');
+    $api_key_secret= $request->get('api_key_secret');
 
       if(!empty($api_key_secret))
        {

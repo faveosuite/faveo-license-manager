@@ -161,8 +161,11 @@ class ClientsController extends Controller
     */
     public function deleteClient(Request $request)
     {
+    $api_action_success=0;
+    $api_error_detected=0;
     $client_id = $request->get('client_id');
     $removed_records=0;  
+    $api_key_secret= $request->get('api_key_secret');
     if(!empty($api_key_secret))
        {
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
