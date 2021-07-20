@@ -539,8 +539,12 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
  */
 public function deleteLicense(LicenseRequest $request)
     {
+        
+    $api_error_detected=0;
+    $api_action_success=0;
     $removed_records=0;
     $license_id = $request->get('license_id');
+    $api_key_secret=$request->get('api_key_secret');
       if(!empty($api_key_secret))
        {
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
