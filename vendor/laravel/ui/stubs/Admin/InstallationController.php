@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Admin;
 use App\Models\AflInstallations;
 use App\Models\AflApiKeys;
-
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Traits\Settings;
@@ -122,8 +121,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
                 }
                 else{
                     return errorResponse(Lang::get('lang.error'),400);
-                }
-    
+                }  
     }
 }
 
@@ -136,7 +134,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
  */
 public function deleteInstallation(InstallationRequest $request)
     {
-        
+
     $api_action_success=0;
     $api_error_detected=0;
     $removed_records=0;
@@ -169,9 +167,7 @@ public function deleteInstallation(InstallationRequest $request)
         }
     if (aflValidateIntegerValue($installation_id))
         {
-        $removed_records+=AflInstallations::where('installation_id',$installation_id)->delete();
-        
-        //doMysqlQuery("DELETE FROM apl_installations WHERE installation_id=?", array($installation_id), array("i"));  
+        $removed_records+=AflInstallations::where('installation_id',$installation_id)->delete();  
         }
 
     return successResponse(Lang::get('lang.delete'),$removed_records,200);
