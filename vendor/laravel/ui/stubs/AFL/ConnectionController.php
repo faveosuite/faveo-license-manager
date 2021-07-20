@@ -5,8 +5,6 @@ namespace App\Http\Controllers\AFL;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\AflSettings;
-use App\Traits\Settings;
-use App\Traits\Version;
 use App\Models\AflProducts;
 use Illuminate\Support\Facades\Lang;
 
