@@ -25,9 +25,6 @@ use App\Traits\Version;
  */
 class ClientsController extends Controller
 {
-
-//use Settings,Version;
-
     
     /**
      * Stores newly added clients into the database

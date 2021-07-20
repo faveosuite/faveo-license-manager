@@ -31,13 +31,13 @@ class LicenseRequest extends FormRequest
                     'license_code' => 'string',
                     'product_id' => 'numeric',
                     'license_order_number' => 'numeric',
-                    'license_ip' => 'string',
-                    'license_domain'=> 'string',
+                    /*'license_ip' => 'string',
+                    'license_domain'=> 'string',*/
                     'license_require_domain' => 'boolean',
                     'license_limit' => 'numeric',
                     'license_date' => 'date',
                     'license_cancel_date' => 'date',
-                    'license_expire_date' => 'date',
+                    /*'license_expire_date' => 'string',*/
                     'license_expire_email_date' => 'date',
                     'license_updates_date' => 'date',
                     'license_updates_email_date' =>'date',

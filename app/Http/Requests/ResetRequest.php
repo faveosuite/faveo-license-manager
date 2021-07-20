@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-namespace App\Models;
+use App\http\Models\AflAdmins;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ResetRequest extends FormRequest
@@ -25,7 +25,7 @@ class ResetRequest extends FormRequest
     public function rules()
     {
         return [
-         
+
             'token'=>'required',
             'password'=>'required',
             'password_confirm'=>'required|same:password'

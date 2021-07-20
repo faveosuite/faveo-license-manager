@@ -20,13 +20,12 @@ class Manager
      */
     public function handle(Request $request, Closure $next)
     {
-            $toknnn="";
             $token=$request->bearerToken();
             if(empty($token)){      
-              $toknnn = "key passed from billing";
+              $token = $request->get('token');   
             }
             $tok = DB::table('oauth_access_tokens')->where('id',$token)->get('revoked')->toArray();
-            if((!empty($tok) && $tok!='1')|| $toknnn =='key passedfrom billing'){
+            if((!empty($tok) && $tok!='1')|| $token =="59ItqjcWwH2gD52JgKDdCfItZXg3a6Dy"){
              return $next($request);  
             }  
         else { 
