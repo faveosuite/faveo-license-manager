@@ -19,29 +19,29 @@ use App\Traits\Version;
 
 
 /**
- * Consist of functionalities for the client page in Auto Faveo licenser 
+ * Consist of functionalities for the client page in Auto Faveo licenser
  * Class ClientsController
  * @package App\Http\Controllers\Admin
  */
 class ClientsController extends Controller
 {
-    
+
     /**
      * Stores newly added clients into the database
      * @param ClientRequest $request
      * @param $api_key_secret
      * @param $client_fname
-     * @param $client_lname 
+     * @param $client_lname
      * @param $client_email
      * @param $client_status
-     * @return  response that a new client is added with array of details 
+     * @return  response that a new client is added with array of details
     */
 
   public function clientAdd(ClientRequest $request)
       {
-        
+
         $api_action_success=0;
-        $api_error_detected=0;  
+        $api_error_detected=0;
         $added_records=0;
         $api_key_secret = $request->get('api_key_secret');
         $client_fname = $request->get('client_fname');
@@ -49,10 +49,10 @@ class ClientsController extends Controller
         $client_email = $request->get('client_email');
         $client_status = $request->get('client_status');
 
-        if (null!==(request()->server('REMOTE_ADDR'))) 
+        if (null!==(request()->server('REMOTE_ADDR')))
         {
              $ip_address=request()->server('REMOTE_ADDR');
-             } 
+             }
              else {
                  $ip_address=$request->ip();
                  }
@@ -67,18 +67,21 @@ class ClientsController extends Controller
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
                 if (!$api_ips->contains($ip_address))
-                   {   
+                   {
                     $api_error_detected=1;
                     return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
                     }
+          }
+          else{
+              $api_action_success=1;
           }
         }
 
@@ -102,14 +105,14 @@ class ClientsController extends Controller
                     //doMysqlQuery("INSERT IGNORE INTO apl_clients (client_fname, client_lname, client_email, client_active_date, client_cancel_date, client_status) VALUES (?, ?, ?, ?, ?, ?)", array($client_fname, $client_lname, $client_email, $client_active_date, $client_cancel_date, $client_status), array("s", "s", "s", "s", "s", "i"));
                     try{
                         $add=DB::table('afl_clients')->insertOrIgnore([
-                            'client_fname'=> $client_fname, 
-                            'client_lname' => $client_lname, 
-                            'client_email' => $client_email, 
-                            'client_active_date' => $client_active_date, 
-                            'client_cancel_date' => $client_cancel_date, 
+                            'client_fname'=> $client_fname,
+                            'client_lname' => $client_lname,
+                            'client_email' => $client_email,
+                            'client_active_date' => $client_active_date,
+                            'client_cancel_date' => $client_cancel_date,
                             'client_status' => $client_status
                         ]);
-                        
+
                         $added_records += 1;
                     }
                     catch(Exception $e){
@@ -130,16 +133,16 @@ class ClientsController extends Controller
 
                     return errorResponse(Lang::get('lang.invalid'),400);
                 }
-   
-    }
 
     }
 
-  
+    }
+
+
 
     /**
      * shows newly added clients from the database
-     * 
+     *
      *
      * @return response that a client is deleted
     */
@@ -161,8 +164,15 @@ class ClientsController extends Controller
     $api_action_success=0;
     $api_error_detected=0;
     $client_id = $request->get('client_id');
-    $removed_records=0;  
+    $removed_records=0;
     $api_key_secret= $request->get('api_key_secret');
+        if (null!==(request()->server('REMOTE_ADDR')))
+        {
+            $ip_address=request()->server('REMOTE_ADDR');
+        }
+        else {
+            $ip_address=$request->ip();
+        }
     if(!empty($api_key_secret))
        {
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
@@ -173,12 +183,12 @@ class ClientsController extends Controller
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
                 if (!$api_ips->contains($ip_address))
-                   {   
+                   {
                     $api_error_detected=1;
                     return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
@@ -226,18 +236,18 @@ class ClientsController extends Controller
 
     /**
      * Updates the clients from the database based on the id
-     * 
+     *
      * @param Request $request
      * @param $client_id
      * @param $api_key_secret
      * @param $client_fname
-     * @param $client_lname 
+     * @param $client_lname
      * @param $client_email
      * @param $client_status
-     * @return response that a client details is edited 
+     * @return response that a client details is edited
     */
 public function clientUpdate(Request $request)
-{            
+{
 
   $api_key_secret = $request->get('api_key_secret');
   $client_id = $request->get('client_id');
@@ -254,12 +264,12 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
 
 
         $api_action_success=0;
-        $api_error_detected=0;  
+        $api_error_detected=0;
         $updated_records=0;
-        if (null!==(request()->server('REMOTE_ADDR'))) 
+        if (null!==(request()->server('REMOTE_ADDR')))
         {
              $ip_address=request()->server('REMOTE_ADDR');
-             } 
+             }
              else {
                  $ip_address=$request->ip();
                  }
@@ -274,18 +284,21 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
                 if (!$api_ips->contains($ip_address))
-                   {   
+                   {
                     $api_error_detected=1;
                     return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
                     else{
                         $api_action_success=1;
                     }
+          }
+          else{
+              $api_action_success=1;
           }
         }
 
@@ -302,11 +315,11 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
                         $client_cancel_date=$rows_array[0]['client_cancel_date']; //use old client_cancel_date if client was deactivated previously and its status wasn't changed now
                         if (empty($client_cancel_date) || !aflVerifyDateTime($client_cancel_date, "Y-m-d")) //set cancel date to now only if no previous cancel date set
                             {
-        
+
                             $client_cancel_date=date("Y-m-d");
                             }
                         }
-                  
+
                     $updated_records+=DB::table('afl_clients')->where('client_id',$client_id)
                                          ->update([
                                          'client_fname' => $client_fname,
@@ -315,7 +328,7 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
                                          'client_cancel_date' =>$client_cancel_date,
                                          'client_status' => $client_status
                                      ]);
-                    
+
                      //doMysqlQuery("UPDATE apl_clients SET client_fname=?, client_lname=?, client_email=?, client_cancel_date=?, client_status=? WHERE client_id=?", array($client_fname, $client_lname, $client_email, $client_cancel_date, $client_status, $client_id), array("s", "s", "s", "s", "i", "i"));
                     if (!aflValidateIntegerValue($updated_records))
                         {

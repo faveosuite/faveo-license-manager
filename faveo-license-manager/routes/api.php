@@ -93,7 +93,7 @@ Route::post('installations/edit',[InstallationController::class,'installationUpd
 //BANNED HOSTS
 Route::post('bannedHosts/add',[BannedHostController::class,'bannedHostAdd']);
 Route::post('bannedHosts/delete',[BannedHostController::class,'deleteBannedHost']);
-Route::post('bannedHosts/update',[BannedHostController::class,'bannedHostUpdate']);
+Route::post('bannedHosts/edit',[BannedHostController::class,'bannedHostUpdate']);
 
 
 //SETTINGS

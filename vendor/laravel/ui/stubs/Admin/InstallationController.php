@@ -69,7 +69,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
@@ -82,6 +82,10 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
                         $api_action_success=1;
 
                     }
+          }
+          else{
+              $api_action_success=1;
+
           }
         }
 
@@ -140,7 +144,13 @@ public function deleteInstallation(Request $request)
     $removed_records=0;
     $installation_id = $request->get('installation_id');
     $api_key_secret= $request->get('api_key_secret');
-
+        if (null!==(request()->server('REMOTE_ADDR')))
+        {
+            $ip_address=request()->server('REMOTE_ADDR');
+        }
+        else {
+            $ip_address=$request->ip();
+        }
       if(!empty($api_key_secret))
        {
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
@@ -151,7 +161,7 @@ public function deleteInstallation(Request $request)
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {

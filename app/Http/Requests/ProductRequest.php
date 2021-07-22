@@ -19,7 +19,7 @@ class ProductRequest extends FormRequest
     }
 
     /**
-     * Get the validation rules that apply to the request.      
+     * Get the validation rules that apply to the request.
      *
      * @return array
      */
@@ -27,7 +27,6 @@ class ProductRequest extends FormRequest
     {
         return [
             'product_title'=> 'string|unique:afl_products,product_title',
-            'product_description' => 'string',
             'product_sku' => 'string|unique:afl_products,product_sku',
             'product_url_homepage'=> 'string',
             'product_url_download'=> 'string',
