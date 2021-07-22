@@ -38,11 +38,11 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
     $date_to="";
     }
         $api_action_success=0;
-        $api_error_detected=0;  
-        if (null!==(request()->server('REMOTE_ADDR'))) 
+        $api_error_detected=0;
+        if (null!==(request()->server('REMOTE_ADDR')))
         {
              $ip_address=request()->server('REMOTE_ADDR');
-             } 
+             }
              else {
                  $ip_address=$request->ip();
                  }
@@ -57,12 +57,12 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
                 if (!$api_ips->contains($ip_address))
-                   {   
+                   {
                     $api_error_detected=1;
                     return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
@@ -70,9 +70,12 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
                         $api_action_success=1;
                     }
           }
+          else{
+              $api_action_success=1;
+          }
         }
 
-        
+
     if ($api_action_success==1) //API check OK, continue with actual request
         {
         if (!in_array($search_type, $SUPPORTED_API_SEARCHES_ARRAY))
@@ -219,7 +222,7 @@ public function returnBannedHostsArray($date_from="", $date_to="", $search_keywo
                     ->orderBy('banned_host_date','desc')
                     ->orderBy('banned_host_id','desc')
                     ->limit($results_limit)->get()->toArray();
-                   
+
         }
     else
         {
@@ -249,7 +252,7 @@ public function returnBannedHostsArray($date_from="", $date_to="", $search_keywo
     }
 
 
-    
+
 //return callbacks
 public function returnCallbacksArray($product_id, $date_from="", $date_to="", $search_keyword="", $results_limit=0)
     {
@@ -327,13 +330,13 @@ public function returnClientsArray($search_keyword="", $results_limit=0)
                                   DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
                                   DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
 
-                                  
+
                                   )->orWhere('client_fname','like',$search_keyword)
                                    ->orWhere('client_lname','like',$search_keyword)
                                    ->orWhere('client_email','like',$search_keyword)
                                    ->orderBy('client_fname')->orderBy('client_lname')->limit($results_limit)->get()->toArray();
-    
-       
+
+
         }
     else
         {
@@ -342,7 +345,7 @@ public function returnClientsArray($search_keyword="", $results_limit=0)
                                   DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
                                   DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
 
-                                  
+
                                   )->orWhere('client_fname','like',$search_keyword)
                                    ->orWhere('client_lname','like',$search_keyword)
                                    ->orWhere('client_email','like',$search_keyword)
@@ -428,7 +431,7 @@ public function returnInstallationsArray($product_id, $date_from="", $date_to=""
 public function returnLicensesArray($product_id, $search_keyword="", $results_limit=0)
     {
     $root_array=array();
-        
+
         if (!empty($search_keyword) && aflValidateIntegerValue($results_limit))
         {
         $search_keyword="%$search_keyword%"; //add wildcards
@@ -445,7 +448,7 @@ public function returnLicensesArray($product_id, $search_keyword="", $results_li
                     ->orderBy('license_date','desc')
                     ->orderBy('license_id','desc')
                     ->limit($results_limit)->get()->toArray();
-        
+
         }
     else
         {
@@ -459,7 +462,7 @@ public function returnLicensesArray($product_id, $search_keyword="", $results_li
                         ->orderBy('license_date','desc')
                         ->orderBy('license_id','desc')
                         ->get()->toArray();
-       
+
         }
     foreach ($rows_array as $row)
         {
@@ -492,7 +495,7 @@ public function returnLicensesArray($product_id, $search_keyword="", $results_li
             {
             $item_array['license_support_date']="";
             }
-     
+
         //$item_array['client_email']= null;
         $item_array['client_formatted']=formatClient($item_array['license_code'], $item_array['client_email']);
         $item_array['latest_callback_date_time']=removeSeconds($item_array['latest_callback_date_time']);
@@ -543,7 +546,7 @@ public function returnProductsArray($search_keyword="", $results_limit=0)
                                 )->orWhere('product_title',$search_keyword)->orWhere('product_sku',$search_keyword)
 
                                 ->orderBy('product_title')->get()->toArray();
-       
+
         }
     foreach ($rows_array as $row)
         {
@@ -561,7 +564,7 @@ public function returnProductsArray($search_keyword="", $results_limit=0)
     return $root_array;
     }
 
-    
+
 //return license reports
 public function returnLicenseReportsArray($product_id, $date_from="", $date_to="", $search_keyword="", $results_limit=0)
     {
@@ -594,7 +597,7 @@ public function returnLicenseReportsArray($product_id, $date_from="", $date_to="
                      ->orderBy('report_date_time','desc')
                      ->orderBy('report_id','desc')
                      ->limit($results_limit)->get()->toArray();
-        
+
         }
     else
         {
@@ -606,7 +609,7 @@ public function returnLicenseReportsArray($product_id, $date_from="", $date_to="
                    ->where('afl_reports.report_date_time','<=', $date_to )
                    ->orderBy('report_date_time', 'desc')
                    ->orderBy('report_id','desc')->get()->toArray();
-      
+
         }
     foreach ($rows_array as $row)
         {
@@ -620,7 +623,7 @@ public function returnLicenseReportsArray($product_id, $date_from="", $date_to="
         $item_array['report_status_formatted']=returnFormattedReportStatusArray($item_array['report_status']);
 
         $root_array[]=$item_array;
-        }   
+        }
 
     return $root_array;
     }

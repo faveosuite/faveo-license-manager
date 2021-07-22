@@ -42,7 +42,6 @@ class ProductsController extends Controller
      * @return response that a product details is added with a success response
     */
 public function productAdd(ProductRequest $request)
-
      {
         $api_action_success=0;
         $api_error_detected=0;
@@ -79,7 +78,7 @@ public function productAdd(ProductRequest $request)
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
@@ -91,6 +90,9 @@ public function productAdd(ProductRequest $request)
                     else{
                         $api_action_success=1;
                     }
+          }
+          else{
+              $api_action_success=1;
           }
         }
 
@@ -151,7 +153,7 @@ public function productAdd(ProductRequest $request)
                 }
                 else
                 {
-                    return successResponse(Lang::get('lang.invalid'),400);
+                    return errorResponse(Lang::get('lang.invalid'),400);
                 }
     }
 
@@ -207,7 +209,7 @@ public function deleteProduct(Request $request)
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
@@ -219,6 +221,9 @@ public function deleteProduct(Request $request)
                     else{
                         $api_action_success=1;
                     }
+          }
+          else{
+              $api_action_success=1;
           }
         }
 
@@ -316,7 +321,7 @@ Public function productUpdate(Request $request){
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
@@ -328,6 +333,9 @@ Public function productUpdate(Request $request){
                     else{
                         $api_action_success=1;
                     }
+          }
+          else{
+              $api_action_success=1;
           }
         }
          if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
