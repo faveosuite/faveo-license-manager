@@ -25,7 +25,6 @@ class BannedHostRequest extends FormRequest
     {
         return [
             'banned_host_ip' => 'string|unique:afl_banned_hosts,banned_host_ip',
-            'banned_host_comments' => 'nullable|string',
             'banned_host_date' => 'date',
             'banned_host_blocks' => 'numeric',
             'banned_host_last_block_date' => 'date'

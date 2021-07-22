@@ -72,6 +72,7 @@ public function licenseAdd(LicenseRequest $request){
        if(!empty($api_key_secret))
        {
         $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+
         if(empty($api))
         {
             return errorResponse(Lang::get('lang.invalid_api_key'),404);
@@ -79,7 +80,7 @@ public function licenseAdd(LicenseRequest $request){
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
@@ -91,6 +92,9 @@ public function licenseAdd(LicenseRequest $request){
                     else{
                         $api_action_success=1;
                     }
+          }
+          else{
+              $api_action_success=1;
           }
         }
     if (aflValidateIntegerValue($product_id) && aflValidateIntegerValue($license_require_domain, 0, 1) && aflValidateIntegerValue($license_status, 0, 2))
@@ -332,7 +336,7 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
@@ -556,7 +560,7 @@ public function deleteLicense(Request $request)
         }
       if(!empty($api_key_secret))
        {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get()->toArray();
         if(empty($api))
         {
             return errorResponse(Lang::get('lang.invalid_api_key'),404);
@@ -564,7 +568,7 @@ public function deleteLicense(Request $request)
         else
         {
         $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->pluck('api_key_ip');
+        $api_ips= $api_ip->value('api_key_ip');
 
           if(!empty($api_ips))
           {
