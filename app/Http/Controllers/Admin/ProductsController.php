@@ -287,13 +287,13 @@ Public function productUpdate(Request $request){
         $product_url_download= $request->get('product_url_download'); 
         $product_version= $request->get('product_version'); 
         $product_envato_id= $request->get('product_envato_id');
+        
 
-
-if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_array=DB::table('afl_products')->where('product_id','=','?')->setBindings(['product_id'=>$product_id])->get())) //invalid record
-    {
-     errorResponse(Lang::get('lang.invalid'));
-    exit();
-    }
+        if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_array=AflProducts::where('product_id',$product_id)->get()->toArray())) //invalid record
+      {
+          errorResponse(Lang::get('lang.invalid'),404);
+          exit();
+      }
 
         $api_action_success=0;
         $api_error_detected=0; 
@@ -350,7 +350,7 @@ if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_a
                         {
                         $product_envato_id=null;
                         }
-
+                    
                     $updated_records+=DB::table('afl_products')
                                       ->where('product_id',$product_id)
                                       ->update([
@@ -363,11 +363,12 @@ if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_a
                                           'product_envato_id'=> $product_envato_id, 
                                           'product_status'=> $product_status
                                       ]);
-                                      //doMysqlQuery("UPDATE apl_products SET product_title=?, product_description=?, product_sku=?, product_url_homepage=?, product_url_download=?, product_version=?, product_envato_id=?, product_status=? WHERE product_id=?", array($product_title, $product_description, $product_sku, $product_url_homepage, $product_url_download, $product_version, $product_envato_id, $product_status, $product_id), array("s", "s", "s", "s", "s", "s", "i", "i", "i"));
-                    
+                                    
+                  
                     if (!aflValidateIntegerValue($updated_records))
                         {
                         $api_error_detected=1;
+
                         return errorResponse(Lang::get('lang.error'),400);
                         }
                     else

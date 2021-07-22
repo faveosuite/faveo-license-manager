@@ -37,7 +37,6 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
     {
     $date_to="";
     }
-
         $api_action_success=0;
         $api_error_detected=0;  
         if (null!==(request()->server('REMOTE_ADDR'))) 
@@ -146,22 +145,24 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
             {
             $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
             $page_message=$rows_array;
-            return successResponse(Lang::get('lang.search_complete'),$page_message,200);
+            //return successResponse(Lang::get('lang.search_complete'),$page_message,200);
+            $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>1, "error_detected"=>0, "page_message"=>$page_message); //make array with response data
+            return json_encode($api_response_array);
             }
         else //display error message
             {
-            
-              return errorResponse(Lang::get('lang.search_error'),400);
+              $page_message = "There was an error searching for the particular detail regarding id";
+              $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>0, "error_detected"=>1, "page_message"=>$page_message); //make array with response data
+              return json_encode($api_response_array);
 
             }
         }
         else
         {
-            return errorResponse(Lang::get('lang.invalid'),400);
+            $page_message = "Invalid details has been looked for here";
+            $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>1, "error_detected"=>0, "page_message"=>$page_message); //make array with response data
+            return json_encode($api_response_array);
         }
-            
-        
-   
     }
 
 }
@@ -322,25 +323,30 @@ public function returnClientsArray($search_keyword="", $results_limit=0)
 
 
         $rows_array = DB::table('afl_clients')
-                      ->join('afl_licenses','afl_clients.client_id','=','afl_licenses.client_id')
-                      ->join('afl_installations','afl_clients.client_id','=','afl_installations.client_id')
-                      ->select('afl_clients.*',DB::raw("count(afl_licenses.license_id) AS total_licenses"), DB::raw("count(afl_installations.installation_id) AS total_installations"))
-                      ->orWhere('client_fname','like',$search_keyword)
-                      ->orWhere('client_lname','like',$search_keyword)
-                      ->orWhere('client_email','like',$search_keyword)
-                      ->limit($results_limit)->get()->toArray();
+                         ->select('afl_clients.*',
+                                  DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
+                                  DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
+
+                                  
+                                  )->orWhere('client_fname','like',$search_keyword)
+                                   ->orWhere('client_lname','like',$search_keyword)
+                                   ->orWhere('client_email','like',$search_keyword)
+                                   ->orderBy('client_fname')->orderBy('client_lname')->limit($results_limit)->get()->toArray();
     
        
         }
     else
         {
         $rows_array=DB::table('afl_clients')
-                      ->join('afl_licenses','afl_clients.client_id','=','afl_licenses.client_id')
-                      ->join('afl_installations','afl_clients.client_id','=','afl_installations.client_id')
-                      ->select('afl_clients.*', DB::raw("count(afl_licenses.license_id) AS total_licenses"), DB::raw("count(afl_installations.installation_id) AS total_installations"))
-                      ->orderBy('client_fname')
-                      ->orderBy('client_lname')
-                      ->get()->toArray();
+                         ->select('afl_clients.*',
+                                  DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
+                                  DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
+
+                                  
+                                  )->orWhere('client_fname','like',$search_keyword)
+                                   ->orWhere('client_lname','like',$search_keyword)
+                                   ->orWhere('client_email','like',$search_keyword)
+                                   ->orderBy('client_fname')->orderBy('client_lname')->get()->toArray();
         }
     foreach ($rows_array as $row)
         {
@@ -497,7 +503,7 @@ public function returnLicensesArray($product_id, $search_keyword="", $results_li
     }
 
 
-    //return products
+//return products
 public function returnProductsArray($search_keyword="", $results_limit=0)
     {
     $root_array=array();
@@ -507,41 +513,36 @@ public function returnProductsArray($search_keyword="", $results_limit=0)
         $search_keyword="%$search_keyword%"; //add wildcards
 
         $rows_array=DB::table('afl_products')
-                    ->join('afl_licenses' ,'afl_products.product_id','=','afl_licenses.product_id')
-                    ->join('afl_installations','afl_products.product_id','=','afl_installations.product_id')
-                    ->join('afl_callbacks','afl_products.product_id','=','afl_callbacks.product_id')
-                    ->join('afl_reports','afl_products.product_id','=','afl_reports.product_id')
-                    ->select('afl_products.*',
-                             DB::raw('count(afl_licenses.license_id) AS  total_licenses'),
-                             DB::raw('count(afl_installations.installation_id) AS total_installations'),
-                             DB::raw('count(afl_callbacks.callback_id) AS total_callbacks'),
-                             DB::raw('count(afl_reports.report_id) AS total_reports'),
-                             DB::raw("(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, afl_licenses.license_id DESC LIMIT 1) AS latest_license_date"),
-                             DB::raw("(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date"),
-                             DB::raw("(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time"),
-                             DB::raw("(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time")
-                    )->orWhere('product_title','like',$search_keyword)
-                            ->orWhere('product_sku','like',$search_keyword)
-                            ->orderBy('product_title')
-                            ->limit($results_limit)->get()->toArray();
+                       ->select('afl_products.*',
+                                DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id) AS total_licenses'),
+                                DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id) AS total_installations'),
+                                DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id) AS total_callbacks'),
+                                DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
+                                DB::raw('(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, afl_licenses.license_id DESC LIMIT 1) AS latest_license_date'),
+                                DB::raw('(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
+                                DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+                                DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
+
+                                )->orWhere('product_title','like',$search_keyword)->orWhere('product_sku','like',$search_keyword)
+
+                                ->orderBy('product_title')->limit($results_limit)->get()->toArray();
         }
     else
         {
-        $rows_array = DB::table('afl_products')
-                      ->join('afl_licenses', 'afl_products.product_id','=','afl_licenses.product_id')
-                      ->join('afl_installations', 'afl_products.product_id','=','afl_installations.product_id')
-                      ->join('afl_callbacks','afl_products.product_id','=','afl_callbacks.product_id')
-                      ->join('afl_reports','afl_products.product_id','=','afl_reports.product_id')
-                      ->select('afl_products.*',
-                             DB::raw('count(afl_licenses.license_id) AS  total_licenses'),
-                             DB::raw('count(afl_installations.installation_id) AS total_installations'),
-                             DB::raw('count(afl_callbacks.callback_id) AS total_callbacks'),
-                             DB::raw('count(afl_reports.report_id) AS total_reports'),
-                             DB::raw("(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, apf_licenses.license_id DESC LIMIT 1) AS latest_license_date"),
-                             DB::raw("(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date"),
-                             DB::raw("(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time"),
-                             DB::raw("(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time")
-                            )->orderBy('product_title')->get()->toArray();
+        $rows_array =DB::table('afl_products')
+                       ->select('afl_products.*',
+                                DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id) AS total_licenses'),
+                                DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id) AS total_installations'),
+                                DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id) AS total_callbacks'),
+                                DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
+                                DB::raw('(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, afl_licenses.license_id DESC LIMIT 1) AS latest_license_date'),
+                                DB::raw('(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
+                                DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+                                DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
+
+                                )->orWhere('product_title',$search_keyword)->orWhere('product_sku',$search_keyword)
+
+                                ->orderBy('product_title')->get()->toArray();
        
         }
     foreach ($rows_array as $row)
@@ -619,7 +620,7 @@ public function returnLicenseReportsArray($product_id, $date_from="", $date_to="
         $item_array['report_status_formatted']=returnFormattedReportStatusArray($item_array['report_status']);
 
         $root_array[]=$item_array;
-        }
+        }   
 
     return $root_array;
     }

@@ -15,8 +15,8 @@ class CreateAflProductsTable extends Migration
     {
         Schema::create('afl_products', function (Blueprint $table) {
             //$table->primary('product_id');
-            $table->increments('product_id')->unique();
-            $table->string('product_title', 125)->unique();
+            $table->increments('product_id');
+            $table->string('product_title', 125);
             $table->string('product_description', 250)->nullable();
             $table->string('product_sku', 125)->unique();
             $table->string('product_url_homepage', 125)->nullable();

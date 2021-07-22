@@ -55,7 +55,7 @@ Route::post('/ConnectionTest',[ConnectionController::class,'connection']);
 Route::post('/licenseinstall',[LicenseInstallController::class,'licenseInstall']);
 Route::post('/licenseverify',[LicenseVerifyController::class,'licenseVerify']);
 Route::post('/licensescheme',[LicenseSchemeController::class,'licenseScheme']);
-Route::post('/license/{product_name}/{product_sku}',[TestController::class,'addNewProduct']);
+
 
 
 Route::post('API',[ApiController::class,'api']);
@@ -68,31 +68,31 @@ Route::post('/logout/{user_id}',[AuthController::class,'logout']);
 //PRODUCTS
 Route::post('products/add',[ProductsController::class,'productAdd']);
 Route::get('viewproducts',[ProductsController::class,'show']);
-Route::Delete('products/delete',[ProductsController::class,'deleteProduct']);
+Route::post('products/delete',[ProductsController::class,'deleteProduct']);
 Route::post('products/edit',[ProductsController::class,'productUpdate']);
-   
+
 //CLIENTS
 Route::post('clients/add',[ClientsController::class,'clientAdd']);
 Route::get('viewClients',[ClientsController::class,'show']);
-Route::Delete('clients/delete',[ClientsController::class,'deleteClient']);
+Route::post('clients/delete',[ClientsController::class,'deleteClient']);
 Route::post('clients/edit',[ClientsController::class,'clientUpdate']);
 
 
 //LICENSES
 Route::post('license/add',[LicenseController::class,'licenseAdd']);
 Route::get('viewLicenses',[LicenseController::class,'show']);
-Route::Delete('license/delete',[LicenseController::class,'deleteLicense']);
+Route::post('license/delete',[LicenseController::class,'deleteLicense']);
 Route::post('license/edit',[LicenseController::class,'licenseUpdate']);
 
 
 //INSTALLATIONS
-Route::Delete('installations/delete',[InstallationController::class,'deleteInstallation']);
+Route::post('installations/delete',[InstallationController::class,'deleteInstallation']);
 Route::post('installations/edit',[InstallationController::class,'installationUpdate']);
 
 
 //BANNED HOSTS
 Route::post('bannedHosts/add',[BannedHostController::class,'bannedHostAdd']);
-Route::Delete('bannedHosts/delete',[BannedHostController::class,'deleteBannedHost']);
+Route::post('bannedHosts/delete',[BannedHostController::class,'deleteBannedHost']);
 Route::post('bannedHosts/update',[BannedHostController::class,'bannedHostUpdate']);
 
 
@@ -117,14 +117,13 @@ Route::post('editprofile/{admin_id}',[EditProfilesController::class,'editProfile
 Route::post('config',[ConfigGenerateController::class,'configGenerate']);
 
 //SEARCH
-Route::get('search',[SearchController::class,'search']);
+Route::post('search',[SearchController::class,'search']);
 
 
 //API KEYS
 Route::post('addnewapi',[ApiKeysController::class,'apiKeyAdd']);
 Route::post('editnewapi/{api_key_id}',[ApiKeysController::class,'apiKeyUpdate']);
 Route::Delete('deleteapi/{api_key_id}',[ApiKeysController::class,'apiKeyDelete']);
-
 });
 
 /*Route::middleware('auth:api')->group(function (){

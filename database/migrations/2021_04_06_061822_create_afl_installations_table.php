@@ -17,7 +17,7 @@ class CreateAflInstallationsTable extends Migration
             //$table->primary('installation_id');
             $table->increments('installation_id')->unique();
 
-            $table->integer('product_id')->unique()
+            $table->integer('product_id')
                   ->constrained('afl_products','product_id')
                   ->onDelete('cascade');
 
