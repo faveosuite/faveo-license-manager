@@ -18,7 +18,7 @@ class LicenseVerifyController extends Controller
     /**
      * This is used by script on user's machine to check if license is active and add callback details to Auto PHP Licenser database during license check of protected script
      * api format for example:  http://127.0.0.1:8000/api/licenseverify?product_id=1&root_url=https://www.license.com&client_email=sandeshm40450@gamil.com&license_code=vvbdjvsbjbdvb&installation_hash=aa33da99a04490b20b01c40cced3d2981ca6e29e6fd30ccfd63961a83e798856&license_signature=e930f7623d746b7f81ad4b61af3b7ad1390358529799342eaa1736fa56696dba
-     * 
+     *
      * @return success response with a message
      * */
 public function licenseVerify(Request $request)
@@ -38,31 +38,31 @@ $removed_records=0;
     $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
 //get IP, refer and user agent
 
-       if (null!==(request()->server('REMOTE_ADDR'))) 
+       if (null!==(request()->server('REMOTE_ADDR')))
          {
          $ip_address=request()->server('REMOTE_ADDR');
-         } 
+         }
          else {
            $ip_address=$request->get('ip_address');
            }
-       
-       if (null!==(request()->server('HTTP_REFERER'))) 
+
+       if (null!==(request()->server('HTTP_REFERER')))
          {
          $refer=request()->server('HTTP_REFERER');
-         } 
-         else 
+         }
+         else
           {
            $refer=$request->get('refer');
            }
-         
-       if (null!==(request()->server('HTTP_USER_AGENT'))) 
+
+       if (null!==(request()->server('HTTP_USER_AGENT')))
         {
          $user_agent=request()->server('HTTP_USER_AGENT');
-         } 
-         else 
+         }
+         else
          {
            $user_agent=$request->get('user_agent');
-         
+
          }
 
       // These are the data that needs to be passed to this function inorder to get a response
@@ -87,7 +87,7 @@ $removed_records=0;
 if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPORTED_BROWSERS_ARRAY) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url==$refer && $installation_hash==hash("sha256", $root_url.$client_email.$license_code) && !empty($license_signature) && isValidLicenseRequest($license_code, $client_email)===true)
     {
     $notification_case="";
-    $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1); 
+    $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1);
     //make url without scheme, www. and / at the end because this type of url is stored on server (add / at the end before processing because software stores root url without /)
     $client_formatted=formatClient($license_code, $client_email);
 
@@ -105,7 +105,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
         {
         foreach ($product_array as $row) //fetch product details
             {
-            extract($row);
+            extract((array)$row);
             }
 
         if ($product_status!=1) //product inactive
@@ -139,7 +139,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                 {
                 foreach ($license_array as $row) //fetch license details
                     {
-                    extract($row);
+                    extract((array)$row);
                     }
 
                 if (!verifyScriptSignature($license_signature, $product_id, $root_url, $client_email, $license_code)) //invalid signature
@@ -215,7 +215,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                 $this_installation_owner_array=AflInstallations::where('product_id',$product_id)
                                                                 ->where('installation_ip',$ip_address)
                                                                 ->where('installation_domain',$installation_domain)
-                                                                ->get()->toArray(); 
+                                                                ->get()->toArray();
                                                                 //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND installation_ip=? AND installation_domain=?", array($product_id, $ip_address, $installation_domain), array("i", "s", "s"));
                 if (!empty($this_installation_owner_array)) //installation exists, check whom it belongs to
                     {
@@ -321,8 +321,8 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
      $SMART_REPORTS = AflSettings::Where('license_code',$license_code)
                        ->Where('client_email',$client_email)
                        ->Value('SMART_REPORTS');
-     
-     
+
+
 
     $this->createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $license_code, $ip_address, $installation_domain, $action_success);
     returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
@@ -363,21 +363,21 @@ public function createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $
                     ->where('callback_domain',$callback_domain)
                     ->whereRaw('callback_date_time BETWEEN ? AND ?',["$date_today 00:00:00", "$date_today 23:59:59"])
                     ->where('callback_status',$callback_status)->get()->toArray();
-                
+
         }
     if (empty($rows_array)) //no identical callback found (or SMART_REPORTS disabled)
-        {   
+        {
         DB::table('afl_callbacks')->insertOrIgnore([
             'product_id'=> $product_id,
             'client_id' => $client_id,
             'license_code'=>$license_code,
-            'callback_ip' =>$callback_ip, 
-            'callback_domain' =>$callback_domain, 
-            'callback_date_time'=>$callback_date_time, 
+            'callback_ip' =>$callback_ip,
+            'callback_domain' =>$callback_domain,
+            'callback_date_time'=>$callback_date_time,
             'callback_status'=> $callback_status
         ]);
-       
+
         }
-    
+
     }
 }
