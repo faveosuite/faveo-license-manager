@@ -14,7 +14,7 @@ use App\Http\Requests\ApiRequest;
 
 
 /**
- * Consist of functionalities for the Api keys Generation page in Auto Faveo licenser 
+ * Consist of functionalities for the Api keys Generation page in Auto Faveo licenser
  * Class ApiController
  * @package App\Http\Controllers\Admin
  */
@@ -22,9 +22,9 @@ class ApiKeysController extends Controller
 {
 
       /**
-       * To Add Api keys to the license manager 
+       * To Add Api keys to the license manager
        * @param ApiRequest $request
-       * @return success response if added successfuly 
+       * @return success response if added successfuly
        */
       public function apiKeyAdd(ApiRequest $request)
        {
@@ -47,7 +47,7 @@ class ApiKeysController extends Controller
             {
             $api_key_ips_array=explode(".", str_replace(" ", "", $request->get('api_key_ip')));//remove all space symbols (if any) between IPs
             foreach ($api_key_ips_array as $ip_to_validate)
-                { 
+                {
                 if (!filter_var($ip_to_validate, FILTER_VALIDATE_IP))
                     {
                     $error_detected=1;
@@ -55,7 +55,7 @@ class ApiKeysController extends Controller
                     break;
                     }
                 }
-            } 
+            }
            $api->save();
            return successResponse(Lang::get('lang.'),$api,201);
            }
@@ -66,22 +66,22 @@ class ApiKeysController extends Controller
 }
 
 
-   
+
       /**
-       * To Update Api keys to the license manager 
+       * To Update Api keys to the license manager
        * @param ApiRequest $request
        * @param $api_key_id
-       * @return success response if Updated successfuly 
+       * @return success response if Updated successfuly
        */
    public function apiKeyUpdate(Request $request, $api_key_id)
-  {   
+  {
 
 
        if (!empty($request->get('api_key_ip')))
             {
             $api_key_ips_array=explode(".", str_replace(" ", "", $request->get('api_key_ip')));//remove all space symbols (if any) between IPs
             foreach ($api_key_ips_array as $ip_to_validate)
-                { 
+                {
                 if (!filter_var($ip_to_validate, FILTER_VALIDATE_IP))
                     {
                     $error_detected=1;
@@ -106,21 +106,21 @@ class ApiKeysController extends Controller
                        'api_key_status' => $request->get('api_key_status')
                    ]);
 
-        if(!\aflValidateIntegerValue($updateapi))
+        if(!aflValidateIntegerValue($updateapi))
         {
             return errorResponse(Lang::get('lang.invalid'),400);
-        } 
+        }
         else
         {
             return successResponse(Lang::get('lang.'),$updateapi,200);
-        }  
+        }
   }
 
-   
+
       /**
-       * To Delete Api keys to the license manager 
+       * To Delete Api keys to the license manager
        * @param $api_key_id
-       * @return success response if Delete successfuly 
+       * @return success response if Delete successfuly
        */
   public function apiKeyDelete($api_key_id)
   {
@@ -131,6 +131,6 @@ class ApiKeysController extends Controller
 
         return successResponse(Lang::get('lang.'),$removed_records,200);
     }
-  
+
 
 }
