@@ -19,20 +19,20 @@ use Illuminate\Support\Facades\DB;
 
 
 /**
- * Consist of functionalities for the Product page in Auto Faveo licenser 
+ * Consist of functionalities for the Product page in Auto Faveo licenser
  * Class ProductsController
  * @package App\Http\Controllers\Admin
  */
 class ProductsController extends Controller
 {
-    
+
     /**
      * stores the product details into the database
      * @param ProductRequest $request
-     * @param $api_key_secret 
+     * @param $api_key_secret
      * @param $product_title
      * @param $product_sku
-     * @param $product_status 
+     * @param $product_status
      * @param $product_description
      * @param $product_url_homepage
      * @param $product_url_download
@@ -45,24 +45,24 @@ public function productAdd(ProductRequest $request)
 
      {
         $api_action_success=0;
-        $api_error_detected=0; 
-        $added_records =0; 
-        
+        $api_error_detected=0;
+        $added_records =0;
+
         $api_key_secret = $request->get('api_key_secret');
         $product_title = $request->get('product_title');
         $product_sku = $request->get('product_sku');
         $product_status = $request->get('product_status');
-        $product_description= $request->get('product_description'); 
-        $product_url_homepage= $request->get('product_url_homepage'); 
-        $product_url_download= $request->get('product_url_download'); 
-        $product_version= $request->get('product_version'); 
+        $product_description= $request->get('product_description');
+        $product_url_homepage= $request->get('product_url_homepage');
+        $product_url_download= $request->get('product_url_download');
+        $product_version= $request->get('product_version');
         $product_envato_id= $request->get('product_envato_id');
 
 
-        if (null!==(request()->server('REMOTE_ADDR'))) 
+        if (null!==(request()->server('REMOTE_ADDR')))
         {
              $ip_address=request()->server('REMOTE_ADDR');
-             } 
+             }
              else {
 
                  $ip_address=$request->ip();
@@ -84,7 +84,7 @@ public function productAdd(ProductRequest $request)
           if(!empty($api_ips))
           {
                 if (!$api_ips->contains($ip_address))
-                   {   
+                   {
                     $api_error_detected=1;
                     return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
@@ -93,7 +93,7 @@ public function productAdd(ProductRequest $request)
                     }
           }
         }
-        
+
 
           if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
                 {
@@ -122,14 +122,14 @@ public function productAdd(ProductRequest $request)
 
                     try{
                         $in=DB::table('afl_products')->insertOrIgnore([
-                            'product_title' => $product_title, 
-                            'product_description' => $product_description, 
-                            'product_sku' => $product_sku, 
-                            'product_url_homepage' => $product_url_homepage, 
-                            'product_url_download' => $product_url_download, 
-                            'product_date' => $product_date, 
-                            'product_version' => $product_version, 
-                            'product_envato_id' => $product_envato_id, 
+                            'product_title' => $product_title,
+                            'product_description' => $product_description,
+                            'product_sku' => $product_sku,
+                            'product_url_homepage' => $product_url_homepage,
+                            'product_url_download' => $product_url_download,
+                            'product_date' => $product_date,
+                            'product_version' => $product_version,
+                            'product_envato_id' => $product_envato_id,
                             'product_status' => $product_status
                         ]);
                         $added_records +=1;
@@ -154,7 +154,7 @@ public function productAdd(ProductRequest $request)
                     return successResponse(Lang::get('lang.invalid'),400);
                 }
     }
-  
+
     }
 
 
@@ -171,7 +171,7 @@ public function productAdd(ProductRequest $request)
     }
 
 
-    
+
      /**
      * Deletes the product details from the database by using product id
      * @param $product_id
@@ -179,18 +179,18 @@ public function productAdd(ProductRequest $request)
      * @return response that a product has been deleted  with it's cascaded values
     */
     //delete product
-public function deleteProduct(ProductRequest $request)
+public function deleteProduct(Request $request)
     {
     $api_error_detected=0;
     $api_action_success=0;
     $removed_records=0;
     $product_id = $request->get('product_id');
     $api_key_secret = $request->get('api_key_secret');
-    
-        if (null!==(request()->server('REMOTE_ADDR'))) 
+
+        if (null!==(request()->server('REMOTE_ADDR')))
         {
              $ip_address=request()->server('REMOTE_ADDR');
-             } 
+             }
              else {
 
                  $ip_address=$request->ip();
@@ -212,7 +212,7 @@ public function deleteProduct(ProductRequest $request)
           if(!empty($api_ips))
           {
                 if (!$api_ips->contains($ip_address))
-                   {   
+                   {
                     $api_error_detected=1;
                     return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
@@ -234,7 +234,7 @@ public function deleteProduct(ProductRequest $request)
         AFlLicenses::where('product_id',$product_id)->delete();//doMysqlQuery("DELETE FROM apl_licenses WHERE product_id=?", array($product_id), array("i")); //delete licenses
 
         $removed_records+=AFlProducts::where('product_id',$product_id)->delete();//$removed_records+=doMysqlQuery("DELETE FROM apl_products WHERE product_id=?", array($product_id), array("i"));
-        
+
         DB::commit();
         }
         catch(Exception $e){
@@ -256,15 +256,15 @@ public function deleteProduct(ProductRequest $request)
         return view('',compact('ticket'));
 
        }*/
-         
+
        /**
      * Updates the product details into the database
      * @param ProductRequest $request
-     * @param $api_key_secret 
+     * @param $api_key_secret
      * @param $product_id
      * @param $product_title
      * @param $product_sku
-     * @param $product_status 
+     * @param $product_status
      * @param $product_description
      * @param $product_url_homepage
      * @param $product_url_download
@@ -275,19 +275,19 @@ public function deleteProduct(ProductRequest $request)
     */
 
 Public function productUpdate(Request $request){
- 
+
 
         $api_key_secret = $request->get('api_key_secret');
         $product_id = $request->get('product_id');
         $product_title = $request->get('product_title');
         $product_sku = $request->get('product_sku');
         $product_status = $request->get('product_status');
-        $product_description= $request->get('product_description'); 
-        $product_url_homepage= $request->get('product_url_homepage'); 
-        $product_url_download= $request->get('product_url_download'); 
-        $product_version= $request->get('product_version'); 
+        $product_description= $request->get('product_description');
+        $product_url_homepage= $request->get('product_url_homepage');
+        $product_url_download= $request->get('product_url_download');
+        $product_version= $request->get('product_version');
         $product_envato_id= $request->get('product_envato_id');
-        
+
 
         if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_array=AflProducts::where('product_id',$product_id)->get()->toArray())) //invalid record
       {
@@ -296,12 +296,12 @@ Public function productUpdate(Request $request){
       }
 
         $api_action_success=0;
-        $api_error_detected=0; 
-        $updated_records = 0; 
-        if (null!==(request()->server('REMOTE_ADDR'))) 
+        $api_error_detected=0;
+        $updated_records = 0;
+        if (null!==(request()->server('REMOTE_ADDR')))
         {
              $ip_address=request()->server('REMOTE_ADDR');
-             } 
+             }
              else {
                  $ip_address=$request->ip();
                  }
@@ -321,7 +321,7 @@ Public function productUpdate(Request $request){
           if(!empty($api_ips))
           {
                 if (!$api_ips->contains($ip_address))
-                   {   
+                   {
                     $api_error_detected=1;
                     return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
                     }
@@ -350,21 +350,21 @@ Public function productUpdate(Request $request){
                         {
                         $product_envato_id=null;
                         }
-                    
+
                     $updated_records+=DB::table('afl_products')
                                       ->where('product_id',$product_id)
                                       ->update([
-                                          'product_title'=> $product_title, 
-                                          'product_description'=> $product_description, 
-                                          'product_sku'=> $product_sku, 
-                                          'product_url_homepage'=> $product_url_homepage, 
-                                          'product_url_download'=> $product_url_download, 
-                                          'product_version'=> $product_version, 
-                                          'product_envato_id'=> $product_envato_id, 
+                                          'product_title'=> $product_title,
+                                          'product_description'=> $product_description,
+                                          'product_sku'=> $product_sku,
+                                          'product_url_homepage'=> $product_url_homepage,
+                                          'product_url_download'=> $product_url_download,
+                                          'product_version'=> $product_version,
+                                          'product_envato_id'=> $product_envato_id,
                                           'product_status'=> $product_status
                                       ]);
-                                    
-                  
+
+
                     if (!aflValidateIntegerValue($updated_records))
                         {
                         $api_error_detected=1;
@@ -379,7 +379,7 @@ Public function productUpdate(Request $request){
                 }
                 else{
                     return errorResponse(Lang::get('lang.invalid'),400);
-                }     
+                }
 
     }
 
