@@ -93,11 +93,13 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
     {
     global $ROOT_URL;
     $result=false;
-    $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
-    
+    $root_ips_array=gethostbynamel(aflGetRawDomain($root_url));
+    /*if(is_null($client_email)){
+        $client_email="";
+    }*/
     if (!empty($root_ips_array) && !empty($license_signature))
         {
-        if (hash("sha256", gmdate("Y-m-d").$root_url.$client_email.$license_code.$product_id.implode("", $root_ips_array))==$license_signature)
+        if (hash("sha256",gmdate("Y-m-d").$root_url.$client_email.$license_code.$product_id.implode("", $root_ips_array))==$license_signature)
             {
             $result=true;
             }
@@ -108,6 +110,7 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
 //return server notification with case, properly formatted text, signature, and additional data (if any) by adding this data right into server headers
 function returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data="")
     {
+     $content_array=[];
 
     $notification_server_signature=generateServerSignature($product_id, $root_url, $client_email, $license_code);
 
@@ -115,7 +118,7 @@ function returnServerNotification($notification_case, $root_url, $ip_address, $c
 
     foreach ($rows_array as $row)
         {
-        extract($row);
+        extract((array)$row);
         }
 
     $bad_text_array=array("%ROOT_URL%", "%IP_ADDRESS%", "%CLIENT_EMAIL%", "%CLIENT_FNAME%", "%CLIENT_LNAME%", "%LICENSE_CODE%", "%PRODUCT_ID%", "%PRODUCT_TITLE%", "%PRODUCT_DESCRIPTION%", "%PRODUCT_URL_HOMEPAGE%", "%PRODUCT_URL_DOWNLOAD%", "%PRODUCT_VERSION%", "%LICENSE_EXPIRE_DATE%", "%LICENSE_CANCEL_DATE%", "%LICENSE_UPDATES_DATE%", "%LICENSE_SUPPORT_DATE%", "%LICENSE_LIMIT%"); 
@@ -126,8 +129,7 @@ function returnServerNotification($notification_case, $root_url, $ip_address, $c
     if ($notification_case!="notification_license_ok") //only return additional data if everything OK, otherwise unset it
         {
         $notification_data="";
-        }
-
+        }        
     header("notification_case: $notification_case");
     header("notification_text: $notification_text");
     header("notification_server_signature: $notification_server_signature");
@@ -149,7 +151,6 @@ function createLicenseReport($SMART_REPORTS, $product_id, $account_id, $license_
                       ->Where('license_code',$license_code)
                       ->whereRaw('report_date_time BETWEEN ? AND ?',["$date_today 00:00:00", "$date_today 23:59:59"])
                       ->get()->toArray();
-          
                    //fetchRow("SELECT * FROM apl_reports WHERE product_id=? AND (account_id=? OR license_code=?) AND report_date_time BETWEEN ? AND ? AND report_text=? AND report_system=?", array($product_id, $account_id, $license_code, "$date_today 00:00:00", "$date_today 23:59:59", $report_text, $report_system), array("i", "i", "s", "s", "s", "s", "i"));
         }
            
@@ -180,7 +181,7 @@ function recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_addr
             {
             foreach ($rows_array as $row)
                 {
-                extract($row);
+                extract((array)$row);
                 }
 
             $failed_licensing_attempts++;
@@ -225,7 +226,7 @@ function generateServerSignature($product_id, $root_url, $client_email, $license
     global $ROOT_URL;
 
     $license_signature="";
-    $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
+    $root_ips_array=gethostbynamel(aflGetRawDomain($root_url));
 
     if (!empty($root_ips_array)) //IP(s) resolved successfully
         {
