@@ -31,11 +31,16 @@ $added_records=0;
 $updated_records=0;
 $removed_records=0;
 
-    foreach ($sets_array=DB::select('select * from afl_settings') as $set)
+   
+    $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36");
+        //get IP, refer and user agent
+     $sets_array=DB::table('afl_settings')->select('afl_settings.*')->get()->toArray();
+
+     foreach ($sets_array as $set)
      {
      extract((array)$set);
      }
-    $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+    
 //get IP, refer and user agent
 
        if (null!==(request()->server('REMOTE_ADDR')))
@@ -62,7 +67,6 @@ $removed_records=0;
          else
          {
            $user_agent=$request->get('user_agent');
-
          }
 
       // These are the data that needs to be passed to this function inorder to get a response
@@ -77,10 +81,6 @@ $removed_records=0;
       $client_id = $request->get('client_id');
       $client_fname = $request->get('client_fname');
       $client_lname = $request->get('client_lname');
-
-
-
-
 
 
 //check basic data
@@ -123,7 +123,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                 }
             else //search for email-based license
                 {
-                $license_array=AflLicenses::join('afl_clients','afl_licenses.client_id','=','apl_clients.client_id')
+                $license_array=AflLicenses::join('afl_clients','afl_licenses.client_id','=','afl_clients.client_id')
                                            ->where('afl_clients.client_email',$client_email)
                                            ->where('afl_clients.client_status',1)
                                            ->where('afl_licenses.product_id',$product_id)->get()->toArray();
@@ -318,14 +318,11 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
         {
         $report_text="$product_title license at $installation_domain ($ip_address) could not be verified because of this reason: $error_details.";
         }
-     $SMART_REPORTS = AflSettings::Where('license_code',$license_code)
-                       ->Where('client_email',$client_email)
-                       ->Value('SMART_REPORTS');
-
+     $SMART_REPORTS = 1;
 
 
     $this->createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $license_code, $ip_address, $installation_domain, $action_success);
-    returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
+    $content_array=returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
     }
 else //possible cracking attempt, set variables required for reports function to null and generate cracking report
     {
@@ -338,14 +335,13 @@ else //possible cracking attempt, set variables required for reports function to
     //dd($SMART_REPORTS,$product_id,$client_id,$license_code,$report_text,$action_success);
 
 createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success);
-return successResponse(Lang::get('lang.success_license_verify'),$notification_case,200);
+return $content_array;
  //always create report, no matter result
 if ($action_success!=1) //record failed licensing attempt and ban host if needed
     {
     recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_address);
        return errorResponse(Lang::get('lang.failed_licensing'),400);
     }
-
     }
 
 
