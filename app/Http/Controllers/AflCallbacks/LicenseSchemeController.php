@@ -42,21 +42,21 @@ class LicenseSchemeController extends Controller
 
         if (null !== (request()->server('REMOTE_ADDR'))) {
             $ip_address = request()->server('REMOTE_ADDR');
-        } 
+        }
         else {
             $ip_address = $request->get('ip_address');
         }
 
         if (null !== (request()->server('HTTP_REFERER'))) {
             $refer = request()->server('HTTP_REFERER');
-        } 
+        }
         else {
             $refer = $request->get('refer');
         }
 
         if (null !== (request()->server('HTTP_USER_AGENT'))) {
             $user_agent = request()->server('HTTP_USER_AGENT');
-        } 
+        }
         else {
             $user_agent = $request->get('user_agent');
 
@@ -212,7 +212,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                 ->get()->toArray();
                 if (!empty($this_installation_owner_array)) //installation exists, check whom it belongs to
                     {
-                    if (!empty($license_code) && $license_code!=$this_installation_owner_array[0]['license_code'] || validateIntegerValue($client_id) && $client_id!=$this_installation_owner_array[0]['client_id']) //this domain is used by another user
+                    if (!empty($license_code) && $license_code!=$this_installation_owner_array[0]['license_code'] || aflValidateIntegerValue($client_id) && $client_id!=$this_installation_owner_array[0]['client_id']) //this domain is used by another user
                         {
                         $error_detected=1;
                         $error_details=setValue($error_details, "$product_title installation on $installation_domain ($ip_address) belongs to another user");
@@ -340,8 +340,6 @@ if ($action_success!=1) //record failed licensing attempt and ban host if needed
     recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_address);
      return errorResponse(Lang::get('lang.failed_licensing'), 400);
     }
-
-
     }
 }
 
