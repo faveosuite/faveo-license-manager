@@ -133,7 +133,6 @@ if (empty($banned_host_id) || !aflValidateIntegerValue($banned_host_id) ||
     empty($rows_array=AflBannedHosts::where('banned_host_id',$banned_host_id)->get()->toArray())) //invalid record
     {
     return errorResponse(Lang::get('lang.invalid'));
-    exit();
     }
 
        if(!empty($api_key_secret))
