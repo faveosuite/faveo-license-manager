@@ -52,9 +52,9 @@ Route::post('/reset',[AuthController::class,'reset']);
 Route::post('/ConnectionTest',[ConnectionController::class,'connection']);
 //Route::post('/InstallLicenseManager',[AflInstallLicenseController::class,'aflInstallLicense']);
 //Route::post('/VerifyLicense/{FORCE_VERIFICATION}', [AflVerifyLicenseController::class,'aflVerifyLicense']);
-Route::post('/licenseinstall',[LicenseInstallController::class,'licenseInstall']);
-Route::post('/licenseverify',[LicenseVerifyController::class,'licenseVerify']);
-Route::post('/licensescheme',[LicenseSchemeController::class,'licenseScheme']);
+Route::post('/licenseInstall',[LicenseInstallController::class,'licenseInstall']);
+Route::post('/licenseVerify',[LicenseVerifyController::class,'licenseVerify']);
+Route::post('/licenseScheme',[LicenseSchemeController::class,'licenseScheme']);
 
 
 
