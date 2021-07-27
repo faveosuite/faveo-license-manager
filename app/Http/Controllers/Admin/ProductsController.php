@@ -296,8 +296,7 @@ Public function productUpdate(Request $request){
 
         if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_array=AflProducts::where('product_id',$product_id)->get()->toArray())) //invalid record
       {
-          errorResponse(Lang::get('lang.invalid'),404);
-          exit();
+         return errorResponse(Lang::get('lang.invalid'),404);
       }
 
         $api_action_success=0;
