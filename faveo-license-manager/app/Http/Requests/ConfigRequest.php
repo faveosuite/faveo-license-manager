@@ -26,11 +26,9 @@ class ConfigRequest extends FormRequest
         return [
             'product_id' =>'numeric',
             'License_Storage_type' => 'string',
-            'Delete_Cancelled_License' => 'boolean',
-            'Delete_Cracked_License' => 'boolean',
-            'God_Mode' => 'boolean'
-             
-
+            'Delete_Cancelled_License' => 'string',
+            'Delete_Cracked_License' => 'string',
+            'God_Mode' => 'string'             
         ];
     }
 }
