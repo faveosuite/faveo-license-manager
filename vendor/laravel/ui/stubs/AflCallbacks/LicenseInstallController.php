@@ -30,17 +30,15 @@ class LicenseInstallController extends Controller
         $updated_records=0;
         $removed_records=0;
         $notification_data = "";
-        $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36");
-
+        $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36");
        //get IP, refer and user agent
 
      //get script settings
-     $sets_array=DB::table('afl_settings')->select('afl_settings.*')->get()->toArray();
+     $sets_array=DB::table('afl_settings')->get()->toArray();
      foreach ($sets_array as $set)
      {
      extract((array)$set);
      }
-
        if (null!==(request()->server('REMOTE_ADDR')))
          {
          $ip_address=request()->server('REMOTE_ADDR');
@@ -78,6 +76,7 @@ class LicenseInstallController extends Controller
       $client_id = $request->get('client_id');
       $client_fname = $request->get('client_fname');
       $client_lname = $request->get('client_lname');
+     
 //check basic data
 if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPORTED_BROWSERS_ARRAY) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url==$refer && $installation_hash==hash("sha256", $root_url.$client_email.$license_code) && !empty($license_signature) && isValidLicenseRequest($license_code, $client_email)===true)
     {
@@ -120,7 +119,6 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                           ->where('product_id',$product_id)->get()->toArray();
                   
                 }
-
             else //search for email-based license
                 {
                 $license_array = DB::table('afl_license')
@@ -226,31 +224,42 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                         $notification_case=setValue($notification_case, "notification_domain_in_use");
                         }
                     }
-
                 if ($license_limit!=0) //check installations limit
                     {
-                    $other_installations_array=AflInstallations::where('product_id',$product_id)
-                                                               ->orWhere('client_id',$client_id)
-                                                               ->orWhere('license_code',$license_code)
-                                                               ->orWhere('installation_ip',$ip_address)
-                                                               ->orWhere('installation_domain',$installation_domain)
-                                                               ->get()->toArray();
-
+                    $other_installations_array=DB::table('afl_installations')->where('product_id',$product_id)
+                                                                ->where(function($query) use($client_id,$license_code){
+                                                                    $query->where('client_id',$client_id)
+                                                                      ->orWhere('license_code',$license_code);
+                                                                })->where(function($query) use($ip_address,$installation_domain){
+                                                                    $query->where('installation_ip',$ip_address)
+                                                                          ->orWhere('installation_domain',$installation_domain);
+                                                                          
+                                                                   
+                                                                })->get()->toArray();
+                    
+                    
+                    
+                    
+                    
                     if (count($other_installations_array)>=$license_limit) //client can't make new installation because it would exceed his current limit
                         {
                         $error_detected=1;
                         $error_details=setValue($error_details, "maximum installations limit ($license_limit) reached");
+                
                         $notification_case=setValue($notification_case, "notification_license_limit");
                         }
-
-                    $all_installations_array=AflInstallations::where('product_id',$product_id)
-                                                               ->orWhere('client_id',$client_id)
-                                                               ->orWhere('license_code',$license_code)
-                                                               ->get()->toArray();
-
+                  
+                    $all_installations_array=DB::table('afl_installations')->where('product_id',$product_id)
+                                                               ->where(function($query) use($client_id,$license_code){
+                                                                   $query->where('client_id',$client_id)
+                                                                         ->whereNotNull('client_id')
+                                                                         ->orWhere('license_code',$license_code);
+                                                               })->get()->toArray();
+                                                               
+                                                             
+                
                     if (count($all_installations_array)>$license_limit) //client has more installations than he is allowed to (most likely limit was changed after installations were made)
                         {
-
                         $error_detected=1;
                         $error_details=setValue($error_details, "maximum installations limit ($license_limit) exceeded");
                         $notification_case=setValue($notification_case, "notification_license_limit");
@@ -279,16 +288,19 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                         {
                         $installation_date=date("Y-m-d");
                         $installation_status=1;
-
+                        
                         $this_installation_array=AflInstallations::where('product_id',$product_id)
-                                                               ->orWhere('client_id',$client_id)
-                                                               ->orWhere('license_code',$license_code)
-                                                               ->Where('installation_ip',$ip_address)
-                                                               ->Where('installation_domain',$installation_domain)
+                                                                ->where(function($query) use($client_id,$license_code){
+                                                                   $query->where('client_id',$client_id)
+                                                                         ->orWhere('license_code',$license_code);
+                                                                         
+                                                                })
+                                                               ->where('installation_ip',$ip_address)
+                                                               ->where('installation_domain',$installation_domain)
                                                                ->where('installation_hash',$installation_hash)
                                                                ->get()->toArray();
                                                                 //always perform verification with IP, but without status, for new installations
-
+                       
                         if (!empty($this_installation_array)) //this is existing installation, update its details in database
                             {
                             $action_success=1;
@@ -375,7 +387,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
         //dd($license_expire_date);
     $content_array=returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version,$license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
     //return successResponse(Lang::get('lang.success'),$api,201);
-    $SMART_REPORTS=1;
+    
     }
 else //possible cracking attempt, set variables required for reports function to null and generate cracking report
     {
