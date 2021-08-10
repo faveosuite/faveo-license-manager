@@ -356,9 +356,9 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
     foreach ($required_callback_parameters_array as $required_callback_parameter) //in case some required parameter (used in callback and/or notification functions) was not fetched, set its value empty to prevent "undefined variable" errors
         {
 
-        if (!isset($required_callback_parameter))
+        if (!isset($$required_callback_parameter))
             {
-            $required_callback_parameter="";
+            $$required_callback_parameter="";
             }
         }
 
@@ -384,8 +384,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
         {
         $report_text="$product_title installation at $installation_domain ($ip_address) could not be performed because of this reason: $error_details.";
         }
-        //dd($license_expire_date);
-    $content_array=returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version,$license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
+    returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version,$license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
     //return successResponse(Lang::get('lang.success'),$api,201);
     
     }
@@ -395,13 +394,8 @@ else //possible cracking attempt, set variables required for reports function to
     $client_id=null;
     $license_code=null;
     $report_text="Host $ip_address sent invalid data to requested_url and was rejected. Host sent this data: ".json_encode($_POST).".";
-
-       return errorResponse(Lang::get('lang.invalid'),404);
     }
-createLicenseReport($SMART_REPORTS,$product_id, $client_id, $license_code, $report_text, $action_success);
-return $content_array;
-
-//return successResponse(Lang::get('lang.success'),$report,200); //always create report, no matter result
+createLicenseReport($SMART_REPORTS,$product_id, $client_id, $license_code, $report_text, $action_success);//always create report, no matter result
 if ($action_success!=1) //record failed licensing attempt and ban host if needed
     {
     recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_address);

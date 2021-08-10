@@ -120,10 +120,10 @@ function returnServerNotification($notification_case, $root_url, $ip_address, $c
         {
         extract((array)$row);
         }
-
+    $notification_text = DB::table('afl_notifications')->where('notification_id',1)->value($notification_case);
     $bad_text_array=array("%ROOT_URL%", "%IP_ADDRESS%", "%CLIENT_EMAIL%", "%CLIENT_FNAME%", "%CLIENT_LNAME%", "%LICENSE_CODE%", "%PRODUCT_ID%", "%PRODUCT_TITLE%", "%PRODUCT_DESCRIPTION%", "%PRODUCT_URL_HOMEPAGE%", "%PRODUCT_URL_DOWNLOAD%", "%PRODUCT_VERSION%", "%LICENSE_EXPIRE_DATE%", "%LICENSE_CANCEL_DATE%", "%LICENSE_UPDATES_DATE%", "%LICENSE_SUPPORT_DATE%", "%LICENSE_LIMIT%");
     $good_text_array=array($root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit);
-    $notification_text=str_ireplace($bad_text_array, $good_text_array, $notification_case);
+    $notification_text=str_ireplace($bad_text_array, $good_text_array, $notification_text);
 
 
     if ($notification_case!="notification_license_ok") //only return additional data if everything OK, otherwise unset it
@@ -147,9 +147,12 @@ function createLicenseReport($SMART_REPORTS, $product_id, $account_id, $license_
     if ($SMART_REPORTS==1) //check if such report already exists today
         {
         $rows_array=AflReports::where('product_id',$product_id)
-                      ->Where('account_id',$account_id)
-                      ->Where('license_code',$license_code)
-                      ->whereRaw('report_date_time BETWEEN ? AND ?',["$date_today 00:00:00", "$date_today 23:59:59"])
+                      ->where(function($query) use($account_id,$license_code){
+                          $query->where('account_id',$account_id)
+                                ->orWhere('license_code',$license_code);
+                      })->whereRaw('report_date_time BETWEEN ? AND ?',["$date_today 00:00:00", "$date_today 23:59:59"])
+                      ->where('report_text',$report_text)
+                      ->where('report_system' ,$report_system)
                       ->get()->toArray();
                    //fetchRow("SELECT * FROM apl_reports WHERE product_id=? AND (account_id=? OR license_code=?) AND report_date_time BETWEEN ? AND ? AND report_text=? AND report_system=?", array($product_id, $account_id, $license_code, "$date_today 00:00:00", "$date_today 23:59:59", $report_text, $report_system), array("i", "i", "s", "s", "s", "s", "i"));
         }
@@ -186,8 +189,8 @@ function recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_addr
 
             $failed_licensing_attempts++;
 
-            DB::where('failed_licensing_id',$failed_licensing_id)
-               ->update([ 'failed_licensing_attempts'=> $failed_licensing_attempts ,
+            DB::table('afl_failed_licensings')->where('failed_licensing_id',$failed_licensing_id)
+               ->update(['failed_licensing_attempts'=> $failed_licensing_attempts ,
                           'failed_licensing_last_attempt_date'=> $failed_licensing_last_attempt_date
                         ]);
                         //doMysqlQuery("UPDATE apl_failed_licensings SET failed_licensing_attempts=?, failed_licensing_last_attempt_date=? WHERE failed_licensing_id=?", array($failed_licensing_attempts, $failed_licensing_last_attempt_date, $failed_licensing_id), array("i", "s", "i"));
@@ -197,11 +200,11 @@ function recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_addr
             $failed_licensing_attempts=1;
 
 
-            DB::table('afl_failed_licensing')->insertOrIgnore([
+            DB::table('afl_failed_licensings')->insertOrIgnore([
                           'failed_licensing_ip' => $ip_address,
                           'failed_licensing_attempts'=> $failed_licensing_attempts ,
                           'failed_licensing_last_attempt_date'=> $failed_licensing_last_attempt_date
-                        ])->get();//doMysqlQuery("INSERT IGNORE INTO apl_failed_licensings (failed_licensing_ip, failed_licensing_attempts, failed_licensing_last_attempt_date) VALUES (?, ?, ?)", array($ip_address, $failed_licensing_attempts, $failed_licensing_last_attempt_date), array("s", "i", "s"));
+                        ]);//doMysqlQuery("INSERT IGNORE INTO apl_failed_licensings (failed_licensing_ip, failed_licensing_attempts, failed_licensing_last_attempt_date) VALUES (?, ?, ?)", array($ip_address, $failed_licensing_attempts, $failed_licensing_last_attempt_date), array("s", "i", "s"));
             }
 
         if ($failed_licensing_attempts>=$FAILED_LICENSINGS_LIMIT) //failed licensing attempts limit reached, ban host
@@ -213,7 +216,7 @@ function recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_addr
                   'banned_host_ip'=> $ip_address,
                   'banned_host_comments' => $banned_host_comments,
                   'banned_host_date' => $banned_host_date
-              ])->get();
+              ]);
             //doMysqlQuery("INSERT IGNORE INTO apl_banned_hosts (banned_host_ip, banned_host_comments, banned_host_date) VALUES (?, ?, ?)", array($ip_address, $banned_host_comments, $failed_licensing_last_attempt_date), array("s", "s", "s"));
             createReport("Host $ip_address auto-banned (maximum failed licensing attempts ($FAILED_LICENSINGS_LIMIT) reached).", 0, 1, 2);
             }
