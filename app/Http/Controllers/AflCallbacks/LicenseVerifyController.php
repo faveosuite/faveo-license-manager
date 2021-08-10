@@ -305,9 +305,9 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
     $required_callback_parameters_array=array("client_id", "client_fname", "client_lname", "product_id", "product_title", "product_description", "product_url_homepage", "product_url_download", "product_version", "license_code", "license_expire_date", "license_cancel_date", "license_updates_date", "license_support_date", "license_limit", "notification_case", "notification_data"); //required callback parameters for this page
     foreach ($required_callback_parameters_array as $required_callback_parameter) //in case some required parameter (used in callback and/or notification functions) was not fetched, set its value empty to prevent "undefined variable" errors
         {
-        if (!isset($required_callback_parameter))
+        if (!isset($$required_callback_parameter))
             {
-            $required_callback_parameter="";
+            $$required_callback_parameter="";
             }
         }
 
@@ -346,7 +346,6 @@ createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $rep
 if ($action_success!=1) //record failed licensing attempt and ban host if needed
     {
     recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_address);
-       return errorResponse(Lang::get('lang.failed_licensing'),400);
     }
     }
 
