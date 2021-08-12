@@ -24,12 +24,13 @@ class CreateAflAdminsTable extends Migration
             //$table->string('admin_reset',125);
             $table->boolean('admin_data_authenticity')->default(1);
             $table->string('admin_ip',125)->default('null');
+
             $table->integer('admin_type_id')->nullable()
                 ->constrained('afl_admin_types','admin_type_id')
                 ->onDelete('cascade');
 
-            $table->integer('admin_type_id')->unsigned()->nullable();
-            $table->foreign('admin_type_id')->references('admin_type_id')->on('afl_admin_types')->onDelete('cascade');
+           // $table->integer('admin_type_id')->unsigned()->nullable();
+            //$table->foreign('admin_type_id')->references('admin_type_id')->on('afl_admin_types')->onDelete('cascade');
 
            // $table->integer('admin_type_id')->unsigned()->nullable();
             //$table->foreign('admin_type_id')->references('admin_type_id')->on('afl_admin_types')->onDelete('cascade');
