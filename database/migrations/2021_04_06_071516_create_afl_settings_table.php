@@ -23,10 +23,10 @@ class CreateAflSettingsTable extends Migration
             $table->string('INSTALLATION_HASH',125)->nullable();
             $table->string('SYSTEM_LANGUAGE',125)->nullable();
             $table->string('TIMEZONE',125)->nullable();
-            $table->smallInteger('RECORDE_ARCHIVE_DAYS')->nullable();
-            $table->smallInteger('RECORDE_ON_ADMIN_PAGE')->nullable();
-            $table->smallInteger('RECORDE_ON_INDEX_PAGE')->nullable();
-            $table->smallInteger('RECORDE_ON_SEARCH_PAGE')->nullable();
+            $table->smallInteger('RECORDS_ARCHIVE_DAYS')->nullable();
+            $table->smallInteger('RECORDS_ON_ADMIN_PAGE')->nullable();
+            $table->smallInteger('RECORDS_ON_INDEX_PAGE')->nullable();
+            $table->smallInteger('RECORDS_ON_SEARCH_PAGE')->nullable();
             $table->boolean('API_STATUS')->nullable();
             $table->boolean('BANNED_HOSTS')->nullable();
             $table->string('BANNED_HOST_MESSAGE',125)->nullable();
@@ -40,7 +40,7 @@ class CreateAflSettingsTable extends Migration
             $table->string('WHITELISTED_IP',250)->nullable();
             $table->string('EMAIL_FROM_NAME',125)->nullable();
             $table->string('EMAIL_FROM_ADDRESS',125)->nullable();
-            $table->tinyInteger('EMAIL_CC_SENDER')->nullable();
+            $table->tinyInteger('EMAIL_CC_ADMIN')->nullable();
             $table->smallInteger('EMAIL_EXPIRING_LICENSE_DAYS')->nullable();
             $table->smallInteger('EMAIL_EXPIRING_UPDATES_DAYS')->nullable();
             $table->smallInteger('EMAIL_EXPIRING_SUPPORT_DAYS')->nullable();
