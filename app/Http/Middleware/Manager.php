@@ -25,7 +25,7 @@ class Manager
               $token = $request->get('token');   
             }
             $tok = DB::table('oauth_access_tokens')->where('id',$token)->get('revoked')->toArray();
-            if((!empty($tok) && $tok!='1')|| $token =="59ItqjcWwH2gD52JgKDdCfItZXg3a6Dy"){
+            if((!empty($tok) && $tok!='1')|| $token ==env('LICENSE_KEY')){
              return $next($request);  
             }  
         else { 
