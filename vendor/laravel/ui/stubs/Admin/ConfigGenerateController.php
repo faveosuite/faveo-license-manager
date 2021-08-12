@@ -42,8 +42,6 @@ class ConfigGenerateController extends Controller
         $config_afl_delete_cancelled = $request->get('Delete_Cancelled_License');
         $config_afl_delete_cracked =$request->get('Delete_Cracked_License');
         $config_afl_god_mode = $request->get('God_Mode');
-
-        
      //get script settings
      $sets_array=DB::table('afl_settings')->get()->toArray();
      foreach ($sets_array as $set)
