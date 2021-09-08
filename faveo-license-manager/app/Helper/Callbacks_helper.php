@@ -93,7 +93,8 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
     {
     global $ROOT_URL;
     $result=false;
-    $root_ips_array=gethostbynamel(aflGetRawDomain($root_url));
+    $ROOT_URL=url('/');
+    $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
     /*if(is_null($client_email)){
         $client_email="";
     }*/
@@ -227,9 +228,9 @@ function recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_addr
 function generateServerSignature($product_id, $root_url, $client_email, $license_code)
     {
     global $ROOT_URL;
-
+    $ROOT_URL=url('/');
     $license_signature="";
-    $root_ips_array=gethostbynamel(aflGetRawDomain($root_url));
+    $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
 
     if (!empty($root_ips_array)) //IP(s) resolved successfully
         {
