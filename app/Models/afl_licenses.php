@@ -11,6 +11,7 @@ class AflLicenses extends Model
 
     protected $guarded=[];
     protected $primaryKey = 'license_id';
+    public $timestamps = false;
 
     public function client(){
         
