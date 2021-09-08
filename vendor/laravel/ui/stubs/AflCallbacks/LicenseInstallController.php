@@ -90,7 +90,6 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
 
     if (empty($product_array)) //product doesn't exist
         {
-
         $error_detected=1;
         $error_details=setValue($error_details, "product not found");
         $notification_case=setValue($notification_case, "notification_product_not_found");
@@ -116,8 +115,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
             if (!empty($license_code)) //search for code-based license
                 {
                 $license_array=AflLicenses::where('license_code',$license_code)
-                                          ->where('product_id',$product_id)->get()->toArray();
-                  
+                                          ->where('product_id',$product_id)->get()->toArray();       
                 }
             else //search for email-based license
                 {

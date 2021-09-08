@@ -293,7 +293,7 @@ public function licenseAdd(LicenseRequest $request){
  */
 public function licenseUpdate(Request $request)
 {
-
+    
     $api_key_secret = $request->get('api_key_secret');
     $license_id = $request->get('license_id');
     $product_id = $request->get('product_id');
@@ -354,9 +354,9 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
           $optional_api_parameters_array=array("license_order_number", "license_ip", "license_domain", "license_limit", "license_expire_date", "license_updates_date", "license_support_date", "license_comments"); //optional API parameters for this page
         foreach ($optional_api_parameters_array as $optional_api_parameter) //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
             {
-            if (!isset($optional_api_parameter))
+            if (!isset($$optional_api_parameter))
                 {
-                $optional_api_parameter="";
+                $$optional_api_parameter="";
                 }
             }
 
