@@ -136,7 +136,9 @@ if (!isset($date_to) || !empty($date_to) && !aflVerifyDateTime($date_to, "Y-m-d"
 
             if (empty($rows_array))
                 {
-                 return errorResponse(Lang::get('lang.No_results_found'),400);
+              $page_message = "There was an error searching for the particular detail in license manager";
+              $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>1, "action_success"=>0, "error_detected"=>1, "page_message"=>$page_message); //make array with response data
+              return json_encode($api_response_array);
                 }
             else
                 {
@@ -286,6 +288,7 @@ public function returnCallbacksArray($product_id, $date_from="", $date_to="", $s
                      ->orderBy('afl_callbacks.callback_date_time','desc')
                      ->orderBy('afl_callbacks.callback_id','desc')
                      ->limit($results_limit)->get()->toArray();
+
         }
     else
         {
@@ -345,7 +348,6 @@ public function returnClientsArray($search_keyword="", $results_limit=0)
                                   DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
                                   DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
 
-
                                   )->orWhere('client_fname','like',$search_keyword)
                                    ->orWhere('client_lname','like',$search_keyword)
                                    ->orWhere('client_email','like',$search_keyword)
@@ -369,7 +371,6 @@ public function returnClientsArray($search_keyword="", $results_limit=0)
 public function returnInstallationsArray($product_id, $date_from="", $date_to="", $search_keyword="", $results_limit=0)
     {
     $root_array=array();
-
     if (!aflVerifyDateTime($date_from, "Y-m-d"))
         {
         $date_from="0000-00-00";
@@ -380,7 +381,7 @@ public function returnInstallationsArray($product_id, $date_from="", $date_to=""
         $date_to="9999-12-31";
         }
 
-    $date_to.=" 23:59:59"; //include all records of last specified day
+     $date_to.=" 23:59:59"; //include all records of last specified day
 
     if (!empty($search_keyword) && aflValidateIntegerValue($results_limit))
         {
@@ -391,13 +392,16 @@ public function returnInstallationsArray($product_id, $date_from="", $date_to=""
                     ->leftJoin('afl_clients','afl_installations.client_id','=','afl_clients.client_id')
                     ->where('afl_installations.installation_date','>=',$date_from)
                     ->where('afl_installations.installation_date','<=', $date_to)
-                    ->orWhere('afl_clients.client_email','like', $search_keyword)
-                    ->orWhere('afl_installations.license_code','like', $search_keyword)
-                    ->orWhere('afl_installations.installation_domain','like', $search_keyword)
-                    ->orWhere('afl_installations.installation_ip','like', $search_keyword)
+                    ->where(function ($query) use ($search_keyword) {
+                        $query->where('afl_clients.client_email', 'like', $search_keyword)
+                            ->orWhere('afl_installations.license_code', 'like', $search_keyword)
+                            ->orWhere('afl_installations.installation_domain', 'like', $search_keyword)
+                            ->orWhere('afl_installations.installation_ip', 'like', $search_keyword);
+                            })
                     ->orderBy('installation_date','desc')
                     ->orderBy('installation_id','desc')
                     ->limit($results_limit)->get()->toArray();
+
         }
     else
         {
@@ -409,7 +413,9 @@ public function returnInstallationsArray($product_id, $date_from="", $date_to=""
                      ->where('afl_installations.installations_date','<=' , $date_to)
                      ->orderBy('installation_date','desc')
                      ->orderBy('insatalltion_id','desc')->get()->toArray();
+
         }
+
     foreach ($rows_array as $row)
         {
         foreach ($row as $key=>$value)
@@ -422,7 +428,6 @@ public function returnInstallationsArray($product_id, $date_from="", $date_to=""
 
         $root_array[]=$item_array;
         }
-
     return $root_array;
     }
 
@@ -585,7 +590,6 @@ public function returnLicenseReportsArray($product_id, $date_from="", $date_to="
     if (!empty($search_keyword) && aflValidateIntegerValue($results_limit))
         {
         $search_keyword="%$search_keyword%"; //add wildcards
-
         $rows_array=DB::table('afl_reports')
                      ->leftJoin('afl_clients','afl_reports.account_id','=','afl_clients.client_id')
                      ->orWhere('afl_reports.report_text','like' ,$search_keyword)
