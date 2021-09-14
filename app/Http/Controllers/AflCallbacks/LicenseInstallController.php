@@ -227,10 +227,10 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                     $other_installations_array=DB::table('afl_installations')->where('product_id',$product_id)
                                                                 ->where(function($query) use($client_id,$license_code){
                                                                     $query->where('client_id',$client_id)
-                                                                      ->orWhere('license_code',$license_code);
+                                                                      ->where('license_code',$license_code);
                                                                 })->where(function($query) use($ip_address,$installation_domain){
                                                                     $query->where('installation_ip',$ip_address)
-                                                                          ->orWhere('installation_domain',$installation_domain);
+                                                                          ->where('installation_domain',$installation_domain);
                                                                           
                                                                    
                                                                 })->get()->toArray();
