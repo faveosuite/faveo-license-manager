@@ -28,12 +28,10 @@ class ProductRequest extends FormRequest
         return [
             'product_title'=> 'string|unique:afl_products,product_title',
             'product_sku' => 'string|unique:afl_products,product_sku',
-            'product_url_homepage'=> 'string',
-            'product_url_download'=> 'string',
-            'product_date'=> 'date',
+            /*'product_date'=> 'date',
             'product_version'=> 'string',
             'product_envato_id'=> 'integer|unique:afl_products,product_envato_id',
-            'product_status'=> 'boolean'
+            'product_status'=> 'boolean'*/
 
         ];
     }
