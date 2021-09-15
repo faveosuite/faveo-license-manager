@@ -1,0 +1,218 @@
+<?php
+
+namespace Tests\Unit\Backend\Admin;
+
+//use PHPUnit\Framework\TestCase;
+use Tests\TestCase;
+use App\Models\AflProducts;
+use App\Models\AflCallbacks;
+use App\Models\AflInstallations;
+use App\Models\AflLicenses;
+use App\Http\Controllers\Admin\ProductsController;
+use Illuminate\Http\RedirectResponse;
+
+class ProductsControllerTest extends TestCase
+{
+    /**
+     * A basic unit test example.
+     *
+     * @return void
+     */
+    public function test_productAdd_whenProductIsAdded_shouldRecieveResponseTrue()
+    {
+       
+            $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '5hDuaXuTh9gTLfPL',
+              'product_title' => 'Helpdesk Product',
+              'product_sku' => 'FAVEO-HDFRR',
+              'product_status' => 1,
+              'product_description' => 'This is a test product for license manager',
+              'product_url_homepage' => null,
+              'product_url_download' => null,
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1
+            ];
+            $response = $this->json('POST', url('api/admin/products/add'),$data);
+            $response->assertStatus(200);
+            $response->assertJson(['success' => true]);
+            $response->assertJson(['message' => "lang.sucess"]);
+            $response->assertJson(['data' => 1]);
+    }
+
+    public function test_productUpdate_whenProductIsUpdated_shouldRecieveResponseTrue()
+    {
+           $product_id = AflProducts::where('product_sku','FAVEO-HDFRR')->value('product_id');
+           $data = 
+           [
+             'token' => env('LICENSE_KEY'),
+             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+             'product_id' => $product_id,
+             'product_title'=>'Helpdesk Updated',
+             'product_sku'=>'FAVEO-TESTHDFE',
+             'product_status'=>1
+           ];
+            $response = $this->json('POST', url('api/admin/products/edit'),$data);
+            $response->assertStatus(200);
+            $response->assertJson(['success' => true]);
+            $response->assertJson(['message' => "The Current Product Deatils has been updated"]);
+            $response->assertJson(['data' => 1]);
+
+
+    }
+    public function test_productDelete_whenProductIsDeleted_shouldRecieveResponseTrue()
+    {
+       $product_id = AflProducts::where('product_sku','FAVEO-TESTHDFE')->value('product_id');
+       AflLicenses::factory()->create(['product_id' => $product_id]);
+       AflInstallations::factory()->create(['product_id' => $product_id]);
+       AflCallbacks::factory()->create(['product_id' => $product_id]);
+       $data = 
+           [
+             'token' => env('LICENSE_KEY'),
+             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+             'product_id' => $product_id,
+           ];
+            $response = $this->json('POST', url('api/admin/products/delete'),$data);
+            $response->assertStatus(200);
+            $response->assertJson(['success' => true]);
+            $response->assertJson(['message' => "The record you have selected has been deleted from the Auto Faveo License Manager Database"]);
+            $response->assertJson(['data' => 1]);
+
+    }
+
+    public function test_productAdd_whenProductIsAddedWithInvalidProductUrlHomepage_shouldRecieveResponseFalse()
+    {
+         $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '5hDuaXuTh9gTLfPL',
+              'product_title' => 'Helpdesk Product',
+              'product_sku' => 'FAVEO-HDFRR',
+              'product_status' => 1,
+              'product_description' => 'This is a test product for license manager',
+              'product_url_homepage' => 'sandesh',
+              'product_url_download' => null,
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1
+            ];
+            $response = $this->json('POST', url('api/admin/products/add'),$data);
+            $response->assertStatus(400);
+            $response->assertJson(['success' => false]);
+            $response->assertJson(['message' => "lang.error_producturl"]);
+            
+    }
+
+    public function test_productAdd_whenProductIsAddedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
+    {
+         $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '5hDuaXuTh9gTLfPL',
+              'product_title' => 'Helpdesk Product',
+              'product_sku' => 'FAVEO-HDFRR',
+              'product_status' => 1,
+              'product_description' => 'This is a test product for license manager',
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1.999999
+            ];
+            $response = $this->json('POST', url('api/admin/products/add'),$data);
+            $response->assertStatus(400);
+            $response->assertJson(['success' => false]);
+            $response->assertJson(['message' => "lang.error_product_envato"]);
+            
+    }
+
+    public function test_productAdd_whenProductIsAddedWithoutTitleOrSku_shouldRecieveResponseFalse()
+    {
+      $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '5hDuaXuTh9gTLfPL',
+              'product_description' => 'This is a test product for license manager',
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1
+            ];
+            $response = $this->json('POST', url('api/admin/products/add'),$data);
+            $response->assertStatus(400);
+            $response->assertJson(['success' => false]);
+            $response->assertJson(['message' => "There are invalid details present in this request"]);
+    }
+
+    public function test_productAdd_whenProductIsAddedWithoutApiKeySecret_shouldRecieveResponseFalse()
+    {
+
+         $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '555555555555555555555555555555555555hDuaXuTh9gTLfPL',
+              'product_description' => 'This is a test product for license manager',
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1
+            ];
+            $response = $this->json('POST', url('api/admin/products/add'),$data);
+            $response->assertStatus(404);
+            $response->assertJson(['success' => false]);
+            $response->assertJson(['message' => "lang.invalid_api_key"]);
+
+    }
+   public function test_productUpdate_whenProductIsUpdatedWithInvalidProductUrlHomepage_shouldRecieveResponseFalse()
+    {
+
+         AflProducts::factory()->create(['product_id'=>100]);
+         $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '5hDuaXuTh9gTLfPL',
+              'product_id' =>100,
+              'product_title' => 'Helpdesk Product',
+              'product_sku' => 'FAVEO-HDFRR',
+              'product_status' => 1,
+              'product_description' => 'This is a test product for license manager',
+              'product_url_homepage' => 'sandesh',
+              'product_url_download' => null,
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1
+            ];
+            $response = $this->json('POST', url('api/admin/products/edit'),$data);
+            $response->assertStatus(400);
+            $response->assertJson(['success' => false]);
+            $response->assertJson(['message' => "lang.url_error"]);
+            
+    }
+
+    public function test_productUpdated_whenProductIsUpdatedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
+    {
+         
+         $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '5hDuaXuTh9gTLfPL',
+              'product_id' => 100,
+              'product_title' => 'Helpdesk Product',
+              'product_sku' => 'FAVEO-HDFRR',
+              'product_status' => 1,
+              'product_description' => 'This is a test product for license manager',
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1.999999
+            ];
+            $response = $this->json('POST', url('api/admin/products/edit'),$data);
+            $response->assertStatus(400);
+            $response->assertJson(['success' => false]);
+            $response->assertJson(['message' => "lang.envato_error"]);
+            
+    }
+
+    public function test_productUpdated_whenProductIsUpdatedWithoutTitleOrSku_shouldRecieveResponseFalse()
+    {
+      $data= [
+              'token' => env('LICENSE_KEY'),
+              'api_key_secret' => '5hDuaXuTh9gTLfPL',
+              'product_id' =>100,
+              'product_description' => 'This is a test product for license manager',
+              'product_version' => '4.6.2',
+              'product_envato_id' => 1
+            ];
+            $response = $this->json('POST', url('api/admin/products/edit'),$data);
+            $response->assertStatus(400);
+            $response->assertJson(['success' => false]);
+            $response->assertJson(['message' => "There are invalid details present in this request"]);
+                        AflProducts::where('product_id',100)->delete();
+
+    }
+    
+   
+}
