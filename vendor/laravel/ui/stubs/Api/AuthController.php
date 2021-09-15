@@ -153,7 +153,7 @@ class  AuthController extends Controller
     */
     public function reset(Request $request)
     {
-
+        
     $validator = Validator::make($request->all(), [
         'email' => 'required|email|exists:afl_admins,admin_email',
         'password' => 'required|confirmed',
