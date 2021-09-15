@@ -147,7 +147,7 @@ public function productAdd(ProductRequest $request)
                     else
                         {
                         $api_action_success=1;
-                        return successResponse(Lang::get('lang.sucess'),$in,201);
+                        return successResponse(Lang::get('lang.sucess'),$in,200);
                         }
                     }
                 }

@@ -32,7 +32,7 @@ class InstallationController extends Controller
  * @param $installation_disable_ip
  * @return success response if the record was found and updated
  */
-public function installationUpdate(InstallationRequest $request)
+public function installationUpdate(Request $request)
 {
 
 
@@ -201,7 +201,7 @@ public function deleteInstallation($installation_id)
     {
       $removed_records=0;
 
-    if (validateIntegerValue($installation_id))
+    if (aflValidateIntegerValue($installation_id))
         {
           
           $removed_records+=AflInstallations::where('installation_id',$installation_id)->delete();
