@@ -11,6 +11,7 @@ class AflProducts extends Model
     protected $guarded =[];
 
     protected $primaryKey = 'product_id';
+    public $timestamps = false;
 
     public function license()
     {
