@@ -67,10 +67,10 @@ public function productAdd(ProductRequest $request)
                  $ip_address=$request->ip();
 
                  }
-
        if(!empty($api_key_secret))
        {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get()->toArray();
+        
         if(empty($api))
         {
             return errorResponse(Lang::get('lang.invalid_api_key'),404);
@@ -99,6 +99,7 @@ public function productAdd(ProductRequest $request)
 
           if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
                 {
+
                 if (!empty($product_url_homepage) && !filter_var($product_url_homepage, FILTER_VALIDATE_URL))
                     {
                     $api_error_detected=1;
@@ -201,7 +202,7 @@ public function deleteProduct(Request $request)
 
       if(!empty($api_key_secret))
        {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get()->toArray();
         if(empty($api))
         {
             return errorResponse(Lang::get('lang.invalid_api_key'),404);
@@ -312,7 +313,7 @@ Public function productUpdate(Request $request){
 
        if(!empty($api_key_secret))
        {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
+        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get()->toArray();
         if(empty($api))
         {
             return errorResponse(Lang::get('lang.invalid_api_key'),404);

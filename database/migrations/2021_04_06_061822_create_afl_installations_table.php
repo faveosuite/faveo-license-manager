@@ -26,7 +26,7 @@ class CreateAflInstallationsTable extends Migration
                   ->onDelete('cascade');
 
             $table->string('license_code',125)->unique();
-            $table->string('installation_ip',125)->unique();
+            $table->string('installation_ip',125);
             $table->string('installation_domain',125)->default('null');
             $table->boolean('installation_disable_ip_verification')->default(false)->nullable();
             $table->date('installation_date');

@@ -10,4 +10,6 @@ class AflSettings extends Model
     use HasFactory;
     protected $guarded = [];
     protected $primaryKey = 'SETTING_ID';
+    public $timestamps = false;
+
 }
