@@ -13,7 +13,7 @@ class LicenseInstallControllerTest extends TestCase
      */
     public function test_licenseInstall_whenInstalled_shouldRecieveLicenseOk()
     {
-    
+
        //AflProducts::factory()->create(['product_id' =>1]);
        //AFlLicenses::factory()->create(['product_id'=>1]);
        /*$root_url = 'https://www.faveo.com';
@@ -30,7 +30,7 @@ class LicenseInstallControllerTest extends TestCase
                'installation_hash' => '75ddd7f01f05911f4c21d48d20262d38aa490c90acb11d1b58cc7a95fa4d9199',
                'license_signature' => ''
                ];*/
-
+//pass it empty the url
 
     }
 }
