@@ -28,9 +28,11 @@ class AflAdmins extends Model
         'admin_ip',
         'admin_date',
         'admin_reset',
-        'admin_hash'];
+        'admin_hash',
+        'admin_type_id'];
         
 protected $primaryKey = 'admin_id';
+public $timestamps = false;
 
 public function AauthAcessToken(){
     return $this->hasMany('App\Models\oauth_access_token');

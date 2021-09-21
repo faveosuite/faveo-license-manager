@@ -60,7 +60,7 @@ $removed_records=0;
 $api_action_success=0;
 $api_error_detected=0;
 $api_error_details="";
-$logged_admin_id=0; 
+$logged_admin_id=0;
 
         if (null!==(request()->server('REMOTE_ADDR')))
         {
@@ -111,7 +111,7 @@ $logged_admin_id=0;
             }
 
        //code between {} tags is identical in files with the same name in /apl_admin and /apl_api directories, EXCEPT redirectInvalidRecord($script_name); line
-            
+
             if (!empty($delete_record) && $delete_record==1)
                 {
                 $removed_records+=$this->deleteInstallation($installation_id);
@@ -121,7 +121,7 @@ $logged_admin_id=0;
 
                     $page_message="Deleted $removed_records installation(s).";
                     createReport(strip_tags($page_message), $logged_admin_id, 1, $action_success);
-                    echo $page_message; //THIS LINE IS CUSTOM IN API. ADMINISTRATION DASHBOARD CODE CONTAINS redirectInvalidRecord($script_name);
+                    return $page_message; //THIS LINE IS CUSTOM IN API. ADMINISTRATION DASHBOARD CODE CONTAINS redirectInvalidRecord($script_name);
                     exit();
                     }
                 else
@@ -131,7 +131,7 @@ $logged_admin_id=0;
                     }
                 }
 
-            if (filter_var($installation_ip, FILTER_VALIDATE_IP) && validateIntegerValue($installation_status, 0, 2))
+            if (filter_var($installation_ip, FILTER_VALIDATE_IP) && aflValidateIntegerValue($installation_status, 0, 2))
                 {
                 if ($error_detected!=1)
                     {
@@ -141,7 +141,7 @@ $logged_admin_id=0;
                                         'installation_disable_ip_verification' => $installation_disable_ip,
                                         'installation_status'=> $installation_status
                                          ]);
-                    if (!validateIntegerValue($updated_records))
+                    if (!aflValidateIntegerValue($updated_records))
                         {
                         $error_detected=1;
                         $error_details.="Invalid record details, duplicated data, or database error.<br>";
@@ -149,8 +149,8 @@ $logged_admin_id=0;
                     else
                         {
                         $action_success=1;
-                         
-                        $rows_array = AflInstallations::leftJoin('afl_products','afl_installations.installation_id','=', 'afl_products.product_id')
+
+                        $rows_array = AflInstallations::leftJoin('afl_products','afl_installations.product_id','=', 'afl_products.product_id')
                                               ->where('afl_installations.installation_id',$installation_id)
                                               ->get()->toArray();
                         foreach ($rows_array as $row) //fetch product details to use in reports
@@ -178,15 +178,15 @@ $logged_admin_id=0;
                 }
 
             createReport(strip_tags($page_message), $logged_admin_id, 1, $action_success);
-            
+
         }
     else //display error message
         {
         $page_message="The action could not be completed because of this reason:<br><br>$api_error_details";
         }
 
-    $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>$action_success, "error_detected"=>$error_detected, "page_message"=>$page_message); //make array with response data
-    echo json_encode($api_response_array);
+    $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>$action_success, "error_detected"=>$error_detected, "page_message"=>$page_message);//make array with response data
+    return json_encode($api_response_array);
     }
 }
 
@@ -203,13 +203,11 @@ public function deleteInstallation($installation_id)
 
     if (aflValidateIntegerValue($installation_id))
         {
-          
           $removed_records+=AflInstallations::where('installation_id',$installation_id)->delete();
 
         }
 
     return $removed_records;
 
-   
 }
 }

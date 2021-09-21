@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 
 /**
- * Consist of functionalities for the Edit profiles page in Auto Faveo licenser 
+ * Consist of functionalities for the Edit profiles page in Auto Faveo licenser
  * Class  EditProfilesController
  * @package App\Http\Controllers
  */
@@ -23,8 +23,8 @@ class EditProfilesController extends Controller
      * returns the number of records updated also generates a new admin_hash
      */
     public function editProfile(EditProfilesRequest $request,$admin_id){
-        
-        $user = AflAdmins::where('admin_id',$admin_id) 
+
+        $user = AflAdmins::where('admin_id',$admin_id)
                          ->update([
                              'admin_fname' => $request->get('admin_fname'),
                              'admin_lname' => $request->get('admin_lname'),
@@ -35,7 +35,7 @@ class EditProfilesController extends Controller
                          ]);
 
        if(!aflValidateIntegerValue($user)){
-           return errorResponse(Lang::get('lang.'),404);
+           return errorResponse(Lang::get('lang.error'),404);
        }
        else{
            $admin_hash = generateRandomString(64);

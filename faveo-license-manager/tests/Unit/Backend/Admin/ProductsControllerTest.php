@@ -20,7 +20,7 @@ class ProductsControllerTest extends TestCase
      */
     public function test_productAdd_whenProductIsAdded_shouldRecieveResponseTrue()
     {
-       
+
             $data= [
               'token' => env('LICENSE_KEY'),
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
@@ -43,7 +43,7 @@ class ProductsControllerTest extends TestCase
     public function test_productUpdate_whenProductIsUpdated_shouldRecieveResponseTrue()
     {
            $product_id = AflProducts::where('product_sku','FAVEO-HDFRR')->value('product_id');
-           $data = 
+           $data =
            [
              'token' => env('LICENSE_KEY'),
              'api_key_secret' => '5hDuaXuTh9gTLfPL',
@@ -63,10 +63,10 @@ class ProductsControllerTest extends TestCase
     public function test_productDelete_whenProductIsDeleted_shouldRecieveResponseTrue()
     {
        $product_id = AflProducts::where('product_sku','FAVEO-TESTHDFE')->value('product_id');
-       AflLicenses::factory()->create(['product_id' => $product_id]);
-       AflInstallations::factory()->create(['product_id' => $product_id]);
-       AflCallbacks::factory()->create(['product_id' => $product_id]);
-       $data = 
+       AflLicenses::factory()->create(['product_id' => $product_id,'license_code' => 'KIOSXH890DH678DK']);
+       AflInstallations::factory()->create(['product_id' => $product_id,'license_code' => 'KIOSXH890DH678DK']);
+       AflCallbacks::factory()->create(['product_id' => $product_id,'license_code' => 'KIOSXH890DH678DK']);
+       $data =
            [
              'token' => env('LICENSE_KEY'),
              'api_key_secret' => '5hDuaXuTh9gTLfPL',
@@ -98,7 +98,7 @@ class ProductsControllerTest extends TestCase
             $response->assertStatus(400);
             $response->assertJson(['success' => false]);
             $response->assertJson(['message' => "lang.error_producturl"]);
-            
+
     }
 
     public function test_productAdd_whenProductIsAddedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
@@ -117,7 +117,7 @@ class ProductsControllerTest extends TestCase
             $response->assertStatus(400);
             $response->assertJson(['success' => false]);
             $response->assertJson(['message' => "lang.error_product_envato"]);
-            
+
     }
 
     public function test_productAdd_whenProductIsAddedWithoutTitleOrSku_shouldRecieveResponseFalse()
@@ -172,12 +172,12 @@ class ProductsControllerTest extends TestCase
             $response->assertStatus(400);
             $response->assertJson(['success' => false]);
             $response->assertJson(['message' => "lang.url_error"]);
-            
+
     }
 
     public function test_productUpdated_whenProductIsUpdatedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
     {
-         
+
          $data= [
               'token' => env('LICENSE_KEY'),
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
@@ -193,7 +193,7 @@ class ProductsControllerTest extends TestCase
             $response->assertStatus(400);
             $response->assertJson(['success' => false]);
             $response->assertJson(['message' => "lang.envato_error"]);
-            
+
     }
 
     public function test_productUpdated_whenProductIsUpdatedWithoutTitleOrSku_shouldRecieveResponseFalse()
@@ -210,9 +210,9 @@ class ProductsControllerTest extends TestCase
             $response->assertStatus(400);
             $response->assertJson(['success' => false]);
             $response->assertJson(['message' => "There are invalid details present in this request"]);
-                        AflProducts::where('product_id',100)->delete();
+            AflProducts::where('product_id',100)->delete();
 
     }
-    
-   
+
+
 }

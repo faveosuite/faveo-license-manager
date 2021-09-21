@@ -212,7 +212,7 @@ class ClientsController extends Controller
         $removed_records+= AflClients::where('client_id', $client_id)->delete();
         //$removed_records+=doMysqlQuery("DELETE FROM apl_clients WHERE client_id=?", array($client_id), array("i"));
         DB::commit();
-        return successResponse(Lang::get('lang.delete'),$removed_records,200);
+        return successResponse(Lang::get('lang.Client_Destroy'),$removed_records,200);
         }
         catch(Exception $e){
              $transaction_errors_array[]=$e->getMessage();
@@ -221,7 +221,6 @@ class ClientsController extends Controller
              return errorResponse(Lang::get('lang.invalid'),400);
         }
         }
-
     return $removed_records;
 }
     }
@@ -337,7 +336,7 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
                         }
                     else
                         {
-                        return successResponse(Lang::get('lang.Client_Edit'),$updated_records,200);
+                        return successResponse(Lang::get('lang.Client_Update'),$updated_records,200);
                         }
                     }
                 }

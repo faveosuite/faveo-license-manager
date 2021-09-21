@@ -30,7 +30,7 @@ class ConnectionController extends Controller
        public function connection(Request $request)
        {
         //set supported browsers (internal requests only coming from these browsers will be processed)
-        $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36");
+        $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/93.0.4577.82 Safari/537.36","Symfony");
         //$connection_hash=rawurlencode(hash("sha256", "connection_test")); //should be passed from helpdesk
 
         //dd($connection_hash);
@@ -64,9 +64,9 @@ class ConnectionController extends Controller
            $user_agent=$request->get('user_agent');
            }
        
-        //dd($connection_hash);
+        
         if (filter_var($ip_address, FILTER_VALIDATE_IP) &&
-        in_array($user_agent, $SUPPORTED_BROWSERS_ARRAY) &&
+         in_array($user_agent, $SUPPORTED_BROWSERS_ARRAY) &&
         filter_var($refer, FILTER_VALIDATE_URL)
         && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connectionTest"))
         {     
