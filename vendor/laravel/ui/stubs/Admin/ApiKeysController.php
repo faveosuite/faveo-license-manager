@@ -57,7 +57,7 @@ class ApiKeysController extends Controller
                 }
             }
            $api->save();
-           return successResponse(Lang::get('lang.'),$api,201);
+           return successResponse(Lang::get('lang.add'),$api,201);
            }
 
            catch(Exception $e){
@@ -112,7 +112,7 @@ class ApiKeysController extends Controller
         }
         else
         {
-            return successResponse(Lang::get('lang.'),$updateapi,200);
+            return successResponse(Lang::get('lang.Update'),$updateapi,200);
         }
   }
 
@@ -129,7 +129,7 @@ class ApiKeysController extends Controller
         $removed_records=AflApiKeys::where('api_key_id',$api_key_id)->delete();//doMysqlQuery("DELETE FROM apl_api_keys WHERE api_key_id=?", array($api_key_id), array("i"));
         }
 
-        return successResponse(Lang::get('lang.'),$removed_records,200);
+        return successResponse(Lang::get('lang.Delete'),$removed_records,200);
     }
 
 

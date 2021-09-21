@@ -24,7 +24,6 @@ public function search(Request $request){
     $search_keyword = $request->get('search_keyword');
     $date_from = $request->get('date_from');
     $date_to = $request->get('date_to');
-
     $SUPPORTED_API_SEARCHES_ARRAY=array("banned_host", "callback", "client", "installation", "license", "product", "report");
 
 //set default values for essential variables (mostly submitted to dropdown functions) when no values are set or values need to be reset

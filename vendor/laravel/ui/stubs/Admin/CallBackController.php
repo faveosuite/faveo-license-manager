@@ -7,5 +7,5 @@ use Illuminate\Http\Request;
 
 class CallBackController extends Controller
 {
-   
+   //Will be implemented with update manager
 }

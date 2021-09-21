@@ -23,7 +23,6 @@ class AflCallbacksFactory extends Factory
     {
         return [
             'product_id' => 100,
-            'client_id' => null,
             'license_code' => 'CH2NW4MI0OTL0002',
             'callback_ip' => '106.51.140.178',
             'callback_date_time' => now(),

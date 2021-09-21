@@ -31,13 +31,13 @@ use Illuminate\Support\Facades\Lang;
 
 
 /**
- * Consist of functionalities for Authentication in Auto Faveo licenser 
+ * Consist of functionalities for Authentication in Auto Faveo licenser
  * Class AuthController
  * @package App\Http\Controllers\Api
  */
 class  AuthController extends Controller
 {
-    
+
      /**
      * To Register an user to Auto faveo licenser
      * @param RegisterRequest $request
@@ -65,7 +65,7 @@ class  AuthController extends Controller
 
         return successResponse(Lang::get('lang.registered'),$response,201);
     }
-    
+
 
     /**
      * To Login an user to Auto faveo licenser
@@ -86,7 +86,7 @@ class  AuthController extends Controller
           if( !$admin || !Hash::check($filled['admin_password'],$admin->admin_password)){
               return errorResponse(Lang::get('auth.failed'),401);
           }
-         
+
 
         $tokenobj = $admin->createToken('AFL');
         $token = $tokenobj->accessToken;
@@ -98,7 +98,7 @@ class  AuthController extends Controller
             'user'=> $admin,
             'token'=> $token_id
         ];
-    
+
         return successResponse(Lang::get('lang.Login'),$response,200);
     }
 
@@ -131,7 +131,6 @@ class  AuthController extends Controller
 
               $message->from(config('constants.Mail.From'), 'Forgot Password');
               $message->to($email)->subject('Password Reset Link');
-                              
             }
 
              );
@@ -143,24 +142,23 @@ class  AuthController extends Controller
         }
 
     }
-    
+
 
 
     /**
      * Used to reset the password after validating email,password and token
      * @param Request $request
-     * @return response password has been changed 
+     * @return response password has been changed
     */
     public function reset(Request $request)
     {
-        
+    //dd($request->all());
     $validator = Validator::make($request->all(), [
-        'email' => 'required|email|exists:afl_admins,admin_email',
+        'email' => 'required|email',
         'password' => 'required|confirmed',
         'token' => 'required'
         ]);
 
-    
     if ($validator->fails()) {
         return errorResponse(Lang::get('lang.form'),401);
     }
@@ -180,7 +178,7 @@ class  AuthController extends Controller
 
     $admin->admin_password = \Hash::make($password);
     $admin->update(); //or $admin->save();
-    
+
     // Auth::login($admin);
     $details = DB::table('password_resets')->where('email', $admin->admin_email)->delete();
 
@@ -190,13 +188,13 @@ class  AuthController extends Controller
 
 
     /**
-     * To Logout of the Auto Faveo Licenser 
+     * To Logout of the Auto Faveo Licenser
      * @param Request $request
      * @param $user_id
      * @return response You have logged out successfuly after revoking the token
     */
     public function logout(Request $request,$user_id){
-        
+
         $logout=DB::table('oauth_access_tokens')
                    ->where('user_id',$user_id)
                    ->update([

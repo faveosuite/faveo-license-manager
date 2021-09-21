@@ -12,7 +12,7 @@ use App\Models\AflProducts;
 
 
 /**
- * Consist of functionalities for the Configuration Generator page in Auto Faveo licenser 
+ * Consist of functionalities for the Configuration Generator page in Auto Faveo licenser
  * Class ConfigGenerateController
  * @package App\Http\Controllers\Admin
  */
@@ -27,7 +27,6 @@ class ConfigGenerateController extends Controller
     public function configGenerate(ConfigRequest $request)
     {
 
-        
         $action_success=0; //will be changed to 1 later only if everything OK
         $error_detected=0; //will be changed to 1 later if error occurs
         $error_details=""; //will be filled with errors (if any)
@@ -47,15 +46,18 @@ class ConfigGenerateController extends Controller
      foreach ($sets_array as $set)
      {
      extract((array)$set);
-     } // need to get it from faveo billing so this is temporary to check if this api is working
+     }
 
+     // need to get it from faveo billing so this is temporary to check if this api is working
         if (aflValidateIntegerValue($product_id) && aflValidateIntegerValue($config_afl_days, 1, 365) && in_array($config_afl_storage, array("DATABASE", "FILE")) && !empty($config_afl_database_table) && !empty($config_afl_license_file_location))
-            { 
+            {
 
         if (empty($rows_array=DB::table('afl_products')->where('product_id',$product_id)->get()->toArray())) //invalid record
             {
+
             $error_detected=1;
             $error_details.="Invalid product.<br>";
+            return errorResponse(Lang::get('lang.invalid'),404);
             }
 
         if ($error_detected!=1)
@@ -99,7 +101,7 @@ class ConfigGenerateController extends Controller
         $page_message_class="alert alert-danger";
         }
     createReport(strip_tags($page_message), 1, 1, $action_success);
- 
+
     //set default values for essential variables (mostly submitted to dropdown functions) when no values are set or values need to be reset
 if (!isset($product_id) || !aflValidateIntegerValue($product_id))
     {
@@ -123,7 +125,7 @@ if (!isset($config_afl_database_table))
 
 
 $products_array=$this->returnProductsDropdownArray($product_id);
-return $config_file_content;        
+return $config_file_content;
 }
 
 
