@@ -71,7 +71,7 @@ class ConnectionController extends Controller
         && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connectionTest"))
         {     
                $rows_array =[$ip_address,$user_agent,$refer,$product_id,$connection_hash];
-               echo "<connection_test>OK</connection_test>";
+               return "<connection_test>OK</connection_test>";
         }
         else{
           return errorResponse(Lang::get('lang.invalid_connection'),400);
