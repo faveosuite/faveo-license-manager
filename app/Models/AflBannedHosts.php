@@ -10,6 +10,7 @@ class AflBannedHosts extends Model
     use HasFactory;
     protected $guarded =[];
     protected $primaryKey = 'banned_host_id';
+    public $timestamps = false;
     //protected $table = 'afl_banned_host';
 
 }

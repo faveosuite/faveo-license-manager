@@ -23,7 +23,6 @@ class AflInstallationsFactory extends Factory
     {
         return [
             'product_id' => 100,
-            'client_id' => null,
             'license_code' => 'CH2NW4MI0OTL0002',
             'installation_ip' => '106.51.140.178',
             'installation_domain' => 'sandesh.com',
