@@ -159,7 +159,6 @@ public function licenseAdd(LicenseRequest $request){
 
                 if (!empty($license_expire_date) && !aflVerifyDateTime($license_expire_date, "Y-m-d"))
                     {
-                        dd($license_expire_date);
                         $api_error_detected=1;
                         return errorResponse(Lang::get('lang.invalid_license_expiry'),400);
                     }
@@ -257,7 +256,7 @@ public function licenseAdd(LicenseRequest $request){
                             $client_formatted=formatClient($license_code, $client_email);
 
                                $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>1, "error_detected"=>0, "page_message"=>$client_formatted); //make array with response data
-                                    return json_encode($api_response_array);//return successResponse(Lang::get('lang.success'),$client_formatted,201);
+                                return json_encode($api_response_array);//return successResponse(Lang::get('lang.success'),$client_formatted,201);
                             }
                         }
                     }
@@ -293,7 +292,7 @@ public function licenseAdd(LicenseRequest $request){
  */
 public function licenseUpdate(Request $request)
 {
-    
+
     $api_key_secret = $request->get('api_key_secret');
     $license_id = $request->get('license_id');
     $product_id = $request->get('product_id');

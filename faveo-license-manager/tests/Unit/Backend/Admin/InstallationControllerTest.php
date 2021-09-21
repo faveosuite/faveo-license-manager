@@ -2,7 +2,9 @@
 
 namespace Tests\Unit\Backend\Admin;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\AflInstallations;
+use App\Models\AflProducts;
+use Tests\TestCase;
 
 class InstallationControllerTest extends TestCase
 {
@@ -11,8 +13,65 @@ class InstallationControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_installationUpdate_whenInstallationDetailsIsUpdated_shouldReturnResponse()
+    public function test_installUpdate_whenInstallationDetailsUpdated_shouldRespondWith200()
     {
-        
+        AflProducts::factory()->create(['product_id'=>6,'product_sku'=>'INSTALL-UPDATE']);
+        AflInstallations::factory()->create(['installation_id'=>5,'product_id'=>6,'license_code'=>'AKO094GD9NCK0DHJ']);
+        $data = [
+            'token' => env('LICENSE_KEY'),
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'installation_id'=>5,
+            'installation_ip' =>'127.0.0.1',
+            'installation_status' => 1,
+            'installation_disable_ip' => 1
+        ];
+        $response = $this->json('POST',url('api/admin/installations/edit'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install=$content['page_message'];
+        $this->assertEquals($install,'Helpdesk Product 2 installation on sandesh.com (127.0.0.1) updated.');
+    }
+    public function test_installUpdate_whenInstallationDetailsUpdatedWithoutInstallationPresent_shouldRespondWith200()
+    {
+        $data = [
+            'token' => env('LICENSE_KEY'),
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'installation_id'=>6,
+            'installation_ip' =>'127.0.0.1',
+            'installation_status' => 1,
+            'installation_disable_ip' => 1
+        ];
+        $response = $this->json('POST',url('api/admin/installations/edit'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install=$content['page_message'];
+        $this->assertEquals($install,'Installation could not be updated because of this reason: <br><br>Invalid record details, duplicated data, or database error.<br>');
+    }
+    public function test_deleteInstallation_whenInstallationDetailsDeletedWhichareNotPresent_shouldRespondWith200()
+    {
+        $data = [
+            'token' => env('LICENSE_KEY'),
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'installation_id'=>6,
+            'delete_record'=>1
+        ];
+        $response = $this->json('POST',url('api/admin/installations/edit'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install=$content['page_message'];
+        $this->assertEquals($install,'Installation could not be updated because of this reason: <br><br>Invalid record or database error.<br>Invalid IP address or status.<br>');
+    }
+    public function test_deleteInstallation_whenInstallationDetailsDeleted_shouldRespondWith200()
+    {
+        $data = [
+            'token' => env('LICENSE_KEY'),
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'installation_id'=>5,
+            'delete_record'=>1
+        ];
+        $response = $this->json('POST',url('api/admin/installations/edit'),$data);
+        $response->assertStatus(200);
+        $this->assertDatabaseMissing('afl_installations',['license_code'=>'AKO094GD9NCK0DHJ']);
+        AflProducts::where('product_sku','INSTALL-UPDATE')->delete();
     }
 }
