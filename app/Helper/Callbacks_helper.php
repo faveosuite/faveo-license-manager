@@ -5,9 +5,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\AflFailedLicensings;
 use App\Models\AflNotifications;
 use App\Models\AflReports;
-
-
-
+use Illuminate\Http\Response;
 
 
 //return root url from long url (http://www.domain.com/path/file.php?aa=xx becomes http://www.domain.com/path/), remove scheme, www. and last slash if needed
@@ -112,7 +110,6 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
 function returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data="")
     {
      $content_array=[];
-
     $notification_server_signature=generateServerSignature($product_id, $root_url, $client_email, $license_code);
 
     $rows_array=AflNotifications::where('notification_id',1)->get()->toArray();//fetchRow("SELECT * FROM apl_notifications WHERE notification_id=?", array(1), array("i"));
@@ -131,10 +128,11 @@ function returnServerNotification($notification_case, $root_url, $ip_address, $c
         {
         $notification_data="";
         }
-    header("notification_case: $notification_case");
-    header("notification_text: $notification_text");
-    header("notification_server_signature: $notification_server_signature");
-    header("notification_data: ".json_encode($notification_data));
+       return \response()->json([])
+           ->header("notification_case",$notification_case)
+           ->header("notification_text",$notification_text)
+           ->header("notification_server_signature",$notification_server_signature)
+           ->header("notification_data",json_encode($notification_data));
     }
 
 
@@ -155,7 +153,7 @@ function createLicenseReport($SMART_REPORTS, $product_id, $account_id, $license_
                       ->where('report_text',$report_text)
                       ->where('report_system' ,$report_system)
                       ->get()->toArray();
-                   //fetchRow("SELECT * FROM apl_reports WHERE product_id=? AND (account_id=? OR license_code=?) AND report_date_time BETWEEN ? AND ? AND report_text=? AND report_system=?", array($product_id, $account_id, $license_code, "$date_today 00:00:00", "$date_today 23:59:59", $report_text, $report_system), array("i", "i", "s", "s", "s", "s", "i"));
+        //fetchRow("SELECT * FROM apl_reports WHERE product_id=? AND (account_id=? OR license_code=?) AND report_date_time BETWEEN ? AND ? AND report_text=? AND report_system=?", array($product_id, $account_id, $license_code, "$date_today 00:00:00", "$date_today 23:59:59", $report_text, $report_system), array("i", "i", "s", "s", "s", "s", "i"));
         }
 
     if (empty($rows_array)) //no identical report found (or SMART_REPORTS disabled)
@@ -239,3 +237,4 @@ function generateServerSignature($product_id, $root_url, $client_email, $license
 
     return $license_signature;
     }
+?>

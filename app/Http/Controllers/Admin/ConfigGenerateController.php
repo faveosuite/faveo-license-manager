@@ -122,8 +122,6 @@ if (!isset($config_afl_database_table))
     {
     $config_afl_database_table="user_data";
     }
-
-
 $products_array=$this->returnProductsDropdownArray($product_id);
 return $config_file_content;
 }

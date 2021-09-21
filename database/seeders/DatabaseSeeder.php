@@ -7,6 +7,7 @@ use App\Models\AflNotifications;
 use App\Models\AflSettings;
 use App\Models\AflLicenseSchemes;
 use App\Models\AflApiKeys;
+use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends Seeder
 {
@@ -20,13 +21,15 @@ class DatabaseSeeder extends Seeder
       $this->api();
       $this->schemes();
       $this->notifications();
-      $this->settings();      
+      $this->settings();
+      $this->oAuthClients();
+      $this->personalClients();
     }
 
     public function api()
     {
         AflApiKeys::updateOrCreate([
-         'api_key_secret' => 'P5Zp2PmbOSPWOdc6',
+         'api_key_secret' => '5hDuaXuTh9gTLfPL',
          'api_key_ip' =>'',
          'api_key_clients_add' => 1,
          'api_key_clients_edit' => 1,
@@ -42,8 +45,8 @@ class DatabaseSeeder extends Seeder
 
     public function schemes()
     {
-       
-       AflLicenseSchemes::updateOrCreate([    
+
+       AflLicenseSchemes::updateOrCreate([
             'scheme_query' => "CREATE TABLE %APL_DATABASE_TABLE% (SETTING_ID TINYINT(1) NOT NULL AUTO_INCREMENT,ROOT_URL VARCHAR(250) NOT NULL,CLIENT_EMAIL VARCHAR(250) NOT NULL,LICENSE_CODE VARCHAR(250) NOT NULL,LCD VARCHAR(250) NOT NULL,LRD VARCHAR(250) NOT NULL,INSTALLATION_KEY VARCHAR(250) NOT NULL,INSTALLATION_HASH VARCHAR(250) NOT NULL,PRIMARY KEY (SETTING_ID)) DEFAULT CHARSET=utf8;INSERT INTO %APL_DATABASE_TABLE% (SETTING_ID, ROOT_URL, CLIENT_EMAIL, LICENSE_CODE, LCD, LRD, INSTALLATION_KEY, INSTALLATION_HASH) VALUES ('1', '%ROOT_URL%', '%CLIENT_EMAIL%', '%LICENSE_CODE%', '%LCD%', '%LRD%', '%INSTALLATION_KEY%', '%INSTALLATION_HASH%');",
             'scheme_status' =>1
        ]);
@@ -71,8 +74,8 @@ class DatabaseSeeder extends Seeder
             'notification_invalid_signature' => 'License signature is invalid',
             'notification_host_banned' => 'Hostname %IP_ADDRESS% is banned',
             'notification_unknown_error' => 'An unknown error occurred (probably database failure or unauthorized modification of data)'
-        
-       ]); 
+
+       ]);
     }
 
     public function settings()
@@ -86,7 +89,7 @@ class DatabaseSeeder extends Seeder
         'SYSTEM_LANGUAGE' => 'en',
         'TIMEZONE' => 'UTC',
         'RECORDS_ARCHIVE_DAYS' => '365',
-        'RECORDS_ON_ADMIN_PAGE' => '10', 
+        'RECORDS_ON_ADMIN_PAGE' => '10',
         'RECORDS_ON_INDEX_PAGE' => '5',
         'RECORDS_ON_SEARCH_PAGE'=> '10',
         'API_STATUS' => '1',
@@ -117,6 +120,26 @@ class DatabaseSeeder extends Seeder
         'NEWS_DATE' =>'2021-08-02',
         'ENVATO_API_TOKEN'=>'',
         'DATABASE_VERSION'=>'2.4.1',
-       ]); 
+       ]);
     }
+    public function oAuthClients(){
+
+        DB::table('oauth_clients')->updateOrInsert([
+            'id'=>1,
+            'name' =>'Laravel Personal Access Client',
+            'secret' => 'YtYAWKxjvKk22NpQmrti8v7QXto3pgvG6XpPTkRi',
+            'redirect'=>'http://localhost',
+            'personal_access_client'=>1,
+            'password_client'=>0,
+            'revoked'=>0
+        ]);
+    }
+
+    public function personalClients(){
+        DB::table('oauth_personal_access_clients')->updateOrInsert([
+            'id'=>1,
+            'client_id'=>1
+        ]);
+    }
+
 }
