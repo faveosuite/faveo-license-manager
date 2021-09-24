@@ -19,9 +19,10 @@ class SearchControllerTest extends TestCase
      */
     public function test_search_searchForBannedHostsUsingIp_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         AflBannedHosts::factory()->create(['banned_host_id'=>1]);
         $data = [
-                  'token' => env('LICENSE_KEY'),
+
                   'api_key_secret' => '5hDuaXuTh9gTLfPL',
                   'search_type' => 'banned_host',
                   'search_keyword' =>'109.89.89.22'
@@ -34,8 +35,9 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForBannedHostsUsingComments_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'banned_host',
             'search_keyword' =>'This is a search for a banned host'
@@ -48,11 +50,13 @@ class SearchControllerTest extends TestCase
         AflBannedHosts::where('banned_host_ip','109.89.89.22')->delete();
     }
 
-    public function test_search_searchForCallbackUsingLicenseCode_shouldRespondWith200(){
+    public function test_search_searchForCallbackUsingLicenseCode_shouldRespondWith200()
+    {
+        $this->withoutMiddleware();
         AflCallbacks::factory()->create(['callback_id'=>1,'product_id'=>14,'license_code'=> 'QWRT125SKOD87C6H','callback_domain'=>'faveotest.com']);
         AflProducts::factory()->create(['product_id'=>14,'product_sku'=>'SEARCH-CALLBACK']);
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'callback',
             'search_keyword' =>'QWRT125SKOD87C6H'
@@ -64,9 +68,11 @@ class SearchControllerTest extends TestCase
         $this->assertArrayHasKey('license_code',$callback_array);
 
     }
-    public function test_search_searchForCallbackUsingCallbackDomain_shouldRespondWith200(){
+    public function test_search_searchForCallbackUsingCallbackDomain_shouldRespondWith200()
+    {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'callback',
             'search_keyword' =>'faveotest.com'
@@ -78,10 +84,11 @@ class SearchControllerTest extends TestCase
         $this->assertArrayHasKey('callback_domain',$callback_array);
 
     }
-    public function test_search_searchForCallbackUsingCallbackIp_shouldRespondWith200(){
-
+    public function test_search_searchForCallbackUsingCallbackIp_shouldRespondWith200()
+    {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'callback',
             'search_keyword' =>'106.51.140.178'
@@ -96,9 +103,10 @@ class SearchControllerTest extends TestCase
 
     }
     public function test_search_searchForReportUsingReportText_shouldRespondWith200(){
+        $this->withoutMiddleware();
         AflReports::factory()->create();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'report',
             'search_keyword' =>'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.'
@@ -111,9 +119,10 @@ class SearchControllerTest extends TestCase
 
     }
     public function test_search_searchForReportUsingLicenseCode_shouldRespondWith200(){
+        $this->withoutMiddleware();
         AflReports::factory()->create();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'report',
             'search_keyword' => 'AK12BJSI9OP3BDJ8'
@@ -128,10 +137,11 @@ class SearchControllerTest extends TestCase
 
     public function test_search_searchForInstallationUsingLicenseCode_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         AflProducts::factory()->create(['product_id'=>15,'product_sku'=> 'SEARCH-INST']);
         AflInstallations::factory()->create(['installation_id'=>3 , 'product_id'=>15, 'license_code'=>'QWYDKO0D6NCLO5HN']);
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'installation',
             'search_keyword' => 'QWYDKO0D6NCLO5HN',
@@ -144,8 +154,9 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForInstallationUsingInstallationDomain_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'installation',
             'search_keyword' => 'sandesh.com',
@@ -158,8 +169,9 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForInstallationUsingInstallationIp_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'installation',
             'search_keyword' => '106.51.140.178',
@@ -174,12 +186,13 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForLicensesUsingLicenseCode_shouldRespondWith200(){
 
+        $this->withoutMiddleware();
         AflProducts::factory()->create(['product_id'=>16,'product_sku'=>'SEARCH-LIC']);
         AflLicenses::factory()->create(['license_id'=> 10,'license_code'=>'ANKOSYU987NCKLO3','product_id'=>16,'license_comments'=> 'This is a license']);
         AflInstallations::factory()->create(['installation_id'=>4,'product_id'=>16,'license_code'=>'ANKOSYU987NCKLO3']);
         AflCallbacks::factory()->create(['product_id' => 16,'license_code'=>'ANKOSYU987NCKLO3']);
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'license',
             'search_keyword' => 'ANKOSYU987NCKLO3',
@@ -193,8 +206,9 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForLicensesUsingLicenseComments_shouldRespondWith200(){
 
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'license',
             'search_keyword' => 'This is a license',
@@ -212,13 +226,14 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForProductsUsingProductTitle_shouldRespondWith200(){
 
+        $this->withoutMiddleware();
         AflProducts::factory()->create(['product_id'=>17,'product_sku'=>'SEARCH-PRO','product_title'=>'Faveo Test Product']);
         AflLicenses::factory()->create(['license_id'=> 11,'license_code'=>'KODJKSOPIC6789EH','product_id'=>17]);
         AflInstallations::factory()->create(['installation_id'=>5,'product_id'=>17,'license_code'=>'KODJKSOPIC6789EH']);
         AflCallbacks::factory()->create(['product_id' => 17,'license_code'=>'KODJKSOPIC6789EH']);
         AflReports::factory()->create(['product_id'=>17,'license_code'=>'KODJKSOPIC6789EH']);
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'product',
             'search_keyword' => 'Faveo Test Product',
@@ -232,8 +247,9 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForProductsUsingProductSku_shouldRespondWith200(){
 
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'product',
             'search_keyword' => 'SEARCH-PRO',
@@ -252,8 +268,9 @@ class SearchControllerTest extends TestCase
     }
     public function test_search_searchForInvalidDetails_shouldRespondWith200WithErrorMessage(){
 
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'license',
             'search_keyword' => 'This is a license that is not present',

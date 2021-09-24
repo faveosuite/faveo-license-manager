@@ -14,8 +14,9 @@ class ConfigGenerateControllerTest extends TestCase
      */
     public function test_configGenerate_configurationsIsRequested_shouldRecieveResponse200()
     {
+        $this->withoutMiddleware();
         AflProducts::factory()->create(['product_id'=>10,'product_sku'=>'ABCDEFG']);
-        $data = ['token' => env('LICENSE_KEY'),
+        $data = [
                  'product_id' => 10,
                  'License_Verification_Period' =>5,
                  'License_Storage_type' =>'DATABASE',
@@ -32,8 +33,10 @@ class ConfigGenerateControllerTest extends TestCase
     }
     public function test_configGenerate_ConfigRequestedWithInvalidStorage_shouldRecieveResponse404()
     {
+        $this->withoutMiddleware();
 
-        $data = [ 'token' => env('LICENSE_KEY'),
+        $data = [
+
                  'product_id' => 10,
                  'License_Verification_Period' =>5,
                  'License_Storage_type' =>'DATA',
@@ -43,8 +46,8 @@ class ConfigGenerateControllerTest extends TestCase
                  'Delete_Cracked_License' => 'No',
                  'God_Mode' =>'Yes',
              ];
-             $response= $this->json('POST',url('api/admin/config'),$data);
-             $response->assertStatus(500);
+             $this->json('POST',url('api/admin/config'),$data);
+             $this->assertDatabaseHas('afl_reports',['report_text'=>'The configuration file could not be generated because of this reason: Sample configuration file is empty.']);
 
 
 
@@ -52,7 +55,8 @@ class ConfigGenerateControllerTest extends TestCase
     }
     public function test_configGenerate_ConfigRequestedWithInvalidProduct_shouldRecieveResponse404()
     {
-        $data = [ 'token' => env('LICENSE_KEY'),
+        $this->withoutMiddleware();
+        $data = [
             'product_id' => 100,
             'License_Verification_Period' =>5,
             'License_Storage_type' =>'DATABASE',

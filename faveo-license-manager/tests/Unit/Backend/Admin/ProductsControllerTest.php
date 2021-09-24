@@ -20,9 +20,10 @@ class ProductsControllerTest extends TestCase
      */
     public function test_productAdd_whenProductIsAdded_shouldRecieveResponseTrue()
     {
+        $this->withoutMiddleware();
 
             $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_title' => 'Helpdesk Product',
               'product_sku' => 'FAVEO-HDFRR',
@@ -42,10 +43,11 @@ class ProductsControllerTest extends TestCase
 
     public function test_productUpdate_whenProductIsUpdated_shouldRecieveResponseTrue()
     {
+        $this->withoutMiddleware();
            $product_id = AflProducts::where('product_sku','FAVEO-HDFRR')->value('product_id');
            $data =
            [
-             'token' => env('LICENSE_KEY'),
+
              'api_key_secret' => '5hDuaXuTh9gTLfPL',
              'product_id' => $product_id,
              'product_title'=>'Helpdesk Updated',
@@ -62,13 +64,14 @@ class ProductsControllerTest extends TestCase
     }
     public function test_productDelete_whenProductIsDeleted_shouldRecieveResponseTrue()
     {
+        $this->withoutMiddleware();
        $product_id = AflProducts::where('product_sku','FAVEO-TESTHDFE')->value('product_id');
        AflLicenses::factory()->create(['product_id' => $product_id,'license_code' => 'KIOSXH890DH678DK']);
        AflInstallations::factory()->create(['product_id' => $product_id,'license_code' => 'KIOSXH890DH678DK']);
        AflCallbacks::factory()->create(['product_id' => $product_id,'license_code' => 'KIOSXH890DH678DK']);
        $data =
            [
-             'token' => env('LICENSE_KEY'),
+
              'api_key_secret' => '5hDuaXuTh9gTLfPL',
              'product_id' => $product_id,
            ];
@@ -82,8 +85,9 @@ class ProductsControllerTest extends TestCase
 
     public function test_productAdd_whenProductIsAddedWithInvalidProductUrlHomepage_shouldRecieveResponseFalse()
     {
+        $this->withoutMiddleware();
          $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_title' => 'Helpdesk Product',
               'product_sku' => 'FAVEO-HDFRR',
@@ -103,8 +107,9 @@ class ProductsControllerTest extends TestCase
 
     public function test_productAdd_whenProductIsAddedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
     {
+        $this->withoutMiddleware();
          $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_title' => 'Helpdesk Product',
               'product_sku' => 'FAVEO-HDFRR',
@@ -122,8 +127,9 @@ class ProductsControllerTest extends TestCase
 
     public function test_productAdd_whenProductIsAddedWithoutTitleOrSku_shouldRecieveResponseFalse()
     {
+        $this->withoutMiddleware();
       $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_description' => 'This is a test product for license manager',
               'product_version' => '4.6.2',
@@ -137,9 +143,10 @@ class ProductsControllerTest extends TestCase
 
     public function test_productAdd_whenProductIsAddedWithoutApiKeySecret_shouldRecieveResponseFalse()
     {
+        $this->withoutMiddleware();
 
          $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '555555555555555555555555555555555555hDuaXuTh9gTLfPL',
               'product_description' => 'This is a test product for license manager',
               'product_version' => '4.6.2',
@@ -153,10 +160,11 @@ class ProductsControllerTest extends TestCase
     }
    public function test_productUpdate_whenProductIsUpdatedWithInvalidProductUrlHomepage_shouldRecieveResponseFalse()
     {
+        $this->withoutMiddleware();
 
          AflProducts::factory()->create(['product_id'=>100]);
          $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_id' =>100,
               'product_title' => 'Helpdesk Product',
@@ -177,9 +185,10 @@ class ProductsControllerTest extends TestCase
 
     public function test_productUpdated_whenProductIsUpdatedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
     {
+        $this->withoutMiddleware();
 
          $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_id' => 100,
               'product_title' => 'Helpdesk Product',
@@ -198,8 +207,9 @@ class ProductsControllerTest extends TestCase
 
     public function test_productUpdated_whenProductIsUpdatedWithoutTitleOrSku_shouldRecieveResponseFalse()
     {
+        $this->withoutMiddleware();
       $data= [
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_id' =>100,
               'product_description' => 'This is a test product for license manager',
