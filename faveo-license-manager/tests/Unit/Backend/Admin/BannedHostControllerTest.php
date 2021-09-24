@@ -14,9 +14,10 @@ class BannedHostControllerTest extends TestCase
      */
     public function test_bannedHostAdd_whenBannedHostIsAdded_shouldRecieveResponse201()
     {
+        $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'banned_host_ip' => '127.0.0.1',
             'banned_host_comments' =>'Testing by banning a host',
             'banned_host_blocks' => 2,
@@ -30,9 +31,10 @@ class BannedHostControllerTest extends TestCase
     }
     public function test_bannedHostUpdate_whenBannedHostIsUpdatedWithoutId_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'banned_host_ip' => '127.0.0.2',
             'banned_host_comments' =>'Testing by banning a host',
         ];
@@ -43,10 +45,10 @@ class BannedHostControllerTest extends TestCase
     }
     public function test_bannedHostUpdate_whenBannedHostIsUpdatedWithoutIp_shouldRecieveResponse400()
     {
-
+        $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'banned_host_id'=>1,
             'banned_host_comments' =>'Testing by banning a host',
         ];
@@ -57,10 +59,11 @@ class BannedHostControllerTest extends TestCase
     }
     public function test_bannedHostUpdate_whenBannedHostIsUpdated_shouldRecieveResponse201()
     {
+        $this->withoutMiddleware();
         $banned_id=AflBannedHosts::where('banned_host_ip','127.0.0.1')->value('banned_host_id');
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'banned_host_id'=>$banned_id,
             'banned_host_ip' => '127.0.0.2',
             'banned_host_comments' =>'Testing by banning a host',
@@ -73,10 +76,11 @@ class BannedHostControllerTest extends TestCase
     }
     public function test_deleteBannedHost_whenBannedHostIsDeleted_shouldRecieveResponse201()
     {
+        $this->withoutMiddleware();
         $banned_id=AflBannedHosts::where('banned_host_ip','127.0.0.2')->value('banned_host_id');
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'banned_host_id'=>$banned_id,
         ];
         $response = $this->json('POST',url('api/admin/bannedHosts/delete'),$data);
@@ -87,9 +91,10 @@ class BannedHostControllerTest extends TestCase
     }
     public function test_bannedHostAdd_whenBannedHostIsAddedWithInvalidIp_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'banned_host_comments' =>'Testing by banning a host',
             'banned_host_blocks' => 2,
             'banned_host_last_block_date' => '2020-09-12'

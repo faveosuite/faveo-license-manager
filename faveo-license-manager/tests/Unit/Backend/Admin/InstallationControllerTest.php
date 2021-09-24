@@ -15,10 +15,11 @@ class InstallationControllerTest extends TestCase
      */
     public function test_installUpdate_whenInstallationDetailsUpdated_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         AflProducts::factory()->create(['product_id'=>6,'product_sku'=>'INSTALL-UPDATE']);
         AflInstallations::factory()->create(['installation_id'=>5,'product_id'=>6,'license_code'=>'AKO094GD9NCK0DHJ']);
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'installation_id'=>5,
             'installation_ip' =>'127.0.0.1',
@@ -33,8 +34,9 @@ class InstallationControllerTest extends TestCase
     }
     public function test_installUpdate_whenInstallationDetailsUpdatedWithoutInstallationPresent_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'installation_id'=>6,
             'installation_ip' =>'127.0.0.1',
@@ -49,8 +51,9 @@ class InstallationControllerTest extends TestCase
     }
     public function test_deleteInstallation_whenInstallationDetailsDeletedWhichareNotPresent_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'installation_id'=>6,
             'delete_record'=>1
@@ -63,8 +66,9 @@ class InstallationControllerTest extends TestCase
     }
     public function test_deleteInstallation_whenInstallationDetailsDeleted_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'installation_id'=>5,
             'delete_record'=>1

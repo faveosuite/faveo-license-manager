@@ -14,9 +14,9 @@ class EditProfilesControllerTest extends TestCase
      */
     public function test_editProfile_editDetailsOfTheLoggedInUser_shouldRespondWith200()
     {
+        $this->withoutMiddleware();
         AflAdmins::factory()->create(['admin_id'=>2]);
         $data = [
-            'token' => env('LICENSE_KEY'),
             'admin_fname' => 'Sandesssssh',
             'admin_lname' => 'Menaaaaaaaaaath',
             'admin_email' => 'sandesh123@gmail.com',
@@ -33,8 +33,8 @@ class EditProfilesControllerTest extends TestCase
     }
     public function test_editProfile_editDetailsOfUserNotPresent_shouldRespondWith404()
     {
+        $this->withoutMiddleware();
         $data = [
-            'token' => env('LICENSE_KEY'),
             'admin_fname' => 'Sandesssssh',
             'admin_lname' => 'Menaaaaaaaaaath',
             'admin_email' => 'sandesh123@gmail.com',

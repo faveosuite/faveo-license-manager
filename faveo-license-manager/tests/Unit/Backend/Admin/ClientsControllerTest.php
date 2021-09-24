@@ -17,9 +17,10 @@ class ClientsControllerTest extends TestCase
      */
     public function test_clientAdd_whenClientDetailsIsAdded_shouldRecieveResponse201()
     {
+        $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'client_fname' =>'Sandesh',
             'client_lname' =>'Menath',
             'client_email' =>'sandesh@gmail.com',
@@ -35,9 +36,10 @@ class ClientsControllerTest extends TestCase
     }
     public function test_clientAdd_whenClientDetailsIsAddedWithSameDetails_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'client_fname' =>'Sandesh',
             'client_lname' =>'Menath',
             'client_email' =>'sandesh@gmail.com',
@@ -52,10 +54,11 @@ class ClientsControllerTest extends TestCase
     }
     public function test_clientUpdate_whenClientDetailsIsUpdated_shouldRecieveResponse200()
     {
+        $this->withoutMiddleware();
         $id=AflClients::where('client_email','sandesh@gmail.com')->value('client_id');
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'client_id' => $id,
             'client_fname' =>'Sandesh',
             'client_lname' =>'Men',
@@ -71,10 +74,11 @@ class ClientsControllerTest extends TestCase
     }
     public function test_deleteClient_whenClientDetailsIsDeleted_shouldRecieveResponse200()
     {
+        $this->withoutMiddleware();
         $id=AflClients::where('client_email','sandesh123@gmail.com')->value('client_id');
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'client_id' => $id,
         ];
         $response = $this->json('POST',url('api/admin/clients/delete'),$data);
@@ -85,9 +89,10 @@ class ClientsControllerTest extends TestCase
     }
     public function test_clientAdd_whenClientDetailsIsAddedWithInvalidDetails_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-            'token' => env('LICENSE_KEY'),
+
             'client_fname' =>'Sandesh',
             'client_lname' =>'Menath',
             'client_email' =>'sandesh@gmail.com',
