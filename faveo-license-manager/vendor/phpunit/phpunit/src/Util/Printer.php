@@ -100,7 +100,6 @@ class Printer
             if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
                 $buffer = htmlspecialchars($buffer, ENT_COMPAT | ENT_SUBSTITUTE);
             }
-
             print $buffer;
         }
     }

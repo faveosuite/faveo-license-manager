@@ -5,43 +5,43 @@ namespace Tests\Unit\Backend\AflCallbacks;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
-
 use Tests\TestCase;
 
-class LicenseInstallControllerTest extends TestCase
+class LicenseVerifyControllerTest extends TestCase
 {
+
     protected function scriptSignature($root_url,$client_email,$license_code,$product_id){
         $ROOT_URL=url('/');
         $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
 
         $license_signature=hash("sha256",gmdate("Y-m-d").$root_url.$client_email.$license_code.$product_id.implode("", $root_ips_array));
+
         return $license_signature;
     }
-
-    public function test_licenseInstall_whenInstalledSuccessfully_shouldRecieveLicenseOk()
+    public function test_licenseVerify_afterInstallSuccessfully_shouldRecieveLicenseOk()
     {
-       AflProducts::factory()->create(['product_id' =>25,'product_sku'=>'LICEN-OK']);
-       AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS90']);
-       $root_url = 'https://www.faveo.com';
-       $license_code = 'JDI0MLOX63U8WS90';
-       $client_email = '';
-       $product_id = 25;
-       $license_signature = $this->scriptSignature($root_url,$license_code,$client_email,$product_id);
-       $data = [
-               'product_id'=>25,
-               'license_code' => 'JDI0MLOX63U8WS90',
-               'root_url' => 'https://www.faveo.com',
-               'installation_hash' => '3ca1710b87ca6250c7aa847d92a2a8488fe08a18c2967c037cc0ed988d77435a',
-               'license_signature' => $license_signature,
-                'refer' => 'https://www.faveo.com'
-               ];
 
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $root_url = 'https://www.faveo.com';
+        $license_code = 'JDI0MLOX63U8WS90';
+        $client_email = '';
+        $product_id = 25;
+        $license_signature = $this->scriptSignature($root_url,$license_code,$client_email,$product_id);
+        $data = [
+            'product_id'=>25,
+            'license_code' => 'JDI0MLOX63U8WS90',
+            'root_url' => 'https://www.faveo.com',
+            'installation_hash' => '3ca1710b87ca6250c7aa847d92a2a8488fe08a18c2967c037cc0ed988d77435a',
+            'license_signature' => $license_signature,
+            'refer' => 'https://www.faveo.com'
+        ];
+
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
+        $response->assertStatus(200);
         $response->assertHeader('notification_case','notification_license_ok');
         $response->assertHeader('notification-text','License OK');
 
     }
-    public function test_licenseInstall_whenInstalledWithoutProduct_shouldRecieveProductNotFound(){
+    public function test_licenseVerify_afterInstallWithoutProduct_shouldRecieveProductNotFound(){
 
         $data = [
             'product_id'=>26,
@@ -52,12 +52,12 @@ class LicenseInstallControllerTest extends TestCase
             'refer' => 'https://www.faveo.com'
         ];
 
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_product_not_found');
         $response->assertHeader('notification-text','Requested product not found');
 
     }
-    public function test_licenseInstall_whenInstalledProductInactive_shouldRecieveProductInactive(){
+    public function test_licenseVerify_afterInstallProductInactive_shouldRecieveProductInactive(){
         AflProducts::factory()->create(['product_id' =>26,'product_sku'=>'LICEN-INAC','product_status'=>0]);
         AflLicenses::factory()->create(['product_id'=>26,'license_code'=>'JDI0MLOX63U8WS33']);
         $root_url = 'https://www.faveo.com';
@@ -74,14 +74,14 @@ class LicenseInstallControllerTest extends TestCase
             'refer' => 'https://www.faveo.com'
         ];
 
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_product_inactive');
         $response->assertHeader('notification-text','Product Helpdesk Product 2 is inactive');
         AflProducts::where('product_id',26)->delete();
         AflLicenses::where('product_id',26)->delete();
 
     }
-    public function test_licenseInstall_whenInstalledWithoutLicenseCode_shouldRecieveLicenseCodeNotFound(){
+    public function test_licenseverify_afterInstallWithoutLicenseCode_shouldRecieveLicenseCodeNotFound(){
         $data = [
             'product_id'=>25,
             'license_code' => 'JSOPCKUIPOLD890D',
@@ -91,12 +91,12 @@ class LicenseInstallControllerTest extends TestCase
             'refer' => 'https://www.faveo.com'
         ];
 
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_license_not_found');
         $response->assertHeader('notification-text','License with license code JSOPCKUIPOLD890D not found (or product not found or is inactive)');
 
     }
-    public function test_licenseInstall_whenInstalledWithAInvalidSignature_shouldRecieveInvalidScriptSignature(){
+    public function test_licenseVerify_afterInstallWithAInvalidSignature_shouldRecieveInvalidScriptSignature(){
 
         $data = [
             'product_id'=>25,
@@ -107,11 +107,11 @@ class LicenseInstallControllerTest extends TestCase
             'refer' => 'https://www.faveo.com'
         ];
 
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_invalid_signature');
         $response->assertHeader('notification-text','License signature is invalid');
     }
-    public function test_licenseInstall_whenInstalledWithLicenseStatus0_shouldRecieveLicenseCancelled(){
+    public function test_licenseVerify_afterInstallWithLicenseStatus0_shouldRecieveLicenseCancelled(){
         AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS40','license_status'=>0]);
         $root_url = 'https://www.faveohelpdesk.com';
         $license_code = 'JDI0MLOX63U8WS40';
@@ -126,12 +126,12 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'https://www.faveohelpdesk.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_license_cancelled');
         AflLicenses::where('license_code','JDI0MLOX63U8WS40')->delete();
 
     }
-    public function test_licenseInstall_whenInstalledWithLicenseStatus2_shouldRecieveLicenseSuspended(){
+    public function test_licenseVerify_afterInstallWithLicenseStatus2_shouldRecieveLicenseSuspended(){
         AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS40','license_status'=>2]);
         $root_url = 'https://www.faveohelpdesk.com';
         $license_code = 'JDI0MLOX63U8WS40';
@@ -146,13 +146,13 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'https://www.faveohelpdesk.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_license_suspended');
         $response->assertHeader('notification-text','Helpdesk Product 2 license suspended');
         AflLicenses::where('license_code','JDI0MLOX63U8WS40')->delete();
 
     }
-    public function test_licenseInstall_whenInstalledWithLicenseExpired_shouldRecieveLicenseExpired(){
+    public function test_licenseVerify_afterInstallWithLicenseExpired_shouldRecieveLicenseExpired(){
         AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS40','license_expire_date'=>'2020-09-20']);
         $root_url = 'https://www.faveohelpdesk.com';
         $license_code = 'JDI0MLOX63U8WS40';
@@ -167,13 +167,13 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'https://www.faveohelpdesk.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_license_expired');
         $response->assertHeader('notification-text','Helpdesk Product 2 license expired on 2020-09-20 ,Please renew it on  billing.faveohelpdesk.com');
         AflLicenses::where('license_code','JDI0MLOX63U8WS40')->delete();
 
     }
-    public function test_licenseInstall_whenInstalledWithInvalidIp_shouldRecieveInvalidIp(){
+    public function test_licenseVerify_afterInstallWithInvalidIp_shouldRecieveInvalidIp(){
         AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS40','license_ip'=>'108.90.09.90']);
         $root_url = 'https://www.faveohelpdesk.com';
         $license_code = 'JDI0MLOX63U8WS40';
@@ -188,12 +188,12 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'https://www.faveohelpdesk.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_invalid_ip');
         AflLicenses::where('license_code','JDI0MLOX63U8WS40')->delete();
 
     }
-    public function test_licenseInstall_whenInstalledWithInvalidDomain_shouldRecieveInvalidDomain(){
+    public function test_licenseVerify_afterInstallWithInvalidDomain_shouldRecieveInvalidDomain(){
         AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS40','license_domain'=>'license.com']);
         $root_url = 'https://www.faveohelpdesk.com';
         $license_code = 'JDI0MLOX63U8WS40';
@@ -208,13 +208,13 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'https://www.faveohelpdesk.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_invalid_domain');
         $response->assertHeader('notification_text','Helpdesk Product 2 installation on domain https://www.faveohelpdesk.com is not allowed');
         AflLicenses::where('license_code','JDI0MLOX63U8WS40')->delete();
 
     }
-    public function test_licenseInstall_whenInstalledWithoutRealDomain_shouldRecieveInvalidDomain(){
+    public function test_licenseVerify_afterInstallWithoutRealDomain_shouldRecieveInvalidDomain(){
         AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS40','license_require_domain'=>1]);
         $root_url = 'http://www.lslsllsls.com';
         $license_code = 'JDI0MLOX63U8WS40';
@@ -229,12 +229,12 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'http://www.lslsllsls.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_domain_required');
         $response->assertHeader('notification_text','Helpdesk Product 2 installation is only allowed on a real and working domain');
         AflLicenses::where('license_code','JDI0MLOX63U8WS40')->delete();
     }
-    public function test_licenseInstall_whenInstalledWithSameDetails_shouldRecieveDomainInUse(){
+    public function test_licenseVerify_afterInstallWithSameDetails_shouldRecieveDomainInUse(){
         AflLicenses::factory()->create(['product_id'=>25,'license_code'=>'JDI0MLOX63U8WS40']);
         $root_url = 'https://www.faveo.com';
         $license_code = 'JDI0MLOX63U8WS40';
@@ -250,12 +250,12 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'https://www.faveo.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
         $response->assertHeader('notification_case','notification_domain_in_use');
         $response->assertHeader('notification_text','Domain https://www.faveo.com is already in use by another client');
         AflLicenses::where('license_code','JDI0MLOX63U8WS40')->delete();
     }
-    public function test_licenseInstall_whenInstalledExceedLicenseLimit_shouldRecieveLimitExceeded()
+    public function test_licenseVerify_afterInstallNotFound_shouldRecieve()
     {
         AflProducts::factory()->create(['product_id' =>26,'product_sku'=>'LICEN-AGAIN']);
         AflLicenses::factory()->create(['product_id'=>26,'license_code'=>'JDI0MLOX63U8WS70','license_limit'=>1]);
@@ -274,12 +274,13 @@ class LicenseInstallControllerTest extends TestCase
             'license_signature' => $license_signature,
             'refer' => 'https://www.faveo.com'
         ];
-        $response=$this->json('POST', url('api/licenseInstall'),$data);
-        $response->assertHeader('notification_case','notification_license_limit');
-        $response->assertHeader('notification_text','The maximum number of allowed  Helpdesk Product 2 installations (1 installation(s) total) reached');
+        $response=$this->json('POST', url('api/licenseVerify'),$data);
+        $response->assertHeader('notification_case','notification_installation_not_found');
         AflProducts::where('product_id',26)->delete();
         AflLicenses::where('product_id',26)->delete();
         AflInstallations::where('product_id',26)->delete();
+        AflProducts::where('product_id',25)->delete();
+        AflLicenses::where('product_id',25)->delete();
+        AflInstallations::where('product_id',25)->delete();
     }
-
 }

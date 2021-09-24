@@ -32,8 +32,7 @@ class LicenseSchemeController extends Controller
         $updated_records = 0;
         $removed_records = 0;
 
-        
-        $SUPPORTED_BROWSERS_ARRAY=array("Mozilla/5.0 (Windows NT 6.3; WOW64; rv:48.0) Gecko/20100101 Firefox/48.0", "phpmillion Custom Post", "phpmillion cURL","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.107 Safari/537.36");
+
         //get IP, refer and user agent
      $sets_array=DB::table('afl_settings')->get()->toArray();
 
@@ -44,25 +43,19 @@ class LicenseSchemeController extends Controller
 
         if (null !== (request()->server('REMOTE_ADDR'))) {
             $ip_address = request()->server('REMOTE_ADDR');
-        } 
+        }
         else {
             $ip_address = $request->get('ip_address');
         }
 
         if (null !== (request()->server('HTTP_REFERER'))) {
             $refer = request()->server('HTTP_REFERER');
-        } 
+        }
         else {
             $refer = $request->get('refer');
         }
 
-        if (null !== (request()->server('HTTP_USER_AGENT'))) {
-            $user_agent = request()->server('HTTP_USER_AGENT');
-        } 
-        else {
-            $user_agent = $request->get('user_agent');
 
-        }
 
 
 // These are the data that needs to be passed to this function inorder to get a response
@@ -76,11 +69,15 @@ class LicenseSchemeController extends Controller
         $client_id = $request->get('client_id');
         $client_fname = $request->get('client_fname');
         $client_lname = $request->get('client_lname');
+        $is_cloud = $request->get('is_cloud');
 
 
 //check basic data
-if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPORTED_BROWSERS_ARRAY) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url==$refer && $installation_hash==hash("sha256", $root_url.$client_email.$license_code) && !empty($license_signature) && isValidLicenseRequest($license_code, $client_email)===true)
-    {
+if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url==$refer && $installation_hash==hash("sha256", $root_url.$client_email.$license_code) && !empty($license_signature) && isValidLicenseRequest($license_code, $client_email)===true)
+{
+    if($is_cloud == true) {
+        $ip_address = '138.197.237.160';//This is the floating ip for the Load balancer since the ip of pods keep on changing.
+    }
     $notification_case="";
     $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1);//make url without scheme, www. and / at the end because this type of url is stored on server (add / at the end before processing because software stores root url without /)
     $client_formatted=formatClient($license_code, $client_email);
@@ -102,7 +99,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
             {
             extract((array)$row);
             }
-            
+
 
         if ($product_status!=1) //product inactive
             {
@@ -176,7 +173,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                         $notification_case=setValue($notification_case, "notification_invalid_ip");
                         }
                     }
-    
+
                 if (!empty($license_domain))
                     {
                     $license_domain_detected=0; //will be changed to 1 later only if everything OK
@@ -200,20 +197,20 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
 
                 if ($license_require_domain==1) //domain required
                     {
-                    if (!filter_var($root_url, FILTER_VALIDATE_URL) || !filter_var(gethostbyname(getRawDomain($root_url)), FILTER_VALIDATE_IP) || filter_var(getRawDomain($root_url), FILTER_VALIDATE_IP)) //script uploaded on invalid domain, domain not resolving to any IP, or local (IP-based) address
+                    if (!filter_var($root_url, FILTER_VALIDATE_URL) || !filter_var(gethostbyname(aflGetRawDomain($root_url)), FILTER_VALIDATE_IP) || filter_var(aflGetRawDomain($root_url), FILTER_VALIDATE_IP)) //script uploaded on invalid domain, domain not resolving to any IP, or local (IP-based) address
                         {
                         $error_detected=1;
                         $error_details=setValue($error_details, "a real domain is required");
                         $notification_case=setValue($notification_case, "notification_domain_required");
                         }
                     }
-                
+
                 $this_installation_owner_array=AflInstallations::where('product_id', $product_id)
                                 ->where('installation_ip', $ip_address)
                                 ->where('installation_domain', $installation_domain)
                                 ->get()->toArray();
-                                
-               
+
+
                 if (!empty($this_installation_owner_array)) //installation exists, check whom it belongs to
                     {
                     if (!empty($license_code) && $license_code!=$this_installation_owner_array[0]['license_code'] || aflValidateIntegerValue($client_id) && $client_id!=$this_installation_owner_array[0]['client_id']) //this domain is used by another user
@@ -274,7 +271,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
                                                                 })->where(function($query) use($ip_address){
                                                                     $query->where('installation_ip',$ip_address)
                                                                           ->orWhere('installation_disable_ip_verification',1);
-                                                                    
+
                                                                 })->where('installation_domain', $installation_domain)
                                         ->where('installation_hash', $installation_hash)
                                         ->where('installation_status', 1)->get()->toArray();
@@ -330,7 +327,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && in_array($user_agent, $SUPPOR
         $report_text="MySQL scheme for local license at $installation_domain ($ip_address) could not be parsed because of this reason: $error_details.";
         }
 
-    returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data);
+    return returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data);
      //always return server notification when valid basic data was received from script
     }
 else //possible cracking attempt, set variables required for reports function to null and generate cracking report
@@ -338,8 +335,8 @@ else //possible cracking attempt, set variables required for reports function to
     $product_id=0;
     $client_id=null;
     $license_code=null;
-    $report_text="Host $ip_address sent invalid data to $requested_url and was rejected. Host sent this data: ".json_encode($_POST).".";
-    
+    $report_text="Host $ip_address sent invalid data to requested_url and was rejected. Host sent this data: ".json_encode($request->all()).".";
+
     }
 
 createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success);//always create report, no matter result
@@ -347,8 +344,6 @@ if ($action_success!=1) //record failed licensing attempt and ban host if needed
     {
     recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_address);
     }
-
-
     }
 }
 

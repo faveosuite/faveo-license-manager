@@ -103,11 +103,9 @@ class AuthControllerTest extends TestCase
     }
     public function test_logout_whenAdminLogsOutAfterPAsswordChange_shouldReturnResponse200()
     {
+        $this->withoutMiddleware();
         $id = AflAdmins::where('admin_email','sandesh@123gamil.com')->value('admin_id');
-        $data = [
-            'token' =>env('LICENSE_KEY'),
-        ];
-        $response = $this->json('POST',url('api/admin/logout/'.$id),$data);
+        $response = $this->json('POST',url('api/admin/logout/'.$id));
         $response->assertStatus(201);
         $response->assertJson(['success'=>true]);
         $response->assertJson(['message'=>'You have has logged out successfully from Auto Faveo Licenser']);
