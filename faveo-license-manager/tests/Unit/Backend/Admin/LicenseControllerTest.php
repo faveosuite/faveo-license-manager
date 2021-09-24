@@ -15,9 +15,10 @@ class LicenseControllerTest extends TestCase
      */
     public function test_licenseAdd_whenLicenseIsAdded_shouldReciveResponseTrue200AndDatabaseHasTheCode()
     {
+        $this->withoutMiddleware();
         AflProducts::factory()->create(['product_id'=>13,'product_sku'=>'HAHAHAHA']);
         $data=[
-              'token' => env('LICENSE_KEY'),
+
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_id' =>13,
                 'license_code' =>'W23EDI98CJKO234M',
@@ -37,8 +38,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithoutLicenseCode_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'product_id' =>13,
             'license_require_domain' => 1,
@@ -57,8 +59,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidIp_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'product_id' =>13,
@@ -79,8 +82,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidDoamin_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'product_id' =>13,
@@ -101,8 +105,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithFloatLicenseLimit_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'product_id' =>13,
@@ -122,8 +127,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidLicenseExpiry_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'product_id' =>13,
@@ -144,8 +150,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidUpdatesExpiry_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'product_id' =>13,
@@ -165,8 +172,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidSupportExpiry_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'product_id' =>13,
@@ -186,8 +194,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidProductId_shouldReciveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'product_id' =>13.1,
@@ -208,9 +217,10 @@ class LicenseControllerTest extends TestCase
 
     public function test_licenseUpdate_whenLicenseIsUpdated_shouldRecieveResponse200()
     {
+        $this->withoutMiddleware();
       $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_id' => $license_id,
             'product_id' =>13,
@@ -235,8 +245,9 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithoutLicenseId_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'product_id' =>13,
             'license_code' =>'W23EDI98CJKO234M',
@@ -258,10 +269,11 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithoutLicenseCode_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
 
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'product_id' =>13,
             'license_id' => $license_id,
@@ -283,10 +295,11 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidIp_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
 
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'product_id' =>13,
             'license_id' => $license_id,
@@ -309,10 +322,11 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidDomain_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
 
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'product_id' =>13,
             'license_id' => $license_id,
@@ -334,10 +348,11 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidLicenseLimit_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
 
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_id' => $license_id,
             'license_code' =>'W23EDI98CJKO234M',
@@ -358,10 +373,11 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidExpiryDate_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
 
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_id' => $license_id,
             'license_code' =>'W23EDI98CJKO234M',
@@ -383,10 +399,11 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithUpdatesDate_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
 
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_code' =>'W23EDI98CJKO234M',
             'license_id' => $license_id,
@@ -407,10 +424,11 @@ class LicenseControllerTest extends TestCase
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidSupportDate_shouldRecieveResponse400()
     {
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
 
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_id' =>$license_id,
             'license_code' =>'W23EDI98CJKO234M',
@@ -431,9 +449,10 @@ class LicenseControllerTest extends TestCase
     }
 
     public function test_deleteLicense_whenLicenseIsDeleted_shouldRecieveResponse200(){
+        $this->withoutMiddleware();
         $license_id=AflLicenses::where('license_code','W23EDI98CJKO234M')->value('license_id');
         $data=[
-            'token' => env('LICENSE_KEY'),
+
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'license_id' => $license_id,
         ];

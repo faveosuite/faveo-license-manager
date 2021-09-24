@@ -15,8 +15,10 @@ class ApiKeyControllerTest extends TestCase
      */
     public function test_apiKeyAdd_whenApiKeyIsAdded_shouldReturn200()
     {
+         $this->withoutMiddleware();
          AflSettings::factory()->create();
-         $data=['token' => env('LICENSE_KEY'),
+         AflApiKeys::where('api_key_secret','5hDuaXuTh9gTLfPL')->delete();
+         $data=[
          'api_key_secret' => 'P5Zp2PmbOSPWOdc6',
          'api_key_ip' =>'',
          'api_key_clients_add' => 1,
@@ -36,10 +38,10 @@ class ApiKeyControllerTest extends TestCase
 
     public function test_apiKeyUpdate_whenApiKEyIsUpdated_shouldReturnTrue()
     {
-
+        $this->withoutMiddleware();
        $id=AflApiKeys::where('api_key_secret','P5Zp2PmbOSPWOdc6')->value('api_key_id');
 
-         $data=['token' => env('LICENSE_KEY'),
+         $data=[
          'api_key_secret' => 'P5Zp2PmbOSPWOdc6666',
          'api_key_ip' =>'',
          'api_key_clients_add' => 1,
@@ -60,7 +62,7 @@ class ApiKeyControllerTest extends TestCase
     }
     public function test_apiKeyDelete_whenApiKEyIsDeleted_shouldReturnTrue()
     {
-
+        $this->withoutMiddleware();
        $id=AflApiKeys::where('api_key_secret','P5Zp2PmbOSPWOdc6666')->value('api_key_id');
         $data=['token' => env('LICENSE_KEY')];
          $response = $this->json('DELETE',url('api/admin/deleteapi/'.$id),$data);
@@ -72,10 +74,10 @@ class ApiKeyControllerTest extends TestCase
     }
     public function test_apiKeyAdd_whenApiKeyIsAddedPermanently_shouldReturn200()
     {
-
+        $this->withoutMiddleware();
          $api=AflApiKeys::where('api_key_secret','5hDuaXuTh9gTLfPL')->get()->toArray();
          if(empty($api)){
-         $data=['token' => env('LICENSE_KEY'),
+         $data=[
          'api_key_secret' => '5hDuaXuTh9gTLfPL',
          'api_key_ip' =>'',
          'api_key_clients_add' => 1,
