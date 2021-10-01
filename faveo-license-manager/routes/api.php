@@ -104,11 +104,14 @@ Route::post('advancedsettings/{SETTING_ID}',[SettingsController::class,'advanced
 Route::post('securitysettings/{SETTING_ID}',[SettingsController::class,'securitySettings']);
 Route::post('emailsettings/{SETTING_ID}',   [SettingsController::class,'emailSettings']);
 Route::post('cleanupsettings/{SETTING_ID}',[SettingsController::class,'cleanUpSettings']);
+Route::get('viewSettings',[SettingsController::class,'show']);
 
 
 //NOTIFICATIONS
 Route::post('notifications/{notification_id}',[NotificationsController::class,'notifications']);
 Route::post('emails/{email_id}',[EmailsController::class,'emails']);
+Route::get('viewNotifications',[NotificationsController::class,'show']);
+Route::get('viewEmails',[EmailsController::class,'show']);
 
 
 //EDIT PROFILE
