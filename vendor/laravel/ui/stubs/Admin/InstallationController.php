@@ -210,4 +210,9 @@ public function deleteInstallation($installation_id)
     return $removed_records;
 
 }
+
+    public function show(){
+        $Install = AflInstallations::all();
+        return successResponse(Lang::get('lang.Install_show'),$Install,200);
+    }
 }

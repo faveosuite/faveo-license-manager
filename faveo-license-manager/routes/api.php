@@ -88,6 +88,7 @@ Route::post('license/edit',[LicenseController::class,'licenseUpdate']);
 //INSTALLATIONS
 Route::post('installations/delete',[InstallationController::class,'deleteInstallation']);
 Route::post('installations/edit',[InstallationController::class,'installationUpdate']);
+Route::get('viewInstallations',[InstallationController::class,'show']);
 
 
 //BANNED HOSTS
