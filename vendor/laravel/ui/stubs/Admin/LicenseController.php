@@ -592,7 +592,7 @@ public function deleteLicense(Request $request)
     }
 
     public function show(){
-        $Licenses = AflLicenses::all();
+        $Licenses = licenseArray();
         return successResponse(Lang::get('lang.License_show'),$Licenses,200);
     }
 
