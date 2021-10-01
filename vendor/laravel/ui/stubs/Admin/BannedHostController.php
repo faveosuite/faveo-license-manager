@@ -255,5 +255,9 @@ public function deleteBannedHost(Request $request)
     return successResponse(Lang::get('lang.delete'),$removed_records,201);
 }
     }
+    public function show(){
+        $banned = AflBannedHosts::all();
+        return successResponse(Lang::get('lang.Banned_Show'),$banned,200);
+    }
 
 }
