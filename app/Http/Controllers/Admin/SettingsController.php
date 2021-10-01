@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Lang;
 
 
 /**
- * Consist of functionalities for the Settings page in Auto Faveo licenser 
+ * Consist of functionalities for the Settings page in Auto Faveo licenser
  * Class  SettingsController
  * @package App\Http\Controllers\Admin
  */
@@ -46,7 +46,7 @@ class SettingsController extends Controller
         return successResponse(Lang::get('lang.settings_created'),$gen,201);
     }
     else{
-            
+
             $genset->SMART_REPORTS = $request->get('SMART_REPORTS');
             $genset->SMART_TABLES = $request->get('SMART_TABLES');
             $genset->RECORDE_ON_ADMIN_PAGE=$request->get('RECORDE_ON_ADMIN_PAGE');
@@ -56,9 +56,9 @@ class SettingsController extends Controller
             $genset->TIMEZONE=  $request->get('TIMEZONE');
             $genset->save();
             return successResponse(Lang::get('lang.settings_updated'),$genset,200);
-        
+
     }
-   
+
     }
 
 
@@ -69,7 +69,7 @@ class SettingsController extends Controller
      * @return $advset with a success response leaving the other fields to be null if not filled
      */
     public function advancedSettings(AdvancedSettingRequest $request,$SETTING_ID){
-          
+
           $advset = AflSettings::find($SETTING_ID);
           if(empty($advset)){
               $adv = new AflSettings([
@@ -77,7 +77,7 @@ class SettingsController extends Controller
                   'ENVATO_API_TOKEN' => $request->get('ENVATO_API_TOKEN')
               ]);
               $adv->save();
-              return successResponse(Lang::get('lang.settings_created'),$adv,201);        
+              return successResponse(Lang::get('lang.settings_created'),$adv,201);
               }
               else{
                   $advset->API_STATUS = $request->get('API_STATUS');
@@ -85,7 +85,7 @@ class SettingsController extends Controller
                   $advset->save();
                   return successResponse(Lang::get('lang.settings_updated'),$advset,200);
               }
-          
+
     }
 
 
@@ -144,7 +144,7 @@ class SettingsController extends Controller
             'EMAIL_CC_SENDER' => $request->get('EMAIL_CC_SENDER'),
             'EMAIL_EXPIRING_LICENSE_DAYS' => $request->get('EMAIL_EXPIRING_LICENSE_DAYS'),
             'EMAIL_EXPIRING_UPDATES_DAYS' => $request->get('EMAIL_EXPIRING_UPDATES_DAYS'),
-            'EMAIL_EXPIRING_SUPPORT_DAYS' => $request->get('EMAIL_EXPIRING_SUPPORT_DAYS') 
+            'EMAIL_EXPIRING_SUPPORT_DAYS' => $request->get('EMAIL_EXPIRING_SUPPORT_DAYS')
             ]);
             $ema->save();
             return successResponse(Lang::get('lang.settings_created'),$ema,201);
@@ -156,14 +156,14 @@ class SettingsController extends Controller
              $emaset->EMAIL_EXPIRING_LICENSE_DAYS = $request->get('EMAIL_EXPIRING_LICENSE_DAYS');
              $emaset->EMAIL_EXPIRING_UPDATES_DAYS = $request->get('EMAIL_EXPIRING_UPDATES_DAYS');
              $emaset->EMAIL_EXPIRING_SUPPORT_DAYS = $request->get('EMAIL_EXPIRING_SUPPORT_DAYS');
-          
+
              $emaset->save();
              return successResponse(lang::get('lang.settings_updated'),$emaset,200);
         }
     }
 
-       
-        
+
+
     /**
      * To Add or Update the cleanup settings of license manager
      * @param CleanUpSettingsRequest $request
@@ -190,10 +190,14 @@ class SettingsController extends Controller
              $cleanup->DATABASE_CLEANUP_REPORTS_MAIN = $request->get('DATABASE_CLEANUP_REPORTS_MAIN');
              $cleanup->DATABASE_CLEANUP_REPORTS_SYSTEM = $request->get('DATABASE_CLEANUP_REPORTS_SYSTEM');
              $cleanup->DATABASE_CLEANUP_REPORTS_LICENSES = $request->get('DATABASE_CLEANUP_REPORTS_LICENSES');
-          
+
              $cleanup->save();
              return successResponse(lang::get('lang.settings_updated'),$cleanup,200);
         }
+    }
+    public function show(){
+        $settings = AflSettings::all();
+        return successResponse(Lang::get('lang.Setting_Show'),$settings,200);
     }
 
 }
