@@ -212,7 +212,7 @@ public function deleteInstallation($installation_id)
 }
 
     public function show(){
-        $Install = AflInstallations::all();
+        $Install = installArray();
         return successResponse(Lang::get('lang.Install_show'),$Install,200);
     }
 }
