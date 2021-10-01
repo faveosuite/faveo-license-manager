@@ -53,4 +53,8 @@ class EmailsController extends Controller
 
     }
     }
+    public function show(){
+        $emails = AflEmails::all();
+        return successResponse(Lang::get('lang.Emails_Show'),$emails,200);
+    }
 }
