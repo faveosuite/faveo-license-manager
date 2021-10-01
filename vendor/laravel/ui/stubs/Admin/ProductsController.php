@@ -169,7 +169,7 @@ public function productAdd(ProductRequest $request)
      * @return array of all the products that is present in the database
     */
     public function show(){
-        $products = AflProducts::all();
+        $products = productArray();
         return successResponse(Lang::get('lang.Product_Show'),$products,200);
     }
 
