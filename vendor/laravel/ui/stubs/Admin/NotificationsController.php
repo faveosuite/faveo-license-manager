@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Lang;
 
 
 /**
- * Consist of functionalities for the custom Notification page in Auto Faveo licenser 
+ * Consist of functionalities for the custom Notification page in Auto Faveo licenser
  * Class NotificationsController
  * @package App\Http\Controllers\Admin
  */
@@ -77,4 +77,8 @@ class NotificationsController extends Controller
       }
 
   }
+    public function show(){
+        $notifications = AflNotifications::all();
+        return successResponse(Lang::get('lang.Notification_Show'),$notifications,200);
+    }
 }
