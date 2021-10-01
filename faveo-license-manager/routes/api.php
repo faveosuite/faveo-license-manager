@@ -95,6 +95,7 @@ Route::get('viewInstallations',[InstallationController::class,'show']);
 Route::post('bannedHosts/add',[BannedHostController::class,'bannedHostAdd']);
 Route::post('bannedHosts/delete',[BannedHostController::class,'deleteBannedHost']);
 Route::post('bannedHosts/edit',[BannedHostController::class,'bannedHostUpdate']);
+Route::get('viewBannedHost',[BannedHostController::class,'show']);
 
 
 //SETTINGS
