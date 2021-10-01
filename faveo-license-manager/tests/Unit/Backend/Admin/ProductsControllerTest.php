@@ -37,7 +37,7 @@ class ProductsControllerTest extends TestCase
             $response = $this->json('POST', url('api/admin/products/add'),$data);
             $response->assertStatus(200);
             $response->assertJson(['success' => true]);
-            $response->assertJson(['message' => "lang.sucess"]);
+            $response->assertJson(['message' => "Product and the Product's details has been added"]);
             $response->assertJson(['data' => 1]);
     }
 
