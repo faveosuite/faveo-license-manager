@@ -132,5 +132,10 @@ class ApiKeysController extends Controller
         return successResponse(Lang::get('lang.Delete'),$removed_records,200);
     }
 
+      public function show(){
+        $apis = AflApiKeys::all();
+        return successResponse(Lang::get('lang.Api_show'),$apis,200);
+    }
+
 
 }
