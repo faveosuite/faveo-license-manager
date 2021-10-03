@@ -129,6 +129,7 @@ Route::post('search',[SearchController::class,'search']);
 Route::post('addnewapi',[ApiKeysController::class,'apiKeyAdd']);
 Route::post('editnewapi/{api_key_id}',[ApiKeysController::class,'apiKeyUpdate']);
 Route::Delete('deleteapi/{api_key_id}',[ApiKeysController::class,'apiKeyDelete']);
+Route::get('viewApiKeys',[ApiKeysController::class,'show']);
 });
 
 /*Route::middleware('auth:api')->group(function (){
