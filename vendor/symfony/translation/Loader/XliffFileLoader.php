@@ -75,7 +75,15 @@ class XliffFileLoader implements LoaderInterface
         return $catalogue;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function extract(\DOMDocument $dom, MessageCatalogue $catalogue, string $domain)
+=======
+    private function extract($dom, MessageCatalogue $catalogue, string $domain)
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function extract(\DOMDocument $dom, MessageCatalogue $catalogue, string $domain)
+>>>>>>> f330c64 (optimization in progress)
     {
         $xliffVersion = XliffUtils::getVersionNumber($dom);
 

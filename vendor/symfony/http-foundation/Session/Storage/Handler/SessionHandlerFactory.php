@@ -47,11 +47,21 @@ class SessionHandlerFactory
 
             case !\is_string($connection):
                 throw new \InvalidArgumentException(sprintf('Unsupported Connection: "%s".', get_debug_type($connection)));
+<<<<<<< HEAD
+<<<<<<< HEAD
             case str_starts_with($connection, 'file://'):
+=======
+            case 0 === strpos($connection, 'file://'):
+>>>>>>> 22c0e54 (table changes)
+=======
+            case str_starts_with($connection, 'file://'):
+>>>>>>> f330c64 (optimization in progress)
                 $savePath = substr($connection, 7);
 
                 return new StrictSessionHandler(new NativeFileSessionHandler('' === $savePath ? null : $savePath));
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             case str_starts_with($connection, 'redis:'):
             case str_starts_with($connection, 'rediss:'):
             case str_starts_with($connection, 'memcached:'):
@@ -59,17 +69,47 @@ class SessionHandlerFactory
                     throw new \InvalidArgumentException(sprintf('Unsupported DSN "%s". Try running "composer require symfony/cache".', $connection));
                 }
                 $handlerClass = str_starts_with($connection, 'memcached:') ? MemcachedSessionHandler::class : RedisSessionHandler::class;
+=======
+            case 0 === strpos($connection, 'redis:'):
+            case 0 === strpos($connection, 'rediss:'):
+            case 0 === strpos($connection, 'memcached:'):
+                if (!class_exists(AbstractAdapter::class)) {
+                    throw new \InvalidArgumentException(sprintf('Unsupported DSN "%s". Try running "composer require symfony/cache".', $connection));
+                }
+                $handlerClass = 0 === strpos($connection, 'memcached:') ? MemcachedSessionHandler::class : RedisSessionHandler::class;
+>>>>>>> 22c0e54 (table changes)
+=======
+            case str_starts_with($connection, 'redis:'):
+            case str_starts_with($connection, 'rediss:'):
+            case str_starts_with($connection, 'memcached:'):
+                if (!class_exists(AbstractAdapter::class)) {
+                    throw new \InvalidArgumentException(sprintf('Unsupported DSN "%s". Try running "composer require symfony/cache".', $connection));
+                }
+                $handlerClass = str_starts_with($connection, 'memcached:') ? MemcachedSessionHandler::class : RedisSessionHandler::class;
+>>>>>>> f330c64 (optimization in progress)
                 $connection = AbstractAdapter::createConnection($connection, ['lazy' => true]);
 
                 return new $handlerClass($connection);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             case str_starts_with($connection, 'pdo_oci://'):
+=======
+            case 0 === strpos($connection, 'pdo_oci://'):
+>>>>>>> 22c0e54 (table changes)
+=======
+            case str_starts_with($connection, 'pdo_oci://'):
+>>>>>>> f330c64 (optimization in progress)
                 if (!class_exists(DriverManager::class)) {
                     throw new \InvalidArgumentException(sprintf('Unsupported DSN "%s". Try running "composer require doctrine/dbal".', $connection));
                 }
                 $connection = DriverManager::getConnection(['url' => $connection])->getWrappedConnection();
                 // no break;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             case str_starts_with($connection, 'mssql://'):
             case str_starts_with($connection, 'mysql://'):
             case str_starts_with($connection, 'mysql2://'):
@@ -79,6 +119,20 @@ class SessionHandlerFactory
             case str_starts_with($connection, 'sqlsrv://'):
             case str_starts_with($connection, 'sqlite://'):
             case str_starts_with($connection, 'sqlite3://'):
+<<<<<<< HEAD
+=======
+            case 0 === strpos($connection, 'mssql://'):
+            case 0 === strpos($connection, 'mysql://'):
+            case 0 === strpos($connection, 'mysql2://'):
+            case 0 === strpos($connection, 'pgsql://'):
+            case 0 === strpos($connection, 'postgres://'):
+            case 0 === strpos($connection, 'postgresql://'):
+            case 0 === strpos($connection, 'sqlsrv://'):
+            case 0 === strpos($connection, 'sqlite://'):
+            case 0 === strpos($connection, 'sqlite3://'):
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 return new PdoSessionHandler($connection);
         }
 

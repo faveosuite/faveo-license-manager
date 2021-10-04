@@ -12,7 +12,14 @@ namespace Illuminate\Support\Facades;
  * @method static int retriesLeft($key, $maxAttempts)
  * @method static void clear($key)
  * @method static int availableIn($key)
+<<<<<<< HEAD
+<<<<<<< HEAD
  * @method static bool attempt($key, $maxAttempts, \Closure $callback, $decaySeconds = 60)
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+ * @method static bool attempt($key, $maxAttempts, \Closure $callback, $decaySeconds = 60)
+>>>>>>> f330c64 (optimization in progress)
  *
  * @see \Illuminate\Cache\RateLimiter
  */

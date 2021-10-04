@@ -62,11 +62,20 @@ class LNumber extends Scalar
             throw new Error('Invalid numeric literal', $attributes);
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         // Strip optional explicit octal prefix.
         if ('o' === $str[1] || 'O' === $str[1]) {
             $str = substr($str, 2);
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         // use intval instead of octdec to get proper cutting behavior with malformed numbers
         $attributes['kind'] = LNumber::KIND_OCT;
         return new LNumber(intval($str, 8), $attributes);

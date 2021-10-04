@@ -15,7 +15,14 @@ namespace phpDocumentor\Reflection\Types;
 use ArrayIterator;
 use IteratorAggregate;
 use phpDocumentor\Reflection\Type;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function array_key_exists;
 use function implode;
 
@@ -54,7 +61,15 @@ abstract class AggregatedType implements Type, IteratorAggregate
     /**
      * Returns the type at the given index.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function get(int $index): ?Type
+=======
+    public function get(int $index) : ?Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function get(int $index): ?Type
+>>>>>>> f330c64 (optimization in progress)
     {
         if (!$this->has($index)) {
             return null;
@@ -66,7 +81,15 @@ abstract class AggregatedType implements Type, IteratorAggregate
     /**
      * Tests if this compound type has a type with the given index.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function has(int $index): bool
+=======
+    public function has(int $index) : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function has(int $index): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return array_key_exists($index, $this->types);
     }
@@ -74,7 +97,15 @@ abstract class AggregatedType implements Type, IteratorAggregate
     /**
      * Tests if this compound type contains the given type.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function contains(Type $type): bool
+=======
+    public function contains(Type $type) : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function contains(Type $type): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         foreach ($this->types as $typePart) {
             // if the type is duplicate; do not add it
@@ -89,7 +120,15 @@ abstract class AggregatedType implements Type, IteratorAggregate
     /**
      * Returns a rendered output of the Type as it would be used in a DocBlock.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return implode($this->token, $this->types);
     }
@@ -97,7 +136,15 @@ abstract class AggregatedType implements Type, IteratorAggregate
     /**
      * @return ArrayIterator<int, Type>
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getIterator(): ArrayIterator
+=======
+    public function getIterator() : ArrayIterator
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getIterator(): ArrayIterator
+>>>>>>> f330c64 (optimization in progress)
     {
         return new ArrayIterator($this->types);
     }
@@ -105,7 +152,15 @@ abstract class AggregatedType implements Type, IteratorAggregate
     /**
      * @psalm-suppress ImpureMethodCall
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function add(Type $type): void
+=======
+    private function add(Type $type) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function add(Type $type): void
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($type instanceof self) {
             foreach ($type->getIterator() as $subType) {

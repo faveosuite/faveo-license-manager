@@ -1,5 +1,12 @@
 {
     "name": "guzzlehttp/guzzle",
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    "type": "library",
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     "description": "Guzzle is a PHP HTTP client library",
     "keywords": [
         "framework",
@@ -12,6 +19,8 @@
         "PSR-7",
         "PSR-18"
     ],
+<<<<<<< HEAD
+<<<<<<< HEAD
     "license": "MIT",
     "authors": [
         {
@@ -20,11 +29,31 @@
             "homepage": "https://github.com/GrahamCampbell"
         },
         {
+=======
+    "homepage": "http://guzzlephp.org/",
+    "license": "MIT",
+    "authors": [
+        {
+>>>>>>> 22c0e54 (table changes)
+=======
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Graham Campbell",
+            "email": "hello@gjcampbell.co.uk",
+            "homepage": "https://github.com/GrahamCampbell"
+        },
+        {
+>>>>>>> f330c64 (optimization in progress)
             "name": "Michael Dowling",
             "email": "mtdowling@gmail.com",
             "homepage": "https://github.com/mtdowling"
         },
         {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             "name": "Jeremy Lindblom",
             "email": "jeremeamia@gmail.com",
             "homepage": "https://github.com/jeremeamia"
@@ -40,6 +69,7 @@
             "homepage": "https://github.com/Nyholm"
         },
         {
+<<<<<<< HEAD
             "name": "Márk Sági-Kazár",
             "email": "mark.sagikazar@gmail.com",
             "homepage": "https://github.com/sagikazarmark"
@@ -48,15 +78,42 @@
             "name": "Tobias Schultze",
             "email": "webmaster@tubo-world.de",
             "homepage": "https://github.com/Tobion"
+=======
+            "name": "Márk Sági-Kazár",
+            "email": "mark.sagikazar@gmail.com",
+            "homepage": "https://sagikazarmark.hu"
+>>>>>>> 22c0e54 (table changes)
+=======
+            "name": "Márk Sági-Kazár",
+            "email": "mark.sagikazar@gmail.com",
+            "homepage": "https://github.com/sagikazarmark"
+        },
+        {
+            "name": "Tobias Schultze",
+            "email": "webmaster@tubo-world.de",
+            "homepage": "https://github.com/Tobion"
+>>>>>>> f330c64 (optimization in progress)
         }
     ],
     "require": {
         "php": "^7.2.5 || ^8.0",
         "ext-json": "*",
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         "guzzlehttp/promises": "^1.5",
         "guzzlehttp/psr7": "^1.8.3 || ^2.1",
         "psr/http-client": "^1.0",
         "symfony/deprecation-contracts": "^2.2"
+<<<<<<< HEAD
+=======
+        "guzzlehttp/promises": "^1.4",
+        "guzzlehttp/psr7": "^1.7 || ^2.0",
+        "psr/http-client": "^1.0"
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     },
     "provide": {
         "psr/http-client-implementation": "1.0"
@@ -66,7 +123,15 @@
         "bamarni/composer-bin-plugin": "^1.4.1",
         "php-http/client-integration-tests": "^3.0",
         "phpunit/phpunit": "^8.5.5 || ^9.3.5",
+<<<<<<< HEAD
+<<<<<<< HEAD
         "psr/log": "^1.1 || ^2.0 || ^3.0"
+=======
+        "psr/log": "^1.1"
+>>>>>>> 22c0e54 (table changes)
+=======
+        "psr/log": "^1.1 || ^2.0 || ^3.0"
+>>>>>>> f330c64 (optimization in progress)
     },
     "suggest": {
         "ext-curl": "Required for CURL handler support",
@@ -74,12 +139,27 @@
         "psr/log": "Required for using the Log middleware"
     },
     "config": {
+<<<<<<< HEAD
+<<<<<<< HEAD
         "preferred-install": "dist",
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        "preferred-install": "dist",
+>>>>>>> f330c64 (optimization in progress)
         "sort-packages": true
     },
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
+<<<<<<< HEAD
             "dev-master": "7.4-dev"
+=======
+            "dev-master": "7.3-dev"
+>>>>>>> 22c0e54 (table changes)
+=======
+            "dev-master": "7.4-dev"
+>>>>>>> f330c64 (optimization in progress)
         }
     },
     "autoload": {

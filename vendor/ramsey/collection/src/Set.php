@@ -36,7 +36,15 @@ namespace Ramsey\Collection;
  * ```
  *
  * @template T
+<<<<<<< HEAD
+<<<<<<< HEAD
  * @extends AbstractSet<T>
+=======
+ * @template-extends AbstractSet<T>
+>>>>>>> 22c0e54 (table changes)
+=======
+ * @extends AbstractSet<T>
+>>>>>>> f330c64 (optimization in progress)
  */
 class Set extends AbstractSet
 {

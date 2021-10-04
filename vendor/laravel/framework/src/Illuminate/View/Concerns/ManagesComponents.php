@@ -6,7 +6,15 @@ use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Arr;
 use Illuminate\Support\HtmlString;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\View\ComponentSlot;
+=======
+use InvalidArgumentException;
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\View\ComponentSlot;
+>>>>>>> f330c64 (optimization in progress)
 
 trait ManagesComponents
 {
@@ -25,6 +33,10 @@ trait ManagesComponents
     protected $componentData = [];
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The component data for the component that is currently being rendered.
      *
      * @var array
@@ -32,6 +44,11 @@ trait ManagesComponents
     protected $currentComponentData = [];
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The slot contents for the component.
      *
      * @var array
@@ -88,10 +105,15 @@ trait ManagesComponents
     {
         $view = array_pop($this->componentStack);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $this->currentComponentData = array_merge(
             $previousComponentData = $this->currentComponentData,
             $data = $this->componentData()
         );
+<<<<<<< HEAD
 
         try {
             $view = value($view, $data);
@@ -105,6 +127,33 @@ trait ManagesComponents
             }
         } finally {
             $this->currentComponentData = $previousComponentData;
+=======
+        $data = $this->componentData();
+
+        $view = value($view, $data);
+
+        if ($view instanceof View) {
+            return $view->with($data)->render();
+        } elseif ($view instanceof Htmlable) {
+            return $view->toHtml();
+        } else {
+            return $this->make($view, $data)->render();
+>>>>>>> 22c0e54 (table changes)
+=======
+
+        try {
+            $view = value($view, $data);
+
+            if ($view instanceof View) {
+                return $view->with($data)->render();
+            } elseif ($view instanceof Htmlable) {
+                return $view->toHtml();
+            } else {
+                return $this->make($view, $data)->render();
+            }
+        } finally {
+            $this->currentComponentData = $previousComponentData;
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -130,6 +179,10 @@ trait ManagesComponents
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get an item from the component data that exists above the current component.
      *
      * @param  string  $key
@@ -160,21 +213,52 @@ trait ManagesComponents
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Start the slot rendering process.
      *
      * @param  string  $name
      * @param  string|null  $content
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  array  $attributes
      * @return void
      */
     public function slot($name, $content = null, $attributes = [])
     {
         if (func_num_args() === 2 || $content !== null) {
+=======
+=======
+     * @param  array  $attributes
+>>>>>>> f330c64 (optimization in progress)
+     * @return void
+     */
+    public function slot($name, $content = null, $attributes = [])
+    {
+<<<<<<< HEAD
+        if (func_num_args() > 2) {
+            throw new InvalidArgumentException('You passed too many arguments to the ['.$name.'] slot.');
+        } elseif (func_num_args() === 2) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (func_num_args() === 2 || $content !== null) {
+>>>>>>> f330c64 (optimization in progress)
             $this->slots[$this->currentComponent()][$name] = $content;
         } elseif (ob_start()) {
             $this->slots[$this->currentComponent()][$name] = '';
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             $this->slotStack[$this->currentComponent()][] = [$name, $attributes];
+=======
+            $this->slotStack[$this->currentComponent()][] = $name;
+>>>>>>> 22c0e54 (table changes)
+=======
+            $this->slotStack[$this->currentComponent()][] = [$name, $attributes];
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -191,11 +275,21 @@ trait ManagesComponents
             $this->slotStack[$this->currentComponent()]
         );
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         [$currentName, $currentAttributes] = $currentSlot;
 
         $this->slots[$this->currentComponent()][$currentName] = new ComponentSlot(
             trim(ob_get_clean()), $currentAttributes
         );
+<<<<<<< HEAD
+=======
+        $this->slots[$this->currentComponent()][$currentSlot] = new HtmlString(trim(ob_get_clean()));
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -207,6 +301,10 @@ trait ManagesComponents
     {
         return count($this->componentStack) - 1;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Flush all of the component state.
@@ -219,4 +317,9 @@ trait ManagesComponents
         $this->componentData = [];
         $this->currentComponentData = [];
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

@@ -116,6 +116,8 @@ class RedisSessionHandler extends AbstractSessionHandler
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return int|false
      */
@@ -123,6 +125,21 @@ class RedisSessionHandler extends AbstractSessionHandler
     public function gc($maxlifetime)
     {
         return 0;
+=======
+=======
+     *
+     * @return int|false
+>>>>>>> f330c64 (optimization in progress)
+     */
+    #[\ReturnTypeWillChange]
+    public function gc($maxlifetime)
+    {
+<<<<<<< HEAD
+        return true;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return 0;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

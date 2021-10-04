@@ -20,6 +20,14 @@ use RuntimeException as PhpRuntimeException;
  * Thrown to indicate an exception occurred while dealing with DCE Security
  * (version 2) UUIDs
  */
+<<<<<<< HEAD
+<<<<<<< HEAD
 class DceSecurityException extends PhpRuntimeException implements UuidExceptionInterface
+=======
+class DceSecurityException extends PhpRuntimeException
+>>>>>>> 22c0e54 (table changes)
+=======
+class DceSecurityException extends PhpRuntimeException implements UuidExceptionInterface
+>>>>>>> f330c64 (optimization in progress)
 {
 }

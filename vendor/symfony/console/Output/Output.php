@@ -163,7 +163,15 @@ abstract class Output implements OutputInterface
                     break;
             }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             $this->doWrite($message ?? '', $newline);
+=======
+            $this->doWrite($message, $newline);
+>>>>>>> 22c0e54 (table changes)
+=======
+            $this->doWrite($message ?? '', $newline);
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 

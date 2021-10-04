@@ -9,6 +9,9 @@ class AflLicenses extends Model
 {
     use HasFactory;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
 
     protected $guarded=[];
     protected $primaryKey = 'license_id';
@@ -23,6 +26,9 @@ class AflLicenses extends Model
     {
          return $this->hasMany(AflProducts::class);
     }
+<<<<<<< HEAD
 =======
 >>>>>>> 34fd2bf (installlicense completed and correction of connection test done)
+=======
+>>>>>>> 22c0e54 (table changes)
 }

@@ -5,7 +5,14 @@ namespace Laravel\Passport\Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use Laravel\Passport\Client;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Laravel\Passport\Passport;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Laravel\Passport\Passport;
+>>>>>>> f330c64 (optimization in progress)
 
 class ClientFactory extends Factory
 {
@@ -23,7 +30,15 @@ class ClientFactory extends Factory
      */
     public function definition()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->ensurePrimaryKeyIsSet([
+=======
+        return [
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->ensurePrimaryKeyIsSet([
+>>>>>>> f330c64 (optimization in progress)
             'user_id' => null,
             'name' => $this->faker->company,
             'secret' => Str::random(40),
@@ -31,6 +46,10 @@ class ClientFactory extends Factory
             'personal_access_client' => false,
             'password_client' => false,
             'revoked' => false,
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         ]);
     }
 
@@ -49,6 +68,12 @@ class ClientFactory extends Factory
         }
 
         return $data;
+<<<<<<< HEAD
+=======
+        ];
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

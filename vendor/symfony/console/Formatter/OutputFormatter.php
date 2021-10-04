@@ -52,7 +52,15 @@ class OutputFormatter implements WrappableOutputFormatterInterface
      */
     public static function escapeTrailingBackslash(string $text): string
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_ends_with($text, '\\')) {
+=======
+        if ('\\' === substr($text, -1)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_ends_with($text, '\\')) {
+>>>>>>> f330c64 (optimization in progress)
             $len = \strlen($text);
             $text = rtrim($text, '\\');
             $text = str_replace("\0", '', $text);
@@ -178,7 +186,15 @@ class OutputFormatter implements WrappableOutputFormatterInterface
 
         $output .= $this->applyCurrentStyle(substr($message, $offset), $output, $width, $currentLineLength);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_contains($output, "\0")) {
+=======
+        if (false !== strpos($output, "\0")) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_contains($output, "\0")) {
+>>>>>>> f330c64 (optimization in progress)
             return strtr($output, ["\0" => '\\', '\\<' => '<']);
         }
 

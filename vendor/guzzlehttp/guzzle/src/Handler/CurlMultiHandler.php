@@ -205,10 +205,19 @@ class CurlMultiHandler
      */
     private function cancel($id): bool
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (!is_int($id)) {
             trigger_deprecation('guzzlehttp/guzzle', '7.4', 'Not passing an integer to %s::%s() is deprecated and will cause an error in 8.0.', __CLASS__, __FUNCTION__);
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         // Cannot cancel if it has been processed.
         if (!isset($this->handles[$id])) {
             return false;

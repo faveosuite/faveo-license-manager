@@ -162,6 +162,10 @@ class Connection implements ConnectionInterface
     protected $pretending = false;
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * All of the callbacks that should be invoked before a query is executed.
      *
      * @var array
@@ -169,6 +173,11 @@ class Connection implements ConnectionInterface
     protected $beforeExecutingCallbacks = [];
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The instance of Doctrine connection.
      *
      * @var \Doctrine\DBAL\Connection
@@ -648,10 +657,19 @@ class Connection implements ConnectionInterface
      */
     protected function run($query, $bindings, Closure $callback)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         foreach ($this->beforeExecutingCallbacks as $beforeExecutingCallback) {
             $beforeExecutingCallback($query, $bindings, $this);
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $this->reconnectIfMissingConnection();
 
         $start = microtime(true);
@@ -693,7 +711,15 @@ class Connection implements ConnectionInterface
         // run the SQL against the PDO connection. Then we can calculate the time it
         // took to execute and log the query SQL, bindings and time in our memory.
         try {
+<<<<<<< HEAD
+<<<<<<< HEAD
             return $callback($query, $bindings);
+=======
+            $result = $callback($query, $bindings);
+>>>>>>> 22c0e54 (table changes)
+=======
+            return $callback($query, $bindings);
+>>>>>>> f330c64 (optimization in progress)
         }
 
         // If an exception occurs when attempting to run a query, we'll format the error
@@ -704,6 +730,14 @@ class Connection implements ConnectionInterface
                 $query, $this->prepareBindings($bindings), $e
             );
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+        return $result;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -819,6 +853,10 @@ class Connection implements ConnectionInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Register a hook to be run just before a database query is executed.
      *
      * @param  \Closure  $callback
@@ -832,6 +870,11 @@ class Connection implements ConnectionInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Register a database query listener with the connection.
      *
      * @param  \Closure  $callback

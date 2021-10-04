@@ -53,7 +53,15 @@ class Util
         $type = $parameter->getType();
 
         if (! $type instanceof ReflectionNamedType || $type->isBuiltin()) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             return null;
+=======
+            return;
+>>>>>>> 22c0e54 (table changes)
+=======
+            return null;
+>>>>>>> f330c64 (optimization in progress)
         }
 
         $name = $type->getName();

@@ -64,9 +64,18 @@ class TranslatorPathsPass extends AbstractRecursivePass
             foreach ($this->paths as $class => $_) {
                 if (($r = $container->getReflectionClass($class)) && !$r->isInterface()) {
                     $paths[] = $r->getFileName();
+<<<<<<< HEAD
+<<<<<<< HEAD
                     foreach ($r->getTraits() as $trait) {
                         $paths[] = $trait->getFileName();
                     }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+                    foreach ($r->getTraits() as $trait) {
+                        $paths[] = $trait->getFileName();
+                    }
+>>>>>>> f330c64 (optimization in progress)
                 }
             }
             if ($paths) {

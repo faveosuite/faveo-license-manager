@@ -138,7 +138,15 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
      */
     public function has($name, $index = 0)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $lowerName = strtolower($name ?? '');
+=======
+        $lowerName = strtolower($name);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $lowerName = strtolower($name ?? '');
+>>>>>>> f330c64 (optimization in progress)
 
         if (!\array_key_exists($lowerName, $this->headers)) {
             return false;
@@ -181,7 +189,15 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
      */
     public function get($name, $index = 0)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $name = strtolower($name ?? '');
+=======
+        $name = strtolower($name);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $name = strtolower($name ?? '');
+>>>>>>> f330c64 (optimization in progress)
 
         if (\func_num_args() < 2) {
             if ($this->has($name)) {
@@ -214,7 +230,15 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
             return $headers;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $lowerName = strtolower($name ?? '');
+=======
+        $lowerName = strtolower($name);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $lowerName = strtolower($name ?? '');
+>>>>>>> f330c64 (optimization in progress)
         if (!\array_key_exists($lowerName, $this->headers)) {
             return [];
         }
@@ -247,7 +271,15 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
      */
     public function remove($name, $index = 0)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $lowerName = strtolower($name ?? '');
+=======
+        $lowerName = strtolower($name);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $lowerName = strtolower($name ?? '');
+>>>>>>> f330c64 (optimization in progress)
         unset($this->headers[$lowerName][$index]);
     }
 
@@ -258,7 +290,15 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
      */
     public function removeAll($name)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $lowerName = strtolower($name ?? '');
+=======
+        $lowerName = strtolower($name);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $lowerName = strtolower($name ?? '');
+>>>>>>> f330c64 (optimization in progress)
         unset($this->headers[$lowerName]);
     }
 
@@ -330,6 +370,8 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
     /** Save a Header to the internal collection */
     private function storeHeader($name, Swift_Mime_Header $header, $offset = null)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!isset($this->headers[strtolower($name ?? '')])) {
             $this->headers[strtolower($name ?? '')] = [];
         }
@@ -337,6 +379,23 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
             $this->headers[strtolower($name ?? '')][] = $header;
         } else {
             $this->headers[strtolower($name ?? '')][$offset] = $header;
+=======
+        if (!isset($this->headers[strtolower($name)])) {
+            $this->headers[strtolower($name)] = [];
+=======
+        if (!isset($this->headers[strtolower($name ?? '')])) {
+            $this->headers[strtolower($name ?? '')] = [];
+>>>>>>> f330c64 (optimization in progress)
+        }
+        if (!isset($offset)) {
+            $this->headers[strtolower($name ?? '')][] = $header;
+        } else {
+<<<<<<< HEAD
+            $this->headers[strtolower($name)][$offset] = $header;
+>>>>>>> 22c0e54 (table changes)
+=======
+            $this->headers[strtolower($name ?? '')][$offset] = $header;
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -349,8 +408,18 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
     /** uksort() algorithm for Header ordering */
     private function sortHeaders($a, $b)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $lowerA = strtolower($a ?? '');
         $lowerB = strtolower($b ?? '');
+=======
+        $lowerA = strtolower($a);
+        $lowerB = strtolower($b);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $lowerA = strtolower($a ?? '');
+        $lowerB = strtolower($b ?? '');
+>>>>>>> f330c64 (optimization in progress)
         $aPos = \array_key_exists($lowerA, $this->order) ? $this->order[$lowerA] : -1;
         $bPos = \array_key_exists($lowerB, $this->order) ? $this->order[$lowerB] : -1;
 
@@ -371,7 +440,15 @@ class Swift_Mime_SimpleHeaderSet implements Swift_Mime_CharsetObserver
     /** Test if the given Header is always displayed */
     private function isDisplayed(Swift_Mime_Header $header)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return \array_key_exists(strtolower($header->getFieldName() ?? ''), $this->required);
+=======
+        return \array_key_exists(strtolower($header->getFieldName()), $this->required);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return \array_key_exists(strtolower($header->getFieldName() ?? ''), $this->required);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /** Notify all Headers of the new charset */

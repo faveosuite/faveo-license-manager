@@ -54,8 +54,16 @@ trait DetectsLostConnections
             'SQLSTATE[08S01]: Communication link failure',
             'SQLSTATE[08006] [7] could not connect to server: Connection refused Is the server running on host',
             'SQLSTATE[HY000]: General error: 7 SSL SYSCALL error: No route to host',
+<<<<<<< HEAD
+<<<<<<< HEAD
             'The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeout for configuring this behavior.',
             'SQLSTATE[08006] [7] could not translate host name',
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            'The client was disconnected by the server because of inactivity. See wait_timeout and interactive_timeout for configuring this behavior.',
+            'SQLSTATE[08006] [7] could not translate host name',
+>>>>>>> f330c64 (optimization in progress)
         ]);
     }
 }

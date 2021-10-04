@@ -81,7 +81,7 @@ class LicenseVerifyControllerTest extends TestCase
         AflLicenses::where('product_id',26)->delete();
 
     }
-    public function test_licenseverify_afterInstallWithoutLicenseCode_shouldRecieveLicenseCodeNotFound(){
+    public function test_licenseVerify_afterInstallWithoutLicenseCode_shouldRecieveLicenseCodeNotFound(){
         $data = [
             'product_id'=>25,
             'license_code' => 'JSOPCKUIPOLD890D',

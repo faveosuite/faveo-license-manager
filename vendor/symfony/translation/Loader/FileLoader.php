@@ -55,9 +55,25 @@ abstract class FileLoader extends ArrayLoader
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * @param string $resource
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array
      *
      * @throws InvalidResourceException if stream content has an invalid format
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     abstract protected function loadResource(string $resource);
+=======
+    abstract protected function loadResource($resource);
+>>>>>>> 22c0e54 (table changes)
+=======
+    abstract protected function loadResource(string $resource);
+>>>>>>> f330c64 (optimization in progress)
 }

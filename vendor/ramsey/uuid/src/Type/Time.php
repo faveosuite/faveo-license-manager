@@ -16,12 +16,26 @@ namespace Ramsey\Uuid\Type;
 
 use Ramsey\Uuid\Exception\UnsupportedOperationException;
 use Ramsey\Uuid\Type\Integer as IntegerObject;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use ValueError;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use ValueError;
+>>>>>>> f330c64 (optimization in progress)
 use stdClass;
 
 use function json_decode;
 use function json_encode;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use function sprintf;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use function sprintf;
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * A value object representing a timestamp
@@ -91,6 +105,10 @@ final class Time implements TypeInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array{seconds: string, microseconds: string}
      */
     public function __serialize(): array
@@ -102,12 +120,24 @@ final class Time implements TypeInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Constructs the object from a serialized string representation
      *
      * @param string $serialized The serialized string representation of the object
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-suppress UnusedMethodCall
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @psalm-suppress UnusedMethodCall
+>>>>>>> f330c64 (optimization in progress)
      */
     public function unserialize($serialized): void
     {
@@ -122,6 +152,10 @@ final class Time implements TypeInterface
 
         $this->__construct($time->seconds, $time->microseconds);
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * @param array{seconds: string, microseconds: string} $data
@@ -136,4 +170,9 @@ final class Time implements TypeInterface
 
         $this->__construct($data['seconds'], $data['microseconds']);
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

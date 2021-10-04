@@ -53,7 +53,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/add'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.error_client_or_license_code']);
     }
@@ -76,7 +76,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/add'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_ip']);
     }
@@ -99,7 +99,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/add'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_domain']);
     }
@@ -121,7 +121,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/add'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_limit']);
     }
@@ -144,7 +144,7 @@ class LicenseControllerTest extends TestCase
         ];
         $response = $this->json('POST',url('api/admin/license/add'),$data);
 
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_expiry']);
     }
@@ -166,7 +166,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/add'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_update_date']);
     }
@@ -188,7 +188,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/add'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_support_date']);
     }
@@ -288,9 +288,9 @@ class LicenseControllerTest extends TestCase
         ];
 
         $response = $this->json('POST',url('api/admin/license/edit'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
-        $response->assertJson(['message'=>'lang.errorclient_or_license_code']);
+        $response->assertJson(['message'=>'lang.error_client_or_license_code']);
 
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidIp_shouldRecieveResponse400()
@@ -316,9 +316,9 @@ class LicenseControllerTest extends TestCase
         ];
 
         $response = $this->json('POST',url('api/admin/license/edit'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
-        $response->assertJson(['message'=>'lang.invalid_licnese_ip']);
+        $response->assertJson(['message'=>'lang.invalid_license_ip']);
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidDomain_shouldRecieveResponse400()
     {
@@ -342,9 +342,9 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case which is updated'
         ];
         $response = $this->json('POST',url('api/admin/license/edit'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
-        $response->assertJson(['message'=>'lang.invalid_licnese_domain']);
+        $response->assertJson(['message'=>'lang.invalid_domain']);
     }
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidLicenseLimit_shouldRecieveResponse400()
     {
@@ -367,7 +367,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/edit'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_limit']);
     }
@@ -393,7 +393,7 @@ class LicenseControllerTest extends TestCase
         ];
         $response = $this->json('POST',url('api/admin/license/edit'),$data);
 
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_expiry']);
     }
@@ -418,7 +418,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/edit'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_update_date']);
     }
@@ -443,7 +443,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' =>'This is license for the test case'
         ];
         $response = $this->json('POST',url('api/admin/license/edit'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(200);
         $response->assertJson(['success'=>false]);
         $response->assertJson(['message'=>'lang.invalid_license_support_date']);
     }

@@ -17,7 +17,15 @@ namespace Ramsey\Collection;
 /**
  * `GenericArray` represents a standard array object.
  *
+<<<<<<< HEAD
+<<<<<<< HEAD
  * @extends AbstractArray<mixed>
+=======
+ * @template-extends AbstractArray<mixed>
+>>>>>>> 22c0e54 (table changes)
+=======
+ * @extends AbstractArray<mixed>
+>>>>>>> f330c64 (optimization in progress)
  */
 class GenericArray extends AbstractArray
 {

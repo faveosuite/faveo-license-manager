@@ -890,7 +890,15 @@ trait Date
         switch (true) {
             case isset($formats[$name]):
                 $format = $formats[$name];
+<<<<<<< HEAD
+<<<<<<< HEAD
                 $method = str_starts_with($format, '%') ? 'formatLocalized' : 'rawFormat';
+=======
+                $method = substr($format, 0, 1) === '%' ? 'formatLocalized' : 'rawFormat';
+>>>>>>> 22c0e54 (table changes)
+=======
+                $method = str_starts_with($format, '%') ? 'formatLocalized' : 'rawFormat';
+>>>>>>> f330c64 (optimization in progress)
                 $value = $this->$method($format);
 
                 return is_numeric($value) ? (int) $value : $value;
@@ -945,11 +953,27 @@ trait Date
 
             // @property-read int 51 through 53
             case $name === 'weeksInYear':
+<<<<<<< HEAD
+<<<<<<< HEAD
                 return $this->weeksInYear();
 
             // @property-read int 51 through 53
             case $name === 'isoWeeksInYear':
                 return $this->isoWeeksInYear();
+=======
+                return (int) $this->weeksInYear();
+
+            // @property-read int 51 through 53
+            case $name === 'isoWeeksInYear':
+                return (int) $this->isoWeeksInYear();
+>>>>>>> 22c0e54 (table changes)
+=======
+                return $this->weeksInYear();
+
+            // @property-read int 51 through 53
+            case $name === 'isoWeeksInYear':
+                return $this->isoWeeksInYear();
+>>>>>>> f330c64 (optimization in progress)
 
             // @property-read int 1 through 5
             case $name === 'weekOfMonth':
@@ -1132,7 +1156,15 @@ trait Date
             case 'microseconds':
             case 'microsecond':
             case 'micro':
+<<<<<<< HEAD
+<<<<<<< HEAD
                 if (str_starts_with($name, 'milli')) {
+=======
+                if (substr($name, 0, 5) === 'milli') {
+>>>>>>> 22c0e54 (table changes)
+=======
+                if (str_starts_with($name, 'milli')) {
+>>>>>>> f330c64 (optimization in progress)
                     $value *= 1000;
                 }
 
@@ -1327,7 +1359,15 @@ trait Date
     {
         $dayOfYear = $this->dayOfYear;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $value === null ? $dayOfYear : $this->addDays($value - $dayOfYear);
+=======
+        return \is_null($value) ? $dayOfYear : $this->addDays($value - $dayOfYear);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $value === null ? $dayOfYear : $this->addDays($value - $dayOfYear);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1341,7 +1381,15 @@ trait Date
     {
         $dayOfWeek = ($this->dayOfWeek + 7 - (int) ($this->getTranslationMessage('first_day_of_week') ?? 0)) % 7;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $value === null ? $dayOfWeek : $this->addDays($value - $dayOfWeek);
+=======
+        return \is_null($value) ? $dayOfWeek : $this->addDays($value - $dayOfWeek);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $value === null ? $dayOfWeek : $this->addDays($value - $dayOfWeek);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1355,7 +1403,15 @@ trait Date
     {
         $dayOfWeekIso = $this->dayOfWeekIso;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $value === null ? $dayOfWeekIso : $this->addDays($value - $dayOfWeekIso);
+=======
+        return \is_null($value) ? $dayOfWeekIso : $this->addDays($value - $dayOfWeekIso);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $value === null ? $dayOfWeekIso : $this->addDays($value - $dayOfWeekIso);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1527,7 +1583,15 @@ trait Date
      */
     public function setTimeFromTimeString($time)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!str_contains($time, ':')) {
+=======
+        if (strpos($time, ':') === false) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!str_contains($time, ':')) {
+>>>>>>> f330c64 (optimization in progress)
             $time .= ':0';
         }
 
@@ -1584,11 +1648,26 @@ trait Date
      */
     public function shiftTimezone($value)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $dateTimeString = $this->format('Y-m-d H:i:s.u');
 
         return $this
             ->setTimezone($value)
             ->modify($dateTimeString);
+=======
+        $offset = $this->offset;
+        $date = $this->setTimezone($value);
+
+        return $date->addRealMicroseconds(($offset - $date->offset) * static::MICROSECONDS_PER_SECOND);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $dateTimeString = $this->format('Y-m-d H:i:s.u');
+
+        return $this
+            ->setTimezone($value)
+            ->modify($dateTimeString);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1919,7 +1998,15 @@ trait Date
                 's' => 'second',
                 'ss' => ['getPaddedUnit', ['second']],
                 'S' => function (CarbonInterface $date) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                     return (string) floor($date->micro / 100000);
+=======
+                    return (string) ((string) floor($date->micro / 100000));
+>>>>>>> 22c0e54 (table changes)
+=======
+                    return (string) floor($date->micro / 100000);
+>>>>>>> f330c64 (optimization in progress)
                 },
                 'SS' => function (CarbonInterface $date) {
                     return str_pad((string) floor($date->micro / 10000), 2, '0', STR_PAD_LEFT);
@@ -2538,7 +2625,15 @@ trait Date
 
         $unit = rtrim($method, 's');
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_starts_with($unit, 'is')) {
+=======
+        if (substr($unit, 0, 2) === 'is') {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_starts_with($unit, 'is')) {
+>>>>>>> f330c64 (optimization in progress)
             $word = substr($unit, 2);
 
             if (\in_array($word, static::$days)) {
@@ -2576,7 +2671,15 @@ trait Date
         if ($action === 'add' || $action === 'sub') {
             $unit = substr($unit, 3);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             if (str_starts_with($unit, 'Real')) {
+=======
+            if (substr($unit, 0, 4) === 'Real') {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if (str_starts_with($unit, 'Real')) {
+>>>>>>> f330c64 (optimization in progress)
                 $unit = static::singularUnit(substr($unit, 4));
 
                 return $this->{"${action}RealUnit"}($unit, ...$parameters);
@@ -2618,7 +2721,15 @@ trait Date
             }
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_starts_with($unit, 'isCurrent')) {
+=======
+        if (substr($unit, 0, 9) === 'isCurrent') {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_starts_with($unit, 'isCurrent')) {
+>>>>>>> f330c64 (optimization in progress)
             try {
                 return $this->isCurrentUnit(strtolower(substr($unit, 9)));
             } catch (BadComparisonUnitException | BadMethodCallException $exception) {
@@ -2626,7 +2737,15 @@ trait Date
             }
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_ends_with($method, 'Until')) {
+=======
+        if (substr($method, -5) === 'Until') {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_ends_with($method, 'Until')) {
+>>>>>>> f330c64 (optimization in progress)
             try {
                 $unit = static::singularUnit(substr($method, 0, -5));
 

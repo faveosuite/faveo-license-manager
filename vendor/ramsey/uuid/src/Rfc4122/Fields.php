@@ -177,7 +177,14 @@ final class Fields implements FieldsInterface
             return null;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @var array $parts */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @var array $parts */
+>>>>>>> f330c64 (optimization in progress)
         $parts = unpack('n*', $this->bytes);
 
         return (int) $parts[4] >> 12;

@@ -22,7 +22,14 @@ use phpDocumentor\Reflection\Types\Context as TypeContext;
 use phpDocumentor\Reflection\Types\Mixed_;
 use phpDocumentor\Reflection\Types\Void_;
 use Webmozart\Assert\Assert;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function array_keys;
 use function explode;
 use function implode;
@@ -59,6 +66,13 @@ final class Method extends BaseTag implements Factory\StaticMethod
 
     /**
      * @param array<int, array<string, Type|string>> $arguments
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @phpstan-param array<int, array{name: string, type: Type}|string> $arguments
      */
     public function __construct(
@@ -86,7 +100,15 @@ final class Method extends BaseTag implements Factory\StaticMethod
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
+<<<<<<< HEAD
+<<<<<<< HEAD
     ): ?self {
+=======
+    ) : ?self {
+>>>>>>> 22c0e54 (table changes)
+=======
+    ): ?self {
+>>>>>>> f330c64 (optimization in progress)
         Assert::stringNotEmpty($body);
         Assert::notNull($typeResolver);
         Assert::notNull($descriptionFactory);
@@ -100,9 +122,20 @@ final class Method extends BaseTag implements Factory\StaticMethod
         // 5. then a word with underscores, followed by ( and any character
         //    until a ) and whitespace : as method name with signature
         // 6. any remaining text : as description
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (
             !preg_match(
                 '/^
+=======
+        if (!preg_match(
+            '/^
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (
+            !preg_match(
+                '/^
+>>>>>>> f330c64 (optimization in progress)
                 # Static keyword
                 # Declares a static method ONLY if type is also present
                 (?:
@@ -132,10 +165,22 @@ final class Method extends BaseTag implements Factory\StaticMethod
                 # Description
                 (.*)
             $/sux',
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
                 $body,
                 $matches
             )
         ) {
+<<<<<<< HEAD
+=======
+            $body,
+            $matches
+        )) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             return null;
         }
 
@@ -178,16 +223,37 @@ final class Method extends BaseTag implements Factory\StaticMethod
     /**
      * Retrieves the method name.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getMethodName(): string
+=======
+    public function getMethodName() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getMethodName(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->methodName;
     }
 
     /**
      * @return array<int, array<string, Type|string>>
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @phpstan-return array<int, array{name: string, type: Type}>
      */
     public function getArguments(): array
+=======
+     *
+     * @phpstan-return array<int, array{name: string, type: Type}>
+     */
+    public function getArguments() : array
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @phpstan-return array<int, array{name: string, type: Type}>
+     */
+    public function getArguments(): array
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->arguments;
     }
@@ -197,17 +263,41 @@ final class Method extends BaseTag implements Factory\StaticMethod
      *
      * @return bool TRUE if the method declaration is for a static method, FALSE otherwise.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function isStatic(): bool
+=======
+    public function isStatic() : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function isStatic(): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->isStatic;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getReturnType(): Type
+=======
+    public function getReturnType() : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getReturnType(): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->returnType;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         $arguments = [];
         foreach ($this->arguments as $argument) {
@@ -226,7 +316,15 @@ final class Method extends BaseTag implements Factory\StaticMethod
 
         $returnType = (string) $this->returnType;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $methodName = $this->methodName;
+=======
+        $methodName = (string) $this->methodName;
+>>>>>>> 22c0e54 (table changes)
+=======
+        $methodName = $this->methodName;
+>>>>>>> f330c64 (optimization in progress)
 
         return $static
             . ($returnType !== '' ? ($static !== '' ? ' ' : '') . $returnType : '')
@@ -237,12 +335,28 @@ final class Method extends BaseTag implements Factory\StaticMethod
 
     /**
      * @param mixed[][]|string[] $arguments
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @phpstan-param array<int, array{name: string, type: Type}|string> $arguments
      *
      * @return mixed[][]
      * @phpstan-return array<int, array{name: string, type: Type}>
      */
     private function filterArguments(array $arguments = []): array
+=======
+=======
+     * @phpstan-param array<int, array{name: string, type: Type}|string> $arguments
+>>>>>>> f330c64 (optimization in progress)
+     *
+     * @return mixed[][]
+     * @phpstan-return array<int, array{name: string, type: Type}>
+     */
+<<<<<<< HEAD
+    private function filterArguments(array $arguments = []) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function filterArguments(array $arguments = []): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $result = [];
         foreach ($arguments as $argument) {
@@ -268,7 +382,15 @@ final class Method extends BaseTag implements Factory\StaticMethod
         return $result;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private static function stripRestArg(string $argument): string
+=======
+    private static function stripRestArg(string $argument) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private static function stripRestArg(string $argument): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if (strpos($argument, '...') === 0) {
             $argument = trim(substr($argument, 3));

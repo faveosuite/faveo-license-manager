@@ -24,7 +24,15 @@ interface Application extends Container
     /**
      * Get the path to the bootstrap directory.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $path
+=======
+     * @param  string  $path Optionally, a path to append to the bootstrap path
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $path
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function bootstrapPath($path = '');
@@ -32,7 +40,15 @@ interface Application extends Container
     /**
      * Get the path to the application configuration files.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $path
+=======
+     * @param  string  $path Optionally, a path to append to the config path
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $path
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function configPath($path = '');
@@ -40,7 +56,15 @@ interface Application extends Container
     /**
      * Get the path to the database directory.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $path
+=======
+     * @param  string  $path Optionally, a path to append to the database path
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $path
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function databasePath($path = '');

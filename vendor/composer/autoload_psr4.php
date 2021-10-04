@@ -8,12 +8,23 @@ $baseDir = dirname($vendorDir);
 return array(
     'voku\\' => array($vendorDir . '/voku/portable-ascii/src/voku'),
     'phpseclib3\\' => array($vendorDir . '/phpseclib/phpseclib/phpseclib'),
+<<<<<<< HEAD
     'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/type-resolver/src', $vendorDir . '/phpdocumentor/reflection-docblock/src'),
+=======
+    'phpDocumentor\\Reflection\\' => array($vendorDir . '/phpdocumentor/reflection-common/src', $vendorDir . '/phpdocumentor/reflection-docblock/src', $vendorDir . '/phpdocumentor/type-resolver/src'),
+>>>>>>> 22c0e54 (table changes)
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'TijsVerkoyen\\CssToInlineStyles\\' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles/src'),
     'Tests\\' => array($baseDir . '/tests'),
+<<<<<<< HEAD
+<<<<<<< HEAD
     'Symfony\\Polyfill\\Php81\\' => array($vendorDir . '/symfony/polyfill-php81'),
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    'Symfony\\Polyfill\\Php81\\' => array($vendorDir . '/symfony/polyfill-php81'),
+>>>>>>> f330c64 (optimization in progress)
     'Symfony\\Polyfill\\Php80\\' => array($vendorDir . '/symfony/polyfill-php80'),
     'Symfony\\Polyfill\\Php73\\' => array($vendorDir . '/symfony/polyfill-php73'),
     'Symfony\\Polyfill\\Php72\\' => array($vendorDir . '/symfony/polyfill-php72'),
@@ -64,9 +75,21 @@ return array(
     'League\\Event\\' => array($vendorDir . '/league/event/src'),
     'League\\CommonMark\\' => array($vendorDir . '/league/commonmark/src'),
     'Lcobucci\\JWT\\' => array($vendorDir . '/lcobucci/jwt/src'),
+<<<<<<< HEAD
+<<<<<<< HEAD
     'Laravel\\Ui\\' => array($vendorDir . '/laravel/ui/src'),
     'Laravel\\Tinker\\' => array($vendorDir . '/laravel/tinker/src'),
     'Laravel\\SerializableClosure\\' => array($vendorDir . '/laravel/serializable-closure/src'),
+=======
+    'Lcobucci\\Clock\\' => array($vendorDir . '/lcobucci/clock/src'),
+    'Laravel\\Ui\\' => array($vendorDir . '/laravel/ui/src'),
+    'Laravel\\Tinker\\' => array($vendorDir . '/laravel/tinker/src'),
+>>>>>>> 22c0e54 (table changes)
+=======
+    'Laravel\\Ui\\' => array($vendorDir . '/laravel/ui/src'),
+    'Laravel\\Tinker\\' => array($vendorDir . '/laravel/tinker/src'),
+    'Laravel\\SerializableClosure\\' => array($vendorDir . '/laravel/serializable-closure/src'),
+>>>>>>> f330c64 (optimization in progress)
     'Laravel\\Sail\\' => array($vendorDir . '/laravel/sail/src'),
     'Laravel\\Passport\\Database\\Factories\\' => array($vendorDir . '/laravel/passport/database/factories'),
     'Laravel\\Passport\\' => array($vendorDir . '/laravel/passport/src'),

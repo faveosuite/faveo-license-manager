@@ -16,21 +16,42 @@ namespace phpDocumentor\Reflection;
 use ArrayIterator;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Types\Array_;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use phpDocumentor\Reflection\Types\ArrayKey;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use phpDocumentor\Reflection\Types\ArrayKey;
+>>>>>>> f330c64 (optimization in progress)
 use phpDocumentor\Reflection\Types\ClassString;
 use phpDocumentor\Reflection\Types\Collection;
 use phpDocumentor\Reflection\Types\Compound;
 use phpDocumentor\Reflection\Types\Context;
 use phpDocumentor\Reflection\Types\Expression;
 use phpDocumentor\Reflection\Types\Integer;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use phpDocumentor\Reflection\Types\InterfaceString;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use phpDocumentor\Reflection\Types\InterfaceString;
+>>>>>>> f330c64 (optimization in progress)
 use phpDocumentor\Reflection\Types\Intersection;
 use phpDocumentor\Reflection\Types\Iterable_;
 use phpDocumentor\Reflection\Types\Nullable;
 use phpDocumentor\Reflection\Types\Object_;
 use phpDocumentor\Reflection\Types\String_;
 use RuntimeException;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function array_key_exists;
 use function array_pop;
 use function array_values;
@@ -44,7 +65,14 @@ use function preg_split;
 use function strpos;
 use function strtolower;
 use function trim;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use const PREG_SPLIT_DELIM_CAPTURE;
 use const PREG_SPLIT_NO_EMPTY;
 
@@ -75,6 +103,10 @@ final class TypeResolver
     private $keywords = [
         'string' => Types\String_::class,
         'class-string' => Types\ClassString::class,
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         'interface-string' => Types\InterfaceString::class,
         'html-escaped-string' => PseudoTypes\HtmlEscapedString::class,
         'lowercase-string' => PseudoTypes\LowercaseString::class,
@@ -82,34 +114,78 @@ final class TypeResolver
         'non-empty-string' => PseudoTypes\NonEmptyString::class,
         'numeric-string' => PseudoTypes\NumericString::class,
         'trait-string' => PseudoTypes\TraitString::class,
+<<<<<<< HEAD
         'int' => Types\Integer::class,
         'integer' => Types\Integer::class,
         'positive-int' => PseudoTypes\PositiveInteger::class,
+=======
+        'int' => Types\Integer::class,
+        'integer' => Types\Integer::class,
+>>>>>>> 22c0e54 (table changes)
+=======
+        'int' => Types\Integer::class,
+        'integer' => Types\Integer::class,
+        'positive-int' => PseudoTypes\PositiveInteger::class,
+>>>>>>> f330c64 (optimization in progress)
         'bool' => Types\Boolean::class,
         'boolean' => Types\Boolean::class,
         'real' => Types\Float_::class,
         'float' => Types\Float_::class,
         'double' => Types\Float_::class,
+<<<<<<< HEAD
+<<<<<<< HEAD
         'object' => Types\Object_::class,
         'mixed' => Types\Mixed_::class,
         'array' => Types\Array_::class,
         'array-key' => Types\ArrayKey::class,
+=======
+        'object' => Object_::class,
+        'mixed' => Types\Mixed_::class,
+        'array' => Array_::class,
+>>>>>>> 22c0e54 (table changes)
+=======
+        'object' => Types\Object_::class,
+        'mixed' => Types\Mixed_::class,
+        'array' => Types\Array_::class,
+        'array-key' => Types\ArrayKey::class,
+>>>>>>> f330c64 (optimization in progress)
         'resource' => Types\Resource_::class,
         'void' => Types\Void_::class,
         'null' => Types\Null_::class,
         'scalar' => Types\Scalar::class,
         'callback' => Types\Callable_::class,
         'callable' => Types\Callable_::class,
+<<<<<<< HEAD
+<<<<<<< HEAD
         'callable-string' => PseudoTypes\CallableString::class,
         'false' => PseudoTypes\False_::class,
         'true' => PseudoTypes\True_::class,
         'literal-string' => PseudoTypes\LiteralString::class,
+=======
+        'false' => PseudoTypes\False_::class,
+        'true' => PseudoTypes\True_::class,
+>>>>>>> 22c0e54 (table changes)
+=======
+        'callable-string' => PseudoTypes\CallableString::class,
+        'false' => PseudoTypes\False_::class,
+        'true' => PseudoTypes\True_::class,
+        'literal-string' => PseudoTypes\LiteralString::class,
+>>>>>>> f330c64 (optimization in progress)
         'self' => Types\Self_::class,
         '$this' => Types\This::class,
         'static' => Types\Static_::class,
         'parent' => Types\Parent_::class,
+<<<<<<< HEAD
+<<<<<<< HEAD
         'iterable' => Types\Iterable_::class,
         'never' => Types\Never_::class,
+=======
+        'iterable' => Iterable_::class,
+>>>>>>> 22c0e54 (table changes)
+=======
+        'iterable' => Types\Iterable_::class,
+        'never' => Types\Never_::class,
+>>>>>>> f330c64 (optimization in progress)
     ];
 
     /**
@@ -142,7 +218,15 @@ final class TypeResolver
      *
      * @param string $type The relative or absolute type.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function resolve(string $type, ?Context $context = null): Type
+=======
+    public function resolve(string $type, ?Context $context = null) : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function resolve(string $type, ?Context $context = null): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         $type = trim($type);
         if (!$type) {
@@ -178,7 +262,15 @@ final class TypeResolver
      * @param int                        $parserContext on of self::PARSER_* constants, indicating
      * the context where we are in the parsing
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function parseTypes(ArrayIterator $tokens, Context $context, int $parserContext): Type
+=======
+    private function parseTypes(ArrayIterator $tokens, Context $context, int $parserContext) : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function parseTypes(ArrayIterator $tokens, Context $context, int $parserContext): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         $types = [];
         $token = '';
@@ -198,12 +290,26 @@ final class TypeResolver
                     );
                 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
                 if (
                     !in_array($parserContext, [
                         self::PARSER_IN_COMPOUND,
                         self::PARSER_IN_ARRAY_EXPRESSION,
                         self::PARSER_IN_COLLECTION_EXPRESSION,
                     ], true)
+<<<<<<< HEAD
+=======
+                if (!in_array($parserContext, [
+                    self::PARSER_IN_COMPOUND,
+                    self::PARSER_IN_ARRAY_EXPRESSION,
+                    self::PARSER_IN_COLLECTION_EXPRESSION,
+                ], true)
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 ) {
                     throw new RuntimeException(
                         'Unexpected type separator'
@@ -213,12 +319,26 @@ final class TypeResolver
                 $compoundToken = $token;
                 $tokens->next();
             } elseif ($token === '?') {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
                 if (
                     !in_array($parserContext, [
                         self::PARSER_IN_COMPOUND,
                         self::PARSER_IN_ARRAY_EXPRESSION,
                         self::PARSER_IN_COLLECTION_EXPRESSION,
                     ], true)
+<<<<<<< HEAD
+=======
+                if (!in_array($parserContext, [
+                    self::PARSER_IN_COMPOUND,
+                    self::PARSER_IN_ARRAY_EXPRESSION,
+                    self::PARSER_IN_COLLECTION_EXPRESSION,
+                ], true)
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 ) {
                     throw new RuntimeException(
                         'Unexpected nullable character'
@@ -242,7 +362,15 @@ final class TypeResolver
                 $resolvedType = new Expression($type);
 
                 $types[] = $resolvedType;
+<<<<<<< HEAD
+<<<<<<< HEAD
             } elseif ($parserContext === self::PARSER_IN_ARRAY_EXPRESSION && isset($token[0]) && $token[0] === ')') {
+=======
+            } elseif ($parserContext === self::PARSER_IN_ARRAY_EXPRESSION && $token[0] === ')') {
+>>>>>>> 22c0e54 (table changes)
+=======
+            } elseif ($parserContext === self::PARSER_IN_ARRAY_EXPRESSION && isset($token[0]) && $token[0] === ')') {
+>>>>>>> f330c64 (optimization in progress)
                 break;
             } elseif ($token === '<') {
                 if (count($types) === 0) {
@@ -255,16 +383,33 @@ final class TypeResolver
                 if ($classType !== null) {
                     if ((string) $classType === 'class-string') {
                         $types[] = $this->resolveClassString($tokens, $context);
+<<<<<<< HEAD
+<<<<<<< HEAD
                     } elseif ((string) $classType === 'interface-string') {
                         $types[] = $this->resolveInterfaceString($tokens, $context);
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+                    } elseif ((string) $classType === 'interface-string') {
+                        $types[] = $this->resolveInterfaceString($tokens, $context);
+>>>>>>> f330c64 (optimization in progress)
                     } else {
                         $types[] = $this->resolveCollection($tokens, $classType, $context);
                     }
                 }
 
                 $tokens->next();
+<<<<<<< HEAD
+<<<<<<< HEAD
             } elseif (
                 $parserContext === self::PARSER_IN_COLLECTION_EXPRESSION
+=======
+            } elseif ($parserContext === self::PARSER_IN_COLLECTION_EXPRESSION
+>>>>>>> 22c0e54 (table changes)
+=======
+            } elseif (
+                $parserContext === self::PARSER_IN_COLLECTION_EXPRESSION
+>>>>>>> f330c64 (optimization in progress)
                 && ($token === '>' || trim($token) === ',')
             ) {
                 break;
@@ -334,15 +479,35 @@ final class TypeResolver
      *
      * @psalm-mutation-free
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function resolveSingleType(string $type, Context $context): object
+=======
+    private function resolveSingleType(string $type, Context $context) : object
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function resolveSingleType(string $type, Context $context): object
+>>>>>>> f330c64 (optimization in progress)
     {
         switch (true) {
             case $this->isKeyword($type):
                 return $this->resolveKeyword($type);
+<<<<<<< HEAD
+<<<<<<< HEAD
 
             case $this->isFqsen($type):
                 return $this->resolveTypedObject($type);
 
+=======
+            case $this->isFqsen($type):
+                return $this->resolveTypedObject($type);
+>>>>>>> 22c0e54 (table changes)
+=======
+
+            case $this->isFqsen($type):
+                return $this->resolveTypedObject($type);
+
+>>>>>>> f330c64 (optimization in progress)
             case $this->isPartialStructuralElementName($type):
                 return $this->resolveTypedObject($type, $context);
 
@@ -362,7 +527,15 @@ final class TypeResolver
      *
      * @psalm-param class-string<Type> $typeClassName
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function addKeyword(string $keyword, string $typeClassName): void
+=======
+    public function addKeyword(string $keyword, string $typeClassName) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function addKeyword(string $keyword, string $typeClassName): void
+>>>>>>> f330c64 (optimization in progress)
     {
         if (!class_exists($typeClassName)) {
             throw new InvalidArgumentException(
@@ -371,6 +544,10 @@ final class TypeResolver
             );
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $interfaces = class_implements($typeClassName);
         if ($interfaces === false) {
             throw new InvalidArgumentException(
@@ -380,6 +557,12 @@ final class TypeResolver
         }
 
         if (!in_array(Type::class, $interfaces, true)) {
+<<<<<<< HEAD
+=======
+        if (!in_array(Type::class, class_implements($typeClassName), true)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             throw new InvalidArgumentException(
                 'The class "' . $typeClassName . '" must implement the interface "phpDocumentor\Reflection\Type"'
             );
@@ -395,7 +578,15 @@ final class TypeResolver
      *
      * @psalm-mutation-free
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function isKeyword(string $type): bool
+=======
+    private function isKeyword(string $type) : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function isKeyword(string $type): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return array_key_exists(strtolower($type), $this->keywords);
     }
@@ -407,9 +598,21 @@ final class TypeResolver
      *
      * @psalm-mutation-free
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function isPartialStructuralElementName(string $type): bool
     {
         return (isset($type[0]) && $type[0] !== self::OPERATOR_NAMESPACE) && !$this->isKeyword($type);
+=======
+    private function isPartialStructuralElementName(string $type) : bool
+    {
+        return ($type[0] !== self::OPERATOR_NAMESPACE) && !$this->isKeyword($type);
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function isPartialStructuralElementName(string $type): bool
+    {
+        return (isset($type[0]) && $type[0] !== self::OPERATOR_NAMESPACE) && !$this->isKeyword($type);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -417,7 +620,15 @@ final class TypeResolver
      *
      * @psalm-mutation-free
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function isFqsen(string $type): bool
+=======
+    private function isFqsen(string $type) : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function isFqsen(string $type): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return strpos($type, self::OPERATOR_NAMESPACE) === 0;
     }
@@ -427,7 +638,15 @@ final class TypeResolver
      *
      * @psalm-mutation-free
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function resolveKeyword(string $type): Type
+=======
+    private function resolveKeyword(string $type) : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function resolveKeyword(string $type): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         $className = $this->keywords[strtolower($type)];
 
@@ -439,7 +658,15 @@ final class TypeResolver
      *
      * @psalm-mutation-free
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function resolveTypedObject(string $type, ?Context $context = null): Object_
+=======
+    private function resolveTypedObject(string $type, ?Context $context = null) : Object_
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function resolveTypedObject(string $type, ?Context $context = null): Object_
+>>>>>>> f330c64 (optimization in progress)
     {
         return new Object_($this->fqsenResolver->resolve($type, $context));
     }
@@ -449,7 +676,15 @@ final class TypeResolver
      *
      * @param ArrayIterator<int, (string|null)> $tokens
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function resolveClassString(ArrayIterator $tokens, Context $context): Type
+=======
+    private function resolveClassString(ArrayIterator $tokens, Context $context) : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function resolveClassString(ArrayIterator $tokens, Context $context): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         $tokens->next();
 
@@ -478,6 +713,10 @@ final class TypeResolver
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Resolves class string
      *
      * @param ArrayIterator<int, (string|null)> $tokens
@@ -511,22 +750,46 @@ final class TypeResolver
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Resolves the collection values and keys
      *
      * @param ArrayIterator<int, (string|null)> $tokens
      *
      * @return Array_|Iterable_|Collection
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function resolveCollection(ArrayIterator $tokens, Type $classType, Context $context): Type
+=======
+    private function resolveCollection(ArrayIterator $tokens, Type $classType, Context $context) : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function resolveCollection(ArrayIterator $tokens, Type $classType, Context $context): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         $isArray    = ((string) $classType === 'array');
         $isIterable = ((string) $classType === 'iterable');
 
         // allow only "array", "iterable" or class name before "<"
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (
             !$isArray && !$isIterable
             && (!$classType instanceof Object_ || $classType->getFqsen() === null)
         ) {
+<<<<<<< HEAD
+=======
+        if (!$isArray && !$isIterable
+            && (!$classType instanceof Object_ || $classType->getFqsen() === null)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             throw new RuntimeException(
                 $classType . ' is not a collection'
             );
@@ -544,9 +807,19 @@ final class TypeResolver
             if ($isArray) {
                 // check the key type for an "array" collection. We allow only
                 // strings or integers.
+<<<<<<< HEAD
+<<<<<<< HEAD
                 if (
                     !$keyType instanceof ArrayKey &&
                     !$keyType instanceof String_ &&
+=======
+                if (!$keyType instanceof String_ &&
+>>>>>>> 22c0e54 (table changes)
+=======
+                if (
+                    !$keyType instanceof ArrayKey &&
+                    !$keyType instanceof String_ &&
+>>>>>>> f330c64 (optimization in progress)
                     !$keyType instanceof Integer &&
                     !$keyType instanceof Compound
                 ) {
@@ -557,9 +830,19 @@ final class TypeResolver
 
                 if ($keyType instanceof Compound) {
                     foreach ($keyType->getIterator() as $item) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                         if (
                             !$item instanceof ArrayKey &&
                             !$item instanceof String_ &&
+=======
+                        if (!$item instanceof String_ &&
+>>>>>>> 22c0e54 (table changes)
+=======
+                        if (
+                            !$item instanceof ArrayKey &&
+                            !$item instanceof String_ &&
+>>>>>>> f330c64 (optimization in progress)
                             !$item instanceof Integer
                         ) {
                             throw new RuntimeException(
@@ -606,7 +889,15 @@ final class TypeResolver
     /**
      * @psalm-pure
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function makeCollectionFromObject(Object_ $object, Type $valueType, ?Type $keyType = null): Collection
+=======
+    private function makeCollectionFromObject(Object_ $object, Type $valueType, ?Type $keyType = null) : Collection
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function makeCollectionFromObject(Object_ $object, Type $valueType, ?Type $keyType = null): Collection
+>>>>>>> f330c64 (optimization in progress)
     {
         return new Collection($object->getFqsen(), $valueType, $keyType);
     }

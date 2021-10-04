@@ -112,6 +112,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Returns the pattern for the path.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return string The path pattern
      */
     public function getPath()
@@ -120,6 +128,16 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Sets the pattern for the path.
+     *
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setPath(string $pattern)
@@ -135,6 +153,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Returns the pattern for the host.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return string The host pattern
      */
     public function getHost()
@@ -143,6 +169,16 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Sets the pattern for the host.
+     *
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setHost(?string $pattern)
@@ -168,6 +204,14 @@ class Route implements \Serializable
      * Sets the schemes (e.g. 'https') this route is restricted to.
      * So an empty array means that any scheme is allowed.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @param string|string[] $schemes The scheme or an array of schemes
      *
      * @return $this
@@ -205,6 +249,14 @@ class Route implements \Serializable
      * Sets the HTTP methods (e.g. 'POST') this route is restricted to.
      * So an empty array means that any method is allowed.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @param string|string[] $methods The method or an array of methods
      *
      * @return $this
@@ -218,6 +270,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Returns the options.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array The options
      */
     public function getOptions()
@@ -226,6 +286,16 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Sets the options.
+     *
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setOptions(array $options)
@@ -238,6 +308,16 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Adds options.
+     *
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function addOptions(array $options)
@@ -253,6 +333,14 @@ class Route implements \Serializable
     /**
      * Sets an option value.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @param mixed $value The option value
      *
      * @return $this
@@ -266,6 +354,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Get an option value.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return mixed The option value or null when not given
      */
     public function getOption(string $name)
@@ -274,6 +370,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Checks if an option has been set.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return bool true if the option is set, false otherwise
      */
     public function hasOption(string $name)
@@ -282,6 +386,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Returns the defaults.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array The defaults
      */
     public function getDefaults()
@@ -290,6 +402,18 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Sets the defaults.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $defaults The defaults
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setDefaults(array $defaults)
@@ -300,6 +424,18 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Adds defaults.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $defaults The defaults
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function addDefaults(array $defaults)
@@ -317,6 +453,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Gets a default value.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return mixed The default value or null when not given
      */
     public function getDefault(string $name)
@@ -325,6 +469,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Checks if a default value is set for the given variable.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return bool true if the default value is set, false otherwise
      */
     public function hasDefault(string $name)
@@ -352,6 +504,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Returns the requirements.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array The requirements
      */
     public function getRequirements()
@@ -360,6 +520,18 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Sets the requirements.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $requirements The requirements
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setRequirements(array $requirements)
@@ -370,6 +542,18 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Adds requirements.
+     *
+     * This method implements a fluent interface.
+     *
+     * @param array $requirements The requirements
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function addRequirements(array $requirements)
@@ -387,6 +571,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Returns the requirement for the given key.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return string|null The regex or null when not given
      */
     public function getRequirement(string $key)
@@ -395,6 +587,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Checks if a requirement is set for the given key.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return bool true if a requirement is specified, false otherwise
      */
     public function hasRequirement(string $key)
@@ -403,6 +603,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Sets a requirement for the given key.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setRequirement(string $key, string $regex)
@@ -418,6 +626,14 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Returns the condition.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return string The condition
      */
     public function getCondition()
@@ -426,6 +642,16 @@ class Route implements \Serializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Sets the condition.
+     *
+     * This method implements a fluent interface.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setCondition(?string $condition)
@@ -485,7 +711,15 @@ class Route implements \Serializable
             }
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_ends_with($regex, '$')) {
+=======
+        if ('$' === substr($regex, -1)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_ends_with($regex, '$')) {
+>>>>>>> f330c64 (optimization in progress)
             $regex = substr($regex, 0, -1);
         } elseif (\strlen($regex) - 2 === strpos($regex, '\\z')) {
             $regex = substr($regex, 0, -2);

@@ -41,7 +41,15 @@ final class LazyOption extends Option
      *
      * @return LazyOption<S>
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function create($callback, array $arguments = []): self
+=======
+    public static function create($callback, array $arguments = [])
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function create($callback, array $arguments = []): self
+>>>>>>> f330c64 (optimization in progress)
     {
         return new self($callback, $arguments);
     }
@@ -60,12 +68,28 @@ final class LazyOption extends Option
         $this->arguments = $arguments;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function isDefined(): bool
+=======
+    public function isDefined()
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function isDefined(): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->option()->isDefined();
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function isEmpty(): bool
+=======
+    public function isEmpty()
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function isEmpty(): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->option()->isEmpty();
     }
@@ -153,7 +177,15 @@ final class LazyOption extends Option
     /**
      * @return Option<T>
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function option(): Option
+=======
+    private function option()
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function option(): Option
+>>>>>>> f330c64 (optimization in progress)
     {
         if (null === $this->option) {
             /** @var mixed */

@@ -50,6 +50,13 @@ final class Context
      *
      * @param string   $namespace        The namespace where this DocBlock resides in.
      * @param string[] $namespaceAliases List of namespace aliases => Fully Qualified Namespace.
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @psalm-param array<string, string> $namespaceAliases
      */
     public function __construct(string $namespace, array $namespaceAliases = [])
@@ -76,7 +83,15 @@ final class Context
     /**
      * Returns the Qualified Namespace Name (thus without `\` in front) where the associated element is in.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getNamespace(): string
+=======
+    public function getNamespace() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getNamespace(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->namespace;
     }
@@ -86,9 +101,22 @@ final class Context
      * the alias for the imported Namespace.
      *
      * @return string[]
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-return array<string, string>
      */
     public function getNamespaceAliases(): array
+=======
+     *
+     * @psalm-return array<string, string>
+     */
+    public function getNamespaceAliases() : array
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @psalm-return array<string, string>
+     */
+    public function getNamespaceAliases(): array
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->namespaceAliases;
     }

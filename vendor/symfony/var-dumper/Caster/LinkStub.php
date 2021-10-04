@@ -23,7 +23,15 @@ class LinkStub extends ConstStub
     private static $vendorRoots;
     private static $composerRoots;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __construct(string $label, int $line = 0, string $href = null)
+=======
+    public function __construct($label, int $line = 0, $href = null)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __construct(string $label, int $line = 0, string $href = null)
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->value = $label;
 
@@ -33,12 +41,28 @@ class LinkStub extends ConstStub
         if (!\is_string($href)) {
             return;
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_starts_with($href, 'file://')) {
+=======
+        if (0 === strpos($href, 'file://')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_starts_with($href, 'file://')) {
+>>>>>>> f330c64 (optimization in progress)
             if ($href === $label) {
                 $label = substr($label, 7);
             }
             $href = substr($href, 7);
+<<<<<<< HEAD
+<<<<<<< HEAD
         } elseif (str_contains($href, '://')) {
+=======
+        } elseif (false !== strpos($href, '://')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        } elseif (str_contains($href, '://')) {
+>>>>>>> f330c64 (optimization in progress)
             $this->attr['href'] = $href;
 
             return;
@@ -69,7 +93,15 @@ class LinkStub extends ConstStub
             self::$vendorRoots = [];
 
             foreach (get_declared_classes() as $class) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                 if ('C' === $class[0] && str_starts_with($class, 'ComposerAutoloaderInit')) {
+=======
+                if ('C' === $class[0] && 0 === strpos($class, 'ComposerAutoloaderInit')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+                if ('C' === $class[0] && str_starts_with($class, 'ComposerAutoloaderInit')) {
+>>>>>>> f330c64 (optimization in progress)
                     $r = new \ReflectionClass($class);
                     $v = \dirname($r->getFileName(), 2);
                     if (is_file($v.'/composer/installed.json')) {
@@ -85,7 +117,15 @@ class LinkStub extends ConstStub
         }
 
         foreach (self::$vendorRoots as $root) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ($inVendor = str_starts_with($file, $root)) {
+=======
+            if ($inVendor = 0 === strpos($file, $root)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ($inVendor = str_starts_with($file, $root)) {
+>>>>>>> f330c64 (optimization in progress)
                 return $root;
             }
         }

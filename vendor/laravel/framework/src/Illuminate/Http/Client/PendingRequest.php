@@ -99,6 +99,10 @@ class PendingRequest
     protected $retryDelay = 100;
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The callback that will determine if the request should be retried.
      *
      * @var callable|null
@@ -106,6 +110,11 @@ class PendingRequest
     protected $retryWhenCallback = null;
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The callbacks that should execute before the request is sent.
      *
      * @var \Illuminate\Support\Collection
@@ -188,7 +197,15 @@ class PendingRequest
     /**
      * Attach a raw body to the request.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $content
+=======
+     * @param  resource|string  $content
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $content
+>>>>>>> f330c64 (optimization in progress)
      * @param  string  $contentType
      * @return $this
      */
@@ -227,7 +244,15 @@ class PendingRequest
      * Attach a file to the request.
      *
      * @param  string|array  $name
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string|resource  $contents
+=======
+     * @param  string  $contents
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string|resource  $contents
+>>>>>>> f330c64 (optimization in progress)
      * @param  string|null  $filename
      * @param  array  $headers
      * @return $this
@@ -374,9 +399,19 @@ class PendingRequest
      */
     public function withUserAgent($userAgent)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return tap($this, function ($request) use ($userAgent) {
             return $this->options['headers']['User-Agent'] = trim($userAgent);
         });
+=======
+        return $this->withHeaders(['User-Agent' => $userAgent]);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return tap($this, function ($request) use ($userAgent) {
+            return $this->options['headers']['User-Agent'] = trim($userAgent);
+        });
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -450,6 +485,8 @@ class PendingRequest
      *
      * @param  int  $times
      * @param  int  $sleep
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  callable|null  $when
      * @return $this
      */
@@ -458,6 +495,21 @@ class PendingRequest
         $this->tries = $times;
         $this->retryDelay = $sleep;
         $this->retryWhenCallback = $when;
+=======
+=======
+     * @param  callable|null  $when
+>>>>>>> f330c64 (optimization in progress)
+     * @return $this
+     */
+    public function retry(int $times, int $sleep = 0, ?callable $when = null)
+    {
+        $this->tries = $times;
+        $this->retryDelay = $sleep;
+<<<<<<< HEAD
+>>>>>>> 22c0e54 (table changes)
+=======
+        $this->retryWhenCallback = $when;
+>>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
@@ -690,7 +742,15 @@ class PendingRequest
 
                 throw new ConnectionException($e->getMessage(), 0, $e);
             }
+<<<<<<< HEAD
+<<<<<<< HEAD
         }, $this->retryDelay ?? 100, $this->retryWhenCallback);
+=======
+        }, $this->retryDelay ?? 100);
+>>>>>>> 22c0e54 (table changes)
+=======
+        }, $this->retryDelay ?? 100, $this->retryWhenCallback);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -801,6 +861,10 @@ class PendingRequest
      */
     public function buildClient()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return $this->requestsReusableClient()
                ? $this->getReusableClient()
                : $this->createClient($this->buildHandlerStack());
@@ -836,17 +900,36 @@ class PendingRequest
     {
         return new Client([
             'handler' => $handlerStack,
+<<<<<<< HEAD
+=======
+        return $this->client = $this->client ?: new Client([
+            'handler' => $this->buildHandlerStack(),
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             'cookies' => true,
         ]);
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * Build the Guzzle client handler stack.
+=======
+     * Build the before sending handler stack.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * Build the Guzzle client handler stack.
+>>>>>>> f330c64 (optimization in progress)
      *
      * @return \GuzzleHttp\HandlerStack
      */
     public function buildHandlerStack()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return $this->pushHandlers(HandlerStack::create());
     }
 
@@ -859,6 +942,12 @@ class PendingRequest
     public function pushHandlers($handlerStack)
     {
         return tap($handlerStack, function ($stack) {
+<<<<<<< HEAD
+=======
+        return tap(HandlerStack::create(), function ($stack) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             $stack->push($this->buildBeforeSendingHandler());
             $stack->push($this->buildRecorderHandler());
             $stack->push($this->buildStubHandler());
@@ -1077,6 +1166,10 @@ class PendingRequest
 
         return $this;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Create a new client instance using the given handler.
@@ -1092,4 +1185,9 @@ class PendingRequest
 
         return $this;
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

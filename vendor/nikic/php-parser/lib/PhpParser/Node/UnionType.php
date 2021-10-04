@@ -2,7 +2,17 @@
 
 namespace PhpParser\Node;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 class UnionType extends ComplexType
+=======
+use PhpParser\NodeAbstract;
+
+class UnionType extends NodeAbstract
+>>>>>>> 22c0e54 (table changes)
+=======
+class UnionType extends ComplexType
+>>>>>>> f330c64 (optimization in progress)
 {
     /** @var (Identifier|Name)[] Types */
     public $types;

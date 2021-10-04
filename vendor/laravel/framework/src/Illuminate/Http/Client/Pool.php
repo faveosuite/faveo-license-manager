@@ -2,8 +2,16 @@
 
 namespace Illuminate\Http\Client;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 use GuzzleHttp\Utils;
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use GuzzleHttp\Utils;
+
+>>>>>>> f330c64 (optimization in progress)
 /**
  * @mixin \Illuminate\Http\Client\Factory
  */
@@ -17,11 +25,27 @@ class Pool
     protected $factory;
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * The handler function for the Guzzle client.
      *
      * @var callable
      */
     protected $handler;
+=======
+     * The client instance.
+=======
+     * The handler function for the Guzzle client.
+>>>>>>> f330c64 (optimization in progress)
+     *
+     * @var callable
+     */
+<<<<<<< HEAD
+    protected $client;
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected $handler;
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * The pool of requests.
@@ -40,11 +64,21 @@ class Pool
     {
         $this->factory = $factory ?: new Factory();
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (method_exists(Utils::class, 'chooseHandler')) {
             $this->handler = Utils::chooseHandler();
         } else {
             $this->handler = \GuzzleHttp\choose_handler();
         }
+<<<<<<< HEAD
+=======
+        $this->client = $this->factory->buildClient();
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -65,7 +99,15 @@ class Pool
      */
     protected function asyncRequest()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->factory->setHandler($this->handler)->async();
+=======
+        return $this->factory->setClient($this->client)->async();
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->factory->setHandler($this->handler)->async();
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

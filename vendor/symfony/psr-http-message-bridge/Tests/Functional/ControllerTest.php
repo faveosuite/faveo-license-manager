@@ -1,5 +1,9 @@
 <?php
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 /*
  * This file is part of the Symfony package.
  *
@@ -9,6 +13,11 @@
  * file that was distributed with this source code.
  */
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 namespace Symfony\Bridge\PsrHttpMessage\Tests\Functional;
 
 use Symfony\Bridge\PsrHttpMessage\Tests\Fixtures\App\Kernel;

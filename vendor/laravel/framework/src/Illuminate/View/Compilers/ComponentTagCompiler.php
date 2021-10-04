@@ -52,7 +52,15 @@ class ComponentTagCompiler
      *
      * @param  array  $aliases
      * @param  array  $namespaces
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  \Illuminate\View\Compilers\BladeCompiler|null  $blade
+=======
+     * @param  \Illuminate\View\Compilers\BladeCompiler|null $blade
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  \Illuminate\View\Compilers\BladeCompiler|null  $blade
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function __construct(array $aliases = [], array $namespaces = [], ?BladeCompiler $blade = null)
@@ -272,10 +280,19 @@ class ComponentTagCompiler
             return $view;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($viewFactory->exists($view = $this->guessViewName($component).'.index')) {
             return $view;
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         throw new InvalidArgumentException(
             "Unable to locate a class or view for component [{$component}]."
         );
@@ -399,6 +416,10 @@ class ComponentTagCompiler
      */
     public function compileSlots(string $value)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $pattern = "/
             <
                 \s*
@@ -435,17 +456,33 @@ class ComponentTagCompiler
         /x";
 
         $value = preg_replace_callback($pattern, function ($matches) {
+<<<<<<< HEAD
+=======
+        $value = preg_replace_callback('/<\s*x[\-\:]slot\s+(:?)name=(?<name>(\"[^\"]+\"|\\\'[^\\\']+\\\'|[^\s>]+))\s*>/', function ($matches) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             $name = $this->stripQuotes($matches['name']);
 
             if ($matches[1] !== ':') {
                 $name = "'{$name}'";
             }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             $this->boundAttributes = [];
 
             $attributes = $this->getAttributesFromAttributeString($matches['attributes']);
 
             return " @slot({$name}, null, [".$this->attributesToString($attributes).']) ';
+<<<<<<< HEAD
+=======
+            return " @slot({$name}) ";
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         }, $value);
 
         return preg_replace('/<\/\s*x[\-\:]slot[^>]*>/', ' @endslot', $value);

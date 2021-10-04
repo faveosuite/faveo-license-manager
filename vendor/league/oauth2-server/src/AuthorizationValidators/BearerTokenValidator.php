@@ -13,9 +13,21 @@ use DateTimeZone;
 use Lcobucci\Clock\SystemClock;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Validation\Constraint\SignedWith;
 use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
+=======
+use Lcobucci\JWT\Signer\Key\LocalFileReference;
+use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+>>>>>>> 22c0e54 (table changes)
+=======
+use Lcobucci\JWT\Signer\Rsa\Sha256;
+use Lcobucci\JWT\Validation\Constraint\SignedWith;
+use Lcobucci\JWT\Validation\Constraint\StrictValidAt;
+>>>>>>> f330c64 (optimization in progress)
 use Lcobucci\JWT\Validation\Constraint\ValidAt;
 use Lcobucci\JWT\Validation\RequiredConstraintsViolated;
 use League\OAuth2\Server\CryptKey;
@@ -74,6 +86,10 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
         );
 
         $this->jwtConfiguration->setValidationConstraints(
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             \class_exists(StrictValidAt::class)
                 ? new StrictValidAt(new SystemClock(new DateTimeZone(\date_default_timezone_get())))
                 : new ValidAt(new SystemClock(new DateTimeZone(\date_default_timezone_get()))),
@@ -81,6 +97,13 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
                 new Sha256(),
                 InMemory::plainText($this->publicKey->getKeyContents(), $this->publicKey->getPassPhrase() ?? '')
             )
+<<<<<<< HEAD
+=======
+            new ValidAt(new SystemClock(new DateTimeZone(\date_default_timezone_get()))),
+            new SignedWith(new Sha256(), LocalFileReference::file($this->publicKey->getKeyPath()))
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         );
     }
 
@@ -94,7 +117,15 @@ class BearerTokenValidator implements AuthorizationValidatorInterface
         }
 
         $header = $request->getHeader('authorization');
+<<<<<<< HEAD
+<<<<<<< HEAD
         $jwt = \trim((string) \preg_replace('/^\s*Bearer\s/', '', $header[0]));
+=======
+        $jwt = \trim((string) \preg_replace('/^(?:\s+)?Bearer\s/', '', $header[0]));
+>>>>>>> 22c0e54 (table changes)
+=======
+        $jwt = \trim((string) \preg_replace('/^\s*Bearer\s/', '', $header[0]));
+>>>>>>> f330c64 (optimization in progress)
 
         try {
             // Attempt to parse the JWT

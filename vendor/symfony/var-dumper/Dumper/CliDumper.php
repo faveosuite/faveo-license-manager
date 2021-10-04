@@ -150,7 +150,15 @@ class CliDumper extends AbstractDumper
                     case is_nan($value):  $value = 'NAN'; break;
                     default:
                         $value = (string) $value;
+<<<<<<< HEAD
+<<<<<<< HEAD
                         if (!str_contains($value, $this->decimalPoint)) {
+=======
+                        if (false === strpos($value, $this->decimalPoint)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+                        if (!str_contains($value, $this->decimalPoint)) {
+>>>>>>> f330c64 (optimization in progress)
                             $value .= $this->decimalPoint.'0';
                         }
                         break;
@@ -324,7 +332,15 @@ class CliDumper extends AbstractDumper
      * @param bool $hasChild When the dump of the hash has child item
      * @param int  $cut      The number of items the hash has been cut by
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected function dumpEllipsis(Cursor $cursor, bool $hasChild, int $cut)
+=======
+    protected function dumpEllipsis(Cursor $cursor, $hasChild, $cut)
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected function dumpEllipsis(Cursor $cursor, bool $hasChild, int $cut)
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($cut) {
             $this->line .= ' …';
@@ -428,7 +444,15 @@ class CliDumper extends AbstractDumper
      *
      * @return string The value with style decoration
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected function style(string $style, string $value, array $attr = [])
+=======
+    protected function style($style, $value, $attr = [])
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected function style(string $style, string $value, array $attr = [])
+>>>>>>> f330c64 (optimization in progress)
     {
         if (null === $this->colors) {
             $this->colors = $this->supportsColors();
@@ -441,7 +465,15 @@ class CliDumper extends AbstractDumper
 
         if (isset($attr['ellipsis'], $attr['ellipsis-type'])) {
             $prefix = substr($value, 0, -$attr['ellipsis']);
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ('cli' === \PHP_SAPI && 'path' === $attr['ellipsis-type'] && isset($_SERVER[$pwd = '\\' === \DIRECTORY_SEPARATOR ? 'CD' : 'PWD']) && str_starts_with($prefix, $_SERVER[$pwd])) {
+=======
+            if ('cli' === \PHP_SAPI && 'path' === $attr['ellipsis-type'] && isset($_SERVER[$pwd = '\\' === \DIRECTORY_SEPARATOR ? 'CD' : 'PWD']) && 0 === strpos($prefix, $_SERVER[$pwd])) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ('cli' === \PHP_SAPI && 'path' === $attr['ellipsis-type'] && isset($_SERVER[$pwd = '\\' === \DIRECTORY_SEPARATOR ? 'CD' : 'PWD']) && str_starts_with($prefix, $_SERVER[$pwd])) {
+>>>>>>> f330c64 (optimization in progress)
                 $prefix = '.'.substr($prefix, \strlen($_SERVER[$pwd]));
             }
             if (!empty($attr['ellipsis-tail'])) {
@@ -475,7 +507,15 @@ class CliDumper extends AbstractDumper
             } else {
                 $value = "\033[{$this->styles[$style]}m".$value;
             }
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ($cchrCount && str_ends_with($value, $endCchr)) {
+=======
+            if ($cchrCount && $endCchr === substr($value, -\strlen($endCchr))) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ($cchrCount && str_ends_with($value, $endCchr)) {
+>>>>>>> f330c64 (optimization in progress)
                 $value = substr($value, 0, -\strlen($endCchr));
             } else {
                 $value .= "\033[{$this->styles['default']}m";

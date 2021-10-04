@@ -7,11 +7,22 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\CookieValuePrefix;
 use Illuminate\Database\Eloquent\Model;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Arr;
+use Illuminate\Support\Carbon;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
@@ -38,6 +49,10 @@ class TestResponse implements ArrayAccess
     public $baseResponse;
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The collection of logged exceptions for the request.
      *
      * @var \Illuminate\Support\Collection
@@ -45,6 +60,11 @@ class TestResponse implements ArrayAccess
     protected $exceptions;
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The streamed content of the response.
      *
      * @var string
@@ -60,7 +80,14 @@ class TestResponse implements ArrayAccess
     public function __construct($response)
     {
         $this->baseResponse = $response;
+<<<<<<< HEAD
+<<<<<<< HEAD
         $this->exceptions = new Collection;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        $this->exceptions = new Collection;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -83,7 +110,15 @@ class TestResponse implements ArrayAccess
     {
         PHPUnit::assertTrue(
             $this->isSuccessful(),
+<<<<<<< HEAD
+<<<<<<< HEAD
             $this->statusMessageWithDetails('>=200, <300', $this->getStatusCode())
+=======
+            'Response status code ['.$this->getStatusCode().'] is not a successful status code.'
+>>>>>>> 22c0e54 (table changes)
+=======
+            $this->statusMessageWithDetails('>=200, <300', $this->getStatusCode())
+>>>>>>> f330c64 (optimization in progress)
         );
 
         return $this;
@@ -96,7 +131,20 @@ class TestResponse implements ArrayAccess
      */
     public function assertOk()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->assertStatus(200);
+=======
+        PHPUnit::assertTrue(
+            $this->isOk(),
+            'Response status code ['.$this->getStatusCode().'] does not match expected 200 status code.'
+        );
+
+        return $this;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->assertStatus(200);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -106,7 +154,22 @@ class TestResponse implements ArrayAccess
      */
     public function assertCreated()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->assertStatus(201);
+=======
+        $actual = $this->getStatusCode();
+
+        PHPUnit::assertSame(
+            201, $actual,
+            "Response status code [{$actual}] does not match expected 201 status code."
+        );
+
+        return $this;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->assertStatus(201);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -131,7 +194,20 @@ class TestResponse implements ArrayAccess
      */
     public function assertNotFound()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->assertStatus(404);
+=======
+        PHPUnit::assertTrue(
+            $this->isNotFound(),
+            'Response status code ['.$this->getStatusCode().'] is not a not found status code.'
+        );
+
+        return $this;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->assertStatus(404);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -141,7 +217,20 @@ class TestResponse implements ArrayAccess
      */
     public function assertForbidden()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->assertStatus(403);
+=======
+        PHPUnit::assertTrue(
+            $this->isForbidden(),
+            'Response status code ['.$this->getStatusCode().'] is not a forbidden status code.'
+        );
+
+        return $this;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->assertStatus(403);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -151,6 +240,8 @@ class TestResponse implements ArrayAccess
      */
     public function assertUnauthorized()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->assertStatus(401);
     }
 
@@ -162,6 +253,29 @@ class TestResponse implements ArrayAccess
     public function assertUnprocessable()
     {
         return $this->assertStatus(422);
+=======
+        $actual = $this->getStatusCode();
+
+        PHPUnit::assertSame(
+            401, $actual,
+            "Response status code [{$actual}] is not an unauthorized status code."
+        );
+
+        return $this;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->assertStatus(401);
+    }
+
+    /**
+     * Assert that the response has a 422 status code.
+     *
+     * @return $this
+     */
+    public function assertUnprocessable()
+    {
+        return $this->assertStatus(422);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -172,14 +286,33 @@ class TestResponse implements ArrayAccess
      */
     public function assertStatus($status)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $message = $this->statusMessageWithDetails($status, $actual = $this->getStatusCode());
 
         PHPUnit::assertSame($actual, $status, $message);
+=======
+        $actual = $this->getStatusCode();
+
+        PHPUnit::assertSame(
+            $actual, $status,
+            "Expected status code {$status} but received {$actual}."
+        );
+>>>>>>> 22c0e54 (table changes)
+=======
+        $message = $this->statusMessageWithDetails($status, $actual = $this->getStatusCode());
+
+        PHPUnit::assertSame($actual, $status, $message);
+>>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get an assertion message for a status assertion containing extra details when available.
      *
      * @param  string|int  $expected
@@ -259,6 +392,11 @@ EOF;
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Assert whether the response is redirecting to a given URI.
      *
      * @param  string|null  $uri
@@ -278,6 +416,10 @@ EOF;
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Assert whether the response is redirecting to a URI that contains the given URI.
      *
      * @param  string  $uri
@@ -334,6 +476,11 @@ EOF;
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Asserts that the response contains the given header and equals the optional value.
      *
      * @param  string  $headerName
@@ -552,7 +699,15 @@ EOF;
      * @param  string  $cookieName
      * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getCookie($cookieName)
+=======
+    protected function getCookie($cookieName)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getCookie($cookieName)
+>>>>>>> f330c64 (optimization in progress)
     {
         foreach ($this->headers->getCookies() as $cookie) {
             if ($cookie->getName() === $cookieName) {
@@ -1052,6 +1207,10 @@ EOF;
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Assert that the given keys do not have validation errors.
      *
      * @param  string|array|null  $keys
@@ -1151,6 +1310,11 @@ EOF;
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Assert that the session has a given value.
      *
      * @param  string|array  $key
@@ -1432,6 +1596,10 @@ EOF;
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Set the previous exceptions on the response.
      *
      * @param  \Illuminate\Support\Collection  $exceptions
@@ -1445,6 +1613,11 @@ EOF;
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Dynamically access base response parameters.
      *
      * @param  string  $key
@@ -1472,7 +1645,14 @@ EOF;
      * @param  string  $offset
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return $this->responseHasView()
@@ -1486,7 +1666,14 @@ EOF;
      * @param  string  $offset
      * @return mixed
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->responseHasView()
@@ -1503,7 +1690,14 @@ EOF;
      *
      * @throws \LogicException
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         throw new LogicException('Response data may not be mutated using array access.');
@@ -1517,7 +1711,14 @@ EOF;
      *
      * @throws \LogicException
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         throw new LogicException('Response data may not be mutated using array access.');

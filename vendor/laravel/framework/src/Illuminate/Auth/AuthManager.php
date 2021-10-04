@@ -139,10 +139,19 @@ class AuthManager implements FactoryContract
             $guard->setRequest($this->app->refresh('request', $guard, 'setRequest'));
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (isset($config['remember'])) {
             $guard->setRememberDuration($config['remember']);
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         return $guard;
     }
 

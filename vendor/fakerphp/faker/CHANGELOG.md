@@ -1,5 +1,9 @@
 # CHANGELOG
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 ## 2021-09-06, v1.16
 
 - Add Company extension
@@ -12,6 +16,11 @@
 - Add support for `psr/container` >= 2.0 (#354)
 - Add missing union types in Faker\Generator (#352)
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 ## 2021-07-06, v1.15
 
 - Updated the generator phpdoc to help identify magic methods (#307)

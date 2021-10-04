@@ -179,7 +179,15 @@ class PdoSessionHandler extends AbstractSessionHandler
 
             $this->pdo = $pdoOrDsn;
             $this->driver = $this->pdo->getAttribute(\PDO::ATTR_DRIVER_NAME);
+<<<<<<< HEAD
+<<<<<<< HEAD
         } elseif (\is_string($pdoOrDsn) && str_contains($pdoOrDsn, '://')) {
+=======
+        } elseif (\is_string($pdoOrDsn) && false !== strpos($pdoOrDsn, '://')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        } elseif (\is_string($pdoOrDsn) && str_contains($pdoOrDsn, '://')) {
+>>>>>>> f330c64 (optimization in progress)
             $this->dsn = $this->buildDsnFromUrl($pdoOrDsn);
         } else {
             $this->dsn = $pdoOrDsn;
@@ -290,7 +298,15 @@ class PdoSessionHandler extends AbstractSessionHandler
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return int|false
+=======
+     * @return bool
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return int|false
+>>>>>>> f330c64 (optimization in progress)
      */
     #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
@@ -299,7 +315,15 @@ class PdoSessionHandler extends AbstractSessionHandler
         // This way, pruning expired sessions does not block them from being started while the current session is used.
         $this->gcCalled = true;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return 0;
+=======
+        return true;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return 0;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -353,7 +377,15 @@ class PdoSessionHandler extends AbstractSessionHandler
                     $insertStmt->execute();
                 } catch (\PDOException $e) {
                     // Handle integrity violation SQLSTATE 23000 (or a subclass like 23505 in Postgres) for duplicate keys
+<<<<<<< HEAD
+<<<<<<< HEAD
                     if (str_starts_with($e->getCode(), '23')) {
+=======
+                    if (0 === strpos($e->getCode(), '23')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+                    if (str_starts_with($e->getCode(), '23')) {
+>>>>>>> f330c64 (optimization in progress)
                         $updateStmt->execute();
                     } else {
                         throw $e;
@@ -487,7 +519,15 @@ class PdoSessionHandler extends AbstractSessionHandler
         $driver = $driverAliasMap[$params['scheme']] ?? $params['scheme'];
 
         // Doctrine DBAL supports passing its internal pdo_* driver names directly too (allowing both dashes and underscores). This allows supporting the same here.
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_starts_with($driver, 'pdo_') || str_starts_with($driver, 'pdo-')) {
+=======
+        if (0 === strpos($driver, 'pdo_') || 0 === strpos($driver, 'pdo-')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_starts_with($driver, 'pdo_') || str_starts_with($driver, 'pdo-')) {
+>>>>>>> f330c64 (optimization in progress)
             $driver = substr($driver, 4);
         }
 
@@ -681,7 +721,15 @@ class PdoSessionHandler extends AbstractSessionHandler
                 } catch (\PDOException $e) {
                     // Catch duplicate key error because other connection created the session already.
                     // It would only not be the case when the other connection destroyed the session.
+<<<<<<< HEAD
+<<<<<<< HEAD
                     if (str_starts_with($e->getCode(), '23')) {
+=======
+                    if (0 === strpos($e->getCode(), '23')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+                    if (str_starts_with($e->getCode(), '23')) {
+>>>>>>> f330c64 (optimization in progress)
                         // Retrieve finished session data written by concurrent connection by restarting the loop.
                         // We have to start a new transaction as a failed query will mark the current transaction as
                         // aborted in PostgreSQL and disallow further queries within it.

@@ -16,6 +16,10 @@ class Rule
     use Macroable;
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a new conditional rule set.
      *
      * @param  callable|bool  $condition
@@ -29,6 +33,11 @@ class Rule
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get a dimensions constraint builder instance.
      *
      * @param  array  $constraints

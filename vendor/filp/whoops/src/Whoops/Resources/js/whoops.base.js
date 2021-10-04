@@ -25,8 +25,30 @@ Zepto(function($) {
    * highlight the current line
    */
   var renderCurrentCodeblock = function(id) {
+<<<<<<< HEAD
+<<<<<<< HEAD
     Prism.highlightAll();
     highlightCurrentLine();
+=======
+
+    // remove previous codeblocks so we only render the active one
+    $('.code-block').removeClass('prettyprint');
+
+    // pass the id in when we can for speed
+    if (typeof(id) === 'undefined' || typeof(id) === 'object') {
+      var id = /frame\-line\-([\d]*)/.exec($activeLine.attr('id'))[1];
+    }
+
+    $('#frame-code-linenums-' + id).addClass('prettyprint');
+    $('#frame-code-args-' + id).addClass('prettyprint');
+
+    prettyPrint(highlightCurrentLine);
+
+>>>>>>> 22c0e54 (table changes)
+=======
+    Prism.highlightAll();
+    highlightCurrentLine();
+>>>>>>> f330c64 (optimization in progress)
   }
 
   /*
@@ -35,6 +57,16 @@ Zepto(function($) {
    */
 
   var highlightCurrentLine = function() {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    var activeLineNumber = +($activeLine.find('.frame-line').text());
+    var $lines           = $activeFrame.find('.linenums li');
+    var firstLine        = +($lines.first().val());
+
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     // We show more code than needed, purely for proper syntax highlighting
     // Let’s hide a big chunk of that code and then scroll the remaining block
     $activeFrame.find('.code-block').first().css({
@@ -42,11 +74,33 @@ Zepto(function($) {
       overflow: 'hidden',
     });
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     var line = $activeFrame.find('.code-block .line-highlight').first()[0];
     line.scrollIntoView();
     line.parentElement.scrollTop -= 180;
 
     $container.scrollTop(0);
+=======
+    var $offset = $($lines[activeLineNumber - firstLine - 10]);
+    if ($offset.length > 0) {
+      $offset[0].scrollIntoView();
+    }
+
+    $($lines[activeLineNumber - firstLine - 1]).addClass('current');
+    $($lines[activeLineNumber - firstLine]).addClass('current active');
+    $($lines[activeLineNumber - firstLine + 1]).addClass('current');
+
+    $container.scrollTop(0);
+
+>>>>>>> 22c0e54 (table changes)
+=======
+    var line = $activeFrame.find('.code-block .line-highlight').first()[0];
+    line.scrollIntoView();
+    line.parentElement.scrollTop -= 180;
+
+    $container.scrollTop(0);
+>>>>>>> f330c64 (optimization in progress)
   }
 
   /*

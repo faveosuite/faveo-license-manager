@@ -74,7 +74,15 @@ final class Run implements RunInterface
     /**
      * Explicitly request your handler runs as the last of all currently registered handlers.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param callable|HandlerInterface $handler
+=======
+     * @param HandlerInterface $handler
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param callable|HandlerInterface $handler
+>>>>>>> f330c64 (optimization in progress)
      *
      * @return Run
      */
@@ -87,7 +95,15 @@ final class Run implements RunInterface
     /**
      * Explicitly request your handler runs as the first of all currently registered handlers.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param callable|HandlerInterface $handler
+=======
+     * @param HandlerInterface $handler
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param callable|HandlerInterface $handler
+>>>>>>> f330c64 (optimization in progress)
      *
      * @return Run
      */
@@ -100,7 +116,15 @@ final class Run implements RunInterface
      * Register your handler as the last of all currently registered handlers (to be executed first).
      * Prefer using appendHandler and prependHandler for clarity.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param callable|HandlerInterface $handler
+=======
+     * @param Callable|HandlerInterface $handler
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param callable|HandlerInterface $handler
+>>>>>>> f330c64 (optimization in progress)
      *
      * @return Run
      *
@@ -501,7 +525,15 @@ final class Run implements RunInterface
     /**
      * Resolves the giving handler.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param callable|HandlerInterface $handler
+=======
+     * @param HandlerInterface $handler
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param callable|HandlerInterface $handler
+>>>>>>> f330c64 (optimization in progress)
      *
      * @return HandlerInterface
      *

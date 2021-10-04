@@ -471,6 +471,8 @@ class UuidFactory implements UuidFactoryInterface
      */
     private function uuidFromBytesAndVersion(string $bytes, int $version): UuidInterface
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @var array $unpackedTime */
         $unpackedTime = unpack('n*', substr($bytes, 6, 2));
         $timeHi = (int) $unpackedTime[1];
@@ -479,6 +481,22 @@ class UuidFactory implements UuidFactoryInterface
         /** @var array $unpackedClockSeq */
         $unpackedClockSeq = unpack('n*', substr($bytes, 8, 2));
         $clockSeqHi = (int) $unpackedClockSeq[1];
+=======
+        $timeHi = (int) unpack('n*', substr($bytes, 6, 2))[1];
+        $timeHiAndVersion = pack('n*', BinaryUtils::applyVersion($timeHi, $version));
+
+        $clockSeqHi = (int) unpack('n*', substr($bytes, 8, 2))[1];
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @var array $unpackedTime */
+        $unpackedTime = unpack('n*', substr($bytes, 6, 2));
+        $timeHi = (int) $unpackedTime[1];
+        $timeHiAndVersion = pack('n*', BinaryUtils::applyVersion($timeHi, $version));
+
+        /** @var array $unpackedClockSeq */
+        $unpackedClockSeq = unpack('n*', substr($bytes, 8, 2));
+        $clockSeqHi = (int) $unpackedClockSeq[1];
+>>>>>>> f330c64 (optimization in progress)
         $clockSeqHiAndReserved = pack('n*', BinaryUtils::applyVariant($clockSeqHi));
 
         $bytes = substr_replace($bytes, $timeHiAndVersion, 6, 2);

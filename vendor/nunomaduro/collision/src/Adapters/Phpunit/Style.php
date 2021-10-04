@@ -69,6 +69,13 @@ final class Style
         }
 
         $state->eachTestCaseTests(function (TestResult $testResult) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+            usleep(20000);
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             $this->output->writeln($this->testLineFrom(
                 $testResult->color,
                 $testResult->icon,
@@ -179,12 +186,23 @@ final class Style
 
         $writer->ignoreFilesIn([
             '/vendor\/pestphp\/pest/',
+<<<<<<< HEAD
+<<<<<<< HEAD
             '/vendor\/phpspec\/prophecy-phpunit/',
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            '/vendor\/phpspec\/prophecy-phpunit/',
+>>>>>>> f330c64 (optimization in progress)
             '/vendor\/phpunit\/phpunit\/src/',
             '/vendor\/mockery\/mockery/',
             '/vendor\/laravel\/dusk/',
             '/vendor\/laravel\/framework\/src\/Illuminate\/Testing/',
             '/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Testing/',
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             '/vendor\/symfony\/framework-bundle\/Test/',
             '/vendor\/symfony\/phpunit-bridge/',
             '/vendor\/bin\/.phpunit/',
@@ -192,6 +210,14 @@ final class Style
             '/vendor\/bin\/simple-phpunit/',
             '/bin\/phpunit/',
             '/vendor\/coduo\/php-matcher\/src\/PHPUnit/',
+<<<<<<< HEAD
+=======
+            '/vendor\/symfony\/phpunit-bridge/',
+            '/vendor\/bin\/.phpunit/',
+            '/bin\/.phpunit/',
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             '/vendor\/sulu\/sulu\/src\/Sulu\/Bundle\/TestBundle\/Testing/',
         ]);
 
@@ -205,6 +231,10 @@ final class Style
 
         if ($throwable instanceof ExpectationFailedException && $comparisionFailure = $throwable->getComparisonFailure()) {
             $diff  = $comparisionFailure->getDiff();
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             $lines = explode(PHP_EOL, $diff);
             $diff  = '';
             foreach ($lines as $line) {
@@ -217,8 +247,16 @@ final class Style
                 $diff .= $line . PHP_EOL;
             }
 
+<<<<<<< HEAD
             $diff  = trim((string) preg_replace("/\r|\n/", "\n  ", $diff));
 
+=======
+            $diff  = trim((string) preg_replace("/\r|\n/", "\n  ", $diff));
+>>>>>>> 22c0e54 (table changes)
+=======
+            $diff  = trim((string) preg_replace("/\r|\n/", "\n  ", $diff));
+
+>>>>>>> f330c64 (optimization in progress)
             $this->output->write("  $diff");
         }
 

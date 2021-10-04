@@ -3,7 +3,14 @@
 namespace Illuminate\Foundation\Http;
 
 use Illuminate\Auth\Access\AuthorizationException;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Auth\Access\Response;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Auth\Access\Response;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Contracts\Validation\ValidatesWhenResolved;
@@ -164,15 +171,33 @@ class FormRequest extends Request implements ValidatesWhenResolved
      * Determine if the request passes the authorization check.
      *
      * @return bool
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @throws \Illuminate\Auth\Access\AuthorizationException
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+>>>>>>> f330c64 (optimization in progress)
      */
     protected function passesAuthorization()
     {
         if (method_exists($this, 'authorize')) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $result = $this->container->call([$this, 'authorize']);
 
             return $result instanceof Response ? $result->authorize() : $result;
+=======
+            return $this->container->call([$this, 'authorize']);
+>>>>>>> 22c0e54 (table changes)
+=======
+            $result = $this->container->call([$this, 'authorize']);
+
+            return $result instanceof Response ? $result->authorize() : $result;
+>>>>>>> f330c64 (optimization in progress)
         }
 
         return true;
@@ -191,6 +216,10 @@ class FormRequest extends Request implements ValidatesWhenResolved
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get a validated input container for the validated input.
      *
      * @param  array|null  $keys
@@ -204,6 +233,11 @@ class FormRequest extends Request implements ValidatesWhenResolved
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the validated data from the request.
      *
      * @return array

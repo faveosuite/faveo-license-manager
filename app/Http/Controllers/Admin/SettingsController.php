@@ -35,10 +35,10 @@ class SettingsController extends Controller
         $gen =new AflSettings([
             'SMART_REPORTS'=>$request->get('SMART_REPORTS'),
             'SMART_TABLES'=>$request->get('SMART_TABLES'),
-            'RECORDE_ON_ADMIN_PAGE'=>$request->get('RECORDE_ON_ADMIN_PAGE'),
-            'RECORDE_ON_INDEX_PAGE'=>$request->get('RECORDE_ON_INDEX_PAGE'),
-            'RECORDE_ON_SEARCH_PAGE'=> $request->get('RECORDE_ON_SEARCH_PAGE'),
-            'RECORDE_ARCHIVE_DAYS'=> $request->get('RECORDE_ARCHIVE_DAYS'),
+            'RECORDE_ON_ADMIN_PAGE'=>$request->get('RECORDS_ON_ADMIN_PAGE'),
+            'RECORDE_ON_INDEX_PAGE'=>$request->get('RECORDS_ON_INDEX_PAGE'),
+            'RECORDE_ON_SEARCH_PAGE'=> $request->get('RECORDS_ON_SEARCH_PAGE'),
+            'RECORDE_ARCHIVE_DAYS'=> $request->get('RECORDS_ARCHIVE_DAYS'),
             'TIMEZONE'=> $request->get('TIMEZONE'),
 
         ]);
@@ -46,13 +46,12 @@ class SettingsController extends Controller
         return successResponse(Lang::get('lang.settings_created'),$gen,201);
     }
     else{
-
             $genset->SMART_REPORTS = $request->get('SMART_REPORTS');
             $genset->SMART_TABLES = $request->get('SMART_TABLES');
-            $genset->RECORDE_ON_ADMIN_PAGE=$request->get('RECORDE_ON_ADMIN_PAGE');
-            $genset->RECORDE_ON_INDEX_PAGE=$request->get('RECORDE_ON_INDEX_PAGE');
-            $genset->RECORDE_ON_SEARCH_PAGE=  $request->get('RECORDE_ON_SEARCH_PAGE');
-            $genset->RECORDE_ARCHIVE_DAYS = $request->get('RECORDE_ARCHIVE_DAYS');
+            $genset->RECORDE_ON_ADMIN_PAGE=$request->get('RECORDS_ON_ADMIN_PAGE');
+            $genset->RECORDE_ON_INDEX_PAGE=$request->get('RECORDS_ON_INDEX_PAGE');
+            $genset->RECORDE_ON_SEARCH_PAGE=  $request->get('RECORDS_ON_SEARCH_PAGE');
+            $genset->RECORDE_ARCHIVE_DAYS = $request->get('RECORDS_ARCHIVE_DAYS');
             $genset->TIMEZONE=  $request->get('TIMEZONE');
             $genset->save();
             return successResponse(Lang::get('lang.settings_updated'),$genset,200);
@@ -74,6 +73,7 @@ class SettingsController extends Controller
           if(empty($advset)){
               $adv = new AflSettings([
                   'API_STATUS' => $request->get('API_STATUS'),
+                  'VERIFED_UPDATES' => $request->get('VERIFIED_UPDATES'),
                   'ENVATO_API_TOKEN' => $request->get('ENVATO_API_TOKEN')
               ]);
               $adv->save();
@@ -81,6 +81,7 @@ class SettingsController extends Controller
               }
               else{
                   $advset->API_STATUS = $request->get('API_STATUS');
+                  $advset->VERFIED_UPDATES = $request->get('VERIFIED_UPDATES');
                   $advset->ENVATO_API_TOKEN = $request->get('ENVATO_API_TOKEN');
                   $advset->save();
                   return successResponse(Lang::get('lang.settings_updated'),$advset,200);
@@ -162,8 +163,6 @@ class SettingsController extends Controller
         }
     }
 
-
-
     /**
      * To Add or Update the cleanup settings of license manager
      * @param CleanUpSettingsRequest $request
@@ -179,7 +178,9 @@ class SettingsController extends Controller
             'DATABASE_CLEANUP_CALLBACKS' => $request->get('DATABASE_CLEANUP_CALLBACKS'),
             'DATABASE_CLEANUP_REPORTS_MAIN' => $request->get('DATABASE_CLEANUP_REPORTS_MAIN'),
             'DATABASE_CLEANUP_REPORTS_SYSTEM' => $request->get('DATABASE_CLEANUP_REPORTS_SYSTEM'),
-            'DATABASE_CLEANUP_REPORTS_LICENSES' => $request->get('DATABASE_CLEANUP_REPORTS_LICENSES')
+            'DATABASE_CLEANUP_REPORTS_LICENSES' => $request->get('DATABASE_CLEANUP_REPORTS_LICENSES'),
+                'DATABASE_CLEANUP_VERSIONS' => $request->get('DATABASE_CLEANUP_VERSIONS'),
+                'DATABASE_CLEANUP_FILES' => $request->get('DATABASE_CLEANUP_FILES')
             ]);
             $clean->save();
             return successResponse(Lang::get('lang.settings_created'),$clean,201);
@@ -190,6 +191,8 @@ class SettingsController extends Controller
              $cleanup->DATABASE_CLEANUP_REPORTS_MAIN = $request->get('DATABASE_CLEANUP_REPORTS_MAIN');
              $cleanup->DATABASE_CLEANUP_REPORTS_SYSTEM = $request->get('DATABASE_CLEANUP_REPORTS_SYSTEM');
              $cleanup->DATABASE_CLEANUP_REPORTS_LICENSES = $request->get('DATABASE_CLEANUP_REPORTS_LICENSES');
+             $cleanup->DATABASE_CLEANUP_VERSIONS = $request->get('DATABASE_CLEANUP_VERSIONS');
+             $cleanup->DATABASE_CLEANUP_FILES = $request->get('DATABASE_CLEANUP_FILES');
 
              $cleanup->save();
              return successResponse(lang::get('lang.settings_updated'),$cleanup,200);

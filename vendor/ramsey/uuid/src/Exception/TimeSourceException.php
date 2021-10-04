@@ -19,6 +19,14 @@ use RuntimeException as PhpRuntimeException;
 /**
  * Thrown to indicate that the source of time encountered an error
  */
+<<<<<<< HEAD
+<<<<<<< HEAD
 class TimeSourceException extends PhpRuntimeException implements UuidExceptionInterface
+=======
+class TimeSourceException extends PhpRuntimeException
+>>>>>>> 22c0e54 (table changes)
+=======
+class TimeSourceException extends PhpRuntimeException implements UuidExceptionInterface
+>>>>>>> f330c64 (optimization in progress)
 {
 }

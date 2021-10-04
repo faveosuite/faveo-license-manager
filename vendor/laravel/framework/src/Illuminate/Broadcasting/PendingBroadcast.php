@@ -34,6 +34,10 @@ class PendingBroadcast
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Broadcast the event using a specific broadcaster.
      *
      * @param  string|null  $connection
@@ -49,6 +53,11 @@ class PendingBroadcast
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Broadcast the event to everyone except the current user.
      *
      * @return $this

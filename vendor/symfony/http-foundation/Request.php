@@ -305,7 +305,15 @@ class Request
     {
         $request = self::createRequestFromFactory($_GET, $_POST, [], $_COOKIE, $_FILES, $_SERVER);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_starts_with($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
+=======
+        if (0 === strpos($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_starts_with($request->headers->get('CONTENT_TYPE', ''), 'application/x-www-form-urlencoded')
+>>>>>>> f330c64 (optimization in progress)
             && \in_array(strtoupper($request->server->get('REQUEST_METHOD', 'GET')), ['PUT', 'DELETE', 'PATCH'])
         ) {
             parse_str($request->getContent(), $data);
@@ -1333,7 +1341,15 @@ class Request
     public function getFormat(?string $mimeType)
     {
         $canonicalMimeType = null;
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($mimeType && false !== $pos = strpos($mimeType, ';')) {
+=======
+        if (false !== $pos = strpos($mimeType, ';')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($mimeType && false !== $pos = strpos($mimeType, ';')) {
+>>>>>>> f330c64 (optimization in progress)
             $canonicalMimeType = trim(substr($mimeType, 0, $pos));
         }
 
@@ -1386,7 +1402,15 @@ class Request
             $this->format = $this->attributes->get('_format');
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->format ?? $default;
+=======
+        return null === $this->format ? $default : $this->format;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->format ?? $default;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1599,7 +1623,15 @@ class Request
      */
     public function getETags()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return preg_split('/\s*,\s*/', $this->headers->get('If-None-Match', ''), -1, \PREG_SPLIT_NO_EMPTY);
+=======
+        return preg_split('/\s*,\s*/', $this->headers->get('if_none_match', ''), -1, \PREG_SPLIT_NO_EMPTY);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return preg_split('/\s*,\s*/', $this->headers->get('If-None-Match', ''), -1, \PREG_SPLIT_NO_EMPTY);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1682,7 +1714,15 @@ class Request
         $languages = AcceptHeader::fromString($this->headers->get('Accept-Language'))->all();
         $this->languages = [];
         foreach ($languages as $lang => $acceptHeaderItem) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             if (str_contains($lang, '-')) {
+=======
+            if (false !== strpos($lang, '-')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if (str_contains($lang, '-')) {
+>>>>>>> f330c64 (optimization in progress)
                 $codes = explode('-', $lang);
                 if ('i' === $codes[0]) {
                     // Language not listed in ISO 639 that are not variants
@@ -2007,7 +2047,15 @@ class Request
      */
     private function getUrlencodedPrefix(string $string, string $prefix): ?string
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!str_starts_with(rawurldecode($string), $prefix)) {
+=======
+        if (0 !== strpos(rawurldecode($string), $prefix)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!str_starts_with(rawurldecode($string), $prefix)) {
+>>>>>>> f330c64 (optimization in progress)
             return null;
         }
 
@@ -2069,7 +2117,15 @@ class Request
                     continue;
                 }
                 if (self::HEADER_X_FORWARDED_PORT === $type) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                     if (str_ends_with($v, ']') || false === $v = strrchr($v, ':')) {
+=======
+                    if (']' === substr($v, -1) || false === $v = strrchr($v, ':')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+                    if (str_ends_with($v, ']') || false === $v = strrchr($v, ':')) {
+>>>>>>> f330c64 (optimization in progress)
                         $v = $this->isSecure() ? ':443' : ':80';
                     }
                     $v = '0.0.0.0'.$v;
@@ -2115,7 +2171,15 @@ class Request
                 if ($i) {
                     $clientIps[$key] = $clientIp = substr($clientIp, 0, $i);
                 }
+<<<<<<< HEAD
+<<<<<<< HEAD
             } elseif (str_starts_with($clientIp, '[')) {
+=======
+            } elseif (0 === strpos($clientIp, '[')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            } elseif (str_starts_with($clientIp, '[')) {
+>>>>>>> f330c64 (optimization in progress)
                 // Strip brackets and :port from IPv6 addresses.
                 $i = strpos($clientIp, ']', 1);
                 $clientIps[$key] = $clientIp = substr($clientIp, 1, $i - 1);

@@ -20,9 +20,18 @@
         "illuminate/macroable": "^8.0",
         "illuminate/support": "^8.0"
     },
+<<<<<<< HEAD
+<<<<<<< HEAD
     "provide": {
         "psr/simple-cache-implementation": "1.0"
     },
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    "provide": {
+        "psr/simple-cache-implementation": "1.0"
+    },
+>>>>>>> f330c64 (optimization in progress)
     "autoload": {
         "psr-4": {
             "Illuminate\\Cache\\": ""

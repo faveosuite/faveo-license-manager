@@ -48,7 +48,15 @@ class Swift_Transport_Esmtp_Auth_NTLMAuthenticator implements Swift_Transport_Es
         try {
             // execute AUTH command and filter out the code at the beginning
             // AUTH NTLM xxxx
+<<<<<<< HEAD
+<<<<<<< HEAD
             $response = base64_decode(substr(trim($this->sendMessage1($agent) ?? ''), 4));
+=======
+            $response = base64_decode(substr(trim($this->sendMessage1($agent)), 4));
+>>>>>>> 22c0e54 (table changes)
+=======
+            $response = base64_decode(substr(trim($this->sendMessage1($agent) ?? ''), 4));
+>>>>>>> f330c64 (optimization in progress)
 
             // extra parameters for our unit cases
             $timestamp = \func_num_args() > 3 ? func_get_arg(3) : $this->getCorrectTimestamp(bcmul(microtime(true), '1000'));

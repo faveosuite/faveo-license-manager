@@ -4,7 +4,14 @@ namespace Illuminate\Foundation\Console;
 
 use Exception;
 use Illuminate\Console\Command;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Foundation\Events\MaintenanceModeDisabled;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Foundation\Events\MaintenanceModeDisabled;
+>>>>>>> f330c64 (optimization in progress)
 
 class UpCommand extends Command
 {
@@ -42,8 +49,16 @@ class UpCommand extends Command
                 unlink(storage_path('framework/maintenance.php'));
             }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             $this->laravel->get('events')->dispatch(MaintenanceModeDisabled::class);
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            $this->laravel->get('events')->dispatch(MaintenanceModeDisabled::class);
+
+>>>>>>> f330c64 (optimization in progress)
             $this->info('Application is now live.');
         } catch (Exception $e) {
             $this->error('Failed to disable maintenance mode.');

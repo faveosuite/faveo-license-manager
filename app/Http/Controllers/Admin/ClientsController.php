@@ -25,7 +25,10 @@ use App\Traits\Version;
  */
 class ClientsController extends Controller
 {
-
+    public function __construct(Request $request)
+    {
+        $this->ip_address=request()->server('REMOTE_ADDR');
+    }
     /**
      * Stores newly added clients into the database
      * @param ClientRequest $request
@@ -39,9 +42,6 @@ class ClientsController extends Controller
 
   public function clientAdd(ClientRequest $request)
       {
-
-        $api_action_success=0;
-        $api_error_detected=0;
         $added_records=0;
         $api_key_secret = $request->get('api_key_secret');
         $client_fname = $request->get('client_fname');
@@ -49,49 +49,14 @@ class ClientsController extends Controller
         $client_email = $request->get('client_email');
         $client_status = $request->get('client_status');
 
-        if (null!==(request()->server('REMOTE_ADDR')))
-        {
-             $ip_address=request()->server('REMOTE_ADDR');
-             }
-             else {
-                 $ip_address=$request->ip();
-                 }
+        $api_key = new ApiKeysController();
+        $api_action_success = $api_key->apiKeyCheck($api_key_secret,$this->ip_address);
 
-       if(!empty($api_key_secret))
-       {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
-        if(empty($api))
-        {
-            return errorResponse(Lang::get('lang.invalid_api_key'),404);
-        }
-        else
-        {
-        $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->value('api_key_ip');
-
-          if(!empty($api_ips))
-          {
-                if (!$api_ips->contains($ip_address))
-                   {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
-                    }
-                    else{
-                        $api_action_success=1;
-                    }
-          }
-          else{
-              $api_action_success=1;
-          }
-        }
-
-         if (!empty($client_fname) && !empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL) && aflValidateIntegerValue($client_status, 0, 2) &&$api_action_success==1)
+         if (!empty($client_fname) && !empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL)
+              && aflValidateIntegerValue($client_status, 0, 2) && $api_action_success==1)
                 {
-                if ($api_error_detected!=1)
-                    {
                     $client_active_date=date("Y-m-d");
-
-                    if ($client_status==1)
+                    if ($client_status!=1)
                         {
                         $client_cancel_date="0000-00-00";
                         }
@@ -102,7 +67,6 @@ class ClientsController extends Controller
                             $client_cancel_date=date("Y-m-d");
                             }
                         }
-                    //doMysqlQuery("INSERT IGNORE INTO apl_clients (client_fname, client_lname, client_email, client_active_date, client_cancel_date, client_status) VALUES (?, ?, ?, ?, ?, ?)", array($client_fname, $client_lname, $client_email, $client_active_date, $client_cancel_date, $client_status), array("s", "s", "s", "s", "s", "i"));
                     try{
                         $add=DB::table('afl_clients')->insertOrIgnore([
                             'client_fname'=> $client_fname,
@@ -112,7 +76,6 @@ class ClientsController extends Controller
                             'client_cancel_date' => $client_cancel_date,
                             'client_status' => $client_status
                         ]);
-
                         $added_records += 1;
                     }
                     catch(Exception $e){
@@ -121,21 +84,11 @@ class ClientsController extends Controller
                     if (!aflValidateIntegerValue($added_records))
                         {
                         $api_error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid'),400);
+                        return errorResponse(Lang::get('lang.no_client'),400);
                         }
-                    else
-                        {
                         return successResponse(Lang::get('lang.Client_Add'),$add,201);
-                        }
-                    }
                 }
-                else{
-
                     return errorResponse(Lang::get('lang.invalid'),400);
-                }
-
-    }
-
     }
 
 
@@ -152,7 +105,6 @@ class ClientsController extends Controller
         return successResponse(Lang::get('lang.Client_Show'),$clients,200);
     }
 
-
      /**
      * Deletes the clients from the database based on the id
      * @param $client_id
@@ -161,78 +113,37 @@ class ClientsController extends Controller
     */
     public function deleteClient(Request $request)
     {
-    $api_action_success=0;
-    $api_error_detected=0;
     $client_id = $request->get('client_id');
     $removed_records=0;
     $api_key_secret= $request->get('api_key_secret');
-        if (null!==(request()->server('REMOTE_ADDR')))
-        {
-            $ip_address=request()->server('REMOTE_ADDR');
-        }
-        else {
-            $ip_address=$request->ip();
-        }
-    if(!empty($api_key_secret))
-       {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
-        if(empty($api))
-        {
-            return errorResponse(Lang::get('lang.invalid_api_key'),404);
-        }
-        else
-        {
-        $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->value('api_key_ip');
 
-          if(!empty($api_ips))
-          {
-                if (!$api_ips->contains($ip_address))
-                   {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
-                    }
-                    else{
-                        $api_action_success=1;
-                    }
-          }
+    $api_key = new ApiKeysController();
+    $api_action_success = $api_key->apiKeyCheck($api_key_secret,$this->ip_address);
+
+    if (!aflValidateIntegerValue($client_id) && $api_action_success!=1)
+        {
+            return errorResponse(Lang::get('lang.Not_found_client'),404);
         }
 
-    if (aflValidateIntegerValue($client_id))
-        {
         DB::beginTransaction();//mysqli_begin_transaction($GLOBALS["mysqli"]);
         $transaction_errors_array=array();
         try{
-        AFlCallbacks::where('client_id',$client_id)->delete();
-        //doMysqlQuery("DELETE FROM apl_callbacks WHERE product_id=?", array($product_id), array("i")); //delete callbacks
-        AFlInstallations::where('client_id',$client_id)->delete();
-        //doMysqlQuery("DELETE FROM apl_installations WHERE product_id=?", array($product_id), array("i")); //delete installations
-        AFlLicenses::where('client_id',$client_id)->delete();
-        //doMysqlQuery("DELETE FROM apl_licenses WHERE product_id=?", array($product_id), array("i")); //delete licenses
-        $removed_records+= AflClients::where('client_id', $client_id)->delete();
-        //$removed_records+=doMysqlQuery("DELETE FROM apl_clients WHERE client_id=?", array($client_id), array("i"));
-        DB::commit();
-        return successResponse(Lang::get('lang.Client_Destroy'),$removed_records,200);
+            AFlCallbacks::where('client_id',$client_id)->delete(); //deleting the callbacks for this client
+            AFlInstallations::where('client_id',$client_id)->delete(); //deleting installations of this client
+            AFlLicenses::where('client_id',$client_id)->delete(); // deleting the licenses created by this client
+            $removed_records+= AflClients::where('client_id', $client_id)->delete(); //deleting the client
+            DB::commit();
+            return successResponse(Lang::get('lang.Client_Destroy'),$removed_records,200);
         }
         catch(Exception $e){
-             $transaction_errors_array[]=$e->getMessage();
-             DB::rollBack();
-             $removed_records=0;
-             return errorResponse(Lang::get('lang.invalid'),400);
+            $transaction_errors_array[]=$e->getMessage();
+            DB::rollBack();
+            $removed_records=0;
+            return errorResponse(Lang::get('lang.invalid'),400);
         }
-        }
-    return $removed_records;
-}
+        return $removed_records;
+
     }
-
-        /* public function edit($client_id)
-       {
-
-        $client = afl_clients::where('client_id',$client_id)->firstOrFail();
-        return view('',compact('client'));
-
-       }*/
-
     /**
      * Updates the clients from the database based on the id
      *
@@ -247,7 +158,7 @@ class ClientsController extends Controller
     */
 public function clientUpdate(Request $request)
 {
-
+    $updated_records=0;
   $api_key_secret = $request->get('api_key_secret');
   $client_id = $request->get('client_id');
   $client_fname = $request->get('client_fname');
@@ -255,56 +166,15 @@ public function clientUpdate(Request $request)
   $client_email = $request->get('client_email');
   $client_status = $request->get('client_status');
 
-if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_array=AflClients::where('client_id',$client_id)->get())) //invalid record
+if (empty($client_id) || !aflValidateIntegerValue($client_id) ||
+    empty($rows_array=AflClients::where('client_id',$client_id)->get())) //invalid record
     {
-    return errorResponse(Lang::get('lang.notvalid'),400);
-    exit();
+    return errorResponse(Lang::get('lang.not_found_client'),404);
     }
-
-
-        $api_action_success=0;
-        $api_error_detected=0;
-        $updated_records=0;
-        if (null!==(request()->server('REMOTE_ADDR')))
-        {
-             $ip_address=request()->server('REMOTE_ADDR');
-             }
-             else {
-                 $ip_address=$request->ip();
-                 }
-
-       if(!empty($api_key_secret))
-       {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
-        if(empty($api))
-        {
-            return errorResponse(Lang::get('lang.invalid_api_key'),404);
-        }
-        else
-        {
-        $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->value('api_key_ip');
-
-          if(!empty($api_ips))
-          {
-                if (!$api_ips->contains($ip_address))
-                   {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
-                    }
-                    else{
-                        $api_action_success=1;
-                    }
-          }
-          else{
-              $api_action_success=1;
-          }
-        }
-
+        $api_key = new ApiKeysController();
+        $api_action_success = $api_key->apiKeyCheck($api_key_secret,$this->ip_address);
          if (!empty($client_fname) && !empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL) && aflValidateIntegerValue($client_status, 0, 2) &&$api_action_success==1)
                 {
-                 if ($api_error_detected!=1)
-                    {
                     if ($client_status==1)
                         {
                         $client_cancel_date="0000-00-00";
@@ -314,11 +184,9 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
                         $client_cancel_date=$rows_array[0]['client_cancel_date']; //use old client_cancel_date if client was deactivated previously and its status wasn't changed now
                         if (empty($client_cancel_date) || !aflVerifyDateTime($client_cancel_date, "Y-m-d")) //set cancel date to now only if no previous cancel date set
                             {
-
                             $client_cancel_date=date("Y-m-d");
                             }
                         }
-
                     $updated_records+=DB::table('afl_clients')->where('client_id',$client_id)
                                          ->update([
                                          'client_fname' => $client_fname,
@@ -328,23 +196,16 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
                                          'client_status' => $client_status
                                      ]);
 
-                     //doMysqlQuery("UPDATE apl_clients SET client_fname=?, client_lname=?, client_email=?, client_cancel_date=?, client_status=? WHERE client_id=?", array($client_fname, $client_lname, $client_email, $client_cancel_date, $client_status, $client_id), array("s", "s", "s", "s", "i", "i"));
                     if (!aflValidateIntegerValue($updated_records))
                         {
-                        $error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid'),400);
+                        return errorResponse(Lang::get('lang.no_client_update'),400);
                         }
                     else
                         {
                         return successResponse(Lang::get('lang.Client_Update'),$updated_records,200);
                         }
-                    }
-                }
-                else{
 
-                    return errorResponse(Lang::get('lang.error'),400);
                 }
-    }
-
+                    return errorResponse(Lang::get('lang.invalid'),400);
     }
 }

@@ -198,7 +198,15 @@ abstract class AsymmetricKey
      * @param string|array $key
      * @param string $password optional
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadPrivateKey($key, $password = '')
+=======
+    public function loadPrivateKey($key, $password = '')
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadPrivateKey($key, $password = '')
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::load($key, $password);
         if (!$key instanceof PrivateKey) {
@@ -214,7 +222,15 @@ abstract class AsymmetricKey
      * @access public
      * @param string|array $key
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadPublicKey($key)
+=======
+    public function loadPublicKey($key)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadPublicKey($key)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::load($key);
         if (!$key instanceof PublicKey) {
@@ -230,7 +246,15 @@ abstract class AsymmetricKey
      * @access public
      * @param string|array $key
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadParameters($key)
+=======
+    public function loadParameters($key)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadParameters($key)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::load($key);
         if (!$key instanceof PrivateKey && !$key instanceof PublicKey) {
@@ -280,7 +304,15 @@ abstract class AsymmetricKey
      * @param string $key
      * @param string $password optional
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadPrivateKeyFormat($type, $key, $password = false)
+=======
+    public function loadPrivateKeyFormat($type, $key, $password = false)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadPrivateKeyFormat($type, $key, $password = false)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::loadFormat($type, $key, $password);
         if (!$key instanceof PrivateKey) {
@@ -297,7 +329,15 @@ abstract class AsymmetricKey
      * @param string $type
      * @param string $key
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadPublicKeyFormat($type, $key)
+=======
+    public function loadPublicKeyFormat($type, $key)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadPublicKeyFormat($type, $key)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::loadFormat($type, $key);
         if (!$key instanceof PublicKey) {
@@ -314,7 +354,15 @@ abstract class AsymmetricKey
      * @param string $type
      * @param string|array $key
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadParametersFormat($type, $key)
+=======
+    public function loadParametersFormat($type, $key)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadParametersFormat($type, $key)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::loadFormat($type, $key);
         if (!$key instanceof PrivateKey && !$key instanceof PublicKey) {

@@ -11,8 +11,16 @@ namespace Illuminate\Support\Facades;
  * @method static bool configurationIsCached()
  * @method static bool hasBeenBootstrapped()
  * @method static bool isDownForMaintenance()
+<<<<<<< HEAD
+<<<<<<< HEAD
  * @method static bool isLocal()
  * @method static bool isProduction()
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+ * @method static bool isLocal()
+ * @method static bool isProduction()
+>>>>>>> f330c64 (optimization in progress)
  * @method static bool routesAreCached()
  * @method static bool runningInConsole()
  * @method static bool runningUnitTests()
@@ -36,7 +44,15 @@ namespace Illuminate\Support\Facades;
  * @method static string storagePath(string $path = '')
  * @method static string version()
  * @method static string|bool environment(string|array ...$environments)
+<<<<<<< HEAD
+<<<<<<< HEAD
  * @method static never abort(int $code, string $message = '', array $headers = [])
+=======
+ * @method static void abort(int $code, string $message = '', array $headers = [])
+>>>>>>> 22c0e54 (table changes)
+=======
+ * @method static never abort(int $code, string $message = '', array $headers = [])
+>>>>>>> f330c64 (optimization in progress)
  * @method static void boot()
  * @method static void booted(callable $callback)
  * @method static void booting(callable $callback)

@@ -324,7 +324,15 @@ class Response
         }
 
         // Check if we need to send extra expire info headers
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ('1.0' == $this->getProtocolVersion() && str_contains($headers->get('Cache-Control', ''), 'no-cache')) {
+=======
+        if ('1.0' == $this->getProtocolVersion() && false !== strpos($headers->get('Cache-Control'), 'no-cache')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ('1.0' == $this->getProtocolVersion() && str_contains($headers->get('Cache-Control', ''), 'no-cache')) {
+>>>>>>> f330c64 (optimization in progress)
             $headers->set('pragma', 'no-cache');
             $headers->set('expires', -1);
         }
@@ -462,7 +470,15 @@ class Response
      *
      * @final
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function setStatusCode(int $code, string $text = null): object
+=======
+    public function setStatusCode(int $code, $text = null): object
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function setStatusCode(int $code, string $text = null): object
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->statusCode = $code;
         if ($this->isInvalid()) {
@@ -926,7 +942,15 @@ class Response
         if (null === $etag) {
             $this->headers->remove('Etag');
         } else {
+<<<<<<< HEAD
+<<<<<<< HEAD
             if (!str_starts_with($etag, '"')) {
+=======
+            if (0 !== strpos($etag, '"')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if (!str_starts_with($etag, '"')) {
+>>>>>>> f330c64 (optimization in progress)
                 $etag = '"'.$etag.'"';
             }
 
@@ -1090,6 +1114,10 @@ class Response
         $lastModified = $this->headers->get('Last-Modified');
         $modifiedSince = $request->headers->get('If-Modified-Since');
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($ifNoneMatchEtags = $request->getETags()) {
             $etag = $this->getEtag();
             if (0 == strncmp($etag, 'W/', 2)) {
@@ -1101,6 +1129,7 @@ class Response
                 if (0 == strncmp($ifNoneMatchEtag, 'W/', 2)) {
                     $ifNoneMatchEtag = substr($ifNoneMatchEtag, 2);
                 }
+<<<<<<< HEAD
 
                 if ($ifNoneMatchEtag === $etag || '*' === $ifNoneMatchEtag) {
                     $notModified = true;
@@ -1111,6 +1140,26 @@ class Response
         // Only do If-Modified-Since date comparison when If-None-Match is not present as per https://tools.ietf.org/html/rfc7232#section-3.3.
         elseif ($modifiedSince && $lastModified) {
             $notModified = strtotime($modifiedSince) >= strtotime($lastModified);
+=======
+        if ($etags = $request->getETags()) {
+            $notModified = \in_array($this->getEtag(), $etags) || \in_array('*', $etags);
+        }
+
+        if ($modifiedSince && $lastModified) {
+            $notModified = strtotime($modifiedSince) >= strtotime($lastModified) && (!$etags || $notModified);
+>>>>>>> 22c0e54 (table changes)
+=======
+
+                if ($ifNoneMatchEtag === $etag || '*' === $ifNoneMatchEtag) {
+                    $notModified = true;
+                    break;
+                }
+            }
+        }
+        // Only do If-Modified-Since date comparison when If-None-Match is not present as per https://tools.ietf.org/html/rfc7232#section-3.3.
+        elseif ($modifiedSince && $lastModified) {
+            $notModified = strtotime($modifiedSince) >= strtotime($lastModified);
+>>>>>>> f330c64 (optimization in progress)
         }
 
         if ($notModified) {

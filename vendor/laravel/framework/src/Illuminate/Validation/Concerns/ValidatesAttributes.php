@@ -42,6 +42,10 @@ trait ValidatesAttributes
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Validate that an attribute was "accepted" when another attribute has a given value.
      *
      * @param  string  $attribute
@@ -65,6 +69,11 @@ trait ValidatesAttributes
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Validate that an attribute is an active URL.
      *
      * @param  string  $attribute
@@ -257,7 +266,15 @@ trait ValidatesAttributes
     protected function getDateTime($value)
     {
         try {
+<<<<<<< HEAD
+<<<<<<< HEAD
             return @Date::parse($value) ?: null;
+=======
+            return Date::parse($value);
+>>>>>>> 22c0e54 (table changes)
+=======
+            return @Date::parse($value) ?: null;
+>>>>>>> f330c64 (optimization in progress)
         } catch (Exception $e) {
             //
         }
@@ -431,6 +448,8 @@ trait ValidatesAttributes
             return false;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         foreach ($parameters as $format) {
             $date = DateTime::createFromFormat('!'.$format, $value);
 
@@ -440,6 +459,24 @@ trait ValidatesAttributes
         }
 
         return false;
+=======
+        $format = $parameters[0];
+=======
+        foreach ($parameters as $format) {
+            $date = DateTime::createFromFormat('!'.$format, $value);
+>>>>>>> f330c64 (optimization in progress)
+
+            if ($date && $date->format($format) == $value) {
+                return true;
+            }
+        }
+
+<<<<<<< HEAD
+        return $date && $date->format($format) == $value;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return false;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1539,6 +1576,10 @@ trait ValidatesAttributes
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Validate that other attributes do not exist when this attribute exists.
      *
      * @param  string  $attribute
@@ -1562,6 +1603,11 @@ trait ValidatesAttributes
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Indicate that an attribute should be excluded when another attribute has a given value.
      *
      * @param  string  $attribute
@@ -1975,7 +2021,15 @@ trait ValidatesAttributes
             return $value->getSize() / 1024;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return mb_strlen($value ?? '');
+=======
+        return mb_strlen($value);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return mb_strlen($value ?? '');
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -2072,6 +2126,13 @@ trait ValidatesAttributes
      *
      * @param  string  $attribute
      * @param  string  $rule
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     protected function shouldBeNumeric($attribute, $rule)

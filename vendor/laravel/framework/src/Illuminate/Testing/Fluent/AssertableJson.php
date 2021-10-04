@@ -118,6 +118,10 @@ class AssertableJson implements Arrayable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Instantiate a new "scope" on each child element.
      *
      * @param  \Closure  $callback
@@ -144,6 +148,11 @@ class AssertableJson implements Arrayable
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a new instance from an array.
      *
      * @param  array  $data

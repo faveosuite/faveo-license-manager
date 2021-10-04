@@ -25,6 +25,8 @@ class CreateAflApiKeysTable extends Migration
             $table->boolean('api_key_products_add');
             $table->boolean('api_key_products_edit');
             $table->boolean('api_key_installations_edit');
+            $table->boolean('api_key_versions_add');
+            $table->boolean('api_key_versions_edit');
             $table->boolean('api_key_search');
             $table->boolean('api_key_status');
             $table->timestamps();

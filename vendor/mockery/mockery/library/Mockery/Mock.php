@@ -717,11 +717,28 @@ class Mock implements MockInterface
     {
         $rm = $this->mockery_getMethod($name);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($rm === null) {
             return null;
         }
 
         $returnType = Reflector::getSimplestReturnType($rm);
+=======
+        // Default return value for methods with nullable type is null
+        if ($rm === null || $rm->getReturnType() === null || $rm->getReturnType()->allowsNull()) {
+            return null;
+        }
+
+        $returnType = Reflector::getReturnType($rm, true);
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($rm === null) {
+            return null;
+        }
+
+        $returnType = Reflector::getSimplestReturnType($rm);
+>>>>>>> f330c64 (optimization in progress)
 
         switch ($returnType) {
             case null:     return null;
@@ -816,7 +833,15 @@ class Mock implements MockInterface
             throw new BadMethodCallException(
                 'Static method ' . $associatedRealObject->mockery_getName() . '::' . $method
                 . '() does not exist on this mock object',
+<<<<<<< HEAD
+<<<<<<< HEAD
                 0,
+=======
+                null,
+>>>>>>> 22c0e54 (table changes)
+=======
+                0,
+>>>>>>> f330c64 (optimization in progress)
                 $e
             );
         }

@@ -38,9 +38,18 @@ class CollectionConfigurator
         $this->parentPrefixes = $parentPrefixes;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * @return array
      */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    /**
+     * @return array
+     */
+>>>>>>> f330c64 (optimization in progress)
     public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);

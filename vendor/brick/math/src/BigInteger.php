@@ -1117,6 +1117,10 @@ final class BigInteger extends BigNumber
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * This method is required for serializing the object and SHOULD NOT be accessed directly.
      *
      * @internal
@@ -1150,6 +1154,11 @@ final class BigInteger extends BigNumber
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * This method is required by interface Serializable and SHOULD NOT be accessed directly.
      *
      * @internal

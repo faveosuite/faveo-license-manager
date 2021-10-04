@@ -18,6 +18,17 @@ use Illuminate\Support\Facades\Lang;
 class ConnectionController extends Controller
 
 {
+    public function __construct(){
+        $this->ip_address=request()->server('REMOTE_ADDR');
+        if (null!==(request()->server('HTTP_REFERER')))
+        {
+            $this->refer=request()->server('HTTP_REFERER');
+        }
+        else
+        {
+            $this->refer=request()->get('refer');
+        }
+    }
      /**
      * To test if the connection between the Faveo Helpdesk and Auto faveo Licenser has been established
      *
@@ -27,6 +38,7 @@ class ConnectionController extends Controller
      *
      * @return  response connection is established successfuly
     */
+    
        public function connection(Request $request)
        {
         //set supported browsers (internal requests only coming from these browsers will be processed)
@@ -35,31 +47,11 @@ class ConnectionController extends Controller
         //dd($connection_hash);
         $product_id = $request->input('product_id');
         $connection_hash = $request->input('connection_hash');
-
-      //get IP, refer and user agent
-       if (null!==(request()->server('REMOTE_ADDR')))
-       {
-         $ip_address=request()->server('REMOTE_ADDR');
-         }
-         else {
-           $ip_address=$request->get('ip_address');
-           }
-
-       if (null!==(request()->server('HTTP_REFERER')))
-       {
-         $refer=request()->server('HTTP_REFERER');
-         }
-         else
-         {
-           $refer=$request->get('refer');
-           }
-
-
-        if (filter_var($ip_address, FILTER_VALIDATE_IP) &&
-        filter_var($refer, FILTER_VALIDATE_URL)
+        if (filter_var($this->ip_address, FILTER_VALIDATE_IP) &&
+        filter_var($this->refer, FILTER_VALIDATE_URL)
         && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connection_test"))
         {
-               $rows_array =[$ip_address,$refer,$product_id,$connection_hash];
+               $rows_array =[$this->ip_address,$this->refer,$product_id,$connection_hash];
                return "<connection_test>OK</connection_test>";
         }
         else{
@@ -67,5 +59,4 @@ class ConnectionController extends Controller
         }
 
     }
-
 }

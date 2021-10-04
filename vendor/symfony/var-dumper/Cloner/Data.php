@@ -111,7 +111,14 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @return int
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return \count($this->getValue());
@@ -120,7 +127,14 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @return \Traversable
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         if (!\is_array($value = $this->getValue())) {
@@ -152,34 +166,68 @@ class Data implements \ArrayAccess, \Countable, \IteratorAggregate
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return $this->__isset($key);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * @return mixed
      */
     #[\ReturnTypeWillChange]
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return $this->__get($key);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * @return void
      */
     #[\ReturnTypeWillChange]
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         throw new \BadMethodCallException(self::class.' objects are immutable.');
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * @return void
      */
     #[\ReturnTypeWillChange]
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         throw new \BadMethodCallException(self::class.' objects are immutable.');

@@ -20,7 +20,14 @@ use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use phpDocumentor\Reflection\Utils;
 use Webmozart\Assert\Assert;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function array_key_exists;
 use function explode;
 
@@ -49,7 +56,15 @@ final class Uses extends BaseTag implements Factory\StaticMethod
         ?FqsenResolver $resolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
+<<<<<<< HEAD
+<<<<<<< HEAD
     ): self {
+=======
+    ) : self {
+>>>>>>> 22c0e54 (table changes)
+=======
+    ): self {
+>>>>>>> f330c64 (optimization in progress)
         Assert::notNull($resolver);
         Assert::notNull($descriptionFactory);
 
@@ -61,7 +76,15 @@ final class Uses extends BaseTag implements Factory\StaticMethod
         );
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private static function resolveFqsen(string $parts, ?FqsenResolver $fqsenResolver, ?TypeContext $context): Fqsen
+=======
+    private static function resolveFqsen(string $parts, ?FqsenResolver $fqsenResolver, ?TypeContext $context) : Fqsen
+>>>>>>> 22c0e54 (table changes)
+=======
+    private static function resolveFqsen(string $parts, ?FqsenResolver $fqsenResolver, ?TypeContext $context): Fqsen
+>>>>>>> f330c64 (optimization in progress)
     {
         Assert::notNull($fqsenResolver);
         $fqsenParts = explode('::', $parts);
@@ -77,7 +100,15 @@ final class Uses extends BaseTag implements Factory\StaticMethod
     /**
      * Returns the structural element this tag refers to.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getReference(): Fqsen
+=======
+    public function getReference() : Fqsen
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getReference(): Fqsen
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->refers;
     }
@@ -85,7 +116,15 @@ final class Uses extends BaseTag implements Factory\StaticMethod
     /**
      * Returns a string representation of this tag.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();

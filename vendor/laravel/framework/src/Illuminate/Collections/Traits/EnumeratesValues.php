@@ -13,9 +13,21 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\HigherOrderCollectionProxy;
 use Illuminate\Support\HigherOrderWhenProxy;
 use JsonSerializable;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Symfony\Component\VarDumper\VarDumper;
 use Traversable;
 use UnexpectedValueException;
+=======
+use ReturnTypeWillChange;
+use Symfony\Component\VarDumper\VarDumper;
+use Traversable;
+>>>>>>> 22c0e54 (table changes)
+=======
+use Symfony\Component\VarDumper\VarDumper;
+use Traversable;
+use UnexpectedValueException;
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * @property-read HigherOrderCollectionProxy $average
@@ -746,6 +758,10 @@ trait EnumeratesValues
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Reduce the collection to multiple aggregate values.
      *
      * @param  callable  $callback
@@ -789,6 +805,11 @@ trait EnumeratesValues
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Reduce an associative collection to a single value.
      *
      * @param  callable  $callback
@@ -818,6 +839,34 @@ trait EnumeratesValues
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * Return only unique items from the collection array.
+     *
+     * @param  string|callable|null  $key
+     * @param  bool  $strict
+     * @return static
+     */
+    public function unique($key = null, $strict = false)
+    {
+        $callback = $this->valueRetriever($key);
+
+        $exists = [];
+
+        return $this->reject(function ($item, $key) use ($callback, $strict, &$exists) {
+            if (in_array($id = $callback($item, $key), $exists, $strict)) {
+                return true;
+            }
+
+            $exists[] = $id;
+        });
+    }
+
+    /**
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Return only unique items from the collection array using strict comparison.
      *
      * @param  string|callable|null  $key
@@ -855,7 +904,15 @@ trait EnumeratesValues
      *
      * @return array
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return array_map(function ($value) {

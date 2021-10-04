@@ -160,7 +160,15 @@ class BinaryFileResponse extends Response
             $filename = $this->file->getFilename();
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ('' === $filenameFallback && (!preg_match('/^[\x20-\x7e]*$/', $filename) || str_contains($filename, '%'))) {
+=======
+        if ('' === $filenameFallback && (!preg_match('/^[\x20-\x7e]*$/', $filename) || false !== strpos($filename, '%'))) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ('' === $filenameFallback && (!preg_match('/^[\x20-\x7e]*$/', $filename) || str_contains($filename, '%'))) {
+>>>>>>> f330c64 (optimization in progress)
             $encoding = mb_detect_encoding($filename, null, true) ?: '8bit';
 
             for ($i = 0, $filenameLength = mb_strlen($filename, $encoding); $i < $filenameLength; ++$i) {
@@ -240,7 +248,15 @@ class BinaryFileResponse extends Response
             if (!$request->headers->has('If-Range') || $this->hasValidIfRangeHeader($request->headers->get('If-Range'))) {
                 $range = $request->headers->get('Range');
 
+<<<<<<< HEAD
+<<<<<<< HEAD
                 if (str_starts_with($range, 'bytes=')) {
+=======
+                if (0 === strpos($range, 'bytes=')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+                if (str_starts_with($range, 'bytes=')) {
+>>>>>>> f330c64 (optimization in progress)
                     [$start, $end] = explode('-', substr($range, 6), 2) + [0];
 
                     $end = ('' === $end) ? $fileSize - 1 : (int) $end;

@@ -71,9 +71,21 @@ return [
     'period_recurrences' => ':count keer',
     'period_interval' => function (string $interval = '') {
         /** @var string $output */
+<<<<<<< HEAD
+<<<<<<< HEAD
         $output = preg_replace('/^(een|één|1)\s+/u', '', $interval);
 
         if (preg_match('/^(een|één|1)( jaar|j| uur|u)/u', $interval)) {
+=======
+        $output = preg_replace('/^(een|één|1)\s+/', '', $interval);
+
+        if (preg_match('/^(een|één|1)( jaar|j| uur|u)/', $interval)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        $output = preg_replace('/^(een|één|1)\s+/u', '', $interval);
+
+        if (preg_match('/^(een|één|1)( jaar|j| uur|u)/u', $interval)) {
+>>>>>>> f330c64 (optimization in progress)
             return "elk $output";
         }
 

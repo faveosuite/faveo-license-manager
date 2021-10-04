@@ -23,7 +23,14 @@ use PHPUnit\Framework\SelfDescribing;
 use PHPUnit\Util\Type;
 use SebastianBergmann\Exporter\Exporter;
 use stdClass;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Throwable;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Throwable;
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
@@ -118,6 +125,8 @@ final class Invocation implements SelfDescribing
     public function generateReturnValue()
     {
         if ($this->isReturnTypeNullable || $this->proxiedCall) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             return null;
         }
 
@@ -217,6 +226,113 @@ final class Invocation implements SelfDescribing
                 $this->methodName
             )
         );
+=======
+            return;
+=======
+            return null;
+>>>>>>> f330c64 (optimization in progress)
+        }
+
+        $union = false;
+
+        if (strpos($this->returnType, '|') !== false) {
+            $types = explode('|', $this->returnType);
+            $union = true;
+        } else {
+            $types = [$this->returnType];
+        }
+
+        $types = array_map('strtolower', $types);
+
+        if (in_array('', $types, true) ||
+            in_array('null', $types, true) ||
+            in_array('mixed', $types, true) ||
+            in_array('void', $types, true)) {
+            return null;
+        }
+
+        if (in_array('false', $types, true) ||
+            in_array('bool', $types, true)) {
+            return false;
+        }
+
+        if (in_array('float', $types, true)) {
+            return 0.0;
+        }
+
+        if (in_array('int', $types, true)) {
+            return 0;
+        }
+
+        if (in_array('string', $types, true)) {
+            return '';
+        }
+
+        if (in_array('array', $types, true)) {
+            return [];
+        }
+
+        if (in_array('static', $types, true)) {
+            try {
+                return (new Instantiator)->instantiate(get_class($this->object));
+            } catch (Throwable $t) {
+                throw new RuntimeException(
+                    $t->getMessage(),
+                    (int) $t->getCode(),
+                    $t
+                );
+            }
+        }
+
+        if (in_array('object', $types, true)) {
+            return new stdClass;
+        }
+
+        if (in_array('callable', $types, true) ||
+            in_array('closure', $types, true)) {
+            return static function (): void
+            {
+            };
+        }
+
+        if (in_array('traversable', $types, true) ||
+            in_array('generator', $types, true) ||
+            in_array('iterable', $types, true)) {
+            $generator = static function (): \Generator
+            {
+                yield from [];
+            };
+
+            return $generator();
+        }
+
+        if (!$union) {
+            try {
+                return (new Generator)->getMock($this->returnType, [], [], '', false);
+            } catch (Throwable $t) {
+                throw new RuntimeException(
+                    sprintf(
+                        'Return value for %s::%s() cannot be generated: %s',
+                        $this->className,
+                        $this->methodName,
+                        $t->getMessage(),
+                    ),
+                    (int) $t->getCode(),
+                );
+            }
+        }
+<<<<<<< HEAD
+>>>>>>> 22c0e54 (table changes)
+=======
+
+        throw new RuntimeException(
+            sprintf(
+                'Return value for %s::%s() cannot be generated because the declared return type is a union, please configure a return value for this method',
+                $this->className,
+                $this->methodName
+            )
+        );
+>>>>>>> f330c64 (optimization in progress)
     }
 
     public function toString(): string

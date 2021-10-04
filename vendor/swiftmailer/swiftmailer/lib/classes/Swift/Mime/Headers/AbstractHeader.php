@@ -309,7 +309,15 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
 
         $encodedToken = '';
         // Split at all whitespace boundaries
+<<<<<<< HEAD
+<<<<<<< HEAD
         foreach (preg_split('~(?=[\t ])~', $string ?? '') as $token) {
+=======
+        foreach (preg_split('~(?=[\t ])~', $string) as $token) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        foreach (preg_split('~(?=[\t ])~', $string ?? '') as $token) {
+>>>>>>> f330c64 (optimization in progress)
             if ($this->tokenNeedsEncoding($token)) {
                 $encodedToken .= $token;
             } else {
@@ -354,10 +362,24 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
         $encodedTextLines = explode("\r\n",
             $this->encoder->encodeString(
                 $token, $firstLineOffset, 75 - $encodingWrapperLength, $this->charset
+<<<<<<< HEAD
+<<<<<<< HEAD
             ) ?? ''
         );
 
         if ('iso-2022-jp' !== strtolower($this->charset ?? '')) {
+=======
+                )
+        );
+
+        if ('iso-2022-jp' !== strtolower($this->charset)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            ) ?? ''
+        );
+
+        if ('iso-2022-jp' !== strtolower($this->charset ?? '')) {
+>>>>>>> f330c64 (optimization in progress)
             // special encoding for iso-2022-jp using mb_encode_mimeheader
             foreach ($encodedTextLines as $lineNum => $line) {
                 $encodedTextLines[$lineNum] = '=?'.$charsetDecl.
@@ -378,7 +400,15 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
      */
     protected function generateTokenLines($token)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return preg_split('~(\r\n)~', $token ?? '', -1, PREG_SPLIT_DELIM_CAPTURE);
+=======
+        return preg_split('~(\r\n)~', $token, -1, PREG_SPLIT_DELIM_CAPTURE);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return preg_split('~(\r\n)~', $token ?? '', -1, PREG_SPLIT_DELIM_CAPTURE);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -429,7 +459,15 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
         $tokens = [];
 
         // Generate atoms; split at all invisible boundaries followed by WSP
+<<<<<<< HEAD
+<<<<<<< HEAD
         foreach (preg_split('~(?=[ \t])~', $string ?? '') as $token) {
+=======
+        foreach (preg_split('~(?=[ \t])~', $string) as $token) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        foreach (preg_split('~(?=[ \t])~', $string ?? '') as $token) {
+>>>>>>> f330c64 (optimization in progress)
             $newTokens = $this->generateTokenLines($token);
             foreach ($newTokens as $newToken) {
                 $tokens[] = $newToken;
@@ -473,6 +511,10 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
         // Implode with FWS (RFC 2822, 2.2.3)
         return implode("\r\n", $headerLines)."\r\n";
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Make a deep copy of object.
@@ -483,4 +525,9 @@ abstract class Swift_Mime_Headers_AbstractHeader implements Swift_Mime_Header
             $this->encoder = clone $this->encoder;
         }
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

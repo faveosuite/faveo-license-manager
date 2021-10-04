@@ -11,7 +11,14 @@
 namespace Carbon;
 
 use Closure;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use DateTimeInterface;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use DateTimeInterface;
+>>>>>>> f330c64 (optimization in progress)
 use ReflectionMethod;
 
 /**
@@ -290,6 +297,10 @@ class Factory
                 return \in_array($parameter->getName(), ['tz', 'timezone'], true);
             });
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             if (isset($arguments[0]) && \in_array($name, ['instance', 'make', 'create', 'parse'], true)) {
                 if ($arguments[0] instanceof DateTimeInterface) {
                     $settings['innerTimezone'] = $settings['timezone'];
@@ -297,6 +308,12 @@ class Factory
                     unset($settings['timezone'], $settings['innerTimezone']);
                 }
             } elseif (\count($tzParameters)) {
+<<<<<<< HEAD
+=======
+            if (\count($tzParameters)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 array_splice($arguments, key($tzParameters), 0, [$settings['timezone']]);
                 unset($settings['timezone']);
             }

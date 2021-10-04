@@ -806,6 +806,10 @@ Whether two URIs can be considered equivalent. Both URIs are normalized automati
 `$normalizations` bitmask. The method also accepts relative URI references and returns true when they are equivalent.
 This of course assumes they will be resolved against the same base URI. If this is not the case, determination of
 equivalence or difference of relative references does not mean anything.
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 
 ## Security
@@ -821,3 +825,8 @@ Guzzle is made available under the MIT License (MIT). Please see [License File](
 Available as part of the Tidelift Subscription
 
 The maintainers of Guzzle and thousands of other packages are working with Tidelift to deliver commercial support and maintenance for the open source dependencies you use to build your applications. Save time, reduce risk, and improve code health, while paying the maintainers of the exact dependencies you use. [Learn more.](https://tidelift.com/subscription/pkg/packagist-guzzlehttp-psr7?utm_source=packagist-guzzlehttp-psr7&utm_medium=referral&utm_campaign=enterprise&utm_term=repo)
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)

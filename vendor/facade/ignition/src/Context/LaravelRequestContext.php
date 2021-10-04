@@ -3,7 +3,14 @@
 namespace Facade\Ignition\Context;
 
 use Facade\FlareClient\Context\RequestContext;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Model;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Database\Eloquent\Model;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Http\Request;
 use Throwable;
 
@@ -71,11 +78,21 @@ class LaravelRequestContext extends RequestContext
     protected function getRouteParameters(): array
     {
         try {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             return collect(optional($this->request->route())->parameters ?? [])
                 ->map(function ($parameter) {
                     return $parameter instanceof Model ? $parameter->withoutRelations() : $parameter;
                 })
                 ->toArray();
+<<<<<<< HEAD
+=======
+            return collect(optional($this->request->route())->parameters ?? [])->toArray();
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         } catch (Throwable $e) {
             return [];
         }

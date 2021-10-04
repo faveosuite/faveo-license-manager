@@ -48,7 +48,15 @@ abstract class AbstractList implements Type
     /**
      * Returns the type for the keys of this array.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getKeyType(): Type
+=======
+    public function getKeyType() : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getKeyType(): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->keyType ?? $this->defaultKeyType;
     }
@@ -56,7 +64,15 @@ abstract class AbstractList implements Type
     /**
      * Returns the value for the keys of this array.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getValueType(): Type
+=======
+    public function getValueType() : Type
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getValueType(): Type
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->valueType;
     }
@@ -64,7 +80,15 @@ abstract class AbstractList implements Type
     /**
      * Returns a rendered output of the Type as it would be used in a DocBlock.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($this->keyType) {
             return 'array<' . $this->keyType . ',' . $this->valueType . '>';
