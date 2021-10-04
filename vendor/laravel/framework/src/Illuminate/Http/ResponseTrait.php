@@ -130,8 +130,18 @@ trait ResponseTrait
      * Expire a cookie when sending the response.
      *
      * @param  \Symfony\Component\HttpFoundation\Cookie|mixed  $cookie
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string|null  $path
      * @param  string|null  $domain
+=======
+     * @param  string|null $path
+     * @param  string|null $domain
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string|null  $path
+     * @param  string|null  $domain
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function withoutCookie($cookie, $path = null, $domain = null)

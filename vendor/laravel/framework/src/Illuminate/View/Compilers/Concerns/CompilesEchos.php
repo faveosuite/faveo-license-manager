@@ -125,7 +125,15 @@ trait CompilesEchos
     /**
      * Add an instance of the blade echo handler to the start of the compiled string.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $result
+=======
+     * @param string $result
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $result
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     protected function addBladeCompilerVariable($result)
@@ -153,7 +161,15 @@ trait CompilesEchos
     /**
      * Apply the echo handler for the value if it exists.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $value
+=======
+     * @param  $value  string
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $value
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function applyEchoHandler($value)

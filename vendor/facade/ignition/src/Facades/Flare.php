@@ -2,7 +2,14 @@
 
 namespace Facade\Ignition\Facades;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Facade\Ignition\Support\SentReports;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Facade\Ignition\Support\SentReports;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Facades\Facade;
 
 /**
@@ -20,9 +27,18 @@ class Flare extends Facade
     {
         return \Facade\FlareClient\Flare::class;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     public static function sentReports(): SentReports
     {
         return app(SentReports::class);
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

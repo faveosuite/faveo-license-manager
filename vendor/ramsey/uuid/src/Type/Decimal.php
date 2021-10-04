@@ -15,10 +15,21 @@ declare(strict_types=1);
 namespace Ramsey\Uuid\Type;
 
 use Ramsey\Uuid\Exception\InvalidArgumentException;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 use ValueError;
 
 use function is_numeric;
 use function sprintf;
+<<<<<<< HEAD
+=======
+
+use function is_numeric;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * A value object representing a decimal
@@ -101,6 +112,10 @@ final class Decimal implements NumberInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array{string: string}
      */
     public function __serialize(): array
@@ -109,17 +124,33 @@ final class Decimal implements NumberInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Constructs the object from a serialized string representation
      *
      * @param string $serialized The serialized string representation of the object
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-suppress UnusedMethodCall
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @psalm-suppress UnusedMethodCall
+>>>>>>> f330c64 (optimization in progress)
      */
     public function unserialize($serialized): void
     {
         $this->__construct($serialized);
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * @param array{string: string} $data
@@ -134,4 +165,9 @@ final class Decimal implements NumberInterface
 
         $this->unserialize($data['string']);
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

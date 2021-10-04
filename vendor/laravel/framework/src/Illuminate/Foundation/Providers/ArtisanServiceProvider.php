@@ -15,7 +15,14 @@ use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Database\Console\DbCommand;
 use Illuminate\Database\Console\DumpCommand;
 use Illuminate\Database\Console\Factories\FactoryMakeCommand;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Database\Console\PruneCommand;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Database\Console\PruneCommand;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Database\Console\Seeds\SeedCommand;
 use Illuminate\Database\Console\Seeds\SeederMakeCommand;
 use Illuminate\Database\Console\WipeCommand;
@@ -68,7 +75,14 @@ use Illuminate\Queue\Console\FlushFailedCommand as FlushFailedQueueCommand;
 use Illuminate\Queue\Console\ForgetFailedCommand as ForgetFailedQueueCommand;
 use Illuminate\Queue\Console\ListenCommand as QueueListenCommand;
 use Illuminate\Queue\Console\ListFailedCommand as ListFailedQueueCommand;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Queue\Console\MonitorCommand as QueueMonitorCommand;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Queue\Console\MonitorCommand as QueueMonitorCommand;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Queue\Console\PruneBatchesCommand as PruneBatchesQueueCommand;
 use Illuminate\Queue\Console\PruneFailedJobsCommand;
 use Illuminate\Queue\Console\RestartCommand as QueueRestartCommand;
@@ -96,7 +110,14 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
         'ConfigCache' => 'command.config.cache',
         'ConfigClear' => 'command.config.clear',
         'Db' => DbCommand::class,
+<<<<<<< HEAD
+<<<<<<< HEAD
         'DbPrune' => 'command.db.prune',
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        'DbPrune' => 'command.db.prune',
+>>>>>>> f330c64 (optimization in progress)
         'DbWipe' => 'command.db.wipe',
         'Down' => 'command.down',
         'Environment' => 'command.environment',
@@ -112,7 +133,14 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
         'QueueFlush' => 'command.queue.flush',
         'QueueForget' => 'command.queue.forget',
         'QueueListen' => 'command.queue.listen',
+<<<<<<< HEAD
+<<<<<<< HEAD
         'QueueMonitor' => 'command.queue.monitor',
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        'QueueMonitor' => 'command.queue.monitor',
+>>>>>>> f330c64 (optimization in progress)
         'QueuePruneBatches' => 'command.queue.prune-batches',
         'QueuePruneFailedJobs' => 'command.queue.prune-failed-jobs',
         'QueueRestart' => 'command.queue.restart',
@@ -361,6 +389,10 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function registerDbPruneCommand()
     {
         $this->app->singleton('command.db.prune', function ($app) {
@@ -373,6 +405,11 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return void
      */
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function registerDbWipeCommand()
     {
         $this->app->singleton('command.db.wipe', function () {
@@ -709,6 +746,10 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function registerQueueMonitorCommand()
     {
         $this->app->singleton('command.queue.monitor', function ($app) {
@@ -721,6 +762,11 @@ class ArtisanServiceProvider extends ServiceProvider implements DeferrableProvid
      *
      * @return void
      */
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function registerQueuePruneBatchesCommand()
     {
         $this->app->singleton('command.queue.prune-batches', function () {

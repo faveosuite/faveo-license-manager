@@ -14,7 +14,14 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection;
 
 use phpDocumentor\Reflection\DocBlock\Tag;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use phpDocumentor\Reflection\DocBlock\Tags\TagWithType;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use phpDocumentor\Reflection\DocBlock\Tags\TagWithType;
+>>>>>>> f330c64 (optimization in progress)
 use Webmozart\Assert\Assert;
 
 final class DocBlock
@@ -69,12 +76,28 @@ final class DocBlock
         $this->isTemplateStart = $isTemplateStart;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getSummary(): string
+=======
+    public function getSummary() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getSummary(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->summary;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getDescription(): DocBlock\Description
+=======
+    public function getDescription() : DocBlock\Description
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getDescription(): DocBlock\Description
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->description;
     }
@@ -82,7 +105,15 @@ final class DocBlock
     /**
      * Returns the current context.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getContext(): ?Types\Context
+=======
+    public function getContext() : ?Types\Context
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getContext(): ?Types\Context
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->context;
     }
@@ -90,7 +121,15 @@ final class DocBlock
     /**
      * Returns the current location.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getLocation(): ?Location
+=======
+    public function getLocation() : ?Location
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getLocation(): ?Location
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->location;
     }
@@ -114,7 +153,15 @@ final class DocBlock
      *
      * @see self::isTemplateEnd() for the check whether a closing marker was provided.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function isTemplateStart(): bool
+=======
+    public function isTemplateStart() : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function isTemplateStart(): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->isTemplateStart;
     }
@@ -124,7 +171,15 @@ final class DocBlock
      *
      * @see self::isTemplateStart() for a more complete description of the Docblock Template functionality.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function isTemplateEnd(): bool
+=======
+    public function isTemplateEnd() : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function isTemplateEnd(): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->isTemplateEnd;
     }
@@ -134,7 +189,15 @@ final class DocBlock
      *
      * @return Tag[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getTags(): array
+=======
+    public function getTags() : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getTags(): array
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->tags;
     }
@@ -147,7 +210,15 @@ final class DocBlock
      *
      * @return Tag[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getTagsByName(string $name): array
+=======
+    public function getTagsByName(string $name) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getTagsByName(string $name): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $result = [];
 
@@ -163,6 +234,10 @@ final class DocBlock
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Returns an array of tags with type matching the given name. If no tags are found
      * an empty array is returned.
      *
@@ -186,11 +261,24 @@ final class DocBlock
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Checks if a tag of a certain type is present in this DocBlock.
      *
      * @param string $name Tag name to check for.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function hasTag(string $name): bool
+=======
+    public function hasTag(string $name) : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function hasTag(string $name): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         foreach ($this->getTags() as $tag) {
             if ($tag->getName() === $name) {
@@ -206,7 +294,15 @@ final class DocBlock
      *
      * @param Tag $tagToRemove The tag to remove.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function removeTag(Tag $tagToRemove): void
+=======
+    public function removeTag(Tag $tagToRemove) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function removeTag(Tag $tagToRemove): void
+>>>>>>> f330c64 (optimization in progress)
     {
         foreach ($this->tags as $key => $tag) {
             if ($tag === $tagToRemove) {
@@ -221,7 +317,15 @@ final class DocBlock
      *
      * @param Tag $tag The tag to add.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function addTag(Tag $tag): void
+=======
+    private function addTag(Tag $tag) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function addTag(Tag $tag): void
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->tags[] = $tag;
     }

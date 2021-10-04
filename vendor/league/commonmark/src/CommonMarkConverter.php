@@ -27,7 +27,15 @@ class CommonMarkConverter extends MarkdownConverter
      * @deprecated in 1.5.0 and will be removed from 2.0.0.
      *   Use \Composer\InstalledVersions provided by composer-runtime-api instead.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public const VERSION = '1.6.6';
+=======
+    public const VERSION = '1.6.5';
+>>>>>>> 22c0e54 (table changes)
+=======
+    public const VERSION = '1.6.6';
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Create a new commonmark converter instance.

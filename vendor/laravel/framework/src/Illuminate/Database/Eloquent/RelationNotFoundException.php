@@ -25,6 +25,8 @@ class RelationNotFoundException extends RuntimeException
      *
      * @param  object  $model
      * @param  string  $relation
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string|null  $type
      * @return static
      */
@@ -37,6 +39,26 @@ class RelationNotFoundException extends RuntimeException
                 ? "Call to undefined relationship [{$relation}] on model [{$class}]."
                 : "Call to undefined relationship [{$relation}] on model [{$class}] of type [{$type}].",
         );
+=======
+=======
+     * @param  string|null  $type
+>>>>>>> f330c64 (optimization in progress)
+     * @return static
+     */
+    public static function make($model, $relation, $type = null)
+    {
+        $class = get_class($model);
+
+<<<<<<< HEAD
+        $instance = new static("Call to undefined relationship [{$relation}] on model [{$class}].");
+>>>>>>> 22c0e54 (table changes)
+=======
+        $instance = new static(
+            is_null($type)
+                ? "Call to undefined relationship [{$relation}] on model [{$class}]."
+                : "Call to undefined relationship [{$relation}] on model [{$class}] of type [{$type}].",
+        );
+>>>>>>> f330c64 (optimization in progress)
 
         $instance->model = $class;
         $instance->relation = $relation;

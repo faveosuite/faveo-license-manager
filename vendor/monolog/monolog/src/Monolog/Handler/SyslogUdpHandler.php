@@ -14,7 +14,14 @@ namespace Monolog\Handler;
 use DateTimeInterface;
 use Monolog\Logger;
 use Monolog\Handler\SyslogUdp\UdpSocket;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Monolog\Utils;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Monolog\Utils;
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * A Handler for logging to a remote syslogd server.
@@ -49,16 +56,32 @@ class SyslogUdpHandler extends AbstractSyslogHandler
      * @param bool       $bubble   Whether the messages that are handled can bubble up the stack or not
      * @param string     $ident    Program name or tag for each log message.
      * @param int        $rfc      RFC to format the message for.
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @throws MissingExtensionException
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @throws MissingExtensionException
+>>>>>>> f330c64 (optimization in progress)
      *
      * @phpstan-param self::RFC* $rfc
      */
     public function __construct(string $host, int $port = 514, $facility = LOG_USER, $level = Logger::DEBUG, bool $bubble = true, string $ident = 'php', int $rfc = self::RFC5424)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (!extension_loaded('sockets')) {
             throw new MissingExtensionException('The sockets extension is required to use the SyslogUdpHandler');
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         parent::__construct($facility, $level, $bubble);
 
         $this->ident = $ident;
@@ -95,8 +118,17 @@ class SyslogUdpHandler extends AbstractSyslogHandler
 
         $lines = preg_split('/$\R?^/m', (string) $message, -1, PREG_SPLIT_NO_EMPTY);
         if (false === $lines) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $pcreErrorCode = preg_last_error();
             throw new \RuntimeException('Could not preg_split: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+=======
+            throw new \RuntimeException('Could not preg_split: '.preg_last_error().' / '.preg_last_error_msg());
+>>>>>>> 22c0e54 (table changes)
+=======
+            $pcreErrorCode = preg_last_error();
+            throw new \RuntimeException('Could not preg_split: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+>>>>>>> f330c64 (optimization in progress)
         }
 
         return $lines;
@@ -117,16 +149,35 @@ class SyslogUdpHandler extends AbstractSyslogHandler
             $hostname = '-';
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($this->rfc === self::RFC3164) {
             // see https://github.com/phpstan/phpstan/issues/5348
             // @phpstan-ignore-next-line
             $dateNew = $datetime->setTimezone(new \DateTimeZone('UTC'));
             $date = $dateNew->format($this->dateFormats[$this->rfc]);
 
+=======
+        if ($this->rfc === self::RFC3164 && ($datetime instanceof \DateTimeImmutable || $datetime instanceof \DateTime)) {
+=======
+        if ($this->rfc === self::RFC3164) {
+            // see https://github.com/phpstan/phpstan/issues/5348
+            // @phpstan-ignore-next-line
+>>>>>>> f330c64 (optimization in progress)
+            $dateNew = $datetime->setTimezone(new \DateTimeZone('UTC'));
+            $date = $dateNew->format($this->dateFormats[$this->rfc]);
+
+<<<<<<< HEAD
+        if ($this->rfc === self::RFC3164) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             return "<$priority>" .
                 $date . " " .
                 $hostname . " " .
                 $this->ident . "[" . $pid . "]: ";
+<<<<<<< HEAD
+<<<<<<< HEAD
         }
 
         $date = $datetime->format($this->dateFormats[$this->rfc]);
@@ -136,6 +187,26 @@ class SyslogUdpHandler extends AbstractSyslogHandler
             $hostname . " " .
             $this->ident . " " .
             $pid . " - - ";
+=======
+        } else {
+            return "<$priority>1 " .
+                $date . " " .
+                $hostname . " " .
+                $this->ident . " " .
+                $pid . " - - ";
+        }
+>>>>>>> 22c0e54 (table changes)
+=======
+        }
+
+        $date = $datetime->format($this->dateFormats[$this->rfc]);
+
+        return "<$priority>1 " .
+            $date . " " .
+            $hostname . " " .
+            $this->ident . " " .
+            $pid . " - - ";
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

@@ -389,12 +389,21 @@ class Expectation implements ExpectationInterface
                 return true;
             }
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (is_object($expected)) {
             $matcher = \Mockery::getConfiguration()->getDefaultMatcher(get_class($expected));
             if ($matcher !== null) {
                 $expected = new $matcher($expected);
             }
         }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($expected instanceof \Mockery\Matcher\MatcherAbstract) {
             return $expected->match($actual);
         }
@@ -571,7 +580,15 @@ class Expectation implements ExpectationInterface
     public function andReturnArg($index)
     {
         if (!is_int($index) || $index < 0) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a non-negative integer.");
+=======
+            throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a positive integer.");
+>>>>>>> 22c0e54 (table changes)
+=======
+            throw new \InvalidArgumentException("Invalid argument index supplied. Index must be a non-negative integer.");
+>>>>>>> f330c64 (optimization in progress)
         }
         $closure = function (...$args) use ($index) {
             if (array_key_exists($index, $args)) {
@@ -671,6 +688,10 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Sets up a closure that will yield each of the provided args
      *
      * @param mixed ...$args
@@ -690,6 +711,11 @@ class Expectation implements ExpectationInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Alias to andSet(). Allows the natural English construct
      * - set('foo', 'bar')->andReturn('bar')
      *

@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 1.14.0 / 2021/09/16
 ===================
 
@@ -6,6 +10,11 @@
 * [added] Support for the 'never' return type [@ciaranmcnulty]
 * [fixed] Better error message when doubling intersection return types [@ciaranmcnulty]
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 1.13.0 / 2021/03/17
 ===================
 

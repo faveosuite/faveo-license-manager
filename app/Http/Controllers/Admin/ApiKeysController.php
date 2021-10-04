@@ -137,5 +137,31 @@ class ApiKeysController extends Controller
         return successResponse(Lang::get('lang.Api_show'),$apis,200);
     }
 
+    /**
+     * This method is used to check if the api key sent in every request is valid
+     * @param $api_key_secret
+     * @param $ip_address
+     * This return 1 or 0 depending on the success only then rest of the functionalities can be accessed
+     */
+    public function apiKeyCheck($api_key_secret,$ip_address){
+        if(!empty($api_key_secret)) {
+            $api = AflApiKeys::where('api_key_secret', $api_key_secret)->where('api_key_status', 1)->get()->toArray();
+            if (empty($api)) {
+                return 0;
+            } else {
+                $api_ip = new AflApiKeys();
+                $api_ips = $api_ip->value('api_key_ip');
+                if (!empty($api_ips)) {
+                    if (!$api_ips->contains($ip_address)) {
+                        return 0;
+                    } else {
+                       return 1;
+                    }
+                } else {
+                    return 1;
+                }
+            }
+        }
+    }
 
 }

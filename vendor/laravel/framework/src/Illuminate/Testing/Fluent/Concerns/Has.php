@@ -63,6 +63,8 @@ trait Has
 
         $this->interactsWith($key);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (! is_null($callback)) {
             return $this->has($key, function (self $scope) use ($length, $callback) {
                 return $scope
@@ -71,6 +73,21 @@ trait Has
                             $scope->count($length);
                         }
                     })
+=======
+        if (is_int($length) && ! is_null($callback)) {
+            return $this->has($key, function (self $scope) use ($length, $callback) {
+                return $scope->count($length)
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (! is_null($callback)) {
+            return $this->has($key, function (self $scope) use ($length, $callback) {
+                return $scope
+                    ->tap(function (self $scope) use ($length) {
+                        if (! is_null($length)) {
+                            $scope->count($length);
+                        }
+                    })
+>>>>>>> f330c64 (optimization in progress)
                     ->first($callback)
                     ->etc();
             });
@@ -90,7 +107,15 @@ trait Has
     /**
      * Assert that all of the given props exist.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  array|string  $key
+=======
+     * @param  array|string $key
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  array|string  $key
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function hasAll($key): self
@@ -109,6 +134,10 @@ trait Has
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Assert that at least one of the given props exists.
      *
      * @param  array|string  $key
@@ -131,9 +160,20 @@ trait Has
     }
 
     /**
+<<<<<<< HEAD
      * Assert that none of the given props exist.
      *
      * @param  array|string  $key
+=======
+     * Assert that none of the given props exist.
+     *
+     * @param  array|string $key
+>>>>>>> 22c0e54 (table changes)
+=======
+     * Assert that none of the given props exist.
+     *
+     * @param  array|string  $key
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function missingAll($key): self

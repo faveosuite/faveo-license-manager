@@ -253,15 +253,31 @@ class Str
     {
         $patterns = Arr::wrap($pattern);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $value = (string) $value;
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        $value = (string) $value;
+
+>>>>>>> f330c64 (optimization in progress)
         if (empty($patterns)) {
             return false;
         }
 
         foreach ($patterns as $pattern) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $pattern = (string) $pattern;
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            $pattern = (string) $pattern;
+
+>>>>>>> f330c64 (optimization in progress)
             // If the given value is an exact match we can of course return true right
             // from the beginning. Otherwise, we will translate asterisks and do an
             // actual pattern match against the two strings to see if they match.
@@ -395,7 +411,15 @@ class Str
     {
         $converter = new GithubFlavoredMarkdownConverter($options);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return (string) $converter->convertToHtml($string);
+=======
+        return $converter->convertToHtml($string);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return (string) $converter->convertToHtml($string);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -680,6 +704,10 @@ class Str
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Convert the given string to title case for each word.
      *
      * @param  string  $value
@@ -701,6 +729,11 @@ class Str
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the singular form of an English word.
      *
      * @param  string  $value

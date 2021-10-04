@@ -98,6 +98,8 @@ final class Address
         if ($address instanceof self) {
             return $address;
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
 
         if (!\is_string($address)) {
             throw new InvalidArgumentException(sprintf('An address can be an instance of Address or a string ("%s" given).', get_debug_type($address)));
@@ -112,6 +114,32 @@ final class Address
         }
 
         return new self($matches['addrSpec'], trim($matches['displayName'], ' \'"'));
+=======
+        if (\is_string($address)) {
+            if (false === strpos($address, '<')) {
+                return new self($address);
+            }
+=======
+>>>>>>> f330c64 (optimization in progress)
+
+        if (!\is_string($address)) {
+            throw new InvalidArgumentException(sprintf('An address can be an instance of Address or a string ("%s" given).', get_debug_type($address)));
+        }
+
+        if (false === strpos($address, '<')) {
+            return new self($address);
+        }
+
+        if (!preg_match(self::FROM_STRING_PATTERN, $address, $matches)) {
+            throw new InvalidArgumentException(sprintf('Could not parse "%s" to a "%s" instance.', $address, self::class));
+        }
+
+<<<<<<< HEAD
+        throw new InvalidArgumentException(sprintf('An address can be an instance of Address or a string ("%s" given).', get_debug_type($address)));
+>>>>>>> 22c0e54 (table changes)
+=======
+        return new self($matches['addrSpec'], trim($matches['displayName'], ' \'"'));
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -136,7 +164,15 @@ final class Address
     {
         trigger_deprecation('symfony/mime', '5.2', '"%s()" is deprecated, use "%s::create()" instead.', __METHOD__, __CLASS__);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!str_contains($string, '<')) {
+=======
+        if (false === strpos($string, '<')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!str_contains($string, '<')) {
+>>>>>>> f330c64 (optimization in progress)
             return new self($string, '');
         }
 

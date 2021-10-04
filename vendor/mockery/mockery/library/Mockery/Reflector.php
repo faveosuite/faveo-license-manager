@@ -71,6 +71,10 @@ class Reflector
      */
     public static function getReturnType(\ReflectionMethod $method, $withoutNullable = false)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $type = $method->getReturnType();
 
         if (is_null($type) && method_exists($method, 'getTentativeReturnType')) {
@@ -78,12 +82,60 @@ class Reflector
         }
 
         if (is_null($type)) {
+<<<<<<< HEAD
             return null;
         }
 
         $typeHint = self::typeToString($type, $method->getDeclaringClass());
 
         return (!$withoutNullable && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
+    }
+
+    /**
+     * Compute the string representation for the simplest return type.
+     *
+     * @param \ReflectionParameter $param
+     *
+     * @return string|null
+     */
+    public static function getSimplestReturnType(\ReflectionMethod $method)
+    {
+        $type = $method->getReturnType();
+
+        if (is_null($type) && method_exists($method, 'getTentativeReturnType')) {
+            $type = $method->getTentativeReturnType();
+        }
+
+        if (is_null($type) || $type->allowsNull()) {
+            return null;
+        }
+
+        $typeInformation = self::getTypeInformation($type, $method->getDeclaringClass());
+
+        // return the first primitive type hint
+        foreach ($typeInformation as $info) {
+            if ($info['isPrimitive']) {
+                return $info['typeHint'];
+            }
+        }
+
+        // if no primitive type, return the first type
+        foreach ($typeInformation as $info) {
+            return $info['typeHint'];
+        }
+
+        return null;
+=======
+        if (!$method->hasReturnType()) {
+=======
+>>>>>>> f330c64 (optimization in progress)
+            return null;
+        }
+
+        $typeHint = self::typeToString($type, $method->getDeclaringClass());
+
+        return (!$withoutNullable && $type->allowsNull()) ? self::formatNullableType($typeHint) : $typeHint;
+>>>>>>> 22c0e54 (table changes)
     }
 
     /**
@@ -132,6 +184,10 @@ class Reflector
      */
     private static function typeToString(\ReflectionType $type, \ReflectionClass $declaringClass)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return \implode('|', \array_map(function (array $typeInformation) {
             return $typeInformation['typeHint'];
         }, self::getTypeInformation($type, $declaringClass)));
@@ -147,6 +203,7 @@ class Reflector
      */
     private static function getTypeInformation(\ReflectionType $type, \ReflectionClass $declaringClass)
     {
+<<<<<<< HEAD
         // PHP 8 union types can be recursively processed
         if ($type instanceof \ReflectionUnionType) {
             $types = [];
@@ -162,11 +219,39 @@ class Reflector
             }
 
             return $types;
+=======
+=======
+>>>>>>> f330c64 (optimization in progress)
+        // PHP 8 union types can be recursively processed
+        if ($type instanceof \ReflectionUnionType) {
+            $types = [];
+
+<<<<<<< HEAD
+                return $typeHint === 'null' ? null : $typeHint;
+            }, $type->getTypes())));
+>>>>>>> 22c0e54 (table changes)
+=======
+            foreach ($type->getTypes() as $innterType) {
+                foreach (self::getTypeInformation($innterType, $declaringClass) as $info) {
+                    if ($info['typeHint'] === 'null' && $info['isPrimitive']) {
+                        continue;
+                    }
+
+                    $types[] = $info;
+                }
+            }
+
+            return $types;
+>>>>>>> f330c64 (optimization in progress)
         }
 
         // $type must be an instance of \ReflectionNamedType
         $typeHint = $type->getName();
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         // builtins can be returned as is
         if ($type->isBuiltin()) {
             return [
@@ -185,6 +270,14 @@ class Reflector
                     'isPrimitive' => false,
                 ],
             ];
+<<<<<<< HEAD
+=======
+        // builtins and 'static' can be returned as is
+        if (($type->isBuiltin() || $typeHint === 'static')) {
+            return $typeHint;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         }
 
         // 'self' needs to be resolved to the name of the declaring class
@@ -198,17 +291,35 @@ class Reflector
         }
 
         // class names need prefixing with a slash
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return [
             [
                 'typeHint' => sprintf('\\%s', $typeHint),
                 'isPrimitive' => false,
             ],
         ];
+<<<<<<< HEAD
+=======
+        return sprintf('\\%s', $typeHint);
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
      * Format the given type as a nullable type.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * This method MUST only be called on PHP 7.1+.
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @param string $typeHint
      *
      * @return string

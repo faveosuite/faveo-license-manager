@@ -23,12 +23,24 @@ use Ramsey\Uuid\Lazy\LazyUuidFromString;
 use Ramsey\Uuid\Rfc4122\FieldsInterface as Rfc4122FieldsInterface;
 use Ramsey\Uuid\Type\Hexadecimal;
 use Ramsey\Uuid\Type\Integer as IntegerObject;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 use ValueError;
 
 use function assert;
 use function bin2hex;
 use function preg_match;
 use function sprintf;
+<<<<<<< HEAD
+=======
+
+use function bin2hex;
+use function preg_match;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 use function str_replace;
 use function strcmp;
 use function strlen;
@@ -241,9 +253,21 @@ class Uuid implements UuidInterface
      * ```
      * use Ramsey\Uuid\Uuid;
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * $timeBasedUuid = Uuid::uuid1();
      * $namespaceMd5Uuid = Uuid::uuid3(Uuid::NAMESPACE_URL, 'http://php.net/');
      * $randomUuid = Uuid::uuid4();
+=======
+     * $timeBasedUuid     = Uuid::uuid1();
+     * $namespaceMd5Uuid  = Uuid::uuid3(Uuid::NAMESPACE_URL, 'http://php.net/');
+     * $randomUuid        = Uuid::uuid4();
+>>>>>>> 22c0e54 (table changes)
+=======
+     * $timeBasedUuid = Uuid::uuid1();
+     * $namespaceMd5Uuid = Uuid::uuid3(Uuid::NAMESPACE_URL, 'http://php.net/');
+     * $randomUuid = Uuid::uuid4();
+>>>>>>> f330c64 (optimization in progress)
      * $namespaceSha1Uuid = Uuid::uuid5(Uuid::NAMESPACE_URL, 'http://php.net/');
      * ```
      *
@@ -288,6 +312,10 @@ class Uuid implements UuidInterface
      */
     public function serialize(): string
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return $this->getFields()->getBytes();
     }
 
@@ -297,6 +325,12 @@ class Uuid implements UuidInterface
     public function __serialize(): array
     {
         return ['bytes' => $this->serialize()];
+<<<<<<< HEAD
+=======
+        return $this->getBytes();
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -323,6 +357,10 @@ class Uuid implements UuidInterface
         $this->timeConverter = $uuid->timeConverter;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * @param array{bytes: string} $data
      */
@@ -337,6 +375,11 @@ class Uuid implements UuidInterface
         $this->unserialize($data['bytes']);
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function compareTo(UuidInterface $other): int
     {
         $compare = strcmp($this->toString(), $other->toString());
@@ -477,8 +520,16 @@ class Uuid implements UuidInterface
     public static function fromString(string $uuid): UuidInterface
     {
         if (! self::$factoryReplaced && preg_match(LazyUuidFromString::VALID_REGEX, $uuid) === 1) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             assert($uuid !== '');
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            assert($uuid !== '');
+
+>>>>>>> f330c64 (optimization in progress)
             return new LazyUuidFromString(strtolower($uuid));
         }
 

@@ -25,6 +25,15 @@ interface MetadataAwareInterface
      * domain and then by key. Passing an empty key will return an array with all
      * metadata for the given domain.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     * @param string $key    The key
+     * @param string $domain The domain name
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return mixed The value that was set or an array with the domains/keys or null
      */
     public function getMetadata(string $key = '', string $domain = 'messages');
@@ -32,7 +41,17 @@ interface MetadataAwareInterface
     /**
      * Adds metadata to a message domain.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param mixed $value
+=======
+     * @param string $key    The key
+     * @param mixed  $value  The value
+     * @param string $domain The domain name
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param mixed $value
+>>>>>>> f330c64 (optimization in progress)
      */
     public function setMetadata(string $key, $value, string $domain = 'messages');
 
@@ -41,6 +60,15 @@ interface MetadataAwareInterface
      *
      * Passing an empty domain will delete all metadata. Passing an empty key will
      * delete all metadata for the given domain.
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+     * @param string $key    The key
+     * @param string $domain The domain name
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      */
     public function deleteMetadata(string $key = '', string $domain = 'messages');
 }

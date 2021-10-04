@@ -19,6 +19,14 @@ use RuntimeException as PhpRuntimeException;
 /**
  * Thrown to indicate a builder is unable to build a UUID
  */
+<<<<<<< HEAD
+<<<<<<< HEAD
 class UnableToBuildUuidException extends PhpRuntimeException implements UuidExceptionInterface
+=======
+class UnableToBuildUuidException extends PhpRuntimeException
+>>>>>>> 22c0e54 (table changes)
+=======
+class UnableToBuildUuidException extends PhpRuntimeException implements UuidExceptionInterface
+>>>>>>> f330c64 (optimization in progress)
 {
 }

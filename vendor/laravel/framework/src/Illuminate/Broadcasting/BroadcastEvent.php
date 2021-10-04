@@ -3,7 +3,15 @@
 namespace Illuminate\Broadcasting;
 
 use Illuminate\Bus\Queueable;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Contracts\Broadcasting\Factory as BroadcastingFactory;
+=======
+use Illuminate\Contracts\Broadcasting\Broadcaster;
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Contracts\Broadcasting\Factory as BroadcastingFactory;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Arr;
@@ -52,10 +60,24 @@ class BroadcastEvent implements ShouldQueue
     /**
      * Handle the queued job.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  \Illuminate\Contracts\Broadcasting\Factory  $manager
      * @return void
      */
     public function handle(BroadcastingFactory $manager)
+=======
+     * @param  \Illuminate\Contracts\Broadcasting\Broadcaster  $broadcaster
+     * @return void
+     */
+    public function handle(Broadcaster $broadcaster)
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  \Illuminate\Contracts\Broadcasting\Factory  $manager
+     * @return void
+     */
+    public function handle(BroadcastingFactory $manager)
+>>>>>>> f330c64 (optimization in progress)
     {
         $name = method_exists($this->event, 'broadcastAs')
                 ? $this->event->broadcastAs() : get_class($this->event);
@@ -66,6 +88,10 @@ class BroadcastEvent implements ShouldQueue
             return;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $connections = method_exists($this->event, 'broadcastConnections')
                             ? $this->event->broadcastConnections()
                             : [null];
@@ -77,6 +103,15 @@ class BroadcastEvent implements ShouldQueue
                 $channels, $name, $payload
             );
         }
+<<<<<<< HEAD
+=======
+        $broadcaster->broadcast(
+            $channels, $name,
+            $this->getPayloadFromEvent($this->event)
+        );
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -87,9 +122,22 @@ class BroadcastEvent implements ShouldQueue
      */
     protected function getPayloadFromEvent($event)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (method_exists($event, 'broadcastWith') &&
             ! is_null($payload = $event->broadcastWith())) {
             return array_merge($payload, ['socket' => data_get($event, 'socket')]);
+=======
+        if (method_exists($event, 'broadcastWith')) {
+            return array_merge(
+                $event->broadcastWith(), ['socket' => data_get($event, 'socket')]
+            );
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (method_exists($event, 'broadcastWith') &&
+            ! is_null($payload = $event->broadcastWith())) {
+            return array_merge($payload, ['socket' => data_get($event, 'socket')]);
+>>>>>>> f330c64 (optimization in progress)
         }
 
         $payload = [];

@@ -31,7 +31,15 @@ final class Fqsen implements Reference
     /**
      * @return string string representation of the referenced fqsen
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return (string) $this->fqsen;
     }

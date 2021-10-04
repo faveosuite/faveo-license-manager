@@ -53,6 +53,9 @@ class EmailsController extends Controller
 
     }
     }
+    /**
+     * Shows the list of all the email fields.
+     */
     public function show(){
         $emails = AflEmails::all();
         return successResponse(Lang::get('lang.Emails_Show'),$emails,200);

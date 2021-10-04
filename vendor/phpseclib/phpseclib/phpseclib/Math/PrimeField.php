@@ -111,6 +111,10 @@ class PrimeField extends FiniteField
     {
         return Integer::getModulo($this->instanceID)->getLength();
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      *  Destructor
@@ -119,4 +123,9 @@ class PrimeField extends FiniteField
     {
         Integer::cleanupCache($this->instanceID);
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

@@ -18,6 +18,13 @@ use Ramsey\Uuid\Codec\CodecInterface;
 use Ramsey\Uuid\Converter\NumberConverterInterface;
 use Ramsey\Uuid\Converter\TimeConverterInterface;
 use Ramsey\Uuid\Uuid;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+use Ramsey\Uuid\UuidInterface;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * Guid represents a UUID with "native" (little-endian) byte order
@@ -48,7 +55,15 @@ use Ramsey\Uuid\Uuid;
  *
  * @psalm-immutable
  */
+<<<<<<< HEAD
+<<<<<<< HEAD
 final class Guid extends Uuid
+=======
+final class Guid extends Uuid implements UuidInterface
+>>>>>>> 22c0e54 (table changes)
+=======
+final class Guid extends Uuid
+>>>>>>> f330c64 (optimization in progress)
 {
     public function __construct(
         Fields $fields,

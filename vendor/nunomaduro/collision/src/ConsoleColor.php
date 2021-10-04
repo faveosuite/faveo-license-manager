@@ -12,12 +12,30 @@ use NunoMaduro\Collision\Exceptions\ShouldNotHappen;
  */
 final class ConsoleColor
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
     public const FOREGROUND = 38;
     public const BACKGROUND = 48;
 
     public const COLOR256_REGEXP = '~^(bg_)?color_(\d{1,3})$~';
 
     public const RESET_STYLE = 0;
+=======
+    const FOREGROUND = 38;
+    const BACKGROUND = 48;
+=======
+    public const FOREGROUND = 38;
+    public const BACKGROUND = 48;
+>>>>>>> f330c64 (optimization in progress)
+
+    public const COLOR256_REGEXP = '~^(bg_)?color_(\d{1,3})$~';
+
+<<<<<<< HEAD
+    const RESET_STYLE = 0;
+>>>>>>> 22c0e54 (table changes)
+=======
+    public const RESET_STYLE = 0;
+>>>>>>> f330c64 (optimization in progress)
 
     /** @var bool */
     private $isSupported;
@@ -205,11 +223,20 @@ final class ConsoleColor
      */
     public function isSupported()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         // The COLLISION_FORCE_COLORS variable is for internal purposes only
         if (getenv('COLLISION_FORCE_COLORS') !== false) {
             return true;
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (DIRECTORY_SEPARATOR === '\\') {
             return getenv('ANSICON') !== false || getenv('ConEmuANSI') === 'ON';
         }

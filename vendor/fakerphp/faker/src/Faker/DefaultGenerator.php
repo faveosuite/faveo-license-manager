@@ -5,8 +5,16 @@ namespace Faker;
 /**
  * This generator returns a default value for all called properties
  * and methods. It works with Faker\Generator\Base->optional().
+<<<<<<< HEAD
+<<<<<<< HEAD
  *
  * @mixin Generator
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+ *
+ * @mixin Generator
+>>>>>>> f330c64 (optimization in progress)
  */
 class DefaultGenerator
 {

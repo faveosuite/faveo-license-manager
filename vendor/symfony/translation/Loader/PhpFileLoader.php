@@ -23,7 +23,15 @@ class PhpFileLoader extends FileLoader
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected function loadResource(string $resource)
+=======
+    protected function loadResource($resource)
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected function loadResource(string $resource)
+>>>>>>> f330c64 (optimization in progress)
     {
         if ([] === self::$cache && \function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), \FILTER_VALIDATE_BOOLEAN) && (!\in_array(\PHP_SAPI, ['cli', 'phpdbg'], true) || filter_var(ini_get('opcache.enable_cli'), \FILTER_VALIDATE_BOOLEAN))) {
             self::$cache = null;

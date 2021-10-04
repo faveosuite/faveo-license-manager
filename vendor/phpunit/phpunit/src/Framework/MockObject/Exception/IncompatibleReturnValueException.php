@@ -23,7 +23,15 @@ final class IncompatibleReturnValueException extends \PHPUnit\Framework\Exceptio
     {
         parent::__construct(
             sprintf(
+<<<<<<< HEAD
+<<<<<<< HEAD
                 'Method %s may not return value of type %s, its declared return type is "%s"',
+=======
+                'Method %s may not return value of type %s, its return declaration is "%s"',
+>>>>>>> 22c0e54 (table changes)
+=======
+                'Method %s may not return value of type %s, its declared return type is "%s"',
+>>>>>>> f330c64 (optimization in progress)
                 $method->getName(),
                 is_object($value) ? get_class($value) : gettype($value),
                 $method->getReturnTypeDeclaration()

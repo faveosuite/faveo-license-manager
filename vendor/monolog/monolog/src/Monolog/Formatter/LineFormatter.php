@@ -67,7 +67,15 @@ class LineFormatter extends NormalizerFormatter
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * {@inheritDoc}
+=======
+     * {@inheritdoc}
+>>>>>>> 22c0e54 (table changes)
+=======
+     * {@inheritDoc}
+>>>>>>> f330c64 (optimization in progress)
      */
     public function format(array $record): string
     {
@@ -111,8 +119,17 @@ class LineFormatter extends NormalizerFormatter
         if (false !== strpos($output, '%')) {
             $output = preg_replace('/%(?:extra|context)\..+?%/', '', $output);
             if (null === $output) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                 $pcreErrorCode = preg_last_error();
                 throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+=======
+                throw new \RuntimeException('Failed to run preg_replace: ' . preg_last_error() . ' / ' . preg_last_error_msg());
+>>>>>>> 22c0e54 (table changes)
+=======
+                $pcreErrorCode = preg_last_error();
+                throw new \RuntimeException('Failed to run preg_replace: ' . $pcreErrorCode . ' / ' . Utils::pcreLastErrorMessage($pcreErrorCode));
+>>>>>>> f330c64 (optimization in progress)
             }
         }
 

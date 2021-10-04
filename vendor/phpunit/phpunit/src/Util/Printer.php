@@ -100,7 +100,14 @@ class Printer
             if (PHP_SAPI !== 'cli' && PHP_SAPI !== 'phpdbg') {
                 $buffer = htmlspecialchars($buffer, ENT_COMPAT | ENT_SUBSTITUTE);
             }
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
             print $buffer;
         }
     }

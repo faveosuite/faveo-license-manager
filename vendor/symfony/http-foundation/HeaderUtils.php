@@ -176,12 +176,28 @@ class HeaderUtils
         }
 
         // percent characters aren't safe in fallback.
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_contains($filenameFallback, '%')) {
+=======
+        if (false !== strpos($filenameFallback, '%')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_contains($filenameFallback, '%')) {
+>>>>>>> f330c64 (optimization in progress)
             throw new \InvalidArgumentException('The filename fallback cannot contain the "%" character.');
         }
 
         // path separators aren't allowed in either.
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_contains($filename, '/') || str_contains($filename, '\\') || str_contains($filenameFallback, '/') || str_contains($filenameFallback, '\\')) {
+=======
+        if (false !== strpos($filename, '/') || false !== strpos($filename, '\\') || false !== strpos($filenameFallback, '/') || false !== strpos($filenameFallback, '\\')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_contains($filename, '/') || str_contains($filename, '\\') || str_contains($filenameFallback, '/') || str_contains($filenameFallback, '\\')) {
+>>>>>>> f330c64 (optimization in progress)
             throw new \InvalidArgumentException('The filename and the fallback cannot contain the "/" and "\\" characters.');
         }
 

@@ -57,7 +57,14 @@ class MemcachedSessionHandler extends AbstractSessionHandler
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function close()
     {
         return $this->memcached->quit();
@@ -74,7 +81,14 @@ class MemcachedSessionHandler extends AbstractSessionHandler
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function updateTimestamp($sessionId, $data)
     {
         $this->memcached->touch($this->prefix.$sessionId, time() + $this->ttl);
@@ -101,6 +115,8 @@ class MemcachedSessionHandler extends AbstractSessionHandler
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return int|false
      */
     #[\ReturnTypeWillChange]
@@ -108,6 +124,22 @@ class MemcachedSessionHandler extends AbstractSessionHandler
     {
         // not required here because memcached will auto expire the records anyhow.
         return 0;
+=======
+     * @return bool
+=======
+     * @return int|false
+>>>>>>> f330c64 (optimization in progress)
+     */
+    #[\ReturnTypeWillChange]
+    public function gc($maxlifetime)
+    {
+        // not required here because memcached will auto expire the records anyhow.
+<<<<<<< HEAD
+        return true;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return 0;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

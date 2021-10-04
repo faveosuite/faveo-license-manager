@@ -90,10 +90,19 @@ class TelegramBotHandler extends AbstractProcessingHandler
         bool $disableWebPagePreview = null,
         bool $disableNotification = null
     ) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (!extension_loaded('curl')) {
             throw new MissingExtensionException('The curl extension is needed to use the TelegramBotHandler');
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         parent::__construct($level, $bubble);
 
         $this->apiKey = $apiKey;
@@ -129,7 +138,15 @@ class TelegramBotHandler extends AbstractProcessingHandler
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * {@inheritDoc}
+=======
+     * {@inheritdoc}
+>>>>>>> 22c0e54 (table changes)
+=======
+     * {@inheritDoc}
+>>>>>>> f330c64 (optimization in progress)
      */
     public function handleBatch(array $records): void
     {

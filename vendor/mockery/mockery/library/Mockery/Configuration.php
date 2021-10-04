@@ -75,6 +75,10 @@ class Configuration
     protected $_objectFormatters = array();
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Default argument matchers
      *
      * @var array
@@ -82,6 +86,11 @@ class Configuration
     protected $_defaultMatchers = array();
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Set boolean to allow/prevent mocking of non-existent methods
      *
      * @param bool $flag
@@ -246,6 +255,10 @@ class Configuration
         }
         return $defaultFormatter;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * @param string $class
@@ -280,4 +293,9 @@ class Configuration
         }
         return null;
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

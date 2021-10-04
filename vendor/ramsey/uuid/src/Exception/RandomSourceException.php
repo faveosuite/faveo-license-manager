@@ -22,6 +22,14 @@ use RuntimeException as PhpRuntimeException;
  * This exception is used mostly to indicate that random_bytes() or random_int()
  * threw an exception. However, it may be used for other sources of random data.
  */
+<<<<<<< HEAD
+<<<<<<< HEAD
 class RandomSourceException extends PhpRuntimeException implements UuidExceptionInterface
+=======
+class RandomSourceException extends PhpRuntimeException
+>>>>>>> 22c0e54 (table changes)
+=======
+class RandomSourceException extends PhpRuntimeException implements UuidExceptionInterface
+>>>>>>> f330c64 (optimization in progress)
 {
 }

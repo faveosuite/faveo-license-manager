@@ -274,6 +274,10 @@ class ValidationRuleParser
                 return $rule;
         }
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Expand and conditional rules in the given array of rules.
@@ -305,4 +309,9 @@ class ValidationRuleParser
             })->filter()->flatten(1)->values()->all()];
         })->all();
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

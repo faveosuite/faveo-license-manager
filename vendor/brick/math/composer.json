@@ -20,7 +20,15 @@
     "require-dev": {
         "phpunit/phpunit": "^7.5.15 || ^8.5 || ^9.0",
         "php-coveralls/php-coveralls": "^2.2",
+<<<<<<< HEAD
+<<<<<<< HEAD
         "vimeo/psalm": "4.9.2"
+=======
+        "vimeo/psalm": "4.3.2"
+>>>>>>> 22c0e54 (table changes)
+=======
+        "vimeo/psalm": "4.9.2"
+>>>>>>> f330c64 (optimization in progress)
     },
     "autoload": {
         "psr-4": {

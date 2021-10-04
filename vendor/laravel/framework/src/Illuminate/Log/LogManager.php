@@ -62,6 +62,10 @@ class LogManager implements LoggerInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Build an on-demand log channel.
      *
      * @param  array  $config
@@ -73,6 +77,11 @@ class LogManager implements LoggerInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a new, on-demand aggregate logger instance.
      *
      * @param  array  $channels
@@ -106,7 +115,15 @@ class LogManager implements LoggerInterface
      */
     public function driver($driver = null)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->get($this->parseDriver($driver));
+=======
+        return $this->get($driver ?? $this->getDefaultDriver());
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->get($this->parseDriver($driver));
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -121,6 +138,8 @@ class LogManager implements LoggerInterface
      * Attempt to get the log from the local cache.
      *
      * @param  string  $name
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  array|null  $config
      * @return \Psr\Log\LoggerInterface
      */
@@ -128,6 +147,21 @@ class LogManager implements LoggerInterface
     {
         try {
             return $this->channels[$name] ?? with($this->resolve($name, $config), function ($logger) use ($name) {
+=======
+=======
+     * @param  array|null  $config
+>>>>>>> f330c64 (optimization in progress)
+     * @return \Psr\Log\LoggerInterface
+     */
+    protected function get($name, ?array $config = null)
+    {
+        try {
+<<<<<<< HEAD
+            return $this->channels[$name] ?? with($this->resolve($name), function ($logger) use ($name) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            return $this->channels[$name] ?? with($this->resolve($name, $config), function ($logger) use ($name) {
+>>>>>>> f330c64 (optimization in progress)
                 return $this->channels[$name] = $this->tap($name, new Logger($logger, $this->app['events']));
             });
         } catch (Throwable $e) {
@@ -192,14 +226,33 @@ class LogManager implements LoggerInterface
      * Resolve the given log instance by name.
      *
      * @param  string  $name
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  array|null  $config
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  array|null  $config
+>>>>>>> f330c64 (optimization in progress)
      * @return \Psr\Log\LoggerInterface
      *
      * @throws \InvalidArgumentException
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected function resolve($name, ?array $config = null)
     {
         $config = $config ?? $this->configurationFor($name);
+=======
+    protected function resolve($name)
+    {
+        $config = $this->configurationFor($name);
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected function resolve($name, ?array $config = null)
+    {
+        $config = $config ?? $this->configurationFor($name);
+>>>>>>> f330c64 (optimization in progress)
 
         if (is_null($config)) {
             throw new InvalidArgumentException("Log [{$name}] is not defined.");
@@ -255,6 +308,8 @@ class LogManager implements LoggerInterface
         }
 
         $handlers = collect($config['channels'])->flatMap(function ($channel) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             return $channel instanceof LoggerInterface
                 ? $channel->getHandlers()
                 : $this->channel($channel)->getHandlers();
@@ -264,6 +319,24 @@ class LogManager implements LoggerInterface
             return $channel instanceof LoggerInterface
                 ? $channel->getProcessors()
                 : $this->channel($channel)->getProcessors();
+=======
+            return $this->channel($channel)->getHandlers();
+        })->all();
+
+        $processors = collect($config['channels'])->flatMap(function ($channel) {
+            return $this->channel($channel)->getProcessors();
+>>>>>>> 22c0e54 (table changes)
+=======
+            return $channel instanceof LoggerInterface
+                ? $channel->getHandlers()
+                : $this->channel($channel)->getHandlers();
+        })->all();
+
+        $processors = collect($config['channels'])->flatMap(function ($channel) {
+            return $channel instanceof LoggerInterface
+                ? $channel->getProcessors()
+                : $this->channel($channel)->getProcessors();
+>>>>>>> f330c64 (optimization in progress)
         })->all();
 
         if ($config['ignore_exceptions'] ?? false) {
@@ -414,6 +487,8 @@ class LogManager implements LoggerInterface
      */
     protected function prepareHandler(HandlerInterface $handler, array $config = [])
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (Monolog::API !== 1 && (Monolog::API !== 2 || ! $handler instanceof FormattableHandlerInterface)) {
             return $handler;
         }
@@ -421,6 +496,27 @@ class LogManager implements LoggerInterface
         if (! isset($config['formatter'])) {
             $handler->setFormatter($this->formatter());
         } elseif ($config['formatter'] !== 'default') {
+=======
+        $isHandlerFormattable = false;
+
+        if (Monolog::API === 1) {
+            $isHandlerFormattable = true;
+        } elseif (Monolog::API === 2 && $handler instanceof FormattableHandlerInterface) {
+            $isHandlerFormattable = true;
+=======
+        if (Monolog::API !== 1 && (Monolog::API !== 2 || ! $handler instanceof FormattableHandlerInterface)) {
+            return $handler;
+>>>>>>> f330c64 (optimization in progress)
+        }
+
+        if (! isset($config['formatter'])) {
+            $handler->setFormatter($this->formatter());
+<<<<<<< HEAD
+        } elseif ($isHandlerFormattable && $config['formatter'] !== 'default') {
+>>>>>>> 22c0e54 (table changes)
+=======
+        } elseif ($config['formatter'] !== 'default') {
+>>>>>>> f330c64 (optimization in progress)
             $handler->setFormatter($this->app->make($config['formatter'], $config['formatter_with'] ?? []));
         }
 
@@ -463,7 +559,15 @@ class LogManager implements LoggerInterface
     /**
      * Get the default log driver name.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return string|null
+=======
+     * @return string
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return string|null
+>>>>>>> f330c64 (optimization in progress)
      */
     public function getDefaultDriver()
     {
@@ -503,7 +607,15 @@ class LogManager implements LoggerInterface
      */
     public function forgetChannel($driver = null)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $driver = $this->parseDriver($driver);
+=======
+        $driver = $driver ?? $this->getDefaultDriver();
+>>>>>>> 22c0e54 (table changes)
+=======
+        $driver = $this->parseDriver($driver);
+>>>>>>> f330c64 (optimization in progress)
 
         if (isset($this->channels[$driver])) {
             unset($this->channels[$driver]);
@@ -511,6 +623,10 @@ class LogManager implements LoggerInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Parse the driver name.
      *
      * @param  string|null  $driver
@@ -528,10 +644,22 @@ class LogManager implements LoggerInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * System is unusable.
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function emergency($message, array $context = [])
@@ -547,6 +675,13 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function alert($message, array $context = [])
@@ -561,6 +696,13 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function critical($message, array $context = [])
@@ -574,6 +716,13 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function error($message, array $context = [])
@@ -589,6 +738,13 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function warning($message, array $context = [])
@@ -601,6 +757,13 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function notice($message, array $context = [])
@@ -615,6 +778,13 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function info($message, array $context = [])
@@ -627,6 +797,13 @@ class LogManager implements LoggerInterface
      *
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function debug($message, array $context = [])
@@ -640,6 +817,13 @@ class LogManager implements LoggerInterface
      * @param  mixed  $level
      * @param  string  $message
      * @param  array  $context
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function log($level, $message, array $context = [])

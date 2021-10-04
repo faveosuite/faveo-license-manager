@@ -3,7 +3,14 @@
 namespace Illuminate\Database\Eloquent\Concerns;
 
 use Closure;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Database\ClassMorphViolationException;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Database\ClassMorphViolationException;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
@@ -732,10 +739,19 @@ trait HasRelationships
             return array_search(static::class, $morphMap, true);
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (Relation::requiresMorphMap()) {
             throw new ClassMorphViolationException($this);
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         return static::class;
     }
 

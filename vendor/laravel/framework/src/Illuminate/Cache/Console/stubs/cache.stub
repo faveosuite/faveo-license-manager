@@ -14,6 +14,8 @@ class CreateCacheTable extends Migration
     public function up()
     {
         Schema::create('cache', function (Blueprint $table) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $table->string('key')->primary();
             $table->mediumText('value');
             $table->integer('expiration');
@@ -24,6 +26,24 @@ class CreateCacheTable extends Migration
             $table->string('owner');
             $table->integer('expiration');
         });
+=======
+            $table->string('key')->unique();
+            $table->mediumText('value');
+            $table->integer('expiration');
+        });
+>>>>>>> 22c0e54 (table changes)
+=======
+            $table->string('key')->primary();
+            $table->mediumText('value');
+            $table->integer('expiration');
+        });
+
+        Schema::create('cache_locks', function (Blueprint $table) {
+            $table->string('key')->primary();
+            $table->string('owner');
+            $table->integer('expiration');
+        });
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -34,6 +54,13 @@ class CreateCacheTable extends Migration
     public function down()
     {
         Schema::dropIfExists('cache');
+<<<<<<< HEAD
+<<<<<<< HEAD
         Schema::dropIfExists('cache_locks');
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        Schema::dropIfExists('cache_locks');
+>>>>>>> f330c64 (optimization in progress)
     }
 }

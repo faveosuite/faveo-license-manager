@@ -39,7 +39,14 @@ use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
 use Webmozart\Assert\Assert;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function array_merge;
 use function array_slice;
 use function call_user_func_array;
@@ -138,7 +145,15 @@ final class StandardTagFactory implements TagFactory
         $this->addService($fqsenResolver, FqsenResolver::class);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function create(string $tagLine, ?TypeContext $context = null): Tag
+=======
+    public function create(string $tagLine, ?TypeContext $context = null) : Tag
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function create(string $tagLine, ?TypeContext $context = null): Tag
+>>>>>>> f330c64 (optimization in progress)
     {
         if (!$context) {
             $context = new TypeContext('');
@@ -152,17 +167,41 @@ final class StandardTagFactory implements TagFactory
     /**
      * @param mixed $value
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function addParameter(string $name, $value): void
+=======
+    public function addParameter(string $name, $value) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function addParameter(string $name, $value): void
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->serviceLocator[$name] = $value;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function addService(object $service, ?string $alias = null): void
+=======
+    public function addService(object $service, ?string $alias = null) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function addService(object $service, ?string $alias = null): void
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->serviceLocator[$alias ?: get_class($service)] = $service;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function registerTagHandler(string $tagName, string $handler): void
+=======
+    public function registerTagHandler(string $tagName, string $handler) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function registerTagHandler(string $tagName, string $handler): void
+>>>>>>> f330c64 (optimization in progress)
     {
         Assert::stringNotEmpty($tagName);
         Assert::classExists($handler);
@@ -182,7 +221,15 @@ final class StandardTagFactory implements TagFactory
      *
      * @return string[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function extractTagParts(string $tagLine): array
+=======
+    private function extractTagParts(string $tagLine) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function extractTagParts(string $tagLine): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $matches = [];
         if (!preg_match('/^@(' . self::REGEX_TAGNAME . ')((?:[\s\(\{])\s*([^\s].*)|$)/us', $tagLine, $matches)) {
@@ -202,7 +249,15 @@ final class StandardTagFactory implements TagFactory
      * Creates a new tag object with the given name and body or returns null if the tag name was recognized but the
      * body was invalid.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function createTag(string $body, string $name, TypeContext $context): Tag
+=======
+    private function createTag(string $body, string $name, TypeContext $context) : Tag
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function createTag(string $body, string $name, TypeContext $context): Tag
+>>>>>>> f330c64 (optimization in progress)
     {
         $handlerClassName = $this->findHandlerClassName($name, $context);
         $arguments        = $this->getArgumentsForParametersFromWiring(
@@ -227,7 +282,15 @@ final class StandardTagFactory implements TagFactory
      *
      * @return class-string<Tag>
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function findHandlerClassName(string $tagName, TypeContext $context): string
+=======
+    private function findHandlerClassName(string $tagName, TypeContext $context) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function findHandlerClassName(string $tagName, TypeContext $context): string
+>>>>>>> f330c64 (optimization in progress)
     {
         $handlerClassName = Generic::class;
         if (isset($this->tagHandlerMappings[$tagName])) {
@@ -252,7 +315,15 @@ final class StandardTagFactory implements TagFactory
      * @return mixed[] A series of values that can be passed to the Factory Method of the tag whose parameters
      *     is provided with this method.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function getArgumentsForParametersFromWiring(array $parameters, array $locator): array
+=======
+    private function getArgumentsForParametersFromWiring(array $parameters, array $locator) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function getArgumentsForParametersFromWiring(array $parameters, array $locator): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $arguments = [];
         foreach ($parameters as $parameter) {
@@ -293,7 +364,15 @@ final class StandardTagFactory implements TagFactory
      *
      * @return ReflectionParameter[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function fetchParametersForHandlerFactoryMethod(string $handlerClassName): array
+=======
+    private function fetchParametersForHandlerFactoryMethod(string $handlerClassName) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function fetchParametersForHandlerFactoryMethod(string $handlerClassName): array
+>>>>>>> f330c64 (optimization in progress)
     {
         if (!isset($this->tagHandlerParameterCache[$handlerClassName])) {
             $methodReflection                                  = new ReflectionMethod($handlerClassName, 'create');
@@ -320,7 +399,15 @@ final class StandardTagFactory implements TagFactory
         TypeContext $context,
         string $tagName,
         string $tagBody
+<<<<<<< HEAD
+<<<<<<< HEAD
     ): array {
+=======
+    ) : array {
+>>>>>>> 22c0e54 (table changes)
+=======
+    ): array {
+>>>>>>> f330c64 (optimization in progress)
         return array_merge(
             $this->serviceLocator,
             [
@@ -336,7 +423,15 @@ final class StandardTagFactory implements TagFactory
      *
      * @todo this method should be populated once we implement Annotation notation support.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function isAnnotation(string $tagContent): bool
+=======
+    private function isAnnotation(string $tagContent) : bool
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function isAnnotation(string $tagContent): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         // 1. Contains a namespace separator
         // 2. Contains parenthesis

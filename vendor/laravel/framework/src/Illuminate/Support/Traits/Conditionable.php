@@ -10,7 +10,16 @@ trait Conditionable
      * @param  mixed  $value
      * @param  callable  $callback
      * @param  callable|null  $default
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return $this|mixed
+=======
+     *
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return $this|mixed
+>>>>>>> f330c64 (optimization in progress)
      */
     public function when($value, $callback, $default = null)
     {
@@ -29,7 +38,16 @@ trait Conditionable
      * @param  mixed  $value
      * @param  callable  $callback
      * @param  callable|null  $default
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return $this|mixed
+=======
+     *
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return $this|mixed
+>>>>>>> f330c64 (optimization in progress)
      */
     public function unless($value, $callback, $default = null)
     {

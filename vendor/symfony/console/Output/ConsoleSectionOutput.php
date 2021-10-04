@@ -92,7 +92,15 @@ class ConsoleSectionOutput extends StreamOutput
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected function doWrite(string $message, bool $newline)
+=======
+    protected function doWrite($message, $newline)
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected function doWrite(string $message, bool $newline)
+>>>>>>> f330c64 (optimization in progress)
     {
         if (!$this->isDecorated()) {
             parent::doWrite($message, $newline);

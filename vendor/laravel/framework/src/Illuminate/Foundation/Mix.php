@@ -32,12 +32,21 @@ class Mix
         if (is_file(public_path($manifestDirectory.'/hot'))) {
             $url = rtrim(file_get_contents(public_path($manifestDirectory.'/hot')));
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             $customUrl = app('config')->get('app.mix_hot_proxy_url');
 
             if (! empty($customUrl)) {
                 return new HtmlString("{$customUrl}{$path}");
             }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             if (Str::startsWith($url, ['http://', 'https://'])) {
                 return new HtmlString(Str::after($url, ':').$path);
             }

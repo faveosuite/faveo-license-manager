@@ -82,7 +82,14 @@ class Tokenizer {
                 if ($v === '') {
                     continue;
                 }
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
                 $result->addToken($token);
             }
         }
@@ -91,12 +98,23 @@ class Tokenizer {
     }
 
     private function fillBlanks(TokenCollection $tokens, int $maxLine): TokenCollection {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $prev = new Token(
             0,
             'Placeholder',
             ''
         );
 
+<<<<<<< HEAD
+=======
+        /** @var Token $prev */
+        $prev  = null;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $final = new TokenCollection();
 
         foreach ($tokens as $token) {

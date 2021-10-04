@@ -35,8 +35,18 @@
         "illuminate/console": "Required to assert console commands (^8.0).",
         "illuminate/database": "Required to assert databases (^8.0).",
         "illuminate/http": "Required to assert responses (^8.0).",
+<<<<<<< HEAD
+<<<<<<< HEAD
         "mockery/mockery": "Required to use mocking (^1.4.4).",
         "phpunit/phpunit": "Required to use assertions and run tests (^8.5.19|^9.5.8)."
+=======
+        "mockery/mockery": "Required to use mocking (^1.4.2).",
+        "phpunit/phpunit": "Required to use assertions and run tests (^8.5.8|^9.3.3)."
+>>>>>>> 22c0e54 (table changes)
+=======
+        "mockery/mockery": "Required to use mocking (^1.4.4).",
+        "phpunit/phpunit": "Required to use assertions and run tests (^8.5.19|^9.5.8)."
+>>>>>>> f330c64 (optimization in progress)
     },
     "config": {
         "sort-packages": true

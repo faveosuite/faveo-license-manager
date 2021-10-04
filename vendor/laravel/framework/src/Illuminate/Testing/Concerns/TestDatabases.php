@@ -46,6 +46,8 @@ trait TestDatabases
             ];
 
             if (Arr::hasAny($uses, $databaseTraits)) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                 if (! ParallelTesting::option('without_databases')) {
                     $this->whenNotUsingInMemoryDatabase(function ($database) use ($uses) {
                         [$testDatabase, $created] = $this->ensureTestDatabaseExists($database);
@@ -61,6 +63,34 @@ trait TestDatabases
                         }
                     });
                 }
+=======
+                $this->whenNotUsingInMemoryDatabase(function ($database) use ($uses) {
+                    [$testDatabase, $created] = $this->ensureTestDatabaseExists($database);
+=======
+                if (! ParallelTesting::option('without_databases')) {
+                    $this->whenNotUsingInMemoryDatabase(function ($database) use ($uses) {
+                        [$testDatabase, $created] = $this->ensureTestDatabaseExists($database);
+>>>>>>> f330c64 (optimization in progress)
+
+                        $this->switchToDatabase($testDatabase);
+
+                        if (isset($uses[Testing\DatabaseTransactions::class])) {
+                            $this->ensureSchemaIsUpToDate();
+                        }
+
+<<<<<<< HEAD
+                    if ($created) {
+                        ParallelTesting::callSetUpTestDatabaseCallbacks($testDatabase);
+                    }
+                });
+>>>>>>> 22c0e54 (table changes)
+=======
+                        if ($created) {
+                            ParallelTesting::callSetUpTestDatabaseCallbacks($testDatabase);
+                        }
+                    });
+                }
+>>>>>>> f330c64 (optimization in progress)
             }
         });
     }
@@ -69,6 +99,13 @@ trait TestDatabases
      * Ensure a test database exists and returns its name.
      *
      * @param  string  $database
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array
      */
     protected function ensureTestDatabaseExists($database)

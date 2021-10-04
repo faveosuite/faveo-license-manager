@@ -23,7 +23,14 @@ use ReflectionProperty;
 use Reflector;
 use RuntimeException;
 use UnexpectedValueException;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function define;
 use function defined;
 use function file_exists;
@@ -35,13 +42,28 @@ use function strrpos;
 use function substr;
 use function token_get_all;
 use function trim;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use const T_AS;
 use const T_CLASS;
 use const T_CURLY_OPEN;
 use const T_DOLLAR_OPEN_CURLY_BRACES;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use const T_NAME_FULLY_QUALIFIED;
 use const T_NAME_QUALIFIED;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use const T_NAME_FULLY_QUALIFIED;
+use const T_NAME_QUALIFIED;
+>>>>>>> f330c64 (optimization in progress)
 use const T_NAMESPACE;
 use const T_NS_SEPARATOR;
 use const T_STRING;
@@ -77,7 +99,15 @@ final class ContextFactory
      *
      * @see Context for more information on Contexts.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function createFromReflector(Reflector $reflector): Context
+=======
+    public function createFromReflector(Reflector $reflector) : Context
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function createFromReflector(Reflector $reflector): Context
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($reflector instanceof ReflectionClass) {
             //phpcs:ignore SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
@@ -105,43 +135,108 @@ final class ContextFactory
         throw new UnexpectedValueException('Unhandled \Reflector instance given:  ' . get_class($reflector));
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function createFromReflectionParameter(ReflectionParameter $parameter): Context
+=======
+    private function createFromReflectionParameter(ReflectionParameter $parameter) : Context
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function createFromReflectionParameter(ReflectionParameter $parameter): Context
+>>>>>>> f330c64 (optimization in progress)
     {
         $class = $parameter->getDeclaringClass();
         if (!$class) {
             throw new InvalidArgumentException('Unable to get class of ' . $parameter->getName());
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->createFromReflectionClass($class);
     }
 
     private function createFromReflectionMethod(ReflectionMethod $method): Context
     {
+=======
+        //phpcs:ignore SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
+        /** @var ReflectionClass<object> $class */
+
+=======
+>>>>>>> f330c64 (optimization in progress)
+        return $this->createFromReflectionClass($class);
+    }
+
+    private function createFromReflectionMethod(ReflectionMethod $method): Context
+    {
+<<<<<<< HEAD
+        //phpcs:ignore SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
+        /** @var ReflectionClass<object> $class */
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $class = $method->getDeclaringClass();
 
         return $this->createFromReflectionClass($class);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function createFromReflectionProperty(ReflectionProperty $property): Context
     {
+=======
+    private function createFromReflectionProperty(ReflectionProperty $property) : Context
+    {
+        //phpcs:ignore SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
+        /** @var ReflectionClass<object> $class */
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function createFromReflectionProperty(ReflectionProperty $property): Context
+    {
+>>>>>>> f330c64 (optimization in progress)
         $class = $property->getDeclaringClass();
 
         return $this->createFromReflectionClass($class);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function createFromReflectionClassConstant(ReflectionClassConstant $constant): Context
     {
         //phpcs:ignore SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
         /** @phpstan-var ReflectionClass<object> $class */
+=======
+    private function createFromReflectionClassConstant(ReflectionClassConstant $constant) : Context
+    {
+        //phpcs:ignore SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
+        /** @var ReflectionClass<object> $class */
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function createFromReflectionClassConstant(ReflectionClassConstant $constant): Context
+    {
+        //phpcs:ignore SlevomatCodingStandard.Commenting.InlineDocCommentDeclaration.MissingVariable
+        /** @phpstan-var ReflectionClass<object> $class */
+>>>>>>> f330c64 (optimization in progress)
         $class = $constant->getDeclaringClass();
 
         return $this->createFromReflectionClass($class);
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @phpstan-param ReflectionClass<object> $class
      */
     private function createFromReflectionClass(ReflectionClass $class): Context
+=======
+     * @param ReflectionClass<object> $class
+     */
+    private function createFromReflectionClass(ReflectionClass $class) : Context
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @phpstan-param ReflectionClass<object> $class
+     */
+    private function createFromReflectionClass(ReflectionClass $class): Context
+>>>>>>> f330c64 (optimization in progress)
     {
         $fileName  = $class->getFileName();
         $namespace = $class->getNamespaceName();
@@ -167,7 +262,15 @@ final class ContextFactory
      * this method first normalizes.
      * @param string $fileContents The file's contents to retrieve the aliases from with the given namespace.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function createForNamespace(string $namespace, string $fileContents): Context
+=======
+    public function createForNamespace(string $namespace, string $fileContents) : Context
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function createForNamespace(string $namespace, string $fileContents): Context
+>>>>>>> f330c64 (optimization in progress)
     {
         $namespace        = trim($namespace, '\\');
         $useStatements    = [];
@@ -188,10 +291,21 @@ final class ContextFactory
                     $firstBraceFound = false;
                     while ($tokens->valid() && ($braceLevel > 0 || !$firstBraceFound)) {
                         $currentToken = $tokens->current();
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
                         if (
                             $currentToken === '{'
                             || in_array($currentToken[0], [T_CURLY_OPEN, T_DOLLAR_OPEN_CURLY_BRACES], true)
                         ) {
+<<<<<<< HEAD
+=======
+                        if ($currentToken === '{'
+                            || in_array($currentToken[0], [T_CURLY_OPEN, T_DOLLAR_OPEN_CURLY_BRACES], true)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                             if (!$firstBraceFound) {
                                 $firstBraceFound = true;
                             }
@@ -226,7 +340,15 @@ final class ContextFactory
      *
      * @param ArrayIterator<int, string|array{0:int,1:string,2:int}> $tokens
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function parseNamespace(ArrayIterator $tokens): string
+=======
+    private function parseNamespace(ArrayIterator $tokens) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function parseNamespace(ArrayIterator $tokens): string
+>>>>>>> f330c64 (optimization in progress)
     {
         // skip to the first string or namespace separator
         $this->skipToNextStringOrNamespaceSeparator($tokens);
@@ -247,9 +369,22 @@ final class ContextFactory
      * @param ArrayIterator<int, string|array{0:int,1:string,2:int}> $tokens
      *
      * @return string[]
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-return array<string, string>
      */
     private function parseUseStatement(ArrayIterator $tokens): array
+=======
+     *
+     * @psalm-return array<string, string>
+     */
+    private function parseUseStatement(ArrayIterator $tokens) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @psalm-return array<string, string>
+     */
+    private function parseUseStatement(ArrayIterator $tokens): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $uses = [];
 
@@ -271,7 +406,15 @@ final class ContextFactory
      *
      * @param ArrayIterator<int, string|array{0:int,1:string,2:int}> $tokens
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function skipToNextStringOrNamespaceSeparator(ArrayIterator $tokens): void
+=======
+    private function skipToNextStringOrNamespaceSeparator(ArrayIterator $tokens) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function skipToNextStringOrNamespaceSeparator(ArrayIterator $tokens): void
+>>>>>>> f330c64 (optimization in progress)
     {
         while ($tokens->valid()) {
             $currentToken = $tokens->current();
@@ -298,11 +441,26 @@ final class ContextFactory
      * @param ArrayIterator<int, string|array{0:int,1:string,2:int}> $tokens
      *
      * @return string[]
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-return array<string, string>
      *
      * @psalm-suppress TypeDoesNotContainType
      */
     private function extractUseStatements(ArrayIterator $tokens): array
+=======
+=======
+     * @psalm-return array<string, string>
+>>>>>>> f330c64 (optimization in progress)
+     *
+     * @psalm-suppress TypeDoesNotContainType
+     */
+<<<<<<< HEAD
+    private function extractUseStatements(ArrayIterator $tokens) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function extractUseStatements(ArrayIterator $tokens): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $extractedUseStatements = [];
         $groupedNs              = '';

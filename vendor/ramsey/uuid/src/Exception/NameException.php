@@ -20,6 +20,14 @@ use RuntimeException as PhpRuntimeException;
  * Thrown to indicate that an error occurred while attempting to hash a
  * namespace and name
  */
+<<<<<<< HEAD
+<<<<<<< HEAD
 class NameException extends PhpRuntimeException implements UuidExceptionInterface
+=======
+class NameException extends PhpRuntimeException
+>>>>>>> 22c0e54 (table changes)
+=======
+class NameException extends PhpRuntimeException implements UuidExceptionInterface
+>>>>>>> f330c64 (optimization in progress)
 {
 }

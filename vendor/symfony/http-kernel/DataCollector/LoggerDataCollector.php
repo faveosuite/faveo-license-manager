@@ -18,6 +18,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Log\DebugLoggerInterface;
 
 /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+ * LogDataCollector.
+ *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
@@ -29,7 +37,15 @@ class LoggerDataCollector extends DataCollector implements LateDataCollectorInte
     private $currentRequest;
     private $requestStack;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __construct(object $logger = null, string $containerPathPrefix = null, RequestStack $requestStack = null)
+=======
+    public function __construct($logger = null, string $containerPathPrefix = null, RequestStack $requestStack = null)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __construct(object $logger = null, string $containerPathPrefix = null, RequestStack $requestStack = null)
+>>>>>>> f330c64 (optimization in progress)
     {
         if (null !== $logger && $logger instanceof DebugLoggerInterface) {
             $this->logger = $logger;

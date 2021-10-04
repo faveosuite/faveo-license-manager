@@ -19,7 +19,15 @@ class AflProducts extends Model
     }
 
     public function installation(){
-        
+
         return $this->belongsTo(AflInstallations::class);
     }
+
+    public function version(){
+        return $this->belongsToMany(AfuVersions::class);
+    }
+    public function updateInstallations(){
+        return $this->belongsTo(AfuInstallations::class);
+    }
+
 }

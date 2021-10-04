@@ -45,7 +45,15 @@ class TimeDataCollector extends DataCollector implements LateDataCollectorInterf
         }
 
         $this->data = [
+<<<<<<< HEAD
+<<<<<<< HEAD
             'token' => $request->attributes->get('_stopwatch_token'),
+=======
+            'token' => $response->headers->get('X-Debug-Token'),
+>>>>>>> 22c0e54 (table changes)
+=======
+            'token' => $request->attributes->get('_stopwatch_token'),
+>>>>>>> f330c64 (optimization in progress)
             'start_time' => $startTime * 1000,
             'events' => [],
             'stopwatch_installed' => class_exists(Stopwatch::class, false),

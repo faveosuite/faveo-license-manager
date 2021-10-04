@@ -2,7 +2,14 @@
         image: 'minio/minio:latest'
         ports:
             - '${FORWARD_MINIO_PORT:-9000}:9000'
+<<<<<<< HEAD
+<<<<<<< HEAD
             - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            - '${FORWARD_MINIO_CONSOLE_PORT:-8900}:8900'
+>>>>>>> f330c64 (optimization in progress)
         environment:
             MINIO_ROOT_USER: 'sail'
             MINIO_ROOT_PASSWORD: 'password'
@@ -10,8 +17,24 @@
             - 'sailminio:/data/minio'
         networks:
             - sail
+<<<<<<< HEAD
+<<<<<<< HEAD
         command: minio server /data/minio --console-address ":8900"
         healthcheck:
             test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
             retries: 3
             timeout: 5s
+=======
+        command: minio server /data/minio
+        healthcheck:
+          test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+          retries: 3
+          timeout: 5s
+>>>>>>> 22c0e54 (table changes)
+=======
+        command: minio server /data/minio --console-address ":8900"
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+            retries: 3
+            timeout: 5s
+>>>>>>> f330c64 (optimization in progress)

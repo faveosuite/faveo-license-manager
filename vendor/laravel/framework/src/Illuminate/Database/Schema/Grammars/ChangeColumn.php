@@ -198,7 +198,14 @@ class ChangeColumn
             'binary',
             'boolean',
             'date',
+<<<<<<< HEAD
+<<<<<<< HEAD
             'dateTime',
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            'dateTime',
+>>>>>>> f330c64 (optimization in progress)
             'decimal',
             'double',
             'float',

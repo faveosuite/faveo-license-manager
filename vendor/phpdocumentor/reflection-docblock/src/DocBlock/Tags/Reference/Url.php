@@ -29,7 +29,15 @@ final class Url implements Reference
         $this->uri = $uri;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->uri;
     }

@@ -1,4 +1,12 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 <p align="center"><img src="/art/logo.svg" alt="Logo Laravel Tinker"></p>
+=======
+<p align="center"><img src="https://laravel.com/assets/img/components/logo-tinker.svg"></p>
+>>>>>>> 22c0e54 (table changes)
+=======
+<p align="center"><img src="/art/logo.svg" alt="Logo Laravel Tinker"></p>
+>>>>>>> f330c64 (optimization in progress)
 
 <p align="center">
 <a href="https://github.com/laravel/tinker/actions"><img src="https://github.com/laravel/tinker/workflows/tests/badge.svg" alt="Build Status"></a>

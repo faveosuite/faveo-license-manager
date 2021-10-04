@@ -128,7 +128,7 @@ function returnServerNotification($notification_case, $root_url, $ip_address, $c
         {
         $notification_data="";
         }
-       return \response()->json([])
+       return response()->json([])
            ->header("notification_case",$notification_case)
            ->header("notification_text",$notification_text)
            ->header("notification_server_signature",$notification_server_signature)
@@ -344,6 +344,205 @@ foreach ($rows_array as $row)
     $root_array[]=$item_array;
 }
 return $root_array;
+}
+
+
+//create product callback and update installations/upgrades count if installation/upgrade was performed successfully
+function createProductCallback($SMART_REPORTS, $product_id, $version_id, $callback_ip, $callback_path, $callback_type, $callback_status, $version_install_count, $version_upgrade_count)
+{
+    $date_today=date("Y-m-d");
+    $callback_date_time=date("Y-m-d H:i:s");
+
+    if ($SMART_REPORTS==1) //check if such callback already exists today
+    {
+        $rows_array=DB::table('afu_callbacks')
+                     ->where('product_id',$product_id)
+                     ->where('version_id',$version_id)
+                     ->where('callback_ip',$callback_ip)
+                     ->where('callback_path',$callback_path)
+                     ->where('callback_type',$callback_type)
+                     ->whereRaw('callback_date_time BETWEEN ? AND ?',["$date_today 00:00:00", "$date_today 23:59:59"])
+                     ->where('callback_status',$callback_status)->get()->toArray();//fetchRow("SELECT * FROM aus_callbacks WHERE product_id=? AND version_id=? AND callback_ip=? AND callback_path=? AND callback_type=? AND callback_date_time BETWEEN ? AND ? AND callback_status=?", array($product_id, $version_id, $callback_ip, $callback_path, $callback_type, "$date_today 00:00:00", "$date_today 23:59:59", $callback_status), array("i", "i", "s", "s", "i", "s", "s", "i"));
+    }
+
+    if (empty($rows_array)) //no excessive callbacks found (or SMART_REPORTS disabled)
+    {
+        DB::table('afu_callbacks')->insertOrIgnore([
+            'product_id' => $product_id,
+            'version_id'=>$version_id,
+            'callback_ip'=>$callback_ip,
+            'callback_path'=>$callback_path,
+            'callback_type'=>$callback_type,
+            'callback_date_time'=>$callback_date_time,
+            'callback_status'=>$callback_status
+        ]);//doMysqlQuery("INSERT IGNORE INTO aus_callbacks (product_id, version_id, callback_ip, callback_path, callback_type, callback_date_time, callback_status) VALUES (?, ?, ?, ?, ?, ?, ?)", array($product_id, $version_id, $callback_ip, $callback_path, $callback_type, $callback_date_time, $callback_status), array("i", "i", "s", "s", "i", "s", "i"));
+    }
+
+    if ($callback_status==1) //update installations/upgrades count ($version_install_count and $version_upgrade_count values were already increased by 1 before calling this function
+    {
+           \App\Models\AfuVersions::where('version_id',$version_id)
+            ->update([
+            'version_install_count'=>$version_install_count,
+            'version_upgrade_count' => $version_upgrade_count
+        ]);
+    }
+}
+
+//create product report
+function createProductReport($SMART_REPORTS, $product_id, $report_text, $report_status)
+{
+    $date_today=date("Y-m-d");
+    $report_date_time=date("Y-m-d H:i:s");
+    $report_system=0; //product reports should never be system
+
+    if ($SMART_REPORTS==1) //check if such report already exists today
+    {
+        $rows_array=AflReports::where('product_id',$product_id)
+                        ->whereRaw('report_date_time BETWEEN ? AND ?',["$date_today 00:00:00", "$date_today 23:59:59"])
+                        ->where('report_text',$report_text)
+                        ->where('report_system',$report_system)->get()->toArray();//fetchRow("SELECT * FROM aus_reports WHERE product_id=? AND report_date_time BETWEEN ? AND ? AND report_text=? AND report_system=?", array($product_id, "$date_today 00:00:00", "$date_today 23:59:59", $report_text, $report_system), array("i", "s", "s", "s", "i"));
+    }
+
+    if (empty($rows_array)) //no excessive reports found (or SMART_REPORTS disabled)
+    {
+        DB::table('afl_reports')->insertOrIgnore([
+            'product_id'=>$product_id,
+            'report_date_time'=>$report_date_time,
+            'report_text'=>$report_text,
+            'report_system'=>$report_system,
+            'report_status'=>$report_status
+        ]);//doMysqlQuery("INSERT IGNORE INTO aus_reports (product_id, report_date_time, report_text, report_system, report_status) VALUES (?, ?, ?, ?, ?)", array($product_id, $report_date_time, $report_text, $report_system, $report_status), array("i", "s", "s", "i", "i"));
+    }
+}
+
+
+
+//record failed update attempt and ban host if needed
+function recordFailedUpdate($BANNED_HOSTS, $FAILED_UPDATES_LIMIT, $ip_address)
+{
+    if ($BANNED_HOSTS==1 && $FAILED_UPDATES_LIMIT!=0 && filter_var($ip_address, FILTER_VALIDATE_IP))
+    {
+        $failed_update_last_attempt_date=date("Y-m-d");
+
+        if (!empty($rows_array=DB::table('afu_failed_updates')->where('failed_update_ip',$ip_address)->get()->toArray()))//fetchRow("SELECT * FROM aus_failed_updates WHERE failed_update_ip=?", array($ip_address), array("s")))) //failed update from specified IP recorded already, update existing record
+        {
+            foreach ($rows_array as $row)
+            {
+                extract((array)$row);
+            }
+
+            $failed_update_attempts++;
+
+            DB::table('afu_failed_updates')->where('failed_update_id',$failed_update_id)->update([
+                'failed_update_attempts'=>$failed_update_attempts,
+                'failed_update_last_attempt_date' => $failed_update_last_attempt_date,
+            ]);//doMysqlQuery("UPDATE aus_failed_updates SET failed_update_attempts=?, failed_update_last_attempt_date=? WHERE failed_update_id=?", array($failed_update_attempts, $failed_update_last_attempt_date, $failed_update_id), array("i", "s", "i"));
+        }
+        else //failed update from specified IP not recorded yet, add new record
+        {
+            $failed_update_attempts=1;
+
+            DB::table('afu_failed_updates')->insertOrIgnore([
+                'failed_update_ip'=>$ip_address,
+                'failed_update_attempts'=>$failed_update_attempts,
+                'failed_update_last_attempt_date' => $failed_update_last_attempt_date,
+            ]);//doMysqlQuery("INSERT IGNORE INTO aus_failed_updates (failed_update_ip, failed_update_attempts, failed_update_last_attempt_date) VALUES (?, ?, ?)", array($ip_address, $failed_update_attempts, $failed_update_last_attempt_date), array("s", "i", "s"));
+        }
+
+        if ($failed_update_attempts>=$FAILED_UPDATES_LIMIT) //failed update attempts limit reached, ban host
+        {
+            $banned_host_comments="Auto-ban: maximum failed update attempts ($FAILED_UPDATES_LIMIT) reached.";
+
+            DB::table('afl_banned_hosts')->insertOrIgnore([
+                'banned_host_ip'=>$ip_address,
+                'banned_host_comments'=>$banned_host_comments,
+                'banned_host_date' => $failed_update_last_attempt_date,
+            ]);//doMysqlQuery("INSERT IGNORE INTO aus_banned_hosts (banned_host_ip, banned_host_comments, banned_host_date) VALUES (?, ?, ?)", array($ip_address, $banned_host_comments, $failed_update_last_attempt_date), array("s", "s", "s"));
+            createReport("Host $ip_address auto-banned (maximum failed update attempts ($FAILED_UPDATES_LIMIT) reached).", 0, 1, 2);
+        }
+    }
+}
+
+//verify script signature received from user's script
+function afuVerifyScriptSignature($ROOT_URL, $script_signature, $product_id, $product_key)
+{
+    $result=false;
+    $ROOT_URL=url('/');
+    $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
+
+    //dd(hash("sha256", gmdate("Y-m-d").$product_id.$product_key.implode("", $root_ips_array)));
+    if (!empty($script_signature) && !empty($root_ips_array))
+    {
+        if (hash("sha256", gmdate("Y-m-d").$product_id.$product_key.implode("", $root_ips_array))==$script_signature)
+        {
+            $result=true;
+        }
+    }
+    return $result;
+}
+
+//return server notification with case, properly formatted text, signature, and additional data (if any) by adding this data right into server headers
+function returnUpdateServerNotification($ROOT_URL, $notification_case, $product_id, $product_title, $product_key, $product_short_description, $product_full_description, $product_url_homepage, $product_url_order, $version_number, $version_expire_date, $version_install_limit, $version_upgrade_limit, $ip_address, $notification_data="")
+{
+    $notification_server_signature=generateUpdateServerSignature($ROOT_URL, $product_id, $product_key);
+
+    $rows_array=DB::table('afu_notifications')->where('notification_id',1)->get()->toArray();//fetchRow("SELECT * FROM aus_notifications WHERE notification_id=?", array(1), array("i"));
+    foreach ($rows_array as $row)
+    {
+        extract((array)$row);
+    }
+
+    $bad_text_array=array("%PRODUCT_ID%", "%PRODUCT_TITLE%", "%PRODUCT_SHORT_DESCRIPTION%", "%PRODUCT_FULL_DESCRIPTION%", "%PRODUCT_URL_HOMEPAGE%", "%PRODUCT_URL_ORDER%", "%VERSION_NUMBER%", "%VERSION_EXPIRE_DATE%", "%VERSION_INSTALL_LIMIT%", "%VERSION_UPGRADE_LIMIT%", "%IP_ADDRESS%");
+    $good_text_array=array($product_id, $product_title, $product_short_description, $product_full_description, $product_url_homepage, $product_url_order, $version_number, $version_expire_date, $version_install_limit, $version_upgrade_limit, $ip_address);
+    $notification_text=str_ireplace($bad_text_array, $good_text_array, $$notification_case);
+    if ($notification_case!="notification_operation_ok") //only return additional data if everything OK, otherwise unset it
+    {
+        $notification_data="";
+    }
+
+    header("notification_case: $notification_case");
+    header("notification_text: $notification_text");
+    header("notification_server_signature: $notification_server_signature");
+    header("notification_data: ".json_encode($notification_data));
+}
+
+//generate server signature to be sent to user's script
+function generateUpdateServerSignature($ROOT_URL, $product_id, $product_key)
+{
+    $server_signature="";
+    $ROOT_URL=url('/');
+    $root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
+
+    if (!empty($root_ips_array)) //IP(s) resolved successfully
+    {
+        $server_signature=hash("sha256", implode("", $root_ips_array).$product_key.$product_id.gmdate("Y-m-d"));
+    }
+
+    return $server_signature;
+}
+
+function callbackArray(){
+    $rows_array=DB::table('afl_callbacks')
+        ->leftJoin('afl_products','afl_callbacks.product_id','=','afl_products.product_id')
+        ->leftJoin('afl_clients','afl_callbacks.client_id','=','afl_clients.client_id')
+        ->orderBy('afl_callbacks.callback_date_time','desc')
+        ->orderBy('afl_callbacks.callback_id','desc')->get()->toArray();
+foreach ($rows_array as $row)
+{
+    foreach ($row as $key=>$value)
+    {
+        $item_array[$key]=$value;
+    }
+
+    $item_array['client_formatted']=formatClient($item_array['license_code'], $item_array['client_email']);
+    $item_array['callback_date_time']=removeSeconds($item_array['callback_date_time']);
+    $item_array['callback_status_formatted']=returnFormattedStatusArray($item_array['callback_status'], "Success", "Error", "Unknown");
+
+    $root_array[]=$item_array;
+}
+
+return $root_array;
+
 }
 
 

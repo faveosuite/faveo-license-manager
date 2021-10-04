@@ -16,7 +16,11 @@ class CreateAflSettingsTable extends Migration
         Schema::create('afl_settings', function (Blueprint $table) {
 
             //$table->primary('SETTING_ID');
+<<<<<<< HEAD
             $table->increments('SETTING_ID')->unique();
+=======
+            $table->increments('SETTING_ID');
+>>>>>>> 22c0e54 (table changes)
             $table->string('ROOT_URL',125)->nullable();
             $table->string('CLIENT_EMAIL',125)->nullable();
             $table->string('LICENSE_CODE',125)->nullable();
@@ -32,12 +36,20 @@ class CreateAflSettingsTable extends Migration
             $table->string('BANNED_HOST_MESSAGE',125)->nullable();
             $table->tinyInteger('FAILED_LOGINS_LIMIT')->nullable();
             $table->tinyInteger('FAILED_LICENSINGS_LIMIT')->nullable();
+<<<<<<< HEAD
+=======
+            $table->tinyInteger('FAILED_UPDATES_LIMIT')->nullable();
+>>>>>>> 22c0e54 (table changes)
             $table->smallInteger('FAILED_HOSTS_FORGET')->nullable();
             $table->tinyInteger('SMART_REPORTS')->nullable();
             $table->tinyInteger('SMART_TABLES')->nullable();
             $table->tinyInteger('MIN_PASSWORD_LENGTH')->nullable();
             $table->tinyInteger('WHITELISTED_ACCESS')->nullable();
             $table->string('WHITELISTED_IP',250)->nullable();
+<<<<<<< HEAD
+=======
+            $table->string('VERIFIED_UPDATES')->nullable();
+>>>>>>> 22c0e54 (table changes)
             $table->string('EMAIL_FROM_NAME',125)->nullable();
             $table->string('EMAIL_FROM_ADDRESS',125)->nullable();
             $table->tinyInteger('EMAIL_CC_ADMIN')->nullable();
@@ -50,6 +62,11 @@ class CreateAflSettingsTable extends Migration
             $table->smallInteger('DATABASE_CLEANUP_REPORTS_MAIN')->nullable();
             $table->smallInteger('DATABASE_CLEANUP_REPORTS_SYSTEM')->nullable();
             $table->smallInteger('DATABASE_CLEANUP_REPORTS_LICENSES')->nullable();
+<<<<<<< HEAD
+=======
+            $table->smallInteger('DATABASE_CLEANUP_VERSIONS')->nullable();
+            $table->tinyInteger('DATABASE_CLEANUP_FILES')->nullable();
+>>>>>>> 22c0e54 (table changes)
             $table->date('DATABASE_CLEANUP_DATE')->nullable();
             $table->longText('NEWS_TEXT')->nullable();
             $table->date('NEWS_DATE')->nullable();

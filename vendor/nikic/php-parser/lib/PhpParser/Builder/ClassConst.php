@@ -78,6 +78,10 @@ class ClassConst implements PhpParser\Builder
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Makes the constant final.
      *
      * @return $this The builder instance (for fluid interface)
@@ -89,6 +93,11 @@ class ClassConst implements PhpParser\Builder
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Sets doc comment for the constant.
      *
      * @param PhpParser\Comment\Doc|string $docComment Doc comment to set

@@ -94,7 +94,14 @@ final class Fields implements FieldsInterface
     public function getTimeLow(): Hexadecimal
     {
         // Swap the bytes from little endian to network byte order.
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @var array $hex */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @var array $hex */
+>>>>>>> f330c64 (optimization in progress)
         $hex = unpack(
             'H*',
             pack(
@@ -110,7 +117,14 @@ final class Fields implements FieldsInterface
     public function getTimeMid(): Hexadecimal
     {
         // Swap the bytes from little endian to network byte order.
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @var array $hex */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @var array $hex */
+>>>>>>> f330c64 (optimization in progress)
         $hex = unpack(
             'H*',
             pack(
@@ -125,7 +139,14 @@ final class Fields implements FieldsInterface
     public function getTimeHiAndVersion(): Hexadecimal
     {
         // Swap the bytes from little endian to network byte order.
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @var array $hex */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @var array $hex */
+>>>>>>> f330c64 (optimization in progress)
         $hex = unpack(
             'H*',
             pack(
@@ -175,7 +196,14 @@ final class Fields implements FieldsInterface
             return null;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @var array $parts */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @var array $parts */
+>>>>>>> f330c64 (optimization in progress)
         $parts = unpack('n*', $this->bytes);
 
         return ((int) $parts[4] >> 4) & 0x00f;

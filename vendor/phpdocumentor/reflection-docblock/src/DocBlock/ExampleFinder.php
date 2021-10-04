@@ -14,7 +14,14 @@ declare(strict_types=1);
 namespace phpDocumentor\Reflection\DocBlock;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Example;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function array_slice;
 use function file;
 use function getcwd;
@@ -23,7 +30,14 @@ use function is_readable;
 use function rtrim;
 use function sprintf;
 use function trim;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use const DIRECTORY_SEPARATOR;
 
 /**
@@ -40,7 +54,15 @@ class ExampleFinder
     /**
      * Attempts to find the example contents for the given descriptor.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function find(Example $example): string
+=======
+    public function find(Example $example) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function find(Example $example): string
+>>>>>>> f330c64 (optimization in progress)
     {
         $filename = $example->getFilePath();
 
@@ -55,7 +77,15 @@ class ExampleFinder
     /**
      * Registers the project's root directory where an 'examples' folder can be expected.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function setSourceDirectory(string $directory = ''): void
+=======
+    public function setSourceDirectory(string $directory = '') : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function setSourceDirectory(string $directory = ''): void
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->sourceDirectory = $directory;
     }
@@ -63,7 +93,15 @@ class ExampleFinder
     /**
      * Returns the project's root directory where an 'examples' folder can be expected.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getSourceDirectory(): string
+=======
+    public function getSourceDirectory() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getSourceDirectory(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->sourceDirectory;
     }
@@ -73,7 +111,15 @@ class ExampleFinder
      *
      * @param string[] $directories
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function setExampleDirectories(array $directories): void
+=======
+    public function setExampleDirectories(array $directories) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function setExampleDirectories(array $directories): void
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->exampleDirectories = $directories;
     }
@@ -83,7 +129,15 @@ class ExampleFinder
      *
      * @return string[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getExampleDirectories(): array
+=======
+    public function getExampleDirectories() : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getExampleDirectories(): array
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->exampleDirectories;
     }
@@ -101,7 +155,15 @@ class ExampleFinder
      *
      * @return string[] all lines of the example file
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function getExampleFileContents(string $filename): ?array
+=======
+    private function getExampleFileContents(string $filename) : ?array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function getExampleFileContents(string $filename): ?array
+>>>>>>> f330c64 (optimization in progress)
     {
         $normalizedPath = null;
 
@@ -131,7 +193,15 @@ class ExampleFinder
     /**
      * Get example filepath based on the example directory inside your project.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function getExamplePathFromExampleDirectory(string $file): string
+=======
+    private function getExamplePathFromExampleDirectory(string $file) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function getExamplePathFromExampleDirectory(string $file): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return getcwd() . DIRECTORY_SEPARATOR . 'examples' . DIRECTORY_SEPARATOR . $file;
     }
@@ -139,7 +209,15 @@ class ExampleFinder
     /**
      * Returns a path to the example file in the given directory..
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function constructExamplePath(string $directory, string $file): string
+=======
+    private function constructExamplePath(string $directory, string $file) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function constructExamplePath(string $directory, string $file): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return rtrim($directory, '\\/') . DIRECTORY_SEPARATOR . $file;
     }
@@ -147,7 +225,15 @@ class ExampleFinder
     /**
      * Get example filepath based on sourcecode.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function getExamplePathFromSource(string $file): string
+=======
+    private function getExamplePathFromSource(string $file) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function getExamplePathFromSource(string $file): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return sprintf(
             '%s%s%s',

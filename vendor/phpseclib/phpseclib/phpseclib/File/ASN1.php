@@ -238,9 +238,18 @@ abstract class ASN1
     {
         $current = ['start' => $start];
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!isset($encoded[$encoded_pos])) {
             return false;
         }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!isset($encoded[$encoded_pos])) {
+            return false;
+        }
+>>>>>>> f330c64 (optimization in progress)
         $type = ord($encoded[$encoded_pos++]);
         $startOffset = 1;
 
@@ -251,9 +260,18 @@ abstract class ASN1
             $tag = 0;
             // process septets (since the eighth bit is ignored, it's not an octet)
             do {
+<<<<<<< HEAD
+<<<<<<< HEAD
                 if (!isset($encoded[$encoded_pos])) {
                     return false;
                 }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+                if (!isset($encoded[$encoded_pos])) {
+                    return false;
+                }
+>>>>>>> f330c64 (optimization in progress)
                 $temp = ord($encoded[$encoded_pos++]);
                 $startOffset++;
                 $loop = $temp >> 7;
@@ -270,9 +288,18 @@ abstract class ASN1
         $start+= $startOffset;
 
         // Length, as discussed in paragraph 8.1.3 of X.690-0207.pdf#page=13
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!isset($encoded[$encoded_pos])) {
             return false;
         }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!isset($encoded[$encoded_pos])) {
+            return false;
+        }
+>>>>>>> f330c64 (optimization in progress)
         $length = ord($encoded[$encoded_pos++]);
         $start++;
         if ($length == 0x80) { // indefinite length

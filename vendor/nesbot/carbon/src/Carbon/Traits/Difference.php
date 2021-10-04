@@ -125,8 +125,16 @@ trait Difference
 
         // Can be removed if https://github.com/derickr/timelib/pull/110
         // is merged
+<<<<<<< HEAD
+<<<<<<< HEAD
         // https://bugs.php.net/bug.php?id=80998 was announced fixed in PHP 8.1.0beta3
         // but created a reverse-regression when using UTC, so we still need this hack
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        // https://bugs.php.net/bug.php?id=80998 was announced fixed in PHP 8.1.0beta3
+        // but created a reverse-regression when using UTC, so we still need this hack
+>>>>>>> f330c64 (optimization in progress)
         // @codeCoverageIgnoreStart
         if (version_compare(PHP_VERSION, '8.1.0-dev', '>=') && $other->tz !== $this->tz) {
             $other = $other->avoidMutation()->tz($this->tz);
@@ -817,7 +825,15 @@ trait Difference
             $syntax['syntax'] = $syntax['syntax'] ?? null;
             $intSyntax = &$syntax['syntax'];
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
         $intSyntax = (int) ($intSyntax ?? static::DIFF_RELATIVE_AUTO);
+=======
+        $intSyntax = (int) ($intSyntax === null ? static::DIFF_RELATIVE_AUTO : $intSyntax);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $intSyntax = (int) ($intSyntax ?? static::DIFF_RELATIVE_AUTO);
+>>>>>>> f330c64 (optimization in progress)
         $intSyntax = $intSyntax === static::DIFF_RELATIVE_AUTO && $other === null ? static::DIFF_RELATIVE_TO_NOW : $intSyntax;
 
         $parts = min(7, max(1, (int) $parts));

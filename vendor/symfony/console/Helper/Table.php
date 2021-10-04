@@ -362,7 +362,14 @@ class Table
 
         $isHeader = !$this->horizontal;
         $isFirstRow = $this->horizontal;
+<<<<<<< HEAD
+<<<<<<< HEAD
         $hasTitle = (bool) $this->headerTitle;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        $hasTitle = (bool) $this->headerTitle;
+>>>>>>> f330c64 (optimization in progress)
         foreach ($rows as $row) {
             if ($divider === $row) {
                 $isHeader = false;
@@ -380,6 +387,10 @@ class Table
             }
 
             if ($isHeader || $isFirstRow) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
                 $this->renderRowSeparator(
                     $isHeader ? self::SEPARATOR_TOP : self::SEPARATOR_TOP_BOTTOM,
                     $hasTitle ? $this->headerTitle : null,
@@ -387,6 +398,17 @@ class Table
                 );
                 $isFirstRow = false;
                 $hasTitle = false;
+<<<<<<< HEAD
+=======
+                if ($isFirstRow) {
+                    $this->renderRowSeparator(self::SEPARATOR_TOP_BOTTOM);
+                    $isFirstRow = false;
+                } else {
+                    $this->renderRowSeparator(self::SEPARATOR_TOP, $this->headerTitle, $this->style->getHeaderTitleFormat());
+                }
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             }
             if ($this->horizontal) {
                 $this->renderRow($row, $this->style->getCellRowFormat(), $this->style->getCellHeaderFormat());
@@ -598,11 +620,27 @@ class Table
 
         return new TableRows(function () use ($rows, $unmergedRows): \Traversable {
             foreach ($rows as $rowKey => $row) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                 yield $row instanceof TableSeparator ? $row : $this->fillCells($row);
 
                 if (isset($unmergedRows[$rowKey])) {
                     foreach ($unmergedRows[$rowKey] as $row) {
                         yield $row instanceof TableSeparator ? $row : $this->fillCells($row);
+=======
+                yield $this->fillCells($row);
+
+                if (isset($unmergedRows[$rowKey])) {
+                    foreach ($unmergedRows[$rowKey] as $unmergedRow) {
+                        yield $this->fillCells($unmergedRow);
+>>>>>>> 22c0e54 (table changes)
+=======
+                yield $row instanceof TableSeparator ? $row : $this->fillCells($row);
+
+                if (isset($unmergedRows[$rowKey])) {
+                    foreach ($unmergedRows[$rowKey] as $row) {
+                        yield $row instanceof TableSeparator ? $row : $this->fillCells($row);
+>>>>>>> f330c64 (optimization in progress)
                     }
                 }
             }
@@ -683,7 +721,15 @@ class Table
     /**
      * fill cells for a row that contains colspan > 1.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function fillCells(iterable $row)
+=======
+    private function fillCells($row)
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function fillCells(iterable $row)
+>>>>>>> f330c64 (optimization in progress)
     {
         $newRow = [];
 

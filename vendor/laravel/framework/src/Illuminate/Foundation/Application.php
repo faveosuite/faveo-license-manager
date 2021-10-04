@@ -33,7 +33,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
      *
      * @var string
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     const VERSION = '8.66.0';
+=======
+    const VERSION = '8.49.2';
+>>>>>>> 22c0e54 (table changes)
+=======
+    const VERSION = '8.67.0';
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * The base path for the Laravel installation.
@@ -351,7 +359,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
     /**
      * Get the base path of the Laravel installation.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $path
+=======
+     * @param  string  $path Optionally, a path to append to the base path
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $path
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function basePath($path = '')
@@ -362,7 +378,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
     /**
      * Get the path to the bootstrap directory.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $path
+=======
+     * @param  string  $path Optionally, a path to append to the bootstrap path
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $path
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function bootstrapPath($path = '')
@@ -373,7 +397,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
     /**
      * Get the path to the application configuration files.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $path
+=======
+     * @param  string  $path Optionally, a path to append to the config path
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $path
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function configPath($path = '')
@@ -384,7 +416,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
     /**
      * Get the path to the database directory.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $path
+=======
+     * @param  string  $path Optionally, a path to append to the database path
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $path
+>>>>>>> f330c64 (optimization in progress)
      * @return string
      */
     public function databasePath($path = '')
@@ -638,7 +678,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
      */
     public function registerConfiguredProviders()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $providers = Collection::make($this->make('config')->get('app.providers'))
+=======
+        $providers = Collection::make($this->config['app.providers'])
+>>>>>>> 22c0e54 (table changes)
+=======
+        $providers = Collection::make($this->make('config')->get('app.providers'))
+>>>>>>> f330c64 (optimization in progress)
                         ->partition(function ($provider) {
                             return strpos($provider, 'Illuminate\\') === 0;
                         });
@@ -939,7 +987,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
         $this->bootedCallbacks[] = $callback;
 
         if ($this->isBooted()) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $callback($this);
+=======
+            $this->fireAppCallbacks([$callback]);
+>>>>>>> 22c0e54 (table changes)
+=======
+            $callback($this);
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -949,6 +1005,8 @@ class Application extends Container implements ApplicationContract, CachesConfig
      * @param  callable[]  $callbacks
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected function fireAppCallbacks(array &$callbacks)
     {
         $index = 0;
@@ -957,13 +1015,37 @@ class Application extends Container implements ApplicationContract, CachesConfig
             $callbacks[$index]($this);
 
             $index++;
+=======
+    protected function fireAppCallbacks(array $callbacks)
+    {
+        foreach ($callbacks as $callback) {
+            $callback($this);
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected function fireAppCallbacks(array &$callbacks)
+    {
+        $index = 0;
+
+        while ($index < count($callbacks)) {
+            $callbacks[$index]($this);
+
+            $index++;
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return \Symfony\Component\HttpFoundation\Response
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+>>>>>>> f330c64 (optimization in progress)
      */
     public function handle(SymfonyRequest $request, int $type = self::MASTER_REQUEST, bool $catch = true)
     {
@@ -1108,7 +1190,15 @@ class Application extends Container implements ApplicationContract, CachesConfig
      * @param  int  $code
      * @param  string  $message
      * @param  array  $headers
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return never
+=======
+     * @return void
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return never
+>>>>>>> f330c64 (optimization in progress)
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -1142,12 +1232,23 @@ class Application extends Container implements ApplicationContract, CachesConfig
      */
     public function terminate()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $index = 0;
 
         while ($index < count($this->terminatingCallbacks)) {
             $this->call($this->terminatingCallbacks[$index]);
 
             $index++;
+<<<<<<< HEAD
+=======
+        foreach ($this->terminatingCallbacks as $terminating) {
+            $this->call($terminating);
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 

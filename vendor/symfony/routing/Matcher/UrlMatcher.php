@@ -141,7 +141,15 @@ class UrlMatcher implements UrlMatcherInterface, RequestMatcherInterface
             $requiredMethods = $route->getMethods();
 
             // check the static prefix of the URL first. Only use the more expensive preg_match when it matches
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ('' !== $staticPrefix && !str_starts_with($trimmedPathinfo, $staticPrefix)) {
+=======
+            if ('' !== $staticPrefix && 0 !== strpos($trimmedPathinfo, $staticPrefix)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ('' !== $staticPrefix && !str_starts_with($trimmedPathinfo, $staticPrefix)) {
+>>>>>>> f330c64 (optimization in progress)
                 continue;
             }
             $regex = $compiledRoute->getRegex();

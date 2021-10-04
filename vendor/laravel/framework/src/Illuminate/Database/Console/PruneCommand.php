@@ -19,8 +19,17 @@ class PruneCommand extends Command
      */
     protected $signature = 'model:prune
                                 {--model=* : Class names of the models to be pruned}
+<<<<<<< HEAD
+<<<<<<< HEAD
                                 {--chunk=1000 : The number of models to retrieve per chunk of models to be deleted}
                                 {--pretend : Display the number of prunable records found instead of deleting them}';
+=======
+                                {--chunk=1000 : The number of models to retrieve per chunk of models to be deleted}';
+>>>>>>> 22c0e54 (table changes)
+=======
+                                {--chunk=1000 : The number of models to retrieve per chunk of models to be deleted}
+                                {--pretend : Display the number of prunable records found instead of deleting them}';
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * The console command description.
@@ -45,6 +54,10 @@ class PruneCommand extends Command
             return;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($this->option('pretend')) {
             $models->each(function ($model) {
                 $this->pretendToPrune($model);
@@ -53,6 +66,11 @@ class PruneCommand extends Command
             return;
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $events->listen(ModelsPruned::class, function ($event) {
             $this->info("{$event->count} [{$event->model}] records have been pruned.");
         });
@@ -87,7 +105,15 @@ class PruneCommand extends Command
             return collect($models);
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return collect((new Finder)->in(app_path('Models'))->files()->name('*.php'))
+=======
+        return collect((new Finder)->in(app_path('Models'))->files())
+>>>>>>> 22c0e54 (table changes)
+=======
+        return collect((new Finder)->in(app_path('Models'))->files()->name('*.php'))
+>>>>>>> f330c64 (optimization in progress)
             ->map(function ($model) {
                 $namespace = $this->laravel->getNamespace();
 
@@ -113,6 +139,10 @@ class PruneCommand extends Command
 
         return in_array(Prunable::class, $uses) || in_array(MassPrunable::class, $uses);
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Display how many models will be pruned.
@@ -135,4 +165,9 @@ class PruneCommand extends Command
             $this->info("{$count} [{$model}] records will be pruned.");
         }
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

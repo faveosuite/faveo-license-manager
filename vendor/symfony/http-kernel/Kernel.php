@@ -75,11 +75,27 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
 
     private static $freshCache = [];
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public const VERSION = '5.3.9';
     public const VERSION_ID = 50309;
     public const MAJOR_VERSION = 5;
     public const MINOR_VERSION = 3;
     public const RELEASE_VERSION = 9;
+=======
+    public const VERSION = '5.3.3';
+    public const VERSION_ID = 50303;
+    public const MAJOR_VERSION = 5;
+    public const MINOR_VERSION = 3;
+    public const RELEASE_VERSION = 3;
+>>>>>>> 22c0e54 (table changes)
+=======
+    public const VERSION = '5.3.9';
+    public const VERSION_ID = 50309;
+    public const MAJOR_VERSION = 5;
+    public const MINOR_VERSION = 3;
+    public const RELEASE_VERSION = 9;
+>>>>>>> f330c64 (optimization in progress)
     public const EXTRA_VERSION = '';
 
     public const END_OF_MAINTENANCE = '01/2022';
@@ -241,13 +257,29 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
             throw new \InvalidArgumentException(sprintf('A resource name must start with @ ("%s" given).', $name));
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_contains($name, '..')) {
+=======
+        if (false !== strpos($name, '..')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_contains($name, '..')) {
+>>>>>>> f330c64 (optimization in progress)
             throw new \RuntimeException(sprintf('File name "%s" contains invalid characters (..).', $name));
         }
 
         $bundleName = substr($name, 1);
         $path = '';
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_contains($bundleName, '/')) {
+=======
+        if (false !== strpos($bundleName, '/')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_contains($bundleName, '/')) {
+>>>>>>> f330c64 (optimization in progress)
             [$bundleName, $path] = explode('/', $bundleName, 2);
         }
 
@@ -408,7 +440,15 @@ abstract class Kernel implements KernelInterface, RebootableInterface, Terminabl
     protected function getContainerClass()
     {
         $class = static::class;
+<<<<<<< HEAD
+<<<<<<< HEAD
         $class = str_contains($class, "@anonymous\0") ? get_parent_class($class).str_replace('.', '_', ContainerBuilder::hash($class)) : $class;
+=======
+        $class = false !== strpos($class, "@anonymous\0") ? get_parent_class($class).str_replace('.', '_', ContainerBuilder::hash($class)) : $class;
+>>>>>>> 22c0e54 (table changes)
+=======
+        $class = str_contains($class, "@anonymous\0") ? get_parent_class($class).str_replace('.', '_', ContainerBuilder::hash($class)) : $class;
+>>>>>>> f330c64 (optimization in progress)
         $class = str_replace('\\', '_', $class).ucfirst($this->environment).($this->debug ? 'Debug' : '').'Container';
 
         if (!preg_match('/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/', $class)) {

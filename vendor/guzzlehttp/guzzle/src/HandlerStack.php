@@ -15,7 +15,15 @@ use Psr\Http\Message\ResponseInterface;
 class HandlerStack
 {
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @var (callable(RequestInterface, array): PromiseInterface)|null
+=======
+     * @var null|callable(RequestInterface, array): PromiseInterface
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @var (callable(RequestInterface, array): PromiseInterface)|null
+>>>>>>> f330c64 (optimization in progress)
      */
     private $handler;
 
@@ -25,7 +33,15 @@ class HandlerStack
     private $stack = [];
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @var (callable(RequestInterface, array): PromiseInterface)|null
+=======
+     * @var null|callable(RequestInterface, array): PromiseInterface
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @var (callable(RequestInterface, array): PromiseInterface)|null
+>>>>>>> f330c64 (optimization in progress)
      */
     private $cached;
 
@@ -40,9 +56,21 @@ class HandlerStack
      * The returned handler stack can be passed to a client in the "handler"
      * option.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param (callable(RequestInterface, array): PromiseInterface)|null $handler HTTP handler function to use with the stack. If no
      *                                                                            handler is provided, the best handler for your
      *                                                                            system will be utilized.
+=======
+     * @param null|callable(RequestInterface, array): PromiseInterface $handler HTTP handler function to use with the stack. If no
+     *                                                                          handler is provided, the best handler for your
+     *                                                                          system will be utilized.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param (callable(RequestInterface, array): PromiseInterface)|null $handler HTTP handler function to use with the stack. If no
+     *                                                                            handler is provided, the best handler for your
+     *                                                                            system will be utilized.
+>>>>>>> f330c64 (optimization in progress)
      */
     public static function create(?callable $handler = null): self
     {
@@ -56,7 +84,15 @@ class HandlerStack
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param (callable(RequestInterface, array): PromiseInterface)|null $handler Underlying HTTP handler.
+=======
+     * @param null|callable(RequestInterface, array): PromiseInterface $handler Underlying HTTP handler.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param (callable(RequestInterface, array): PromiseInterface)|null $handler Underlying HTTP handler.
+>>>>>>> f330c64 (optimization in progress)
      */
     public function __construct(callable $handler = null)
     {
@@ -180,10 +216,19 @@ class HandlerStack
      */
     public function remove($remove): void
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (!is_string($remove) && !is_callable($remove)) {
             trigger_deprecation('guzzlehttp/guzzle', '7.4', 'Not passing a callable or string to %s::%s() is deprecated and will cause an error in 8.0.', __CLASS__, __FUNCTION__);
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $this->cached = null;
         $idx = \is_callable($remove) ? 0 : 1;
         $this->stack = \array_values(\array_filter(
@@ -255,7 +300,15 @@ class HandlerStack
     /**
      * Provides a debug string for a given callable.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param callable|string $fn Function to write as a string.
+=======
+     * @param callable $fn Function to write as a string.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param callable|string $fn Function to write as a string.
+>>>>>>> f330c64 (optimization in progress)
      */
     private function debugCallable($fn): string
     {

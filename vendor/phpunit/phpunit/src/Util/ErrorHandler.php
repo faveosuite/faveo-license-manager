@@ -57,8 +57,17 @@ final class ErrorHandler
     public static function invokeIgnoringWarnings(callable $callable)
     {
         set_error_handler(
+<<<<<<< HEAD
+<<<<<<< HEAD
             static function ($errorNumber, $errorString)
             {
+=======
+            static function ($errorNumber, $errorString) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            static function ($errorNumber, $errorString)
+            {
+>>>>>>> f330c64 (optimization in progress)
                 if ($errorNumber === E_WARNING) {
                     return;
                 }

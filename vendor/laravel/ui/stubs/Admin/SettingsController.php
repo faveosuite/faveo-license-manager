@@ -199,5 +199,76 @@ class SettingsController extends Controller
         $settings = AflSettings::all();
         return successResponse(Lang::get('lang.Setting_Show'),$settings,200);
     }
+    protected function dropDownForSecuritySettings(){
+        $sets_array=DB::table('afl_settings')->get()->toArray();
+        foreach ($sets_array as $set)
+        {
+            extract((array)$set);
+        }
+        $failed_logins_limit_array=returnNumbersDropdownArray(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "Attempts", "Disabled", $FAILED_LOGINS_LIMIT);
+        $failed_licensings_limit_array=returnNumbersDropdownArray(array(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10), "Attempts", "Disabled", $FAILED_LICENSINGS_LIMIT);
+        $failed_hosts_forget_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30, 60, 90, 180, 365), "Days", "Disabled", $FAILED_HOSTS_FORGET);
+
+        return response()->json(['failed logins limit'=>$failed_logins_limit_array,
+            'failed licensings limit'=>$failed_licensings_limit_array,
+            'failed hosts forget'=>$failed_hosts_forget_array]);
+    }
+    protected function dropDownForGeneralSettings(){
+        $sets_array=DB::table('afl_settings')->get()->toArray();
+        foreach ($sets_array as $set)
+        {
+            extract((array)$set);
+        }
+
+        $timezones_array=returnTimezonesDropdownArray($TIMEZONE);
+        $records_on_admin_page_array=returnNumbersDropdownArray(array(10, 25, 50, 100, 200, 500), "Records", "Disabled", $RECORDS_ON_ADMIN_PAGE);
+        $records_on_index_page_array=returnNumbersDropdownArray(array(1, 3, 5, 10), "Records", "Disabled", $RECORDS_ON_INDEX_PAGE);
+        $records_on_search_page_array=returnNumbersDropdownArray(array(10, 25, 50, 100, 200, 500), "Records", "Disabled", $RECORDS_ON_SEARCH_PAGE);
+        $records_archive_days_array=returnNumbersDropdownArray(array(0, 7, 14, 30, 60, 90, 180, 365, 730), "Days", "Disabled", $RECORDS_ARCHIVE_DAYS);
+
+        return response()->json(['Timezon'=> $timezones_array,
+            'records on admin page'=>$records_on_admin_page_array,
+            'records on index page'=>$records_on_index_page_array,
+            'records on search page'=>$records_on_search_page_array,
+            'records on archieve days' => $records_archive_days_array]);
+    }
+
+    protected function dropDownForEmailSettings(){
+        $sets_array=DB::table('afl_settings')->get()->toArray();
+        foreach ($sets_array as $set)
+        {
+            extract((array)$set);
+        }
+
+
+        $email_expiring_license_days_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30), "Days", "Disabled", $EMAIL_EXPIRING_LICENSE_DAYS);
+        $email_expiring_updates_days_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30), "Days", "Disabled", $EMAIL_EXPIRING_UPDATES_DAYS);
+        $email_expiring_support_days_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30), "Days", "Disabled", $EMAIL_EXPIRING_SUPPORT_DAYS);
+
+        return response()->json([
+            'email expiring license days'=>$email_expiring_license_days_array,
+            'email expiring updates days'=>$email_expiring_updates_days_array,
+            'email expiring support days'=>$email_expiring_support_days_array]);
+    }
+    protected function dropDownForCleanUpSettings(){
+        $sets_array=DB::table('afl_settings')->get()->toArray();
+        foreach ($sets_array as $set)
+        {
+            extract((array)$set);
+        }
+
+        $database_cleanup_callbacks_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30, 60, 90, 180, 365), "Days", "Disabled", $DATABASE_CLEANUP_CALLBACKS);
+        $database_cleanup_reports_main_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30, 60, 90, 180, 365), "Days", "Disabled", $DATABASE_CLEANUP_REPORTS_MAIN);
+        $database_cleanup_reports_system_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30, 60, 90, 180, 365), "Days", "Disabled", $DATABASE_CLEANUP_REPORTS_SYSTEM);
+        $database_cleanup_licenses_array=returnNumbersDropdownArray(array(0, 1, 7, 14, 30, 60, 90, 180, 365), "Days ago", "Disabled", $DATABASE_CLEANUP_REPORTS_LICENSES);
+
+        return response()->json([
+            'database cleanup callbacks'=>$database_cleanup_callbacks_array,
+            'database cleanup reports main'=>$database_cleanup_reports_main_array,
+            'database cleanup reports system'=>$database_cleanup_reports_system_array,
+            'database cleanuo licenses' => $database_cleanup_licenses_array]);
+    }
+
+
 
 }

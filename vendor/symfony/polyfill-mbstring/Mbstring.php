@@ -69,10 +69,28 @@ final class Mbstring
 {
     public const MB_CASE_FOLD = \PHP_INT_MAX;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private const CASE_FOLD = [
         ['µ', 'ſ', "\xCD\x85", 'ς', "\xCF\x90", "\xCF\x91", "\xCF\x95", "\xCF\x96", "\xCF\xB0", "\xCF\xB1", "\xCF\xB5", "\xE1\xBA\x9B", "\xE1\xBE\xBE"],
         ['μ', 's', 'ι',        'σ', 'β',        'θ',        'φ',        'π',        'κ',        'ρ',        'ε',        "\xE1\xB9\xA1", 'ι'],
     ];
+
+    private static $encodingList = ['ASCII', 'UTF-8'];
+    private static $language = 'neutral';
+    private static $internalEncoding = 'UTF-8';
+=======
+    private static $encodingList = ['ASCII', 'UTF-8'];
+    private static $language = 'neutral';
+    private static $internalEncoding = 'UTF-8';
+    private static $caseFold = [
+=======
+    private const CASE_FOLD = [
+>>>>>>> f330c64 (optimization in progress)
+        ['µ', 'ſ', "\xCD\x85", 'ς', "\xCF\x90", "\xCF\x91", "\xCF\x95", "\xCF\x96", "\xCF\xB0", "\xCF\xB1", "\xCF\xB5", "\xE1\xBA\x9B", "\xE1\xBE\xBE"],
+        ['μ', 's', 'ι',        'σ', 'β',        'θ',        'φ',        'π',        'κ',        'ρ',        'ε',        "\xE1\xB9\xA1", 'ι'],
+    ];
+>>>>>>> 22c0e54 (table changes)
 
     private static $encodingList = ['ASCII', 'UTF-8'];
     private static $language = 'neutral';
@@ -301,7 +319,15 @@ final class Mbstring
                 $map = $upper;
             } else {
                 if (self::MB_CASE_FOLD === $mode) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                     $s = str_replace(self::CASE_FOLD[0], self::CASE_FOLD[1], $s);
+=======
+                    $s = str_replace(self::$caseFold[0], self::$caseFold[1], $s);
+>>>>>>> 22c0e54 (table changes)
+=======
+                    $s = str_replace(self::CASE_FOLD[0], self::CASE_FOLD[1], $s);
+>>>>>>> f330c64 (optimization in progress)
                 }
 
                 static $lower = null;

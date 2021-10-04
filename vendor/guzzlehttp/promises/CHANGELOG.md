@@ -1,5 +1,16 @@
 # CHANGELOG
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+## 1.5.1 - 2021-10-22
+
+### Fixed
+
+- Revert "Call handler when waiting on fulfilled/rejected Promise"
+- Fix pool memory leak when empty array of promises provided
+
+>>>>>>> f330c64 (optimization in progress)
 ## 1.5.0 - 2021-10-07
 
 ### Changed
@@ -10,10 +21,21 @@
 
 - Fix manually settle promises generated with Utils::task
 
+<<<<<<< HEAD
 ## 1.4.1 - 2021-02-18
 
 ### Fixed
 
+=======
+## 1.4.1 - 2021-02-18
+
+>>>>>>> 22c0e54 (table changes)
+=======
+## 1.4.1 - 2021-02-18
+
+### Fixed
+
+>>>>>>> f330c64 (optimization in progress)
 - Fixed `each_limit` skipping promises and failing
 
 ## 1.4.0 - 2020-09-30
