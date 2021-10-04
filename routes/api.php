@@ -105,6 +105,10 @@ Route::post('securitysettings/{SETTING_ID}',[SettingsController::class,'security
 Route::post('emailsettings/{SETTING_ID}',   [SettingsController::class,'emailSettings']);
 Route::post('cleanupsettings/{SETTING_ID}',[SettingsController::class,'cleanUpSettings']);
 Route::get('viewSettings',[SettingsController::class,'show']);
+Route::get('securityDropdown',[SettingsController::class,'dropDownForSecuritySettings']);
+Route::get('generalDropdown',[SettingsController::class,'dropDownForGeneralSettings']);
+Route::get('emailsDropdown',[SettingsController::class,'dropDownForEmailSettings']);
+Route::get('cleanupSettings',[SettingsController::class,'dropDownForCleanUpSettings']);
 
 
 //NOTIFICATIONS
