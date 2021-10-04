@@ -104,7 +104,15 @@ class ControllerResolver implements ControllerResolverInterface
      */
     protected function createController(string $controller)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!str_contains($controller, '::')) {
+=======
+        if (false === strpos($controller, '::')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!str_contains($controller, '::')) {
+>>>>>>> f330c64 (optimization in progress)
             $controller = $this->instantiateController($controller);
 
             if (!\is_callable($controller)) {
@@ -150,7 +158,15 @@ class ControllerResolver implements ControllerResolverInterface
     private function getControllerError($callable): string
     {
         if (\is_string($callable)) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             if (str_contains($callable, '::')) {
+=======
+            if (false !== strpos($callable, '::')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if (str_contains($callable, '::')) {
+>>>>>>> f330c64 (optimization in progress)
                 $callable = explode('::', $callable, 2);
             } else {
                 return sprintf('Function "%s" does not exist.', $callable);
@@ -191,7 +207,15 @@ class ControllerResolver implements ControllerResolverInterface
         foreach ($collection as $item) {
             $lev = levenshtein($method, $item);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ($lev <= \strlen($method) / 3 || str_contains($item, $method)) {
+=======
+            if ($lev <= \strlen($method) / 3 || false !== strpos($item, $method)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ($lev <= \strlen($method) / 3 || str_contains($item, $method)) {
+>>>>>>> f330c64 (optimization in progress)
                 $alternatives[] = $item;
             }
         }

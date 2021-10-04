@@ -38,7 +38,15 @@ interface TagFactory
      *
      * @param mixed $value
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function addParameter(string $name, $value): void;
+=======
+    public function addParameter(string $name, $value) : void;
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function addParameter(string $name, $value): void;
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Factory method responsible for instantiating the correct sub type.
@@ -49,7 +57,15 @@ interface TagFactory
      *
      * @throws InvalidArgumentException If an invalid tag line was presented.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function create(string $tagLine, ?TypeContext $context = null): Tag;
+=======
+    public function create(string $tagLine, ?TypeContext $context = null) : Tag;
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function create(string $tagLine, ?TypeContext $context = null): Tag;
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Registers a service with the Service Locator using the FQCN of the class or the alias, if provided.
@@ -60,7 +76,15 @@ interface TagFactory
      * Because interfaces are regularly used as type-hints this method provides an alias parameter; if the FQCN of the
      * interface is passed as alias then every time that interface is requested the provided service will be returned.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function addService(object $service): void;
+=======
+    public function addService(object $service) : void;
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function addService(object $service): void;
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Registers a handler for tags.
@@ -80,5 +104,13 @@ interface TagFactory
      * @throws InvalidArgumentException If the handler is not an existing class.
      * @throws InvalidArgumentException If the handler does not implement the {@see Tag} interface.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function registerTagHandler(string $tagName, string $handler): void;
+=======
+    public function registerTagHandler(string $tagName, string $handler) : void;
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function registerTagHandler(string $tagName, string $handler): void;
+>>>>>>> f330c64 (optimization in progress)
 }

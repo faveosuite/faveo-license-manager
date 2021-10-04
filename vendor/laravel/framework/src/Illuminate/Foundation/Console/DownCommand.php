@@ -2,12 +2,24 @@
 
 namespace Illuminate\Foundation\Console;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 use App\Http\Middleware\PreventRequestsDuringMaintenance;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Foundation\Events\MaintenanceModeEnabled;
 use Illuminate\Foundation\Exceptions\RegisterErrorViewPaths;
 use Throwable;
+<<<<<<< HEAD
+=======
+use Exception;
+use Illuminate\Console\Command;
+use Illuminate\Foundation\Exceptions\RegisterErrorViewPaths;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 class DownCommand extends Command
 {
@@ -54,8 +66,16 @@ class DownCommand extends Command
                 file_get_contents(__DIR__.'/stubs/maintenance-mode.stub')
             );
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             $this->laravel->get('events')->dispatch(MaintenanceModeEnabled::class);
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            $this->laravel->get('events')->dispatch(MaintenanceModeEnabled::class);
+
+>>>>>>> f330c64 (optimization in progress)
             $this->comment('Application is now in maintenance mode.');
         } catch (Exception $e) {
             $this->error('Failed to enter maintenance mode.');
@@ -74,7 +94,14 @@ class DownCommand extends Command
     protected function getDownFilePayload()
     {
         return [
+<<<<<<< HEAD
+<<<<<<< HEAD
             'except' => $this->excludedPaths(),
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            'except' => $this->excludedPaths(),
+>>>>>>> f330c64 (optimization in progress)
             'redirect' => $this->redirectPath(),
             'retry' => $this->getRetryTime(),
             'refresh' => $this->option('refresh'),
@@ -85,6 +112,10 @@ class DownCommand extends Command
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the paths that should be excluded from maintenance mode.
      *
      * @return array
@@ -99,6 +130,11 @@ class DownCommand extends Command
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the path that users should be redirected to.
      *
      * @return string

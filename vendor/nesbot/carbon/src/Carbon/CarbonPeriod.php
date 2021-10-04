@@ -28,7 +28,14 @@ use DateInterval;
 use DatePeriod;
 use DateTime;
 use DateTimeInterface;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use DateTimeZone;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use DateTimeZone;
+>>>>>>> f330c64 (optimization in progress)
 use InvalidArgumentException;
 use Iterator;
 use JsonSerializable;
@@ -640,11 +647,21 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
         }
 
         foreach ($arguments as $argument) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             $parsedDate = null;
 
             if ($argument instanceof DateTimeZone) {
                 $this->setTimezone($argument);
             } elseif ($this->dateInterval === null &&
+<<<<<<< HEAD
+=======
+            if ($this->dateInterval === null &&
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 (
                     \is_string($argument) && preg_match(
                         '/^(-?\d(\d(?![\/-])|[^\d\/-]([\/-])?)*|P[T0-9].*|(?:\h*\d+(?:\.\d+)?\h*[a-z]+)+)$/i',
@@ -653,6 +670,8 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
                     $argument instanceof DateInterval ||
                     $argument instanceof Closure
                 ) &&
+<<<<<<< HEAD
+<<<<<<< HEAD
                 $parsedInterval = @CarbonInterval::make($argument)
             ) {
                 $this->setDateInterval($parsedInterval);
@@ -660,6 +679,24 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
                 $this->setStartDate($parsedDate);
             } elseif ($this->endDate === null && ($parsedDate = $parsedDate ?? $this->makeDateTime($argument))) {
                 $this->setEndDate($parsedDate);
+=======
+                $parsed = @CarbonInterval::make($argument)
+            ) {
+                $this->setDateInterval($parsed);
+            } elseif ($this->startDate === null && $parsed = Carbon::make($argument)) {
+                $this->setStartDate($parsed);
+            } elseif ($this->endDate === null && $parsed = Carbon::make($argument)) {
+                $this->setEndDate($parsed);
+>>>>>>> 22c0e54 (table changes)
+=======
+                $parsedInterval = @CarbonInterval::make($argument)
+            ) {
+                $this->setDateInterval($parsedInterval);
+            } elseif ($this->startDate === null && $parsedDate = $this->makeDateTime($argument)) {
+                $this->setStartDate($parsedDate);
+            } elseif ($this->endDate === null && ($parsedDate = $parsedDate ?? $this->makeDateTime($argument))) {
+                $this->setEndDate($parsedDate);
+>>>>>>> f330c64 (optimization in progress)
             } elseif ($this->recurrences === null && $this->endDate === null && is_numeric($argument)) {
                 $this->setRecurrences($argument);
             } elseif ($this->options === null && (\is_int($argument) || $argument === null)) {
@@ -881,7 +918,15 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      */
     public function setOptions($options)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!\is_int($options) && $options !== null) {
+=======
+        if (!\is_int($options) && !\is_null($options)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!\is_int($options) && $options !== null) {
+>>>>>>> f330c64 (optimization in progress)
             throw new InvalidPeriodParameterException('Invalid options.');
         }
 
@@ -1226,7 +1271,15 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      */
     public function setRecurrences($recurrences)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (!is_numeric($recurrences) && $recurrences !== null || $recurrences < 0) {
+=======
+        if (!is_numeric($recurrences) && !\is_null($recurrences) || $recurrences < 0) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (!is_numeric($recurrences) && $recurrences !== null || $recurrences < 0) {
+>>>>>>> f330c64 (optimization in progress)
             throw new InvalidPeriodParameterException('Invalid number of recurrences.');
         }
 
@@ -1282,7 +1335,15 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      */
     public function setEndDate($date, $inclusive = null)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($date !== null && !$date = ([$this->dateClass, 'make'])($date)) {
+=======
+        if (!\is_null($date) && !$date = ([$this->dateClass, 'make'])($date)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($date !== null && !$date = ([$this->dateClass, 'make'])($date)) {
+>>>>>>> f330c64 (optimization in progress)
             throw new InvalidPeriodDateException('Invalid end date.');
         }
 
@@ -1310,7 +1371,14 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      *
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function valid()
     {
         return $this->validateCurrentDate() === true;
@@ -1321,7 +1389,14 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      *
      * @return int|null
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function key()
     {
         return $this->valid()
@@ -1334,7 +1409,14 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      *
      * @return CarbonInterface|null
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function current()
     {
         return $this->valid()
@@ -1349,7 +1431,14 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      *
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function next()
     {
         if ($this->current === null) {
@@ -1376,7 +1465,14 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      *
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function rewind()
     {
         $this->key = 0;
@@ -1550,7 +1646,14 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      *
      * @return int
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return \count($this->toArray());
@@ -1700,6 +1803,10 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Set the instance's timezone from a string or object and apply it to start/end.
      *
      * @param \DateTimeZone|string $timezone
@@ -1724,6 +1831,12 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
 
     /**
      * Set the instance's timezone from a string or object and add/subtract the offset difference to start/end.
+<<<<<<< HEAD
+=======
+     * Set the instance's timezone from a string or object and add/subtract the offset difference.
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      *
      * @param \DateTimeZone|string $timezone
      *
@@ -1734,6 +1847,10 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
         $this->tzName = $timezone;
         $this->timezone = $timezone;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($this->startDate) {
             $this->setStartDate($this->startDate->shiftTimezone($timezone));
         }
@@ -1742,6 +1859,11 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
             $this->setEndDate($this->endDate->shiftTimezone($timezone));
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         return $this;
     }
 
@@ -2322,7 +2444,15 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
      */
     protected function isCarbonPredicateMethod($callable)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return \is_string($callable) && str_starts_with($callable, 'is') &&
+=======
+        return \is_string($callable) && substr($callable, 0, 2) === 'is' &&
+>>>>>>> 22c0e54 (table changes)
+=======
+        return \is_string($callable) && str_starts_with($callable, 'is') &&
+>>>>>>> f330c64 (optimization in progress)
             (method_exists($this->dateClass, $callable) || ([$this->dateClass, 'hasMacro'])($callable));
     }
 
@@ -2404,7 +2534,19 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
         }
 
         // Check after the first rewind to avoid repeating the initial validation.
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->validationResult ?? ($this->validationResult = $this->checkFilters());
+=======
+        if ($this->validationResult !== null) {
+            return $this->validationResult;
+        }
+
+        return $this->validationResult = $this->checkFilters();
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->validationResult ?? ($this->validationResult = $this->checkFilters());
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -2533,6 +2675,10 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
     {
         return $first > $second ? [$second, $first] : [$first, $second];
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     private function makeDateTime($value): ?DateTimeInterface
     {
@@ -2553,4 +2699,9 @@ class CarbonPeriod implements Iterator, Countable, JsonSerializable
 
         return null;
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

@@ -66,7 +66,15 @@ trait Matching
      * Asserts that the property is of the expected type.
      *
      * @param  string  $key
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string|array  $expected
+=======
+     * @param  string|array $expected
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string|array  $expected
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function whereType(string $key, $expected): self
@@ -106,8 +114,19 @@ trait Matching
     /**
      * Asserts that the property contains the expected values.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  string  $key
      * @param  array|string  $expected
+=======
+     * @param string       $key
+     * @param array|string $expected
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  string  $key
+     * @param  array|string  $expected
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function whereContains(string $key, $expected)

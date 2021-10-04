@@ -263,6 +263,10 @@ trait ManagesFrequencies
      */
     public function twiceDaily($first = 1, $second = 13)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return $this->twiceDailyAt($first, $second, 0);
     }
 
@@ -276,9 +280,20 @@ trait ManagesFrequencies
      */
     public function twiceDailyAt($first = 1, $second = 13, $offset = 0)
     {
+<<<<<<< HEAD
         $hours = $first.','.$second;
 
         return $this->spliceIntoPosition(1, $offset)
+=======
+        $hours = $first.','.$second;
+
+        return $this->spliceIntoPosition(1, 0)
+>>>>>>> 22c0e54 (table changes)
+=======
+        $hours = $first.','.$second;
+
+        return $this->spliceIntoPosition(1, $offset)
+>>>>>>> f330c64 (optimization in progress)
                     ->spliceIntoPosition(2, $hours);
     }
 

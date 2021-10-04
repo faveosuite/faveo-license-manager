@@ -7,6 +7,10 @@ use Illuminate\Support\Arr;
 trait ReplacesAttributes
 {
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Replace all place-holders for the accepted_if rule.
      *
      * @param  string  $message
@@ -25,6 +29,11 @@ trait ReplacesAttributes
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Replace all place-holders for the between rule.
      *
      * @param  string  $message
@@ -433,6 +442,10 @@ trait ReplacesAttributes
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Replace all place-holders for the prohibited_with rule.
      *
      * @param  string  $message
@@ -447,6 +460,11 @@ trait ReplacesAttributes
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Replace all place-holders for the same rule.
      *
      * @param  string  $message

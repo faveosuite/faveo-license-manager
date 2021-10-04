@@ -9,8 +9,7 @@ use App\Models\AflAdmins;
 class OauthAccessToken extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+    protected $primaryKey = 'id';
 
-    public function afl_admin(){
-        return belongsTo('afl_admins');
-    }
 }

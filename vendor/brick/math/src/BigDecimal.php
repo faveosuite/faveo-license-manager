@@ -753,6 +753,10 @@ final class BigDecimal extends BigNumber
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * This method is required for serializing the object and SHOULD NOT be accessed directly.
      *
      * @internal
@@ -787,6 +791,11 @@ final class BigDecimal extends BigNumber
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * This method is required by interface Serializable and SHOULD NOT be accessed directly.
      *
      * @internal
@@ -828,7 +837,15 @@ final class BigDecimal extends BigNumber
      * @param BigDecimal $x The first decimal number.
      * @param BigDecimal $y The second decimal number.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return array{string, string} The scaled integer values of $x and $y.
+=======
+     * @return array{0: string, 1: string} The scaled integer values of $x and $y.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return array{string, string} The scaled integer values of $x and $y.
+>>>>>>> f330c64 (optimization in progress)
      */
     private function scaleValues(BigDecimal $x, BigDecimal $y) : array
     {

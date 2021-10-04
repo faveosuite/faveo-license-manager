@@ -58,7 +58,14 @@ trait VariantTrait
             throw new InvalidBytesException('Invalid number of bytes');
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @var array $parts */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @var array $parts */
+>>>>>>> f330c64 (optimization in progress)
         $parts = unpack('n*', $this->getBytes());
 
         // $parts[5] is a 16-bit, unsigned integer containing the variant bits

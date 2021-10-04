@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 # 2.14.4
 
 * Fix PHP 5.5 support.
@@ -18,6 +22,11 @@
 
 Avoids licensing issues with prettify, and uses a maintaned, modern project.
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 # 2.13.0
 
 * Add Netbeans editor

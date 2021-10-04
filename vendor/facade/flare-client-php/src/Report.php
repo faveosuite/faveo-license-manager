@@ -15,8 +15,17 @@ use Throwable;
 
 class Report
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
     use UsesTime;
     use HasContext;
+=======
+    use UsesTime, HasContext;
+>>>>>>> 22c0e54 (table changes)
+=======
+    use UsesTime;
+    use HasContext;
+>>>>>>> f330c64 (optimization in progress)
 
     /** @var \Facade\FlareClient\Stacktrace\Stacktrace */
     private $stacktrace;
@@ -66,12 +75,21 @@ class Report
     /** @var string */
     private $groupBy ;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     /** @var string */
     private $trackingUuid;
 
     /** @var null string|null */
     public static $fakeTrackingUuid = null;
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public static function createForThrowable(
         Throwable $throwable,
         ContextInterface $context,
@@ -113,6 +131,10 @@ class Report
             ->openFrameIndex($stacktrace->firstApplicationFrameIndex());
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function __construct()
     {
         $this->trackingUuid = self::$fakeTrackingUuid ?? $this->generateUuid();
@@ -123,6 +145,11 @@ class Report
         return $this->trackingUuid;
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function exceptionClass(string $exceptionClass)
     {
         $this->exceptionClass = $exceptionClass;
@@ -311,6 +338,8 @@ class Report
             'open_frame_index' => $this->openFrameIndex,
             'application_path' => $this->applicationPath,
             'application_version' => $this->applicationVersion,
+<<<<<<< HEAD
+<<<<<<< HEAD
             'tracking_uuid' => $this->trackingUuid,
         ];
     }
@@ -332,4 +361,31 @@ class Report
         // Output the 36 character UUID.
         return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
     }
+=======
+        ];
+    }
+>>>>>>> 22c0e54 (table changes)
+=======
+            'tracking_uuid' => $this->trackingUuid,
+        ];
+    }
+
+    /*
+ * Found on https://stackoverflow.com/questions/2040240/php-function-to-generate-v4-uuid/15875555#15875555
+ */
+    private function generateUuid(): string
+    {
+        // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
+        $data = $data ?? random_bytes(16);
+        assert(strlen($data) == 16);
+
+        // Set version to 0100
+        $data[6] = chr(ord($data[6]) & 0x0f | 0x40);
+        // Set bits 6-7 to 10
+        $data[8] = chr(ord($data[8]) & 0x3f | 0x80);
+
+        // Output the 36 character UUID.
+        return vsprintf('%s%s-%s-%s-%s-%s%s%s', str_split(bin2hex($data), 4));
+    }
+>>>>>>> f330c64 (optimization in progress)
 }

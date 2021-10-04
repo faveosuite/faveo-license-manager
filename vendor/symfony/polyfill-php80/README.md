@@ -16,7 +16,15 @@ This component provides features added to PHP 8.0 core:
 - [`get_resource_id`](https://php.net/get_resource_id)
 
 More information can be found in the
+<<<<<<< HEAD
+<<<<<<< HEAD
 [main Polyfill README](https://github.com/symfony/polyfill/blob/main/README.md).
+=======
+[main Polyfill README](https://github.com/symfony/polyfill/blob/master/README.md).
+>>>>>>> 22c0e54 (table changes)
+=======
+[main Polyfill README](https://github.com/symfony/polyfill/blob/main/README.md).
+>>>>>>> f330c64 (optimization in progress)
 
 License
 =======

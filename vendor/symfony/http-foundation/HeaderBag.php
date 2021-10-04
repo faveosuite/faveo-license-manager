@@ -123,8 +123,18 @@ class HeaderBag implements \IteratorAggregate, \Countable
     /**
      * Sets a header by name.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param string|string[]|null $values  The value or an array of values
      * @param bool                 $replace Whether to replace the actual value or not (true by default)
+=======
+     * @param string|string[] $values  The value or an array of values
+     * @param bool            $replace Whether to replace the actual value or not (true by default)
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param string|string[]|null $values  The value or an array of values
+     * @param bool                 $replace Whether to replace the actual value or not (true by default)
+>>>>>>> f330c64 (optimization in progress)
      */
     public function set(string $key, $values, bool $replace = true)
     {
@@ -208,7 +218,15 @@ class HeaderBag implements \IteratorAggregate, \Countable
     /**
      * Adds a custom Cache-Control directive.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param bool|string $value The Cache-Control directive value
+=======
+     * @param mixed $value The Cache-Control directive value
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param bool|string $value The Cache-Control directive value
+>>>>>>> f330c64 (optimization in progress)
      */
     public function addCacheControlDirective(string $key, $value = true)
     {
@@ -230,11 +248,27 @@ class HeaderBag implements \IteratorAggregate, \Countable
     /**
      * Returns a Cache-Control directive value by name.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return bool|string|null The directive value if defined, null otherwise
      */
     public function getCacheControlDirective(string $key)
     {
         return $this->cacheControl[$key] ?? null;
+=======
+     * @return mixed The directive value if defined, null otherwise
+     */
+    public function getCacheControlDirective(string $key)
+    {
+        return \array_key_exists($key, $this->cacheControl) ? $this->cacheControl[$key] : null;
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return bool|string|null The directive value if defined, null otherwise
+     */
+    public function getCacheControlDirective(string $key)
+    {
+        return $this->cacheControl[$key] ?? null;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -252,7 +286,14 @@ class HeaderBag implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator An \ArrayIterator instance
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return new \ArrayIterator($this->headers);
@@ -263,7 +304,14 @@ class HeaderBag implements \IteratorAggregate, \Countable
      *
      * @return int The number of headers
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return \count($this->headers);

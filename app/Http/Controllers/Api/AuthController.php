@@ -90,13 +90,11 @@ class  AuthController extends Controller
 
         $tokenobj = $admin->createToken('AFL');
         $token = $tokenobj->accessToken;
-        $token_id = $tokenobj->token->id;
 
-         //dd($token_id);
         $response = [
             'message'=> 'logged in',
             'user'=> $admin,
-            'token'=> $token_id
+            'token'=> $token
         ];
 
         return successResponse(Lang::get('lang.Login'),$response,200);
@@ -131,6 +129,7 @@ class  AuthController extends Controller
 
               $message->from(config('constants.Mail.From'), 'Forgot Password');
               $message->to($email)->subject('Password Reset Link');
+
             }
 
              );
@@ -158,6 +157,7 @@ class  AuthController extends Controller
         'password' => 'required|confirmed',
         'token' => 'required'
         ]);
+
 
     if ($validator->fails()) {
         return errorResponse(Lang::get('lang.form'),401);

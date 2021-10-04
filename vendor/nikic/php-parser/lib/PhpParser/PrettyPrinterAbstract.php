@@ -824,11 +824,21 @@ abstract class PrettyPrinterAbstract
                     return null;
                 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
                 // We go multiline if the original code was multiline,
                 // or if it's an array item with a comment above it.
                 if ($insertStr === ', ' &&
                     ($this->isMultiline($origNodes) || $arrItem->getComments())
                 ) {
+<<<<<<< HEAD
+=======
+                if ($insertStr === ', ' && $this->isMultiline($origNodes)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                     $insertStr = ',';
                     $insertNewline = true;
                 }
@@ -846,11 +856,26 @@ abstract class PrettyPrinterAbstract
                 $this->setIndentLevel($lastElemIndentLevel);
 
                 if ($insertNewline) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                     $result .= $insertStr . $this->nl;
                     $comments = $arrItem->getComments();
                     if ($comments) {
                         $result .= $this->pComments($comments) . $this->nl;
                     }
+=======
+=======
+                    $result .= $insertStr . $this->nl;
+>>>>>>> f330c64 (optimization in progress)
+                    $comments = $arrItem->getComments();
+                    if ($comments) {
+                        $result .= $this->pComments($comments) . $this->nl;
+                    }
+<<<<<<< HEAD
+                    $result .= $insertStr . $this->nl;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 } else {
                     $result .= $insertStr;
                 }
@@ -1078,8 +1103,17 @@ abstract class PrettyPrinterAbstract
              . ($modifiers & Stmt\Class_::MODIFIER_PRIVATE   ? 'private '   : '')
              . ($modifiers & Stmt\Class_::MODIFIER_STATIC    ? 'static '    : '')
              . ($modifiers & Stmt\Class_::MODIFIER_ABSTRACT  ? 'abstract '  : '')
+<<<<<<< HEAD
+<<<<<<< HEAD
              . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '')
              . ($modifiers & Stmt\Class_::MODIFIER_READONLY  ? 'readonly '  : '');
+=======
+             . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '');
+>>>>>>> 22c0e54 (table changes)
+=======
+             . ($modifiers & Stmt\Class_::MODIFIER_FINAL     ? 'final '     : '')
+             . ($modifiers & Stmt\Class_::MODIFIER_READONLY  ? 'readonly '  : '');
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1128,8 +1162,17 @@ abstract class PrettyPrinterAbstract
         for ($i = 0; $i < 256; $i++) {
             // Since PHP 7.1 The lower range is 0x80. However, we also want to support code for
             // older versions.
+<<<<<<< HEAD
+<<<<<<< HEAD
             $chr = chr($i);
             $this->labelCharMap[$chr] = $i >= 0x7f || ctype_alnum($chr);
+=======
+            $this->labelCharMap[chr($i)] = $i >= 0x7f || ctype_alnum($i);
+>>>>>>> 22c0e54 (table changes)
+=======
+            $chr = chr($i);
+            $this->labelCharMap[$chr] = $i >= 0x7f || ctype_alnum($chr);
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -1347,7 +1390,14 @@ abstract class PrettyPrinterAbstract
             //'Scalar_Encapsed->parts' => '',
             'Stmt_Catch->types' => '|',
             'UnionType->types' => '|',
+<<<<<<< HEAD
+<<<<<<< HEAD
             'IntersectionType->types' => '&',
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+            'IntersectionType->types' => '&',
+>>>>>>> f330c64 (optimization in progress)
             'Stmt_If->elseifs' => ' ',
             'Stmt_TryCatch->catches' => ' ',
 

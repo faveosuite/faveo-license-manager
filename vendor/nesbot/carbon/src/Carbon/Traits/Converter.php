@@ -38,7 +38,15 @@ trait Converter
      *
      * @var string|Closure|null
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected static $toStringFormat;
+=======
+    protected static $toStringFormat = null;
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected static $toStringFormat;
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Reset the format used to the default when type juggling a Carbon instance to a string

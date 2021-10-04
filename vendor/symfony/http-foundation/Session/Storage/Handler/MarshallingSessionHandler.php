@@ -30,7 +30,14 @@ class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpd
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function open($savePath, $name)
     {
         return $this->handler->open($savePath, $name);
@@ -39,7 +46,14 @@ class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpd
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function close()
     {
         return $this->handler->close();
@@ -48,16 +62,34 @@ class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpd
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function destroy($sessionId)
     {
         return $this->handler->destroy($sessionId);
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return int|false
      */
     #[\ReturnTypeWillChange]
+=======
+     * @return bool
+     */
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return int|false
+     */
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function gc($maxlifetime)
     {
         return $this->handler->gc($maxlifetime);
@@ -66,7 +98,14 @@ class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpd
     /**
      * @return string
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function read($sessionId)
     {
         return $this->marshaller->unmarshall($this->handler->read($sessionId));
@@ -75,7 +114,14 @@ class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpd
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function write($sessionId, $data)
     {
         $failed = [];
@@ -91,7 +137,14 @@ class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpd
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function validateId($sessionId)
     {
         return $this->handler->validateId($sessionId);
@@ -100,7 +153,14 @@ class MarshallingSessionHandler implements \SessionHandlerInterface, \SessionUpd
     /**
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function updateTimestamp($sessionId, $data)
     {
         return $this->handler->updateTimestamp($sessionId, $data);

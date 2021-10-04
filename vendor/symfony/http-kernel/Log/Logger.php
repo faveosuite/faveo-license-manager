@@ -88,7 +88,15 @@ class Logger extends AbstractLogger
 
     private function format(string $level, string $message, array $context, bool $prefixDate = true): string
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_contains($message, '{')) {
+=======
+        if (false !== strpos($message, '{')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_contains($message, '{')) {
+>>>>>>> f330c64 (optimization in progress)
             $replacements = [];
             foreach ($context as $key => $val) {
                 if (null === $val || is_scalar($val) || (\is_object($val) && method_exists($val, '__toString'))) {

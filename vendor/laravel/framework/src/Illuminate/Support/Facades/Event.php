@@ -16,12 +16,28 @@ use Illuminate\Support\Testing\Fakes\EventFake;
  * @method static void assertDispatched(string|\Closure $event, callable|int $callback = null)
  * @method static void assertDispatchedTimes(string $event, int $times = 1)
  * @method static void assertNotDispatched(string|\Closure $event, callable|int $callback = null)
+<<<<<<< HEAD
+<<<<<<< HEAD
  * @method static void assertNothingDispatched()
  * @method static void assertListening(string $expectedEvent, string $expectedListener)
  * @method static void flush(string $event)
  * @method static void forget(string $event)
  * @method static void forgetPushed()
  * @method static void listen(\Closure|string|array $events, \Closure|string|array $listener = null)
+=======
+ * @method static void flush(string $event)
+ * @method static void forget(string $event)
+ * @method static void forgetPushed()
+ * @method static void listen(\Closure|string|array $events, \Closure|string $listener = null)
+>>>>>>> 22c0e54 (table changes)
+=======
+ * @method static void assertNothingDispatched()
+ * @method static void assertListening(string $expectedEvent, string $expectedListener)
+ * @method static void flush(string $event)
+ * @method static void forget(string $event)
+ * @method static void forgetPushed()
+ * @method static void listen(\Closure|string|array $events, \Closure|string|array $listener = null)
+>>>>>>> f330c64 (optimization in progress)
  * @method static void push(string $event, array $payload = [])
  * @method static void subscribe(object|string $subscriber)
  *
@@ -50,7 +66,15 @@ class Event extends Facade
      *
      * @param  callable  $callable
      * @param  array  $eventsToFake
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return mixed
+=======
+     * @return callable
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return mixed
+>>>>>>> f330c64 (optimization in progress)
      */
     public static function fakeFor(callable $callable, array $eventsToFake = [])
     {

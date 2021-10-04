@@ -3,11 +3,16 @@
 namespace Faker;
 
 /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
  * Proxy for other generators that returns only unique values.
  *
  * Instantiated through @see Generator::unique().
  *
  * @mixin Generator
+<<<<<<< HEAD
  */
 class UniqueGenerator
 {
@@ -31,6 +36,38 @@ class UniqueGenerator
      *
      * @var array<string, array<string, null>>
      */
+=======
+ * Proxy for other generators, to return only unique values. Works with
+ * Faker\Generator\Base->unique()
+=======
+>>>>>>> f330c64 (optimization in progress)
+ */
+class UniqueGenerator
+{
+    /**
+     * @var Generator
+     */
+    protected $generator;
+
+    /**
+     * @var int
+     */
+    protected $maxRetries;
+<<<<<<< HEAD
+>>>>>>> 22c0e54 (table changes)
+=======
+
+    /**
+     * Maps from method names to a map with serialized result keys.
+     *
+     * @example [
+     *   'phone' => ['0123' => null],
+     *   'city' => ['London' => null, 'Tokyo' => null],
+     * ]
+     *
+     * @var array<string, array<string, null>>
+     */
+>>>>>>> f330c64 (optimization in progress)
     protected $uniques = [];
 
     /**

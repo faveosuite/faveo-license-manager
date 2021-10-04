@@ -25,10 +25,25 @@ interface EventDispatcherInterface extends ContractsEventDispatcherInterface
     /**
      * Adds an event listener that listens on the specified events.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param int $priority The higher this value, the earlier an event
      *                      listener will be triggered in the chain (defaults to 0)
      */
     public function addListener(string $eventName, callable $listener, int $priority = 0);
+=======
+     * @param callable $listener The listener
+     * @param int      $priority The higher this value, the earlier an event
+     *                           listener will be triggered in the chain (defaults to 0)
+     */
+    public function addListener(string $eventName, $listener, int $priority = 0);
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param int $priority The higher this value, the earlier an event
+     *                      listener will be triggered in the chain (defaults to 0)
+     */
+    public function addListener(string $eventName, callable $listener, int $priority = 0);
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Adds an event subscriber.
@@ -40,8 +55,20 @@ interface EventDispatcherInterface extends ContractsEventDispatcherInterface
 
     /**
      * Removes an event listener from the specified events.
+<<<<<<< HEAD
+<<<<<<< HEAD
      */
     public function removeListener(string $eventName, callable $listener);
+=======
+     *
+     * @param callable $listener The listener to remove
+     */
+    public function removeListener(string $eventName, $listener);
+>>>>>>> 22c0e54 (table changes)
+=======
+     */
+    public function removeListener(string $eventName, callable $listener);
+>>>>>>> f330c64 (optimization in progress)
 
     public function removeSubscriber(EventSubscriberInterface $subscriber);
 
@@ -57,9 +84,23 @@ interface EventDispatcherInterface extends ContractsEventDispatcherInterface
      *
      * Returns null if the event or the listener does not exist.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return int|null The event listener priority
      */
     public function getListenerPriority(string $eventName, callable $listener);
+=======
+     * @param callable $listener The listener
+     *
+     * @return int|null The event listener priority
+     */
+    public function getListenerPriority(string $eventName, $listener);
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return int|null The event listener priority
+     */
+    public function getListenerPriority(string $eventName, callable $listener);
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Checks whether an event has any registered listeners.

@@ -48,6 +48,10 @@ class PhoneNumber extends \Faker\Provider\PhoneNumber
         '+38(0###)######',
         '+38(0####)#####',
     ];
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * @see Detailed numbering scheme. Source: https://www.itu.int/oth/T02020000DB/en
@@ -69,4 +73,9 @@ class PhoneNumber extends \Faker\Provider\PhoneNumber
         '+38063#######',
         '+38099#######',
     ];
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

@@ -189,11 +189,21 @@ abstract class Queue
             return;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (is_null($backoff = $job->backoff ?? $job->backoff())) {
             return;
         }
 
         return collect(Arr::wrap($backoff))
+<<<<<<< HEAD
+=======
+        return collect(Arr::wrap($job->backoff ?? $job->backoff()))
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             ->map(function ($backoff) {
                 return $backoff instanceof DateTimeInterface
                                 ? $this->secondsUntil($backoff) : $backoff;

@@ -32,7 +32,15 @@ return [
     'a_second' => '{1}пӗр-ик ҫеккунт|:count ҫеккунт',
     'ago' => ':time каялла',
     'from_now' => function ($time) {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $time.(preg_match('/сехет$/u', $time) ? 'рен' : (preg_match('/ҫул/u', $time) ? 'тан' : 'ран'));
+=======
+        return $time.(preg_match('/сехет$/', $time) ? 'рен' : (preg_match('/ҫул/', $time) ? 'тан' : 'ран'));
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $time.(preg_match('/сехет$/u', $time) ? 'рен' : (preg_match('/ҫул/u', $time) ? 'тан' : 'ран'));
+>>>>>>> f330c64 (optimization in progress)
     },
     'diff_yesterday' => 'Ӗнер',
     'diff_today' => 'Паян',

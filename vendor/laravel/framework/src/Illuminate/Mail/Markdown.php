@@ -6,6 +6,13 @@ use Illuminate\Contracts\View\Factory as ViewFactory;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use League\CommonMark\CommonMarkConverter;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+use League\CommonMark\Environment;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 use League\CommonMark\Extension\Table\TableExtension;
 use TijsVerkoyen\CssToInlineStyles\CssToInlineStyles;
 
@@ -103,6 +110,8 @@ class Markdown
      */
     public static function parse($text)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $converter = new CommonMarkConverter([
             'allow_unsafe_links' => false,
         ]);
@@ -110,6 +119,25 @@ class Markdown
         $converter->getEnvironment()->addExtension(new TableExtension());
 
         return new HtmlString((string) $converter->convertToHtml($text));
+=======
+        $environment = Environment::createCommonMarkEnvironment();
+
+        $environment->addExtension(new TableExtension);
+
+=======
+>>>>>>> f330c64 (optimization in progress)
+        $converter = new CommonMarkConverter([
+            'allow_unsafe_links' => false,
+        ]);
+
+        $converter->getEnvironment()->addExtension(new TableExtension());
+
+<<<<<<< HEAD
+        return new HtmlString($converter->convertToHtml($text));
+>>>>>>> 22c0e54 (table changes)
+=======
+        return new HtmlString((string) $converter->convertToHtml($text));
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

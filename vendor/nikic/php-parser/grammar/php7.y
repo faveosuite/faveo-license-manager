@@ -20,11 +20,20 @@ top_statement_list:
             if ($nop !== null) { $1[] = $nop; } $$ = $1; }
 ;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 ampersand:
       T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
     | T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG
 ;
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 reserved_non_modifiers:
       T_INCLUDE | T_INCLUDE_ONCE | T_EVAL | T_REQUIRE | T_REQUIRE_ONCE | T_LOGICAL_OR | T_LOGICAL_XOR | T_LOGICAL_AND
     | T_INSTANCEOF | T_NEW | T_CLONE | T_EXIT | T_IF | T_ELSEIF | T_ELSE | T_ENDIF | T_ECHO | T_DO | T_WHILE
@@ -38,7 +47,15 @@ reserved_non_modifiers:
 
 semi_reserved:
       reserved_non_modifiers
+<<<<<<< HEAD
+<<<<<<< HEAD
     | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC | T_READONLY
+=======
+    | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC
+>>>>>>> 22c0e54 (table changes)
+=======
+    | T_STATIC | T_ABSTRACT | T_FINAL | T_PRIVATE | T_PROTECTED | T_PUBLIC | T_READONLY
+>>>>>>> f330c64 (optimization in progress)
 ;
 
 identifier_ex:
@@ -332,12 +349,22 @@ non_empty_variables_list:
 
 optional_ref:
       /* empty */                                           { $$ = false; }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     | ampersand                                             { $$ = true; }
 ;
 
 optional_arg_ref:
       /* empty */                                           { $$ = false; }
     | T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG                 { $$ = true; }
+<<<<<<< HEAD
+=======
+    | '&'                                                   { $$ = true; }
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 ;
 
 optional_ellipsis:
@@ -515,7 +542,15 @@ new_else_single:
 
 foreach_variable:
       variable                                              { $$ = array($1, false); }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | ampersand variable                                    { $$ = array($2, true); }
+=======
+    | '&' variable                                          { $$ = array($2, true); }
+>>>>>>> 22c0e54 (table changes)
+=======
+    | ampersand variable                                    { $$ = array($2, true); }
+>>>>>>> f330c64 (optimization in progress)
     | list_expr                                             { $$ = array($1, false); }
     | array_short_syntax                                    { $$ = array($1, false); }
 ;
@@ -530,6 +565,8 @@ non_empty_parameter_list:
     | non_empty_parameter_list ',' parameter                { push($1, $3); }
 ;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 optional_property_modifiers:
       /* empty */               { $$ = 0; }
     | optional_property_modifiers property_modifier
@@ -554,6 +591,39 @@ parameter:
             $this->checkParam($$); }
     | optional_attributes optional_property_modifiers optional_type_without_static
       optional_arg_ref optional_ellipsis error
+=======
+optional_visibility_modifier:
+=======
+optional_property_modifiers:
+>>>>>>> f330c64 (optimization in progress)
+      /* empty */               { $$ = 0; }
+    | optional_property_modifiers property_modifier
+          { $this->checkModifier($1, $2, #2); $$ = $1 | $2; }
+;
+
+property_modifier:
+      T_PUBLIC                  { $$ = Stmt\Class_::MODIFIER_PUBLIC; }
+    | T_PROTECTED               { $$ = Stmt\Class_::MODIFIER_PROTECTED; }
+    | T_PRIVATE                 { $$ = Stmt\Class_::MODIFIER_PRIVATE; }
+    | T_READONLY                { $$ = Stmt\Class_::MODIFIER_READONLY; }
+;
+
+parameter:
+      optional_attributes optional_property_modifiers optional_type_without_static
+      optional_arg_ref optional_ellipsis plain_variable
+          { $$ = new Node\Param($6, null, $3, $4, $5, attributes(), $2, $1);
+            $this->checkParam($$); }
+    | optional_attributes optional_property_modifiers optional_type_without_static
+      optional_arg_ref optional_ellipsis plain_variable '=' expr
+          { $$ = new Node\Param($6, $8, $3, $4, $5, attributes(), $2, $1);
+            $this->checkParam($$); }
+<<<<<<< HEAD
+    | optional_attributes optional_visibility_modifier optional_type_without_static optional_ref optional_ellipsis error
+>>>>>>> 22c0e54 (table changes)
+=======
+    | optional_attributes optional_property_modifiers optional_type_without_static
+      optional_arg_ref optional_ellipsis error
+>>>>>>> f330c64 (optimization in progress)
           { $$ = new Node\Param(Expr\Error[], null, $3, $4, $5, attributes(), $2, $1); }
 ;
 
@@ -561,7 +631,14 @@ type_expr:
       type                                                  { $$ = $1; }
     | '?' type                                              { $$ = Node\NullableType[$2]; }
     | union_type                                            { $$ = Node\UnionType[$1]; }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | intersection_type                                     { $$ = Node\IntersectionType[$1]; }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    | intersection_type                                     { $$ = Node\IntersectionType[$1]; }
+>>>>>>> f330c64 (optimization in progress)
 ;
 
 type:
@@ -585,6 +662,10 @@ union_type_without_static:
     | union_type_without_static '|' type_without_static     { push($1, $3); }
 ;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 intersection_type:
       type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type   { init($1, $3); }
     | intersection_type T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG type
@@ -598,11 +679,23 @@ intersection_type_without_static:
           { push($1, $3); }
 ;
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 type_expr_without_static:
       type_without_static                                   { $$ = $1; }
     | '?' type_without_static                               { $$ = Node\NullableType[$2]; }
     | union_type_without_static                             { $$ = Node\UnionType[$1]; }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | intersection_type_without_static                      { $$ = Node\IntersectionType[$1]; }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    | intersection_type_without_static                      { $$ = Node\IntersectionType[$1]; }
+>>>>>>> f330c64 (optimization in progress)
 ;
 
 optional_type_without_static:
@@ -619,11 +712,20 @@ optional_return_type:
 argument_list:
       '(' ')'                                               { $$ = array(); }
     | '(' non_empty_argument_list optional_comma ')'        { $$ = $2; }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     | '(' variadic_placeholder ')'                          { init($2); }
 ;
 
 variadic_placeholder:
       T_ELLIPSIS                                            { $$ = Node\VariadicPlaceholder[]; }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 ;
 
 non_empty_argument_list:
@@ -633,7 +735,15 @@ non_empty_argument_list:
 
 argument:
       expr                                                  { $$ = Node\Arg[$1, false, false]; }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | ampersand variable                                    { $$ = Node\Arg[$2, true, false]; }
+=======
+    | '&' variable                                          { $$ = Node\Arg[$2, true, false]; }
+>>>>>>> 22c0e54 (table changes)
+=======
+    | ampersand variable                                    { $$ = Node\Arg[$2, true, false]; }
+>>>>>>> f330c64 (optimization in progress)
     | T_ELLIPSIS expr                                       { $$ = Node\Arg[$2, false, true]; }
     | identifier_ex ':' expr
           { $$ = new Node\Arg($3, false, false, attributes(), $1); }
@@ -751,7 +861,14 @@ member_modifier:
     | T_STATIC                                              { $$ = Stmt\Class_::MODIFIER_STATIC; }
     | T_ABSTRACT                                            { $$ = Stmt\Class_::MODIFIER_ABSTRACT; }
     | T_FINAL                                               { $$ = Stmt\Class_::MODIFIER_FINAL; }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    | T_READONLY                                            { $$ = Stmt\Class_::MODIFIER_READONLY; }
+>>>>>>> f330c64 (optimization in progress)
 ;
 
 property_declaration_list:
@@ -796,7 +913,15 @@ expr:
     | list_expr '=' expr                                    { $$ = Expr\Assign[$1, $3]; }
     | array_short_syntax '=' expr                           { $$ = Expr\Assign[$1, $3]; }
     | variable '=' expr                                     { $$ = Expr\Assign[$1, $3]; }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
+=======
+    | variable '=' '&' variable                             { $$ = Expr\AssignRef[$1, $4]; }
+>>>>>>> 22c0e54 (table changes)
+=======
+    | variable '=' ampersand variable                       { $$ = Expr\AssignRef[$1, $4]; }
+>>>>>>> f330c64 (optimization in progress)
     | new_expr                                              { $$ = $1; }
     | match                                                 { $$ = $1; }
     | T_CLONE expr                                          { $$ = Expr\Clone_[$2]; }
@@ -823,8 +948,17 @@ expr:
     | expr T_LOGICAL_AND expr                               { $$ = Expr\BinaryOp\LogicalAnd[$1, $3]; }
     | expr T_LOGICAL_XOR expr                               { $$ = Expr\BinaryOp\LogicalXor[$1, $3]; }
     | expr '|' expr                                         { $$ = Expr\BinaryOp\BitwiseOr [$1, $3]; }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | expr T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG expr   { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
     | expr T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG expr       { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+=======
+    | expr '&' expr                                         { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+>>>>>>> 22c0e54 (table changes)
+=======
+    | expr T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG expr   { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+    | expr T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG expr       { $$ = Expr\BinaryOp\BitwiseAnd[$1, $3]; }
+>>>>>>> f330c64 (optimization in progress)
     | expr '^' expr                                         { $$ = Expr\BinaryOp\BitwiseXor[$1, $3]; }
     | expr '.' expr                                         { $$ = Expr\BinaryOp\Concat    [$1, $3]; }
     | expr '+' expr                                         { $$ = Expr\BinaryOp\Plus      [$1, $3]; }
@@ -1147,10 +1281,24 @@ inner_array_pair_list:
 
 array_pair:
       expr                                                  { $$ = Expr\ArrayItem[$1, null, false]; }
+<<<<<<< HEAD
+<<<<<<< HEAD
     | ampersand variable                                    { $$ = Expr\ArrayItem[$2, null, true]; }
     | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
     | expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
     | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
+=======
+    | '&' variable                                          { $$ = Expr\ArrayItem[$2, null, true]; }
+    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
+    | expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
+    | expr T_DOUBLE_ARROW '&' variable                      { $$ = Expr\ArrayItem[$4, $1,   true]; }
+>>>>>>> 22c0e54 (table changes)
+=======
+    | ampersand variable                                    { $$ = Expr\ArrayItem[$2, null, true]; }
+    | list_expr                                             { $$ = Expr\ArrayItem[$1, null, false]; }
+    | expr T_DOUBLE_ARROW expr                              { $$ = Expr\ArrayItem[$3, $1,   false]; }
+    | expr T_DOUBLE_ARROW ampersand variable                { $$ = Expr\ArrayItem[$4, $1,   true]; }
+>>>>>>> f330c64 (optimization in progress)
     | expr T_DOUBLE_ARROW list_expr                         { $$ = Expr\ArrayItem[$3, $1,   false]; }
     | T_ELLIPSIS expr                                       { $$ = Expr\ArrayItem[$2, null, false, attributes(), true]; }
     | /* empty */                                           { $$ = null; }

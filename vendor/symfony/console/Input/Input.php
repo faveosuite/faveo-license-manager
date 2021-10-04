@@ -128,7 +128,15 @@ abstract class Input implements InputInterface, StreamableInputInterface
     /**
      * {@inheritdoc}
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function hasArgument(string $name)
+=======
+    public function hasArgument($name)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function hasArgument(string $name)
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->definition->hasArgument($name);
     }

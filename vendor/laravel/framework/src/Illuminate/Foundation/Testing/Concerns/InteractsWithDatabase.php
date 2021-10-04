@@ -9,7 +9,14 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Constraints\CountInDatabase;
 use Illuminate\Testing\Constraints\HasInDatabase;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Testing\Constraints\NotSoftDeletedInDatabase;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Testing\Constraints\NotSoftDeletedInDatabase;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Testing\Constraints\SoftDeletedInDatabase;
 use PHPUnit\Framework\Constraint\LogicalNot as ReverseConstraint;
 
@@ -110,6 +117,10 @@ trait InteractsWithDatabase
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Assert the given record has not been "soft deleted".
      *
      * @param  \Illuminate\Database\Eloquent\Model|string  $table
@@ -162,6 +173,11 @@ trait InteractsWithDatabase
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Determine if the argument is a soft deletable model.
      *
      * @param  mixed  $model

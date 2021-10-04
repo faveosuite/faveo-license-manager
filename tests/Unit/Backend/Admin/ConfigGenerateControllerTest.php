@@ -25,39 +25,18 @@ class ConfigGenerateControllerTest extends TestCase
                  'Delete_Cancelled_License' => 'No',
                  'Delete_Cracked_License' => 'No',
                  'God_Mode' =>'Yes',
+                  'Connection_Timeout' => 30,
+                 'Delete_Downloaded_Archive_After_Extracting' =>'YES'
              ];
              $response= $this->json('POST',url('api/admin/config'),$data);
              $response->assertStatus(200);
 
-
     }
-    public function test_configGenerate_ConfigRequestedWithInvalidStorage_shouldRecieveResponse404()
-    {
-        $this->withoutMiddleware();
-
-        $data = [
-
-                 'product_id' => 10,
-                 'License_Verification_Period' =>5,
-                 'License_Storage_type' =>'DATA',
-                 'MySQL_Table_Name' => 'faveo_license',
-                 'Database_License_File_Location' => 'license.signature.key',
-                 'Delete_Cancelled_License' => 'No',
-                 'Delete_Cracked_License' => 'No',
-                 'God_Mode' =>'Yes',
-             ];
-             $this->json('POST',url('api/admin/config'),$data);
-             $this->assertDatabaseHas('afl_reports',['report_text'=>'The configuration file could not be generated because of this reason: Sample configuration file is empty.']);
-
-
-
-
-    }
-    public function test_configGenerate_ConfigRequestedWithInvalidProduct_shouldRecieveResponse404()
+    public function test_configGenerate_ConfigRequestedWithAnyInvalidInput_shouldRecieveResponse404()
     {
         $this->withoutMiddleware();
         $data = [
-            'product_id' => 100,
+            'product_id' => 10,
             'License_Verification_Period' =>5,
             'License_Storage_type' =>'DATABASE',
             'MySQL_Table_Name' => 'faveo_license',
@@ -65,14 +44,12 @@ class ConfigGenerateControllerTest extends TestCase
             'Delete_Cancelled_License' => 'No',
             'Delete_Cracked_License' => 'No',
             'God_Mode' =>'Yes',
+            'Delete_Downloaded_Archive_After_Extracting' =>'YES'
         ];
         $response= $this->json('POST',url('api/admin/config'),$data);
-        $response->assertStatus(404);
-        $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => "There are invalid details present in this request"]);
 
+        $response->getOriginalContent()['Error Message'];
+        $response->assertStatus(200);
         AflProducts::where('product_sku','ABCDEFG')->delete();
-
-
     }
 }

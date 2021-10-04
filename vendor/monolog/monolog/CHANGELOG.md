@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 ### 2.3.5 (2021-10-01)
 
   * Fixed regression in StreamHandler since 2.3.3 on systems with the memory_limit set to >=20GB (#1592)
@@ -21,6 +25,11 @@
   * Fixed Utils::getClass handling of anonymous classes not being fully compatible with PHP 8 (#1563)
   * Fixed some `@inheritDoc` annotations having the wrong case
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 ### 2.3.0 (2021-07-05)
 
   * Added a ton of PHPStan type annotations as well as type aliases on Monolog\Logger for Record, Level and LevelName that you can import (#1557)

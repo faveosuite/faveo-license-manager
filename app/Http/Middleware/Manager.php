@@ -3,11 +3,17 @@
 namespace App\Http\Middleware;
 
 use App\Models\AflAdmins;
+use App\Models\OauthAccessToken;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Api\AuthController;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Token\Parser;
+use Lcobucci\JWT\Encoding\JoseEncoder;
+
+
 
 class Manager
 {
@@ -20,17 +26,22 @@ class Manager
      */
     public function handle(Request $request, Closure $next)
     {
-            $token=$request->bearerToken();
-            if(empty($token)){      
-              $token = $request->get('token');   
+            $tokenRecieved=$request->bearerToken();
+            if(!empty($tokenRecieved)) {
+                $jwtConfig = Configuration::forUnsecuredSigner();
+                $tokenId = $jwtConfig->parser()->parse($tokenRecieved)->claims()->get('jti'); //retrieves the id of the token from license manager
+                //$tokenId = (new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];//(new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];
+                $tokens = new OauthAccessToken();
+                $token=json_decode($tokens->where('id',$tokenId)->first());//gets that particluar token details
+
+                if((!empty($token->revoked) && $token->revoked!='1') || $token->expires_at >= date('Y-m-d H:i:s')){
+                    return $next($request);
+                }
+                else {
+                    return response(['message'=> 'Not Authorized']);
+                }
+
             }
-            $tok = DB::table('oauth_access_tokens')->where('id',$token)->get('revoked')->toArray();
-            if((!empty($tok) && $tok!='1')|| $token ==env('LICENSE_KEY')){
-             return $next($request);  
-            }  
-        else { 
-          return response(['message'=> 'Not Authorized']);//redirect('/login');
-        }
 }
     }
 

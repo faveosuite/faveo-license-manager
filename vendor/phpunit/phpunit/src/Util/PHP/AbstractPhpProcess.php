@@ -275,8 +275,17 @@ abstract class AbstractPhpProcess
                 /**
                  * @throws ErrorException
                  */
+<<<<<<< HEAD
+<<<<<<< HEAD
                 static function ($errno, $errstr, $errfile, $errline): void
                 {
+=======
+                static function ($errno, $errstr, $errfile, $errline): void {
+>>>>>>> 22c0e54 (table changes)
+=======
+                static function ($errno, $errstr, $errfile, $errline): void
+                {
+>>>>>>> f330c64 (optimization in progress)
                     throw new ErrorException($errstr, $errno, $errno, $errfile, $errline);
                 }
             );

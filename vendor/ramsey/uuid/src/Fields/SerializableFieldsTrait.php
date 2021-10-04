@@ -14,10 +14,21 @@ declare(strict_types=1);
 
 namespace Ramsey\Uuid\Fields;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 use ValueError;
 
 use function base64_decode;
 use function sprintf;
+=======
+use function base64_decode;
+>>>>>>> 22c0e54 (table changes)
+=======
+use ValueError;
+
+use function base64_decode;
+use function sprintf;
+>>>>>>> f330c64 (optimization in progress)
 use function strlen;
 
 /**
@@ -46,6 +57,10 @@ trait SerializableFieldsTrait
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array{bytes: string}
      */
     public function __serialize(): array
@@ -54,12 +69,24 @@ trait SerializableFieldsTrait
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Constructs the object from a serialized string representation
      *
      * @param string $serialized The serialized string representation of the object
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-suppress UnusedMethodCall
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @psalm-suppress UnusedMethodCall
+>>>>>>> f330c64 (optimization in progress)
      */
     public function unserialize($serialized): void
     {
@@ -69,6 +96,10 @@ trait SerializableFieldsTrait
             $this->__construct(base64_decode($serialized));
         }
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * @param array{bytes: string} $data
@@ -83,4 +114,9 @@ trait SerializableFieldsTrait
 
         $this->unserialize($data['bytes']);
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

@@ -82,6 +82,10 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
      */
     public function broadcastAs()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         $default = class_basename($this->model).ucfirst($this->event);
 
         return method_exists($this->model, 'broadcastAs')
@@ -99,6 +103,12 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
         return method_exists($this->model, 'broadcastWith')
             ? $this->model->broadcastWith($this->event)
             : null;
+<<<<<<< HEAD
+=======
+        return class_basename($this->model).ucfirst($this->event);
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -115,6 +125,10 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Determine if the event should be broadcast synchronously.
      *
      * @return bool
@@ -126,6 +140,11 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the event name.
      *
      * @return string

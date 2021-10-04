@@ -163,8 +163,16 @@ class Command extends SymfonyCommand
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return bool
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @return bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function isHidden()
     {
@@ -173,8 +181,16 @@ class Command extends SymfonyCommand
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return static
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @return static
+>>>>>>> f330c64 (optimization in progress)
      */
     public function setHidden(bool $hidden)
     {

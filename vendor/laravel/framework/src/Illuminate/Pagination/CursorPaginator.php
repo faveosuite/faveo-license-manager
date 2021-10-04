@@ -10,6 +10,13 @@ use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Support\Collection;
 use IteratorAggregate;
 use JsonSerializable;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+use ReturnTypeWillChange;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 class CursorPaginator extends AbstractCursorPaginator implements Arrayable, ArrayAccess, Countable, IteratorAggregate, Jsonable, JsonSerializable, PaginatorContract
 {
@@ -26,7 +33,15 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      * @param  mixed  $items
      * @param  int  $perPage
      * @param  \Illuminate\Pagination\Cursor|null  $cursor
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  array  $options  (path, query, fragment, pageName)
+=======
+     * @param  array  $options (path, query, fragment, pageName)
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  array  $options  (path, query, fragment, pageName)
+>>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     public function __construct($items, $perPage, $cursor = null, array $options = [])
@@ -142,7 +157,15 @@ class CursorPaginator extends AbstractCursorPaginator implements Arrayable, Arra
      *
      * @return array
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return $this->toArray();

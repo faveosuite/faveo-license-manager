@@ -63,7 +63,15 @@ class FlattenException
     /**
      * @return static
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function create(\Exception $exception, int $statusCode = null, array $headers = []): self
+=======
+    public static function create(\Exception $exception, $statusCode = null, array $headers = []): self
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function create(\Exception $exception, int $statusCode = null, array $headers = []): self
+>>>>>>> f330c64 (optimization in progress)
     {
         return static::createFromThrowable($exception, $statusCode, $headers);
     }
@@ -98,7 +106,15 @@ class FlattenException
         $e->setStatusCode($statusCode);
         $e->setHeaders($headers);
         $e->setTraceFromThrowable($exception);
+<<<<<<< HEAD
+<<<<<<< HEAD
         $e->setClass(\get_class($exception));
+=======
+        $e->setClass(get_debug_type($exception));
+>>>>>>> 22c0e54 (table changes)
+=======
+        $e->setClass(\get_class($exception));
+>>>>>>> f330c64 (optimization in progress)
         $e->setFile($exception->getFile());
         $e->setLine($exception->getLine());
 
@@ -131,9 +147,23 @@ class FlattenException
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return $this
      */
     public function setStatusCode(int $code): self
+=======
+     * @param int $code
+     *
+     * @return $this
+     */
+    public function setStatusCode($code): self
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return $this
+     */
+    public function setStatusCode(int $code): self
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->statusCode = $code;
 
@@ -161,9 +191,23 @@ class FlattenException
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return $this
      */
     public function setClass(string $class): self
+=======
+     * @param string $class
+     *
+     * @return $this
+     */
+    public function setClass($class): self
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return $this
+     */
+    public function setClass(string $class): self
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->class = false !== strpos($class, "@anonymous\0") ? (get_parent_class($class) ?: key(class_implements($class)) ?: 'class').'@anonymous' : $class;
 
@@ -176,9 +220,23 @@ class FlattenException
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return $this
      */
     public function setFile(string $file): self
+=======
+     * @param string $file
+     *
+     * @return $this
+     */
+    public function setFile($file): self
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return $this
+     */
+    public function setFile(string $file): self
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->file = $file;
 
@@ -191,9 +249,23 @@ class FlattenException
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return $this
      */
     public function setLine(int $line): self
+=======
+     * @param int $line
+     *
+     * @return $this
+     */
+    public function setLine($line): self
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return $this
+     */
+    public function setLine(int $line): self
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->line = $line;
 
@@ -218,9 +290,23 @@ class FlattenException
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return $this
      */
     public function setMessage(string $message): self
+=======
+     * @param string $message
+     *
+     * @return $this
+     */
+    public function setMessage($message): self
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return $this
+     */
+    public function setMessage(string $message): self
+>>>>>>> f330c64 (optimization in progress)
     {
         if (false !== strpos($message, "@anonymous\0")) {
             $message = preg_replace_callback('/[a-zA-Z_\x7f-\xff][\\\\a-zA-Z0-9_\x7f-\xff]*+@anonymous\x00.*?\.php(?:0x?|:[0-9]++\$)[0-9a-fA-F]++/', function ($m) {
@@ -298,10 +384,27 @@ class FlattenException
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return $this
      */
     public function setTrace(array $trace, ?string $file, ?int $line): self
+=======
+     * @param array       $trace
+     * @param string|null $file
+     * @param int|null    $line
+     *
+     * @return $this
+     */
+    public function setTrace($trace, $file, $line): self
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @return $this
+     */
+    public function setTrace(array $trace, ?string $file, ?int $line): self
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->trace = [];
         $this->trace[] = [

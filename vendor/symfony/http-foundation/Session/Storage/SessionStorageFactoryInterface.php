@@ -19,7 +19,15 @@ use Symfony\Component\HttpFoundation\Request;
 interface SessionStorageFactoryInterface
 {
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * Creates a new instance of SessionStorageInterface.
+=======
+     * Creates a new instance of SessionStorageInterface
+>>>>>>> 22c0e54 (table changes)
+=======
+     * Creates a new instance of SessionStorageInterface.
+>>>>>>> f330c64 (optimization in progress)
      */
     public function createStorage(?Request $request): SessionStorageInterface;
 }

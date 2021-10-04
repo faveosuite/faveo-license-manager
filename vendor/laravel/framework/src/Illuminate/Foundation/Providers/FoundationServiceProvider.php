@@ -3,10 +3,21 @@
 namespace Illuminate\Foundation\Providers;
 
 use Illuminate\Http\Request;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\AggregateServiceProvider;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Testing\LoggedExceptionCollection;
+<<<<<<< HEAD
+=======
+use Illuminate\Support\AggregateServiceProvider;
+use Illuminate\Support\Facades\URL;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Testing\ParallelTestingServiceProvider;
 use Illuminate\Validation\ValidationException;
 
@@ -47,7 +58,14 @@ class FoundationServiceProvider extends AggregateServiceProvider
 
         $this->registerRequestValidation();
         $this->registerRequestSignatureValidation();
+<<<<<<< HEAD
+<<<<<<< HEAD
         $this->registerExceptionTracking();
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        $this->registerExceptionTracking();
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -89,6 +107,10 @@ class FoundationServiceProvider extends AggregateServiceProvider
             return URL::hasValidSignature($this, $absolute = false);
         });
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Register an event listener to track logged exceptions.
@@ -113,4 +135,9 @@ class FoundationServiceProvider extends AggregateServiceProvider
             }
         });
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

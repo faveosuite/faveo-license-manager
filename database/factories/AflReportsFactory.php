@@ -27,7 +27,7 @@ class AflReportsFactory extends Factory
             'license_code' => 'AK12BJSI9OP3BDJ8',
             'report_date_time' => now(),
             'report_text' =>'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.',
-            'report_system'=>1,
+            'report_system'=>0,
             'report_status'=>1
         ];
     }

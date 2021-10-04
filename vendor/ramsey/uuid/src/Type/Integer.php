@@ -15,11 +15,23 @@ declare(strict_types=1);
 namespace Ramsey\Uuid\Type;
 
 use Ramsey\Uuid\Exception\InvalidArgumentException;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 use ValueError;
 
 use function ctype_digit;
 use function ltrim;
 use function sprintf;
+<<<<<<< HEAD
+=======
+
+use function ctype_digit;
+use function ltrim;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 use function strpos;
 use function substr;
 
@@ -38,7 +50,15 @@ use function substr;
 final class Integer implements NumberInterface
 {
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-var numeric-string
+=======
+     * @var string
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @psalm-var numeric-string
+>>>>>>> f330c64 (optimization in progress)
      */
     private $value;
 
@@ -82,10 +102,20 @@ final class Integer implements NumberInterface
             $this->isNegative = true;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         /** @psalm-var numeric-string $numericValue */
         $numericValue = $value;
 
         $this->value = $numericValue;
+<<<<<<< HEAD
+=======
+        $this->value = $value;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     public function isNegative(): bool
@@ -93,9 +123,18 @@ final class Integer implements NumberInterface
         return $this->isNegative;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     /**
      * @psalm-return numeric-string
      */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    /**
+     * @psalm-return numeric-string
+     */
+>>>>>>> f330c64 (optimization in progress)
     public function toString(): string
     {
         return $this->value;
@@ -117,6 +156,10 @@ final class Integer implements NumberInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array{string: string}
      */
     public function __serialize(): array
@@ -125,17 +168,33 @@ final class Integer implements NumberInterface
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Constructs the object from a serialized string representation
      *
      * @param string $serialized The serialized string representation of the object
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @psalm-suppress UnusedMethodCall
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @psalm-suppress UnusedMethodCall
+>>>>>>> f330c64 (optimization in progress)
      */
     public function unserialize($serialized): void
     {
         $this->__construct($serialized);
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * @param array{string: string} $data
@@ -150,4 +209,9 @@ final class Integer implements NumberInterface
 
         $this->unserialize($data['string']);
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

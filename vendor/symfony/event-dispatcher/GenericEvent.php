@@ -118,7 +118,14 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @throws \InvalidArgumentException if key does not exist in $this->args
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return $this->getArgument($key);
@@ -129,10 +136,21 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @param string $key   Array key to set
      * @param mixed  $value Value
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return void
      */
     #[\ReturnTypeWillChange]
+=======
+     */
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         $this->setArgument($key, $value);
@@ -142,10 +160,21 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      * ArrayAccess for unset argument.
      *
      * @param string $key Array key
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return void
      */
     #[\ReturnTypeWillChange]
+=======
+     */
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @return void
+     */
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         if ($this->hasArgument($key)) {
@@ -160,7 +189,14 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return $this->hasArgument($key);
@@ -171,7 +207,14 @@ class GenericEvent extends Event implements \ArrayAccess, \IteratorAggregate
      *
      * @return \ArrayIterator
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return new \ArrayIterator($this->arguments);

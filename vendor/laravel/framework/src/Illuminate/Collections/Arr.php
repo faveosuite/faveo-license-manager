@@ -394,6 +394,10 @@ class Arr
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Determines if an array is a list.
      *
      * An array is a "list" if all array keys are sequential integers starting from 0 with no gaps in between.
@@ -407,6 +411,11 @@ class Arr
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get a subset of the items from the given array.
      *
      * @param  array  $array
@@ -507,6 +516,10 @@ class Arr
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Convert the array into a query string.
      *
      * @param  array  $array
@@ -518,6 +531,11 @@ class Arr
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get one or a specified number of random values from an array.
      *
      * @param  array  $array
@@ -666,11 +684,21 @@ class Arr
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * Conditionally compile classes from an array into a CSS class list.
+=======
+     * Convert the array into a query string.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * Conditionally compile classes from an array into a CSS class list.
+>>>>>>> f330c64 (optimization in progress)
      *
      * @param  array  $array
      * @return string
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function toCssClasses($array)
     {
         $classList = static::wrap($array);
@@ -686,6 +714,28 @@ class Arr
         }
 
         return implode(' ', $classes);
+=======
+    public static function query($array)
+    {
+        return http_build_query($array, '', '&', PHP_QUERY_RFC3986);
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function toCssClasses($array)
+    {
+        $classList = static::wrap($array);
+
+        $classes = [];
+
+        foreach ($classList as $class => $constraint) {
+            if (is_numeric($class)) {
+                $classes[] = $constraint;
+            } elseif ($constraint) {
+                $classes[] = $class;
+            }
+        }
+
+        return implode(' ', $classes);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

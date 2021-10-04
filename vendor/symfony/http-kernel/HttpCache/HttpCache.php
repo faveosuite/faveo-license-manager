@@ -5,14 +5,32 @@
  *
  * (c) Fabien Potencier <fabien@symfony.com>
  *
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
 
 /*
+<<<<<<< HEAD
  * This code is partially based on the Rack-Cache library by Ryan Tomayko,
  * which is released under the MIT license.
  * (based on commit 02d2b48d75bcb63cf1c0c7149c077ad256542801)
+=======
+ * This code is partially based on the Rack-Cache library by Ryan Tomayko,
+ * which is released under the MIT license.
+ * (based on commit 02d2b48d75bcb63cf1c0c7149c077ad256542801)
+ *
+ * For the full copyright and license information, please view the LICENSE
+ * file that was distributed with this source code.
+>>>>>>> 22c0e54 (table changes)
+=======
+ * This code is partially based on the Rack-Cache library by Ryan Tomayko,
+ * which is released under the MIT license.
+ * (based on commit 02d2b48d75bcb63cf1c0c7149c077ad256542801)
+>>>>>>> f330c64 (optimization in progress)
  */
 
 namespace Symfony\Component\HttpKernel\HttpCache;
@@ -384,7 +402,15 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
 
         // add our cached last-modified validator
         if ($entry->headers->has('Last-Modified')) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $subRequest->headers->set('If-Modified-Since', $entry->headers->get('Last-Modified'));
+=======
+            $subRequest->headers->set('if_modified_since', $entry->headers->get('Last-Modified'));
+>>>>>>> 22c0e54 (table changes)
+=======
+            $subRequest->headers->set('If-Modified-Since', $entry->headers->get('Last-Modified'));
+>>>>>>> f330c64 (optimization in progress)
         }
 
         // Add our cached etag validator to the environment.
@@ -393,7 +419,15 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         $cachedEtags = $entry->getEtag() ? [$entry->getEtag()] : [];
         $requestEtags = $request->getETags();
         if ($etags = array_unique(array_merge($cachedEtags, $requestEtags))) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $subRequest->headers->set('If-None-Match', implode(', ', $etags));
+=======
+            $subRequest->headers->set('if_none_match', implode(', ', $etags));
+>>>>>>> 22c0e54 (table changes)
+=======
+            $subRequest->headers->set('If-None-Match', implode(', ', $etags));
+>>>>>>> f330c64 (optimization in progress)
         }
 
         $response = $this->forward($subRequest, $catch, $entry);
@@ -446,8 +480,18 @@ class HttpCache implements HttpKernelInterface, TerminableInterface
         }
 
         // avoid that the backend sends no content
+<<<<<<< HEAD
+<<<<<<< HEAD
         $subRequest->headers->remove('If-Modified-Since');
         $subRequest->headers->remove('If-None-Match');
+=======
+        $subRequest->headers->remove('if_modified_since');
+        $subRequest->headers->remove('if_none_match');
+>>>>>>> 22c0e54 (table changes)
+=======
+        $subRequest->headers->remove('If-Modified-Since');
+        $subRequest->headers->remove('If-None-Match');
+>>>>>>> f330c64 (optimization in progress)
 
         $response = $this->forward($subRequest, $catch);
 

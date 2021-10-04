@@ -12,9 +12,6 @@ if (substr(php_sapi_name(), 0, 3)!="cli") //don't send headers when script runni
     header("Cache-Control: no-cache, no-store; must-revalidate; max-age=0"); //prevent caching
     }
 
-//set script directory
-define("SCRIPT_ROOT_DIRECTORY", __DIR__);
-
 //get IP, refer, requested page, script filename, and user agent
 if (null!==(\request()->server('REMOTE_ADDR'))) {$ip_address=request()->server('REMOTE_ADDR');} else {$ip_address="";}
 if (null!==(\request()->server('HTTP_REFERER'))) {$refer=request()->server('HTTP_REFERER');} else {$refer="";}

@@ -17,7 +17,6 @@ class BannedHostControllerTest extends TestCase
         $this->withoutMiddleware();
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-
             'banned_host_ip' => '127.0.0.1',
             'banned_host_comments' =>'Testing by banning a host',
             'banned_host_blocks' => 2,
@@ -39,23 +38,24 @@ class BannedHostControllerTest extends TestCase
             'banned_host_comments' =>'Testing by banning a host',
         ];
         $response = $this->json('POST',url('api/admin/bannedHosts/edit'),$data);
-        $response->assertStatus(400);
+        $response->assertStatus(404);
         $response->assertJson(['success'=>false]);
-        $response->assertJson(['message' => 'There are invalid details present in this request']);
+        $response->assertJson(['message' => 'Banned host you\'re looking for is not found']);
     }
     public function test_bannedHostUpdate_whenBannedHostIsUpdatedWithoutIp_shouldRecieveResponse400()
     {
         $this->withoutMiddleware();
+        AflBannedHosts::factory()->create(['banned_host_id'=>100]);
         $data=[
             'api_key_secret' =>'5hDuaXuTh9gTLfPL',
-
-            'banned_host_id'=>1,
+            'banned_host_id'=>100,
             'banned_host_comments' =>'Testing by banning a host',
         ];
         $response = $this->json('POST',url('api/admin/bannedHosts/edit'),$data);
         $response->assertStatus(400);
         $response->assertJson(['success'=>false]);
-        $response->assertJson(['message' => 'There are invalid details present in this request']);
+        $response->assertJson(['message' => 'Banned Host ip is not present or api key secret is invalid.']);
+        AflBannedHosts::where('banned_host_id',100)->delete();
     }
     public function test_bannedHostUpdate_whenBannedHostIsUpdated_shouldRecieveResponse201()
     {
@@ -102,7 +102,7 @@ class BannedHostControllerTest extends TestCase
         $response = $this->json('POST',url('api/admin/bannedHosts/add'),$data);
         $response->assertStatus(400);
         $response->assertJson(['success'=>false]);
-        $response->assertJson(['message' => 'There are invalid details present in this request']);
+        $response->assertJson(['message' => 'Banned Host ip is not present or api key secret is invalid.']);
 
     }
 

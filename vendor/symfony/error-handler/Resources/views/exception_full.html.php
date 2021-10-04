@@ -28,6 +28,19 @@
                             <span class="hidden-xs-down">Symfony</span> Docs
                         </a>
                     </div>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+                    <div class="help-link">
+                        <a href="https://symfony.com/support">
+                            <span class="icon"><?= $this->include('assets/images/icon-support.svg'); ?></span>
+                            <span class="hidden-xs-down">Symfony</span> Support
+                        </a>
+                    </div>
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 </div>
             </header>
         <?php } ?>

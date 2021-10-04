@@ -187,9 +187,19 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * {@inheritdoc}
      *
      * @return bool
+=======
+     *  {@inheritdoc}
+>>>>>>> 22c0e54 (table changes)
+=======
+     * {@inheritdoc}
+     *
+     * @return bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function has($id)
     {
@@ -695,9 +705,19 @@ class Container implements ArrayAccess, ContainerContract
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * {@inheritdoc}
      *
      * @return mixed
+=======
+     *  {@inheritdoc}
+>>>>>>> 22c0e54 (table changes)
+=======
+     * {@inheritdoc}
+     *
+     * @return mixed
+>>>>>>> f330c64 (optimization in progress)
      */
     public function get($id)
     {
@@ -1241,6 +1261,13 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $abstract
      * @param  object  $object
      * @param  array  $callbacksPerType
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+     *
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @return array
      */
     protected function getCallbacksForType($abstract, $object, array $callbacksPerType)
@@ -1405,7 +1432,14 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $key
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return $this->bound($key);
@@ -1417,7 +1451,14 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $key
      * @return mixed
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return $this->make($key);
@@ -1430,7 +1471,14 @@ class Container implements ArrayAccess, ContainerContract
      * @param  mixed  $value
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         $this->bind($key, $value instanceof Closure ? $value : function () use ($value) {
@@ -1444,7 +1492,14 @@ class Container implements ArrayAccess, ContainerContract
      * @param  string  $key
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         unset($this->bindings[$key], $this->instances[$key], $this->resolved[$key]);

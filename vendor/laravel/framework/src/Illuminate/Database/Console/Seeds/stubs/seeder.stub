@@ -3,10 +3,13 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+<<<<<<< HEAD
 use App\Models\AflNotifications;
 use App\Models\AflSettings;
 use App\Models\AflLicenseSchemes;
 use App\Models\AflApiKeys;
+=======
+>>>>>>> 22c0e54 (table changes)
 
 class {{ class }} extends Seeder
 {

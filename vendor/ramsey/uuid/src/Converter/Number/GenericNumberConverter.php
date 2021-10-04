@@ -19,7 +19,15 @@ use Ramsey\Uuid\Math\CalculatorInterface;
 use Ramsey\Uuid\Type\Integer as IntegerObject;
 
 /**
+<<<<<<< HEAD
+<<<<<<< HEAD
  * GenericNumberConverter uses the provided calculator to convert decimal
+=======
+ * GenericNumberConverter uses the provided calculate to convert decimal
+>>>>>>> 22c0e54 (table changes)
+=======
+ * GenericNumberConverter uses the provided calculator to convert decimal
+>>>>>>> f330c64 (optimization in progress)
  * numbers to and from hexadecimal values
  *
  * @psalm-immutable
@@ -57,7 +65,14 @@ class GenericNumberConverter implements NumberConverterInterface
      */
     public function toHex(string $number): string
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
+>>>>>>> f330c64 (optimization in progress)
         return $this->calculator->toBase(new IntegerObject($number), 16);
     }
 }

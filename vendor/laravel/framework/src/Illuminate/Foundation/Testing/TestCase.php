@@ -22,7 +22,14 @@ abstract class TestCase extends BaseTestCase
         Concerns\InteractsWithAuthentication,
         Concerns\InteractsWithConsole,
         Concerns\InteractsWithDatabase,
+<<<<<<< HEAD
+<<<<<<< HEAD
         Concerns\InteractsWithDeprecationHandling,
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        Concerns\InteractsWithDeprecationHandling,
+>>>>>>> f330c64 (optimization in progress)
         Concerns\InteractsWithExceptionHandling,
         Concerns\InteractsWithSession,
         Concerns\InteractsWithTime,

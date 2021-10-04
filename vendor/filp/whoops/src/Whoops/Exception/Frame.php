@@ -241,6 +241,10 @@ class Frame implements Serializable
         return serialize($frame);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function __serialize()
     {
         $frame = $this->frame;
@@ -250,6 +254,11 @@ class Frame implements Serializable
         return $frame;
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * Unserializes the frame data, while also preserving
      * any existing comment data.
@@ -269,6 +278,10 @@ class Frame implements Serializable
         $this->frame = $frame;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function __unserialize($frame)
     {
         if (!empty($frame['_comments'])) {
@@ -279,6 +292,11 @@ class Frame implements Serializable
         $this->frame = $frame;
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * Compares Frame against one another
      * @param  Frame $frame

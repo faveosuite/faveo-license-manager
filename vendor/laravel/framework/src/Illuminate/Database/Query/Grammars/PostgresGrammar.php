@@ -261,6 +261,10 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Compile an update from statement into SQL.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
@@ -369,6 +373,11 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Compile an update statement with joins or limit into SQL.
      *
      * @param  \Illuminate\Database\Query\Builder  $query
@@ -477,7 +486,15 @@ class PostgresGrammar extends Grammar
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * Wrap the given JSON selector for boolean values.
+=======
+     *Wrap the given JSON selector for boolean values.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * Wrap the given JSON selector for boolean values.
+>>>>>>> f330c64 (optimization in progress)
      *
      * @param  string  $value
      * @return string

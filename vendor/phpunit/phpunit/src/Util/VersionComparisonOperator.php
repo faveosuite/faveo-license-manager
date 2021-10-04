@@ -31,7 +31,15 @@ final class VersionComparisonOperator
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne'
+=======
+     * @return '<'|'lt'|'<='|'le'|'>'|'gt'|'>='|'ge'|'=='|'='|'eq'|'!='|'<>'|'ne'
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return '!='|'<'|'<='|'<>'|'='|'=='|'>'|'>='|'eq'|'ge'|'gt'|'le'|'lt'|'ne'
+>>>>>>> f330c64 (optimization in progress)
      */
     public function asString(): string
     {

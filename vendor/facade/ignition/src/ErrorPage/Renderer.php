@@ -22,7 +22,15 @@ class Renderer
         $viewFile = "{$this->viewPath}/{$viewName}.php";
 
         try {
+<<<<<<< HEAD
+<<<<<<< HEAD
             extract($_data, EXTR_OVERWRITE);
+=======
+            extract((array) $_data, EXTR_OVERWRITE);
+>>>>>>> 22c0e54 (table changes)
+=======
+            extract($_data, EXTR_OVERWRITE);
+>>>>>>> f330c64 (optimization in progress)
 
             include $viewFile;
         } catch (Exception $exception) {

@@ -54,10 +54,19 @@ class ComposerScripts
     {
         $laravel = new Application(getcwd());
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (is_file($configPath = $laravel->getCachedConfigPath())) {
             @unlink($configPath);
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (is_file($servicesPath = $laravel->getCachedServicesPath())) {
             @unlink($servicesPath);
         }

@@ -17,7 +17,14 @@ use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use Webmozart\Assert\Assert;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function preg_match;
 
 /**
@@ -52,7 +59,15 @@ final class Source extends BaseTag implements Factory\StaticMethod
         string $body,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
+<<<<<<< HEAD
+<<<<<<< HEAD
     ): self {
+=======
+    ) : self {
+>>>>>>> 22c0e54 (table changes)
+=======
+    ): self {
+>>>>>>> f330c64 (optimization in progress)
         Assert::stringNotEmpty($body);
         Assert::notNull($descriptionFactory);
 
@@ -70,7 +85,15 @@ final class Source extends BaseTag implements Factory\StaticMethod
             $description = $matches[3];
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return new static($startingLine, $lineCount, $descriptionFactory->create($description ?? '', $context));
+=======
+        return new static($startingLine, $lineCount, $descriptionFactory->create($description??'', $context));
+>>>>>>> 22c0e54 (table changes)
+=======
+        return new static($startingLine, $lineCount, $descriptionFactory->create($description ?? '', $context));
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -79,7 +102,15 @@ final class Source extends BaseTag implements Factory\StaticMethod
      * @return int The starting line, relative to the structural element's
      *     location.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getStartingLine(): int
+=======
+    public function getStartingLine() : int
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getStartingLine(): int
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->startingLine;
     }
@@ -90,12 +121,28 @@ final class Source extends BaseTag implements Factory\StaticMethod
      * @return int|null The number of lines, relative to the starting line. NULL
      *     means "to the end".
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getLineCount(): ?int
+=======
+    public function getLineCount() : ?int
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getLineCount(): ?int
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->lineCount;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();
@@ -105,12 +152,29 @@ final class Source extends BaseTag implements Factory\StaticMethod
 
         $startingLine = (string) $this->startingLine;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $lineCount = $this->lineCount !== null ? ' ' . $this->lineCount : '';
 
         return $startingLine
             . $lineCount
             . ($description !== ''
                 ? ' ' . $description
+=======
+        $lineCount = $this->lineCount !== null ? '' . $this->lineCount : '';
+=======
+        $lineCount = $this->lineCount !== null ? ' ' . $this->lineCount : '';
+>>>>>>> f330c64 (optimization in progress)
+
+        return $startingLine
+            . $lineCount
+            . ($description !== ''
+<<<<<<< HEAD
+                ? ($startingLine || $startingLine === '0' || $lineCount !== '' ? ' ' : '') . $description
+>>>>>>> 22c0e54 (table changes)
+=======
+                ? ' ' . $description
+>>>>>>> f330c64 (optimization in progress)
                 : '');
     }
 }

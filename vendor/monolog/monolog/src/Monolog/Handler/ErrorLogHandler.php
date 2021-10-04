@@ -14,7 +14,14 @@ namespace Monolog\Handler;
 use Monolog\Formatter\LineFormatter;
 use Monolog\Formatter\FormatterInterface;
 use Monolog\Logger;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Monolog\Utils;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Monolog\Utils;
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * Stores to PHP error_log() handler.
@@ -69,7 +76,15 @@ class ErrorLogHandler extends AbstractProcessingHandler
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * {@inheritDoc}
+=======
+     * {@inheritdoc}
+>>>>>>> 22c0e54 (table changes)
+=======
+     * {@inheritDoc}
+>>>>>>> f330c64 (optimization in progress)
      */
     protected function write(array $record): void
     {
@@ -81,8 +96,17 @@ class ErrorLogHandler extends AbstractProcessingHandler
 
         $lines = preg_split('{[\r\n]+}', (string) $record['formatted']);
         if ($lines === false) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $pcreErrorCode = preg_last_error();
             throw new \RuntimeException('Failed to preg_split formatted string: ' . $pcreErrorCode . ' / '. Utils::pcreLastErrorMessage($pcreErrorCode));
+=======
+            throw new \RuntimeException('Failed to preg_split formatted string: '.preg_last_error().' / '.preg_last_error_msg());
+>>>>>>> 22c0e54 (table changes)
+=======
+            $pcreErrorCode = preg_last_error();
+            throw new \RuntimeException('Failed to preg_split formatted string: ' . $pcreErrorCode . ' / '. Utils::pcreLastErrorMessage($pcreErrorCode));
+>>>>>>> f330c64 (optimization in progress)
         }
         foreach ($lines as $line) {
             error_log($line, $this->messageType);

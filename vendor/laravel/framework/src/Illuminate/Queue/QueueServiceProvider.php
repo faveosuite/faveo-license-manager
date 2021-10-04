@@ -17,12 +17,24 @@ use Illuminate\Queue\Failed\DynamoDbFailedJobProvider;
 use Illuminate\Queue\Failed\NullFailedJobProvider;
 use Illuminate\Support\Arr;
 use Illuminate\Support\ServiceProvider;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 use Laravel\SerializableClosure\SerializableClosure;
 
 class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     use SerializesAndRestoresModelIdentifiers;
 
+<<<<<<< HEAD
+=======
+
+class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
+{
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * Register the service provider.
      *
@@ -30,8 +42,16 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
      */
     public function register()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $this->configureSerializableClosureUses();
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        $this->configureSerializableClosureUses();
+
+>>>>>>> f330c64 (optimization in progress)
         $this->registerManager();
         $this->registerConnection();
         $this->registerWorker();
@@ -40,6 +60,10 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Configure serializable closures uses.
      *
      * @return void
@@ -64,6 +88,11 @@ class QueueServiceProvider extends ServiceProvider implements DeferrableProvider
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Register the queue manager.
      *
      * @return void

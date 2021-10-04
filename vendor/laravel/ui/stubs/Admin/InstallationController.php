@@ -46,7 +46,6 @@ public function installationUpdate(Request $request)
 if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || empty($rows_array=AflInstallations::where('installation_id',$installation_id)->get())) //invalid record
     {
     return errorResponse(Lang::get('lang.invalid'),400);
-    exit();
     }
 
 $action_success=0; //will be changed to 1 later only if everything OK

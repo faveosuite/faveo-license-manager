@@ -15,7 +15,14 @@ namespace phpDocumentor\Reflection\DocBlock;
 
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter\PassthroughFormatter;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function vsprintf;
 
 /**
@@ -72,7 +79,15 @@ class Description
     /**
      * Returns the body template.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getBodyTemplate(): string
+=======
+    public function getBodyTemplate() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getBodyTemplate(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->bodyTemplate;
     }
@@ -82,7 +97,15 @@ class Description
      *
      * @return Tag[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getTags(): array
+=======
+    public function getTags() : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getTags(): array
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->tags;
     }
@@ -91,7 +114,15 @@ class Description
      * Renders this description as a string where the provided formatter will format the tags in the expected string
      * format.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function render(?Formatter $formatter = null): string
+=======
+    public function render(?Formatter $formatter = null) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function render(?Formatter $formatter = null): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($formatter === null) {
             $formatter = new PassthroughFormatter();
@@ -108,7 +139,15 @@ class Description
     /**
      * Returns a plain string representation of this description.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->render();
     }

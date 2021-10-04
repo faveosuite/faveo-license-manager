@@ -40,6 +40,7 @@ class AuthControllerTest extends TestCase
     }
     public function test_logout_whenAdminLogsOut_shouldReturnResponse200()
     {
+        $this->withoutMiddleware();
         $id = AflAdmins::where('admin_email','sandesh@123gamil.com')->value('admin_id');
         $data = [
             'token' =>env('LICENSE_KEY'),

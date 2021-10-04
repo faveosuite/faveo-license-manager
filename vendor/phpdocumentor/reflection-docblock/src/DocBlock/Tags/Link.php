@@ -43,7 +43,15 @@ final class Link extends BaseTag implements Factory\StaticMethod
         string $body,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
+<<<<<<< HEAD
+<<<<<<< HEAD
     ): self {
+=======
+    ) : self {
+>>>>>>> 22c0e54 (table changes)
+=======
+    ): self {
+>>>>>>> f330c64 (optimization in progress)
         Assert::notNull($descriptionFactory);
 
         $parts = Utils::pregSplit('/\s+/Su', $body, 2);
@@ -55,7 +63,15 @@ final class Link extends BaseTag implements Factory\StaticMethod
     /**
      * Gets the link
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getLink(): string
+=======
+    public function getLink() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getLink(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return $this->link;
     }
@@ -63,7 +79,15 @@ final class Link extends BaseTag implements Factory\StaticMethod
     /**
      * Returns a string representation for this tag.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();
@@ -71,7 +95,15 @@ final class Link extends BaseTag implements Factory\StaticMethod
             $description = '';
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $link = $this->link;
+=======
+        $link = (string) $this->link;
+>>>>>>> 22c0e54 (table changes)
+=======
+        $link = $this->link;
+>>>>>>> f330c64 (optimization in progress)
 
         return $link . ($description !== '' ? ($link !== '' ? ' ' : '') . $description : '');
     }

@@ -72,7 +72,15 @@ abstract class PublicKeyLoader
      * @param string|array $key
      * @param string $password optional
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadPrivateKey($key, $password = false)
+=======
+    public function loadPrivateKey($key, $password = false)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadPrivateKey($key, $password = false)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::load($key, $password);
         if (!$key instanceof PrivateKey) {
@@ -88,7 +96,15 @@ abstract class PublicKeyLoader
      * @access public
      * @param string|array $key
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadPublicKey($key)
+=======
+    public function loadPublicKey($key)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadPublicKey($key)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::load($key);
         if (!$key instanceof PublicKey) {
@@ -104,7 +120,15 @@ abstract class PublicKeyLoader
      * @access public
      * @param string|array $key
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function loadParameters($key)
+=======
+    public function loadParameters($key)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function loadParameters($key)
+>>>>>>> f330c64 (optimization in progress)
     {
         $key = self::load($key);
         if (!$key instanceof PrivateKey && !$key instanceof PublicKey) {

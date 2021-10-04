@@ -48,15 +48,37 @@ return [
     */
 
     'send_logs_as_events' => true,
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
     /*
     |--------------------------------------------------------------------------
     | Censor request body fields
     |--------------------------------------------------------------------------
     |
+<<<<<<< HEAD
+<<<<<<< HEAD
     | These fields will be censored from your request when sent to Flare.
     |
     */
 
+=======
+    | These fields will be censored from your request when sent to Flare. 
+    |
+    */
+    
+>>>>>>> 22c0e54 (table changes)
+=======
+    | These fields will be censored from your request when sent to Flare.
+    |
+    */
+
+>>>>>>> f330c64 (optimization in progress)
     'censor_request_body_fields' => ['password'],
 ];

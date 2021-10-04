@@ -35,10 +35,27 @@
         <UndefinedClass>
             <errorLevel type="suppress">
                 <file name="src/ErrorPage/ErrorPageViewModel.php" />
+<<<<<<< HEAD
+<<<<<<< HEAD
                 <file name="src/ErrorPage/IgnitionExceptionRenderer.php" />
                 <file name="src/IgnitionServiceProvider.php" />
             </errorLevel>
         </UndefinedClass>
+=======
+            </errorLevel>
+        </UndefinedClass>
+        <UnusedClosureParam>
+            <errorLevel type="suppress">
+                <file name="src/SolutionProviders/InvalidRouteActionSolutionProvider.php" />
+            </errorLevel>
+        </UnusedClosureParam>
+>>>>>>> 22c0e54 (table changes)
+=======
+                <file name="src/ErrorPage/IgnitionExceptionRenderer.php" />
+                <file name="src/IgnitionServiceProvider.php" />
+            </errorLevel>
+        </UndefinedClass>
+>>>>>>> f330c64 (optimization in progress)
     </issueHandlers>
 
     <plugins>

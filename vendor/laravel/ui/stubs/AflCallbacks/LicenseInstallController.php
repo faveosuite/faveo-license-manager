@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Lang;
 class LicenseInstallController extends Controller
 {
 
-
     /**
      * This is used by script on user's machine to check if license is active and add installation details to Auto PHP Licenser database during installation of protected script
      * api format for example:  http://127.0.0.1:8000/api/licenseinstall?product_id=1&root_url=https://www.license.com&client_email=sandeshm40450@gamil.com&license_code=vvbdjvsbjbdvb&installation_hash=aa33da99a04490b20b01c40cced3d2981ca6e29e6fd30ccfd63961a83e798856&license_signature=e930f7623d746b7f81ad4b61af3b7ad1390358529799342eaa1736fa56696dba
@@ -23,6 +22,7 @@ class LicenseInstallController extends Controller
      * */
     public function licenseInstall(Request $request)
     {
+
         //Global $ROOT_URL;
         $action_success=0; //will be changed to 1 later only if everything OK
         $error_detected=0; //will be changed to 1 later if error occurs
@@ -57,7 +57,6 @@ class LicenseInstallController extends Controller
            }
 
 
-
 // These are the data that needs to be passed to this function inorder to get a response
       //$root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
       $product_id = $request->input('product_id');
@@ -69,6 +68,7 @@ class LicenseInstallController extends Controller
       $client_id = $request->get('client_id');
       $client_fname = $request->get('client_fname');
       $client_lname = $request->get('client_lname');
+
       $is_cloud = $request->get('is_cloud');
 
 //check basic dat
@@ -77,6 +77,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
     if($is_cloud == true) {
         $ip_address = '138.197.237.160';//This is the floating ip for the Load balancer since the ip of pods keep on changing.
     }
+
     $notification_case="";
     $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1); //make url without scheme, www. and / at the end because this type of url is stored on server (add / at the end before processing because software stores root url without /)
     $client_formatted=formatClient($license_code, $client_email);
@@ -112,7 +113,12 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                 {
                 $license_array=AflLicenses::where('license_code',$license_code)
                                           ->where('product_id',$product_id)->get()->toArray();
+
+
+
                 }
+
+
             else //search for email-based license
                 {
                 $license_array = DB::table('afl_licenses')
@@ -135,6 +141,8 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                     {
                     extract((array)$row);
                     }
+
+
                 if (!verifyScriptSignature($license_signature, $product_id, $root_url, $client_email, $license_code)) //invalid signature
                     {
                     $error_detected=1;
@@ -227,10 +235,10 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                     $other_installations_array=DB::table('afl_installations')->where('product_id',$product_id)
                                                                 ->where(function($query) use($client_id,$license_code){
                                                                     $query->where('client_id',$client_id)
-                                                                      ->orWhere('license_code',$license_code);
+                                                                      ->where('license_code',$license_code);
                                                                 })->where(function($query) use($ip_address,$installation_domain){
                                                                     $query->where('installation_ip','!=',$ip_address)
-                                                                          ->orWhere('installation_domain','!=',$installation_domain);
+                                                                          ->where('installation_domain','!=',$installation_domain);
                                                                 })->get()->toArray();
 
                     if (count($other_installations_array)>=$license_limit) //client can't make new installation because it would exceed his current limit
@@ -240,6 +248,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
 
                         $notification_case=setValue($notification_case, "notification_license_limit");
                         }
+
 
                     $all_installations_array=DB::table('afl_installations')->where('product_id',$product_id)
                                                                ->where(function($query) use($client_id,$license_code){

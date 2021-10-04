@@ -8,6 +8,10 @@ use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
 use App\Models\AflReports;
+use App\Models\AfuCallbacks;
+use App\Models\AfuInstallations;
+use App\Models\AfuVersions;
+use Cassandra\Float_;
 use Tests\TestCase;
 
 class SearchControllerTest extends TestCase
@@ -25,7 +29,9 @@ class SearchControllerTest extends TestCase
 
                   'api_key_secret' => '5hDuaXuTh9gTLfPL',
                   'search_type' => 'banned_host',
-                  'search_keyword' =>'109.89.89.22'
+                  'search_keyword' =>'109.89.89.22',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -40,7 +46,9 @@ class SearchControllerTest extends TestCase
 
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'banned_host',
-            'search_keyword' =>'This is a search for a banned host'
+            'search_keyword' =>'This is a search for a banned host',
+                        'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -54,12 +62,12 @@ class SearchControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         AflCallbacks::factory()->create(['callback_id'=>1,'product_id'=>14,'license_code'=> 'QWRT125SKOD87C6H','callback_domain'=>'faveotest.com']);
-        AflProducts::factory()->create(['product_id'=>14,'product_sku'=>'SEARCH-CALLBACK']);
+        AflProducts::factory()->create(['product_id'=>14,'product_sku'=>'SEARCH-CALLBACK','product_key'=>'dsdjbsdhc']);
         $data = [
-
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'callback',
-            'search_keyword' =>'QWRT125SKOD87C6H'
+            'search_keyword' =>'QWRT125SKOD87C6H',
+            'isLicenseSearchApi'=>1
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -75,7 +83,9 @@ class SearchControllerTest extends TestCase
 
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'callback',
-            'search_keyword' =>'faveotest.com'
+            'search_keyword' =>'faveotest.com',
+                        'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -91,7 +101,9 @@ class SearchControllerTest extends TestCase
 
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'callback',
-            'search_keyword' =>'106.51.140.178'
+            'search_keyword' =>'106.51.140.178',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -109,7 +121,9 @@ class SearchControllerTest extends TestCase
 
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'report',
-            'search_keyword' =>'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.'
+            'search_keyword' =>'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -125,7 +139,9 @@ class SearchControllerTest extends TestCase
 
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'report',
-            'search_keyword' => 'AK12BJSI9OP3BDJ8'
+            'search_keyword' => 'AK12BJSI9OP3BDJ8',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -145,6 +161,8 @@ class SearchControllerTest extends TestCase
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'installation',
             'search_keyword' => 'QWYDKO0D6NCLO5HN',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -160,6 +178,8 @@ class SearchControllerTest extends TestCase
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'installation',
             'search_keyword' => 'sandesh.com',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -175,6 +195,8 @@ class SearchControllerTest extends TestCase
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'installation',
             'search_keyword' => '106.51.140.178',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -192,10 +214,10 @@ class SearchControllerTest extends TestCase
         AflInstallations::factory()->create(['installation_id'=>4,'product_id'=>16,'license_code'=>'ANKOSYU987NCKLO3']);
         AflCallbacks::factory()->create(['product_id' => 16,'license_code'=>'ANKOSYU987NCKLO3']);
         $data = [
-
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'license',
             'search_keyword' => 'ANKOSYU987NCKLO3',
+            'isLicenseSearchApi'=>1
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -212,6 +234,8 @@ class SearchControllerTest extends TestCase
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'license',
             'search_keyword' => 'This is a license',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -237,6 +261,8 @@ class SearchControllerTest extends TestCase
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'product',
             'search_keyword' => 'Faveo Test Product',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -249,10 +275,10 @@ class SearchControllerTest extends TestCase
 
         $this->withoutMiddleware();
         $data = [
-
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'product',
             'search_keyword' => 'SEARCH-PRO',
+            'isLicenseSearchApi'=>1
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
@@ -264,7 +290,6 @@ class SearchControllerTest extends TestCase
         AflInstallations::where('product_id',17)->delete();
         AflCallbacks::where('product_id',17)->delete();
         AflReports::where('product_id',17)->delete();
-
     }
     public function test_search_searchForInvalidDetails_shouldRespondWith200WithErrorMessage(){
 
@@ -274,12 +299,200 @@ class SearchControllerTest extends TestCase
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
             'search_type' => 'license',
             'search_keyword' => 'This is a license that is not present',
+            'isLicenseSearchApi'=>1
+
         ];
         $response = $this->json('POST',url('api/admin/search'),$data);
         $response->assertStatus(200);
         $content=(array)json_decode($response->content());
         $error=$content['page_message'];
         $this->assertEquals($error,'There was an error searching for the particular detail in license manager');
+    }
+
+    public function test_search_searchUsingCallbackIp_shouldReturnResponseWithCallbackIp(){
+        $this->withoutMiddleware();
+        AfuCallbacks::factory()->create(['callback_id'=>100,'product_id'=>14,'callback_ip'=>'127.0.0.1']);
+        AflProducts::factory()->create(['product_id'=>14,'product_sku'=>'SEARCH-CALLBACK','product_key'=>'dsdjbsdhc']);
+        AfuVersions::factory()->create(['product_id'=>14,'version_id'=>1]);
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'callback',
+            'search_keyword' =>'127.0.0.1',
+            'isLicenseSearchApi'=>0
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $callback_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('callback_ip',$callback_array);
+        AflProducts::where('product_id',14)->delete();
+        AfuCallbacks::where('callback_id',100)->delete();
+        AfuVersions::where('version_id',1)->delete();
+    }
+
+    public function test_search_searchUsingUpdateInstallationProductTitle_shouldReturnResponseWithProductTitle(){
+        $this->withoutMiddleware();
+        AflProducts::factory()->create(['product_id'=>15,'product_sku'=> 'SEARCH-INST','product_key'=>'dbfvfjfd']);
+        AfuInstallations::factory()->create(['installation_id'=>1 ,'product_id'=>15,'version_id'=>11]);
+        AfuVersions::factory()->create(['version_id'=>11,'product_id'=>15]);
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'installation',
+            'search_keyword' => 'Helpdesk Product 2',
+            'isLicenseSearchApi'=>0
+
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('product_title',$install_array);
+    }
+    public function test_search_searchUsingUpdateInstallationInstallationIp_shouldReturnResponseWithProductTitle(){
+        $this->withoutMiddleware();
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'installation',
+            'search_keyword' => '127.0.0.1',
+            'isLicenseSearchApi'=>0
+
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('installation_ip',$install_array);
+        AflProducts::where('product_id',15)->delete();
+        AfuInstallations::where('installation_id',1)->delete();
+        AfuVersions::where('version_id',11)->delete();
+
+    }
+    public function test_search_searchUsingUpdateProductsProductTitle_shouldReturnResponseWithProductSku(){
+        $this->withoutMiddleware();
+        AflProducts::factory()->create(['product_id'=>39,'product_sku'=>'HSJK-SKSJ','product_key'=>'dhsbhdjs']);
+        AfuInstallations::factory()->create(['installation_id'=>11,'product_id'=>39,'version_id'=>12]);
+        AfuCallbacks::factory()->create(['callback_id'=>12,'product_id'=>39]);
+        AflReports::factory()->create(['report_id'=>99,'product_id'=>39]);
+
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'product',
+            'search_keyword' => 'Helpdesk Product 2',
+            'isLicenseSearchApi'=>0
+
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('product_title',$install_array);
+
+    }
+    public function test_search_searchUsingUpdateProductsProductSku_shouldReturnResponseWithProductSku(){
+        $this->withoutMiddleware();
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'product',
+            'search_keyword' => 'HSJK-SKSJ',
+            'isLicenseSearchApi'=>0
+
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('product_sku',$install_array);
+        AflReports::where('report_id',99)->delete();
+        AfuCallbacks::where('callback_id',12)->delete();
+        AfuInstallations::where('installation_id',11)->delete();
+        AflProducts::where('product_id',39)->delete();
+    }
+
+    public function test_search_searchUsingUpdateReportsReportText_shouldReturnResponseWithReportText(){
+        $this->withoutMiddleware();
+        /*AflProducts::factory()->create(['product_id'=>91,'product_sku'=>'HDJD-JCJCC','product_key'=>'dhsdsjshfhsd']);
+        AflReports::factory()->create(['report_id'=>109,'product_id'=>91]);*/
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'report',
+            'search_keyword' => 'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.',
+            'isLicenseSearchApi'=>0
+
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('report_text',$install_array);
+        AflReports::where('report_id',109)->delete();
+        AflProducts::where('product_id',91)->delete();
+    }
+    public function test_search_searchUsingUpdateVersionsWithProductTitle_shouldReturnResponseWithVersionDetailsWithThatProductId(){
+        $this->withoutMiddleware();
+        AflProducts::factory()->create(['product_id'=>51,'product_sku'=> 'SEARCH-INST','product_key'=>'dbfvfjfd']);
+        AfuVersions::factory()->create(['version_id'=>11,'product_id'=>51]);
+        AfuCallbacks::factory()->create(['callback_id'=>12,'product_id'=>51,'version_id'=>11]);
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'version',
+            'search_keyword'=> 'Helpdesk Product 2',
+            'isLicenseSearchApi'=>0
+
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('product_id',$install_array);
+
+    }
+    public function test_search_searchUsingUpdateVersionsWithProductSku_shouldReturnResponseWithVersionDetailsWithThatProductId(){
+        $this->withoutMiddleware();
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'version',
+            'search_keyword'=> 'SEARCH-INST',
+            'isLicenseSearchApi'=>0
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('product_id',$install_array);
+
+    }
+    public function test_search_searchUsingUpdateVersionsWithVersionNumber_shouldReturnResponseWithVersionDetailsWithThatProductId(){
+        $this->withoutMiddleware();
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'version',
+            'search_keyword'=> 'v7.1.1',
+            'isLicenseSearchApi'=>0
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('product_id',$install_array);
+
+    }
+    public function test_search_searchUsingUpdateVersionsWithVersionComments_shouldReturnResponseWithVersionDetailsWithThatProductId(){
+        $this->withoutMiddleware();
+        $data = [
+            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'search_type' => 'version',
+            'search_keyword'=> 'This is a version comment',
+            'isLicenseSearchApi'=>0
+        ];
+        $response = $this->json('POST',url('api/admin/search'),$data);
+        $response->assertStatus(200);
+        $content=(array)json_decode($response->content());
+        $install_array = (array)$content['page_message']['0'];
+        $this->assertArrayHasKey('product_id',$install_array);
+        AflProducts::where('product_id',51)->delete();
+        AfuVersions::where('version_id',11)->delete();
+        AfuCallbacks::where('callback_id',12)->delete();
+
     }
 
 }

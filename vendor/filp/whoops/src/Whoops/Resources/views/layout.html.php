@@ -12,7 +12,14 @@
     <title><?php echo $tpl->escape($page_title) ?></title>
 
     <style><?php echo $stylesheet ?></style>
+<<<<<<< HEAD
+<<<<<<< HEAD
     <style><?php echo $prismCss ?></style>
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    <style><?php echo $prismCss ?></style>
+>>>>>>> f330c64 (optimization in progress)
   </head>
   <body>
 
@@ -26,7 +33,15 @@
       </div>
     </div>
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     <script data-manual><?php echo $prismJs ?></script>
+=======
+    <script><?php echo $prettify ?></script>
+>>>>>>> 22c0e54 (table changes)
+=======
+    <script data-manual><?php echo $prismJs ?></script>
+>>>>>>> f330c64 (optimization in progress)
     <script><?php echo $zepto ?></script>
     <script><?php echo $clipboard ?></script>
     <script><?php echo $javascript ?></script>

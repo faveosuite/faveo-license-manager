@@ -128,9 +128,18 @@ class NodeDumper
         if ($flags & Class_::MODIFIER_FINAL) {
             $strs[] = 'MODIFIER_FINAL';
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($flags & Class_::MODIFIER_READONLY) {
             $strs[] = 'MODIFIER_READONLY';
         }
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($flags & Class_::MODIFIER_READONLY) {
+            $strs[] = 'MODIFIER_READONLY';
+        }
+>>>>>>> f330c64 (optimization in progress)
 
         if ($strs) {
             return implode(' | ', $strs) . ' (' . $flags . ')';

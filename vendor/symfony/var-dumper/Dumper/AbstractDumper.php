@@ -63,7 +63,15 @@ abstract class AbstractDumper implements DataDumperInterface, DumperInterface
      */
     public function setOutput($output)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $prev = $this->outputStream ?? $this->lineDumper;
+=======
+        $prev = null !== $this->outputStream ? $this->outputStream : $this->lineDumper;
+>>>>>>> 22c0e54 (table changes)
+=======
+        $prev = $this->outputStream ?? $this->lineDumper;
+>>>>>>> f330c64 (optimization in progress)
 
         if (\is_callable($output)) {
             $this->outputStream = null;

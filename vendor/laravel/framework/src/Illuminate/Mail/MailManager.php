@@ -18,7 +18,14 @@ use Postmark\ThrowExceptionOnFailurePlugin;
 use Postmark\Transport as PostmarkTransport;
 use Psr\Log\LoggerInterface;
 use Swift_DependencyContainer;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Swift_FailoverTransport as FailoverTransport;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Swift_FailoverTransport as FailoverTransport;
+>>>>>>> f330c64 (optimization in progress)
 use Swift_Mailer;
 use Swift_SendmailTransport as SendmailTransport;
 use Swift_SmtpTransport as SmtpTransport;
@@ -343,6 +350,10 @@ class MailManager implements FactoryContract
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create an instance of the Failover Swift Transport driver.
      *
      * @param  array  $config
@@ -371,6 +382,11 @@ class MailManager implements FactoryContract
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create an instance of the Log Swift Transport driver.
      *
      * @param  array  $config

@@ -133,9 +133,21 @@ class ArrayInput extends Input
             if ('--' === $key) {
                 return;
             }
+<<<<<<< HEAD
+<<<<<<< HEAD
             if (str_starts_with($key, '--')) {
                 $this->addLongOption(substr($key, 2), $value);
             } elseif (str_starts_with($key, '-')) {
+=======
+            if (0 === strpos($key, '--')) {
+                $this->addLongOption(substr($key, 2), $value);
+            } elseif (0 === strpos($key, '-')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if (str_starts_with($key, '--')) {
+                $this->addLongOption(substr($key, 2), $value);
+            } elseif (str_starts_with($key, '-')) {
+>>>>>>> f330c64 (optimization in progress)
                 $this->addShortOption(substr($key, 1), $value);
             } else {
                 $this->addArgument($key, $value);

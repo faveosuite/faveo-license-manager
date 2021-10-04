@@ -513,6 +513,10 @@ class LazyCollection implements Enumerable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Determine if any of the keys exist in the collection.
      *
      * @param  mixed  $key
@@ -532,6 +536,11 @@ class LazyCollection implements Enumerable
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Concatenate values of a given key as a string.
      *
      * @param  string  $value
@@ -1076,8 +1085,18 @@ class LazyCollection implements Enumerable
      * @param  mixed  $value
      * @return mixed
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @throws \Illuminate\Support\ItemNotFoundException
      * @throws \Illuminate\Support\MultipleItemsFoundException
+=======
+     * @throws \Illuminate\Collections\ItemNotFoundException
+     * @throws \Illuminate\Collections\MultipleItemsFoundException
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @throws \Illuminate\Support\ItemNotFoundException
+     * @throws \Illuminate\Support\MultipleItemsFoundException
+>>>>>>> f330c64 (optimization in progress)
      */
     public function sole($key = null, $operator = null, $value = null)
     {
@@ -1094,6 +1113,10 @@ class LazyCollection implements Enumerable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the first item in the collection but throw an exception if no matching items exist.
      *
      * @param  mixed  $key
@@ -1118,6 +1141,11 @@ class LazyCollection implements Enumerable
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Chunk the collection into chunks of the given size.
      *
      * @param  int  $size
@@ -1372,6 +1400,10 @@ class LazyCollection implements Enumerable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Return only unique items from the collection array.
      *
      * @param  string|callable|null  $key
@@ -1396,6 +1428,11 @@ class LazyCollection implements Enumerable
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Reset the keys on the underlying array.
      *
      * @return static
@@ -1468,7 +1505,14 @@ class LazyCollection implements Enumerable
      *
      * @return \Traversable
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return $this->makeIterator($this->source);
@@ -1479,7 +1523,14 @@ class LazyCollection implements Enumerable
      *
      * @return int
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         if (is_array($this->source)) {

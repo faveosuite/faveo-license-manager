@@ -15,7 +15,15 @@
     ],
     "require": {
         "php": "^7.1 || ^8.0",
+<<<<<<< HEAD
+<<<<<<< HEAD
         "psr/container": "^1.0 || ^2.0",
+=======
+        "psr/container": "^1.0",
+>>>>>>> 22c0e54 (table changes)
+=======
+        "psr/container": "^1.0 || ^2.0",
+>>>>>>> f330c64 (optimization in progress)
         "symfony/deprecation-contracts": "^2.2"
     },
     "require-dev": {
@@ -48,7 +56,15 @@
     },
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
+<<<<<<< HEAD
             "dev-main": "v1.16-dev"
+=======
+            "dev-main": "v1.15-dev"
+>>>>>>> 22c0e54 (table changes)
+=======
+            "dev-main": "v1.16-dev"
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 }

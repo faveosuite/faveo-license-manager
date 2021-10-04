@@ -33,10 +33,19 @@ class Standard extends PrettyPrinterAbstract
              . $this->p($node->value);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function pVariadicPlaceholder(Node\VariadicPlaceholder $node) {
         return '...';
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function pConst(Node\Const_ $node) {
         return $node->name . ' = ' . $this->p($node->value);
     }
@@ -49,10 +58,19 @@ class Standard extends PrettyPrinterAbstract
         return $this->pImplode($node->types, '|');
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function pIntersectionType(Node\IntersectionType $node) {
         return $this->pImplode($node->types, '&');
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function pIdentifier(Node\Identifier $node) {
         return $node->name;
     }

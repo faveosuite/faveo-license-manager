@@ -3,7 +3,15 @@
 namespace Illuminate\Events;
 
 use Closure;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Queue\SerializableClosureFactory;
+=======
+use Illuminate\Queue\SerializableClosure;
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Queue\SerializableClosureFactory;
+>>>>>>> f330c64 (optimization in progress)
 
 class QueuedClosure
 {
@@ -114,10 +122,24 @@ class QueuedClosure
     {
         return function (...$arguments) {
             dispatch(new CallQueuedListener(InvokeQueuedClosure::class, 'handle', [
+<<<<<<< HEAD
+<<<<<<< HEAD
                 'closure' => SerializableClosureFactory::make($this->closure),
                 'arguments' => $arguments,
                 'catch' => collect($this->catchCallbacks)->map(function ($callback) {
                     return SerializableClosureFactory::make($callback);
+=======
+                'closure' => new SerializableClosure($this->closure),
+                'arguments' => $arguments,
+                'catch' => collect($this->catchCallbacks)->map(function ($callback) {
+                    return new SerializableClosure($callback);
+>>>>>>> 22c0e54 (table changes)
+=======
+                'closure' => SerializableClosureFactory::make($this->closure),
+                'arguments' => $arguments,
+                'catch' => collect($this->catchCallbacks)->map(function ($callback) {
+                    return SerializableClosureFactory::make($callback);
+>>>>>>> f330c64 (optimization in progress)
                 })->all(),
             ]))->onConnection($this->connection)->onQueue($this->queue)->delay($this->delay);
         };
