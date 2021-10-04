@@ -1,5 +1,9 @@
 # Changelog
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 All notable changes to `ignition` will be documented in this fil
 
 ## 2.15.0 - 2021-10-11
@@ -47,6 +51,12 @@ All notable changes to `ignition` will be documented in this fil
 ## 2.11.1 - 2021-07-20
 
 - fix sending queued reports on Laravel Vapor queues (#398)
+<<<<<<< HEAD
+=======
+All notable changes to `ignition` will be documented in this file
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 ## 2.11.0 - 2021-07-12
 

@@ -20,5 +20,13 @@ interface Formatter
     /**
      * Formats a tag into a string representation according to a specific format, such as Markdown.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function format(Tag $tag): string;
+=======
+    public function format(Tag $tag) : string;
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function format(Tag $tag): string;
+>>>>>>> f330c64 (optimization in progress)
 }

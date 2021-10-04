@@ -45,17 +45,41 @@ final class Some extends Option
      *
      * @return Some<U>
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function create($value): self
+=======
+    public static function create($value)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function create($value): self
+>>>>>>> f330c64 (optimization in progress)
     {
         return new self($value);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function isDefined(): bool
+=======
+    public function isDefined()
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function isDefined(): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return true;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function isEmpty(): bool
+=======
+    public function isEmpty()
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function isEmpty(): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         return false;
     }
@@ -149,7 +173,15 @@ final class Some extends Option
         return $this;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function getIterator(): ArrayIterator
+=======
+    public function getIterator()
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function getIterator(): ArrayIterator
+>>>>>>> f330c64 (optimization in progress)
     {
         return new ArrayIterator([$this->value]);
     }

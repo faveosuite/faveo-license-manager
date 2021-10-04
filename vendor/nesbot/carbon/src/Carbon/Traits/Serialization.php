@@ -12,7 +12,14 @@ namespace Carbon\Traits;
 
 use Carbon\Exceptions\InvalidFormatException;
 use ReturnTypeWillChange;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Throwable;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Throwable;
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * Trait Serialization.
@@ -54,6 +61,10 @@ trait Serialization
      *
      * @var string|null
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected $dumpLocale;
 
     /**
@@ -63,6 +74,12 @@ trait Serialization
      * @var array|null
      */
     protected $dumpDateProperties;
+<<<<<<< HEAD
+=======
+    protected $dumpLocale = null;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Return a serialized string of the instance.
@@ -123,7 +140,15 @@ trait Serialization
      */
     public function __sleep()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $properties = $this->getSleepProperties();
+=======
+        $properties = $this->dumpProperties;
+>>>>>>> 22c0e54 (table changes)
+=======
+        $properties = $this->getSleepProperties();
+>>>>>>> f330c64 (optimization in progress)
 
         if ($this->localTranslator ?? null) {
             $properties[] = 'dumpLocale';
@@ -140,6 +165,10 @@ trait Serialization
     public function __wakeup()
     {
         if (get_parent_class() && method_exists(parent::class, '__wakeup')) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             // @codeCoverageIgnoreStart
             try {
                 parent::__wakeup();
@@ -149,6 +178,12 @@ trait Serialization
                 parent::__construct($date, unserialize($timezone));
             }
             // @codeCoverageIgnoreEnd
+<<<<<<< HEAD
+=======
+            parent::__wakeup();
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         }
 
         $this->constructedObjectId = spl_object_hash($this);
@@ -166,7 +201,14 @@ trait Serialization
      *
      * @return array|string
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         $serializer = $this->localSerializer ?? static::$serializer;
@@ -212,6 +254,10 @@ trait Serialization
 
         return $this;
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     private function getSleepProperties(): array
     {
@@ -234,4 +280,9 @@ trait Serialization
         return $properties;
         // @codeCoverageIgnoreEnd
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

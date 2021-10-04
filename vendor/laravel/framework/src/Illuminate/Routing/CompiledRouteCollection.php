@@ -121,7 +121,15 @@ class CompiledRouteCollection extends AbstractRouteCollection
             if ($result = $matcher->matchRequest($trimmedRequest)) {
                 $route = $this->getByName($result['_route']);
             }
+<<<<<<< HEAD
+<<<<<<< HEAD
         } catch (ResourceNotFoundException|MethodNotAllowedException $e) {
+=======
+        } catch (ResourceNotFoundException | MethodNotAllowedException $e) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        } catch (ResourceNotFoundException|MethodNotAllowedException $e) {
+>>>>>>> f330c64 (optimization in progress)
             try {
                 return $this->routes->match($request);
             } catch (NotFoundHttpException $e) {
@@ -136,7 +144,15 @@ class CompiledRouteCollection extends AbstractRouteCollection
                 if (! $dynamicRoute->isFallback) {
                     $route = $dynamicRoute;
                 }
+<<<<<<< HEAD
+<<<<<<< HEAD
             } catch (NotFoundHttpException|MethodNotAllowedHttpException $e) {
+=======
+            } catch (NotFoundHttpException | MethodNotAllowedHttpException $e) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            } catch (NotFoundHttpException|MethodNotAllowedHttpException $e) {
+>>>>>>> f330c64 (optimization in progress)
                 //
             }
         }
@@ -302,8 +318,17 @@ class CompiledRouteCollection extends AbstractRouteCollection
             ->setDefaults($attributes['defaults'])
             ->setWheres($attributes['wheres'])
             ->setBindingFields($attributes['bindingFields'])
+<<<<<<< HEAD
+<<<<<<< HEAD
             ->block($attributes['lockSeconds'] ?? null, $attributes['waitSeconds'] ?? null)
             ->withTrashed($attributes['withTrashed'] ?? false);
+=======
+            ->block($attributes['lockSeconds'] ?? null, $attributes['waitSeconds'] ?? null);
+>>>>>>> 22c0e54 (table changes)
+=======
+            ->block($attributes['lockSeconds'] ?? null, $attributes['waitSeconds'] ?? null)
+            ->withTrashed($attributes['withTrashed'] ?? false);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

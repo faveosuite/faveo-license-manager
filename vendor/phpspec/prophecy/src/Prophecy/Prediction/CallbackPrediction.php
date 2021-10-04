@@ -16,7 +16,14 @@ use Prophecy\Prophecy\ObjectProphecy;
 use Prophecy\Prophecy\MethodProphecy;
 use Prophecy\Exception\InvalidArgumentException;
 use Closure;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use ReflectionFunction;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use ReflectionFunction;
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * Callback prediction.
@@ -57,7 +64,15 @@ class CallbackPrediction implements PredictionInterface
     {
         $callback = $this->callback;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($callback instanceof Closure && method_exists('Closure', 'bind') && (new ReflectionFunction($callback))->getClosureThis() !== null) {
+=======
+        if ($callback instanceof Closure && method_exists('Closure', 'bind')) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($callback instanceof Closure && method_exists('Closure', 'bind') && (new ReflectionFunction($callback))->getClosureThis() !== null) {
+>>>>>>> f330c64 (optimization in progress)
             $callback = Closure::bind($callback, $object);
         }
 

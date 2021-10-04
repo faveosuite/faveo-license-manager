@@ -19,7 +19,14 @@ use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use Webmozart\Assert\Assert;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function preg_match;
 
 /**
@@ -51,7 +58,15 @@ final class Generic extends BaseTag implements Factory\StaticMethod
         string $name = '',
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
+<<<<<<< HEAD
+<<<<<<< HEAD
     ): self {
+=======
+    ) : self {
+>>>>>>> 22c0e54 (table changes)
+=======
+    ): self {
+>>>>>>> f330c64 (optimization in progress)
         Assert::stringNotEmpty($name);
         Assert::notNull($descriptionFactory);
 
@@ -63,7 +78,15 @@ final class Generic extends BaseTag implements Factory\StaticMethod
     /**
      * Returns the tag as a serialized string
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();
@@ -77,7 +100,15 @@ final class Generic extends BaseTag implements Factory\StaticMethod
     /**
      * Validates if the tag name matches the expected format, otherwise throws an exception.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function validateTagName(string $name): void
+=======
+    private function validateTagName(string $name) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function validateTagName(string $name): void
+>>>>>>> f330c64 (optimization in progress)
     {
         if (!preg_match('/^' . StandardTagFactory::REGEX_TAGNAME . '$/u', $name)) {
             throw new InvalidArgumentException(

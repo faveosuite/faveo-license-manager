@@ -622,7 +622,15 @@ trait Comparison
 
         if (!isset($units[$unit])) {
             if (isset($this->$unit)) {
+<<<<<<< HEAD
+<<<<<<< HEAD
                 return $this->resolveCarbon($date)->$unit === $this->$unit;
+=======
+                return $this->$unit === $this->resolveCarbon($date)->$unit;
+>>>>>>> 22c0e54 (table changes)
+=======
+                return $this->resolveCarbon($date)->$unit === $this->$unit;
+>>>>>>> f330c64 (optimization in progress)
             }
 
             if ($this->localStrictModeEnabled ?? static::isStrictModeEnabled()) {
@@ -1001,7 +1009,15 @@ trait Comparison
         ];
 
         foreach ($units as $unit => [$minimum, $startUnit]) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ($minimum === $median->$unit) {
+=======
+            if ($median->$unit === $minimum) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ($minimum === $median->$unit) {
+>>>>>>> f330c64 (optimization in progress)
                 $current = $current->startOf($startUnit);
 
                 break;

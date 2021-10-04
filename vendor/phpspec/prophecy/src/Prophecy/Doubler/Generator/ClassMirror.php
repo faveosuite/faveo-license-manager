@@ -16,7 +16,14 @@ use Prophecy\Doubler\Generator\Node\ReturnTypeNode;
 use Prophecy\Exception\InvalidArgumentException;
 use Prophecy\Exception\Doubler\ClassMirrorException;
 use ReflectionClass;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use ReflectionIntersectionType;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use ReflectionIntersectionType;
+>>>>>>> f330c64 (optimization in progress)
 use ReflectionMethod;
 use ReflectionNamedType;
 use ReflectionParameter;
@@ -152,10 +159,19 @@ class ClassMirror
             $returnTypes = $this->getTypeHints($method->getReturnType(), $method->getDeclaringClass(), $method->getReturnType()->allowsNull());
             $node->setReturnTypeNode(new ReturnTypeNode(...$returnTypes));
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         elseif (method_exists($method, 'hasTentativeReturnType') && $method->hasTentativeReturnType()) {
             $returnTypes = $this->getTypeHints($method->getTentativeReturnType(), $method->getDeclaringClass(), $method->getTentativeReturnType()->allowsNull());
             $node->setReturnTypeNode(new ReturnTypeNode(...$returnTypes));
         }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
         if (is_array($params = $method->getParameters()) && count($params)) {
             foreach ($params as $param) {
@@ -201,7 +217,15 @@ class ClassMirror
             return true;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $parameter->isOptional() || ($parameter->allowsNull() && $parameter->getType() && \PHP_VERSION_ID < 80100);
+=======
+        return $parameter->isOptional() || ($parameter->allowsNull() && $parameter->getType());
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $parameter->isOptional() || ($parameter->allowsNull() && $parameter->getType() && \PHP_VERSION_ID < 80100);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     private function getDefaultValue(ReflectionParameter $parameter)
@@ -224,12 +248,21 @@ class ClassMirror
         elseif ($type instanceof ReflectionUnionType) {
             $types = $type->getTypes();
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         elseif ($type instanceof ReflectionIntersectionType) {
             throw new ClassMirrorException('Doubling intersection types is not supported', $class);
         }
         elseif(is_object($type)) {
             throw new ClassMirrorException('Unknown reflection type ' . get_class($type), $class);
         }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
         $types = array_map(
             function(string $type) use ($class) {

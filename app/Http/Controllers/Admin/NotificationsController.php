@@ -77,6 +77,9 @@ class NotificationsController extends Controller
       }
 
   }
+   /**
+    * Returns the list of all the notification fields of license manager
+    */
     public function show(){
         $notifications = AflNotifications::all();
         return successResponse(Lang::get('lang.Notification_Show'),$notifications,200);

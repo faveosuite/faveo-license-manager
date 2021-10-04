@@ -26,6 +26,15 @@ class AnnotationFileLoader extends FileLoader
 {
     protected $loader;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    /**
+     * @throws \RuntimeException
+     */
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function __construct(FileLocatorInterface $locator, AnnotationClassLoader $loader)
     {
         if (!\function_exists('token_get_all')) {

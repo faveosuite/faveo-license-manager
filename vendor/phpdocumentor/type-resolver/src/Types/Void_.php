@@ -16,7 +16,15 @@ namespace phpDocumentor\Reflection\Types;
 use phpDocumentor\Reflection\Type;
 
 /**
+<<<<<<< HEAD
+<<<<<<< HEAD
  * Value Object representing the return-type 'void'.
+=======
+ * Value Object representing the pseudo-type 'void'.
+>>>>>>> 22c0e54 (table changes)
+=======
+ * Value Object representing the return-type 'void'.
+>>>>>>> f330c64 (optimization in progress)
  *
  * Void is generally only used when working with return types as it signifies that the method intentionally does not
  * return any value.
@@ -28,7 +36,15 @@ final class Void_ implements Type
     /**
      * Returns a rendered output of the Type as it would be used in a DocBlock.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         return 'void';
     }

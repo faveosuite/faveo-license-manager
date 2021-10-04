@@ -1,6 +1,10 @@
 Changelog
 =========
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 **Swiftmailer will stop being maintained at the end of November 2021.**
 
 Please, move to Symfony Mailer at your earliest convenience.
@@ -13,6 +17,11 @@ See https://symfony.com/doc/current/mailer.html for more information.
 
  * Fix support for PHP 8.1
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 6.2.7 (2021-03-09)
 ------------------
 

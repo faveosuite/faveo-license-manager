@@ -25,8 +25,16 @@ use Carbon\Traits\Mixin;
 use Carbon\Traits\Options;
 use Closure;
 use DateInterval;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use DateTimeInterface;
 use DateTimeZone;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use DateTimeInterface;
+use DateTimeZone;
+>>>>>>> f330c64 (optimization in progress)
 use Exception;
 use ReflectionException;
 use ReturnTypeWillChange;
@@ -255,6 +263,10 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
     protected $tzName;
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Set the instance's timezone from a string or object.
      *
      * @param \DateTimeZone|string $tzName
@@ -271,6 +283,11 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
     /**
      * @internal
      *
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Set the instance's timezone from a string or object and add/subtract the offset difference.
      *
      * @param \DateTimeZone|string $tzName
@@ -398,7 +415,15 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
 
         parent::__construct($spec);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($microseconds !== null) {
+=======
+        if (!\is_null($microseconds)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($microseconds !== null) {
+>>>>>>> f330c64 (optimization in progress)
             $this->f = $microseconds / Carbon::MICROSECONDS_PER_SECOND;
         }
     }
@@ -1014,7 +1039,15 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
      */
     public function get($name)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_starts_with($name, 'total')) {
+=======
+        if (substr($name, 0, 5) === 'total') {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_starts_with($name, 'total')) {
+>>>>>>> f330c64 (optimization in progress)
             return $this->total(substr($name, 5));
         }
 
@@ -1378,7 +1411,15 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
         $minimumUnit = 's';
         extract($this->getForHumansInitialVariables($syntax, $short));
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($syntax === null) {
+=======
+        if (\is_null($syntax)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($syntax === null) {
+>>>>>>> f330c64 (optimization in progress)
             $syntax = CarbonInterface::DIFF_ABSOLUTE;
         }
 
@@ -1386,7 +1427,15 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
             $parts = INF;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($options === null) {
+=======
+        if (\is_null($options)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($options === null) {
+>>>>>>> f330c64 (optimization in progress)
             $options = static::getHumanDiffOptions();
         }
 
@@ -1573,7 +1622,15 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
 
         $interval = [];
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $syntax = (int) ($syntax ?? CarbonInterface::DIFF_ABSOLUTE);
+=======
+        $syntax = (int) ($syntax === null ? CarbonInterface::DIFF_ABSOLUTE : $syntax);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $syntax = (int) ($syntax ?? CarbonInterface::DIFF_ABSOLUTE);
+>>>>>>> f330c64 (optimization in progress)
         $absolute = $syntax === CarbonInterface::DIFF_ABSOLUTE;
         $relativeToNow = $syntax === CarbonInterface::DIFF_RELATIVE_TO_NOW;
         $count = 1;
@@ -1781,12 +1838,24 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
     /**
      * Convert the interval to a CarbonPeriod.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param DateTimeInterface|string|int ...$params Start date, [end date or recurrences] and optional settings.
+=======
+     * @param array ...$params Start date, [end date or recurrences] and optional settings.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param DateTimeInterface|string|int ...$params Start date, [end date or recurrences] and optional settings.
+>>>>>>> f330c64 (optimization in progress)
      *
      * @return CarbonPeriod
      */
     public function toPeriod(...$params)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($this->tzName) {
             $tz = \is_string($this->tzName) ? new DateTimeZone($this->tzName) : $this->tzName;
 
@@ -1795,6 +1864,11 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
             }
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         return CarbonPeriod::create($this, ...$params);
     }
 
@@ -2268,12 +2342,28 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
             'years' => $this->years,
             'months' => $this->months,
             'weeks' => (int) ($this->d / $daysPerWeek),
+<<<<<<< HEAD
+<<<<<<< HEAD
             'dayz' => $this->d % $daysPerWeek,
+=======
+            'dayz' => (int) ($this->d % $daysPerWeek),
+>>>>>>> 22c0e54 (table changes)
+=======
+            'dayz' => $this->d % $daysPerWeek,
+>>>>>>> f330c64 (optimization in progress)
             'hours' => $this->hours,
             'minutes' => $this->minutes,
             'seconds' => $this->seconds,
             'milliseconds' => (int) ($this->microseconds / Carbon::MICROSECONDS_PER_MILLISECOND),
+<<<<<<< HEAD
+<<<<<<< HEAD
             'microseconds' => $this->microseconds % Carbon::MICROSECONDS_PER_MILLISECOND,
+=======
+            'microseconds' => (int) ($this->microseconds % Carbon::MICROSECONDS_PER_MILLISECOND),
+>>>>>>> 22c0e54 (table changes)
+=======
+            'microseconds' => $this->microseconds % Carbon::MICROSECONDS_PER_MILLISECOND,
+>>>>>>> f330c64 (optimization in progress)
         ];
 
         if (isset($factors['dayz']) && $factors['dayz'][0] !== 'weeks') {

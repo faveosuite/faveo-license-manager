@@ -12,6 +12,13 @@
 namespace League\OAuth2\Server;
 
 use LogicException;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+use RuntimeException;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 class CryptKey
 {
@@ -22,11 +29,20 @@ class CryptKey
     private const FILE_PREFIX = 'file://';
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @var string Key contents
      */
     protected $keyContents;
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @var string
      */
     protected $keyPath;
@@ -45,12 +61,22 @@ class CryptKey
     {
         $this->passPhrase = $passPhrase;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (\strpos($keyPath, self::FILE_PREFIX) !== 0 && $this->isValidKey($keyPath, $this->passPhrase ?? '')) {
             $this->keyContents = $keyPath;
             $this->keyPath = '';
             // There's no file, so no need for permission check.
             $keyPermissionsCheck = false;
         } elseif (\is_file($keyPath)) {
+<<<<<<< HEAD
+=======
+        if (\is_file($keyPath)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             if (\strpos($keyPath, self::FILE_PREFIX) !== 0) {
                 $keyPath = self::FILE_PREFIX . $keyPath;
             }
@@ -58,6 +84,8 @@ class CryptKey
             if (!\is_readable($keyPath)) {
                 throw new LogicException(\sprintf('Key path "%s" does not exist or is not readable', $keyPath));
             }
+<<<<<<< HEAD
+<<<<<<< HEAD
             $this->keyContents = \file_get_contents($keyPath);
             $this->keyPath = $keyPath;
             if (!$this->isValidKey($this->keyContents, $this->passPhrase ?? '')) {
@@ -65,6 +93,25 @@ class CryptKey
             }
         } else {
             throw new LogicException('Unable to read key from file ' . $keyPath);
+=======
+            $isFileKey = true;
+            $contents = \file_get_contents($keyPath);
+=======
+            $this->keyContents = \file_get_contents($keyPath);
+>>>>>>> f330c64 (optimization in progress)
+            $this->keyPath = $keyPath;
+            if (!$this->isValidKey($this->keyContents, $this->passPhrase ?? '')) {
+                throw new LogicException('Unable to read key from file ' . $keyPath);
+            }
+        } else {
+<<<<<<< HEAD
+            $isFileKey = false;
+            $contents = $keyPath;
+            $this->keyPath = $this->saveKeyToFile($keyPath);
+>>>>>>> 22c0e54 (table changes)
+=======
+            throw new LogicException('Unable to read key from file ' . $keyPath);
+>>>>>>> f330c64 (optimization in progress)
         }
 
         if ($keyPermissionsCheck === true) {
@@ -81,6 +128,8 @@ class CryptKey
                 );
             }
         }
+<<<<<<< HEAD
+<<<<<<< HEAD
     }
 
     /**
@@ -91,6 +140,47 @@ class CryptKey
     public function getKeyContents(): string
     {
         return $this->keyContents;
+=======
+
+        if (!$this->isValidKey($contents, $this->passPhrase ?? '')) {
+            throw new LogicException('Unable to read key' . ($isFileKey ? " from file $keyPath" : ''));
+        }
+=======
+>>>>>>> f330c64 (optimization in progress)
+    }
+
+    /**
+     * Get key contents
+     *
+     * @return string Key contents
+     */
+    public function getKeyContents(): string
+    {
+<<<<<<< HEAD
+        $tmpDir = \sys_get_temp_dir();
+        $keyPath = $tmpDir . '/' . \sha1($key) . '.key';
+
+        if (\file_exists($keyPath)) {
+            return self::FILE_PREFIX . $keyPath;
+        }
+
+        if (\file_put_contents($keyPath, $key) === false) {
+            // @codeCoverageIgnoreStart
+            throw new RuntimeException(\sprintf('Unable to write key file to temporary directory "%s"', $tmpDir));
+            // @codeCoverageIgnoreEnd
+        }
+
+        if (\chmod($keyPath, 0600) === false) {
+            // @codeCoverageIgnoreStart
+            throw new RuntimeException(\sprintf('The key file "%s" file mode could not be changed with chmod to 600', $keyPath));
+            // @codeCoverageIgnoreEnd
+        }
+
+        return self::FILE_PREFIX . $keyPath;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->keyContents;
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

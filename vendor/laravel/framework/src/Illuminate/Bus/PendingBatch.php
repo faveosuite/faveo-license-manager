@@ -6,7 +6,15 @@ use Closure;
 use Illuminate\Bus\Events\BatchDispatched;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Queue\SerializableClosureFactory;
+=======
+use Illuminate\Queue\SerializableClosure;
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Queue\SerializableClosureFactory;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Throwable;
@@ -57,14 +65,32 @@ class PendingBatch
     /**
      * Add jobs to the batch.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  iterable  $jobs
+=======
+     * @param  array  $jobs
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  iterable  $jobs
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function add($jobs)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         foreach ($jobs as $job) {
             $this->jobs->push($job);
         }
+=======
+        $this->jobs->push($jobs);
+>>>>>>> 22c0e54 (table changes)
+=======
+        foreach ($jobs as $job) {
+            $this->jobs->push($job);
+        }
+>>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
@@ -78,7 +104,15 @@ class PendingBatch
     public function then($callback)
     {
         $this->options['then'][] = $callback instanceof Closure
+<<<<<<< HEAD
+<<<<<<< HEAD
                         ? SerializableClosureFactory::make($callback)
+=======
+                        ? new SerializableClosure($callback)
+>>>>>>> 22c0e54 (table changes)
+=======
+                        ? SerializableClosureFactory::make($callback)
+>>>>>>> f330c64 (optimization in progress)
                         : $callback;
 
         return $this;
@@ -103,7 +137,15 @@ class PendingBatch
     public function catch($callback)
     {
         $this->options['catch'][] = $callback instanceof Closure
+<<<<<<< HEAD
+<<<<<<< HEAD
                     ? SerializableClosureFactory::make($callback)
+=======
+                    ? new SerializableClosure($callback)
+>>>>>>> 22c0e54 (table changes)
+=======
+                    ? SerializableClosureFactory::make($callback)
+>>>>>>> f330c64 (optimization in progress)
                     : $callback;
 
         return $this;
@@ -128,7 +170,15 @@ class PendingBatch
     public function finally($callback)
     {
         $this->options['finally'][] = $callback instanceof Closure
+<<<<<<< HEAD
+<<<<<<< HEAD
                     ? SerializableClosureFactory::make($callback)
+=======
+                    ? new SerializableClosure($callback)
+>>>>>>> 22c0e54 (table changes)
+=======
+                    ? SerializableClosureFactory::make($callback)
+>>>>>>> f330c64 (optimization in progress)
                     : $callback;
 
         return $this;

@@ -6,9 +6,18 @@ use ArrayAccess;
 use Closure;
 use Exception;
 use Illuminate\Contracts\Support\Htmlable;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Http\Resources\Json\JsonResource;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\Pivot;
+use Illuminate\Http\Resources\Json\JsonResource;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
@@ -198,6 +207,10 @@ abstract class AbstractCursorPaginator implements Htmlable
         return collect($this->parameters)
             ->flip()
             ->map(function ($_, $parameterName) use ($item) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
                 if ($item instanceof JsonResource) {
                     $item = $item->resource;
                 }
@@ -206,6 +219,12 @@ abstract class AbstractCursorPaginator implements Htmlable
                     ! is_null($parameter = $this->getPivotParameterForItem($item, $parameterName))) {
                     return $parameter;
                 } elseif ($item instanceof ArrayAccess || is_array($item)) {
+<<<<<<< HEAD
+=======
+                if ($item instanceof ArrayAccess || is_array($item)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                     return $this->ensureParameterIsPrimitive(
                         $item[$parameterName] ?? $item[Str::afterLast($parameterName, '.')]
                     );
@@ -220,6 +239,10 @@ abstract class AbstractCursorPaginator implements Htmlable
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the cursor parameter value from a pivot model if applicable.
      *
      * @param  \ArrayAccess|\stdClass  $item
@@ -240,6 +263,11 @@ abstract class AbstractCursorPaginator implements Htmlable
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Ensure the parameter is a primitive type.
      *
      * This can resolve issues that arise the developer uses a value object for an attribute.
@@ -515,7 +543,14 @@ abstract class AbstractCursorPaginator implements Htmlable
      *
      * @return \ArrayIterator
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return $this->items->getIterator();
@@ -546,7 +581,14 @@ abstract class AbstractCursorPaginator implements Htmlable
      *
      * @return int
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return $this->items->count();
@@ -591,7 +633,14 @@ abstract class AbstractCursorPaginator implements Htmlable
      * @param  mixed  $key
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return $this->items->has($key);
@@ -603,7 +652,14 @@ abstract class AbstractCursorPaginator implements Htmlable
      * @param  mixed  $key
      * @return mixed
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return $this->items->get($key);
@@ -616,7 +672,14 @@ abstract class AbstractCursorPaginator implements Htmlable
      * @param  mixed  $value
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         $this->items->put($key, $value);
@@ -628,7 +691,14 @@ abstract class AbstractCursorPaginator implements Htmlable
      * @param  mixed  $key
      * @return void
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         $this->items->forget($key);

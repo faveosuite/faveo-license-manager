@@ -309,7 +309,15 @@ abstract class AbstractCloner implements ClonerInterface
         $obj = $stub->value;
         $class = $stub->class;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (\PHP_VERSION_ID < 80000 ? "\0" === ($class[15] ?? null) : str_contains($class, "@anonymous\0")) {
+=======
+        if (\PHP_VERSION_ID < 80000 ? "\0" === ($class[15] ?? null) : false !== strpos($class, "@anonymous\0")) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (\PHP_VERSION_ID < 80000 ? "\0" === ($class[15] ?? null) : str_contains($class, "@anonymous\0")) {
+>>>>>>> f330c64 (optimization in progress)
             $stub->class = get_debug_type($obj);
         }
         if (isset($this->classInfo[$class])) {

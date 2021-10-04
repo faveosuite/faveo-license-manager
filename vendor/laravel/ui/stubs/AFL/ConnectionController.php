@@ -29,10 +29,10 @@ class ConnectionController extends Controller
     */
        public function connection(Request $request)
        {
+
         //set supported browsers (internal requests only coming from these browsers will be processed)
         //$connection_hash=rawurlencode(hash("sha256", "connection_test")); //should be passed from helpdesk
 
-        //dd($connection_hash);
         $product_id = $request->input('product_id');
         $connection_hash = $request->input('connection_hash');
 
@@ -57,10 +57,12 @@ class ConnectionController extends Controller
 
         if (filter_var($ip_address, FILTER_VALIDATE_IP) &&
         filter_var($refer, FILTER_VALIDATE_URL)
-        && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connectionTest"))
+        && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connection_test"))
         {
+
                $rows_array =[$ip_address,$refer,$product_id,$connection_hash];
                return "<connection_test>OK</connection_test>";
+
         }
         else{
           return errorResponse(Lang::get('lang.invalid_connection'),400);

@@ -1,7 +1,15 @@
 {
     "require": {
         "php": "^7.2.5 || ^8.0",
+<<<<<<< HEAD
+<<<<<<< HEAD
         "psalm/phar": "4.10.0"
+=======
+        "psalm/phar": "4.6.2"
+>>>>>>> 22c0e54 (table changes)
+=======
+        "psalm/phar": "4.10.0"
+>>>>>>> f330c64 (optimization in progress)
     },
     "config": {
         "preferred-install": "dist"

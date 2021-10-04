@@ -11,9 +11,19 @@ class InstallCommand extends Command
      *
      * @var string
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     protected $signature = 'sail:install
                 {--with= : The services that should be included in the installation}
                 {--devcontainer : Create a .devcontainer configuration directory}';
+=======
+    protected $signature = 'sail:install {--with= : The services that should be included in the installation}';
+>>>>>>> 22c0e54 (table changes)
+=======
+    protected $signature = 'sail:install
+                {--with= : The services that should be included in the installation}
+                {--devcontainer : Create a .devcontainer configuration directory}';
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * The console command description.
@@ -40,10 +50,19 @@ class InstallCommand extends Command
         $this->buildDockerCompose($services);
         $this->replaceEnvVariables($services);
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($this->option('devcontainer')) {
             $this->installDevContainer();
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $this->info('Sail scaffolding installed successfully.');
     }
 
@@ -142,6 +161,10 @@ class InstallCommand extends Command
 
         file_put_contents($this->laravel->basePath('.env'), $environment);
     }
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Install the devcontainer.json configuration file.
@@ -166,4 +189,9 @@ class InstallCommand extends Command
 
         file_put_contents($this->laravel->basePath('.env'), $environment);
     }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

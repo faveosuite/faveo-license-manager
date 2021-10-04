@@ -18,12 +18,26 @@ use League\CommonMark\Cursor;
 use League\CommonMark\Delimiter\DelimiterInterface;
 use League\CommonMark\EnvironmentAwareInterface;
 use League\CommonMark\EnvironmentInterface;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use League\CommonMark\Extension\Mention\Mention;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use League\CommonMark\Extension\Mention\Mention;
+>>>>>>> f330c64 (optimization in progress)
 use League\CommonMark\Inline\AdjacentTextMerger;
 use League\CommonMark\Inline\Element\AbstractWebResource;
 use League\CommonMark\Inline\Element\Image;
 use League\CommonMark\Inline\Element\Link;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use League\CommonMark\Inline\Element\Text;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use League\CommonMark\Inline\Element\Text;
+>>>>>>> f330c64 (optimization in progress)
 use League\CommonMark\InlineParserContext;
 use League\CommonMark\Reference\ReferenceInterface;
 use League\CommonMark\Reference\ReferenceMapInterface;
@@ -78,6 +92,10 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
         $inline = $this->createInline($link['url'], $link['title'], $isImage);
         $opener->getInlineNode()->replaceWith($inline);
         while (($label = $inline->next()) !== null) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             // Is there a Mention contained within this link?
             // CommonMark does not allow nested links, so we'll restore the original text.
             if ($label instanceof Mention) {
@@ -85,6 +103,11 @@ final class CloseBracketParser implements InlineParserInterface, EnvironmentAwar
                 $label = $replacement;
             }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             $inline->appendChild($label);
         }
 

@@ -126,7 +126,15 @@ class Worker
      */
     public function daemon($connectionName, $queue, WorkerOptions $options)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if ($supportsAsyncSignals = $this->supportsAsyncSignals()) {
+=======
+        if ($this->supportsAsyncSignals()) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($supportsAsyncSignals = $this->supportsAsyncSignals()) {
+>>>>>>> f330c64 (optimization in progress)
             $this->listenForSignals();
         }
 
@@ -159,7 +167,15 @@ class Worker
                 $this->manager->connection($connectionName), $queue
             );
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ($supportsAsyncSignals) {
+=======
+            if ($this->supportsAsyncSignals()) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ($supportsAsyncSignals) {
+>>>>>>> f330c64 (optimization in progress)
                 $this->registerTimeoutHandler($job, $options);
             }
 
@@ -178,7 +194,15 @@ class Worker
                 $this->sleep($options->sleep);
             }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
             if ($supportsAsyncSignals) {
+=======
+            if ($this->supportsAsyncSignals()) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if ($supportsAsyncSignals) {
+>>>>>>> f330c64 (optimization in progress)
                 $this->resetTimeoutHandler();
             }
 
@@ -726,7 +750,15 @@ class Worker
      * Kill the process.
      *
      * @param  int  $status
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return never
+=======
+     * @return void
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return never
+>>>>>>> f330c64 (optimization in progress)
      */
     public function kill($status = 0)
     {

@@ -25,7 +25,15 @@ final class Utils
         }
 
         foreach ($data as $k => $v) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             if (!is_string($k) || !in_array(strtolower($k), $keys)) {
+=======
+            if (!in_array(strtolower($k), $keys)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if (!is_string($k) || !in_array(strtolower($k), $keys)) {
+>>>>>>> f330c64 (optimization in progress)
                 $result[$k] = $v;
             }
         }

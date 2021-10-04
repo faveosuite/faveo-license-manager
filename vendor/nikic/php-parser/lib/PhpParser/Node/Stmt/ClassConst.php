@@ -65,6 +65,10 @@ class ClassConst extends Node\Stmt
         return (bool) ($this->flags & Class_::MODIFIER_PRIVATE);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     /**
      * Whether constant is final.
      *
@@ -74,6 +78,11 @@ class ClassConst extends Node\Stmt
         return (bool) ($this->flags & Class_::MODIFIER_FINAL);
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     public function getType() : string {
         return 'Stmt_ClassConst';
     }

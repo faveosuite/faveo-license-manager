@@ -103,7 +103,15 @@ class Swift_CharacterReaderFactory_SimpleCharacterReaderFactory implements Swift
      */
     public function getReaderFor($charset)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $charset = strtolower(trim($charset ?? ''));
+=======
+        $charset = strtolower(trim($charset));
+>>>>>>> 22c0e54 (table changes)
+=======
+        $charset = strtolower(trim($charset ?? ''));
+>>>>>>> f330c64 (optimization in progress)
         foreach (self::$map as $pattern => $spec) {
             $re = '/^'.$pattern.'$/D';
             if (preg_match($re, $charset)) {

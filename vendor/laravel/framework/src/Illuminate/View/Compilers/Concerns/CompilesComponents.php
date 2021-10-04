@@ -162,6 +162,10 @@ trait CompilesComponents
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Compile the aware statement into valid PHP.
      *
      * @param  string  $expression
@@ -176,6 +180,11 @@ trait CompilesComponents
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Sanitize the given component attribute value.
      *
      * @param  mixed  $value

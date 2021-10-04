@@ -45,6 +45,10 @@ class UndefinedVariableSolutionProvider implements HasSolutionsForThrowable
         string $variableName,
         string $viewFile
     ): array {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return collect($throwable->getViewData())
             ->map(function ($value, $key) use ($variableName) {
                 similar_text($variableName, $key, $percentage);
@@ -65,6 +69,25 @@ class UndefinedVariableSolutionProvider implements HasSolutionsForThrowable
                         ->setSolutionDescription($solution->getSolutionDescription());
             })
             ->toArray();
+<<<<<<< HEAD
+=======
+        return collect($throwable->getViewData())->map(function ($value, $key) use ($variableName) {
+            similar_text($variableName, $key, $percentage);
+
+            return ['match' => $percentage, 'value' => $value];
+        })->sortByDesc('match')->filter(function ($var, $key) {
+            return $var['match'] > 40;
+        })->keys()->map(function ($suggestion) use ($variableName, $viewFile) {
+            return new SuggestCorrectVariableNameSolution($variableName, $viewFile, $suggestion);
+        })->map(function ($solution) {
+            return $solution->isRunnable()
+                ? $solution
+                : BaseSolution::create($solution->getSolutionTitle())
+                    ->setSolutionDescription($solution->getSolutionDescription());
+        })->toArray();
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     protected function findOptionalVariableSolution(string $variableName, string $viewFile)

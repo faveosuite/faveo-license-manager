@@ -16,7 +16,7 @@ class AflInstallations extends Model
     }
 
      public function client(){
-        
+
         return $this->belongsToMany(AflClients::class);
     }
 

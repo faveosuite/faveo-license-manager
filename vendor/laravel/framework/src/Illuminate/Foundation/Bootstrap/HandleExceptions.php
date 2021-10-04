@@ -6,7 +6,14 @@ use ErrorException;
 use Exception;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Foundation\Application;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Log\LogManager;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Log\LogManager;
+>>>>>>> f330c64 (optimization in progress)
 use Symfony\Component\Console\Output\ConsoleOutput;
 use Symfony\Component\ErrorHandler\Error\FatalError;
 use Throwable;
@@ -53,7 +60,15 @@ class HandleExceptions
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * Report PHP deprecations, or convert PHP errors to ErrorException instances.
+=======
+     * Convert PHP errors to ErrorException instances.
+>>>>>>> 22c0e54 (table changes)
+=======
+     * Report PHP deprecations, or convert PHP errors to ErrorException instances.
+>>>>>>> f330c64 (optimization in progress)
      *
      * @param  int  $level
      * @param  string  $message
@@ -67,15 +82,28 @@ class HandleExceptions
     public function handleError($level, $message, $file = '', $line = 0, $context = [])
     {
         if (error_reporting() & $level) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             if ($this->isDeprecation($level)) {
                 return $this->handleDeprecation($message, $file, $line);
             }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             throw new ErrorException($message, 0, $level, $file, $line);
         }
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Reports a deprecation to the "deprecations" logger.
      *
      * @param  string  $message
@@ -119,6 +147,11 @@ class HandleExceptions
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Handle an uncaught exception from the application.
      *
      * Note: Most exceptions can be handled via the try / catch block in
@@ -192,6 +225,10 @@ class HandleExceptions
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Determine if the error level is a deprecation.
      *
      * @param  int  $level
@@ -203,6 +240,11 @@ class HandleExceptions
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Determine if the error type is fatal.
      *
      * @param  int  $type

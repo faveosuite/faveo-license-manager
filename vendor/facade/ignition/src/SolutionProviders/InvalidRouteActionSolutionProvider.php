@@ -60,10 +60,24 @@ class InvalidRouteActionSolutionProvider implements HasSolutionsForThrowable
         $composerClassMap = app(ComposerClassMap::class);
 
         $controllers = collect($composerClassMap->listClasses())
+<<<<<<< HEAD
+<<<<<<< HEAD
             ->filter(function (string $_file, string $fqcn) {
                 return Str::endsWith($fqcn, 'Controller');
             })
             ->mapWithKeys(function (string $_file, string $fqcn) {
+=======
+            ->filter(function (string $file, string $fqcn) {
+                return Str::endsWith($fqcn, 'Controller');
+            })
+            ->mapWithKeys(function (string $file, string $fqcn) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            ->filter(function (string $_file, string $fqcn) {
+                return Str::endsWith($fqcn, 'Controller');
+            })
+            ->mapWithKeys(function (string $_file, string $fqcn) {
+>>>>>>> f330c64 (optimization in progress)
                 return [$fqcn => class_basename($fqcn)];
             })
             ->toArray();

@@ -240,9 +240,21 @@ final class CodeCoverage
      * @param PhptTestCase|string|TestCase $id
      * @param array|false                  $linesToBeCovered
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @throws ReflectionException
      * @throws TestIdMissingException
      * @throws UnintentionallyCoveredCodeException
+=======
+     * @throws UnintentionallyCoveredCodeException
+     * @throws TestIdMissingException
+     * @throws ReflectionException
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @throws ReflectionException
+     * @throws TestIdMissingException
+     * @throws UnintentionallyCoveredCodeException
+>>>>>>> f330c64 (optimization in progress)
      */
     public function append(RawCodeCoverageData $rawData, $id = null, bool $append = true, $linesToBeCovered = [], array $linesToBeUsed = []): void
     {
@@ -436,8 +448,18 @@ final class CodeCoverage
      *
      * @param array|false $linesToBeCovered
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @throws ReflectionException
      * @throws UnintentionallyCoveredCodeException
+=======
+     * @throws UnintentionallyCoveredCodeException
+     * @throws ReflectionException
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @throws ReflectionException
+     * @throws UnintentionallyCoveredCodeException
+>>>>>>> f330c64 (optimization in progress)
      */
     private function applyCoversAnnotationFilter(RawCodeCoverageData $rawData, $linesToBeCovered, array $linesToBeUsed): void
     {
@@ -543,8 +565,18 @@ final class CodeCoverage
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @throws ReflectionException
      * @throws UnintentionallyCoveredCodeException
+=======
+     * @throws UnintentionallyCoveredCodeException
+     * @throws ReflectionException
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @throws ReflectionException
+     * @throws UnintentionallyCoveredCodeException
+>>>>>>> f330c64 (optimization in progress)
      */
     private function performUnintentionallyCoveredCodeCheck(RawCodeCoverageData $data, array $linesToBeCovered, array $linesToBeUsed): void
     {

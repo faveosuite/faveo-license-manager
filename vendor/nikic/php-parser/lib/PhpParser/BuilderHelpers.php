@@ -2,13 +2,27 @@
 
 namespace PhpParser;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 use PhpParser\Node\ComplexType;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use PhpParser\Node\ComplexType;
+>>>>>>> f330c64 (optimization in progress)
 use PhpParser\Node\Expr;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
 use PhpParser\Node\NullableType;
 use PhpParser\Node\Scalar;
 use PhpParser\Node\Stmt;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+use PhpParser\Node\UnionType;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
 /**
  * This class defines helpers used in the implementation of builders. Don't use it directly.
@@ -104,6 +118,35 @@ final class BuilderHelpers
      * @return Name The normalized name
      */
     public static function normalizeName($name) : Name {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+        return self::normalizeNameCommon($name, false);
+    }
+
+    /**
+     * Normalizes a name: Converts string names to Name nodes, while also allowing expressions.
+     *
+     * @param Expr|Name|string $name The name to normalize
+     *
+     * @return Name|Expr The normalized name or expression
+     */
+    public static function normalizeNameOrExpr($name) {
+        return self::normalizeNameCommon($name, true);
+    }
+
+    /**
+     * Normalizes a name: Converts string names to Name nodes, optionally allowing expressions.
+     *
+     * @param Expr|Name|string $name      The name to normalize
+     * @param bool             $allowExpr Whether to also allow expressions
+     *
+     * @return Name|Expr The normalized name, or expression (if allowed)
+     */
+    private static function normalizeNameCommon($name, bool $allowExpr) {
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         if ($name instanceof Name) {
             return $name;
         }
@@ -124,6 +167,10 @@ final class BuilderHelpers
             return new Name($name);
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         throw new \LogicException('Name must be a string or an instance of Node\Name');
     }
 
@@ -140,12 +187,29 @@ final class BuilderHelpers
         }
 
         if (!is_string($name) && !($name instanceof Name)) {
+<<<<<<< HEAD
+=======
+        if ($allowExpr) {
+            if ($name instanceof Expr) {
+                return $name;
+            }
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
             throw new \LogicException(
                 'Name must be a string or an instance of Node\Name or Node\Expr'
             );
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return self::normalizeName($name);
+=======
+        throw new \LogicException('Name must be a string or an instance of Node\Name');
+>>>>>>> 22c0e54 (table changes)
+=======
+        return self::normalizeName($name);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -154,18 +218,44 @@ final class BuilderHelpers
      * In particular, builtin types become Identifiers, custom types become Names and nullables
      * are wrapped in NullableType nodes.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param string|Name|Identifier|ComplexType $type The type to normalize
      *
      * @return Name|Identifier|ComplexType The normalized type
+=======
+     * @param string|Name|Identifier|NullableType|UnionType $type The type to normalize
+     *
+     * @return Name|Identifier|NullableType|UnionType The normalized type
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param string|Name|Identifier|ComplexType $type The type to normalize
+     *
+     * @return Name|Identifier|ComplexType The normalized type
+>>>>>>> f330c64 (optimization in progress)
      */
     public static function normalizeType($type) {
         if (!is_string($type)) {
             if (
                 !$type instanceof Name && !$type instanceof Identifier &&
+<<<<<<< HEAD
+<<<<<<< HEAD
                 !$type instanceof ComplexType
             ) {
                 throw new \LogicException(
                     'Type must be a string, or an instance of Name, Identifier or ComplexType'
+=======
+                !$type instanceof NullableType && !$type instanceof UnionType
+            ) {
+                throw new \LogicException(
+                    'Type must be a string, or an instance of Name, Identifier, NullableType or UnionType'
+>>>>>>> 22c0e54 (table changes)
+=======
+                !$type instanceof ComplexType
+            ) {
+                throw new \LogicException(
+                    'Type must be a string, or an instance of Name, Identifier or ComplexType'
+>>>>>>> f330c64 (optimization in progress)
                 );
             }
             return $type;

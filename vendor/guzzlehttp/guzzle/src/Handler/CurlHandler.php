@@ -24,9 +24,21 @@ class CurlHandler
     /**
      * Accepts an associative array of options:
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * - handle_factory: Optional curl factory used to create cURL handles.
      *
      * @param array{handle_factory?: ?CurlFactoryInterface} $options Array of options to use with the handler
+=======
+     * - factory: Optional curl factory used to create cURL handles.
+     *
+     * @param array $options Array of options to use with the handler
+>>>>>>> 22c0e54 (table changes)
+=======
+     * - handle_factory: Optional curl factory used to create cURL handles.
+     *
+     * @param array{handle_factory?: ?CurlFactoryInterface} $options Array of options to use with the handler
+>>>>>>> f330c64 (optimization in progress)
      */
     public function __construct(array $options = [])
     {

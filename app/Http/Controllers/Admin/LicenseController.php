@@ -18,7 +18,9 @@ use App\Http\Requests\LicenseRequest;
  */
 class LicenseController extends Controller
 {
-
+   public function __construct(){
+       $this->ip_address=request()->server('REMOTE_ADDR');
+   }
 /**
  * To Add license Details to the license manager via request or entering them, it can be added with client id or anonymously
  * @param LicenseRequest $request
@@ -40,6 +42,9 @@ class LicenseController extends Controller
  */
 public function licenseAdd(LicenseRequest $request){
 
+    $api_action_success=0;
+    $api_error_detected=0;
+    $added_records = 0;
 
     $api_key_secret = $request->get('api_key_secret');
     $product_id = $request->get('product_id');
@@ -56,50 +61,11 @@ public function licenseAdd(LicenseRequest $request){
     $license_support_date = $request->get('license_support_date');
     $license_comments = $request->get('license_comments');
 
+    $api_key = new ApiKeysController();
+    $api_action_success = $api_key->apiKeyCheck($api_key_secret,$this->ip_address);
 
-        $api_action_success=0;
-        $api_error_detected=0;
-        $added_records = 0;
-
-        if (null!==(request()->server('REMOTE_ADDR')))
-        {
-             $ip_address=request()->server('REMOTE_ADDR');
-             }
-             else {
-                 $ip_address=$request->ip();
-                 }
-
-       if(!empty($api_key_secret))
-       {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
-
-        if(empty($api))
-        {
-            return errorResponse(Lang::get('lang.invalid_api_key'),404);
-        }
-        else
-        {
-        $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->value('api_key_ip');
-
-          if(!empty($api_ips))
-          {
-                if (!$api_ips->contains($ip_address))
-                   {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
-                    }
-                    else{
-                        $api_action_success=1;
-                    }
-          }
-          else{
-              $api_action_success=1;
-          }
-        }
     if (aflValidateIntegerValue($product_id) && aflValidateIntegerValue($license_require_domain, 0, 1) && aflValidateIntegerValue($license_status, 0, 2))
                 {
-
                 if (empty($client_id) || !aflValidateIntegerValue($client_id)) //in case no client_id was submitted, its value must be stored as NULL in database
                     {
                     $client_id=null;
@@ -109,77 +75,13 @@ public function licenseAdd(LicenseRequest $request){
                     {
                     $license_code=null;
                     }
-
-
-                if (!aflValidateIntegerValue($client_id) && empty($license_code))
-                    {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.error_client_or_license_code'),400);
-
-                    }
-
-                if (aflValidateIntegerValue($client_id) && !empty($license_code))
-                    {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.invalid_licnese'),400);
-                    }
-
-                if (!empty($license_ip)){
-                    $license_ips_array=explode(",", $license_ip);
-                    foreach ($license_ips_array as $ip_to_validate)
-                        {
-                        if (!filter_var($ip_to_validate, FILTER_VALIDATE_IP))
-                            {
-                            $api_error_detected=1;
-                            return errorResponse(Lang::get('lang.invalid_license_ip'),400);
-                            break;
-                            }
+                    $licenseChecks=$this->licenseChecks($client_id,$license_code,$license_ip,$license_domain,$license_limit,$license_expire_date,$license_updates_date,$license_support_date);
+                    if(!empty($licenseChecks)){
+                           return $licenseChecks->content();
                         }
-                    }
-
-                if (!empty($license_domain))
+                    if($api_error_detected!=1)
                     {
-                    $license_domain_array=explode(",", $license_domain);
-                    foreach ($license_domain_array as $license_domain_array_key=>$license_domain_array_value)
-                        {
-                        if (!aflValidateRawDomain(aflGetRawDomain($license_domain_array_value)) || !ctype_alnum(substr($license_domain_array_value, -1))) //invalid TLD, scheme included, or last symbol is not alphanumeric (most likely ends with / or another non-alphanumeric character)
-                            {
-                            $api_error_detected=1;
-                            return errorResponse(Lang::get('lang.invalid_domain'),400);
-                            break;
-                            }
-                        }
-                    }
-
-                if (!empty($license_limit) && !aflValidateIntegerValue($license_limit))
-                    {
-                      $api_error_detected=1;
-                      return errorResponse(Lang::get('lang.invalid_license_limit'),400);
-                    }
-
-                if (!empty($license_expire_date) && !aflVerifyDateTime($license_expire_date, "Y-m-d"))
-                    {
-                        $api_error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid_license_expiry'),400);
-                    }
-
-                if (!empty($license_updates_date) && !aflVerifyDateTime($license_updates_date, "Y-m-d"))
-                    {
-                        $api_error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid_license_update_date'),400);
-                    }
-
-                if (!empty($license_support_date) && !aflVerifyDateTime($license_support_date, "Y-m-d"))
-                    {
-                     $api_error_detected=1;
-                     return errorResponse(Lang::get('lang.invalid_license_support_date'),400);
-                    }
-
-                if ($api_error_detected!=1)
-                    {
-
                     $license_date=date("Y-m-d");
-
                     if (empty($license_envato) || !aflValidateIntegerValue($license_envato))
                         {
                         $license_envato=0;
@@ -188,7 +90,6 @@ public function licenseAdd(LicenseRequest $request){
                     if ($license_status==1)
                         {
                         $license_cancel_date="0000-00-00";
-
                         }
                     else
                         {
@@ -201,9 +102,7 @@ public function licenseAdd(LicenseRequest $request){
                         $license_expire_email_date = $license_expire_date;
                         $license_updates_email_date = $license_updates_date;
                         $license_support_email_date = $license_support_date;
-                        //dd($client_id,$license_code,$product_id,$license_order_number,$license_ip,$license_domain,$license_require_domain,$license_limit,$license_date);
-
-                            try{
+                        try{
                                        DB::table('afl_licenses')
                                        ->insertOrIgnore([
                                        'client_id' => $client_id,
@@ -230,7 +129,6 @@ public function licenseAdd(LicenseRequest $request){
                                    //doMysqlQuery("INSERT IGNORE INTO apl_licenses (client_id, license_code, product_id, license_order_number, license_ip, license_domain, license_require_domain, license_limit, license_date, license_cancel_date, license_expire_date, license_updates_date, license_support_date, license_comments, license_envato, license_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($client_id, $license_code, $product_id, $license_order_number, $license_ip, $license_domain, $license_require_domain, $license_limit, $license_date, $license_cancel_date, $license_expire_date, $license_updates_date, $license_support_date, $license_comments, $license_envato, $license_status), array("i", "s", "i", "s", "s", "s", "i", "i", "s", "s", "s", "s", "s", "s", "i", "i"));
                                    }
                                    catch(\Exception $e){
-                                    dd($e);
                                        $added_records +=0;
                                   }
 
@@ -265,7 +163,6 @@ public function licenseAdd(LicenseRequest $request){
                 {
                     return errorResponse(Lang::get('lang.invalid'),400);
                 }
-       }
 }
 
 
@@ -292,6 +189,7 @@ public function licenseAdd(LicenseRequest $request){
  */
 public function licenseUpdate(Request $request)
 {
+    $updated_records=0;
 
     $api_key_secret = $request->get('api_key_secret');
     $license_id = $request->get('license_id');
@@ -308,49 +206,14 @@ public function licenseUpdate(Request $request)
     $license_updates_date = $request->get('license_updates_date');
     $license_support_date = $request->get('license_support_date');
     $license_comments = $request->get('license_comments');
-
-if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_array=AflLicenses::where('license_id',$license_id)->get()))/*fetchRow("SELECT * FROM apl_licenses WHERE license_id=?", array($license_id), array("i"))*///invalid record
+if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_array=AflLicenses::where('license_id',$license_id)->get()))//invalid record
     {
     return errorResponse(Lang::get('lang.license_id'),400);
-    exit();
     }
-        $api_action_success=0;
-        $api_error_detected=0;
-        $updated_records=0;
-        if (null!==(request()->server('REMOTE_ADDR')))
-        {
-             $ip_address=request()->server('REMOTE_ADDR');
-             }
-             else {
-                 $ip_address=$request->ip();
-                 }
+         $api_key = new ApiKeysController();
+         $api_action_success = $api_key->apiKeyCheck($api_key_secret,$this->ip_address);
 
-       if(!empty($api_key_secret))
-       {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get();
-        if(empty($api))
-        {
-            return errorResponse(Lang::get('lang.invalid_api_key'),404);
-        }
-        else
-        {
-        $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->value('api_key_ip');
-
-          if(!empty($api_ips))
-          {
-                if (!$api_ips->contains($ip_address))
-                   {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
-                    }
-                    else{
-                        $api_action_success=1;
-                    }
-          }
-        }
-
-          $optional_api_parameters_array=array("license_order_number", "license_ip", "license_domain", "license_limit", "license_expire_date", "license_updates_date", "license_support_date", "license_comments"); //optional API parameters for this page
+        $optional_api_parameters_array=array("license_order_number", "license_ip", "license_domain", "license_limit", "license_expire_date", "license_updates_date", "license_support_date", "license_comments"); //optional API parameters for this page
         foreach ($optional_api_parameters_array as $optional_api_parameter) //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
             {
             if (!isset($$optional_api_parameter))
@@ -358,86 +221,21 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                 $$optional_api_parameter="";
                 }
             }
-
-
-
-         if (aflValidateIntegerValue($product_id) && aflValidateIntegerValue($license_require_domain, 0, 1) && aflValidateIntegerValue($license_status, 0, 2))
+         if (aflValidateIntegerValue($product_id) && aflValidateIntegerValue($license_require_domain, 0, 1) && aflValidateIntegerValue($license_status, 0, 2) && $api_action_success==1)
                 {
                 if (empty($client_id) || !aflValidateIntegerValue($client_id)) //in case no client_id was submitted, its value must be stored as NULL in database
                     {
                     $client_id=null;
                     }
-
                 if (empty($license_code)) //in case no license_code was submitted, its value must be stored as NULL in database
                     {
                     $license_code=null;
                     }
-
-                if (!aflValidateIntegerValue($client_id) && empty($license_code))
-                    {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.errorclient_or_license_code'),400);
+                    $licenseChecks=$this->licenseChecks($client_id,$license_code,$license_ip,$license_domain,$license_limit,$license_expire_date,$license_updates_date,$license_support_date);
+                    if(!empty($licenseChecks)){
+                        return $licenseChecks->content();
                     }
-
-                if (aflValidateIntegerValue($client_id) && !empty($license_code))
-                    {
-                     $api_error_detected=1;
-                     return errorResponse(Lang::get('lang.invalid_licnese'),400);
-                    }
-
-                if (!empty($license_ip))
-                    {
-                    $license_ips_array=explode(",", $license_ip);
-                    foreach ($license_ips_array as $ip_to_validate)
-                        {
-                        if (!filter_var($ip_to_validate, FILTER_VALIDATE_IP))
-                            {
-                            $api_error_detected=1;
-                            return errorResponse(Lang::get('lang.invalid_licnese_ip'),400);
-                            break;
-                            }
-                        }
-                    }
-
-                if (!empty($license_domain))
-                    {
-                    $license_domain_array=explode(",", $license_domain);
-                    foreach ($license_domain_array as $license_domain_array_key=>$license_domain_array_value)
-                        {
-                        if (!aflValidateRawDomain(aflGetRawDomain($license_domain_array_value)) || !ctype_alnum(substr($license_domain_array_value, -1))) //invalid TLD, scheme included, or last symbol is not alphanumeric (most likely ends with / or another non-alphanumeric character)
-                            {
-                                $api_error_detected=1;
-                                return errorResponse(Lang::get('lang.invalid_licnese_domain'),400);
-                            break;
-                            }
-                        }
-                    }
-
-                 if (!empty($license_limit) && !aflValidateIntegerValue($license_limit))
-                    {
-                      $api_error_detected=1;
-                      return errorResponse(Lang::get('lang.invalid_license_limit'),400);
-                    }
-
-                if (!empty($license_expire_date) && !aflVerifyDateTime($license_expire_date, "Y-m-d"))
-                    {
-                        $api_error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid_license_expiry'),400);
-                    }
-
-                if (!empty($license_updates_date) && !aflVerifyDateTime($license_updates_date, "Y-m-d"))
-                    {
-                        $api_error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid_license_update_date'),400);
-                    }
-
-                if (!empty($license_support_date) && !aflVerifyDateTime($license_support_date, "Y-m-d"))
-                    {
-                     $api_error_detected=1;
-                     return errorResponse(Lang::get('lang.invalid_license_support_date'),400);
-                    }
-
-                if ($api_error_detected!=1)
+                if ($api_action_success==1)
                     {
                     if (!empty($license_expire_date) && aflVerifyDateTime($license_expire_date, "Y-m-d") && $license_expire_date!=$rows_array[0]['license_expire_date']) //license_expire_date changed, reset license_expire_email_date, so client can receive new notification
                         {
@@ -470,11 +268,9 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                         {
                         $license_envato=0;
                         }
-
                     if ($license_status==1)
                         {
                         $license_cancel_date="0000-00-00";
-                        //dd($license_cancel_date);
                         }
                     else
                         {
@@ -482,10 +278,8 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                         if (empty($license_cancel_date) || !aflVerifyDateTime($license_cancel_date, "Y-m-d")) //set cancel date to now only if no previous cancel date set
                             {
                             $license_cancel_date=date("Y-m-d");
-
                             }
                         }
-
                     $updated_records+=AflLicenses::where('license_id',$license_id)
                                      ->update([
                                         'license_order_number'=> $license_order_number,
@@ -514,7 +308,6 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                     else
                         {
                         $api_action_success=1;
-
                         foreach ($rows_array= AflLicenses::leftJoin('afl_products','afl_licenses.product_id','=', 'afl_products.product_id')
                                               ->leftJoin('afl_clients', 'afl_licenses.client_id','=', 'afl_clients.client_id')
                                               ->where('afl_licenses.license_id',$license_id)
@@ -533,7 +326,7 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                     return errorResponse(Lang::get('lang.invalid'),400);
                 }
 
-    }
+
 
 }
 
@@ -544,59 +337,23 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
  */
 public function deleteLicense(Request $request)
     {
-
-    $api_error_detected=0;
-    $api_action_success=0;
     $removed_records=0;
     $license_id = $request->get('license_id');
     $api_key_secret=$request->get('api_key_secret');
-        if (null!==(request()->server('REMOTE_ADDR')))
-        {
-            $ip_address=request()->server('REMOTE_ADDR');
-        }
-        else {
-            $ip_address=$request->ip();
-        }
-      if(!empty($api_key_secret))
-       {
-        $api = AflApiKeys::where('api_key_secret',$api_key_secret)->where('api_key_status',1)->get()->toArray();
-        if(empty($api))
-        {
-            return errorResponse(Lang::get('lang.invalid_api_key'),404);
-        }
-        else
-        {
-        $api_ip = new AflApiKeys();
-        $api_ips= $api_ip->value('api_key_ip');
-
-          if(!empty($api_ips))
-          {
-                if (!$api_ips->contains($ip_address))
-                   {
-                    $api_error_detected=1;
-                    return errorResponse(Lang::get('lang.Api_Acess_not_allowed'),400);
-                    }
-                    else{
-                        $api_action_success=1;
-                    }
-          }
-        }
-    if (aflValidateIntegerValue($license_id))
+    $api_key = new ApiKeysController();
+    $api_action_success = $api_key->apiKeyCheck($api_key_secret,$this->ip_address);
+    if (aflValidateIntegerValue($license_id) && $api_action_success==1)
         {
         $removed_records+=AflLicenses::where('license_id',$license_id)->delete();
-        //doMysqlQuery("DELETE FROM apl_licenses WHERE license_id=?", array($license_id), array("i"));
         }
+    return successResponse(Lang::get('lang.delete'),$removed_records,200);
 
-    return successResponse(LAng::get('lang.delete'),$removed_records,200);
-}
     }
 
     public function show(){
         $Licenses = licenseArray();
         return successResponse(Lang::get('lang.License_show'),$Licenses,200);
     }
-
-
 
 
 /**
@@ -606,26 +363,88 @@ public function deleteLicense(Request $request)
  * return a formatted array of license code and client email
  */
 public function formatClient($license_code, $client_email)
-    {
-    if (!empty($license_code))
-        {
-        $client_formatted=$license_code;
+{
+    if (!empty($license_code)) {
+        $client_formatted = $license_code;
+    } else {
+        if (filter_var($client_email, FILTER_VALIDATE_EMAIL)) {
+            $client_formatted = $client_email;
+        } else {
+            $client_formatted = "Unknown Client";
         }
-    else
-        {
-        if (filter_var($client_email, FILTER_VALIDATE_EMAIL))
-            {
-            $client_formatted=$client_email;
-            }
-        else
-            {
-            $client_formatted="Unknown Client";
-            }
-        }
-
-    return $client_formatted;
     }
 
+    return $client_formatted;
+}
 
 
+/***
+ * Just performs some license checks while adding a license in faveo license manager.
+ */
+protected function licenseChecks($client_id,$license_code,$license_ip,$license_domain,$license_limit,$license_expire_date,$license_updates_date,$license_support_date)
+{
+    if (!aflValidateIntegerValue($client_id) && empty($license_code))
+    {
+        $api_error_detected=1;
+        return errorResponse(Lang::get('lang.error_client_or_license_code'),400);
+
+    }
+
+    if (aflValidateIntegerValue($client_id) && !empty($license_code))
+    {
+        $api_error_detected=1;
+        return errorResponse(Lang::get('lang.invalid_licnese'),400);
+    }
+
+    if (!empty($license_ip)){
+        $license_ips_array=explode(",", $license_ip);
+        foreach ($license_ips_array as $ip_to_validate)
+        {
+            if (!filter_var($ip_to_validate, FILTER_VALIDATE_IP))
+            {
+                $api_error_detected=1;
+                return errorResponse(Lang::get('lang.invalid_license_ip'),400);
+                break;
+            }
+        }
+    }
+
+    if (!empty($license_domain))
+    {
+        $license_domain_array=explode(",", $license_domain);
+        foreach ($license_domain_array as $license_domain_array_key=>$license_domain_array_value)
+        {
+            if (!aflValidateRawDomain(aflGetRawDomain($license_domain_array_value)) || !ctype_alnum(substr($license_domain_array_value, -1))) //invalid TLD, scheme included, or last symbol is not alphanumeric (most likely ends with / or another non-alphanumeric character)
+            {
+                $api_error_detected=1;
+                return errorResponse(Lang::get('lang.invalid_domain'),400);
+            }
+        }
+    }
+
+    if (!empty($license_limit) && !aflValidateIntegerValue($license_limit))
+    {
+        $api_error_detected=1;
+        return errorResponse(Lang::get('lang.invalid_license_limit'),400);
+    }
+
+    if (!empty($license_expire_date) && !aflVerifyDateTime($license_expire_date, "Y-m-d"))
+    {
+        $api_error_detected=1;
+        return errorResponse(Lang::get('lang.invalid_license_expiry'),400);
+    }
+
+    if (!empty($license_updates_date) && !aflVerifyDateTime($license_updates_date, "Y-m-d"))
+    {
+        $api_error_detected=1;
+        return errorResponse(Lang::get('lang.invalid_license_update_date'),400);
+    }
+
+    if (!empty($license_support_date) && !aflVerifyDateTime($license_support_date, "Y-m-d"))
+    {
+        $api_error_detected=1;
+        return errorResponse(Lang::get('lang.invalid_license_support_date'),400);
+    }
+
+}
 }

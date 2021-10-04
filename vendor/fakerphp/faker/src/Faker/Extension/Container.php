@@ -32,8 +32,16 @@ final class Container implements ContainerInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param string $id
      *
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param string $id
+     *
+>>>>>>> f330c64 (optimization in progress)
      * @throws \InvalidArgumentException
      * @throws \RuntimeException
      * @throws ContainerException
@@ -119,11 +127,25 @@ final class Container implements ContainerInterface
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param string $id
      *
      * @throws \InvalidArgumentException
      */
     public function has($id): bool
+=======
+     * @throws \InvalidArgumentException
+     */
+    public function has($id)
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param string $id
+     *
+     * @throws \InvalidArgumentException
+     */
+    public function has($id): bool
+>>>>>>> f330c64 (optimization in progress)
     {
         if (!is_string($id)) {
             throw new \InvalidArgumentException(sprintf(

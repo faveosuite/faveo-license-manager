@@ -37,11 +37,10 @@ class EditProfilesController extends Controller
        if(!aflValidateIntegerValue($user)){
            return errorResponse(Lang::get('lang.error'),404);
        }
-       else{
            $admin_hash = generateRandomString(64);
            $hash = AflAdmins::where('admin_id', $admin_id)->update(['admin_hash'=> $admin_hash]);
            return successResponse(Lang::get('lang.edit'),$user,200);
-       }
+
 
     }
 }

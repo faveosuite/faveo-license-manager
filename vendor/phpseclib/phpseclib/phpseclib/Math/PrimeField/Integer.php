@@ -96,6 +96,10 @@ class Integer extends Base
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Delete the modulo for a given instance
      */
     public static function cleanupCache($instanceID)
@@ -105,6 +109,11 @@ class Integer extends Base
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Returns the modulo
      *
      * @return integer

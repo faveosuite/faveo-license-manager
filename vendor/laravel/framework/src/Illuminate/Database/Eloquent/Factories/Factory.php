@@ -10,14 +10,29 @@ use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Support\Traits\Conditionable;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Support\Traits\Conditionable;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Macroable;
 use Throwable;
 
 abstract class Factory
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
     use Conditionable, ForwardsCalls, Macroable {
+=======
+    use ForwardsCalls, Macroable {
+>>>>>>> 22c0e54 (table changes)
+=======
+    use Conditionable, ForwardsCalls, Macroable {
+>>>>>>> f330c64 (optimization in progress)
         __call as macroCall;
     }
 
@@ -204,6 +219,10 @@ abstract class Factory
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a single model and persist it to the database.
      *
      * @param  array  $attributes
@@ -215,6 +234,11 @@ abstract class Factory
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a collection of models and persist them to the database.
      *
      * @param  iterable  $records
@@ -223,15 +247,31 @@ abstract class Factory
     public function createMany(iterable $records)
     {
         return new EloquentCollection(
+<<<<<<< HEAD
+<<<<<<< HEAD
             collect($records)->map(function ($record) {
                 return $this->state($record)->create();
             })
+=======
+            array_map(function ($record) {
+                return $this->state($record)->create();
+            }, $records)
+>>>>>>> 22c0e54 (table changes)
+=======
+            collect($records)->map(function ($record) {
+                return $this->state($record)->create();
+            })
+>>>>>>> f330c64 (optimization in progress)
         );
     }
 
     /**
      * Create a collection of models and persist them to the database.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @param  iterable  $records
      * @return \Illuminate\Database\Eloquent\Collection
      */
@@ -245,6 +285,11 @@ abstract class Factory
     /**
      * Create a collection of models and persist them to the database.
      *
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * @param  array  $attributes
      * @param  \Illuminate\Database\Eloquent\Model|null  $parent
      * @return \Illuminate\Database\Eloquent\Collection|\Illuminate\Database\Eloquent\Model
@@ -271,6 +316,10 @@ abstract class Factory
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a collection of models and persist them to the database.
      *
      * @param  array  $attributes
@@ -285,6 +334,11 @@ abstract class Factory
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a callback that persists a model in the database when invoked.
      *
      * @param  array  $attributes

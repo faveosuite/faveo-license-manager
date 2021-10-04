@@ -22,8 +22,17 @@ final class RegularExpression
     public static function safeMatch(string $pattern, string $subject)
     {
         return ErrorHandler::invokeIgnoringWarnings(
+<<<<<<< HEAD
+<<<<<<< HEAD
             static function () use ($pattern, $subject)
             {
+=======
+            static function () use ($pattern, $subject) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            static function () use ($pattern, $subject)
+            {
+>>>>>>> f330c64 (optimization in progress)
                 return preg_match($pattern, $subject);
             }
         );

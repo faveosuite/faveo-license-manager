@@ -31,6 +31,7 @@ class ProductsControllerTest extends TestCase
               'product_description' => 'This is a test product for license manager',
               'product_url_homepage' => null,
               'product_url_download' => null,
+                'product_key' => 'wiicncniuiuci',
               'product_version' => '4.6.2',
               'product_envato_id' => 1
             ];
@@ -47,12 +48,13 @@ class ProductsControllerTest extends TestCase
            $product_id = AflProducts::where('product_sku','FAVEO-HDFRR')->value('product_id');
            $data =
            [
-
              'api_key_secret' => '5hDuaXuTh9gTLfPL',
              'product_id' => $product_id,
              'product_title'=>'Helpdesk Updated',
              'product_sku'=>'FAVEO-TESTHDFE',
+               'product_key'=> 'wiicncniuiuci',
              'product_status'=>1
+
            ];
             $response = $this->json('POST', url('api/admin/products/edit'),$data);
             $response->assertStatus(200);
@@ -93,6 +95,7 @@ class ProductsControllerTest extends TestCase
               'product_sku' => 'FAVEO-HDFRR',
               'product_status' => 1,
               'product_description' => 'This is a test product for license manager',
+              'product_key' => 'ckjdjdfjfds',
               'product_url_homepage' => 'sandesh',
               'product_url_download' => null,
               'product_version' => '4.6.2',
@@ -114,6 +117,7 @@ class ProductsControllerTest extends TestCase
               'product_title' => 'Helpdesk Product',
               'product_sku' => 'FAVEO-HDFRR',
               'product_status' => 1,
+              'product_key'=> 'skjnsdfjsfd',
               'product_description' => 'This is a test product for license manager',
               'product_version' => '4.6.2',
               'product_envato_id' => 1.999999
@@ -132,6 +136,7 @@ class ProductsControllerTest extends TestCase
 
               'api_key_secret' => '5hDuaXuTh9gTLfPL',
               'product_description' => 'This is a test product for license manager',
+              'product_key'=> 'skjnsdfjsfd',
               'product_version' => '4.6.2',
               'product_envato_id' => 1
             ];
@@ -149,13 +154,14 @@ class ProductsControllerTest extends TestCase
 
               'api_key_secret' => '555555555555555555555555555555555555hDuaXuTh9gTLfPL',
               'product_description' => 'This is a test product for license manager',
+              'product_key'=> 'skjnsdfjsfd',
               'product_version' => '4.6.2',
               'product_envato_id' => 1
             ];
             $response = $this->json('POST', url('api/admin/products/add'),$data);
-            $response->assertStatus(404);
+            $response->assertStatus(400);
             $response->assertJson(['success' => false]);
-            $response->assertJson(['message' => "lang.invalid_api_key"]);
+            $response->assertJson(['message' => "There are invalid details present in this request"]);
 
     }
    public function test_productUpdate_whenProductIsUpdatedWithInvalidProductUrlHomepage_shouldRecieveResponseFalse()
@@ -170,6 +176,7 @@ class ProductsControllerTest extends TestCase
               'product_title' => 'Helpdesk Product',
               'product_sku' => 'FAVEO-HDFRR',
               'product_status' => 1,
+              'product_key' => 'vjdsnvkjdscndkjs',
               'product_description' => 'This is a test product for license manager',
               'product_url_homepage' => 'sandesh',
               'product_url_download' => null,
@@ -194,6 +201,7 @@ class ProductsControllerTest extends TestCase
               'product_title' => 'Helpdesk Product',
               'product_sku' => 'FAVEO-HDFRR',
               'product_status' => 1,
+              'product_key' => 'hdsbvjndskj',
               'product_description' => 'This is a test product for license manager',
               'product_version' => '4.6.2',
               'product_envato_id' => 1.999999

@@ -1,4 +1,14 @@
+<<<<<<< HEAD
+<<<<<<< HEAD
 Copyright (c) 2012-2021 Ben Ramsey <ben@benramsey.com>
+=======
+MIT License
+
+Copyright (c) 2012-2020 Ben Ramsey <ben@benramsey.com>
+>>>>>>> 22c0e54 (table changes)
+=======
+Copyright (c) 2012-2021 Ben Ramsey <ben@benramsey.com>
+>>>>>>> f330c64 (optimization in progress)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

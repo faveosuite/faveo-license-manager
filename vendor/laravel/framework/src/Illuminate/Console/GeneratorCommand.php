@@ -2,7 +2,14 @@
 
 namespace Illuminate\Console;
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Console\Concerns\CreatesMatchingTest;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Console\Concerns\CreatesMatchingTest;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Input\InputArgument;
@@ -109,10 +116,19 @@ abstract class GeneratorCommand extends Command
     {
         parent::__construct();
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (in_array(CreatesMatchingTest::class, class_uses_recursive($this))) {
             $this->addTestOptions();
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $this->files = $files;
     }
 
@@ -164,10 +180,19 @@ abstract class GeneratorCommand extends Command
         $this->files->put($path, $this->sortImports($this->buildClass($name)));
 
         $this->info($this->type.' created successfully.');
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
         if (in_array(CreatesMatchingTest::class, class_uses_recursive($this))) {
             $this->handleTestCreation($path);
         }
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

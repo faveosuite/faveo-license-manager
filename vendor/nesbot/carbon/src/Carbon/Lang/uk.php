@@ -190,10 +190,24 @@ return [
             'genitive' => ['неділі', 'понеділка', 'вівторка', 'середи', 'четверга', 'п’ятниці', 'суботи'],
         ];
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $nounCase = preg_match('/(\[(В|в|У|у)\])\s+dddd/u', $format)
             ? 'accusative'
             : (
                 preg_match('/\[?(?:минулої|наступної)?\s*\]\s+dddd/u', $format)
+=======
+        $nounCase = preg_match('/(\[(В|в|У|у)\])\s+dddd/', $format)
+            ? 'accusative'
+            : (
+                preg_match('/\[?(?:минулої|наступної)?\s*\]\s+dddd/', $format)
+>>>>>>> 22c0e54 (table changes)
+=======
+        $nounCase = preg_match('/(\[(В|в|У|у)\])\s+dddd/u', $format)
+            ? 'accusative'
+            : (
+                preg_match('/\[?(?:минулої|наступної)?\s*\]\s+dddd/u', $format)
+>>>>>>> f330c64 (optimization in progress)
                     ? 'genitive'
                     : 'nominative'
             );

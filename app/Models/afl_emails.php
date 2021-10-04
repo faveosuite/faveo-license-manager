@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AflApiKeys extends Model
 {
     use HasFactory;
-    protected $fillable = [ 
+    protected $fillable = [
            'api_key_secret',
            'api_key_ip',
            'api_key_clients_add',
@@ -18,9 +18,11 @@ class AflApiKeys extends Model
            'api_key_products_add',
            'api_key_products_edit',
            'api_key_installations_edit',
+           'api_key_versions_add',
+           'api_key_verisons_edit',
            'api_key_search' ,
            'api_key_status'];
-           
+
     protected $primaryKey = 'api_key_id';
     public $timestamps = false;
 

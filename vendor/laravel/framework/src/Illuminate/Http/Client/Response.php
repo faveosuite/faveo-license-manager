@@ -107,7 +107,17 @@ class Response implements ArrayAccess
      */
     public function headers()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->response->getHeaders();
+=======
+        return collect($this->response->getHeaders())->mapWithKeys(function ($v, $k) {
+            return [$k => $v];
+        })->all();
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->response->getHeaders();
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -193,7 +203,15 @@ class Response implements ArrayAccess
     /**
      * Execute the given callback if there was a server or client error.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  callable  $callback
+=======
+     * @param  \Closure|callable $callback
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param  callable  $callback
+>>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function onError(callable $callback)
@@ -283,6 +301,10 @@ class Response implements ArrayAccess
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Throw an exception if a server or client error occurred and the given condition evaluates to true.
      *
      * @param  bool  $condition
@@ -296,12 +318,24 @@ class Response implements ArrayAccess
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Determine if the given offset exists.
      *
      * @param  string  $offset
      * @return bool
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return isset($this->json()[$offset]);
@@ -313,7 +347,14 @@ class Response implements ArrayAccess
      * @param  string  $offset
      * @return mixed
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->json()[$offset];
@@ -328,7 +369,14 @@ class Response implements ArrayAccess
      *
      * @throws \LogicException
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         throw new LogicException('Response data may not be mutated using array access.');
@@ -342,7 +390,14 @@ class Response implements ArrayAccess
      *
      * @throws \LogicException
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         throw new LogicException('Response data may not be mutated using array access.');

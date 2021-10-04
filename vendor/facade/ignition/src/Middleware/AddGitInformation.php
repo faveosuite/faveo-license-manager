@@ -4,13 +4,24 @@ namespace Facade\Ignition\Middleware;
 
 use Facade\FlareClient\Report;
 use ReflectionClass;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Symfony\Component\Process\Exception\RuntimeException;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Symfony\Component\Process\Exception\RuntimeException;
+>>>>>>> f330c64 (optimization in progress)
 use Symfony\Component\Process\Process;
 
 class AddGitInformation
 {
     public function handle(Report $report, $next)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         try {
             $report->group('git', [
                 'hash' => $this->hash(),
@@ -20,6 +31,18 @@ class AddGitInformation
             ]);
         } catch (RuntimeException $exception) {
         }
+<<<<<<< HEAD
+=======
+        $report->group('git', [
+            'hash' => $this->hash(),
+            'message' => $this->message(),
+            'tag' => $this->tag(),
+            'remote' => $this->remote(),
+            'isDirty' => ! $this->isClean(),
+        ]);
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
         return $next($report);
     }
@@ -44,6 +67,17 @@ class AddGitInformation
         return $this->command('git config --get remote.origin.url');
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+    public function isClean(): bool
+    {
+        return empty($this->command('git status -s'));
+    }
+
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     protected function command($command)
     {
         $process = (new ReflectionClass(Process::class))->hasMethod('fromShellCommandline')

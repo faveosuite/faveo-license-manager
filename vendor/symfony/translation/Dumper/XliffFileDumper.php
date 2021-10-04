@@ -141,8 +141,18 @@ class XliffFileDumper extends FileDumper
         $xliff->setAttribute('trgLang', str_replace('_', '-', $messages->getLocale()));
 
         $xliffFile = $xliff->appendChild($dom->createElement('file'));
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (str_ends_with($domain, MessageCatalogue::INTL_DOMAIN_SUFFIX)) {
             $xliffFile->setAttribute('id', substr($domain, 0, -\strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX)).'.'.$messages->getLocale());
+=======
+        if (MessageCatalogue::INTL_DOMAIN_SUFFIX === substr($domain, -($suffixLength = \strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX)))) {
+            $xliffFile->setAttribute('id', substr($domain, 0, -$suffixLength).'.'.$messages->getLocale());
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (str_ends_with($domain, MessageCatalogue::INTL_DOMAIN_SUFFIX)) {
+            $xliffFile->setAttribute('id', substr($domain, 0, -\strlen(MessageCatalogue::INTL_DOMAIN_SUFFIX)).'.'.$messages->getLocale());
+>>>>>>> f330c64 (optimization in progress)
         } else {
             $xliffFile->setAttribute('id', $domain.'.'.$messages->getLocale());
         }
@@ -198,6 +208,14 @@ class XliffFileDumper extends FileDumper
 
     private function hasMetadataArrayInfo(string $key, array $metadata = null): bool
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return is_iterable($metadata[$key] ?? null);
+=======
+        return null !== $metadata && \array_key_exists($key, $metadata) && ($metadata[$key] instanceof \Traversable || \is_array($metadata[$key]));
+>>>>>>> 22c0e54 (table changes)
+=======
+        return is_iterable($metadata[$key] ?? null);
+>>>>>>> f330c64 (optimization in progress)
     }
 }

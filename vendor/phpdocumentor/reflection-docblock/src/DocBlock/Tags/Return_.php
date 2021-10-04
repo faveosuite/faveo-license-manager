@@ -37,7 +37,15 @@ final class Return_ extends TagWithType implements Factory\StaticMethod
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
+<<<<<<< HEAD
+<<<<<<< HEAD
     ): self {
+=======
+    ) : self {
+>>>>>>> 22c0e54 (table changes)
+=======
+    ): self {
+>>>>>>> f330c64 (optimization in progress)
         Assert::notNull($typeResolver);
         Assert::notNull($descriptionFactory);
 
@@ -49,7 +57,15 @@ final class Return_ extends TagWithType implements Factory\StaticMethod
         return new static($type, $description);
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __toString(): string
+=======
+    public function __toString() : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __toString(): string
+>>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();
@@ -59,6 +75,14 @@ final class Return_ extends TagWithType implements Factory\StaticMethod
 
         $type = $this->type ? '' . $this->type : 'mixed';
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $type . ($description !== '' ? ' ' . $description : '');
+=======
+        return $type . ($description !== '' ? ($type !== '' ? ' ' : '') . $description : '');
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $type . ($description !== '' ? ' ' . $description : '');
+>>>>>>> f330c64 (optimization in progress)
     }
 }

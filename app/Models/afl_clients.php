@@ -21,4 +21,9 @@ class AflClients extends Model
     {
         return $this->hasMany(AflInstallations::class);
     }
+
+    public function updateInstallation()
+    {
+        return $this->hasMany(AfuInstallations::class);
+    }
 }

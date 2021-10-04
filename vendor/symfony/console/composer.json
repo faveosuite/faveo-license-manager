@@ -20,7 +20,15 @@
         "symfony/deprecation-contracts": "^2.1",
         "symfony/polyfill-mbstring": "~1.0",
         "symfony/polyfill-php73": "^1.8",
+<<<<<<< HEAD
+<<<<<<< HEAD
         "symfony/polyfill-php80": "^1.16",
+=======
+        "symfony/polyfill-php80": "^1.15",
+>>>>>>> 22c0e54 (table changes)
+=======
+        "symfony/polyfill-php80": "^1.16",
+>>>>>>> f330c64 (optimization in progress)
         "symfony/service-contracts": "^1.1|^2",
         "symfony/string": "^5.1"
     },
@@ -31,10 +39,24 @@
         "symfony/lock": "^4.4|^5.0",
         "symfony/process": "^4.4|^5.0",
         "symfony/var-dumper": "^4.4|^5.0",
+<<<<<<< HEAD
+<<<<<<< HEAD
         "psr/log": "^1|^2"
     },
     "provide": {
         "psr/log-implementation": "1.0|2.0"
+=======
+        "psr/log": "~1.0"
+    },
+    "provide": {
+        "psr/log-implementation": "1.0"
+>>>>>>> 22c0e54 (table changes)
+=======
+        "psr/log": "^1|^2"
+    },
+    "provide": {
+        "psr/log-implementation": "1.0|2.0"
+>>>>>>> f330c64 (optimization in progress)
     },
     "suggest": {
         "symfony/event-dispatcher": "",
@@ -43,7 +65,14 @@
         "psr/log": "For using the console logger"
     },
     "conflict": {
+<<<<<<< HEAD
+<<<<<<< HEAD
         "psr/log": ">=3",
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        "psr/log": ">=3",
+>>>>>>> f330c64 (optimization in progress)
         "symfony/dependency-injection": "<4.4",
         "symfony/dotenv": "<5.1",
         "symfony/event-dispatcher": "<4.4",

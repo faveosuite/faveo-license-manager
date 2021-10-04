@@ -627,6 +627,13 @@ class X509
             for ($i = 0; $i < count($extensions); $i++) {
                 $id = $extensions[$i]['extnId'];
                 $value = &$extensions[$i]['extnValue'];
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+                $decoded = ASN1::decodeBER($value);
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
                 /* [extnValue] contains the DER encoding of an ASN.1 value
                    corresponding to the extension type identified by extnID */
                 $map = $this->getMapping($id);
@@ -634,7 +641,14 @@ class X509
                     $decoder = $id == 'id-ce-nameConstraints' ?
                         [static::class, 'decodeNameConstraintIP'] :
                         [static::class, 'decodeIP'];
+<<<<<<< HEAD
+<<<<<<< HEAD
                     $decoded = ASN1::decodeBER($value);
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+                    $decoded = ASN1::decodeBER($value);
+>>>>>>> f330c64 (optimization in progress)
                     $mapped = ASN1::asn1map($decoded[0], $map, ['iPAddress' => $decoder]);
                     $value = $mapped === false ? $decoded[0] : $mapped;
 
@@ -2203,10 +2217,22 @@ class X509
         $key = $keyinfo['subjectPublicKey'];
 
         switch ($keyinfo['algorithm']['algorithm']) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             case 'id-RSASSA-PSS':
                 return RSA::loadFormat('PSS', $key);
             case 'rsaEncryption':
                 return RSA::loadFormat('PKCS8', $key)->withPadding(RSA::SIGNATURE_PKCS1);
+=======
+            case 'rsaEncryption':
+                return RSA::loadFormat('PKCS8', $key);
+>>>>>>> 22c0e54 (table changes)
+=======
+            case 'id-RSASSA-PSS':
+                return RSA::loadFormat('PSS', $key);
+            case 'rsaEncryption':
+                return RSA::loadFormat('PKCS8', $key)->withPadding(RSA::SIGNATURE_PKCS1);
+>>>>>>> f330c64 (optimization in progress)
             case 'id-ecPublicKey':
             case 'id-Ed25519':
             case 'id-Ed448':

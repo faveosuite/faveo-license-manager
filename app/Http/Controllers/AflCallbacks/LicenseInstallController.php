@@ -14,6 +14,19 @@ use Illuminate\Support\Facades\Lang;
 class LicenseInstallController extends Controller
 {
 
+    public function __construct(){
+
+        $this->ip_address=request()->server('REMOTE_ADDR');
+
+        if (null!==(request()->server('HTTP_REFERER')))
+        {
+            $this->refer=request()->server('HTTP_REFERER');
+        }
+        else
+        {
+            $this->refer=request()->get('refer');
+        }
+    }
     /**
      * This is used by script on user's machine to check if license is active and add installation details to Auto PHP Licenser database during installation of protected script
      * api format for example:  http://127.0.0.1:8000/api/licenseinstall?product_id=1&root_url=https://www.license.com&client_email=sandeshm40450@gamil.com&license_code=vvbdjvsbjbdvb&installation_hash=aa33da99a04490b20b01c40cced3d2981ca6e29e6fd30ccfd63961a83e798856&license_signature=e930f7623d746b7f81ad4b61af3b7ad1390358529799342eaa1736fa56696dba
@@ -33,30 +46,8 @@ class LicenseInstallController extends Controller
        //get IP, refer and user agent
 
      //get script settings
-     $sets_array=DB::table('afl_settings')->get()->toArray();
-     foreach ($sets_array as $set)
-     {
-     extract((array)$set);
-     }
-       if (null!==(request()->server('REMOTE_ADDR')))
-         {
-         $ip_address=request()->server('REMOTE_ADDR');
-         }
-         else {
-           $ip_address=$request->get('ip_address');
-           }
-
-       if (null!==(request()->server('HTTP_REFERER')))
-         {
-         $refer=request()->server('HTTP_REFERER');
-         }
-         else
-          {
-           $refer=$request->get('refer');
-           }
-
-
-
+     $settingDetails=extractDetailsOfSettings();
+     extract((array)$settingDetails);
 // These are the data that needs to be passed to this function inorder to get a response
       //$root_ips_array=gethostbynamel(aflGetRawDomain($ROOT_URL));
       $product_id = $request->input('product_id');
@@ -71,10 +62,10 @@ class LicenseInstallController extends Controller
       $is_cloud = $request->get('is_cloud');
 
 //check basic dat
-if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url==$refer && $installation_hash==hash("sha256", $root_url.$client_email.$license_code) && !empty($license_signature) && isValidLicenseRequest($license_code, $client_email)===true)
+if (filter_var($this->ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url==$this->refer && $installation_hash==hash("sha256", $root_url.$client_email.$license_code) && !empty($license_signature) && isValidLicenseRequest($license_code, $client_email)===true)
 {
     if($is_cloud == true) {
-        $ip_address = '138.197.237.160';//This is the floating ip for the Load balancer since the ip of pods keep on changing.
+        $this->ip_address = '138.197.237.160';//This is the floating ip for the Load balancer since the ip of pods keep on changing.
     }
     $notification_case="";
     $installation_domain=getRootUrl("$root_url/", 1, 1, 0, 1); //make url without scheme, www. and / at the end because this type of url is stored on server (add / at the end before processing because software stores root url without /)
@@ -164,10 +155,10 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                 if (!empty($license_ip))
                     {
                     $license_ips_array=explode(",", str_replace(" ", "", $license_ip)); //remove all space symbols (if any) between IPs
-                    if (!in_array($ip_address, $license_ips_array)) //invalid IP
+                    if (!in_array($this->ip_address, $license_ips_array)) //invalid IP
                         {
                         $error_detected=1;
-                        $error_details=setValue($error_details, "IP address $ip_address is not licensed");
+                        $error_details=setValue($error_details, "IP address $this->ip_address is not licensed");
                         $notification_case=setValue($notification_case, "notification_invalid_ip");
                         }
                     }
@@ -206,7 +197,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                     }
 
                 $this_installation_owner_array=AflInstallations::where('product_id',$product_id)
-                                                                ->where('installation_ip',$ip_address)
+                                                                ->where('installation_ip',$this->ip_address)
                                                                 ->where('installation_domain',$installation_domain)
                                                                 ->get()->toArray();
 
@@ -216,7 +207,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                     if (!empty($license_code) && $license_code!=$this_installation_owner_array[0]['license_code'] || aflValidateIntegerValue($client_id) && $client_id!=$this_installation_owner_array[0]['client_id']) //this domain is used by another user
                         {
                                                     $error_detected=1;
-                        $error_details=setValue($error_details, "$product_title installation on $installation_domain ($ip_address) belongs to another user");
+                        $error_details=setValue($error_details, "$product_title installation on $installation_domain ($this->ip_address) belongs to another user");
                         $notification_case=setValue($notification_case, "notification_domain_in_use");
                         }
                     }
@@ -224,10 +215,9 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                     {
                     $other_installations_array=DB::table('afl_installations')->where('product_id',$product_id)
                                                                 ->where(function($query) use($client_id,$license_code){
-                                                                    $query->where('client_id',$client_id)
-                                                                        ->where('license_code',$license_code);
-                                                                })->where(function($query) use($ip_address,$installation_domain){
-                                                                    $query->where('installation_ip','!=',$ip_address)
+                                                                    $query->where('license_code',$license_code);
+                                                                })->where(function($query) use($installation_domain){
+                                                                    $query->where('installation_ip','!=',$this->ip_address)
                                                                           ->orWhere('installation_domain','!=',$installation_domain);
                                                                 })->get()->toArray();
                     if (count($other_installations_array)>=$license_limit) //client can't make new installation because it would exceed his current limit
@@ -284,7 +274,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                                                                          ->orWhere('license_code',$license_code);
 
                                                                 })
-                                                               ->where('installation_ip',$ip_address)
+                                                               ->where('installation_ip',$this->ip_address)
                                                                ->where('installation_domain',$installation_domain)
                                                                ->where('installation_hash',$installation_hash)
                                                                ->get()->toArray();
@@ -317,7 +307,7 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                                     'client_id' => $client_id,
                                     'license_code'=>$license_code,
                                     'product_id'=>$product_id,
-                                    'installation_ip'=>$ip_address,
+                                    'installation_ip'=>$this->ip_address,
                                     'installation_domain'=>$installation_domain,
                                     'installation_date'=>$installation_date,
                                     'installation_status'=>$installation_status,
@@ -360,20 +350,20 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
         {
         if (!empty($this_installation_array)) //generate different report for existing installation
             {
-            $report_text="Existing $product_title installation at $installation_domain ($ip_address) updated.";
+            $report_text="Existing $product_title installation at $installation_domain ($this->ip_address) updated.";
             }
 
         else
             {
-            $report_text="New $product_title installation at $installation_domain ($ip_address) performed.";
+            $report_text="New $product_title installation at $installation_domain ($this->ip_address) performed.";
             }
 
         }
     else
         {
-        $report_text="$product_title installation at $installation_domain ($ip_address) could not be performed because of this reason: $error_details.";
+        $report_text="$product_title installation at $installation_domain ($this->ip_address) could not be performed because of this reason: $error_details.";
         }
-    return returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version,$license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data);  //always return server notification when valid basic data was received from script
+    return returnServerNotification($notification_case, $root_url, $this->ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version,$license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data);  //always return server notification when valid basic data was received from script
     //return successResponse(Lang::get('lang.success'),$api,201);
 
     }
@@ -382,14 +372,13 @@ else //possible cracking attempt, set variables required for reports function to
     $product_id=0;
     $client_id=null;
     $license_code=null;
-    $report_text="Host $ip_address sent invalid data to requested_url and was rejected. Host sent this data: ".json_encode($request->all()).".";
+    $report_text="Host $this->ip_address sent invalid data to requested_url and was rejected. Host sent this data: ".json_encode($request->all()).".";
     }
 createLicenseReport($SMART_REPORTS,$product_id, $client_id, $license_code, $report_text, $action_success);//always create report, no matter result
 if ($action_success!=1) //record failed licensing attempt and ban host if needed
     {
-    recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_address);
+    recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $this->ip_address);
     }
     }
-
-
+  
 }

@@ -37,6 +37,14 @@ class {{ class }} extends Command
      */
     public function handle()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return Command::SUCCESS;
+=======
+        return 0;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return Command::SUCCESS;
+>>>>>>> f330c64 (optimization in progress)
     }
 }

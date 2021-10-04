@@ -111,10 +111,19 @@ trait BroadcastsEvents
      */
     protected function broadcastIfBroadcastChannelsExistForEvent($instance, $event, $channels = null)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (! static::$isBroadcasting) {
             return;
         }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (! empty($this->broadcastOn($event)) || ! empty($channels)) {
             return broadcast($instance->onChannels(Arr::wrap($channels)));
         }
@@ -128,7 +137,15 @@ trait BroadcastsEvents
      */
     public function newBroadcastableModelEvent($event)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return tap($this->newBroadcastableEvent($event), function ($event) {
+=======
+        return tap(new BroadcastableModelEventOccurred($this, $event), function ($event) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        return tap($this->newBroadcastableEvent($event), function ($event) {
+>>>>>>> f330c64 (optimization in progress)
             $event->connection = property_exists($this, 'broadcastConnection')
                             ? $this->broadcastConnection
                             : $this->broadcastConnection();
@@ -144,6 +161,10 @@ trait BroadcastsEvents
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Create a new broadcastable model event for the model.
      *
      * @param  string  $event
@@ -155,6 +176,11 @@ trait BroadcastsEvents
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the channels that model events should broadcast on.
      *
      * @param  string  $event

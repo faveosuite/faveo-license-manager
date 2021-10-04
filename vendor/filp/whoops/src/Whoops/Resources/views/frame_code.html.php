@@ -29,10 +29,20 @@
             $start = key($range) + 1;
             $code  = join("\n", $range);
         ?>
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
             <pre class="code-block line-numbers"
               data-line="<?php echo $line ?>"
               data-start="<?php echo $start ?>"
             ><code class="language-php"><?php echo $tpl->escape($code) ?></code></pre>
+<<<<<<< HEAD
+=======
+            <pre id="frame-code-linenums-<?=$i?>" class="code-block linenums:<?php echo $start ?>"><?php echo $tpl->escape($code) ?></pre>
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 
           <?php endif ?>
         <?php endif ?>

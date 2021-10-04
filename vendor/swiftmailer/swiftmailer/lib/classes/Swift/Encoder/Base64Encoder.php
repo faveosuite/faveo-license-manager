@@ -34,7 +34,15 @@ class Swift_Encoder_Base64Encoder implements Swift_Encoder
             $maxLineLength = 76;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         $encodedString = base64_encode($string ?? '');
+=======
+        $encodedString = base64_encode($string);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $encodedString = base64_encode($string ?? '');
+>>>>>>> f330c64 (optimization in progress)
         $firstLine = '';
 
         if (0 != $firstLineOffset) {

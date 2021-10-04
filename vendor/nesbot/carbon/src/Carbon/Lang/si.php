@@ -33,7 +33,15 @@ return [
     'a_second' => '{1}තත්පර කිහිපයකට|තත්පර :count',
     'ago' => ':time කට පෙර',
     'from_now' => function ($time) {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (preg_match('/දින \d/u', $time)) {
+=======
+        if (preg_match('/දින \d+/', $time)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (preg_match('/දින \d/u', $time)) {
+>>>>>>> f330c64 (optimization in progress)
             return $time.' න්';
         }
 
@@ -41,7 +49,15 @@ return [
     },
     'before' => ':time කට පෙර',
     'after' => function ($time) {
+<<<<<<< HEAD
+<<<<<<< HEAD
         if (preg_match('/දින \d/u', $time)) {
+=======
+        if (preg_match('/දින \d+/', $time)) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if (preg_match('/දින \d/u', $time)) {
+>>>>>>> f330c64 (optimization in progress)
             return $time.' න්';
         }
 

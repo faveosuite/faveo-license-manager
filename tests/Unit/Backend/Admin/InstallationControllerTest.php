@@ -44,10 +44,11 @@ class InstallationControllerTest extends TestCase
             'installation_disable_ip' => 1
         ];
         $response = $this->json('POST',url('api/admin/installations/edit'),$data);
+
         $response->assertStatus(200);
         $content=(array)json_decode($response->content());
         $install=$content['page_message'];
-        $this->assertEquals($install,'Installation could not be updated because of this reason: <br><br>Invalid record details, duplicated data, or database error.<br>');
+        $this->assertEquals($install,'Installation could not be updated because of this reason: Invalid record details, duplicated data, or database error.');
     }
     public function test_deleteInstallation_whenInstallationDetailsDeletedWhichareNotPresent_shouldRespondWith200()
     {
@@ -59,10 +60,11 @@ class InstallationControllerTest extends TestCase
             'delete_record'=>1
         ];
         $response = $this->json('POST',url('api/admin/installations/edit'),$data);
+
         $response->assertStatus(200);
         $content=(array)json_decode($response->content());
         $install=$content['page_message'];
-        $this->assertEquals($install,'Installation could not be updated because of this reason: <br><br>Invalid record or database error.<br>Invalid IP address or status.<br>');
+        $this->assertEquals($install,'Installation could not be updated because of this reason: Invalid record or database error.Invalid IP address or status.');
     }
     public function test_deleteInstallation_whenInstallationDetailsDeleted_shouldRespondWith200()
     {

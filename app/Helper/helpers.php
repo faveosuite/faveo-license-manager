@@ -1,10 +1,11 @@
-<?php 
+<?php
+
 
 //check Auto Faveo Licenser core configuration and return an array with error messages if something wrong
 function aflCheckSettings()
     {
     $notifications_array=array();
-    
+
 
     if (empty(config('constants.Basic.AFL_SALT')) || config('constants.Basic.AFL_SALT') =="some_random_text") //invalid encryption salt
         {
@@ -63,7 +64,7 @@ function aflCheckSettings()
                 }
             }
         }
-      
+
     if (defined("APL_ROOT_NAMESERVERS") && !empty(config('constants.Advanced.AFL_ROOT_NAMESERVERS'))) //check if actual nameservers of Auto PHP Licenser server domain match specified nameservers (use "defined" to check if nameservers are set because APL_ROOT_NAMESERVERS is commented by default to prevent errors in PHP<7)
         {
         $apl_root_nameservers_array=config('constants.Advanced.AFL_ROOT_NAMESERVERS'); //create a variable from constant in order to use sort and other array functions
@@ -144,7 +145,7 @@ function aflCheckSettings()
         $server_response_array['headers']=$formatted_headers_array;
         $server_response_array['error']=$curl_error;
         $server_response_array['body']=$result;
-       
+
         }
         //dd($server_response_array);
 
@@ -154,10 +155,10 @@ function aflCheckSettings()
 
 
 
-    
+
 //process response from Auto PHP Licenser server. if response received, validate it and parse notifications and data (if any). if response not received or is invalid, return a corresponding notification
 function aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
- {   
+ {
     $notifications_array=array();
     if (!empty($content_array)) //response received, validate it
         {
@@ -190,25 +191,25 @@ function aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $
 //verify signature received from Auto PHP Licenser server
 function aflVerifyServerSignature($notification_server_signature, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
     {
-        
+
     $result=false;
     $root_ips_array=gethostbynamel(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL')));
-    
+
     if (!empty($notification_server_signature) && !empty($ROOT_URL) && isset($CLIENT_EMAIL) && isset($LICENSE_CODE) && !empty($root_ips_array))
         {
-            
+
         if (hash("sha256", implode("", $root_ips_array).config('constants.Basic.AFL_PRODUCT_ID').$LICENSE_CODE.$CLIENT_EMAIL.$ROOT_URL.gmdate("Y-m-d"))==$notification_server_signature)
             {
             $result=true;
             }
         }
- 
+
     return $result;
-    
+
     }
 
 
-    
+
 //encrypt text with custom key
 function aflCustomEncrypt($string, $key)
     {
@@ -227,8 +228,11 @@ function aflCustomEncrypt($string, $key)
 
 
 
+
 //validate integer and check if it's between min and max values
-    function aflValidateIntegerValue($number, $min_value=1, $max_value=999999999)
+use Illuminate\Support\Facades\DB;
+
+function aflValidateIntegerValue($number, $min_value=1, $max_value=999999999)
     {
     $result=false;
 
@@ -320,13 +324,13 @@ function successResponse($message = '', $data = '', $statusCode = FAVEO_SUCCESS_
 
     return response()->json($response, $statusCode);
 }
-    
-  
+
+
       /**
-     * verify date and/or time according to provided format (such as Y-m-d, Y-m-d H:i, H:i, and so on)    
+     * verify date and/or time according to provided format (such as Y-m-d, Y-m-d H:i, H:i, and so on)
      * @param $datetime
      * @param $format
-     * @return $result  
+     * @return $result
     */
      function aflVerifyDateTime($datetime, $format)
     {
@@ -385,7 +389,7 @@ function setDefaultDateFrom($RECORDS_HIDE_DAYS)
 
     return $date_from;
     }
-    
+
 //format client
 function formatClient($license_code, $client_email)
     {
@@ -407,7 +411,7 @@ function formatClient($license_code, $client_email)
 
     return $client_formatted;
     }
-    
+
 //remove seconds from (date)timestamp
 function removeSeconds($timestamp)
     {
@@ -451,7 +455,7 @@ function returnFormattedStatusArray($status, $active_text="Active", $inactive_te
     }
 
 
-    
+
 //format array with report status text and class
 function returnFormattedReportStatusArray($status, $success_text="Success", $error_text="Error", $warning_text="Warning", $unknown_text="Unknown")
     {
@@ -478,7 +482,7 @@ function returnFormattedReportStatusArray($status, $success_text="Success", $err
 
     return $item_array;
     }
-    
+
 //check if argument is equal to zero (only returns true if argument is 0 or "0", returns false when argument is empty or null)
 function isZero($argument)
     {
@@ -491,7 +495,7 @@ function isZero($argument)
 
     return $result;
     }
-    
+
 //generate secure random string
 function generateRandomString($string_length=0)
     {
@@ -529,15 +533,15 @@ function aflParseLicenseFile()
     return $license_data_array;
     }
 
-     
-     /** generate signature to be submitted to Auto Faveo Licenser server    
-     * 
+
+     /** generate signature to be submitted to Auto Faveo Licenser server
+     *
      * @param $ROOT_URL
      * @param $CLIENT_EMAIL
      * @param $LICENSE_CODE
      *
      * @return Hashed $script_signature
-    */ 
+    */
     function aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
     {
     $script_signature="";
@@ -550,3 +554,181 @@ function aflParseLicenseFile()
 
     return $script_signature;
     }
+
+
+
+//format and return nice numbers dropdown array
+function returnNumbersDropdownArray($numbers_array, $title, $disabled_title, $selected_value)
+{
+    $root_array=array();
+
+    if (is_array($numbers_array) && !empty($title) && !empty($disabled_title))
+    {
+        foreach ($numbers_array as $key=>$value)
+        {
+            $item_array['value']=$value;
+            $item_array['title']=$value; //use $value as option title by default
+
+            if (isZero($item_array['value']) && !empty($disabled_title)) //format disabled title when value is 0
+            {
+                $item_array['title']=$disabled_title;
+            }
+
+            if ($item_array['value']>0 && !empty($title)) //format title by adding a specific word to it
+            {
+                $item_array['title'].=" $title";
+
+                if ($item_array['value']==1 && substr($item_array['title'], -1)=="s") //remove last "s" if needed, so "1 records" becomes "1 record"
+                {
+                    $item_array['title']=substr($item_array['title'], 0, -1);
+                }
+            }
+
+            $item_array['selected']=returnOptionStatus($item_array['value'], $selected_value);
+
+            $root_array[]=$item_array;
+        }
+    }
+
+    return $root_array;
+}
+
+//return selection status for dropdown option
+function returnOptionStatus($current_value, $selected_values_array, $readonly=0)
+{
+    $status="";
+
+    if (in_array(strval($current_value), array_map("strval", convertVariableToArray($selected_values_array)))) //convert ID(s) to array, so function works with single-select and multi-select dropdowns. also compare both values as strings to avoid false positive when current_value is some string and selected_values_array contains 0
+    {
+        $status=" selected";
+    }
+    else
+    {
+        if ($readonly==1) //mark non-selected option as disabled (read-only)
+        {
+            $status=" disabled";
+        }
+    }
+
+    return $status;
+}
+
+//convert variables into arrays
+function convertVariableToArray($var_name)
+{
+    if (!is_array($var_name))
+    {
+        $var_name=array($var_name);
+    }
+
+    return $var_name;
+}
+//return time zones
+function returnTimezonesDropdownArray($TIMEZONE)
+{
+    $root_array = array();
+
+    $timezones_array = array("Africa/Abidjan", "Africa/Accra", "Africa/Addis_Ababa", "Africa/Algiers", "Africa/Asmara", "Africa/Bamako", "Africa/Bangui", "Africa/Banjul", "Africa/Bissau", "Africa/Blantyre", "Africa/Brazzaville", "Africa/Bujumbura", "Africa/Cairo", "Africa/Casablanca", "Africa/Ceuta", "Africa/Conakry", "Africa/Dakar", "Africa/Dar_es_Salaam", "Africa/Djibouti", "Africa/Douala", "Africa/El_Aaiun", "Africa/Freetown", "Africa/Gaborone", "Africa/Harare", "Africa/Johannesburg", "Africa/Juba", "Africa/Kampala", "Africa/Khartoum", "Africa/Kigali", "Africa/Kinshasa", "Africa/Lagos", "Africa/Libreville", "Africa/Lome", "Africa/Luanda", "Africa/Lubumbashi", "Africa/Lusaka", "Africa/Malabo", "Africa/Maputo", "Africa/Maseru", "Africa/Mbabane", "Africa/Mogadishu", "Africa/Monrovia", "Africa/Nairobi", "Africa/Ndjamena", "Africa/Niamey", "Africa/Nouakchott", "Africa/Ouagadougou", "Africa/Porto-Novo", "Africa/Sao_Tome", "Africa/Tripoli", "Africa/Tunis", "Africa/Windhoek", "America/Adak", "America/Anchorage", "America/Anguilla", "America/Antigua", "America/Araguaina", "America/Argentina/Buenos_Aires", "America/Argentina/Catamarca", "America/Argentina/Cordoba", "America/Argentina/Jujuy", "America/Argentina/La_Rioja", "America/Argentina/Mendoza", "America/Argentina/Rio_Gallegos", "America/Argentina/Salta", "America/Argentina/San_Juan", "America/Argentina/San_Luis", "America/Argentina/Tucuman", "America/Argentina/Ushuaia", "America/Aruba", "America/Asuncion", "America/Atikokan", "America/Bahia", "America/Bahia_Banderas", "America/Barbados", "America/Belem", "America/Belize", "America/Blanc-Sablon", "America/Boa_Vista", "America/Bogota", "America/Boise", "America/Cambridge_Bay", "America/Campo_Grande", "America/Cancun", "America/Caracas", "America/Cayenne", "America/Cayman", "America/Chicago", "America/Chihuahua", "America/Costa_Rica", "America/Creston", "America/Cuiaba", "America/Curacao", "America/Danmarkshavn", "America/Dawson", "America/Dawson_Creek", "America/Denver", "America/Detroit", "America/Dominica", "America/Edmonton", "America/Eirunepe", "America/El_Salvador", "America/Fortaleza", "America/Glace_Bay", "America/Godthab", "America/Goose_Bay", "America/Grand_Turk", "America/Grenada", "America/Guadeloupe", "America/Guatemala", "America/Guayaquil", "America/Guyana", "America/Halifax", "America/Havana", "America/Hermosillo", "America/Indiana/Indianapolis", "America/Indiana/Knox", "America/Indiana/Marengo", "America/Indiana/Petersburg", "America/Indiana/Tell_City", "America/Indiana/Vevay", "America/Indiana/Vincennes", "America/Indiana/Winamac", "America/Inuvik", "America/Iqaluit", "America/Jamaica", "America/Juneau", "America/Kentucky/Louisville", "America/Kentucky/Monticello", "America/Kralendijk", "America/La_Paz", "America/Lima", "America/Los_Angeles", "America/Lower_Princes", "America/Maceio", "America/Managua", "America/Manaus", "America/Marigot", "America/Martinique", "America/Matamoros", "America/Mazatlan", "America/Menominee", "America/Merida", "America/Metlakatla", "America/Mexico_City", "America/Miquelon", "America/Moncton", "America/Monterrey", "America/Montevideo", "America/Montserrat", "America/Nassau", "America/New_York", "America/Nipigon", "America/Nome", "America/Noronha", "America/North_Dakota/Beulah", "America/North_Dakota/Center", "America/North_Dakota/New_Salem", "America/Ojinaga", "America/Panama", "America/Pangnirtung", "America/Paramaribo", "America/Phoenix", "America/Port-au-Prince", "America/Port_of_Spain", "America/Porto_Velho", "America/Puerto_Rico", "America/Rainy_River", "America/Rankin_Inlet", "America/Recife", "America/Regina", "America/Resolute", "America/Rio_Branco", "America/Santa_Isabel", "America/Santarem", "America/Santiago", "America/Santo_Domingo", "America/Sao_Paulo", "America/Scoresbysund", "America/Sitka", "America/St_Barthelemy", "America/St_Johns", "America/St_Kitts", "America/St_Lucia", "America/St_Thomas", "America/St_Vincent", "America/Swift_Current", "America/Tegucigalpa", "America/Thule", "America/Thunder_Bay", "America/Tijuana", "America/Toronto", "America/Tortola", "America/Vancouver", "America/Whitehorse", "America/Winnipeg", "America/Yakutat", "America/Yellowknife", "Antarctica/Casey", "Antarctica/Davis", "Antarctica/DumontDUrville", "Antarctica/Macquarie", "Antarctica/Mawson", "Antarctica/McMurdo", "Antarctica/Palmer", "Antarctica/Rothera", "Antarctica/Syowa", "Antarctica/Troll", "Antarctica/Vostok", "Arctic/Longyearbyen", "Asia/Aden", "Asia/Almaty", "Asia/Amman", "Asia/Anadyr", "Asia/Aqtau", "Asia/Aqtobe", "Asia/Ashgabat", "Asia/Baghdad", "Asia/Bahrain", "Asia/Baku", "Asia/Bangkok", "Asia/Beirut", "Asia/Bishkek", "Asia/Brunei", "Asia/Chita", "Asia/Choibalsan", "Asia/Colombo", "Asia/Damascus", "Asia/Dhaka", "Asia/Dili", "Asia/Dubai", "Asia/Dushanbe", "Asia/Gaza", "Asia/Hebron", "Asia/Ho_Chi_Minh", "Asia/Hong_Kong", "Asia/Hovd", "Asia/Irkutsk", "Asia/Jakarta", "Asia/Jayapura", "Asia/Jerusalem", "Asia/Kabul", "Asia/Kamchatka", "Asia/Karachi", "Asia/Kathmandu", "Asia/Khandyga", "Asia/Kolkata", "Asia/Krasnoyarsk", "Asia/Kuala_Lumpur", "Asia/Kuching", "Asia/Kuwait", "Asia/Macau", "Asia/Magadan", "Asia/Makassar", "Asia/Manila", "Asia/Muscat", "Asia/Nicosia", "Asia/Novokuznetsk", "Asia/Novosibirsk", "Asia/Omsk", "Asia/Oral", "Asia/Phnom_Penh", "Asia/Pontianak", "Asia/Pyongyang", "Asia/Qatar", "Asia/Qyzylorda", "Asia/Rangoon", "Asia/Riyadh", "Asia/Sakhalin", "Asia/Samarkand", "Asia/Seoul", "Asia/Shanghai", "Asia/Singapore", "Asia/Srednekolymsk", "Asia/Taipei", "Asia/Tashkent", "Asia/Tbilisi", "Asia/Tehran", "Asia/Thimphu", "Asia/Tokyo", "Asia/Ulaanbaatar", "Asia/Urumqi", "Asia/Ust-Nera", "Asia/Vientiane", "Asia/Vladivostok", "Asia/Yakutsk", "Asia/Yekaterinburg", "Asia/Yerevan", "Atlantic/Azores", "Atlantic/Bermuda", "Atlantic/Canary", "Atlantic/Cape_Verde", "Atlantic/Faroe", "Atlantic/Madeira", "Atlantic/Reykjavik", "Atlantic/South_Georgia", "Atlantic/St_Helena", "Atlantic/Stanley", "Australia/Adelaide", "Australia/Brisbane", "Australia/Broken_Hill", "Australia/Currie", "Australia/Darwin", "Australia/Eucla", "Australia/Hobart", "Australia/Lindeman", "Australia/Lord_Howe", "Australia/Melbourne", "Australia/Perth", "Australia/Sydney", "Europe/Amsterdam", "Europe/Andorra", "Europe/Athens", "Europe/Belgrade", "Europe/Berlin", "Europe/Bratislava", "Europe/Brussels", "Europe/Bucharest", "Europe/Budapest", "Europe/Busingen", "Europe/Chisinau", "Europe/Copenhagen", "Europe/Dublin", "Europe/Gibraltar", "Europe/Guernsey", "Europe/Helsinki", "Europe/Isle_of_Man", "Europe/Istanbul", "Europe/Jersey", "Europe/Kaliningrad", "Europe/Kiev", "Europe/Lisbon", "Europe/Ljubljana", "Europe/London", "Europe/Luxembourg", "Europe/Madrid", "Europe/Malta", "Europe/Mariehamn", "Europe/Minsk", "Europe/Monaco", "Europe/Moscow", "Europe/Oslo", "Europe/Paris", "Europe/Podgorica", "Europe/Prague", "Europe/Riga", "Europe/Rome", "Europe/Samara", "Europe/San_Marino", "Europe/Sarajevo", "Europe/Simferopol", "Europe/Skopje", "Europe/Sofia", "Europe/Stockholm", "Europe/Tallinn", "Europe/Tirane", "Europe/Uzhgorod", "Europe/Vaduz", "Europe/Vatican", "Europe/Vienna", "Europe/Vilnius", "Europe/Volgograd", "Europe/Warsaw", "Europe/Zagreb", "Europe/Zaporozhye", "Europe/Zurich", "Indian/Antananarivo", "Indian/Chagos", "Indian/Christmas", "Indian/Cocos", "Indian/Comoro", "Indian/Kerguelen", "Indian/Mahe", "Indian/Maldives", "Indian/Mauritius", "Indian/Mayotte", "Indian/Reunion", "Pacific/Apia", "Pacific/Auckland", "Pacific/Bougainville", "Pacific/Chatham", "Pacific/Chuuk", "Pacific/Easter", "Pacific/Efate", "Pacific/Enderbury", "Pacific/Fakaofo", "Pacific/Fiji", "Pacific/Funafuti", "Pacific/Galapagos", "Pacific/Gambier", "Pacific/Guadalcanal", "Pacific/Guam", "Pacific/Honolulu", "Pacific/Johnston", "Pacific/Kiritimati", "Pacific/Kosrae", "Pacific/Kwajalein", "Pacific/Majuro", "Pacific/Marquesas", "Pacific/Midway", "Pacific/Nauru", "Pacific/Niue", "Pacific/Norfolk", "Pacific/Noumea", "Pacific/Pago_Pago", "Pacific/Palau", "Pacific/Pitcairn", "Pacific/Pohnpei", "Pacific/Port_Moresby", "Pacific/Rarotonga", "Pacific/Saipan", "Pacific/Tahiti", "Pacific/Tarawa", "Pacific/Tongatapu", "Pacific/Wake", "Pacific/Wallis", "UTC");
+
+    foreach ($timezones_array as $key => $value) {
+        $item_array['value'] = $value;
+        $item_array['title'] = $value;
+        $item_array['selected'] = returnOptionStatus($item_array['value'], $TIMEZONE);
+
+        $root_array[] = $item_array;
+    }
+
+    return $root_array;
+}
+
+//validate file (check if file exists, file mime and extension meet requirements, file doesn't exceed specified size). $file_name is needed to properly validate extension during upload because temp file is stored without extension
+    function validateFile($file_path_with_name, $file_name, $allowed_mimes_array, $allowed_extensions_array, $max_size=INF)
+    {
+    $validation_ok=false;
+    if (is_file($file_path_with_name) && !empty($file_name) && !empty($allowed_mimes_array) && !empty($allowed_extensions_array))
+        {
+        $file_info=finfo_open(FILEINFO_MIME_TYPE); //open file for validation
+        $file_mime=strtolower(finfo_file($file_info, $file_path_with_name));//get mime type
+        $file_extension=strtolower(pathinfo($file_name, PATHINFO_EXTENSION)); //get extension
+        $file_size=filesize($file_path_with_name); //get size
+        if (in_array($file_mime, arrayMapRecursive("strtolower", $allowed_mimes_array)) && in_array($file_extension, arrayMapRecursive("strtolower", $allowed_extensions_array)) && $file_size<=$max_size)
+            {
+            $validation_ok=true;
+            }
+        }
+    return $validation_ok;
+    }
+
+    //check if file with specified name exists in specified directory and generate new name (with added number) if file exists already
+function generateFileName($root_directory, $file_name)
+    {
+    if (!empty($root_directory) && is_dir($root_directory) && !empty($file_name))
+        {
+        $file_extension=pathinfo($file_name, PATHINFO_EXTENSION); //get file extension
+        $new_file_number=2; //starting number to use for suffix of new file
+
+        $files_list=array_map("strtolower", scandir($root_directory)); //get files list in root directory
+        foreach ($files_list as $key=>$value)
+            {
+            if (is_dir($value)) //remove directories from list
+                {
+                unset($files_list[$key]);
+                }
+            }
+
+        while (in_array(strtolower($file_name), $files_list)) //loop via files (don't use is_file because it's case sensitive, so if old file is file.ext and new file is File.ext, new file will be kept as File.ext instead of renaming into File-2.ext)
+            {
+            if (preg_match_all('/-(\d+).'.$file_extension.'$/', $file_name, $old_numbers, PREG_SET_ORDER)) //existing file already ends as *.-number.extension
+                {
+                $old_file_number=end($old_numbers[0]); //get old number
+                $new_file_number=$old_file_number+1; //increase old number
+                $file_name=preg_replace('/-(\d+).'.$file_extension.'$/', "-$new_file_number.$file_extension", $file_name); //replace old number with new number to avoid new filename being generated as *.old_number-new_number.extension
+                }
+            else //file doesn't end as *.-number.extension, simply add a number to it
+                {
+                $file_name=pathinfo($file_name, PATHINFO_FILENAME)."-$new_file_number.".$file_extension;
+                }
+
+            $new_file_number++;
+            }
+        }
+
+    return $file_name;
+    }
+
+//create slug from string
+function slugifyText($string)
+    {
+    if (!empty($string))
+        {
+        if (function_exists("transliterator_transliterate")) //transliterate string
+            {
+            $string=transliterator_transliterate("Any-Latin; NFD; [:Nonspacing Mark:] Remove; NFC; Lower();", $string);
+            }
+        else //simply remove non-Latin letters
+            {
+            $string=preg_replace("/[^A-Za-z0-9 ]/", "", $string);
+            }
+        $string=strtolower(preg_replace("/[^A-Za-z0-9]+/", "-", $string)); //replace any remaining non-alphanumeric symbols with dashes
+        while (substr($string, -1)=="-") //remove excessive dashes (if any) from end of string
+            {
+            $string=substr($string, 0, -1);
+            }
+        }
+
+    return $string;
+    }
+
+//apply array_map function recursively to array elements
+function arrayMapRecursive($function_to_apply, $array)
+{
+    return filter_var($array, \FILTER_CALLBACK, ['options'=>$function_to_apply]);
+
+}
+function extractDetailsOfSettings(){
+    $sets_array=DB::table('afl_settings')->get()->toArray();
+    foreach ($sets_array as $set)
+    {
+        return $set;
+    }
+}

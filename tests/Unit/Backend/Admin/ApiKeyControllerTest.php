@@ -36,7 +36,7 @@ class ApiKeyControllerTest extends TestCase
          $response->assertJson(['message'=>'lang.add']);
     }
 
-    public function test_apiKeyUpdate_whenApiKEyIsUpdated_shouldReturnTrue()
+    public function test_apiKeyUpdate_whenApiKeyIsUpdated_shouldReturnTrue()
     {
         $this->withoutMiddleware();
        $id=AflApiKeys::where('api_key_secret','P5Zp2PmbOSPWOdc6')->value('api_key_id');
@@ -60,7 +60,7 @@ class ApiKeyControllerTest extends TestCase
          $response->assertJson(['data' => 1]);
 
     }
-    public function test_apiKeyDelete_whenApiKEyIsDeleted_shouldReturnTrue()
+    public function test_apiKeyDelete_whenApiKeyIsDeleted_shouldReturnTrue()
     {
         $this->withoutMiddleware();
        $id=AflApiKeys::where('api_key_secret','P5Zp2PmbOSPWOdc6666')->value('api_key_id');

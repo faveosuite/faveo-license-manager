@@ -6,7 +6,14 @@ use Illuminate\Contracts\Http\Kernel as HttpKernel;
 use Illuminate\Cookie\CookieValuePrefix;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use Illuminate\Testing\LoggedExceptionCollection;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use Illuminate\Testing\LoggedExceptionCollection;
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Testing\TestResponse;
 use Symfony\Component\HttpFoundation\File\UploadedFile as SymfonyUploadedFile;
 use Symfony\Component\HttpFoundation\Request as SymfonyRequest;
@@ -642,6 +649,10 @@ trait MakesHttpRequests
      */
     protected function createTestResponse($response)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return tap(TestResponse::fromBaseResponse($response), function ($response) {
             $response->withExceptions(
                 $this->app->bound(LoggedExceptionCollection::class)
@@ -649,5 +660,11 @@ trait MakesHttpRequests
                     : new LoggedExceptionCollection
             );
         });
+<<<<<<< HEAD
+=======
+        return TestResponse::fromBaseResponse($response);
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     }
 }

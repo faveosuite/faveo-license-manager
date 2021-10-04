@@ -207,7 +207,14 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @return \ArrayIterator An \ArrayIterator instance
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return new \ArrayIterator($this->parameters);
@@ -218,7 +225,14 @@ class ParameterBag implements \IteratorAggregate, \Countable
      *
      * @return int The number of parameters
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     #[\ReturnTypeWillChange]
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    #[\ReturnTypeWillChange]
+>>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return \count($this->parameters);

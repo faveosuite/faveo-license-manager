@@ -28,8 +28,16 @@ class LogTransport extends Transport
 
     /**
      * {@inheritdoc}
+<<<<<<< HEAD
+<<<<<<< HEAD
      *
      * @return int
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+     *
+     * @return int
+>>>>>>> f330c64 (optimization in progress)
      */
     public function send(Swift_Mime_SimpleMessage $message, &$failedRecipients = null)
     {

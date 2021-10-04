@@ -7,8 +7,18 @@ use PhpParser\BuilderHelpers;
 use PhpParser\Node;
 use PhpParser\Node\Identifier;
 use PhpParser\Node\Name;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use PhpParser\Node\Stmt;
 use PhpParser\Node\ComplexType;
+=======
+use PhpParser\Node\NullableType;
+use PhpParser\Node\Stmt;
+>>>>>>> 22c0e54 (table changes)
+=======
+use PhpParser\Node\Stmt;
+use PhpParser\Node\ComplexType;
+>>>>>>> f330c64 (optimization in progress)
 
 class Property implements PhpParser\Builder
 {
@@ -78,6 +88,10 @@ class Property implements PhpParser\Builder
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Makes the property readonly.
      *
      * @return $this The builder instance (for fluid interface)
@@ -89,6 +103,11 @@ class Property implements PhpParser\Builder
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Sets default value for the property.
      *
      * @param mixed $value Default value to use
@@ -119,7 +138,15 @@ class Property implements PhpParser\Builder
     /**
      * Sets the property type for PHP 7.4+.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param string|Name|Identifier|ComplexType $type
+=======
+     * @param string|Name|NullableType|Identifier $type
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @param string|Name|Identifier|ComplexType $type
+>>>>>>> f330c64 (optimization in progress)
      *
      * @return $this
      */

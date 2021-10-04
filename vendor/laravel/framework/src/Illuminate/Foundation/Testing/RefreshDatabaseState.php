@@ -10,6 +10,10 @@ class RefreshDatabaseState
      * @var bool
      */
     public static $migrated = false;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 
     /**
      * Indicates if a lazy refresh hook has been invoked.
@@ -17,4 +21,9 @@ class RefreshDatabaseState
      * @var bool
      */
     public static $lazilyRefreshed = false;
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 }

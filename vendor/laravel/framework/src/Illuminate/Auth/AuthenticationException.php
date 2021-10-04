@@ -16,7 +16,15 @@ class AuthenticationException extends Exception
     /**
      * The path the user should be redirected to.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @var string|null
+=======
+     * @var string
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @var string|null
+>>>>>>> f330c64 (optimization in progress)
      */
     protected $redirectTo;
 
@@ -49,7 +57,15 @@ class AuthenticationException extends Exception
     /**
      * Get the path the user should be redirected to.
      *
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return string|null
+=======
+     * @return string
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return string|null
+>>>>>>> f330c64 (optimization in progress)
      */
     public function redirectTo()
     {

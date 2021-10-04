@@ -5,7 +5,14 @@ namespace Illuminate\Support;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
+<<<<<<< HEAD
+<<<<<<< HEAD
 use ReflectionUnionType;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+use ReflectionUnionType;
+>>>>>>> f330c64 (optimization in progress)
 
 class Reflector
 {
@@ -70,6 +77,10 @@ class Reflector
             return;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         return static::getTypeName($parameter, $type);
     }
 
@@ -109,6 +120,11 @@ class Reflector
      */
     protected static function getTypeName($parameter, $type)
     {
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $name = $type->getName();
 
         if (! is_null($class = $parameter->getDeclaringClass())) {

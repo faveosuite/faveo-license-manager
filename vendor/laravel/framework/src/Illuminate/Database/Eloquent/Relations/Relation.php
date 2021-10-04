@@ -58,6 +58,10 @@ abstract class Relation
     public static $morphMap = [];
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Prevents morph relationships without a morph map.
      *
      * @var bool
@@ -65,6 +69,11 @@ abstract class Relation
     protected static $requireMorphMap = false;
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * The count of self joins.
      *
      * @var int
@@ -384,6 +393,10 @@ abstract class Relation
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Prevent polymorphic relationships from being used without model mappings.
      *
      * @param  bool  $requireMorphMap
@@ -419,6 +432,11 @@ abstract class Relation
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Set or get the morph map for polymorphic relations.
      *
      * @param  array|null  $map
@@ -478,7 +496,21 @@ abstract class Relation
             return $this->macroCall($method, $parameters);
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->forwardDecoratedCallTo($this->query, $method, $parameters);
+=======
+        $result = $this->forwardCallTo($this->query, $method, $parameters);
+
+        if ($result === $this->query) {
+            return $this;
+        }
+
+        return $result;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->forwardDecoratedCallTo($this->query, $method, $parameters);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**

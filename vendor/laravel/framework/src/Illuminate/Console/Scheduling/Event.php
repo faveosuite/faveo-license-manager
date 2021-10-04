@@ -10,6 +10,13 @@ use Illuminate\Contracts\Container\Container;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Contracts\Mail\Mailer;
 use Illuminate\Support\Arr;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+use Illuminate\Support\Carbon;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Reflector;
 use Illuminate\Support\Stringable;
@@ -321,10 +328,24 @@ class Event
      */
     protected function expressionPasses()
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $date = Date::now();
 
         if ($this->timezone) {
             $date = $date->setTimezone($this->timezone);
+=======
+        $date = Carbon::now();
+
+        if ($this->timezone) {
+            $date->setTimezone($this->timezone);
+>>>>>>> 22c0e54 (table changes)
+=======
+        $date = Date::now();
+
+        if ($this->timezone) {
+            $date = $date->setTimezone($this->timezone);
+>>>>>>> f330c64 (optimization in progress)
         }
 
         return (new CronExpression($this->expression))->isDue($date->toDateTimeString());
@@ -579,7 +600,15 @@ class Event
         return function (Container $container, HttpClient $http) use ($url) {
             try {
                 $http->request('GET', $url);
+<<<<<<< HEAD
+<<<<<<< HEAD
             } catch (ClientExceptionInterface|TransferException $e) {
+=======
+            } catch (ClientExceptionInterface | TransferException $e) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            } catch (ClientExceptionInterface|TransferException $e) {
+>>>>>>> f330c64 (optimization in progress)
                 $container->make(ExceptionHandler::class)->report($e);
             }
         };

@@ -469,7 +469,15 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
      */
     public function ignoreHeader($header_name)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $this->ignoredHeaders[strtolower($header_name ?? '')] = true;
+=======
+        $this->ignoredHeaders[strtolower($header_name)] = true;
+>>>>>>> 22c0e54 (table changes)
+=======
+        $this->ignoredHeaders[strtolower($header_name ?? '')] = true;
+>>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
@@ -486,7 +494,15 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
         $listHeaders = $headers->listAll();
         foreach ($listHeaders as $hName) {
             // Check if we need to ignore Header
+<<<<<<< HEAD
+<<<<<<< HEAD
             if (!isset($this->ignoredHeaders[strtolower($hName ?? '')])) {
+=======
+            if (!isset($this->ignoredHeaders[strtolower($hName)])) {
+>>>>>>> 22c0e54 (table changes)
+=======
+            if (!isset($this->ignoredHeaders[strtolower($hName ?? '')])) {
+>>>>>>> f330c64 (optimization in progress)
                 if ($headers->has($hName)) {
                     $tmp = $headers->getAll($hName);
                     foreach ($tmp as $header) {
@@ -510,7 +526,15 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
     public function addSignature(Swift_Mime_SimpleHeaderSet $headers)
     {
         // Prepare the DKIM-Signature
+<<<<<<< HEAD
+<<<<<<< HEAD
         $params = ['v' => '1', 'a' => $this->hashAlgorithm, 'bh' => base64_encode($this->bodyHash ?? ''), 'd' => $this->domainName, 'h' => implode(': ', $this->signedHeaders), 'i' => $this->signerIdentity, 's' => $this->selector];
+=======
+        $params = ['v' => '1', 'a' => $this->hashAlgorithm, 'bh' => base64_encode($this->bodyHash), 'd' => $this->domainName, 'h' => implode(': ', $this->signedHeaders), 'i' => $this->signerIdentity, 's' => $this->selector];
+>>>>>>> 22c0e54 (table changes)
+=======
+        $params = ['v' => '1', 'a' => $this->hashAlgorithm, 'bh' => base64_encode($this->bodyHash ?? ''), 'd' => $this->domainName, 'h' => implode(': ', $this->signedHeaders), 'i' => $this->signerIdentity, 's' => $this->selector];
+>>>>>>> f330c64 (optimization in progress)
         if ('simple' != $this->bodyCanon) {
             $params['c'] = $this->headerCanon.'/'.$this->bodyCanon;
         } elseif ('simple' != $this->headerCanon) {
@@ -544,11 +568,27 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
         // Add the last DKIM-Signature
         $tmp = $headers->getAll('DKIM-Signature');
         $this->dkimHeader = end($tmp);
+<<<<<<< HEAD
+<<<<<<< HEAD
         $this->addHeader(trim($this->dkimHeader->toString() ?? '')."\r\n b=", true);
         if ($this->debugHeaders) {
             $headers->addTextHeader('X-DebugHash', base64_encode($this->headerHash ?? ''));
         }
         $this->dkimHeader->setValue($string.' b='.trim(chunk_split(base64_encode($this->getEncryptedHash() ?? ''), 73, ' ')));
+=======
+        $this->addHeader(trim($this->dkimHeader->toString())."\r\n b=", true);
+=======
+        $this->addHeader(trim($this->dkimHeader->toString() ?? '')."\r\n b=", true);
+>>>>>>> f330c64 (optimization in progress)
+        if ($this->debugHeaders) {
+            $headers->addTextHeader('X-DebugHash', base64_encode($this->headerHash ?? ''));
+        }
+<<<<<<< HEAD
+        $this->dkimHeader->setValue($string.' b='.trim(chunk_split(base64_encode($this->getEncryptedHash()), 73, ' ')));
+>>>>>>> 22c0e54 (table changes)
+=======
+        $this->dkimHeader->setValue($string.' b='.trim(chunk_split(base64_encode($this->getEncryptedHash() ?? ''), 73, ' ')));
+>>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
@@ -649,7 +689,15 @@ class Swift_Signers_DKIMSigner implements Swift_Signers_HeaderSigner
     private function addToHeaderHash($header)
     {
         if ($this->debugHeaders) {
+<<<<<<< HEAD
+<<<<<<< HEAD
             $this->debugHeadersData[] = trim($header ?? '');
+=======
+            $this->debugHeadersData[] = trim($header);
+>>>>>>> 22c0e54 (table changes)
+=======
+            $this->debugHeadersData[] = trim($header ?? '');
+>>>>>>> f330c64 (optimization in progress)
         }
         $this->headerCanonData .= $header;
     }

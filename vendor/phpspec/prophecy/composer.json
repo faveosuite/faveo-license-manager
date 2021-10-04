@@ -18,7 +18,15 @@
     ],
 
     "require": {
+<<<<<<< HEAD
+<<<<<<< HEAD
         "php":                               "^7.2 || ~8.0, <8.2",
+=======
+        "php":                               "^7.2 || ~8.0, <8.1",
+>>>>>>> 22c0e54 (table changes)
+=======
+        "php":                               "^7.2 || ~8.0, <8.2",
+>>>>>>> f330c64 (optimization in progress)
         "phpdocumentor/reflection-docblock": "^5.2",
         "sebastian/comparator":              "^3.0 || ^4.0",
         "doctrine/instantiator":             "^1.2",
@@ -26,7 +34,15 @@
     },
 
     "require-dev": {
+<<<<<<< HEAD
+<<<<<<< HEAD
         "phpspec/phpspec": "^6.0 || ^7.0",
+=======
+        "phpspec/phpspec": "^6.0",
+>>>>>>> 22c0e54 (table changes)
+=======
+        "phpspec/phpspec": "^6.0 || ^7.0",
+>>>>>>> f330c64 (optimization in progress)
         "phpunit/phpunit": "^8.0 || ^9.0"
     },
 
@@ -44,7 +60,15 @@
 
     "extra": {
         "branch-alias": {
+<<<<<<< HEAD
+<<<<<<< HEAD
             "dev-master": "1.x-dev"
+=======
+            "dev-master": "1.11.x-dev"
+>>>>>>> 22c0e54 (table changes)
+=======
+            "dev-master": "1.x-dev"
+>>>>>>> f330c64 (optimization in progress)
         }
     }
 }

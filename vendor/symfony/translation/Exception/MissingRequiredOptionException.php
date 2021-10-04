@@ -16,7 +16,15 @@ namespace Symfony\Component\Translation\Exception;
  */
 class MissingRequiredOptionException extends IncompleteDsnException
 {
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function __construct(string $option, string $dsn = null, \Throwable $previous = null)
+=======
+    public function __construct(string $option, string $dsn = null, ?\Throwable $previous = null)
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function __construct(string $option, string $dsn = null, \Throwable $previous = null)
+>>>>>>> f330c64 (optimization in progress)
     {
         $message = sprintf('The option "%s" is required but missing.', $option);
 

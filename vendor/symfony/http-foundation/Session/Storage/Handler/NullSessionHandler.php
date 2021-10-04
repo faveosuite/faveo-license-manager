@@ -70,11 +70,27 @@ class NullSessionHandler extends AbstractSessionHandler
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return int|false
+=======
+     * @return bool
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return int|false
+>>>>>>> f330c64 (optimization in progress)
      */
     #[\ReturnTypeWillChange]
     public function gc($maxlifetime)
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         return 0;
+=======
+        return true;
+>>>>>>> 22c0e54 (table changes)
+=======
+        return 0;
+>>>>>>> f330c64 (optimization in progress)
     }
 }

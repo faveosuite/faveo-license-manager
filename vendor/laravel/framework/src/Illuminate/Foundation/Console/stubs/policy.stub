@@ -14,7 +14,15 @@ class {{ class }}
      * Determine whether the user can view any models.
      *
      * @param  \{{ namespacedUserModel }}  $user
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return \Illuminate\Auth\Access\Response|bool
+=======
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return \Illuminate\Auth\Access\Response|bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function viewAny({{ user }} $user)
     {
@@ -26,7 +34,15 @@ class {{ class }}
      *
      * @param  \{{ namespacedUserModel }}  $user
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return \Illuminate\Auth\Access\Response|bool
+=======
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return \Illuminate\Auth\Access\Response|bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function view({{ user }} $user, {{ model }} ${{ modelVariable }})
     {
@@ -37,7 +53,15 @@ class {{ class }}
      * Determine whether the user can create models.
      *
      * @param  \{{ namespacedUserModel }}  $user
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return \Illuminate\Auth\Access\Response|bool
+=======
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return \Illuminate\Auth\Access\Response|bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function create({{ user }} $user)
     {
@@ -49,7 +73,15 @@ class {{ class }}
      *
      * @param  \{{ namespacedUserModel }}  $user
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return \Illuminate\Auth\Access\Response|bool
+=======
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return \Illuminate\Auth\Access\Response|bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function update({{ user }} $user, {{ model }} ${{ modelVariable }})
     {
@@ -61,7 +93,15 @@ class {{ class }}
      *
      * @param  \{{ namespacedUserModel }}  $user
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return \Illuminate\Auth\Access\Response|bool
+=======
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return \Illuminate\Auth\Access\Response|bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function delete({{ user }} $user, {{ model }} ${{ modelVariable }})
     {
@@ -73,7 +113,15 @@ class {{ class }}
      *
      * @param  \{{ namespacedUserModel }}  $user
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return \Illuminate\Auth\Access\Response|bool
+=======
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return \Illuminate\Auth\Access\Response|bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function restore({{ user }} $user, {{ model }} ${{ modelVariable }})
     {
@@ -85,7 +133,15 @@ class {{ class }}
      *
      * @param  \{{ namespacedUserModel }}  $user
      * @param  \{{ namespacedModel }}  ${{ modelVariable }}
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @return \Illuminate\Auth\Access\Response|bool
+=======
+     * @return mixed
+>>>>>>> 22c0e54 (table changes)
+=======
+     * @return \Illuminate\Auth\Access\Response|bool
+>>>>>>> f330c64 (optimization in progress)
      */
     public function forceDelete({{ user }} $user, {{ model }} ${{ modelVariable }})
     {

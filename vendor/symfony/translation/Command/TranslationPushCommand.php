@@ -94,6 +94,8 @@ EOF
      */
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
+<<<<<<< HEAD
+<<<<<<< HEAD
         $provider = $this->providers->get($input->getArgument('provider'));
 
         if (!$this->enabledLocales) {
@@ -101,6 +103,22 @@ EOF
         }
 
         $io = new SymfonyStyle($input, $output);
+=======
+=======
+        $provider = $this->providers->get($input->getArgument('provider'));
+
+>>>>>>> f330c64 (optimization in progress)
+        if (!$this->enabledLocales) {
+            throw new InvalidArgumentException(sprintf('You must define "framework.translator.enabled_locales" or "framework.translator.providers.%s.locales" config key in order to work with translation providers.', parse_url($provider, \PHP_URL_SCHEME)));
+        }
+
+        $io = new SymfonyStyle($input, $output);
+<<<<<<< HEAD
+
+        $provider = $this->providers->get($input->getArgument('provider'));
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
         $domains = $input->getOption('domains');
         $locales = $input->getOption('locales');
         $force = $input->getOption('force');

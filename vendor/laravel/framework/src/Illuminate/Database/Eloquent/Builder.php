@@ -12,6 +12,14 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Database\RecordsNotFoundException;
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+use Illuminate\Pagination\CursorPaginationException;
+use Illuminate\Pagination\CursorPaginator;
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
@@ -465,7 +473,15 @@ class Builder
             return $instance;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return $this->newModelInstance(array_merge($attributes, $values));
+=======
+        return $this->newModelInstance($attributes + $values);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->newModelInstance(array_merge($attributes, $values));
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -481,7 +497,15 @@ class Builder
             return $instance;
         }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
         return tap($this->newModelInstance(array_merge($attributes, $values)), function ($instance) {
+=======
+        return tap($this->newModelInstance($attributes + $values), function ($instance) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        return tap($this->newModelInstance(array_merge($attributes, $values)), function ($instance) {
+>>>>>>> f330c64 (optimization in progress)
             $instance->save();
         });
     }
@@ -571,6 +595,10 @@ class Builder
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get a single column's value from the first result of the query or throw an exception.
      *
      * @param  string|\Illuminate\Database\Query\Expression  $column
@@ -584,6 +612,11 @@ class Builder
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Execute the query as a "select" statement.
      *
      * @param  array|string  $columns
@@ -837,6 +870,8 @@ class Builder
      * @param  int|null  $perPage
      * @param  array  $columns
      * @param  string  $cursorName
+<<<<<<< HEAD
+<<<<<<< HEAD
      * @param  \Illuminate\Pagination\Cursor|string|null  $cursor
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
      */
@@ -845,6 +880,45 @@ class Builder
         $perPage = $perPage ?: $this->model->getPerPage();
 
         return $this->paginateUsingCursor($perPage, $columns, $cursorName, $cursor);
+=======
+     * @param  string|null  $cursor
+=======
+     * @param  \Illuminate\Pagination\Cursor|string|null  $cursor
+>>>>>>> f330c64 (optimization in progress)
+     * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     */
+    public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
+    {
+        $perPage = $perPage ?: $this->model->getPerPage();
+
+<<<<<<< HEAD
+        $orders = $this->ensureOrderForCursorPagination(! is_null($cursor) && $cursor->pointsToPreviousItems());
+
+        $orderDirection = $orders->first()['direction'] ?? 'asc';
+
+        $comparisonOperator = $orderDirection === 'asc' ? '>' : '<';
+
+        $parameters = $orders->pluck('column')->toArray();
+
+        if (! is_null($cursor)) {
+            if (count($parameters) === 1) {
+                $this->where($column = $parameters[0], $comparisonOperator, $cursor->parameter($column));
+            } elseif (count($parameters) > 1) {
+                $this->whereRowValues($parameters, $comparisonOperator, $cursor->parameters($parameters));
+            }
+        }
+
+        $this->take($perPage + 1);
+
+        return $this->cursorPaginator($this->get($columns), $perPage, $cursor, [
+            'path' => Paginator::resolveCurrentPath(),
+            'cursorName' => $cursorName,
+            'parameters' => $parameters,
+        ]);
+>>>>>>> 22c0e54 (table changes)
+=======
+        return $this->paginateUsingCursor($perPage, $columns, $cursorName, $cursor);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -852,12 +926,30 @@ class Builder
      *
      * @param  bool  $shouldReverse
      * @return \Illuminate\Support\Collection
+<<<<<<< HEAD
+<<<<<<< HEAD
      */
     protected function ensureOrderForCursorPagination($shouldReverse = false)
     {
         $orders = collect($this->query->orders);
 
         if ($orders->count() === 0) {
+=======
+     *
+     * @throws \Illuminate\Pagination\CursorPaginationException
+=======
+>>>>>>> f330c64 (optimization in progress)
+     */
+    protected function ensureOrderForCursorPagination($shouldReverse = false)
+    {
+        $orders = collect($this->query->orders);
+
+<<<<<<< HEAD
+        if ($orderDirections->count() === 0) {
+>>>>>>> 22c0e54 (table changes)
+=======
+        if ($orders->count() === 0) {
+>>>>>>> f330c64 (optimization in progress)
             $this->enforceOrderBy();
         }
 
@@ -1531,6 +1623,10 @@ class Builder
     }
 
     /**
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Qualify the given columns with the model's table.
      *
      * @param  array|\Illuminate\Database\Query\Expression  $columns
@@ -1542,6 +1638,11 @@ class Builder
     }
 
     /**
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
      * Get the given macro by name.
      *
      * @param  string  $name

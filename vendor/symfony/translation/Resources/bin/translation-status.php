@@ -19,16 +19,34 @@ $usageInstructions = <<<END
   # show the translation status of all locales
   $ php translation-status.php
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
   # only show the translation status of incomplete or erroneous locales
   $ php translation-status.php --incomplete
 
   # show the translation status of all locales, all their missing translations and mismatches between trans-unit id and source
+<<<<<<< HEAD
+=======
+  # show the translation status of all locales and all their missing translations
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
   $ php translation-status.php -v
 
   # show the status of a single locale
   $ php translation-status.php fr
 
+<<<<<<< HEAD
+<<<<<<< HEAD
   # show the status of a single locale, missing translations and mismatches between trans-unit id and source
+=======
+  # show the status of a single locale and all its missing translations
+>>>>>>> 22c0e54 (table changes)
+=======
+  # show the status of a single locale, missing translations and mismatches between trans-unit id and source
+>>>>>>> f330c64 (optimization in progress)
   $ php translation-status.php fr -v
 
 END;
@@ -38,8 +56,16 @@ $config = [
     'verbose_output' => false,
     // NULL = analyze all locales
     'locale_to_analyze' => null,
+<<<<<<< HEAD
+<<<<<<< HEAD
     // append --incomplete to only show incomplete languages
     'include_completed_languages' => true,
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+    // append --incomplete to only show incomplete languages
+    'include_completed_languages' => true,
+>>>>>>> f330c64 (optimization in progress)
     // the reference files all the other translations are compared to
     'original_files' => [
         'src/Symfony/Component/Form/Resources/translations/validators.en.xlf',
@@ -51,17 +77,34 @@ $config = [
 $argc = $_SERVER['argc'];
 $argv = $_SERVER['argv'];
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 if ($argc > 4) {
+=======
+if ($argc > 3) {
+>>>>>>> 22c0e54 (table changes)
+=======
+if ($argc > 4) {
+>>>>>>> f330c64 (optimization in progress)
     echo str_replace('translation-status.php', $argv[0], $usageInstructions);
     exit(1);
 }
 
 foreach (array_slice($argv, 1) as $argumentOrOption) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
     if ('--incomplete' === $argumentOrOption) {
         $config['include_completed_languages'] = false;
         continue;
     }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
     if (0 === strpos($argumentOrOption, '-')) {
         $config['verbose_output'] = true;
     } else {
@@ -77,7 +120,14 @@ foreach ($config['original_files'] as $originalFilePath) {
 }
 
 $totalMissingTranslations = 0;
+<<<<<<< HEAD
+<<<<<<< HEAD
 $totalTranslationMismatches = 0;
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+$totalTranslationMismatches = 0;
+>>>>>>> f330c64 (optimization in progress)
 
 foreach ($config['original_files'] as $originalFilePath) {
     $translationFilePaths = findTranslationFiles($originalFilePath, $config['locale_to_analyze']);
@@ -86,6 +136,8 @@ foreach ($config['original_files'] as $originalFilePath) {
     $totalMissingTranslations += array_sum(array_map(function ($translation) {
         return count($translation['missingKeys']);
     }, array_values($translationStatus)));
+<<<<<<< HEAD
+<<<<<<< HEAD
     $totalTranslationMismatches += array_sum(array_map(function ($translation) {
         return count($translation['mismatches']);
     }, array_values($translationStatus)));
@@ -94,6 +146,22 @@ foreach ($config['original_files'] as $originalFilePath) {
 }
 
 exit($totalTranslationMismatches > 0 ? 1 : 0);
+=======
+=======
+    $totalTranslationMismatches += array_sum(array_map(function ($translation) {
+        return count($translation['mismatches']);
+    }, array_values($translationStatus)));
+>>>>>>> f330c64 (optimization in progress)
+
+    printTranslationStatus($originalFilePath, $translationStatus, $config['verbose_output'], $config['include_completed_languages']);
+}
+
+<<<<<<< HEAD
+exit($totalMissingTranslations > 0 ? 1 : 0);
+>>>>>>> 22c0e54 (table changes)
+=======
+exit($totalTranslationMismatches > 0 ? 1 : 0);
+>>>>>>> f330c64 (optimization in progress)
 
 function findTranslationFiles($originalFilePath, $localeToAnalyze)
 {
@@ -126,29 +194,62 @@ function calculateTranslationStatus($originalFilePath, $translationFilePaths)
     foreach ($translationFilePaths as $locale => $translationPath) {
         $translatedKeys = extractTranslationKeys($translationPath);
         $missingKeys = array_diff_key($allTranslationKeys, $translatedKeys);
+<<<<<<< HEAD
+<<<<<<< HEAD
         $mismatches = findTransUnitMismatches($allTranslationKeys, $translatedKeys);
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+        $mismatches = findTransUnitMismatches($allTranslationKeys, $translatedKeys);
+>>>>>>> f330c64 (optimization in progress)
 
         $translationStatus[$locale] = [
             'total' => count($allTranslationKeys),
             'translated' => count($translatedKeys),
             'missingKeys' => $missingKeys,
+<<<<<<< HEAD
+<<<<<<< HEAD
             'mismatches' => $mismatches,
         ];
         $translationStatus[$locale]['is_completed'] = isTranslationCompleted($translationStatus[$locale]);
+=======
+        ];
+>>>>>>> 22c0e54 (table changes)
+=======
+            'mismatches' => $mismatches,
+        ];
+        $translationStatus[$locale]['is_completed'] = isTranslationCompleted($translationStatus[$locale]);
+>>>>>>> f330c64 (optimization in progress)
     }
 
     return $translationStatus;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 function isTranslationCompleted(array $translationStatus): bool
 {
     return $translationStatus['total'] === $translationStatus['translated'] && 0 === count($translationStatus['mismatches']);
 }
 
 function printTranslationStatus($originalFilePath, $translationStatus, $verboseOutput, $includeCompletedLanguages)
+<<<<<<< HEAD
 {
     printTitle($originalFilePath);
     printTable($translationStatus, $verboseOutput, $includeCompletedLanguages);
+=======
+function printTranslationStatus($originalFilePath, $translationStatus, $verboseOutput)
+{
+    printTitle($originalFilePath);
+    printTable($translationStatus, $verboseOutput);
+>>>>>>> 22c0e54 (table changes)
+=======
+{
+    printTitle($originalFilePath);
+    printTable($translationStatus, $verboseOutput, $includeCompletedLanguages);
+>>>>>>> f330c64 (optimization in progress)
     echo \PHP_EOL.\PHP_EOL;
 }
 
@@ -174,6 +275,10 @@ function extractTranslationKeys($filePath)
     return $translationKeys;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
 /**
  * Check whether the trans-unit id and source match with the base translation.
  */
@@ -196,13 +301,26 @@ function findTransUnitMismatches(array $baseTranslationKeys, array $translatedKe
     return $mismatches;
 }
 
+<<<<<<< HEAD
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+>>>>>>> f330c64 (optimization in progress)
 function printTitle($title)
 {
     echo $title.\PHP_EOL;
     echo str_repeat('=', strlen($title)).\PHP_EOL.\PHP_EOL;
 }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
 function printTable($translations, $verboseOutput, bool $includeCompletedLanguages)
+=======
+function printTable($translations, $verboseOutput)
+>>>>>>> 22c0e54 (table changes)
+=======
+function printTable($translations, $verboseOutput, bool $includeCompletedLanguages)
+>>>>>>> f330c64 (optimization in progress)
 {
     if (0 === count($translations)) {
         echo 'No translations found';
@@ -212,10 +330,15 @@ function printTable($translations, $verboseOutput, bool $includeCompletedLanguag
     $longestLocaleNameLength = max(array_map('strlen', array_keys($translations)));
 
     foreach ($translations as $locale => $translation) {
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f330c64 (optimization in progress)
         if (!$includeCompletedLanguages && $translation['is_completed']) {
             continue;
         }
 
+<<<<<<< HEAD
         if ($translation['translated'] > $translation['total']) {
             textColorRed();
         } elseif (count($translation['mismatches']) > 0) {
@@ -253,6 +376,50 @@ function printTable($translations, $verboseOutput, bool $includeCompletedLanguag
             $shouldBeClosed = true;
         }
         if ($shouldBeClosed) {
+=======
+=======
+>>>>>>> f330c64 (optimization in progress)
+        if ($translation['translated'] > $translation['total']) {
+            textColorRed();
+        } elseif (count($translation['mismatches']) > 0) {
+            textColorRed();
+        } elseif ($translation['is_completed']) {
+            textColorGreen();
+        }
+
+        echo sprintf(
+            '|  Locale: %-'.$longestLocaleNameLength.'s  |  Translated: %2d/%2d  |  Mismatches: %d  |',
+            $locale,
+            $translation['translated'],
+            $translation['total'],
+            count($translation['mismatches'])
+        ).\PHP_EOL;
+
+        textColorNormal();
+
+        $shouldBeClosed = false;
+        if (true === $verboseOutput && count($translation['missingKeys']) > 0) {
+            echo '|    Missing Translations:'.\PHP_EOL;
+
+            foreach ($translation['missingKeys'] as $id => $content) {
+                echo sprintf('|      (id=%s) %s', $id, $content).\PHP_EOL;
+            }
+            $shouldBeClosed = true;
+        }
+        if (true === $verboseOutput && count($translation['mismatches']) > 0) {
+            echo '|    Mismatches between trans-unit id and source:'.\PHP_EOL;
+
+<<<<<<< HEAD
+>>>>>>> 22c0e54 (table changes)
+=======
+            foreach ($translation['mismatches'] as $id => $content) {
+                echo sprintf('|      (id=%s) Expected: %s', $id, $content['expected']).\PHP_EOL;
+                echo sprintf('|              Found:    %s', $content['found']).\PHP_EOL;
+            }
+            $shouldBeClosed = true;
+        }
+        if ($shouldBeClosed) {
+>>>>>>> f330c64 (optimization in progress)
             echo str_repeat('-', 80).\PHP_EOL;
         }
     }

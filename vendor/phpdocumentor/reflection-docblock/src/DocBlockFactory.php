@@ -20,7 +20,14 @@ use phpDocumentor\Reflection\DocBlock\StandardTagFactory;
 use phpDocumentor\Reflection\DocBlock\Tag;
 use phpDocumentor\Reflection\DocBlock\TagFactory;
 use Webmozart\Assert\Assert;
+<<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+>>>>>>> 22c0e54 (table changes)
+=======
+
+>>>>>>> f330c64 (optimization in progress)
 use function array_shift;
 use function count;
 use function explode;
@@ -55,7 +62,15 @@ final class DocBlockFactory implements DocBlockFactoryInterface
      *
      * @param array<string, class-string<Tag>> $additionalTags
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public static function createInstance(array $additionalTags = []): self
+=======
+    public static function createInstance(array $additionalTags = []) : self
+>>>>>>> 22c0e54 (table changes)
+=======
+    public static function createInstance(array $additionalTags = []): self
+>>>>>>> f330c64 (optimization in progress)
     {
         $fqsenResolver      = new FqsenResolver();
         $tagFactory         = new StandardTagFactory($fqsenResolver);
@@ -76,7 +91,15 @@ final class DocBlockFactory implements DocBlockFactoryInterface
      * @param object|string $docblock A string containing the DocBlock to parse or an object supporting the
      *                                getDocComment method (such as a ReflectionClass object).
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function create($docblock, ?Types\Context $context = null, ?Location $location = null): DocBlock
+=======
+    public function create($docblock, ?Types\Context $context = null, ?Location $location = null) : DocBlock
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function create($docblock, ?Types\Context $context = null, ?Location $location = null): DocBlock
+>>>>>>> f330c64 (optimization in progress)
     {
         if (is_object($docblock)) {
             if (!method_exists($docblock, 'getDocComment')) {
@@ -113,7 +136,15 @@ final class DocBlockFactory implements DocBlockFactoryInterface
     /**
      * @param class-string<Tag> $handler
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     public function registerTagHandler(string $tagName, string $handler): void
+=======
+    public function registerTagHandler(string $tagName, string $handler) : void
+>>>>>>> 22c0e54 (table changes)
+=======
+    public function registerTagHandler(string $tagName, string $handler): void
+>>>>>>> f330c64 (optimization in progress)
     {
         $this->tagFactory->registerTagHandler($tagName, $handler);
     }
@@ -123,7 +154,15 @@ final class DocBlockFactory implements DocBlockFactoryInterface
      *
      * @param string $comment String containing the comment text.
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function stripDocComment(string $comment): string
+=======
+    private function stripDocComment(string $comment) : string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function stripDocComment(string $comment): string
+>>>>>>> f330c64 (optimization in progress)
     {
         $comment = preg_replace('#[ \t]*(?:\/\*\*|\*\/|\*)?[ \t]?(.*)?#u', '$1', $comment);
         Assert::string($comment);
@@ -232,7 +271,15 @@ final class DocBlockFactory implements DocBlockFactoryInterface
      *
      * @return DocBlock\Tag[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function parseTagBlock(string $tags, Types\Context $context): array
+=======
+    private function parseTagBlock(string $tags, Types\Context $context) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function parseTagBlock(string $tags, Types\Context $context): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $tags = $this->filterTagBlock($tags);
         if ($tags === null) {
@@ -251,7 +298,15 @@ final class DocBlockFactory implements DocBlockFactoryInterface
     /**
      * @return string[]
      */
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function splitTagBlockIntoTagLines(string $tags): array
+=======
+    private function splitTagBlockIntoTagLines(string $tags) : array
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function splitTagBlockIntoTagLines(string $tags): array
+>>>>>>> f330c64 (optimization in progress)
     {
         $result = [];
         foreach (explode("\n", $tags) as $tagLine) {
@@ -265,7 +320,15 @@ final class DocBlockFactory implements DocBlockFactoryInterface
         return $result;
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
     private function filterTagBlock(string $tags): ?string
+=======
+    private function filterTagBlock(string $tags) : ?string
+>>>>>>> 22c0e54 (table changes)
+=======
+    private function filterTagBlock(string $tags): ?string
+>>>>>>> f330c64 (optimization in progress)
     {
         $tags = trim($tags);
         if (!$tags) {
