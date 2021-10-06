@@ -42,6 +42,29 @@ trait ValidatesAttributes
     }
 
     /**
+     * Validate that an attribute was "accepted" when another attribute has a given value.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  mixed  $parameters
+     * @return bool
+     */
+    public function validateAcceptedIf($attribute, $value, $parameters)
+    {
+        $acceptable = ['yes', 'on', '1', 1, true, 'true'];
+
+        $this->requireParameterCount(2, $parameters, 'accepted_if');
+
+        [$values, $other] = $this->parseDependentRuleParameters($parameters);
+
+        if (in_array($other, $values, is_bool($other) || is_null($other))) {
+            return $this->validateRequired($attribute, $value) && in_array($value, $acceptable, true);
+        }
+
+        return true;
+    }
+
+    /**
      * Validate that an attribute is an active URL.
      *
      * @param  string  $attribute
@@ -234,7 +257,7 @@ trait ValidatesAttributes
     protected function getDateTime($value)
     {
         try {
-            return Date::parse($value);
+            return @Date::parse($value) ?: null;
         } catch (Exception $e) {
             //
         }
@@ -408,11 +431,15 @@ trait ValidatesAttributes
             return false;
         }
 
-        $format = $parameters[0];
+        foreach ($parameters as $format) {
+            $date = DateTime::createFromFormat('!'.$format, $value);
 
-        $date = DateTime::createFromFormat('!'.$format, $value);
+            if ($date && $date->format($format) == $value) {
+                return true;
+            }
+        }
 
-        return $date && $date->format($format) == $value;
+        return false;
     }
 
     /**
@@ -1512,6 +1539,29 @@ trait ValidatesAttributes
     }
 
     /**
+     * Validate that other attributes do not exist when this attribute exists.
+     *
+     * @param  string  $attribute
+     * @param  mixed  $value
+     * @param  mixed  $parameters
+     * @return bool
+     */
+    public function validateProhibits($attribute, $value, $parameters)
+    {
+        return ! Arr::hasAny($this->data, $parameters);
+    }
+
+    /**
+     * Indicate that an attribute is excluded.
+     *
+     * @return bool
+     */
+    public function validateExclude()
+    {
+        return false;
+    }
+
+    /**
      * Indicate that an attribute should be excluded when another attribute has a given value.
      *
      * @param  string  $attribute
@@ -1925,7 +1975,7 @@ trait ValidatesAttributes
             return $value->getSize() / 1024;
         }
 
-        return mb_strlen($value);
+        return mb_strlen($value ?? '');
     }
 
     /**
@@ -2022,7 +2072,6 @@ trait ValidatesAttributes
      *
      * @param  string  $attribute
      * @param  string  $rule
-     *
      * @return void
      */
     protected function shouldBeNumeric($attribute, $rule)

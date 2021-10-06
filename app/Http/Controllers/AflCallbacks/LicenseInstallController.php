@@ -14,7 +14,6 @@ use Illuminate\Support\Facades\Lang;
 class LicenseInstallController extends Controller
 {
 
-
     /**
      * This is used by script on user's machine to check if license is active and add installation details to Auto PHP Licenser database during installation of protected script
      * api format for example:  http://127.0.0.1:8000/api/licenseinstall?product_id=1&root_url=https://www.license.com&client_email=sandeshm40450@gamil.com&license_code=vvbdjvsbjbdvb&installation_hash=aa33da99a04490b20b01c40cced3d2981ca6e29e6fd30ccfd63961a83e798856&license_signature=e930f7623d746b7f81ad4b61af3b7ad1390358529799342eaa1736fa56696dba
@@ -223,16 +222,14 @@ if (filter_var($ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($prod
                     }
                 if ($license_limit!=0) //check installations limit
                     {
-
                     $other_installations_array=DB::table('afl_installations')->where('product_id',$product_id)
                                                                 ->where(function($query) use($client_id,$license_code){
                                                                     $query->where('client_id',$client_id)
-                                                                      ->orWhere('license_code',$license_code);
+                                                                        ->where('license_code',$license_code);
                                                                 })->where(function($query) use($ip_address,$installation_domain){
                                                                     $query->where('installation_ip','!=',$ip_address)
                                                                           ->orWhere('installation_domain','!=',$installation_domain);
                                                                 })->get()->toArray();
-
                     if (count($other_installations_array)>=$license_limit) //client can't make new installation because it would exceed his current limit
                         {
                         $error_detected=1;

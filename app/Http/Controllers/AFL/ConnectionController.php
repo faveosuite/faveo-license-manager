@@ -57,7 +57,7 @@ class ConnectionController extends Controller
 
         if (filter_var($ip_address, FILTER_VALIDATE_IP) &&
         filter_var($refer, FILTER_VALIDATE_URL)
-        && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connectionTest"))
+        && aflValidateIntegerValue($product_id) && $connection_hash==hash("sha256", "connection_test"))
         {
                $rows_array =[$ip_address,$refer,$product_id,$connection_hash];
                return "<connection_test>OK</connection_test>";
