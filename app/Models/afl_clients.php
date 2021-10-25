@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class afl_clients extends Model
+class AflClients extends Model
 {
     use HasFactory;
+   protected $guarded =[];
+
+    protected $primaryKey = 'client_id';
 }

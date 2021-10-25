@@ -14,14 +14,14 @@ class CreateAflCallbacksTable extends Migration
     public function up()
     {
         Schema::create('afl_callbacks', function (Blueprint $table) {
-            $table->primary('callback_id');
+            //$table->primary('callback_id');
             $table->increments('callback_id')->unique();
 
-            $table->foreignId('product_id')
+            $table->integer('product_id')
                 ->constrained('afl_products','product_id')
                 ->onDelete('cascade');
 
-            $table->foreignId('client_id')->default('null')
+            $table->string('client_id')->default('null')
                 ->constrained('afl_clients','client_id')
                 ->onDelete('cascade');
 

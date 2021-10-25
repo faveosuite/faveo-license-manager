@@ -14,7 +14,7 @@ class CreateAflEmailsTable extends Migration
     public function up()
     {
         Schema::create('afl_emails', function (Blueprint $table) {
-            $table->primary('email_id');
+            //$table->primary('email_id');
             $table->increments('email_id')->unique();
             $table->string('email_expiring_license_subject',125);
             $table->text('email_expiring_license_text');

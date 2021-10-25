@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class afl_emails extends Model
+class AflApiKeys extends Model
 {
     use HasFactory;
 }

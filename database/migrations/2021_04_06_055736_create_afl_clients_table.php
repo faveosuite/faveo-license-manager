@@ -14,13 +14,13 @@ class CreateAflClientsTable extends Migration
     public function up()
     {
         Schema::create('afl_clients', function (Blueprint $table) {
-            $table->primary('client_id');
+            //$table->primary('client_id');
             $table->increments('client_id')->unique();
             $table->string('client_fname',125);
             $table->string('client_lname',125);
             $table->string('client_email',125)->unique();
-            $table->date('client_active_date');
-            $table->date('client_cancel_date');
+            $table->date('client_active_date')->nullable();
+            $table->date('client_cancel_date')->nullable();
             $table->boolean('client_status')->default('1');
             $table->timestamps();
         });

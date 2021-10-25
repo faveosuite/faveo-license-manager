@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class afl_reports extends Model
+class AflEmails extends Model
 {
     use HasFactory;
 }
