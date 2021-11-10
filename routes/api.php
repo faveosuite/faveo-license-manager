@@ -90,6 +90,7 @@ Route::post('installations/delete',[InstallationController::class,'deleteInstall
 Route::post('installations/edit',[InstallationController::class,'installationUpdate']);
 Route::get('viewInstallations',[InstallationController::class,'show']);
 
+Route::post('addInstallation',[InstallationController::class,'installationAdd']);
 
 //BANNED HOSTS
 Route::post('bannedHosts/add',[BannedHostController::class,'bannedHostAdd']);

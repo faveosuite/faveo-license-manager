@@ -215,4 +215,64 @@ public function deleteInstallation($installation_id)
         $Install = installArray();
         return successResponse(Lang::get('lang.Install_show'),$Install,200);
     }
+
+
+    //for localized license only
+    public function installationAdd(Request $request){
+
+              $license_code = $request->get('license_code');
+              $product_id   = $request->get('product_id');
+              $installation_domain = $request->get('installation_domain');
+              $installation_date  = $request->get('installation_date');
+              $installation_status = $request->get('installation_status');
+              $installation_hash = $request->get('installation_status');
+              $api_key_secret = $request->get('api_key_secret');
+              $api_action_success=0;
+              $api_error_detected=0;
+
+        if (null!==(request()->server('REMOTE_ADDR')))
+        {
+            $ip_address=request()->server('REMOTE_ADDR');
+        }
+        else {
+            $ip_address=$request->ip();
+        }
+
+        if(!empty($api_key_secret)) {
+            $api = AflApiKeys::where('api_key_secret', $api_key_secret)->where('api_key_status', 1)->get();
+            if (empty($api)) {
+                return errorResponse(Lang::get('lang.invalid_api_key'), 404);
+            } else {
+                $api_ip = new AflApiKeys();
+                $api_ips = $api_ip->value('api_key_ip');
+
+                if (!empty($api_ips)) {
+                    if (!$api_ips->contains($ip_address)) {
+                        $api_error_detected = 1;
+                        return errorResponse(Lang::get('lang.Api_Acess_not_allowed'), 400);
+                    } else {
+                        $api_action_success = 1;
+
+                    }
+                } else {
+                    $api_action_success = 1;
+
+                }
+            }
+            if($api_action_success==1) {
+
+                $api = DB::table('afl_installations')->insertOrIgnore([
+                    'license_code' => $license_code,
+                    'product_id' => $product_id,
+                    'installation_ip' => $ip_address,
+                    'installation_domain' => $installation_domain,
+                    'installation_date' => $installation_date,
+                    'installation_status' => $installation_status,
+                    'installation_hash' => $installation_hash
+                ]);
+
+                return successResponse(Lang::get('lang.install_added'), $api, 200);
+            }
+        }
+    }
 }
