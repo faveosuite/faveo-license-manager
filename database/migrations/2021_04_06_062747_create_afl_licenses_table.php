@@ -16,12 +16,11 @@ class CreateAflLicensesTable extends Migration
         Schema::create('afl_licenses', function (Blueprint $table) {
             //$table->primary('license_id');
             $table->increments('license_id')->unique();
-
-            $table->integer('product_id')
+            $table->integer('product_id')->unique()
                 ->constrained('afl_products','product_id')
                 ->onDelete('cascade');
 
-            $table->integer('client_id')->nullable()
+            $table->integer('client_id')
                 ->constrained('afl_clients','client_id')
                 ->onDelete('cascade');
 

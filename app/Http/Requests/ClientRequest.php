@@ -2,10 +2,8 @@
 
 namespace App\Http\Requests;
 
-use App\Models\AflClients;
-use App\Http\Controllers\Admin\ClientsController;
 use Illuminate\Foundation\Http\FormRequest;
-
+use App\Models\afl_clients;
 
 class ClientRequest extends FormRequest
 {
@@ -27,9 +25,9 @@ class ClientRequest extends FormRequest
     public function rules()
     {
         return [
-            'client_fname'=> 'string',
-            'client_lname'=> 'string',
-            'client_email'=> 'string|unique:afl_clients,client_email',
+            'client_fname'=> 'required|string',
+            'client_lname'=> 'required|string',
+            'client_email'=> 'required|string|unique:afl_products,client_email',
             'client_active_date'=>'date',
             'client_cancel_date'=> 'date',
             'client_status'=>'boolean'
