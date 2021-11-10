@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class FaveoLicense extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 }
