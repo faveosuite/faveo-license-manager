@@ -4,9 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\AflAdmins;
+use App\Models\afl_admins;
 
-class OauthAccessToken extends Model
+class oauth_access_token extends Model
 {
     use HasFactory;
 
