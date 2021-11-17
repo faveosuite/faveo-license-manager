@@ -2,46 +2,6 @@
 
 All notable changes of the PHPUnit 9.5 release series are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-## [9.5.10] - 2021-09-25
-
-### Changed
-
-* PHPUnit no longer converts PHP deprecations to exceptions by default (configure `convertDeprecationsToExceptions="true"` to enable this)
-* The PHPUnit XML configuration file generator now configures `convertDeprecationsToExceptions="true"`
-
-### Fixed
-
-* [#4772](https://github.com/sebastianbergmann/phpunit/pull/4772): TestDox HTML report not displayed correctly when browser has custom colour settings
-
-## [9.5.9] - 2021-08-31
-
-### Fixed
-
-* [#4750](https://github.com/sebastianbergmann/phpunit/issues/4750): Automatic return value generation leads to invalid (and superfluous) test double code generation when a stubbed method returns `*|false`
-* [#4751](https://github.com/sebastianbergmann/phpunit/issues/4751): Configuration validation fails when using brackets in glob pattern
-
-## [9.5.8] - 2021-07-31
-
-### Fixed
-
-* [#4740](https://github.com/sebastianbergmann/phpunit/issues/4740): `phpunit.phar` does not work with PHP 8.1
-
-## [9.5.7] - 2021-07-19
-
-### Fixed
-
-* [#4720](https://github.com/sebastianbergmann/phpunit/issues/4720): PHPUnit does not verify its own PHP extension requirements
-* [#4735](https://github.com/sebastianbergmann/phpunit/issues/4735): Automated return value generation does not work for stubbed methods that return `*|false`
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 ## [9.5.6] - 2021-06-23
 
 ### Changed
@@ -100,19 +60,6 @@ All notable changes of the PHPUnit 9.5 release series are documented in this fil
 
 * [#4535](https://github.com/sebastianbergmann/phpunit/issues/4535): `getMockFromWsdl()` does not handle methods that do not have parameters correctly
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-[9.5.10]: https://github.com/sebastianbergmann/phpunit/compare/9.5.9...9.5.10
-[9.5.9]: https://github.com/sebastianbergmann/phpunit/compare/9.5.8...9.5.9
-[9.5.8]: https://github.com/sebastianbergmann/phpunit/compare/9.5.7...9.5.8
-[9.5.7]: https://github.com/sebastianbergmann/phpunit/compare/9.5.6...9.5.7
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 [9.5.6]: https://github.com/sebastianbergmann/phpunit/compare/9.5.5...9.5.6
 [9.5.5]: https://github.com/sebastianbergmann/phpunit/compare/9.5.4...9.5.5
 [9.5.4]: https://github.com/sebastianbergmann/phpunit/compare/9.5.3...9.5.4

@@ -21,51 +21,11 @@ class DiscoverEvents
      */
     public static function within($listenerPath, $basePath)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $listeners = collect(static::getListenerEvents(
-            (new Finder)->files()->in($listenerPath), $basePath
-        ));
-
-        $discoveredEvents = [];
-
-        foreach ($listeners as $listener => $events) {
-            foreach ($events as $event) {
-                if (! isset($discoveredEvents[$event])) {
-                    $discoveredEvents[$event] = [];
-                }
-
-                $discoveredEvents[$event][] = $listener;
-            }
-        }
-
-        return $discoveredEvents;
-=======
         return collect(static::getListenerEvents(
             (new Finder)->files()->in($listenerPath), $basePath
         ))->mapToDictionary(function ($event, $listener) {
             return [$event => $listener];
         })->all();
->>>>>>> 22c0e54 (table changes)
-=======
-        $listeners = collect(static::getListenerEvents(
-            (new Finder)->files()->in($listenerPath), $basePath
-        ));
-
-        $discoveredEvents = [];
-
-        foreach ($listeners as $listener => $events) {
-            foreach ($events as $event) {
-                if (! isset($discoveredEvents[$event])) {
-                    $discoveredEvents[$event] = [];
-                }
-
-                $discoveredEvents[$event][] = $listener;
-            }
-        }
-
-        return $discoveredEvents;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -99,15 +59,7 @@ class DiscoverEvents
                 }
 
                 $listenerEvents[$listener->name.'@'.$method->name] =
-<<<<<<< HEAD
-<<<<<<< HEAD
-                                Reflector::getParameterClassNames($method->getParameters()[0]);
-=======
                                 Reflector::getParameterClassName($method->getParameters()[0]);
->>>>>>> 22c0e54 (table changes)
-=======
-                                Reflector::getParameterClassNames($method->getParameters()[0]);
->>>>>>> f330c64 (optimization in progress)
             }
         }
 

@@ -1,21 +1,6 @@
 Swift Mailer
 ------------
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-**Swiftmailer will stop being maintained at the end of November 2021.**
-
-Please, move to [Symfony Mailer](https://symfony.com/doc/current/mailer.html) at your earliest convenience.
-[Symfony Mailer](https://symfony.com/doc/current/mailer.html) is the next evolution of Swiftmailer.
-It provides the same features with support for modern PHP code and support for third-party providers.
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 Swift Mailer is a component based mailing solution for PHP.
 It is released under the MIT license.
 

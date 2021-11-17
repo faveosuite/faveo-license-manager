@@ -7,23 +7,11 @@ use Closure;
 use Illuminate\Contracts\Queue\Factory as QueueFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Queue\CallQueuedClosure;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use JsonSerializable;
-=======
 use Illuminate\Queue\SerializableClosure;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use JsonSerializable;
 use ReturnTypeWillChange;
->>>>>>> 22c0e54 (table changes)
-=======
-use Illuminate\Support\Arr;
-use Illuminate\Support\Collection;
-use JsonSerializable;
->>>>>>> f330c64 (optimization in progress)
 use Throwable;
 
 class Batch implements Arrayable, JsonSerializable
@@ -169,15 +157,7 @@ class Batch implements Arrayable, JsonSerializable
     /**
      * Add additional jobs to the batch.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Illuminate\Support\Enumerable|array  $jobs
-=======
      * @param  \Illuminate\Support\Collection|array  $jobs
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Illuminate\Support\Enumerable|array  $jobs
->>>>>>> f330c64 (optimization in progress)
      * @return self
      */
     public function add($jobs)
@@ -441,40 +421,16 @@ class Batch implements Arrayable, JsonSerializable
     /**
      * Invoke a batch callback handler.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  callable  $handler
-=======
      * @param  \Illuminate\Queue\SerializableClosure|callable  $handler
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  callable  $handler
->>>>>>> f330c64 (optimization in progress)
      * @param  \Illuminate\Bus\Batch  $batch
      * @param  \Throwable|null  $e
      * @return void
      */
     protected function invokeHandlerCallback($handler, Batch $batch, Throwable $e = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        try {
-            return $handler($batch, $e);
-        } catch (Throwable $e) {
-            if (function_exists('report')) {
-                report($e);
-            }
-        }
-<<<<<<< HEAD
-=======
         return $handler instanceof SerializableClosure
                     ? $handler->__invoke($batch, $e)
                     : call_user_func($handler, $batch, $e);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -504,15 +460,7 @@ class Batch implements Arrayable, JsonSerializable
      *
      * @return array
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return $this->toArray();

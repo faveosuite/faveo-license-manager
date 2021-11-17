@@ -237,22 +237,8 @@ class StreamHandler
             return true;
         });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        try {
-            $resource = $callback();
-        } finally {
-            \restore_error_handler();
-        }
-<<<<<<< HEAD
-=======
         $resource = $callback();
         \restore_error_handler();
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
         if (!$resource) {
             $message = 'Error creating resource: ';
@@ -528,19 +514,7 @@ class StreamHandler
             $params,
             static function ($code, $a, $b, $c, $transferred, $total) use ($value) {
                 if ($code == \STREAM_NOTIFY_PROGRESS) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    // The upload progress cannot be determined. Use 0 for cURL compatibility:
-                    // https://curl.se/libcurl/c/CURLOPT_PROGRESSFUNCTION.html
-                    $value($total, $transferred, 0, 0);
-=======
                     $value($total, $transferred, null, null);
->>>>>>> 22c0e54 (table changes)
-=======
-                    // The upload progress cannot be determined. Use 0 for cURL compatibility:
-                    // https://curl.se/libcurl/c/CURLOPT_PROGRESSFUNCTION.html
-                    $value($total, $transferred, 0, 0);
->>>>>>> f330c64 (optimization in progress)
                 }
             }
         );

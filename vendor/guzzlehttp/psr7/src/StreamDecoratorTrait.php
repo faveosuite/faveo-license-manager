@@ -78,20 +78,6 @@ trait StreamDecoratorTrait
         $this->stream->close();
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    /**
-     * {@inheritdoc}
-     *
-     * @return mixed
-     */
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     public function getMetadata($key = null)
     {
         return $this->stream->getMetadata($key);

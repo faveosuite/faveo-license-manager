@@ -4,14 +4,8 @@ namespace Illuminate\Support;
 
 use ArrayAccess;
 use ArrayIterator;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Illuminate\Collections\ItemNotFoundException;
 use Illuminate\Collections\MultipleItemsFoundException;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Traits\EnumeratesValues;
 use Illuminate\Support\Traits\Macroable;
 use stdClass;
@@ -510,38 +504,6 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Determine if any of the keys exist in the collection.
-     *
-     * @param  mixed  $key
-     * @return bool
-     */
-    public function hasAny($key)
-    {
-        if ($this->isEmpty()) {
-            return false;
-        }
-
-        $keys = is_array($key) ? $key : func_get_args();
-
-        foreach ($keys as $value) {
-            if ($this->has($value)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Concatenate values of a given key as a string.
      *
      * @param  string  $value
@@ -824,65 +786,13 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * Get and remove the last N items from the collection.
-     *
-     * @param  int  $count
-     * @return mixed
-     */
-    public function pop($count = 1)
-    {
-        if ($count === 1) {
-            return array_pop($this->items);
-        }
-
-        if ($this->isEmpty()) {
-            return new static;
-        }
-
-        $results = [];
-
-        $collectionCount = $this->count();
-
-        foreach (range(1, min($count, $collectionCount)) as $item) {
-            array_push($results, array_pop($this->items));
-        }
-
-        return new static($results);
-=======
      * Get and remove the last item from the collection.
-=======
-     * Get and remove the last N items from the collection.
->>>>>>> f330c64 (optimization in progress)
      *
-     * @param  int  $count
      * @return mixed
      */
-    public function pop($count = 1)
+    public function pop()
     {
-<<<<<<< HEAD
         return array_pop($this->items);
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($count === 1) {
-            return array_pop($this->items);
-        }
-
-        if ($this->isEmpty()) {
-            return new static;
-        }
-
-        $results = [];
-
-        $collectionCount = $this->count();
-
-        foreach (range(1, min($count, $collectionCount)) as $item) {
-            array_push($results, array_pop($this->items));
-        }
-
-        return new static($results);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -902,15 +812,7 @@ class Collection implements ArrayAccess, Enumerable
     /**
      * Push one or more items onto the end of the collection.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  mixed  $values
-=======
      * @param  mixed  $values [optional]
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  mixed  $values
->>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function push(...$values)
@@ -1037,65 +939,13 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * Get and remove the first N items from the collection.
-     *
-     * @param  int  $count
-     * @return mixed
-     */
-    public function shift($count = 1)
-    {
-        if ($count === 1) {
-            return array_shift($this->items);
-        }
-
-        if ($this->isEmpty()) {
-            return new static;
-        }
-
-        $results = [];
-
-        $collectionCount = $this->count();
-
-        foreach (range(1, min($count, $collectionCount)) as $item) {
-            array_push($results, array_shift($this->items));
-        }
-
-        return new static($results);
-=======
      * Get and remove the first item from the collection.
-=======
-     * Get and remove the first N items from the collection.
->>>>>>> f330c64 (optimization in progress)
      *
-     * @param  int  $count
      * @return mixed
      */
-    public function shift($count = 1)
+    public function shift()
     {
-<<<<<<< HEAD
         return array_shift($this->items);
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($count === 1) {
-            return array_shift($this->items);
-        }
-
-        if ($this->isEmpty()) {
-            return new static;
-        }
-
-        $results = [];
-
-        $collectionCount = $this->count();
-
-        foreach (range(1, min($count, $collectionCount)) as $item) {
-            array_push($results, array_shift($this->items));
-        }
-
-        return new static($results);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1226,18 +1076,8 @@ class Collection implements ArrayAccess, Enumerable
      * @param  mixed  $value
      * @return mixed
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @throws \Illuminate\Support\ItemNotFoundException
-     * @throws \Illuminate\Support\MultipleItemsFoundException
-=======
      * @throws \Illuminate\Collections\ItemNotFoundException
      * @throws \Illuminate\Collections\MultipleItemsFoundException
->>>>>>> 22c0e54 (table changes)
-=======
-     * @throws \Illuminate\Support\ItemNotFoundException
-     * @throws \Illuminate\Support\MultipleItemsFoundException
->>>>>>> f330c64 (optimization in progress)
      */
     public function sole($key = null, $operator = null, $value = null)
     {
@@ -1259,42 +1099,6 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Get the first item in the collection but throw an exception if no matching items exist.
-     *
-     * @param  mixed  $key
-     * @param  mixed  $operator
-     * @param  mixed  $value
-     * @return mixed
-     *
-     * @throws \Illuminate\Support\ItemNotFoundException
-     */
-    public function firstOrFail($key = null, $operator = null, $value = null)
-    {
-        $filter = func_num_args() > 1
-            ? $this->operatorForWhere(...func_get_args())
-            : $key;
-
-        $placeholder = new stdClass();
-
-        $item = $this->first($filter, $placeholder);
-
-        if ($item === $placeholder) {
-            throw new ItemNotFoundException;
-        }
-
-        return $item;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Chunk the collection into chunks of the given size.
      *
      * @param  int  $size
@@ -1549,37 +1353,6 @@ class Collection implements ArrayAccess, Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Return only unique items from the collection array.
-     *
-     * @param  string|callable|null  $key
-     * @param  bool  $strict
-     * @return static
-     */
-    public function unique($key = null, $strict = false)
-    {
-        $callback = $this->valueRetriever($key);
-
-        $exists = [];
-
-        return $this->reject(function ($item, $key) use ($callback, $strict, &$exists) {
-            if (in_array($id = $callback($item, $key), $exists, $strict)) {
-                return true;
-            }
-
-            $exists[] = $id;
-        });
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Reset the keys on the underlying array.
      *
      * @return static
@@ -1628,14 +1401,6 @@ class Collection implements ArrayAccess, Enumerable
      *
      * @return \ArrayIterator
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return new ArrayIterator($this->items);
@@ -1646,14 +1411,6 @@ class Collection implements ArrayAccess, Enumerable
      *
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return count($this->items);
@@ -1699,14 +1456,6 @@ class Collection implements ArrayAccess, Enumerable
      * @param  mixed  $key
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return isset($this->items[$key]);
@@ -1718,14 +1467,6 @@ class Collection implements ArrayAccess, Enumerable
      * @param  mixed  $key
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return $this->items[$key];
@@ -1738,14 +1479,6 @@ class Collection implements ArrayAccess, Enumerable
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         if (is_null($key)) {
@@ -1761,14 +1494,6 @@ class Collection implements ArrayAccess, Enumerable
      * @param  string  $key
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         unset($this->items[$key]);

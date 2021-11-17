@@ -1,24 +1,11 @@
 <?php
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-namespace Lcobucci\JWT\Token;
-
-use Lcobucci\JWT\Token;
-use function class_alias;
-
-class_exists(Plain::class, false) || class_alias(Token::class, Plain::class);
-=======
 declare(strict_types=1);
-=======
->>>>>>> f330c64 (optimization in progress)
 
 namespace Lcobucci\JWT\Token;
 
-use Lcobucci\JWT\Token;
-use function class_alias;
+use DateTimeInterface;
+use Lcobucci\JWT\Token as TokenInterface;
 
-<<<<<<< HEAD
 use function in_array;
 
 final class Plain implements TokenInterface
@@ -103,7 +90,3 @@ final class Plain implements TokenInterface
              . $this->signature->toString();
     }
 }
->>>>>>> 22c0e54 (table changes)
-=======
-class_alias(Token::class, Plain::class);
->>>>>>> f330c64 (optimization in progress)

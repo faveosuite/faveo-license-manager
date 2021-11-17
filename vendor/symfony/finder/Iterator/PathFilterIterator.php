@@ -24,14 +24,6 @@ class PathFilterIterator extends MultiplePcreFilterIterator
      *
      * @return bool true if the value should be kept, false otherwise
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function accept()
     {
         $filename = $this->current()->getRelativePathname();

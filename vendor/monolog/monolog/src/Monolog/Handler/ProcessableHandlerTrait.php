@@ -30,15 +30,7 @@ trait ProcessableHandlerTrait
     protected $processors = [];
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function pushProcessor(callable $callback): HandlerInterface
     {
@@ -48,15 +40,7 @@ trait ProcessableHandlerTrait
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function popProcessor(): callable
     {

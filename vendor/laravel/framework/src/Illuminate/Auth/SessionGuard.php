@@ -54,22 +54,6 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
     protected $viaRemember = false;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * The number of minutes that the "remember me" cookie should be valid for.
-     *
-     * @var int
-     */
-    protected $rememberDuration = 2628000;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * The session used by the guard.
      *
      * @var \Illuminate\Contracts\Session\Session
@@ -548,15 +532,7 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
      */
     protected function createRecaller($value)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->getCookieJar()->make($this->getRecallerName(), $value, $this->getRememberDuration());
-=======
         return $this->getCookieJar()->forever($this->getRecallerName(), $value);
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->getCookieJar()->make($this->getRecallerName(), $value, $this->getRememberDuration());
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -841,38 +817,6 @@ class SessionGuard implements StatefulGuard, SupportsBasicAuth
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Get the number of minutes the remember me cookie should be valid for.
-     *
-     * @return int
-     */
-    protected function getRememberDuration()
-    {
-        return $this->rememberDuration;
-    }
-
-    /**
-     * Set the number of minutes the remember me cookie should be valid for.
-     *
-     * @param  int  $minutes
-     * @return $this
-     */
-    public function setRememberDuration($minutes)
-    {
-        $this->rememberDuration = $minutes;
-
-        return $this;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Get the cookie creator instance used by the guard.
      *
      * @return \Illuminate\Contracts\Cookie\QueueingFactory

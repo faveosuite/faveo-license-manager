@@ -89,15 +89,7 @@ class TextPart extends AbstractPart
      *
      * @return $this
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setName(string $name)
-=======
     public function setName($name)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setName(string $name)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->name = $name;
 

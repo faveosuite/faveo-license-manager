@@ -29,15 +29,7 @@ class ServerBag extends ParameterBag
     {
         $headers = [];
         foreach ($this->parameters as $key => $value) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (str_starts_with($key, 'HTTP_')) {
-=======
             if (0 === strpos($key, 'HTTP_')) {
->>>>>>> 22c0e54 (table changes)
-=======
-            if (str_starts_with($key, 'HTTP_')) {
->>>>>>> f330c64 (optimization in progress)
                 $headers[substr($key, 5)] = $value;
             } elseif (\in_array($key, ['CONTENT_TYPE', 'CONTENT_LENGTH', 'CONTENT_MD5'], true)) {
                 $headers[$key] = $value;

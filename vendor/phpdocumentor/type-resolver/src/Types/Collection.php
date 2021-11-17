@@ -47,15 +47,7 @@ final class Collection extends AbstractList
     /**
      * Returns the FQSEN associated with this object.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getFqsen(): ?Fqsen
-=======
     public function getFqsen() : ?Fqsen
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getFqsen(): ?Fqsen
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->fqsen;
     }
@@ -63,15 +55,7 @@ final class Collection extends AbstractList
     /**
      * Returns a rendered output of the Type as it would be used in a DocBlock.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         $objectType = (string) ($this->fqsen ?? 'object');
 

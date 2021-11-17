@@ -15,21 +15,8 @@ declare(strict_types=1);
 namespace Ramsey\Uuid\Type;
 
 use Ramsey\Uuid\Exception\InvalidArgumentException;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-use ValueError;
 
 use function ctype_xdigit;
-use function sprintf;
-<<<<<<< HEAD
-=======
-
-use function ctype_xdigit;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use function strpos;
 use function strtolower;
 use function substr;
@@ -91,62 +78,14 @@ final class Hexadecimal implements TypeInterface
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * @return array{string: string}
-     */
-    public function __serialize(): array
-    {
-        return ['string' => $this->toString()];
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Constructs the object from a serialized string representation
      *
      * @param string $serialized The serialized string representation of the object
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @psalm-suppress UnusedMethodCall
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     * @psalm-suppress UnusedMethodCall
->>>>>>> f330c64 (optimization in progress)
      */
     public function unserialize($serialized): void
     {
         $this->__construct($serialized);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-    /**
-     * @param array{string: string} $data
-     */
-    public function __unserialize(array $data): void
-    {
-        // @codeCoverageIgnoreStart
-        if (!isset($data['string'])) {
-            throw new ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->unserialize($data['string']);
-    }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 }

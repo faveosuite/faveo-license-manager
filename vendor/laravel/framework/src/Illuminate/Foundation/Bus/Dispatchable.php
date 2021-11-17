@@ -12,21 +12,9 @@ trait Dispatchable
      *
      * @return \Illuminate\Foundation\Bus\PendingDispatch
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function dispatch(...$arguments)
-    {
-        return new PendingDispatch(new static(...$arguments));
-=======
     public static function dispatch()
     {
         return new PendingDispatch(new static(...func_get_args()));
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function dispatch(...$arguments)
-    {
-        return new PendingDispatch(new static(...$arguments));
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -64,21 +52,9 @@ trait Dispatchable
      *
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function dispatchSync(...$arguments)
-    {
-        return app(Dispatcher::class)->dispatchSync(new static(...$arguments));
-=======
     public static function dispatchSync()
     {
         return app(Dispatcher::class)->dispatchSync(new static(...func_get_args()));
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function dispatchSync(...$arguments)
-    {
-        return app(Dispatcher::class)->dispatchSync(new static(...$arguments));
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -88,21 +64,9 @@ trait Dispatchable
      *
      * @deprecated Will be removed in a future Laravel version.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function dispatchNow(...$arguments)
-    {
-        return app(Dispatcher::class)->dispatchNow(new static(...$arguments));
-=======
     public static function dispatchNow()
     {
         return app(Dispatcher::class)->dispatchNow(new static(...func_get_args()));
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function dispatchNow(...$arguments)
-    {
-        return app(Dispatcher::class)->dispatchNow(new static(...$arguments));
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -110,21 +74,9 @@ trait Dispatchable
      *
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function dispatchAfterResponse(...$arguments)
-    {
-        return app(Dispatcher::class)->dispatchAfterResponse(new static(...$arguments));
-=======
     public static function dispatchAfterResponse()
     {
         return app(Dispatcher::class)->dispatchAfterResponse(new static(...func_get_args()));
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function dispatchAfterResponse(...$arguments)
-    {
-        return app(Dispatcher::class)->dispatchAfterResponse(new static(...$arguments));
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

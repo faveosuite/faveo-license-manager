@@ -20,20 +20,7 @@ class Stream extends File
 {
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     *
-     * @return int|false
      */
-    #[\ReturnTypeWillChange]
-<<<<<<< HEAD
-=======
-     */
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     public function getSize()
     {
         return false;

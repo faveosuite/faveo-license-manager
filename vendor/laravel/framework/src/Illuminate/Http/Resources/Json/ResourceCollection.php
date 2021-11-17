@@ -85,14 +85,6 @@ class ResourceCollection extends JsonResource implements Countable, IteratorAggr
      *
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return $this->collection->count();
@@ -102,15 +94,7 @@ class ResourceCollection extends JsonResource implements Countable, IteratorAggr
      * Transform the resource into a JSON array.
      *
      * @param  \Illuminate\Http\Request  $request
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-=======
      * @return array
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
->>>>>>> f330c64 (optimization in progress)
      */
     public function toArray($request)
     {

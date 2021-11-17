@@ -136,24 +136,10 @@ class PrettyPageHandler extends Handler
      */
     public function __construct()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (ini_get('xdebug.file_link_format') || get_cfg_var('xdebug.file_link_format')) {
-            // Register editor using xdebug's file_link_format option.
-            $this->editors['xdebug'] = function ($file, $line) {
-                return str_replace(['%f', '%l'], [$file, $line], ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format'));
-=======
         if (ini_get('xdebug.file_link_format') || extension_loaded('xdebug')) {
             // Register editor using xdebug's file_link_format option.
             $this->editors['xdebug'] = function ($file, $line) {
                 return str_replace(['%f', '%l'], [$file, $line], ini_get('xdebug.file_link_format'));
->>>>>>> 22c0e54 (table changes)
-=======
-        if (ini_get('xdebug.file_link_format') || get_cfg_var('xdebug.file_link_format')) {
-            // Register editor using xdebug's file_link_format option.
-            $this->editors['xdebug'] = function ($file, $line) {
-                return str_replace(['%f', '%l'], [$file, $line], ini_get('xdebug.file_link_format') ?: get_cfg_var('xdebug.file_link_format'));
->>>>>>> f330c64 (optimization in progress)
             };
 
             // If xdebug is available, use it as default editor.
@@ -216,17 +202,7 @@ class PrettyPageHandler extends Handler
         $templateFile = $this->getResource("views/layout.html.php");
         $cssFile      = $this->getResource("css/whoops.base.css");
         $zeptoFile    = $this->getResource("js/zepto.min.js");
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $prismJs = $this->getResource("js/prism.js");
-        $prismCss = $this->getResource("css/prism.css");
-=======
         $prettifyFile = $this->getResource("js/prettify.min.js");
->>>>>>> 22c0e54 (table changes)
-=======
-        $prismJs = $this->getResource("js/prism.js");
-        $prismCss = $this->getResource("css/prism.css");
->>>>>>> f330c64 (optimization in progress)
         $clipboard    = $this->getResource("js/clipboard.min.js");
         $jsFile       = $this->getResource("js/whoops.base.js");
 
@@ -249,17 +225,7 @@ class PrettyPageHandler extends Handler
             // @todo: Asset compiler
             "stylesheet" => file_get_contents($cssFile),
             "zepto"      => file_get_contents($zeptoFile),
-<<<<<<< HEAD
-<<<<<<< HEAD
-            "prismJs"   => file_get_contents($prismJs),
-            "prismCss"   => file_get_contents($prismCss),
-=======
             "prettify"   => file_get_contents($prettifyFile),
->>>>>>> 22c0e54 (table changes)
-=======
-            "prismJs"   => file_get_contents($prismJs),
-            "prismCss"   => file_get_contents($prismCss),
->>>>>>> f330c64 (optimization in progress)
             "clipboard"  => file_get_contents($clipboard),
             "javascript" => file_get_contents($jsFile),
 

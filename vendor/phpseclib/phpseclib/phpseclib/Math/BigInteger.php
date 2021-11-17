@@ -39,15 +39,7 @@ use phpseclib3\Exception\BadConfigurationException;
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class BigInteger
-=======
 class BigInteger implements \Serializable
->>>>>>> 22c0e54 (table changes)
-=======
-class BigInteger
->>>>>>> f330c64 (optimization in progress)
 {
     /**
      * Main Engine
@@ -78,33 +70,6 @@ class BigInteger
     private $value;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Mode independent value used for serialization.
-     *
-     * @see self::__sleep()
-     * @see self::__wakeup()
-     * @var string
-     */
-    private $hex;
-
-    /**
-     * Precision (used only for serialization)
-     *
-     * @see self::__sleep()
-     * @see self::__wakeup()
-     * @var int
-     */
-    private $precision;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Sets engine type.
      *
      * Throws an exception if the type is invalid
@@ -425,88 +390,39 @@ class BigInteger
      *
      * Will be called, automatically, when serialize() is called on a BigInteger object.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * __sleep() / __wakeup() have been around since PHP 4.0
-     *
-     * \Serializable was introduced in PHP 5.1 and deprecated in PHP 8.1:
-     * https://wiki.php.net/rfc/phase_out_serializable
-     *
-     * __serialize() / __unserialize() were introduced in PHP 7.4:
-     * https://wiki.php.net/rfc/custom_object_serialization
-     *
-     * @return string
-     */
-    public function __sleep()
-    {
-        $this->hex = $this->toHex(true);
-        $vars = ['hex'];
-        if ($this->getPrecision() > 0) {
-            $vars[] = 'precision';
-        }
-        return $vars;
-=======
      * phpseclib 1.0 serialized strings look like this:
      * O:15:"Math_BigInteger":1:{s:3:"hex";s:18:"00ab54a98ceb1f0ad2";}
-=======
-     * __sleep() / __wakeup() have been around since PHP 4.0
->>>>>>> f330c64 (optimization in progress)
      *
-     * \Serializable was introduced in PHP 5.1 and deprecated in PHP 8.1:
-     * https://wiki.php.net/rfc/phase_out_serializable
-     *
-     * __serialize() / __unserialize() were introduced in PHP 7.4:
-     * https://wiki.php.net/rfc/custom_object_serialization
+     * phpseclib 3.0 serialized strings look like this:
+     * C:25:"phpseclib\Math\BigInteger":42:{a:1:{s:3:"hex";s:18:"00ab54a98ceb1f0ad2";}}
      *
      * @return string
      */
-    public function __sleep()
+    public function serialize()
     {
-        $this->hex = $this->toHex(true);
-        $vars = ['hex'];
-        if ($this->getPrecision() > 0) {
-            $vars[] = 'precision';
+        $val = ['hex' => $this->toHex(true)];
+        $precision = $this->value->getPrecision();
+        if ($precision > 0) {
+            $val['precision'] = $precision;
         }
-<<<<<<< HEAD
         return serialize($val);
->>>>>>> 22c0e54 (table changes)
-=======
-        return $vars;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
      * Serialize
      *
      * Will be called, automatically, when unserialize() is called on a BigInteger object.
-<<<<<<< HEAD
-<<<<<<< HEAD
-     */
-    public function __wakeup()
-    {
-        $temp = new static($this->hex, -16);
-        $this->value = $temp->value;
-        if ($this->precision > 0) {
-            // recalculate $this->bitmask
-            $this->setPrecision($this->precision);
-=======
      *
      * @param string $serialized
-=======
->>>>>>> f330c64 (optimization in progress)
      */
-    public function __wakeup()
+    public function unserialize($serialized)
     {
-        $temp = new static($this->hex, -16);
+        $r = unserialize($serialized);
+        $temp = new static($r['hex'], -16);
         $this->value = $temp->value;
-        if ($this->precision > 0) {
+        if (isset($r['precision'])) {
             // recalculate $this->bitmask
-<<<<<<< HEAD
             $this->setPrecision($r['precision']);
->>>>>>> 22c0e54 (table changes)
-=======
-            $this->setPrecision($this->precision);
->>>>>>> f330c64 (optimization in progress)
         }
     }
 

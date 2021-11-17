@@ -11,13 +11,7 @@ use Illuminate\Database\Eloquent\JsonEncodingException;
 use Illuminate\Http\Resources\ConditionallyLoadsAttributes;
 use Illuminate\Http\Resources\DelegatesToResource;
 use JsonSerializable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use ReturnTypeWillChange;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
 class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRoutable
 {
@@ -115,15 +109,7 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
      * Transform the resource into an array.
      *
      * @param  \Illuminate\Http\Request  $request
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
-=======
      * @return array
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
->>>>>>> f330c64 (optimization in progress)
      */
     public function toArray($request)
     {
@@ -241,15 +227,7 @@ class JsonResource implements ArrayAccess, JsonSerializable, Responsable, UrlRou
      *
      * @return array
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return $this->resolve(Container::getInstance()->make('request'));

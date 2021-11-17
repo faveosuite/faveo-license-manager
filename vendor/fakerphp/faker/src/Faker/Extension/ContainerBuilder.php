@@ -65,14 +65,6 @@ final class ContainerBuilder
             BloodExtension::class => Core\Blood::class,
             FileExtension::class => Core\File::class,
             NumberExtension::class => Core\Number::class,
-<<<<<<< HEAD
-<<<<<<< HEAD
-            VersionExtension::class => Core\Version::class,
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-            VersionExtension::class => Core\Version::class,
->>>>>>> f330c64 (optimization in progress)
         ];
     }
 

@@ -16,14 +16,6 @@ namespace phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter;
 use phpDocumentor\Reflection\DocBlock\Tags\Formatter\PassthroughFormatter;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use function sprintf;
 use function str_repeat;
 use function str_replace;
@@ -49,16 +41,6 @@ class Serializer
 
     /** @var Formatter A custom tag formatter. */
     protected $tagFormatter;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    /** @var string */
-    private $lineEnding;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    /** @var string */
-    private $lineEnding;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Create a Serializer instance.
@@ -68,45 +50,19 @@ class Serializer
      * @param bool      $indentFirstLine Whether to indent the first line.
      * @param int|null  $lineLength      The max length of a line or NULL to disable line wrapping.
      * @param Formatter $tagFormatter    A custom tag formatter, defaults to PassthroughFormatter.
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param string    $lineEnding      Line ending used in the output, by default \n is used.
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param string    $lineEnding      Line ending used in the output, by default \n is used.
->>>>>>> f330c64 (optimization in progress)
      */
     public function __construct(
         int $indent = 0,
         string $indentString = ' ',
         bool $indentFirstLine = true,
         ?int $lineLength = null,
-<<<<<<< HEAD
-<<<<<<< HEAD
-        ?Formatter $tagFormatter = null,
-        string $lineEnding = "\n"
-=======
         ?Formatter $tagFormatter = null
->>>>>>> 22c0e54 (table changes)
-=======
-        ?Formatter $tagFormatter = null,
-        string $lineEnding = "\n"
->>>>>>> f330c64 (optimization in progress)
     ) {
         $this->indent              = $indent;
         $this->indentString        = $indentString;
         $this->isFirstLineIndented = $indentFirstLine;
         $this->lineLength          = $lineLength;
         $this->tagFormatter        = $tagFormatter ?: new PassthroughFormatter();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->lineEnding = $lineEnding;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->lineEnding = $lineEnding;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -116,15 +72,7 @@ class Serializer
      *
      * @return string The serialized doc block.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getDocComment(DocBlock $docblock): string
-=======
     public function getDocComment(DocBlock $docblock) : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getDocComment(DocBlock $docblock): string
->>>>>>> f330c64 (optimization in progress)
     {
         $indent      = str_repeat($this->indentString, $this->indent);
         $firstIndent = $this->isFirstLineIndented ? $indent : '';
@@ -147,24 +95,10 @@ class Serializer
 
         $comment = $this->addTagBlock($docblock, $wrapLength, $indent, $comment);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return str_replace("\n", $this->lineEnding, $comment . $indent . ' */');
-    }
-
-    private function removeTrailingSpaces(string $indent, string $text): string
-=======
         return $comment . $indent . ' */';
     }
 
     private function removeTrailingSpaces(string $indent, string $text) : string
->>>>>>> 22c0e54 (table changes)
-=======
-        return str_replace("\n", $this->lineEnding, $comment . $indent . ' */');
-    }
-
-    private function removeTrailingSpaces(string $indent, string $text): string
->>>>>>> f330c64 (optimization in progress)
     {
         return str_replace(
             sprintf("\n%s * \n", $indent),
@@ -173,15 +107,7 @@ class Serializer
         );
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private function addAsterisksForEachLine(string $indent, string $text): string
-=======
     private function addAsterisksForEachLine(string $indent, string $text) : string
->>>>>>> 22c0e54 (table changes)
-=======
-    private function addAsterisksForEachLine(string $indent, string $text): string
->>>>>>> f330c64 (optimization in progress)
     {
         return str_replace(
             "\n",
@@ -190,15 +116,7 @@ class Serializer
         );
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private function getSummaryAndDescriptionTextBlock(DocBlock $docblock, ?int $wrapLength): string
-=======
     private function getSummaryAndDescriptionTextBlock(DocBlock $docblock, ?int $wrapLength) : string
->>>>>>> 22c0e54 (table changes)
-=======
-    private function getSummaryAndDescriptionTextBlock(DocBlock $docblock, ?int $wrapLength): string
->>>>>>> f330c64 (optimization in progress)
     {
         $text = $docblock->getSummary() . ((string) $docblock->getDescription() ? "\n\n" . $docblock->getDescription()
                 : '');
@@ -211,15 +129,7 @@ class Serializer
         return $text;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private function addTagBlock(DocBlock $docblock, ?int $wrapLength, string $indent, string $comment): string
-=======
     private function addTagBlock(DocBlock $docblock, ?int $wrapLength, string $indent, string $comment) : string
->>>>>>> 22c0e54 (table changes)
-=======
-    private function addTagBlock(DocBlock $docblock, ?int $wrapLength, string $indent, string $comment): string
->>>>>>> f330c64 (optimization in progress)
     {
         foreach ($docblock->getTags() as $tag) {
             $tagText = $this->tagFormatter->format($tag);

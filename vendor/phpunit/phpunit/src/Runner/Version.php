@@ -41,15 +41,7 @@ final class Version
         }
 
         if (self::$version === '') {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            self::$version = (new VersionId('9.5.10', dirname(__DIR__, 2)))->getVersion();
-=======
             self::$version = (new VersionId('9.5.6', dirname(__DIR__, 2)))->getVersion();
->>>>>>> 22c0e54 (table changes)
-=======
-            self::$version = (new VersionId('9.5.10', dirname(__DIR__, 2)))->getVersion();
->>>>>>> f330c64 (optimization in progress)
         }
 
         return self::$version;

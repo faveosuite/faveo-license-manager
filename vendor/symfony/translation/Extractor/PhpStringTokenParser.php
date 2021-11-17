@@ -133,15 +133,7 @@ class PhpStringTokenParser
         $str = preg_replace('~(\r\n|\n|\r)$~', '', $str);
 
         // nowdoc string
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_contains($startToken, '\'')) {
-=======
         if (false !== strpos($startToken, '\'')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_contains($startToken, '\'')) {
->>>>>>> f330c64 (optimization in progress)
             return $str;
         }
 

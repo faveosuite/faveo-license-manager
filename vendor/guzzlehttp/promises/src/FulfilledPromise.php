@@ -12,15 +12,6 @@ class FulfilledPromise implements PromiseInterface
 {
     private $value;
 
-<<<<<<< HEAD
-    /** @var Promise|null */
-    private $promise;
-
-    /** @var callable|null */
-    private $onFulfilled;
-
-=======
->>>>>>> 22c0e54 (table changes)
     public function __construct($value)
     {
         if (is_object($value) && method_exists($value, 'then')) {
@@ -41,16 +32,6 @@ class FulfilledPromise implements PromiseInterface
             return $this;
         }
 
-<<<<<<< HEAD
-        $this->onFulfilled = $onFulfilled;
-
-        $queue = Utils::queue();
-        $p = $this->promise = new Promise([$queue, 'run']);
-        $value = $this->value;
-        $queue->add(static function () use ($p, $value, $onFulfilled) {
-            if (Is::pending($p)) {
-                self::callHandler($p, $value, $onFulfilled);
-=======
         $queue = Utils::queue();
         $p = new Promise([$queue, 'run']);
         $value = $this->value;
@@ -63,7 +44,6 @@ class FulfilledPromise implements PromiseInterface
                 } catch (\Exception $e) {
                     $p->reject($e);
                 }
->>>>>>> 22c0e54 (table changes)
             }
         });
 
@@ -77,14 +57,6 @@ class FulfilledPromise implements PromiseInterface
 
     public function wait($unwrap = true, $defaultDelivery = null)
     {
-<<<<<<< HEAD
-        // Don't run the queue to avoid deadlocks, instead directly resolve the promise.
-        if ($this->promise && Is::pending($this->promise)) {
-            self::callHandler($this->promise, $this->value, $this->onFulfilled);
-        }
-
-=======
->>>>>>> 22c0e54 (table changes)
         return $unwrap ? $this->value : null;
     }
 
@@ -109,18 +81,4 @@ class FulfilledPromise implements PromiseInterface
     {
         // pass
     }
-<<<<<<< HEAD
-
-    private static function callHandler(Promise $promise, $value, callable $handler)
-    {
-        try {
-            $promise->resolve($handler($value));
-        } catch (\Throwable $e) {
-            $promise->reject($e);
-        } catch (\Exception $e) {
-            $promise->reject($e);
-        }
-    }
-=======
->>>>>>> 22c0e54 (table changes)
 }

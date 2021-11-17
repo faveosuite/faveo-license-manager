@@ -82,33 +82,7 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
      */
     public function broadcastAs()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $default = class_basename($this->model).ucfirst($this->event);
-
-        return method_exists($this->model, 'broadcastAs')
-                ? ($this->model->broadcastAs($this->event) ?: $default)
-                : $default;
-    }
-
-    /**
-     * Get the data that should be sent with the broadcasted event.
-     *
-     * @return array|null
-     */
-    public function broadcastWith()
-    {
-        return method_exists($this->model, 'broadcastWith')
-            ? $this->model->broadcastWith($this->event)
-            : null;
-<<<<<<< HEAD
-=======
         return class_basename($this->model).ucfirst($this->event);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -125,26 +99,6 @@ class BroadcastableModelEventOccurred implements ShouldBroadcast
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Determine if the event should be broadcast synchronously.
-     *
-     * @return bool
-     */
-    public function shouldBroadcastNow()
-    {
-        return $this->event === 'deleted' &&
-               ! method_exists($this->model, 'bootSoftDeletes');
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Get the event name.
      *
      * @return string

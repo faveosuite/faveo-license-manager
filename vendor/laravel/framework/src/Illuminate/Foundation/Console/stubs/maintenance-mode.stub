@@ -13,38 +13,6 @@ if (! isset($data['template'])) {
     return;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-// Allow framework to handle request if request URI is in the exclude list...
-if (isset($data['except'])) {
-    $uri = parse_url($_SERVER['REQUEST_URI'])['path'];
-
-    $uri = rawurldecode($uri !== '/' ? trim($uri, '/') : $uri);
-
-    foreach ((array) $data['except'] as $except) {
-        $except = $except !== '/' ? trim($except, '/') : $except;
-
-        if ($except == $uri) {
-            return;
-        }
-
-        $except = preg_quote($except, '#');
-
-        $except = str_replace('\*', '.*', $except);
-
-        if (preg_match('#^'.$except.'\z#u', $uri) === 1) {
-            return;
-        }
-    }
-}
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 // Allow framework to handle maintenance mode bypass route...
 if (isset($data['secret']) && $_SERVER['REQUEST_URI'] === '/'.$data['secret']) {
     return;
@@ -57,15 +25,7 @@ if (isset($_COOKIE['laravel_maintenance']) && isset($data['secret'])) {
     if (is_array($payload) &&
         is_numeric($payload['expires_at'] ?? null) &&
         isset($payload['mac']) &&
-<<<<<<< HEAD
-<<<<<<< HEAD
-        hash_equals(hash_hmac('sha256', $payload['expires_at'], $data['secret']), $payload['mac']) &&
-=======
         hash_equals(hash_hmac('SHA256', $payload['expires_at'], $data['secret']), $payload['mac']) &&
->>>>>>> 22c0e54 (table changes)
-=======
-        hash_equals(hash_hmac('sha256', $payload['expires_at'], $data['secret']), $payload['mac']) &&
->>>>>>> f330c64 (optimization in progress)
         (int) $payload['expires_at'] >= time()) {
         return;
     }

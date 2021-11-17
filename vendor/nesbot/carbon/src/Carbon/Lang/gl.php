@@ -41,15 +41,7 @@ return [
     's' => ':count seg.',
     'ago' => 'hai :time',
     'from_now' => function ($time) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_starts_with($time, 'un')) {
-=======
         if (substr($time, 0, 2) === 'un') {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_starts_with($time, 'un')) {
->>>>>>> f330c64 (optimization in progress)
             return "n$time";
         }
 

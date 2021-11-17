@@ -2,13 +2,7 @@
 
 namespace Facade\FlareClient\Context;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use BadMethodCallException;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;

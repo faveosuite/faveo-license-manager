@@ -41,15 +41,7 @@ class MoFileLoader extends FileLoader
      *
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected function loadResource(string $resource)
-=======
     protected function loadResource($resource)
->>>>>>> 22c0e54 (table changes)
-=======
-    protected function loadResource(string $resource)
->>>>>>> f330c64 (optimization in progress)
     {
         $stream = fopen($resource, 'r');
 
@@ -97,15 +89,7 @@ class MoFileLoader extends FileLoader
             fseek($stream, $offset);
             $singularId = fread($stream, $length);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (str_contains($singularId, "\000")) {
-=======
             if (false !== strpos($singularId, "\000")) {
->>>>>>> 22c0e54 (table changes)
-=======
-            if (str_contains($singularId, "\000")) {
->>>>>>> f330c64 (optimization in progress)
                 [$singularId, $pluralId] = explode("\000", $singularId);
             }
 
@@ -120,15 +104,7 @@ class MoFileLoader extends FileLoader
             fseek($stream, $offset);
             $translated = fread($stream, $length);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (str_contains($translated, "\000")) {
-=======
             if (false !== strpos($translated, "\000")) {
->>>>>>> 22c0e54 (table changes)
-=======
-            if (str_contains($translated, "\000")) {
->>>>>>> f330c64 (optimization in progress)
                 $translated = explode("\000", $translated);
             }
 

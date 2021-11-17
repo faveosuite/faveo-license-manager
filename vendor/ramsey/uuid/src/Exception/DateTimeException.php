@@ -19,14 +19,6 @@ use RuntimeException as PhpRuntimeException;
 /**
  * Thrown to indicate that the PHP DateTime extension encountered an exception/error
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class DateTimeException extends PhpRuntimeException implements UuidExceptionInterface
-=======
 class DateTimeException extends PhpRuntimeException
->>>>>>> 22c0e54 (table changes)
-=======
-class DateTimeException extends PhpRuntimeException implements UuidExceptionInterface
->>>>>>> f330c64 (optimization in progress)
 {
 }

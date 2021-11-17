@@ -146,14 +146,6 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
                 'bindingFields' => $route->bindingFields(),
                 'lockSeconds' => $route->locksFor(),
                 'waitSeconds' => $route->waitsFor(),
-<<<<<<< HEAD
-<<<<<<< HEAD
-                'withTrashed' => $route->allowsTrashedBindings(),
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-                'withTrashed' => $route->allowsTrashedBindings(),
->>>>>>> f330c64 (optimization in progress)
             ];
         }
 
@@ -245,14 +237,6 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
      *
      * @return \ArrayIterator
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return new ArrayIterator($this->getRoutes());
@@ -263,14 +247,6 @@ abstract class AbstractRouteCollection implements Countable, IteratorAggregate, 
      *
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return count($this->getRoutes());

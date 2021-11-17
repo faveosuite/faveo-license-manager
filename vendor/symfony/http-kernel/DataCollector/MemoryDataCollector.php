@@ -102,21 +102,9 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
 
         $memoryLimit = strtolower($memoryLimit);
         $max = strtolower(ltrim($memoryLimit, '+'));
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_starts_with($max, '0x')) {
-            $max = \intval($max, 16);
-        } elseif (str_starts_with($max, '0')) {
-=======
         if (0 === strpos($max, '0x')) {
             $max = \intval($max, 16);
         } elseif (0 === strpos($max, '0')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_starts_with($max, '0x')) {
-            $max = \intval($max, 16);
-        } elseif (str_starts_with($max, '0')) {
->>>>>>> f330c64 (optimization in progress)
             $max = \intval($max, 8);
         } else {
             $max = (int) $max;

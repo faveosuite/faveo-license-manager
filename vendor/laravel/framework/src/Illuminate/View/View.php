@@ -81,15 +81,7 @@ class View implements ArrayAccess, Htmlable, ViewContract
      * Get the string contents of the view.
      *
      * @param  callable|null  $callback
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return string
-=======
      * @return array|string
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return string
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws \Throwable
      */
@@ -314,14 +306,6 @@ class View implements ArrayAccess, Htmlable, ViewContract
      * @param  string  $key
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return array_key_exists($key, $this->data);
@@ -333,14 +317,6 @@ class View implements ArrayAccess, Htmlable, ViewContract
      * @param  string  $key
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return $this->data[$key];
@@ -353,14 +329,6 @@ class View implements ArrayAccess, Htmlable, ViewContract
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         $this->with($key, $value);
@@ -372,14 +340,6 @@ class View implements ArrayAccess, Htmlable, ViewContract
      * @param  string  $key
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         unset($this->data[$key]);

@@ -38,31 +38,6 @@ if (version_compare('7.3.0', PHP_VERSION, '>')) {
     die(1);
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-foreach (['dom', 'json', 'libxml', 'mbstring', 'tokenizer', 'xml', 'xmlwriter'] as $extension) {
-    if (extension_loaded($extension)) {
-        continue;
-    }
-
-    fwrite(
-        STDERR,
-        sprintf(
-            'PHPUnit requires the "%s" extension.' . PHP_EOL,
-            $extension
-        )
-    );
-
-    die(1);
-}
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 if (!ini_get('date.timezone')) {
     ini_set('date.timezone', 'UTC');
 }

@@ -100,15 +100,7 @@ class SymfonyQuestionHelper extends QuestionHelper
 
     private function getEofShortcut(): string
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ('Windows' === \PHP_OS_FAMILY) {
-=======
         if (false !== strpos(\PHP_OS, 'WIN')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if ('Windows' === \PHP_OS_FAMILY) {
->>>>>>> f330c64 (optimization in progress)
             return '<comment>Ctrl+Z</comment> then <comment>Enter</comment>';
         }
 

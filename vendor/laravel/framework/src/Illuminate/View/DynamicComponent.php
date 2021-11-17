@@ -120,15 +120,7 @@ EOF;
     protected function compileSlots(array $slots)
     {
         return collect($slots)->map(function ($slot, $name) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            return $name === '__default' ? null : '<x-slot name="'.$name.'" '.((string) $slot->attributes).'>{{ $'.$name.' }}</x-slot>';
-=======
             return $name === '__default' ? null : '<x-slot name="'.$name.'">{{ $'.$name.' }}</x-slot>';
->>>>>>> 22c0e54 (table changes)
-=======
-            return $name === '__default' ? null : '<x-slot name="'.$name.'" '.((string) $slot->attributes).'>{{ $'.$name.' }}</x-slot>';
->>>>>>> f330c64 (optimization in progress)
         })->filter()->implode(PHP_EOL);
     }
 

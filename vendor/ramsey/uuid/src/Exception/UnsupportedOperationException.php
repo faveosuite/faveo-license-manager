@@ -19,14 +19,6 @@ use LogicException as PhpLogicException;
 /**
  * Thrown to indicate that the requested operation is not supported
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class UnsupportedOperationException extends PhpLogicException implements UuidExceptionInterface
-=======
 class UnsupportedOperationException extends PhpLogicException
->>>>>>> 22c0e54 (table changes)
-=======
-class UnsupportedOperationException extends PhpLogicException implements UuidExceptionInterface
->>>>>>> f330c64 (optimization in progress)
 {
 }

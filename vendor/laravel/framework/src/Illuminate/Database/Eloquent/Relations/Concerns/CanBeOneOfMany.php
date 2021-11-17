@@ -102,19 +102,7 @@ trait CanBeOneOfMany
 
             if (isset($previous)) {
                 $this->addOneOfManyJoinSubQuery($subQuery, $previous['subQuery'], $previous['column']);
-<<<<<<< HEAD
-<<<<<<< HEAD
-            }
-
-            if (isset($closure)) {
-=======
             } elseif (isset($closure)) {
->>>>>>> 22c0e54 (table changes)
-=======
-            }
-
-            if (isset($closure)) {
->>>>>>> f330c64 (optimization in progress)
                 $closure($subQuery);
             }
 
@@ -134,12 +122,6 @@ trait CanBeOneOfMany
 
         $this->addConstraints();
 
-        $columns = $this->query->getQuery()->columns;
-
-        if (is_null($columns) || $columns === ['*']) {
-            $this->select([$this->qualifyColumn('*')]);
-        }
-
         return $this;
     }
 
@@ -155,15 +137,7 @@ trait CanBeOneOfMany
     {
         return $this->ofMany(collect(Arr::wrap($column))->mapWithKeys(function ($column) {
             return [$column => 'MAX'];
-<<<<<<< HEAD
-<<<<<<< HEAD
-        })->all(), 'MAX', $relation);
-=======
         })->all(), 'MAX', $relation ?: $this->guessRelationship());
->>>>>>> 22c0e54 (table changes)
-=======
-        })->all(), 'MAX', $relation);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -178,15 +152,7 @@ trait CanBeOneOfMany
     {
         return $this->ofMany(collect(Arr::wrap($column))->mapWithKeys(function ($column) {
             return [$column => 'MIN'];
-<<<<<<< HEAD
-<<<<<<< HEAD
-        })->all(), 'MIN', $relation);
-=======
         })->all(), 'MIN', $relation ?: $this->guessRelationship());
->>>>>>> 22c0e54 (table changes)
-=======
-        })->all(), 'MIN', $relation);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -213,32 +179,14 @@ trait CanBeOneOfMany
     protected function newOneOfManySubQuery($groupBy, $column = null, $aggregate = null)
     {
         $subQuery = $this->query->getModel()
-<<<<<<< HEAD
-<<<<<<< HEAD
-            ->newQuery()
-            ->withoutGlobalScopes($this->removedScopes());
-=======
             ->newQuery();
->>>>>>> 22c0e54 (table changes)
-=======
-            ->newQuery()
-            ->withoutGlobalScopes($this->removedScopes());
->>>>>>> f330c64 (optimization in progress)
 
         foreach (Arr::wrap($groupBy) as $group) {
             $subQuery->groupBy($this->qualifyRelatedColumn($group));
         }
 
         if (! is_null($column)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $subQuery->selectRaw($aggregate.'('.$subQuery->getQuery()->grammar->wrap($column).') as '.$subQuery->getQuery()->grammar->wrap($column.'_aggregate'));
-=======
             $subQuery->selectRaw($aggregate.'('.$column.') as '.$column);
->>>>>>> 22c0e54 (table changes)
-=======
-            $subQuery->selectRaw($aggregate.'('.$subQuery->getQuery()->grammar->wrap($column).') as '.$subQuery->getQuery()->grammar->wrap($column.'_aggregate'));
->>>>>>> f330c64 (optimization in progress)
         }
 
         $this->addOneOfManySubQueryConstraints($subQuery, $groupBy, $column, $aggregate);
@@ -260,15 +208,7 @@ trait CanBeOneOfMany
             $subQuery->applyBeforeQueryCallbacks();
 
             $parent->joinSub($subQuery, $this->relationName, function ($join) use ($on) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                $join->on($this->qualifySubSelectColumn($on.'_aggregate'), '=', $this->qualifyRelatedColumn($on));
-=======
                 $join->on($this->qualifySubSelectColumn($on), '=', $this->qualifyRelatedColumn($on));
->>>>>>> 22c0e54 (table changes)
-=======
-                $join->on($this->qualifySubSelectColumn($on.'_aggregate'), '=', $this->qualifyRelatedColumn($on));
->>>>>>> f330c64 (optimization in progress)
 
                 $this->addOneOfManyJoinSubQueryConstraints($join, $on);
             });

@@ -12,14 +12,8 @@ use Illuminate\Database\Eloquent\Builder as EloquentBuilder;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Database\Query\Grammars\Grammar;
 use Illuminate\Database\Query\Processors\Processor;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Illuminate\Pagination\CursorPaginationException;
 use Illuminate\Pagination\CursorPaginator;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
@@ -28,14 +22,6 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use Illuminate\Support\Traits\Macroable;
 use InvalidArgumentException;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use LogicException;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use LogicException;
->>>>>>> f330c64 (optimization in progress)
 use RuntimeException;
 
 class Builder
@@ -211,15 +197,7 @@ class Builder
     public $operators = [
         '=', '<', '>', '<=', '>=', '<>', '!=', '<=>',
         'like', 'like binary', 'not like', 'ilike',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        '&', '|', '^', '<<', '>>', '&~',
-=======
         '&', '|', '^', '<<', '>>',
->>>>>>> 22c0e54 (table changes)
-=======
-        '&', '|', '^', '<<', '>>', '&~',
->>>>>>> f330c64 (optimization in progress)
         'rlike', 'not rlike', 'regexp', 'not regexp',
         '~', '~*', '!~', '!~*', 'similar to',
         'not similar to', 'not ilike', '~~*', '!~~*',
@@ -431,14 +409,6 @@ class Builder
     /**
      * Force the query to only return distinct results.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  mixed  ...$distinct
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  mixed  ...$distinct
->>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function distinct()
@@ -1991,15 +1961,7 @@ class Builder
     /**
      * Add an "order by" clause to the query.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
-=======
      * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
->>>>>>> f330c64 (optimization in progress)
      * @param  string  $direction
      * @return $this
      *
@@ -2032,15 +1994,7 @@ class Builder
     /**
      * Add a descending "order by" clause to the query.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
-=======
      * @param  string  $column
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
->>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function orderByDesc($column)
@@ -2051,15 +2005,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
-=======
      * @param  string  $column
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
->>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function latest($column = 'created_at')
@@ -2070,15 +2016,7 @@ class Builder
     /**
      * Add an "order by" clause for a timestamp to the query.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
-=======
      * @param  string  $column
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Closure|\Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string  $column
->>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function oldest($column = 'created_at')
@@ -2224,15 +2162,7 @@ class Builder
     /**
      * Remove all existing orders and optionally add a new order.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string|null  $column
-=======
      * @param  string|null  $column
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Closure|\Illuminate\Database\Query\Builder|\Illuminate\Database\Query\Expression|string|null  $column
->>>>>>> f330c64 (optimization in progress)
      * @param  string  $direction
      * @return $this
      */
@@ -2476,24 +2406,12 @@ class Builder
      * @param  int|null  $perPage
      * @param  array  $columns
      * @param  string  $cursorName
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Illuminate\Pagination\Cursor|string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
-     */
-    public function cursorPaginate($perPage = 15, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
-    {
-        return $this->paginateUsingCursor($perPage, $columns, $cursorName, $cursor);
-=======
      * @param  string|null  $cursor
-=======
-     * @param  \Illuminate\Pagination\Cursor|string|null  $cursor
->>>>>>> f330c64 (optimization in progress)
      * @return \Illuminate\Contracts\Pagination\CursorPaginator
+     * @throws \Illuminate\Pagination\CursorPaginationException
      */
     public function cursorPaginate($perPage = 15, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
     {
-<<<<<<< HEAD
         $cursor = $cursor ?: CursorPaginator::resolveCurrentCursor($cursorName);
 
         $orders = $this->ensureOrderForCursorPagination(! is_null($cursor) && $cursor->pointsToPreviousItems());
@@ -2519,10 +2437,6 @@ class Builder
             'cursorName' => $cursorName,
             'parameters' => $parameters,
         ]);
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->paginateUsingCursor($perPage, $columns, $cursorName, $cursor);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -2530,30 +2444,18 @@ class Builder
      *
      * @param  bool  $shouldReverse
      * @return \Illuminate\Support\Collection
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
      * @throws \Illuminate\Pagination\CursorPaginationException
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      */
     protected function ensureOrderForCursorPagination($shouldReverse = false)
     {
         $this->enforceOrderBy();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         $orderDirections = collect($this->orders)->pluck('direction')->unique();
 
         if ($orderDirections->count() > 1) {
             throw new CursorPaginationException('Only a single order by direction is supported when using cursor pagination.');
         }
 
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         if ($shouldReverse) {
             $this->orders = collect($this->orders)->map(function ($order) {
                 $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
@@ -3132,36 +3034,6 @@ class Builder
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Update records in a PostgreSQL database using the update from syntax.
-     *
-     * @param  array  $values
-     * @return int
-     */
-    public function updateFrom(array $values)
-    {
-        if (! method_exists($this->grammar, 'compileUpdateFrom')) {
-            throw new LogicException('This database engine does not support the updateFrom method.');
-        }
-
-        $this->applyBeforeQueryCallbacks();
-
-        $sql = $this->grammar->compileUpdateFrom($this, $values);
-
-        return $this->connection->update($sql, $this->cleanBindings(
-            $this->grammar->prepareBindingsForUpdateFrom($this->bindings, $values)
-        ));
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Insert or update a record matching the attributes, and fill it with values.
      *
      * @param  array  $attributes
@@ -3563,15 +3435,7 @@ class Builder
     /**
      * Die and dump the current SQL and bindings.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return never
-=======
      * @return void
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return never
->>>>>>> f330c64 (optimization in progress)
      */
     public function dd()
     {

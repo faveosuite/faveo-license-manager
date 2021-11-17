@@ -10,14 +10,6 @@ use ArrayAccess;
 use ArrayIterator;
 use Countable;
 use IteratorAggregate;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use ReturnTypeWillChange;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use ReturnTypeWillChange;
->>>>>>> f330c64 (optimization in progress)
 use Serializable;
 use UnexpectedValueException;
 
@@ -97,14 +89,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see IteratorAggregate::getIterator
      * @return ArrayIterator
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return new ArrayIterator($this->frames);
@@ -114,14 +98,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see ArrayAccess::offsetExists
      * @param int $offset
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return isset($this->frames[$offset]);
@@ -131,14 +107,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see ArrayAccess::offsetGet
      * @param int $offset
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->frames[$offset];
@@ -148,14 +116,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see ArrayAccess::offsetSet
      * @param int $offset
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         throw new \Exception(__CLASS__ . ' is read only');
@@ -165,14 +125,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see ArrayAccess::offsetUnset
      * @param int $offset
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         throw new \Exception(__CLASS__ . ' is read only');
@@ -182,14 +134,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see Countable::count
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return count($this->frames);
@@ -211,14 +155,6 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see Serializable::serialize
      * @return string
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function serialize()
     {
         return serialize($this->frames);
@@ -228,38 +164,11 @@ class FrameCollection implements ArrayAccess, IteratorAggregate, Serializable, C
      * @see Serializable::unserialize
      * @param string $serializedFrames
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function unserialize($serializedFrames)
     {
         $this->frames = unserialize($serializedFrames);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    public function __serialize()
-    {
-        return $this->frames;
-    }
-
-    public function __unserialize(array $serializedFrames)
-    {
-        $this->frames = $serializedFrames;
-    }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     /**
      * @param Frame[] $frames Array of Frame instances, usually from $e->getPrevious()
      */

@@ -134,14 +134,6 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
         }
 
         $this->assertValidLocale($locale);
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $locale ?: $locale = class_exists(\Locale::class) ? \Locale::getDefault() : 'en';
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $locale ?: $locale = class_exists(\Locale::class) ? \Locale::getDefault() : 'en';
->>>>>>> f330c64 (optimization in progress)
 
         $this->resources[$locale][] = [$format, $resource, $domain];
 
@@ -158,15 +150,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
     public function setLocale(string $locale)
     {
         $this->assertValidLocale($locale);
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->locale = $locale;
-=======
         $this->locale = $locale ?? (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->locale = $locale;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -174,28 +158,14 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
      */
     public function getLocale()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->locale ?: (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
-=======
         return $this->locale;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->locale ?: (class_exists(\Locale::class) ? \Locale::getDefault() : 'en');
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
      * Sets the fallback locales.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
      * @param array $locales The fallback locales
      *
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * @throws InvalidArgumentException If a locale contains invalid characters
      */
     public function setFallbackLocales(array $locales)
@@ -260,15 +230,7 @@ class Translator implements TranslatorInterface, TranslatorBagInterface, LocaleA
      */
     public function getCatalogue(string $locale = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!$locale) {
-=======
         if (null === $locale) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (!$locale) {
->>>>>>> f330c64 (optimization in progress)
             $locale = $this->getLocale();
         } else {
             $this->assertValidLocale($locale);
@@ -450,11 +412,6 @@ EOF
             $this->parentLocales = json_decode(file_get_contents(__DIR__.'/Resources/data/parents.json'), true);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $originLocale = $locale;
-        $locales = [];
-=======
         $locales = [];
         foreach ($this->fallbackLocales as $fallback) {
             if ($fallback === $locale) {
@@ -463,11 +420,6 @@ EOF
 
             $locales[] = $fallback;
         }
->>>>>>> 22c0e54 (table changes)
-=======
-        $originLocale = $locale;
-        $locales = [];
->>>>>>> f330c64 (optimization in progress)
 
         while ($locale) {
             $parent = $this->parentLocales[$locale] ?? null;
@@ -488,40 +440,10 @@ EOF
             }
 
             if (null !== $locale) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                $locales[] = $locale;
-            }
-        }
-
-        foreach ($this->fallbackLocales as $fallback) {
-            if ($fallback === $originLocale) {
-                continue;
-            }
-
-            $locales[] = $fallback;
-        }
-
-=======
                 array_unshift($locales, $locale);
             }
         }
 
->>>>>>> 22c0e54 (table changes)
-=======
-                $locales[] = $locale;
-            }
-        }
-
-        foreach ($this->fallbackLocales as $fallback) {
-            if ($fallback === $originLocale) {
-                continue;
-            }
-
-            $locales[] = $fallback;
-        }
-
->>>>>>> f330c64 (optimization in progress)
         return array_unique($locales);
     }
 
@@ -532,15 +454,7 @@ EOF
      */
     protected function assertValidLocale(string $locale)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!preg_match('/^[a-z0-9@_\\.\\-]*$/i', (string) $locale)) {
-=======
         if (null !== $locale && 1 !== preg_match('/^[a-z0-9@_\\.\\-]*$/i', $locale)) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (!preg_match('/^[a-z0-9@_\\.\\-]*$/i', (string) $locale)) {
->>>>>>> f330c64 (optimization in progress)
             throw new InvalidArgumentException(sprintf('Invalid "%s" locale.', $locale));
         }
     }

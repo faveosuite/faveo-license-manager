@@ -22,18 +22,8 @@ use Ramsey\Collection\Exception\NoSuchElementException;
  * minimize the effort required to implement this interface.
  *
  * @template T
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @extends Queue<T>
- * @implements DoubleEndedQueueInterface<T>
-=======
  * @template-extends Queue<T>
  * @template-implements DoubleEndedQueueInterface<T>
->>>>>>> 22c0e54 (table changes)
-=======
- * @extends Queue<T>
- * @implements DoubleEndedQueueInterface<T>
->>>>>>> f330c64 (optimization in progress)
  */
 class DoubleEndedQueue extends Queue implements DoubleEndedQueueInterface
 {

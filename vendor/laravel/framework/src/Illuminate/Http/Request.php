@@ -134,32 +134,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Get the full URL for the request without the given query string parameters.
-     *
-     * @param  array|string  $query
-     * @return string
-     */
-    public function fullUrlWithoutQuery($keys)
-    {
-        $query = Arr::except($this->query(), $keys);
-
-        $question = $this->getBaseUrl().$this->getPathInfo() === '/' ? '/?' : '?';
-
-        return count($query) > 0
-            ? $this->url().$question.Arr::query($query)
-            : $this->url();
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Get the current path info for the request.
      *
      * @return string
@@ -465,16 +439,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return static
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return static
->>>>>>> f330c64 (optimization in progress)
      */
     public function duplicate(array $query = null, array $request = null, array $attributes = null, array $cookies = null, array $files = null, array $server = null)
     {
@@ -670,14 +634,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * @param  string  $offset
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return Arr::has(
@@ -692,14 +648,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * @param  string  $offset
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->__get($offset);
@@ -712,14 +660,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         $this->getInputSource()->set($offset, $value);
@@ -731,14 +671,6 @@ class Request extends SymfonyRequest implements Arrayable, ArrayAccess
      * @param  string  $offset
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         $this->getInputSource()->remove($offset);

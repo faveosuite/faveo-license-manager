@@ -30,15 +30,7 @@ abstract class AbstractProcessingHandler extends AbstractHandler implements Proc
     use FormattableHandlerTrait;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function handle(array $record): bool
     {

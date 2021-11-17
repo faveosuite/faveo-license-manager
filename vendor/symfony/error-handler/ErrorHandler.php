@@ -202,15 +202,7 @@ class ErrorHandler
      * Sets a logger to non assigned errors levels.
      *
      * @param LoggerInterface $logger  A PSR-3 logger to put as default for the given levels
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param array|int|null  $levels  An array map of E_* to LogLevel::* or an integer bit field of E_* constants
-=======
      * @param array|int       $levels  An array map of E_* to LogLevel::* or an integer bit field of E_* constants
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param array|int|null  $levels  An array map of E_* to LogLevel::* or an integer bit field of E_* constants
->>>>>>> f330c64 (optimization in progress)
      * @param bool            $replace Whether to replace or not any existing logger
      */
     public function setDefaultLogger(LoggerInterface $logger, $levels = \E_ALL, bool $replace = false): void

@@ -64,14 +64,6 @@ trait DelegatesToResource
      * @param  mixed  $offset
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return isset($this->resource[$offset]);
@@ -83,14 +75,6 @@ trait DelegatesToResource
      * @param  mixed  $offset
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->resource[$offset];
@@ -103,14 +87,6 @@ trait DelegatesToResource
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         $this->resource[$offset] = $value;
@@ -122,14 +98,6 @@ trait DelegatesToResource
      * @param  mixed  $offset
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         unset($this->resource[$offset]);

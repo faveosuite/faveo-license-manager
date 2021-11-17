@@ -99,15 +99,7 @@ abstract class Calculator
      * @param string $a The first operand.
      * @param string $b The second operand.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return array{bool, bool, string, string} Whether $a and $b are negative, followed by their digits.
-=======
      * @return array{0: bool, 1: bool, 2: string, 3: string} Whether $a and $b are negative, followed by their digits.
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return array{bool, bool, string, string} Whether $a and $b are negative, followed by their digits.
->>>>>>> f330c64 (optimization in progress)
      */
     final protected function init(string $a, string $b) : array
     {
@@ -685,15 +677,9 @@ abstract class Calculator
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
      * @psalm-suppress InvalidOperand
      * @see https://github.com/vimeo/psalm/issues/4456
      *
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * @param string $number A positive, binary number.
      *
      * @return string

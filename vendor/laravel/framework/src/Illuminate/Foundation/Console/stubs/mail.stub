@@ -1,29 +1,13 @@
 <?php
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-namespace {{ namespace }};
-=======
 namespace DummyNamespace;
->>>>>>> 22c0e54 (table changes)
-=======
-namespace {{ namespace }};
->>>>>>> f330c64 (optimization in progress)
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-class {{ class }} extends Mailable
-=======
 class DummyClass extends Mailable
->>>>>>> 22c0e54 (table changes)
-=======
-class {{ class }} extends Mailable
->>>>>>> f330c64 (optimization in progress)
 {
     use Queueable, SerializesModels;
 

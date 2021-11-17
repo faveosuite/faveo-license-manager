@@ -5,14 +5,6 @@ namespace Illuminate\Foundation\Testing\Concerns;
 use Illuminate\Support\Facades\View as ViewFacade;
 use Illuminate\Support\MessageBag;
 use Illuminate\Support\ViewErrorBag;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Illuminate\Testing\TestComponent;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use Illuminate\Testing\TestComponent;
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Testing\TestView;
 use Illuminate\View\View;
 
@@ -59,15 +51,7 @@ trait InteractsWithViews
      *
      * @param  string  $componentClass
      * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return \Illuminate\Testing\TestComponent
-=======
      * @return \Illuminate\Testing\TestView
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return \Illuminate\Testing\TestComponent
->>>>>>> f330c64 (optimization in progress)
      */
     protected function component(string $componentClass, array $data = [])
     {
@@ -75,23 +59,9 @@ trait InteractsWithViews
 
         $view = value($component->resolveView(), $data);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $view = $view instanceof View
-            ? $view->with($component->data())
-            : view($view, $component->data());
-
-        return new TestComponent($component, $view);
-<<<<<<< HEAD
-=======
         return $view instanceof View
                 ? new TestView($view->with($component->data()))
                 : new TestView(view($view, $component->data()));
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

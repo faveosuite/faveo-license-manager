@@ -50,27 +50,11 @@ class HtmlErrorRenderer implements ErrorRendererInterface
     public function __construct($debug = false, string $charset = null, $fileLinkFormat = null, string $projectDir = null, $outputBuffer = '', LoggerInterface $logger = null)
     {
         if (!\is_bool($debug) && !\is_callable($debug)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, \gettype($debug)));
-        }
-
-        if (!\is_string($outputBuffer) && !\is_callable($outputBuffer)) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be a string or a callable, "%s" given.', __METHOD__, \gettype($outputBuffer)));
-=======
             throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, get_debug_type($debug)));
         }
 
         if (!\is_string($outputBuffer) && !\is_callable($outputBuffer)) {
             throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be a string or a callable, "%s" given.', __METHOD__, get_debug_type($outputBuffer)));
->>>>>>> 22c0e54 (table changes)
-=======
-            throw new \TypeError(sprintf('Argument 1 passed to "%s()" must be a boolean or a callable, "%s" given.', __METHOD__, \gettype($debug)));
-        }
-
-        if (!\is_string($outputBuffer) && !\is_callable($outputBuffer)) {
-            throw new \TypeError(sprintf('Argument 5 passed to "%s()" must be a string or a callable, "%s" given.', __METHOD__, \gettype($outputBuffer)));
->>>>>>> f330c64 (optimization in progress)
         }
 
         $this->debug = $debug;

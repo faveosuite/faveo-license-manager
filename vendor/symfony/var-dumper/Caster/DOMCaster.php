@@ -82,15 +82,7 @@ class DOMCaster
         return $a;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function castImplementation(\DOMImplementation $dom, array $a, Stub $stub, bool $isNested)
-=======
     public static function castImplementation($dom, array $a, Stub $stub, bool $isNested)
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function castImplementation(\DOMImplementation $dom, array $a, Stub $stub, bool $isNested)
->>>>>>> f330c64 (optimization in progress)
     {
         $a += [
             Caster::PREFIX_VIRTUAL.'Core' => '1.0',

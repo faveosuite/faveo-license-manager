@@ -241,11 +241,7 @@ class AuthorizationServer implements EmitterAwareInterface
     }
 
     /**
-<<<<<<< HEAD
-     * Sets whether to revoke refresh tokens or not (for all grant types).
-=======
      * Sets wether to revoke refresh tokens or not (for all grant types).
->>>>>>> 22c0e54 (table changes)
      *
      * @param bool $revokeRefreshTokens
      */

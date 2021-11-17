@@ -19,14 +19,6 @@ use RuntimeException as PhpRuntimeException;
 /**
  * Thrown to indicate that attempting to fetch or create a node ID encountered an error
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class NodeException extends PhpRuntimeException implements UuidExceptionInterface
-=======
 class NodeException extends PhpRuntimeException
->>>>>>> 22c0e54 (table changes)
-=======
-class NodeException extends PhpRuntimeException implements UuidExceptionInterface
->>>>>>> f330c64 (optimization in progress)
 {
 }

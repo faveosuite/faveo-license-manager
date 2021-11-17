@@ -29,15 +29,7 @@ class TestCommand extends Command
      */
     protected $signature = 'test
         {--without-tty : Disable output to TTY}
-<<<<<<< HEAD
-<<<<<<< HEAD
-        {--p|parallel : Indicates if the tests should run in parallel}
-=======
         {--parallel : Indicates if the tests should run in parallel}
->>>>>>> 22c0e54 (table changes)
-=======
-        {--p|parallel : Indicates if the tests should run in parallel}
->>>>>>> f330c64 (optimization in progress)
         {--recreate-databases : Indicates if the test databases should be re-created}
     ';
 
@@ -128,23 +120,6 @@ class TestCommand extends Command
      */
     protected function binary()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (class_exists(\Pest\Laravel\PestServiceProvider::class)) {
-            $command = $this->option('parallel') ? ['vendor/pestphp/pest/bin/pest', '--parallel'] : ['vendor/pestphp/pest/bin/pest'];
-        } else {
-            $command = $this->option('parallel') ? ['vendor/brianium/paratest/bin/paratest'] : ['vendor/phpunit/phpunit/phpunit'];
-<<<<<<< HEAD
-        }
-
-        if ('phpdbg' === PHP_SAPI) {
-            return array_merge([PHP_BINARY, '-qrr'], $command);
-        }
-
-        return array_merge([PHP_BINARY], $command);
-=======
         switch (true) {
             case $this->option('parallel'):
                 $command = 'vendor/brianium/paratest/bin/paratest';
@@ -155,20 +130,13 @@ class TestCommand extends Command
             default:
                 $command = 'vendor/phpunit/phpunit/phpunit';
                 break;
-=======
->>>>>>> f330c64 (optimization in progress)
         }
 
         if ('phpdbg' === PHP_SAPI) {
-            return array_merge([PHP_BINARY, '-qrr'], $command);
+            return [PHP_BINARY, '-qrr', $command];
         }
 
-<<<<<<< HEAD
         return [PHP_BINARY, $command];
->>>>>>> 22c0e54 (table changes)
-=======
-        return array_merge([PHP_BINARY], $command);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -204,14 +172,6 @@ class TestCommand extends Command
     {
         $options = array_values(array_filter($options, function ($option) {
             return !Str::startsWith($option, '--env=')
-<<<<<<< HEAD
-<<<<<<< HEAD
-                && !Str::startsWith($option, '-p')
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-                && !Str::startsWith($option, '-p')
->>>>>>> f330c64 (optimization in progress)
                 && !Str::startsWith($option, '--parallel')
                 && !Str::startsWith($option, '--recreate-databases');
         }));

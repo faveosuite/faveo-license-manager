@@ -58,15 +58,7 @@ abstract class SchemaState
         $this->files = $files ?: new Filesystem;
 
         $this->processFactory = $processFactory ?: function (...$arguments) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            return Process::fromShellCommandline(...$arguments)->setTimeout(null);
-=======
             return Process::fromShellCommandline(...$arguments);
->>>>>>> 22c0e54 (table changes)
-=======
-            return Process::fromShellCommandline(...$arguments)->setTimeout(null);
->>>>>>> f330c64 (optimization in progress)
         };
 
         $this->handleOutputUsing(function () {

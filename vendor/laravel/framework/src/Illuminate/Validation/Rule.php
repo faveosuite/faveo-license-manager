@@ -16,28 +16,6 @@ class Rule
     use Macroable;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Create a new conditional rule set.
-     *
-     * @param  callable|bool  $condition
-     * @param  array|string  $rules
-     * @param  array|string  $defaultRules
-     * @return \Illuminate\Validation\ConditionalRules
-     */
-    public static function when($condition, $rules, $defaultRules = [])
-    {
-        return new ConditionalRules($condition, $rules, $defaultRules);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Get a dimensions constraint builder instance.
      *
      * @param  array  $constraints

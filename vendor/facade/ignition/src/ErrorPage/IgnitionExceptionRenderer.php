@@ -4,14 +4,6 @@ namespace Facade\Ignition\ErrorPage;
 
 use Illuminate\Contracts\Foundation\ExceptionRenderer;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-/** @psalm-suppress UndefinedClass */
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-/** @psalm-suppress UndefinedClass */
->>>>>>> f330c64 (optimization in progress)
 class IgnitionExceptionRenderer implements ExceptionRenderer
 {
     /** @var \Facade\Ignition\ErrorPage\ErrorPageHandler */
