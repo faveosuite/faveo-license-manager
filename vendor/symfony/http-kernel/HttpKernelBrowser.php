@@ -54,19 +54,7 @@ class HttpKernelBrowser extends AbstractBrowser
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritdoc}
-     *
-     * @param Request $request
-=======
      * Makes a request.
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritdoc}
-     *
-     * @param Request $request
->>>>>>> f330c64 (optimization in progress)
      *
      * @return Response A Response instance
      */
@@ -82,19 +70,7 @@ class HttpKernelBrowser extends AbstractBrowser
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritdoc}
-     *
-     * @param Request $request
-=======
      * Returns the script to execute when the request must be insulated.
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritdoc}
-     *
-     * @param Request $request
->>>>>>> f330c64 (optimization in progress)
      *
      * @return string
      */
@@ -148,15 +124,7 @@ EOF;
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritdoc}
-=======
      * Converts the BrowserKit request to a HttpKernel request.
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritdoc}
->>>>>>> f330c64 (optimization in progress)
      *
      * @return Request A Request instance
      */
@@ -218,19 +186,7 @@ EOF;
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritdoc}
-     *
-     * @param Request $request
-=======
      * Converts the HttpKernel response to a BrowserKit response.
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritdoc}
-     *
-     * @param Request $request
->>>>>>> f330c64 (optimization in progress)
      *
      * @return DomResponse A DomResponse instance
      */

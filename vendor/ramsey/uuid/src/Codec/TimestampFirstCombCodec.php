@@ -76,14 +76,6 @@ class TimestampFirstCombCodec extends StringCodec
      */
     public function encodeBinary(UuidInterface $uuid): string
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
->>>>>>> f330c64 (optimization in progress)
         return $this->swapBytes($uuid->getFields()->getBytes());
     }
 

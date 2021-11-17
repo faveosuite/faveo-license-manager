@@ -22,21 +22,9 @@ final class Selector
      * @throws NoCodeCoverageDriverAvailableException
      * @throws PcovNotAvailableException
      * @throws PhpdbgNotAvailableException
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @throws Xdebug2NotEnabledException
-     * @throws Xdebug3NotEnabledException
-     * @throws XdebugNotAvailableException
-=======
      * @throws XdebugNotAvailableException
      * @throws Xdebug2NotEnabledException
      * @throws Xdebug3NotEnabledException
->>>>>>> 22c0e54 (table changes)
-=======
-     * @throws Xdebug2NotEnabledException
-     * @throws Xdebug3NotEnabledException
-     * @throws XdebugNotAvailableException
->>>>>>> f330c64 (optimization in progress)
      */
     public function forLineCoverage(Filter $filter): Driver
     {
@@ -67,21 +55,9 @@ final class Selector
 
     /**
      * @throws NoCodeCoverageDriverWithPathCoverageSupportAvailableException
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @throws Xdebug2NotEnabledException
-     * @throws Xdebug3NotEnabledException
-     * @throws XdebugNotAvailableException
-=======
      * @throws XdebugNotAvailableException
      * @throws Xdebug2NotEnabledException
      * @throws Xdebug3NotEnabledException
->>>>>>> 22c0e54 (table changes)
-=======
-     * @throws Xdebug2NotEnabledException
-     * @throws Xdebug3NotEnabledException
-     * @throws XdebugNotAvailableException
->>>>>>> f330c64 (optimization in progress)
      */
     public function forLineAndPathCoverage(Filter $filter): Driver
     {

@@ -45,17 +45,9 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     public function assertSent($mailable, $callback = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-=======
         if ($mailable instanceof Closure) {
             [$mailable, $callback] = [$this->firstClosureParameterType($mailable), $mailable];
         }
->>>>>>> 22c0e54 (table changes)
-=======
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
->>>>>>> f330c64 (optimization in progress)
 
         if (is_numeric($callback)) {
             return $this->assertSentTimes($mailable, $callback);
@@ -91,52 +83,14 @@ class MailFake implements Factory, Mailer, MailQueue
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Determine if a mailable was not sent or queued to be sent based on a truth-test callback.
-     *
-     * @param  string|\Closure  $mailable
-     * @param  callable|null  $callback
-     * @return void
-     */
-    public function assertNotOutgoing($mailable, $callback = null)
-    {
-        $this->assertNotSent($mailable, $callback);
-        $this->assertNotQueued($mailable, $callback);
-    }
-
-    /**
-<<<<<<< HEAD
-     * Determine if a mailable was not sent based on a truth-test callback.
-     *
-     * @param  string|\Closure  $mailable
-=======
      * Determine if a mailable was not sent based on a truth-test callback.
      *
      * @param  string  $mailable
->>>>>>> 22c0e54 (table changes)
-=======
-     * Determine if a mailable was not sent based on a truth-test callback.
-     *
-     * @param  string|\Closure  $mailable
->>>>>>> f330c64 (optimization in progress)
      * @param  callable|null  $callback
      * @return void
      */
     public function assertNotSent($mailable, $callback = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
->>>>>>> f330c64 (optimization in progress)
         PHPUnit::assertCount(
             0, $this->sent($mailable, $callback),
             "The unexpected [{$mailable}] mailable was sent."
@@ -144,26 +98,6 @@ class MailFake implements Factory, Mailer, MailQueue
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Assert that no mailables were sent or queued to be sent.
-     *
-     * @return void
-     */
-    public function assertNothingOutgoing()
-    {
-        $this->assertNothingSent();
-        $this->assertNothingQueued();
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Assert that no mailables were sent.
      *
      * @return void
@@ -186,17 +120,9 @@ class MailFake implements Factory, Mailer, MailQueue
      */
     public function assertQueued($mailable, $callback = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-=======
         if ($mailable instanceof Closure) {
             [$mailable, $callback] = [$this->firstClosureParameterType($mailable), $mailable];
         }
->>>>>>> 22c0e54 (table changes)
-=======
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
->>>>>>> f330c64 (optimization in progress)
 
         if (is_numeric($callback)) {
             return $this->assertQueuedTimes($mailable, $callback);
@@ -228,30 +154,12 @@ class MailFake implements Factory, Mailer, MailQueue
     /**
      * Determine if a mailable was not queued based on a truth-test callback.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  string|\Closure  $mailable
-=======
      * @param  string  $mailable
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  string|\Closure  $mailable
->>>>>>> f330c64 (optimization in progress)
      * @param  callable|null  $callback
      * @return void
      */
     public function assertNotQueued($mailable, $callback = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
->>>>>>> f330c64 (optimization in progress)
         PHPUnit::assertCount(
             0, $this->queued($mailable, $callback),
             "The unexpected [{$mailable}] mailable was queued."
@@ -275,30 +183,12 @@ class MailFake implements Factory, Mailer, MailQueue
     /**
      * Get all of the mailables matching a truth-test callback.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  string|\Closure  $mailable
-=======
      * @param  string  $mailable
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  string|\Closure  $mailable
->>>>>>> f330c64 (optimization in progress)
      * @param  callable|null  $callback
      * @return \Illuminate\Support\Collection
      */
     public function sent($mailable, $callback = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
->>>>>>> f330c64 (optimization in progress)
         if (! $this->hasSent($mailable)) {
             return collect();
         }
@@ -326,30 +216,12 @@ class MailFake implements Factory, Mailer, MailQueue
     /**
      * Get all of the queued mailables matching a truth-test callback.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  string|\Closure  $mailable
-=======
      * @param  string  $mailable
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  string|\Closure  $mailable
->>>>>>> f330c64 (optimization in progress)
      * @param  callable|null  $callback
      * @return \Illuminate\Support\Collection
      */
     public function queued($mailable, $callback = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        [$mailable, $callback] = $this->prepareMailableAndCallback($mailable, $callback);
-
->>>>>>> f330c64 (optimization in progress)
         if (! $this->hasQueued($mailable)) {
             return collect();
         }
@@ -514,29 +386,4 @@ class MailFake implements Factory, Mailer, MailQueue
     {
         return [];
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-    /**
-     * Infer mailable class using reflection if a typehinted closure is passed to assertion.
-     *
-     * @param  string|\Closure  $mailable
-     * @param  callable|null  $callback
-     * @return array
-     */
-    protected function prepareMailableAndCallback($mailable, $callback)
-    {
-        if ($mailable instanceof Closure) {
-            return [$this->firstClosureParameterType($mailable), $mailable];
-        }
-
-        return [$mailable, $callback];
-    }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 }

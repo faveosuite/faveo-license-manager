@@ -248,18 +248,8 @@ final class TestRunner extends BaseTestRunner
 
         unset($listener, $listenerNeeded);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($arguments['convertDeprecationsToExceptions']) {
-            $result->convertDeprecationsToExceptions(true);
-=======
         if (!$arguments['convertDeprecationsToExceptions']) {
             $result->convertDeprecationsToExceptions(false);
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($arguments['convertDeprecationsToExceptions']) {
-            $result->convertDeprecationsToExceptions(true);
->>>>>>> f330c64 (optimization in progress)
         }
 
         if (!$arguments['convertErrorsToExceptions']) {
@@ -1111,15 +1101,7 @@ final class TestRunner extends BaseTestRunner
         $arguments['cacheResult']                                     = $arguments['cacheResult'] ?? true;
         $arguments['colors']                                          = $arguments['colors'] ?? DefaultResultPrinter::COLOR_DEFAULT;
         $arguments['columns']                                         = $arguments['columns'] ?? 80;
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $arguments['convertDeprecationsToExceptions']                 = $arguments['convertDeprecationsToExceptions'] ?? false;
-=======
         $arguments['convertDeprecationsToExceptions']                 = $arguments['convertDeprecationsToExceptions'] ?? true;
->>>>>>> 22c0e54 (table changes)
-=======
-        $arguments['convertDeprecationsToExceptions']                 = $arguments['convertDeprecationsToExceptions'] ?? false;
->>>>>>> f330c64 (optimization in progress)
         $arguments['convertErrorsToExceptions']                       = $arguments['convertErrorsToExceptions'] ?? true;
         $arguments['convertNoticesToExceptions']                      = $arguments['convertNoticesToExceptions'] ?? true;
         $arguments['convertWarningsToExceptions']                     = $arguments['convertWarningsToExceptions'] ?? true;
@@ -1192,17 +1174,7 @@ final class TestRunner extends BaseTestRunner
             $filterFactory->addFilter(
                 new ReflectionClass(IncludeGroupFilterIterator::class),
                 array_map(
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    static function (string $name): string
-                    {
-=======
                     static function (string $name): string {
->>>>>>> 22c0e54 (table changes)
-=======
-                    static function (string $name): string
-                    {
->>>>>>> f330c64 (optimization in progress)
                         return '__phpunit_covers_' . $name;
                     },
                     $arguments['testsCovering']
@@ -1214,17 +1186,7 @@ final class TestRunner extends BaseTestRunner
             $filterFactory->addFilter(
                 new ReflectionClass(IncludeGroupFilterIterator::class),
                 array_map(
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    static function (string $name): string
-                    {
-=======
                     static function (string $name): string {
->>>>>>> 22c0e54 (table changes)
-=======
-                    static function (string $name): string
-                    {
->>>>>>> f330c64 (optimization in progress)
                         return '__phpunit_uses_' . $name;
                     },
                     $arguments['testsUsing']

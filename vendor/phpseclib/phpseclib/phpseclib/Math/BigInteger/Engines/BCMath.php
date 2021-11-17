@@ -514,14 +514,8 @@ class BCMath extends Engine
      */
     protected function normalize(BCMath $result)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         unset($result->reduce);
 
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         $result->precision = $this->precision;
         $result->bitmask = $this->bitmask;
 

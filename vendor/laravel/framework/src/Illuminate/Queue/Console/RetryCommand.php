@@ -5,14 +5,6 @@ namespace Illuminate\Queue\Console;
 use DateTimeInterface;
 use Illuminate\Console\Command;
 use Illuminate\Contracts\Encryption\Encrypter;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Illuminate\Queue\Events\JobRetryRequested;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use Illuminate\Queue\Events\JobRetryRequested;
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use RuntimeException;
@@ -49,16 +41,6 @@ class RetryCommand extends Command
             if (is_null($job)) {
                 $this->error("Unable to find failed job with ID [{$id}].");
             } else {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                $this->laravel['events']->dispatch(new JobRetryRequested($job));
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-                $this->laravel['events']->dispatch(new JobRetryRequested($job));
-
->>>>>>> f330c64 (optimization in progress)
                 $this->retryJob($job);
 
                 $this->info("The failed job [{$id}] has been pushed back onto the queue!");
@@ -189,15 +171,7 @@ class RetryCommand extends Command
             throw new RuntimeException('Unable to extract job payload.');
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (is_object($instance) && ! $instance instanceof \__PHP_Incomplete_Class && method_exists($instance, 'retryUntil')) {
-=======
         if (is_object($instance) && method_exists($instance, 'retryUntil')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (is_object($instance) && ! $instance instanceof \__PHP_Incomplete_Class && method_exists($instance, 'retryUntil')) {
->>>>>>> f330c64 (optimization in progress)
             $retryUntil = $instance->retryUntil();
 
             $payload['retryUntil'] = $retryUntil instanceof DateTimeInterface

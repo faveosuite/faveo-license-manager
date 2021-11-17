@@ -28,15 +28,7 @@ if (! function_exists('abort')) {
      * @param  \Symfony\Component\HttpFoundation\Response|\Illuminate\Contracts\Support\Responsable|int  $code
      * @param  string  $message
      * @param  array  $headers
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return never
-=======
      * @return void
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return never
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws \Symfony\Component\HttpKernel\Exception\HttpException
      * @throws \Symfony\Component\HttpKernel\Exception\NotFoundHttpException
@@ -491,28 +483,6 @@ if (! function_exists('logger')) {
     }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-if (! function_exists('lang_path')) {
-    /**
-     * Get the path to the language folder.
-     *
-     * @param  string  $path
-     * @return string
-     */
-    function lang_path($path = '')
-    {
-        return app('path.lang').($path ? DIRECTORY_SEPARATOR.$path : $path);
-    }
-}
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 if (! function_exists('logs')) {
     /**
      * Get a log driver instance.

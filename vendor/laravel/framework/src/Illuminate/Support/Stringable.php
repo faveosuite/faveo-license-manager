@@ -7,13 +7,7 @@ use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
 use JsonSerializable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use ReturnTypeWillChange;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Symfony\Component\VarDumper\VarDumper;
 
 class Stringable implements JsonSerializable
@@ -266,25 +260,6 @@ class Stringable implements JsonSerializable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Determine if a given string is a valid UUID.
-     *
-     * @return bool
-     */
-    public function isUuid()
-    {
-        return Str::isUuid($this->value);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Determine if the given string is empty.
      *
      * @return bool
@@ -582,26 +557,6 @@ class Stringable implements JsonSerializable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Strip HTML and PHP tags from the given string.
-     *
-     * @param  string  $allowedTags
-     * @return static
-     */
-    public function stripTags($allowedTags = null)
-    {
-        return new static(strip_tags($this->value, $allowedTags));
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Convert the given string to upper-case.
      *
      * @return static
@@ -622,25 +577,6 @@ class Stringable implements JsonSerializable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Convert the given string to title case for each word.
-     *
-     * @return static
-     */
-    public function headline()
-    {
-        return new static(Str::headline($this->value));
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Get the singular form of an English word.
      *
      * @return static
@@ -833,15 +769,7 @@ class Stringable implements JsonSerializable
     /**
      * Dump the string and end the script.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return never
-=======
      * @return void
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return never
->>>>>>> f330c64 (optimization in progress)
      */
     public function dd()
     {
@@ -855,15 +783,7 @@ class Stringable implements JsonSerializable
      *
      * @return string
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return $this->__toString();

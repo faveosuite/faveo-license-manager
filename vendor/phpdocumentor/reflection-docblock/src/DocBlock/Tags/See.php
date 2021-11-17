@@ -23,14 +23,6 @@ use phpDocumentor\Reflection\FqsenResolver;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use phpDocumentor\Reflection\Utils;
 use Webmozart\Assert\Assert;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use function array_key_exists;
 use function explode;
 use function preg_match;
@@ -60,45 +52,21 @@ final class See extends BaseTag implements Factory\StaticMethod
         ?FqsenResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
-<<<<<<< HEAD
-<<<<<<< HEAD
-    ): self {
-=======
     ) : self {
->>>>>>> 22c0e54 (table changes)
-=======
-    ): self {
->>>>>>> f330c64 (optimization in progress)
         Assert::notNull($descriptionFactory);
 
         $parts = Utils::pregSplit('/\s+/Su', $body, 2);
         $description = isset($parts[1]) ? $descriptionFactory->create($parts[1], $context) : null;
 
         // https://tools.ietf.org/html/rfc2396#section-3
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (preg_match('#\w://\w#', $parts[0])) {
-=======
         if (preg_match('/\w:\/\/\w/i', $parts[0])) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (preg_match('#\w://\w#', $parts[0])) {
->>>>>>> f330c64 (optimization in progress)
             return new static(new Url($parts[0]), $description);
         }
 
         return new static(new FqsenRef(self::resolveFqsen($parts[0], $typeResolver, $context)), $description);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private static function resolveFqsen(string $parts, ?FqsenResolver $fqsenResolver, ?TypeContext $context): Fqsen
-=======
     private static function resolveFqsen(string $parts, ?FqsenResolver $fqsenResolver, ?TypeContext $context) : Fqsen
->>>>>>> 22c0e54 (table changes)
-=======
-    private static function resolveFqsen(string $parts, ?FqsenResolver $fqsenResolver, ?TypeContext $context): Fqsen
->>>>>>> f330c64 (optimization in progress)
     {
         Assert::notNull($fqsenResolver);
         $fqsenParts = explode('::', $parts);
@@ -114,15 +82,7 @@ final class See extends BaseTag implements Factory\StaticMethod
     /**
      * Returns the ref of this tag.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getReference(): Reference
-=======
     public function getReference() : Reference
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getReference(): Reference
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->refers;
     }
@@ -130,15 +90,7 @@ final class See extends BaseTag implements Factory\StaticMethod
     /**
      * Returns a string representation of this tag.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();

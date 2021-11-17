@@ -22,22 +22,6 @@ class ParallelRunner implements RunnerInterface
     protected static $applicationResolver;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * The runner resolver callback.
-     *
-     * @var \Closure|null
-     */
-    protected static $runnerResolver;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * The original test runner options.
      *
      * @var \ParaTest\Runners\PHPUnit\Options
@@ -73,21 +57,7 @@ class ParallelRunner implements RunnerInterface
             $output = new ParallelConsoleOutput($output);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $runnerResolver = static::$runnerResolver ?: function (Options $options, OutputInterface $output) {
-            return new WrapperRunner($options, $output);
-        };
-
-        $this->runner = call_user_func($runnerResolver, $options, $output);
-<<<<<<< HEAD
-=======
         $this->runner = new WrapperRunner($options, $output);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -102,26 +72,6 @@ class ParallelRunner implements RunnerInterface
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Set the runner resolver callback.
-     *
-     * @param  \Closure|null  $resolver
-     * @return void
-     */
-    public static function resolveRunnerUsing($resolver)
-    {
-        static::$runnerResolver = $resolver;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Runs the test suite.
      *
      * @return void

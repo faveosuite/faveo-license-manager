@@ -151,45 +151,21 @@ trait Options
      *
      * @var string|callable|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected static $formatFunction;
-=======
     protected static $formatFunction = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected static $formatFunction;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Function to call instead of createFromFormat.
      *
      * @var string|callable|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected static $createFromFormatFunction;
-=======
     protected static $createFromFormatFunction = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected static $createFromFormatFunction;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Function to call instead of parse.
      *
      * @var string|callable|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected static $parseFunction;
-=======
     protected static $parseFunction = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected static $parseFunction;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Indicates if months should be calculated with overflow.
@@ -197,15 +173,7 @@ trait Options
      *
      * @var bool|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localMonthsOverflow;
-=======
     protected $localMonthsOverflow = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localMonthsOverflow;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Indicates if years should be calculated with overflow.
@@ -213,15 +181,7 @@ trait Options
      *
      * @var bool|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localYearsOverflow;
-=======
     protected $localYearsOverflow = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localYearsOverflow;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Indicates if the strict mode is in use.
@@ -229,105 +189,49 @@ trait Options
      *
      * @var bool|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localStrictModeEnabled;
-=======
     protected $localStrictModeEnabled = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localStrictModeEnabled;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Options for diffForHumans and forHumans methods.
      *
      * @var bool|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localHumanDiffOptions;
-=======
     protected $localHumanDiffOptions = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localHumanDiffOptions;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Format to use on string cast.
      *
      * @var string|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localToStringFormat;
-=======
     protected $localToStringFormat = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localToStringFormat;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Format to use on JSON serialization.
      *
      * @var string|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localSerializer;
-=======
     protected $localSerializer = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localSerializer;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Instance-specific macros.
      *
      * @var array|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localMacros;
-=======
     protected $localMacros = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localMacros;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Instance-specific generic macros.
      *
      * @var array|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localGenericMacros;
-=======
     protected $localGenericMacros = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localGenericMacros;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * Function to call instead of format.
      *
      * @var string|callable|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $localFormatFunction;
-=======
     protected $localFormatFunction = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $localFormatFunction;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * @deprecated To avoid conflict between different third-party libraries, static setters should not be used.
@@ -481,19 +385,6 @@ trait Options
             $this->locale(...$locales);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (isset($settings['innerTimezone'])) {
-            return $this->setTimezone($settings['innerTimezone']);
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         if (isset($settings['timezone'])) {
             return $this->shiftTimezone($settings['timezone']);
         }

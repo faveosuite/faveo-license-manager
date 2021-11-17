@@ -19,14 +19,6 @@ use RuntimeException as PhpRuntimeException;
 /**
  * Thrown to indicate that no suitable builder could be found
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class BuilderNotFoundException extends PhpRuntimeException implements UuidExceptionInterface
-=======
 class BuilderNotFoundException extends PhpRuntimeException
->>>>>>> 22c0e54 (table changes)
-=======
-class BuilderNotFoundException extends PhpRuntimeException implements UuidExceptionInterface
->>>>>>> f330c64 (optimization in progress)
 {
 }

@@ -19,14 +19,6 @@ use RuntimeException as PhpRuntimeException;
 /**
  * Thrown to indicate that the bytes being operated on are invalid in some way
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class InvalidBytesException extends PhpRuntimeException implements UuidExceptionInterface
-=======
 class InvalidBytesException extends PhpRuntimeException
->>>>>>> 22c0e54 (table changes)
-=======
-class InvalidBytesException extends PhpRuntimeException implements UuidExceptionInterface
->>>>>>> f330c64 (optimization in progress)
 {
 }

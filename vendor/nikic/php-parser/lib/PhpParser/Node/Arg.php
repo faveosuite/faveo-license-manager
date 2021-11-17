@@ -2,14 +2,6 @@
 
 namespace PhpParser\Node;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-use PhpParser\Node\VariadicPlaceholder;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use PhpParser\Node\VariadicPlaceholder;
->>>>>>> f330c64 (optimization in progress)
 use PhpParser\NodeAbstract;
 
 class Arg extends NodeAbstract

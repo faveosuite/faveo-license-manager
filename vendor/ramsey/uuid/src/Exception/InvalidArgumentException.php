@@ -19,14 +19,6 @@ use InvalidArgumentException as PhpInvalidArgumentException;
 /**
  * Thrown to indicate that the argument received is not valid
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class InvalidArgumentException extends PhpInvalidArgumentException implements UuidExceptionInterface
-=======
 class InvalidArgumentException extends PhpInvalidArgumentException
->>>>>>> 22c0e54 (table changes)
-=======
-class InvalidArgumentException extends PhpInvalidArgumentException implements UuidExceptionInterface
->>>>>>> f330c64 (optimization in progress)
 {
 }

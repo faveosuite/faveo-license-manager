@@ -174,15 +174,7 @@ class ResponseHeaderBag extends HeaderBag
      */
     public function getCacheControlDirective(string $key)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->computedCacheControl[$key] ?? null;
-=======
         return \array_key_exists($key, $this->computedCacheControl) ? $this->computedCacheControl[$key] : null;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->computedCacheControl[$key] ?? null;
->>>>>>> f330c64 (optimization in progress)
     }
 
     public function setCookie(Cookie $cookie)

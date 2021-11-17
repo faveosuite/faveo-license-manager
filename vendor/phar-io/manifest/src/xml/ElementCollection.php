@@ -24,41 +24,17 @@ abstract class ElementCollection implements \Iterator {
         $this->importNodes($nodeList);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     abstract public function current();
 
     public function next(): void {
         $this->position++;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function key(): int {
-        return $this->position;
-    }
-
-    public function valid(): bool {
-=======
     public function key() {
         return $this->position;
     }
 
     public function valid() {
->>>>>>> 22c0e54 (table changes)
-=======
-    public function key(): int {
-        return $this->position;
-    }
-
-    public function valid(): bool {
->>>>>>> f330c64 (optimization in progress)
         return $this->position < \count($this->nodes);
     }
 

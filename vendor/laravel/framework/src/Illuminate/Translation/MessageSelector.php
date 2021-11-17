@@ -61,15 +61,7 @@ class MessageSelector
         preg_match('/^[\{\[]([^\[\]\{\}]*)[\}\]](.*)/s', $part, $matches);
 
         if (count($matches) !== 3) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            return null;
-=======
             return;
->>>>>>> 22c0e54 (table changes)
-=======
-            return null;
->>>>>>> f330c64 (optimization in progress)
         }
 
         $condition = $matches[1];

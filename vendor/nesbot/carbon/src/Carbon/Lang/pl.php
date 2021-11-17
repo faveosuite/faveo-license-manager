@@ -25,14 +25,6 @@
  * - Peter (UnrulyNatives)
  * - Qrzysio
  * - Jan (aso824)
-<<<<<<< HEAD
-<<<<<<< HEAD
- * - diverpl
-=======
->>>>>>> 22c0e54 (table changes)
-=======
- * - diverpl
->>>>>>> f330c64 (optimization in progress)
  */
 return [
     'year' => ':count rok|:count lata|:count lat',
@@ -52,15 +44,7 @@ return [
     'h' => ':count godz.',
     'minute' => ':count minuta|:count minuty|:count minut',
     'a_minute' => 'minuta|:count minuty|:count minut',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'min' => ':count min',
-=======
     'min' => ':count min.',
->>>>>>> 22c0e54 (table changes)
-=======
-    'min' => ':count min',
->>>>>>> f330c64 (optimization in progress)
     'second' => ':count sekunda|:count sekundy|:count sekund',
     'a_second' => '{1}kilka sekund|:count sekunda|:count sekundy|:count sekund',
     's' => ':count sek.',

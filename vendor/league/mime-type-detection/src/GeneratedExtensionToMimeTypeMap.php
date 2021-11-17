@@ -45,14 +45,6 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'air' => 'application/vnd.adobe.air-application-installer-package+zip',
         'ait' => 'application/vnd.dvb.ait',
         'ami' => 'application/vnd.amiga.ami',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'amr' => 'audio/amr',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'amr' => 'audio/amr',
->>>>>>> f330c64 (optimization in progress)
         'apk' => 'application/vnd.android.package-archive',
         'apng' => 'image/apng',
         'appcache' => 'text/cache-manifest',
@@ -273,14 +265,6 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'evy' => 'application/x-envoy',
         'exe' => 'application/octet-stream',
         'exi' => 'application/exi',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'exp' => 'application/express',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'exp' => 'application/express',
->>>>>>> f330c64 (optimization in progress)
         'exr' => 'image/aces',
         'ext' => 'application/vnd.novadigm.ext',
         'ez' => 'application/andrew-inset',
@@ -367,18 +351,8 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'gv' => 'text/vnd.graphviz',
         'gxf' => 'application/gxf',
         'gxt' => 'application/vnd.geonext',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'gz' => 'application/gzip',
-        'gzip' => 'application/gzip',
-=======
         'gz' => 'application/x-gzip',
         'gzip' => 'application/x-gzip',
->>>>>>> 22c0e54 (table changes)
-=======
-        'gz' => 'application/gzip',
-        'gzip' => 'application/gzip',
->>>>>>> f330c64 (optimization in progress)
         'h' => 'text/x-c',
         'h261' => 'video/h261',
         'h263' => 'video/h263',
@@ -483,15 +457,7 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'karbon' => 'application/vnd.kde.karbon',
         'kdb' => 'application/octet-stream',
         'kdbx' => 'application/x-keepass2',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'key' => 'application/x-iwork-keynote-sffkey',
-=======
         'key' => 'application/vnd.apple.keynote',
->>>>>>> 22c0e54 (table changes)
-=======
-        'key' => 'application/x-iwork-keynote-sffkey',
->>>>>>> f330c64 (optimization in progress)
         'kfo' => 'application/vnd.kde.kformula',
         'kia' => 'application/vnd.kidspiration',
         'kml' => 'application/vnd.google-earth.kml+xml',
@@ -541,14 +507,6 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'm3u8' => 'application/vnd.apple.mpegurl',
         'm4a' => 'audio/x-m4a',
         'm4p' => 'application/mp4',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'm4s' => 'video/iso.segment',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'm4s' => 'video/iso.segment',
->>>>>>> f330c64 (optimization in progress)
         'm4u' => 'application/vnd.mpegurl',
         'm4v' => 'video/x-m4v',
         'm13' => 'application/x-msmediaview',
@@ -650,14 +608,6 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'musd' => 'application/mmt-usd+xml',
         'musicxml' => 'application/vnd.recordare.musicxml+xml',
         'mvb' => 'application/x-msmediaview',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'mvt' => 'application/vnd.mapbox-vector-tile',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'mvt' => 'application/vnd.mapbox-vector-tile',
->>>>>>> f330c64 (optimization in progress)
         'mwf' => 'application/vnd.mfer',
         'mxf' => 'application/mxf',
         'mxl' => 'application/vnd.recordare.musicxml',
@@ -685,15 +635,7 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'nsf' => 'application/vnd.lotus-notes',
         'nt' => 'application/n-triples',
         'ntf' => 'application/vnd.nitf',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'numbers' => 'application/x-iwork-numbers-sffnumbers',
-=======
         'numbers' => 'application/vnd.apple.numbers',
->>>>>>> 22c0e54 (table changes)
-=======
-        'numbers' => 'application/x-iwork-numbers-sffnumbers',
->>>>>>> f330c64 (optimization in progress)
         'nzb' => 'application/x-nzb',
         'oa2' => 'application/vnd.fujitsu.oasys2',
         'oa3' => 'application/vnd.fujitsu.oasys3',
@@ -754,15 +696,7 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'p10' => 'application/x-pkcs10',
         'p12' => 'application/x-pkcs12',
         'pac' => 'application/x-ns-proxy-autoconfig',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'pages' => 'application/x-iwork-pages-sffpages',
-=======
         'pages' => 'application/vnd.apple.pages',
->>>>>>> 22c0e54 (table changes)
-=======
-        'pages' => 'application/x-iwork-pages-sffpages',
->>>>>>> f330c64 (optimization in progress)
         'pas' => 'text/x-pascal',
         'paw' => 'application/vnd.pawaafile',
         'pbd' => 'application/vnd.powerbuilder6',
@@ -987,18 +921,6 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'sti' => 'application/vnd.sun.xml.impress.template',
         'stk' => 'application/hyperstudio',
         'stl' => 'model/stl',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'stpx' => 'model/step+xml',
-        'stpxz' => 'model/step-xml+zip',
-        'stpz' => 'model/step+zip',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'stpx' => 'model/step+xml',
-        'stpxz' => 'model/step-xml+zip',
-        'stpz' => 'model/step+zip',
->>>>>>> f330c64 (optimization in progress)
         'str' => 'application/vnd.pg.format',
         'stw' => 'application/vnd.sun.xml.writer.template',
         'styl' => 'text/stylus',
@@ -1055,14 +977,6 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'tpt' => 'application/vnd.trid.tpt',
         'tr' => 'text/troff',
         'tra' => 'application/vnd.trueapp',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'trig' => 'application/trig',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'trig' => 'application/trig',
->>>>>>> f330c64 (optimization in progress)
         'trm' => 'application/x-msterminal',
         'ts' => 'video/mp2t',
         'tsd' => 'application/timestamped-data',
@@ -1133,14 +1047,6 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'vcs' => 'text/x-vcalendar',
         'vcx' => 'application/vnd.vcx',
         'vdi' => 'application/x-virtualbox-vdi',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'vds' => 'model/vnd.sap.vds',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'vds' => 'model/vnd.sap.vds',
->>>>>>> f330c64 (optimization in progress)
         'vhd' => 'application/x-virtualbox-vhd',
         'vis' => 'application/vnd.visionary',
         'viv' => 'video/vnd.vivo',
@@ -1230,15 +1136,7 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'xdw' => 'application/vnd.fujixerox.docuworks',
         'xel' => 'application/xcap-el+xml',
         'xenc' => 'application/xenc+xml',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'xer' => 'application/patch-ops-error+xml',
-=======
         'xer' => 'application/xcap-error+xml',
->>>>>>> 22c0e54 (table changes)
-=======
-        'xer' => 'application/patch-ops-error+xml',
->>>>>>> f330c64 (optimization in progress)
         'xfdf' => 'application/vnd.adobe.xfdf',
         'xfdl' => 'application/vnd.xfdl',
         'xht' => 'application/xhtml+xml',
@@ -1297,15 +1195,7 @@ class GeneratedExtensionToMimeTypeMap implements ExtensionToMimeTypeMap
         'z7' => 'application/x-zmachine',
         'z8' => 'application/x-zmachine',
         'zaz' => 'application/vnd.zzazz.deck+xml',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'zip' => 'application/zip',
-=======
         'zip' => 'application/x-zip',
->>>>>>> 22c0e54 (table changes)
-=======
-        'zip' => 'application/zip',
->>>>>>> f330c64 (optimization in progress)
         'zir' => 'application/vnd.zul',
         'zirz' => 'application/vnd.zul',
         'zmm' => 'application/vnd.handheld-entertainment+xml',

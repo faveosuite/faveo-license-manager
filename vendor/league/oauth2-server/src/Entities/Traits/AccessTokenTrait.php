@@ -12,13 +12,7 @@ namespace League\OAuth2\Server\Entities\Traits;
 use DateTimeImmutable;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Signer\Key\InMemory;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Lcobucci\JWT\Signer\Key\LocalFileReference;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Lcobucci\JWT\Signer\Rsa\Sha256;
 use Lcobucci\JWT\Token;
 use League\OAuth2\Server\CryptKey;
@@ -52,15 +46,7 @@ trait AccessTokenTrait
     {
         $this->jwtConfiguration = Configuration::forAsymmetricSigner(
             new Sha256(),
-<<<<<<< HEAD
-<<<<<<< HEAD
-            InMemory::plainText($this->privateKey->getKeyContents(), $this->privateKey->getPassPhrase() ?? ''),
-=======
             LocalFileReference::file($this->privateKey->getKeyPath(), $this->privateKey->getPassPhrase() ?? ''),
->>>>>>> 22c0e54 (table changes)
-=======
-            InMemory::plainText($this->privateKey->getKeyContents(), $this->privateKey->getPassPhrase() ?? ''),
->>>>>>> f330c64 (optimization in progress)
             InMemory::plainText('')
         );
     }

@@ -72,15 +72,7 @@ class ArgvInput extends Input
                 $this->parseArgument($token);
             } elseif ($parseOptions && '--' == $token) {
                 $parseOptions = false;
-<<<<<<< HEAD
-<<<<<<< HEAD
-            } elseif ($parseOptions && str_starts_with($token, '--')) {
-=======
             } elseif ($parseOptions && 0 === strpos($token, '--')) {
->>>>>>> 22c0e54 (table changes)
-=======
-            } elseif ($parseOptions && str_starts_with($token, '--')) {
->>>>>>> f330c64 (optimization in progress)
                 $this->parseLongOption($token);
             } elseif ($parseOptions && '-' === $token[0] && '-' !== $token) {
                 $this->parseShortOption($token);
@@ -272,15 +264,7 @@ class ArgvInput extends Input
         $isOption = false;
         foreach ($this->tokens as $i => $token) {
             if ($token && '-' === $token[0]) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                if (str_contains($token, '=') || !isset($this->tokens[$i + 1])) {
-=======
                 if (false !== strpos($token, '=') || !isset($this->tokens[$i + 1])) {
->>>>>>> 22c0e54 (table changes)
-=======
-                if (str_contains($token, '=') || !isset($this->tokens[$i + 1])) {
->>>>>>> f330c64 (optimization in progress)
                     continue;
                 }
 
@@ -322,18 +306,8 @@ class ArgvInput extends Input
                 // Options with values:
                 //   For long options, test for '--option=' at beginning
                 //   For short options, test for '-o' at beginning
-<<<<<<< HEAD
-<<<<<<< HEAD
-                $leading = str_starts_with($value, '--') ? $value.'=' : $value;
-                if ($token === $value || '' !== $leading && str_starts_with($token, $leading)) {
-=======
                 $leading = 0 === strpos($value, '--') ? $value.'=' : $value;
                 if ($token === $value || '' !== $leading && 0 === strpos($token, $leading)) {
->>>>>>> 22c0e54 (table changes)
-=======
-                $leading = str_starts_with($value, '--') ? $value.'=' : $value;
-                if ($token === $value || '' !== $leading && str_starts_with($token, $leading)) {
->>>>>>> f330c64 (optimization in progress)
                     return true;
                 }
             }
@@ -363,18 +337,8 @@ class ArgvInput extends Input
                 // Options with values:
                 //   For long options, test for '--option=' at beginning
                 //   For short options, test for '-o' at beginning
-<<<<<<< HEAD
-<<<<<<< HEAD
-                $leading = str_starts_with($value, '--') ? $value.'=' : $value;
-                if ('' !== $leading && str_starts_with($token, $leading)) {
-=======
                 $leading = 0 === strpos($value, '--') ? $value.'=' : $value;
                 if ('' !== $leading && 0 === strpos($token, $leading)) {
->>>>>>> 22c0e54 (table changes)
-=======
-                $leading = str_starts_with($value, '--') ? $value.'=' : $value;
-                if ('' !== $leading && str_starts_with($token, $leading)) {
->>>>>>> f330c64 (optimization in progress)
                     return substr($token, \strlen($leading));
                 }
             }

@@ -25,26 +25,8 @@ use Monolog\Utils;
  */
 class StreamHandler extends AbstractProcessingHandler
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    /** @const int */
-    protected const MAX_CHUNK_SIZE = 2147483647;
-    /** @const int 10MB */
-    protected const DEFAULT_CHUNK_SIZE = 10 * 1024 * 1024;
-    /** @var int */
-    protected $streamChunkSize;
-=======
     protected const MAX_CHUNK_SIZE = 2147483647;
 
->>>>>>> 22c0e54 (table changes)
-=======
-    /** @const int */
-    protected const MAX_CHUNK_SIZE = 2147483647;
-    /** @const int 10MB */
-    protected const DEFAULT_CHUNK_SIZE = 10 * 1024 * 1024;
-    /** @var int */
-    protected $streamChunkSize;
->>>>>>> f330c64 (optimization in progress)
     /** @var resource|null */
     protected $stream;
     /** @var ?string */
@@ -68,40 +50,9 @@ class StreamHandler extends AbstractProcessingHandler
     public function __construct($stream, $level = Logger::DEBUG, bool $bubble = true, ?int $filePermission = null, bool $useLocking = false)
     {
         parent::__construct($level, $bubble);
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-        if (($phpMemoryLimit = Utils::expandIniShorthandBytes(ini_get('memory_limit'))) !== false) {
-            if ($phpMemoryLimit > 0) {
-                // use max 10% of allowed memory for the chunk size, and at least 100KB
-                $this->streamChunkSize = min(static::MAX_CHUNK_SIZE, max((int) ($phpMemoryLimit / 10), 100 * 1024));
-            } else {
-                // memory is unlimited, set to the default 10MB
-                $this->streamChunkSize = static::DEFAULT_CHUNK_SIZE;
-            }
-        } else {
-            // no memory limit information, set to the default 10MB
-            $this->streamChunkSize = static::DEFAULT_CHUNK_SIZE;
-        }
-
-<<<<<<< HEAD
-        if (is_resource($stream)) {
-            $this->stream = $stream;
-
-            stream_set_chunk_size($this->stream, $this->streamChunkSize);
-=======
         if (is_resource($stream)) {
             $this->stream = $stream;
             stream_set_chunk_size($this->stream, self::MAX_CHUNK_SIZE);
->>>>>>> 22c0e54 (table changes)
-=======
-        if (is_resource($stream)) {
-            $this->stream = $stream;
-
-            stream_set_chunk_size($this->stream, $this->streamChunkSize);
->>>>>>> f330c64 (optimization in progress)
         } elseif (is_string($stream)) {
             $this->url = Utils::canonicalizePath($stream);
         } else {
@@ -113,15 +64,7 @@ class StreamHandler extends AbstractProcessingHandler
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function close(): void
     {
@@ -153,25 +96,7 @@ class StreamHandler extends AbstractProcessingHandler
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * @return int
-     */
-    public function getStreamChunkSize(): int
-    {
-        return $this->streamChunkSize;
-    }
-
-    /**
-     * {@inheritDoc}
-<<<<<<< HEAD
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      */
     protected function write(array $record): void
     {
@@ -193,15 +118,7 @@ class StreamHandler extends AbstractProcessingHandler
 
                 throw new \UnexpectedValueException(sprintf('The stream or file "%s" could not be opened in append mode: '.$this->errorMessage, $url));
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
-            stream_set_chunk_size($stream, $this->streamChunkSize);
-=======
             stream_set_chunk_size($stream, self::MAX_CHUNK_SIZE);
->>>>>>> 22c0e54 (table changes)
-=======
-            stream_set_chunk_size($stream, $this->streamChunkSize);
->>>>>>> f330c64 (optimization in progress)
             $this->stream = $stream;
         }
 

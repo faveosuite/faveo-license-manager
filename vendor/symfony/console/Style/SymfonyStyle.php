@@ -59,15 +59,7 @@ class SymfonyStyle extends OutputStyle
      *
      * @param string|array $messages The message to write in the block
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function block($messages, string $type = null, string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
-=======
     public function block($messages, ?string $type = null, ?string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function block($messages, string $type = null, string $style = null, string $prefix = ' ', bool $padding = false, bool $escape = true)
->>>>>>> f330c64 (optimization in progress)
     {
         $messages = \is_array($messages) ? array_values($messages) : [$messages];
 
@@ -272,15 +264,7 @@ class SymfonyStyle extends OutputStyle
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function ask(string $question, string $default = null, callable $validator = null)
-=======
     public function ask(string $question, ?string $default = null, $validator = null)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function ask(string $question, string $default = null, callable $validator = null)
->>>>>>> f330c64 (optimization in progress)
     {
         $question = new Question($question, $default);
         $question->setValidator($validator);
@@ -291,15 +275,7 @@ class SymfonyStyle extends OutputStyle
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function askHidden(string $question, callable $validator = null)
-=======
     public function askHidden(string $question, $validator = null)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function askHidden(string $question, callable $validator = null)
->>>>>>> f330c64 (optimization in progress)
     {
         $question = new Question($question);
 
@@ -312,15 +288,7 @@ class SymfonyStyle extends OutputStyle
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function confirm(string $question, bool $default = true)
-=======
     public function confirm($question, $default = true)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function confirm(string $question, bool $default = true)
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->askQuestion(new ConfirmationQuestion($question, $default));
     }
@@ -479,15 +447,7 @@ class SymfonyStyle extends OutputStyle
     {
         $fetched = $this->bufferedOutput->fetch();
         //Prepend new line if last char isn't EOL:
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!str_ends_with($fetched, "\n")) {
-=======
         if ("\n" !== substr($fetched, -1)) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (!str_ends_with($fetched, "\n")) {
->>>>>>> f330c64 (optimization in progress)
             $this->newLine();
         }
     }

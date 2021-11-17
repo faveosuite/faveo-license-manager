@@ -75,26 +75,6 @@ class FileBag extends ParameterBag
             return $file;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $file = $this->fixPhpFilesArray($file);
-        $keys = array_keys($file);
-        sort($keys);
-
-        if (self::FILE_KEYS == $keys) {
-            if (\UPLOAD_ERR_NO_FILE == $file['error']) {
-                $file = null;
-<<<<<<< HEAD
-            } else {
-                $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['error'], false);
-            }
-        } else {
-            $file = array_map(function ($v) { return $v instanceof UploadedFile || \is_array($v) ? $this->convertFileInformation($v) : $v; }, $file);
-            if (array_keys($keys) === $keys) {
-                $file = array_filter($file);
-=======
         if (\is_array($file)) {
             $file = $this->fixPhpFilesArray($file);
             $keys = array_keys($file);
@@ -111,16 +91,6 @@ class FileBag extends ParameterBag
                 if (array_keys($keys) === $keys) {
                     $file = array_filter($file);
                 }
->>>>>>> 22c0e54 (table changes)
-=======
-            } else {
-                $file = new UploadedFile($file['tmp_name'], $file['name'], $file['type'], $file['error'], false);
-            }
-        } else {
-            $file = array_map(function ($v) { return $v instanceof UploadedFile || \is_array($v) ? $this->convertFileInformation($v) : $v; }, $file);
-            if (array_keys($keys) === $keys) {
-                $file = array_filter($file);
->>>>>>> f330c64 (optimization in progress)
             }
         }
 
@@ -139,29 +109,12 @@ class FileBag extends ParameterBag
      * It's safe to pass an already converted array, in which case this method
      * just returns the original array unmodified.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return array
-     */
-    protected function fixPhpFilesArray(array $data)
-    {
-        // Remove extra key added by PHP 8.1.
-        unset($data['full_path']);
-=======
      * @param array $data
      *
-=======
->>>>>>> f330c64 (optimization in progress)
      * @return array
      */
-    protected function fixPhpFilesArray(array $data)
+    protected function fixPhpFilesArray($data)
     {
-<<<<<<< HEAD
->>>>>>> 22c0e54 (table changes)
-=======
-        // Remove extra key added by PHP 8.1.
-        unset($data['full_path']);
->>>>>>> f330c64 (optimization in progress)
         $keys = array_keys($data);
         sort($keys);
 

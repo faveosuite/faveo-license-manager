@@ -2,21 +2,9 @@
 
 namespace {{ namespace }};
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Illuminate\Contracts\Validation\{{ ruleType }};
-
-class {{ class }} implements {{ ruleType }}
-=======
 use Illuminate\Contracts\Validation\Rule;
 
 class {{ class }} implements Rule
->>>>>>> 22c0e54 (table changes)
-=======
-use Illuminate\Contracts\Validation\{{ ruleType }};
-
-class {{ class }} implements {{ ruleType }}
->>>>>>> f330c64 (optimization in progress)
 {
     /**
      * Create a new rule instance.

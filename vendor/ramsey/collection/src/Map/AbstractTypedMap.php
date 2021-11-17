@@ -22,25 +22,11 @@ use Ramsey\Collection\Tool\ValueToStringTrait;
  * This class provides a basic implementation of `TypedMapInterface`, to
  * minimize the effort required to implement this interface.
  *
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @template K
- * @template T
- * @extends AbstractMap<T>
- * @implements TypedMapInterface<T>
-=======
  * @phpstan-ignore-next-line
  * @template K as array-key
  * @template T
  * @template-extends AbstractMap<T>
  * @template-implements TypedMapInterface<T>
->>>>>>> 22c0e54 (table changes)
-=======
- * @template K
- * @template T
- * @extends AbstractMap<T>
- * @implements TypedMapInterface<T>
->>>>>>> f330c64 (optimization in progress)
  */
 abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
 {
@@ -78,14 +64,6 @@ abstract class AbstractTypedMap extends AbstractMap implements TypedMapInterface
             );
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        /** @psalm-suppress MixedArgumentTypeCoercion */
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        /** @psalm-suppress MixedArgumentTypeCoercion */
->>>>>>> f330c64 (optimization in progress)
         parent::offsetSet($offset, $value);
     }
 }

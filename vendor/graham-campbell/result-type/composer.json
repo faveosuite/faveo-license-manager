@@ -6,35 +6,15 @@
     "authors": [
         {
             "name": "Graham Campbell",
-<<<<<<< HEAD
-<<<<<<< HEAD
-            "email": "hello@gjcampbell.co.uk"
-        }
-    ],
-    "require": {
-        "php": "^7.0 || ^8.0",
-        "phpoption/phpoption": "^1.8"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^6.5.14 || ^7.5.20 || ^8.5.19 || ^9.5.8"
-=======
             "email": "graham@alt-three.com"
-=======
-            "email": "hello@gjcampbell.co.uk"
->>>>>>> f330c64 (optimization in progress)
         }
     ],
     "require": {
-        "php": "^7.0 || ^8.0",
-        "phpoption/phpoption": "^1.8"
+        "php": "^7.0|^8.0",
+        "phpoption/phpoption": "^1.7.3"
     },
     "require-dev": {
-<<<<<<< HEAD
         "phpunit/phpunit": "^6.5|^7.5|^8.5|^9.0"
->>>>>>> 22c0e54 (table changes)
-=======
-        "phpunit/phpunit": "^6.5.14 || ^7.5.20 || ^8.5.19 || ^9.5.8"
->>>>>>> f330c64 (optimization in progress)
     },
     "autoload": {
         "psr-4": {
@@ -48,10 +28,6 @@
     },
     "config": {
         "preferred-install": "dist"
-<<<<<<< HEAD
-<<<<<<< HEAD
-    }
-=======
     },
     "extra": {
         "branch-alias": {
@@ -60,8 +36,4 @@
     },
     "minimum-stability": "dev",
     "prefer-stable": true
->>>>>>> 22c0e54 (table changes)
-=======
-    }
->>>>>>> f330c64 (optimization in progress)
 }

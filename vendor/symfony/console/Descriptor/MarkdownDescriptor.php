@@ -31,15 +31,7 @@ class MarkdownDescriptor extends Descriptor
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function describe(OutputInterface $output, object $object, array $options = [])
-=======
     public function describe(OutputInterface $output, $object, array $options = [])
->>>>>>> 22c0e54 (table changes)
-=======
-    public function describe(OutputInterface $output, object $object, array $options = [])
->>>>>>> f330c64 (optimization in progress)
     {
         $decorated = $output->isDecorated();
         $output->setDecorated(false);

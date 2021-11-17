@@ -26,13 +26,10 @@ return array(
     'App\\Http\\Controllers\\AflCallbacks\\LicenseVerifyController' => $baseDir . '/app/Http/Controllers/AflCallbacks/LicenseVerifyController.php',
     'App\\Http\\Controllers\\AflCoreFunctions\\AflInstallLicenseController' => $baseDir . '/app/Http/Controllers/AflCoreFunctions/AflInstallLicenseController.php',
     'App\\Http\\Controllers\\AflCoreFunctions\\AflVerifyLicenseController' => $baseDir . '/app/Http/Controllers/AflCoreFunctions/AflVerifyLicenseController.php',
-<<<<<<< HEAD
-=======
     'App\\Http\\Controllers\\AfuCallbacks\\DownloadFileController' => $baseDir . '/app/Http/Controllers/AfuCallbacks/DownloadFileController.php',
     'App\\Http\\Controllers\\AfuCallbacks\\FetchQueryController' => $baseDir . '/app/Http/Controllers/AfuCallbacks/FetchQueryController.php',
     'App\\Http\\Controllers\\AfuCallbacks\\GetAllVersionsController' => $baseDir . '/app/Http/Controllers/AfuCallbacks/GetAllVersionsController.php',
     'App\\Http\\Controllers\\AfuCallbacks\\GetVersionsController' => $baseDir . '/app/Http/Controllers/AfuCallbacks/GetVersionsController.php',
->>>>>>> 22c0e54 (table changes)
     'App\\Http\\Controllers\\Api\\AuthController' => $baseDir . '/app/Http/Controllers/Api/AuthController.php',
     'App\\Http\\Controllers\\Auth\\ConfirmPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ConfirmPasswordController.php',
     'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => $baseDir . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
@@ -44,11 +41,8 @@ return array(
     'App\\Http\\Controllers\\EditProfilesController' => $baseDir . '/app/Http/Controllers/EditProfilesController.php',
     'App\\Http\\Controllers\\HomeController' => $baseDir . '/app/Http/Controllers/HomeController.php',
     'App\\Http\\Controllers\\TestController' => $baseDir . '/app/Http/Controllers/TestController.php',
-<<<<<<< HEAD
-=======
     'App\\Http\\Controllers\\Update\\AfuVersionsController' => $baseDir . '/app/Http/Controllers/Update/AfuVersionsController.php',
     'App\\Http\\Controllers\\Update\\DirectoryController' => $baseDir . '/app/Http/Controllers/Update/DirectoryController.php',
->>>>>>> 22c0e54 (table changes)
     'App\\Http\\Kernel' => $baseDir . '/app/Http/Kernel.php',
     'App\\Http\\Middleware\\Authenticate' => $baseDir . '/app/Http/Middleware/Authenticate.php',
     'App\\Http\\Middleware\\EncryptCookies' => $baseDir . '/app/Http/Middleware/EncryptCookies.php',
@@ -76,10 +70,7 @@ return array(
     'App\\Http\\Requests\\Settings\\EmailSettingRequest' => $baseDir . '/app/Http/Requests/Settings/EmailSettingRequest.php',
     'App\\Http\\Requests\\Settings\\GeneralSettingsRequest' => $baseDir . '/app/Http/Requests/Settings/GeneralSettingsRequest.php',
     'App\\Http\\Requests\\Settings\\SecuritySettingRequest' => $baseDir . '/app/Http/Requests/Settings/SecuritySettingRequest.php',
-<<<<<<< HEAD
-=======
     'App\\Http\\Requests\\VersionRequest' => $baseDir . '/app/Http/Requests/VersionRequest.php',
->>>>>>> 22c0e54 (table changes)
     'App\\Models\\AflAdminSessions' => $baseDir . '/app/Models/AflAdminSessions.php',
     'App\\Models\\AflAdminTypes' => $baseDir . '/app/Models/AflAdminTypes.php',
     'App\\Models\\AflAdmins' => $baseDir . '/app/Models/AflAdmins.php',
@@ -98,14 +89,12 @@ return array(
     'App\\Models\\AflProfiles' => $baseDir . '/app/Models/AflProfiles.php',
     'App\\Models\\AflReports' => $baseDir . '/app/Models/AflReports.php',
     'App\\Models\\AflSettings' => $baseDir . '/app/Models/AflSettings.php',
-<<<<<<< HEAD
-=======
     'App\\Models\\AfuCallbacks' => $baseDir . '/app/Models/AfuCallbacks.php',
     'App\\Models\\AfuFailedUpdates' => $baseDir . '/app/Models/AfuFailedUpdates.php',
     'App\\Models\\AfuInstallations' => $baseDir . '/app/Models/AfuInstallations.php',
     'App\\Models\\AfuNotifications' => $baseDir . '/app/Models/AfuNotifications.php',
+    'App\\Models\\AfuSettings' => $baseDir . '/app/Models/AfuSettings.php',
     'App\\Models\\AfuVersions' => $baseDir . '/app/Models/AfuVersions.php',
->>>>>>> 22c0e54 (table changes)
     'App\\Models\\FaveoLicense' => $baseDir . '/app/Models/FaveoLicense.php',
     'App\\Models\\OauthAccessToken' => $baseDir . '/app/Models/OauthAccessToken.php',
     'App\\Models\\User' => $baseDir . '/app/Models/User.php',
@@ -916,14 +905,6 @@ return array(
     'Faker\\Provider\\nl_BE\\Payment' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_BE/Payment.php',
     'Faker\\Provider\\nl_BE\\Person' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_BE/Person.php',
     'Faker\\Provider\\nl_BE\\PhoneNumber' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_BE/PhoneNumber.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Faker\\Provider\\nl_BE\\Text' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_BE/Text.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Faker\\Provider\\nl_BE\\Text' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_BE/Text.php',
->>>>>>> f330c64 (optimization in progress)
     'Faker\\Provider\\nl_NL\\Address' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_NL/Address.php',
     'Faker\\Provider\\nl_NL\\Color' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_NL/Color.php',
     'Faker\\Provider\\nl_NL\\Company' => $vendorDir . '/fakerphp/faker/src/Faker/Provider/nl_NL/Company.php',
@@ -1111,14 +1092,6 @@ return array(
     'GuzzleHttp\\Psr7\\BufferStream' => $vendorDir . '/guzzlehttp/psr7/src/BufferStream.php',
     'GuzzleHttp\\Psr7\\CachingStream' => $vendorDir . '/guzzlehttp/psr7/src/CachingStream.php',
     'GuzzleHttp\\Psr7\\DroppingStream' => $vendorDir . '/guzzlehttp/psr7/src/DroppingStream.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'GuzzleHttp\\Psr7\\Exception\\MalformedUriException' => $vendorDir . '/guzzlehttp/psr7/src/Exception/MalformedUriException.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'GuzzleHttp\\Psr7\\Exception\\MalformedUriException' => $vendorDir . '/guzzlehttp/psr7/src/Exception/MalformedUriException.php',
->>>>>>> f330c64 (optimization in progress)
     'GuzzleHttp\\Psr7\\FnStream' => $vendorDir . '/guzzlehttp/psr7/src/FnStream.php',
     'GuzzleHttp\\Psr7\\Header' => $vendorDir . '/guzzlehttp/psr7/src/Header.php',
     'GuzzleHttp\\Psr7\\HttpFactory' => $vendorDir . '/guzzlehttp/psr7/src/HttpFactory.php',
@@ -1298,7 +1271,6 @@ return array(
     'Illuminate\\Bus\\PendingBatch' => $vendorDir . '/laravel/framework/src/Illuminate/Bus/PendingBatch.php',
     'Illuminate\\Bus\\PrunableBatchRepository' => $vendorDir . '/laravel/framework/src/Illuminate/Bus/PrunableBatchRepository.php',
     'Illuminate\\Bus\\Queueable' => $vendorDir . '/laravel/framework/src/Illuminate/Bus/Queueable.php',
-    'Illuminate\\Bus\\UniqueLock' => $vendorDir . '/laravel/framework/src/Illuminate/Bus/UniqueLock.php',
     'Illuminate\\Bus\\UpdatedBatchJobCounts' => $vendorDir . '/laravel/framework/src/Illuminate/Bus/UpdatedBatchJobCounts.php',
     'Illuminate\\Cache\\ApcStore' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/ApcStore.php',
     'Illuminate\\Cache\\ApcWrapper' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/ApcWrapper.php',
@@ -1341,27 +1313,13 @@ return array(
     'Illuminate\\Cache\\TagSet' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/TagSet.php',
     'Illuminate\\Cache\\TaggableStore' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/TaggableStore.php',
     'Illuminate\\Cache\\TaggedCache' => $vendorDir . '/laravel/framework/src/Illuminate/Cache/TaggedCache.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'Illuminate\\Collections\\ItemNotFoundException' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/ItemNotFoundException.php',
     'Illuminate\\Collections\\MultipleItemsFoundException' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/MultipleItemsFoundException.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Config\\Repository' => $vendorDir . '/laravel/framework/src/Illuminate/Config/Repository.php',
     'Illuminate\\Console\\Application' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Application.php',
     'Illuminate\\Console\\BufferedConsoleOutput' => $vendorDir . '/laravel/framework/src/Illuminate/Console/BufferedConsoleOutput.php',
     'Illuminate\\Console\\Command' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Command.php',
     'Illuminate\\Console\\Concerns\\CallsCommands' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Concerns/CallsCommands.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Illuminate\\Console\\Concerns\\CreatesMatchingTest' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Concerns/CreatesMatchingTest.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Illuminate\\Console\\Concerns\\CreatesMatchingTest' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Concerns/CreatesMatchingTest.php',
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Console\\Concerns\\HasParameters' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Concerns/HasParameters.php',
     'Illuminate\\Console\\Concerns\\InteractsWithIO' => $vendorDir . '/laravel/framework/src/Illuminate/Console/Concerns/InteractsWithIO.php',
     'Illuminate\\Console\\ConfirmableTrait' => $vendorDir . '/laravel/framework/src/Illuminate/Console/ConfirmableTrait.php',
@@ -1780,16 +1738,6 @@ return array(
     'Illuminate\\Foundation\\Events\\DiscoverEvents' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/DiscoverEvents.php',
     'Illuminate\\Foundation\\Events\\Dispatchable' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/Dispatchable.php',
     'Illuminate\\Foundation\\Events\\LocaleUpdated' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/LocaleUpdated.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Illuminate\\Foundation\\Events\\MaintenanceModeDisabled' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/MaintenanceModeDisabled.php',
-    'Illuminate\\Foundation\\Events\\MaintenanceModeEnabled' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/MaintenanceModeEnabled.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Illuminate\\Foundation\\Events\\MaintenanceModeDisabled' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/MaintenanceModeDisabled.php',
-    'Illuminate\\Foundation\\Events\\MaintenanceModeEnabled' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/MaintenanceModeEnabled.php',
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Foundation\\Events\\VendorTagPublished' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Events/VendorTagPublished.php',
     'Illuminate\\Foundation\\Exceptions\\Handler' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Exceptions/Handler.php',
     'Illuminate\\Foundation\\Exceptions\\RegisterErrorViewPaths' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Exceptions/RegisterErrorViewPaths.php',
@@ -1823,14 +1771,6 @@ return array(
     'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithConsole' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithConsole.php',
     'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithContainer' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithContainer.php',
     'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithDatabase.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithDeprecationHandling' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithDeprecationHandling.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithDeprecationHandling' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithDeprecationHandling.php',
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithExceptionHandling' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithExceptionHandling.php',
     'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithRedis' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithRedis.php',
     'Illuminate\\Foundation\\Testing\\Concerns\\InteractsWithSession' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/InteractsWithSession.php',
@@ -1840,14 +1780,6 @@ return array(
     'Illuminate\\Foundation\\Testing\\Concerns\\MocksApplicationServices' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/Concerns/MocksApplicationServices.php',
     'Illuminate\\Foundation\\Testing\\DatabaseMigrations' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseMigrations.php',
     'Illuminate\\Foundation\\Testing\\DatabaseTransactions' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/DatabaseTransactions.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Illuminate\\Foundation\\Testing\\LazilyRefreshDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/LazilyRefreshDatabase.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Illuminate\\Foundation\\Testing\\LazilyRefreshDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/LazilyRefreshDatabase.php',
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Foundation\\Testing\\RefreshDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/RefreshDatabase.php',
     'Illuminate\\Foundation\\Testing\\RefreshDatabaseState' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/RefreshDatabaseState.php',
     'Illuminate\\Foundation\\Testing\\TestCase' => $vendorDir . '/laravel/framework/src/Illuminate/Foundation/Testing/TestCase.php',
@@ -1996,14 +1928,6 @@ return array(
     'Illuminate\\Queue\\Events\\JobProcessed' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/JobProcessed.php',
     'Illuminate\\Queue\\Events\\JobProcessing' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/JobProcessing.php',
     'Illuminate\\Queue\\Events\\JobQueued' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/JobQueued.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Illuminate\\Queue\\Events\\JobRetryRequested' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/JobRetryRequested.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Illuminate\\Queue\\Events\\JobRetryRequested' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/JobRetryRequested.php',
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Queue\\Events\\Looping' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/Looping.php',
     'Illuminate\\Queue\\Events\\QueueBusy' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/QueueBusy.php',
     'Illuminate\\Queue\\Events\\WorkerStopping' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/Events/WorkerStopping.php',
@@ -2039,14 +1963,6 @@ return array(
     'Illuminate\\Queue\\QueueServiceProvider' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/QueueServiceProvider.php',
     'Illuminate\\Queue\\RedisQueue' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/RedisQueue.php',
     'Illuminate\\Queue\\SerializableClosure' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/SerializableClosure.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Illuminate\\Queue\\SerializableClosureFactory' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/SerializableClosureFactory.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Illuminate\\Queue\\SerializableClosureFactory' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/SerializableClosureFactory.php',
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Queue\\SerializesAndRestoresModelIdentifiers' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/SerializesAndRestoresModelIdentifiers.php',
     'Illuminate\\Queue\\SerializesModels' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/SerializesModels.php',
     'Illuminate\\Queue\\SqsQueue' => $vendorDir . '/laravel/framework/src/Illuminate/Queue/SqsQueue.php',
@@ -2181,23 +2097,9 @@ return array(
     'Illuminate\\Support\\HigherOrderWhenProxy' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/HigherOrderWhenProxy.php',
     'Illuminate\\Support\\HtmlString' => $vendorDir . '/laravel/framework/src/Illuminate/Support/HtmlString.php',
     'Illuminate\\Support\\InteractsWithTime' => $vendorDir . '/laravel/framework/src/Illuminate/Support/InteractsWithTime.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    'Illuminate\\Support\\ItemNotFoundException' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/ItemNotFoundException.php',
     'Illuminate\\Support\\LazyCollection' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/LazyCollection.php',
     'Illuminate\\Support\\Manager' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Manager.php',
     'Illuminate\\Support\\MessageBag' => $vendorDir . '/laravel/framework/src/Illuminate/Support/MessageBag.php',
-    'Illuminate\\Support\\MultipleItemsFoundException' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/MultipleItemsFoundException.php',
-<<<<<<< HEAD
-=======
-    'Illuminate\\Support\\LazyCollection' => $vendorDir . '/laravel/framework/src/Illuminate/Collections/LazyCollection.php',
-    'Illuminate\\Support\\Manager' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Manager.php',
-    'Illuminate\\Support\\MessageBag' => $vendorDir . '/laravel/framework/src/Illuminate/Support/MessageBag.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Support\\NamespacedItemResolver' => $vendorDir . '/laravel/framework/src/Illuminate/Support/NamespacedItemResolver.php',
     'Illuminate\\Support\\Optional' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Optional.php',
     'Illuminate\\Support\\Pluralizer' => $vendorDir . '/laravel/framework/src/Illuminate/Support/Pluralizer.php',
@@ -2231,14 +2133,6 @@ return array(
     'Illuminate\\Testing\\Constraints\\ArraySubset' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Constraints/ArraySubset.php',
     'Illuminate\\Testing\\Constraints\\CountInDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Constraints/CountInDatabase.php',
     'Illuminate\\Testing\\Constraints\\HasInDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Constraints/HasInDatabase.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Illuminate\\Testing\\Constraints\\NotSoftDeletedInDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Constraints/NotSoftDeletedInDatabase.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Illuminate\\Testing\\Constraints\\NotSoftDeletedInDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Constraints/NotSoftDeletedInDatabase.php',
->>>>>>> f330c64 (optimization in progress)
     'Illuminate\\Testing\\Constraints\\SeeInOrder' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Constraints/SeeInOrder.php',
     'Illuminate\\Testing\\Constraints\\SoftDeletedInDatabase' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Constraints/SoftDeletedInDatabase.php',
     'Illuminate\\Testing\\Fluent\\AssertableJson' => $vendorDir . '/laravel/framework/src/Illuminate/Testing/Fluent/AssertableJson.php',
@@ -2400,28 +2294,6 @@ return array(
     'Laravel\\Sail\\Console\\InstallCommand' => $vendorDir . '/laravel/sail/src/Console/InstallCommand.php',
     'Laravel\\Sail\\Console\\PublishCommand' => $vendorDir . '/laravel/sail/src/Console/PublishCommand.php',
     'Laravel\\Sail\\SailServiceProvider' => $vendorDir . '/laravel/sail/src/SailServiceProvider.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    'Laravel\\SerializableClosure\\Contracts\\Serializable' => $vendorDir . '/laravel/serializable-closure/src/Contracts/Serializable.php',
-    'Laravel\\SerializableClosure\\Contracts\\Signer' => $vendorDir . '/laravel/serializable-closure/src/Contracts/Signer.php',
-    'Laravel\\SerializableClosure\\Exceptions\\InvalidSignatureException' => $vendorDir . '/laravel/serializable-closure/src/Exceptions/InvalidSignatureException.php',
-    'Laravel\\SerializableClosure\\Exceptions\\MissingSecretKeyException' => $vendorDir . '/laravel/serializable-closure/src/Exceptions/MissingSecretKeyException.php',
-    'Laravel\\SerializableClosure\\Exceptions\\PhpVersionNotSupportedException' => $vendorDir . '/laravel/serializable-closure/src/Exceptions/PhpVersionNotSupportedException.php',
-    'Laravel\\SerializableClosure\\SerializableClosure' => $vendorDir . '/laravel/serializable-closure/src/SerializableClosure.php',
-    'Laravel\\SerializableClosure\\Serializers\\Native' => $vendorDir . '/laravel/serializable-closure/src/Serializers/Native.php',
-    'Laravel\\SerializableClosure\\Serializers\\Signed' => $vendorDir . '/laravel/serializable-closure/src/Serializers/Signed.php',
-    'Laravel\\SerializableClosure\\Signers\\Hmac' => $vendorDir . '/laravel/serializable-closure/src/Signers/Hmac.php',
-    'Laravel\\SerializableClosure\\Support\\ClosureScope' => $vendorDir . '/laravel/serializable-closure/src/Support/ClosureScope.php',
-    'Laravel\\SerializableClosure\\Support\\ClosureStream' => $vendorDir . '/laravel/serializable-closure/src/Support/ClosureStream.php',
-    'Laravel\\SerializableClosure\\Support\\ReflectionClosure' => $vendorDir . '/laravel/serializable-closure/src/Support/ReflectionClosure.php',
-    'Laravel\\SerializableClosure\\Support\\SelfReference' => $vendorDir . '/laravel/serializable-closure/src/Support/SelfReference.php',
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'Laravel\\Tinker\\ClassAliasAutoloader' => $vendorDir . '/laravel/tinker/src/ClassAliasAutoloader.php',
     'Laravel\\Tinker\\Console\\TinkerCommand' => $vendorDir . '/laravel/tinker/src/Console/TinkerCommand.php',
     'Laravel\\Tinker\\TinkerCaster' => $vendorDir . '/laravel/tinker/src/TinkerCaster.php',
@@ -2435,54 +2307,23 @@ return array(
     'Laravel\\Ui\\Presets\\Vue' => $vendorDir . '/laravel/ui/src/Presets/Vue.php',
     'Laravel\\Ui\\UiCommand' => $vendorDir . '/laravel/ui/src/UiCommand.php',
     'Laravel\\Ui\\UiServiceProvider' => $vendorDir . '/laravel/ui/src/UiServiceProvider.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Lcobucci\\JWT\\Builder' => $vendorDir . '/lcobucci/jwt/src/Builder.php',
-    'Lcobucci\\JWT\\Claim' => $vendorDir . '/lcobucci/jwt/src/Claim.php',
-    'Lcobucci\\JWT\\Claim\\Basic' => $vendorDir . '/lcobucci/jwt/src/Claim/Basic.php',
-    'Lcobucci\\JWT\\Claim\\EqualsTo' => $vendorDir . '/lcobucci/jwt/src/Claim/EqualsTo.php',
-    'Lcobucci\\JWT\\Claim\\Factory' => $vendorDir . '/lcobucci/jwt/src/Claim/Factory.php',
-    'Lcobucci\\JWT\\Claim\\GreaterOrEqualsTo' => $vendorDir . '/lcobucci/jwt/src/Claim/GreaterOrEqualsTo.php',
-    'Lcobucci\\JWT\\Claim\\LesserOrEqualsTo' => $vendorDir . '/lcobucci/jwt/src/Claim/LesserOrEqualsTo.php',
-    'Lcobucci\\JWT\\Claim\\Validatable' => $vendorDir . '/lcobucci/jwt/src/Claim/Validatable.php',
-    'Lcobucci\\JWT\\Configuration' => $vendorDir . '/lcobucci/jwt/src/Configuration.php',
-    'Lcobucci\\JWT\\Encoding\\CannotDecodeContent' => $vendorDir . '/lcobucci/jwt/src/Encoding/CannotDecodeContent.php',
-    'Lcobucci\\JWT\\Encoding\\CannotEncodeContent' => $vendorDir . '/lcobucci/jwt/src/Encoding/CannotEncodeContent.php',
-    'Lcobucci\\JWT\\Exception' => $vendorDir . '/lcobucci/jwt/src/Exception.php',
-    'Lcobucci\\JWT\\Parser' => $vendorDir . '/lcobucci/jwt/src/Parser.php',
-    'Lcobucci\\JWT\\Parsing\\Decoder' => $vendorDir . '/lcobucci/jwt/src/Parsing/Decoder.php',
-    'Lcobucci\\JWT\\Parsing\\Encoder' => $vendorDir . '/lcobucci/jwt/src/Parsing/Encoder.php',
-    'Lcobucci\\JWT\\Signature' => $vendorDir . '/lcobucci/jwt/src/Signature.php',
-    'Lcobucci\\JWT\\Signer' => $vendorDir . '/lcobucci/jwt/src/Signer.php',
-    'Lcobucci\\JWT\\Signer\\BaseSigner' => $vendorDir . '/lcobucci/jwt/src/Signer/BaseSigner.php',
-=======
     'Lcobucci\\Clock\\Clock' => $vendorDir . '/lcobucci/clock/src/Clock.php',
     'Lcobucci\\Clock\\FrozenClock' => $vendorDir . '/lcobucci/clock/src/FrozenClock.php',
     'Lcobucci\\Clock\\SystemClock' => $vendorDir . '/lcobucci/clock/src/SystemClock.php',
-=======
->>>>>>> f330c64 (optimization in progress)
     'Lcobucci\\JWT\\Builder' => $vendorDir . '/lcobucci/jwt/src/Builder.php',
-    'Lcobucci\\JWT\\Claim' => $vendorDir . '/lcobucci/jwt/src/Claim.php',
-    'Lcobucci\\JWT\\Claim\\Basic' => $vendorDir . '/lcobucci/jwt/src/Claim/Basic.php',
-    'Lcobucci\\JWT\\Claim\\EqualsTo' => $vendorDir . '/lcobucci/jwt/src/Claim/EqualsTo.php',
-    'Lcobucci\\JWT\\Claim\\Factory' => $vendorDir . '/lcobucci/jwt/src/Claim/Factory.php',
-    'Lcobucci\\JWT\\Claim\\GreaterOrEqualsTo' => $vendorDir . '/lcobucci/jwt/src/Claim/GreaterOrEqualsTo.php',
-    'Lcobucci\\JWT\\Claim\\LesserOrEqualsTo' => $vendorDir . '/lcobucci/jwt/src/Claim/LesserOrEqualsTo.php',
-    'Lcobucci\\JWT\\Claim\\Validatable' => $vendorDir . '/lcobucci/jwt/src/Claim/Validatable.php',
+    'Lcobucci\\JWT\\ClaimsFormatter' => $vendorDir . '/lcobucci/jwt/src/ClaimsFormatter.php',
     'Lcobucci\\JWT\\Configuration' => $vendorDir . '/lcobucci/jwt/src/Configuration.php',
+    'Lcobucci\\JWT\\Decoder' => $vendorDir . '/lcobucci/jwt/src/Decoder.php',
+    'Lcobucci\\JWT\\Encoder' => $vendorDir . '/lcobucci/jwt/src/Encoder.php',
     'Lcobucci\\JWT\\Encoding\\CannotDecodeContent' => $vendorDir . '/lcobucci/jwt/src/Encoding/CannotDecodeContent.php',
     'Lcobucci\\JWT\\Encoding\\CannotEncodeContent' => $vendorDir . '/lcobucci/jwt/src/Encoding/CannotEncodeContent.php',
+    'Lcobucci\\JWT\\Encoding\\ChainedFormatter' => $vendorDir . '/lcobucci/jwt/src/Encoding/ChainedFormatter.php',
+    'Lcobucci\\JWT\\Encoding\\JoseEncoder' => $vendorDir . '/lcobucci/jwt/src/Encoding/JoseEncoder.php',
+    'Lcobucci\\JWT\\Encoding\\MicrosecondBasedDateConversion' => $vendorDir . '/lcobucci/jwt/src/Encoding/MicrosecondBasedDateConversion.php',
+    'Lcobucci\\JWT\\Encoding\\UnifyAudience' => $vendorDir . '/lcobucci/jwt/src/Encoding/UnifyAudience.php',
     'Lcobucci\\JWT\\Exception' => $vendorDir . '/lcobucci/jwt/src/Exception.php',
     'Lcobucci\\JWT\\Parser' => $vendorDir . '/lcobucci/jwt/src/Parser.php',
-    'Lcobucci\\JWT\\Parsing\\Decoder' => $vendorDir . '/lcobucci/jwt/src/Parsing/Decoder.php',
-    'Lcobucci\\JWT\\Parsing\\Encoder' => $vendorDir . '/lcobucci/jwt/src/Parsing/Encoder.php',
-    'Lcobucci\\JWT\\Signature' => $vendorDir . '/lcobucci/jwt/src/Signature.php',
     'Lcobucci\\JWT\\Signer' => $vendorDir . '/lcobucci/jwt/src/Signer.php',
-<<<<<<< HEAD
->>>>>>> 22c0e54 (table changes)
-=======
-    'Lcobucci\\JWT\\Signer\\BaseSigner' => $vendorDir . '/lcobucci/jwt/src/Signer/BaseSigner.php',
->>>>>>> f330c64 (optimization in progress)
     'Lcobucci\\JWT\\Signer\\CannotSignPayload' => $vendorDir . '/lcobucci/jwt/src/Signer/CannotSignPayload.php',
     'Lcobucci\\JWT\\Signer\\Ecdsa' => $vendorDir . '/lcobucci/jwt/src/Signer/Ecdsa.php',
     'Lcobucci\\JWT\\Signer\\Ecdsa\\ConversionFailed' => $vendorDir . '/lcobucci/jwt/src/Signer/Ecdsa/ConversionFailed.php',
@@ -2500,14 +2341,6 @@ return array(
     'Lcobucci\\JWT\\Signer\\Key\\FileCouldNotBeRead' => $vendorDir . '/lcobucci/jwt/src/Signer/Key/FileCouldNotBeRead.php',
     'Lcobucci\\JWT\\Signer\\Key\\InMemory' => $vendorDir . '/lcobucci/jwt/src/Signer/Key/InMemory.php',
     'Lcobucci\\JWT\\Signer\\Key\\LocalFileReference' => $vendorDir . '/lcobucci/jwt/src/Signer/Key/LocalFileReference.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Lcobucci\\JWT\\Signer\\Keychain' => $vendorDir . '/lcobucci/jwt/src/Signer/Keychain.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Lcobucci\\JWT\\Signer\\Keychain' => $vendorDir . '/lcobucci/jwt/src/Signer/Keychain.php',
->>>>>>> f330c64 (optimization in progress)
     'Lcobucci\\JWT\\Signer\\None' => $vendorDir . '/lcobucci/jwt/src/Signer/None.php',
     'Lcobucci\\JWT\\Signer\\OpenSSL' => $vendorDir . '/lcobucci/jwt/src/Signer/OpenSSL.php',
     'Lcobucci\\JWT\\Signer\\Rsa' => $vendorDir . '/lcobucci/jwt/src/Signer/Rsa.php',
@@ -2515,28 +2348,15 @@ return array(
     'Lcobucci\\JWT\\Signer\\Rsa\\Sha384' => $vendorDir . '/lcobucci/jwt/src/Signer/Rsa/Sha384.php',
     'Lcobucci\\JWT\\Signer\\Rsa\\Sha512' => $vendorDir . '/lcobucci/jwt/src/Signer/Rsa/Sha512.php',
     'Lcobucci\\JWT\\Token' => $vendorDir . '/lcobucci/jwt/src/Token.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Lcobucci\\JWT\\Token\\DataSet' => $vendorDir . '/lcobucci/jwt/src/Token/DataSet.php',
-    'Lcobucci\\JWT\\Token\\InvalidTokenStructure' => $vendorDir . '/lcobucci/jwt/src/Token/InvalidTokenStructure.php',
-    'Lcobucci\\JWT\\Token\\RegisteredClaimGiven' => $vendorDir . '/lcobucci/jwt/src/Token/RegisteredClaimGiven.php',
-    'Lcobucci\\JWT\\Token\\RegisteredClaims' => $vendorDir . '/lcobucci/jwt/src/Token/RegisteredClaims.php',
-    'Lcobucci\\JWT\\Token\\UnsupportedHeaderFound' => $vendorDir . '/lcobucci/jwt/src/Token/UnsupportedHeaderFound.php',
-    'Lcobucci\\JWT\\ValidationData' => $vendorDir . '/lcobucci/jwt/src/ValidationData.php',
-=======
     'Lcobucci\\JWT\\Token\\Builder' => $vendorDir . '/lcobucci/jwt/src/Token/Builder.php',
-=======
->>>>>>> f330c64 (optimization in progress)
     'Lcobucci\\JWT\\Token\\DataSet' => $vendorDir . '/lcobucci/jwt/src/Token/DataSet.php',
     'Lcobucci\\JWT\\Token\\InvalidTokenStructure' => $vendorDir . '/lcobucci/jwt/src/Token/InvalidTokenStructure.php',
+    'Lcobucci\\JWT\\Token\\Parser' => $vendorDir . '/lcobucci/jwt/src/Token/Parser.php',
+    'Lcobucci\\JWT\\Token\\Plain' => $vendorDir . '/lcobucci/jwt/src/Token/Plain.php',
     'Lcobucci\\JWT\\Token\\RegisteredClaimGiven' => $vendorDir . '/lcobucci/jwt/src/Token/RegisteredClaimGiven.php',
     'Lcobucci\\JWT\\Token\\RegisteredClaims' => $vendorDir . '/lcobucci/jwt/src/Token/RegisteredClaims.php',
+    'Lcobucci\\JWT\\Token\\Signature' => $vendorDir . '/lcobucci/jwt/src/Token/Signature.php',
     'Lcobucci\\JWT\\Token\\UnsupportedHeaderFound' => $vendorDir . '/lcobucci/jwt/src/Token/UnsupportedHeaderFound.php',
-<<<<<<< HEAD
->>>>>>> 22c0e54 (table changes)
-=======
-    'Lcobucci\\JWT\\ValidationData' => $vendorDir . '/lcobucci/jwt/src/ValidationData.php',
->>>>>>> f330c64 (optimization in progress)
     'Lcobucci\\JWT\\Validation\\Constraint' => $vendorDir . '/lcobucci/jwt/src/Validation/Constraint.php',
     'Lcobucci\\JWT\\Validation\\ConstraintViolation' => $vendorDir . '/lcobucci/jwt/src/Validation/ConstraintViolation.php',
     'Lcobucci\\JWT\\Validation\\Constraint\\IdentifiedBy' => $vendorDir . '/lcobucci/jwt/src/Validation/Constraint/IdentifiedBy.php',
@@ -2595,13 +2415,7 @@ return array(
     'League\\CommonMark\\Cursor' => $vendorDir . '/league/commonmark/src/Cursor.php',
     'League\\CommonMark\\Delimiter\\Delimiter' => $vendorDir . '/league/commonmark/src/Delimiter/Delimiter.php',
     'League\\CommonMark\\Delimiter\\DelimiterInterface' => $vendorDir . '/league/commonmark/src/Delimiter/DelimiterInterface.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Delimiter\\DelimiterParser' => $vendorDir . '/league/commonmark/src/Delimiter/DelimiterParser.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Delimiter\\DelimiterStack' => $vendorDir . '/league/commonmark/src/Delimiter/DelimiterStack.php',
     'League\\CommonMark\\Delimiter\\Processor\\DelimiterProcessorCollection' => $vendorDir . '/league/commonmark/src/Delimiter/Processor/DelimiterProcessorCollection.php',
     'League\\CommonMark\\Delimiter\\Processor\\DelimiterProcessorCollectionInterface' => $vendorDir . '/league/commonmark/src/Delimiter/Processor/DelimiterProcessorCollectionInterface.php',
@@ -2614,12 +2428,6 @@ return array(
     'League\\CommonMark\\Environment' => $vendorDir . '/league/commonmark/src/Environment.php',
     'League\\CommonMark\\EnvironmentAwareInterface' => $vendorDir . '/league/commonmark/src/EnvironmentAwareInterface.php',
     'League\\CommonMark\\EnvironmentInterface' => $vendorDir . '/league/commonmark/src/EnvironmentInterface.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'League\\CommonMark\\Event\\AbstractEvent' => $vendorDir . '/league/commonmark/src/Event/AbstractEvent.php',
-    'League\\CommonMark\\Event\\DocumentParsedEvent' => $vendorDir . '/league/commonmark/src/Event/DocumentParsedEvent.php',
-    'League\\CommonMark\\Event\\DocumentPreParsedEvent' => $vendorDir . '/league/commonmark/src/Event/DocumentPreParsedEvent.php',
-=======
     'League\\CommonMark\\Environment\\Environment' => $vendorDir . '/league/commonmark/src/Environment/Environment.php',
     'League\\CommonMark\\Environment\\EnvironmentAwareInterface' => $vendorDir . '/league/commonmark/src/Environment/EnvironmentAwareInterface.php',
     'League\\CommonMark\\Environment\\EnvironmentBuilderInterface' => $vendorDir . '/league/commonmark/src/Environment/EnvironmentBuilderInterface.php',
@@ -2630,62 +2438,104 @@ return array(
     'League\\CommonMark\\Event\\DocumentPreRenderEvent' => $vendorDir . '/league/commonmark/src/Event/DocumentPreRenderEvent.php',
     'League\\CommonMark\\Event\\DocumentRenderedEvent' => $vendorDir . '/league/commonmark/src/Event/DocumentRenderedEvent.php',
     'League\\CommonMark\\Event\\ListenerData' => $vendorDir . '/league/commonmark/src/Event/ListenerData.php',
->>>>>>> 22c0e54 (table changes)
-=======
-    'League\\CommonMark\\Event\\AbstractEvent' => $vendorDir . '/league/commonmark/src/Event/AbstractEvent.php',
-    'League\\CommonMark\\Event\\DocumentParsedEvent' => $vendorDir . '/league/commonmark/src/Event/DocumentParsedEvent.php',
-    'League\\CommonMark\\Event\\DocumentPreParsedEvent' => $vendorDir . '/league/commonmark/src/Event/DocumentPreParsedEvent.php',
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Exception\\InvalidOptionException' => $vendorDir . '/league/commonmark/src/Exception/InvalidOptionException.php',
     'League\\CommonMark\\Exception\\UnexpectedEncodingException' => $vendorDir . '/league/commonmark/src/Exception/UnexpectedEncodingException.php',
     'League\\CommonMark\\Extension\\Attributes\\AttributesExtension' => $vendorDir . '/league/commonmark/src/Extension/Attributes/AttributesExtension.php',
     'League\\CommonMark\\Extension\\Attributes\\Event\\AttributesListener' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Event/AttributesListener.php',
     'League\\CommonMark\\Extension\\Attributes\\Node\\Attributes' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Node/Attributes.php',
     'League\\CommonMark\\Extension\\Attributes\\Node\\AttributesInline' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Node/AttributesInline.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'League\\CommonMark\\Extension\\Attributes\\Parser\\AttributesBlockParser' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Parser/AttributesBlockParser.php',
-    'League\\CommonMark\\Extension\\Attributes\\Parser\\AttributesInlineParser' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Parser/AttributesInlineParser.php',
-    'League\\CommonMark\\Extension\\Attributes\\Util\\AttributesHelper' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Util/AttributesHelper.php',
-    'League\\CommonMark\\Extension\\Autolink\\AutolinkExtension' => $vendorDir . '/league/commonmark/src/Extension/Autolink/AutolinkExtension.php',
-    'League\\CommonMark\\Extension\\Autolink\\EmailAutolinkProcessor' => $vendorDir . '/league/commonmark/src/Extension/Autolink/EmailAutolinkProcessor.php',
-    'League\\CommonMark\\Extension\\Autolink\\InlineMentionParser' => $vendorDir . '/league/commonmark/src/Extension/Autolink/InlineMentionParser.php',
-    'League\\CommonMark\\Extension\\Autolink\\UrlAutolinkProcessor' => $vendorDir . '/league/commonmark/src/Extension/Autolink/UrlAutolinkProcessor.php',
-    'League\\CommonMark\\Extension\\CommonMarkCoreExtension' => $vendorDir . '/league/commonmark/src/Extension/CommonMarkCoreExtension.php',
-    'League\\CommonMark\\Extension\\DisallowedRawHtml\\DisallowedRawHtmlBlockRenderer' => $vendorDir . '/league/commonmark/src/Extension/DisallowedRawHtml/DisallowedRawHtmlBlockRenderer.php',
-    'League\\CommonMark\\Extension\\DisallowedRawHtml\\DisallowedRawHtmlExtension' => $vendorDir . '/league/commonmark/src/Extension/DisallowedRawHtml/DisallowedRawHtmlExtension.php',
-    'League\\CommonMark\\Extension\\DisallowedRawHtml\\DisallowedRawHtmlInlineRenderer' => $vendorDir . '/league/commonmark/src/Extension/DisallowedRawHtml/DisallowedRawHtmlInlineRenderer.php',
-=======
     'League\\CommonMark\\Extension\\Attributes\\Parser\\AttributesBlockContinueParser' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Parser/AttributesBlockContinueParser.php',
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\Attributes\\Parser\\AttributesBlockParser' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Parser/AttributesBlockParser.php',
+    'League\\CommonMark\\Extension\\Attributes\\Parser\\AttributesBlockStartParser' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Parser/AttributesBlockStartParser.php',
     'League\\CommonMark\\Extension\\Attributes\\Parser\\AttributesInlineParser' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Parser/AttributesInlineParser.php',
     'League\\CommonMark\\Extension\\Attributes\\Util\\AttributesHelper' => $vendorDir . '/league/commonmark/src/Extension/Attributes/Util/AttributesHelper.php',
     'League\\CommonMark\\Extension\\Autolink\\AutolinkExtension' => $vendorDir . '/league/commonmark/src/Extension/Autolink/AutolinkExtension.php',
+    'League\\CommonMark\\Extension\\Autolink\\EmailAutolinkParser' => $vendorDir . '/league/commonmark/src/Extension/Autolink/EmailAutolinkParser.php',
     'League\\CommonMark\\Extension\\Autolink\\EmailAutolinkProcessor' => $vendorDir . '/league/commonmark/src/Extension/Autolink/EmailAutolinkProcessor.php',
     'League\\CommonMark\\Extension\\Autolink\\InlineMentionParser' => $vendorDir . '/league/commonmark/src/Extension/Autolink/InlineMentionParser.php',
+    'League\\CommonMark\\Extension\\Autolink\\UrlAutolinkParser' => $vendorDir . '/league/commonmark/src/Extension/Autolink/UrlAutolinkParser.php',
     'League\\CommonMark\\Extension\\Autolink\\UrlAutolinkProcessor' => $vendorDir . '/league/commonmark/src/Extension/Autolink/UrlAutolinkProcessor.php',
     'League\\CommonMark\\Extension\\CommonMarkCoreExtension' => $vendorDir . '/league/commonmark/src/Extension/CommonMarkCoreExtension.php',
+    'League\\CommonMark\\Extension\\CommonMark\\CommonMarkCoreExtension' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/CommonMarkCoreExtension.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Delimiter\\Processor\\EmphasisDelimiterProcessor' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Delimiter/Processor/EmphasisDelimiterProcessor.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\BlockQuote' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/BlockQuote.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\FencedCode' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/FencedCode.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\Heading' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/Heading.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\HtmlBlock' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/HtmlBlock.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\IndentedCode' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/IndentedCode.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\ListBlock' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/ListBlock.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\ListData' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/ListData.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\ListItem' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/ListItem.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Block\\ThematicBreak' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Block/ThematicBreak.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Inline\\AbstractWebResource' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Inline/AbstractWebResource.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Inline\\Code' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Inline/Code.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Inline\\Emphasis' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Inline/Emphasis.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Inline\\HtmlInline' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Inline/HtmlInline.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Inline\\Image' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Inline/Image.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Inline\\Link' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Inline/Link.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Node\\Inline\\Strong' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Node/Inline/Strong.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\BlockQuoteParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/BlockQuoteParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\BlockQuoteStartParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/BlockQuoteStartParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\FencedCodeParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/FencedCodeParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\FencedCodeStartParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/FencedCodeStartParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\HeadingParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/HeadingParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\HeadingStartParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/HeadingStartParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\HtmlBlockParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/HtmlBlockParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\HtmlBlockStartParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/HtmlBlockStartParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\IndentedCodeParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/IndentedCodeParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\IndentedCodeStartParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/IndentedCodeStartParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\ListBlockParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/ListBlockParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\ListBlockStartParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/ListBlockStartParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\ListItemParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/ListItemParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\ThematicBreakParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/ThematicBreakParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Block\\ThematicBreakStartParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Block/ThematicBreakStartParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\AutolinkParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/AutolinkParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\BacktickParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/BacktickParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\BangParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/BangParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\CloseBracketParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/CloseBracketParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\EntityParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/EntityParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\EscapableParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/EscapableParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\HtmlInlineParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/HtmlInlineParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Parser\\Inline\\OpenBracketParser' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Parser/Inline/OpenBracketParser.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\BlockQuoteRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/BlockQuoteRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\FencedCodeRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/FencedCodeRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\HeadingRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/HeadingRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\HtmlBlockRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/HtmlBlockRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\IndentedCodeRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/IndentedCodeRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\ListBlockRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/ListBlockRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\ListItemRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/ListItemRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Block\\ThematicBreakRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Block/ThematicBreakRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Inline\\CodeRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Inline/CodeRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Inline\\EmphasisRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Inline/EmphasisRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Inline\\HtmlInlineRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Inline/HtmlInlineRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Inline\\ImageRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Inline/ImageRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Inline\\LinkRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Inline/LinkRenderer.php',
+    'League\\CommonMark\\Extension\\CommonMark\\Renderer\\Inline\\StrongRenderer' => $vendorDir . '/league/commonmark/src/Extension/CommonMark/Renderer/Inline/StrongRenderer.php',
+    'League\\CommonMark\\Extension\\ConfigurableExtensionInterface' => $vendorDir . '/league/commonmark/src/Extension/ConfigurableExtensionInterface.php',
+    'League\\CommonMark\\Extension\\DefaultAttributes\\ApplyDefaultAttributesProcessor' => $vendorDir . '/league/commonmark/src/Extension/DefaultAttributes/ApplyDefaultAttributesProcessor.php',
+    'League\\CommonMark\\Extension\\DefaultAttributes\\DefaultAttributesExtension' => $vendorDir . '/league/commonmark/src/Extension/DefaultAttributes/DefaultAttributesExtension.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\DescriptionListExtension' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/DescriptionListExtension.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Event\\ConsecutiveDescriptionListMerger' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Event/ConsecutiveDescriptionListMerger.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Event\\LooseDescriptionHandler' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Event/LooseDescriptionHandler.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Node\\Description' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Node/Description.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Node\\DescriptionList' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Node/DescriptionList.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Node\\DescriptionTerm' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Node/DescriptionTerm.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Parser\\DescriptionContinueParser' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Parser/DescriptionContinueParser.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Parser\\DescriptionListContinueParser' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Parser/DescriptionListContinueParser.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Parser\\DescriptionStartParser' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Parser/DescriptionStartParser.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Parser\\DescriptionTermContinueParser' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Parser/DescriptionTermContinueParser.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Renderer\\DescriptionListRenderer' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Renderer/DescriptionListRenderer.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Renderer\\DescriptionRenderer' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Renderer/DescriptionRenderer.php',
+    'League\\CommonMark\\Extension\\DescriptionList\\Renderer\\DescriptionTermRenderer' => $vendorDir . '/league/commonmark/src/Extension/DescriptionList/Renderer/DescriptionTermRenderer.php',
     'League\\CommonMark\\Extension\\DisallowedRawHtml\\DisallowedRawHtmlBlockRenderer' => $vendorDir . '/league/commonmark/src/Extension/DisallowedRawHtml/DisallowedRawHtmlBlockRenderer.php',
     'League\\CommonMark\\Extension\\DisallowedRawHtml\\DisallowedRawHtmlExtension' => $vendorDir . '/league/commonmark/src/Extension/DisallowedRawHtml/DisallowedRawHtmlExtension.php',
     'League\\CommonMark\\Extension\\DisallowedRawHtml\\DisallowedRawHtmlInlineRenderer' => $vendorDir . '/league/commonmark/src/Extension/DisallowedRawHtml/DisallowedRawHtmlInlineRenderer.php',
-<<<<<<< HEAD
     'League\\CommonMark\\Extension\\DisallowedRawHtml\\DisallowedRawHtmlRenderer' => $vendorDir . '/league/commonmark/src/Extension/DisallowedRawHtml/DisallowedRawHtmlRenderer.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\ExtensionInterface' => $vendorDir . '/league/commonmark/src/Extension/ExtensionInterface.php',
     'League\\CommonMark\\Extension\\ExternalLink\\ExternalLinkExtension' => $vendorDir . '/league/commonmark/src/Extension/ExternalLink/ExternalLinkExtension.php',
     'League\\CommonMark\\Extension\\ExternalLink\\ExternalLinkProcessor' => $vendorDir . '/league/commonmark/src/Extension/ExternalLink/ExternalLinkProcessor.php',
     'League\\CommonMark\\Extension\\Footnote\\Event\\AnonymousFootnotesListener' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Event/AnonymousFootnotesListener.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Extension\\Footnote\\Event\\FixOrphanedFootnotesAndRefsListener' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Event/FixOrphanedFootnotesAndRefsListener.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\Footnote\\Event\\GatherFootnotesListener' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Event/GatherFootnotesListener.php',
     'League\\CommonMark\\Extension\\Footnote\\Event\\NumberFootnotesListener' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Event/NumberFootnotesListener.php',
     'League\\CommonMark\\Extension\\Footnote\\FootnoteExtension' => $vendorDir . '/league/commonmark/src/Extension/Footnote/FootnoteExtension.php',
@@ -2696,20 +2546,11 @@ return array(
     'League\\CommonMark\\Extension\\Footnote\\Parser\\AnonymousFootnoteRefParser' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Parser/AnonymousFootnoteRefParser.php',
     'League\\CommonMark\\Extension\\Footnote\\Parser\\FootnoteParser' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Parser/FootnoteParser.php',
     'League\\CommonMark\\Extension\\Footnote\\Parser\\FootnoteRefParser' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Parser/FootnoteRefParser.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Extension\\Footnote\\Parser\\FootnoteStartParser' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Parser/FootnoteStartParser.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\Footnote\\Renderer\\FootnoteBackrefRenderer' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Renderer/FootnoteBackrefRenderer.php',
     'League\\CommonMark\\Extension\\Footnote\\Renderer\\FootnoteContainerRenderer' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Renderer/FootnoteContainerRenderer.php',
     'League\\CommonMark\\Extension\\Footnote\\Renderer\\FootnoteRefRenderer' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Renderer/FootnoteRefRenderer.php',
     'League\\CommonMark\\Extension\\Footnote\\Renderer\\FootnoteRenderer' => $vendorDir . '/league/commonmark/src/Extension/Footnote/Renderer/FootnoteRenderer.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Extension\\FrontMatter\\Data\\FrontMatterDataParserInterface' => $vendorDir . '/league/commonmark/src/Extension/FrontMatter/Data/FrontMatterDataParserInterface.php',
     'League\\CommonMark\\Extension\\FrontMatter\\Data\\SymfonyYamlFrontMatterParser' => $vendorDir . '/league/commonmark/src/Extension/FrontMatter/Data/SymfonyYamlFrontMatterParser.php',
     'League\\CommonMark\\Extension\\FrontMatter\\Exception\\InvalidFrontMatterException' => $vendorDir . '/league/commonmark/src/Extension/FrontMatter/Exception/InvalidFrontMatterException.php',
@@ -2721,9 +2562,6 @@ return array(
     'League\\CommonMark\\Extension\\FrontMatter\\Listener\\FrontMatterPostRenderListener' => $vendorDir . '/league/commonmark/src/Extension/FrontMatter/Listener/FrontMatterPostRenderListener.php',
     'League\\CommonMark\\Extension\\FrontMatter\\Listener\\FrontMatterPreParser' => $vendorDir . '/league/commonmark/src/Extension/FrontMatter/Listener/FrontMatterPreParser.php',
     'League\\CommonMark\\Extension\\FrontMatter\\Output\\RenderedContentWithFrontMatter' => $vendorDir . '/league/commonmark/src/Extension/FrontMatter/Output/RenderedContentWithFrontMatter.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\GithubFlavoredMarkdownExtension' => $vendorDir . '/league/commonmark/src/Extension/GithubFlavoredMarkdownExtension.php',
     'League\\CommonMark\\Extension\\HeadingPermalink\\HeadingPermalink' => $vendorDir . '/league/commonmark/src/Extension/HeadingPermalink/HeadingPermalink.php',
     'League\\CommonMark\\Extension\\HeadingPermalink\\HeadingPermalinkExtension' => $vendorDir . '/league/commonmark/src/Extension/HeadingPermalink/HeadingPermalinkExtension.php',
@@ -2739,26 +2577,14 @@ return array(
     'League\\CommonMark\\Extension\\Mention\\Mention' => $vendorDir . '/league/commonmark/src/Extension/Mention/Mention.php',
     'League\\CommonMark\\Extension\\Mention\\MentionExtension' => $vendorDir . '/league/commonmark/src/Extension/Mention/MentionExtension.php',
     'League\\CommonMark\\Extension\\Mention\\MentionParser' => $vendorDir . '/league/commonmark/src/Extension/Mention/MentionParser.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Extension\\SmartPunct\\DashParser' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/DashParser.php',
     'League\\CommonMark\\Extension\\SmartPunct\\EllipsesParser' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/EllipsesParser.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\SmartPunct\\PunctuationParser' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/PunctuationParser.php',
     'League\\CommonMark\\Extension\\SmartPunct\\Quote' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/Quote.php',
     'League\\CommonMark\\Extension\\SmartPunct\\QuoteParser' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/QuoteParser.php',
     'League\\CommonMark\\Extension\\SmartPunct\\QuoteProcessor' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/QuoteProcessor.php',
     'League\\CommonMark\\Extension\\SmartPunct\\QuoteRenderer' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/QuoteRenderer.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Extension\\SmartPunct\\ReplaceUnpairedQuotesListener' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/ReplaceUnpairedQuotesListener.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\SmartPunct\\SmartPunctExtension' => $vendorDir . '/league/commonmark/src/Extension/SmartPunct/SmartPunctExtension.php',
     'League\\CommonMark\\Extension\\Strikethrough\\Strikethrough' => $vendorDir . '/league/commonmark/src/Extension/Strikethrough/Strikethrough.php',
     'League\\CommonMark\\Extension\\Strikethrough\\StrikethroughDelimiterProcessor' => $vendorDir . '/league/commonmark/src/Extension/Strikethrough/StrikethroughDelimiterProcessor.php',
@@ -2777,13 +2603,7 @@ return array(
     'League\\CommonMark\\Extension\\TableOfContents\\TableOfContentsGeneratorInterface' => $vendorDir . '/league/commonmark/src/Extension/TableOfContents/TableOfContentsGeneratorInterface.php',
     'League\\CommonMark\\Extension\\TableOfContents\\TableOfContentsPlaceholderParser' => $vendorDir . '/league/commonmark/src/Extension/TableOfContents/TableOfContentsPlaceholderParser.php',
     'League\\CommonMark\\Extension\\TableOfContents\\TableOfContentsPlaceholderRenderer' => $vendorDir . '/league/commonmark/src/Extension/TableOfContents/TableOfContentsPlaceholderRenderer.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Extension\\TableOfContents\\TableOfContentsRenderer' => $vendorDir . '/league/commonmark/src/Extension/TableOfContents/TableOfContentsRenderer.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\Table\\Table' => $vendorDir . '/league/commonmark/src/Extension/Table/Table.php',
     'League\\CommonMark\\Extension\\Table\\TableCell' => $vendorDir . '/league/commonmark/src/Extension/Table/TableCell.php',
     'League\\CommonMark\\Extension\\Table\\TableCellRenderer' => $vendorDir . '/league/commonmark/src/Extension/Table/TableCellRenderer.php',
@@ -2794,13 +2614,7 @@ return array(
     'League\\CommonMark\\Extension\\Table\\TableRowRenderer' => $vendorDir . '/league/commonmark/src/Extension/Table/TableRowRenderer.php',
     'League\\CommonMark\\Extension\\Table\\TableSection' => $vendorDir . '/league/commonmark/src/Extension/Table/TableSection.php',
     'League\\CommonMark\\Extension\\Table\\TableSectionRenderer' => $vendorDir . '/league/commonmark/src/Extension/Table/TableSectionRenderer.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Extension\\Table\\TableStartParser' => $vendorDir . '/league/commonmark/src/Extension/Table/TableStartParser.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Extension\\TaskList\\TaskListExtension' => $vendorDir . '/league/commonmark/src/Extension/TaskList/TaskListExtension.php',
     'League\\CommonMark\\Extension\\TaskList\\TaskListItemMarker' => $vendorDir . '/league/commonmark/src/Extension/TaskList/TaskListItemMarker.php',
     'League\\CommonMark\\Extension\\TaskList\\TaskListItemMarkerParser' => $vendorDir . '/league/commonmark/src/Extension/TaskList/TaskListItemMarkerParser.php',
@@ -2845,15 +2659,6 @@ return array(
     'League\\CommonMark\\Input\\MarkdownInputInterface' => $vendorDir . '/league/commonmark/src/Input/MarkdownInputInterface.php',
     'League\\CommonMark\\MarkdownConverter' => $vendorDir . '/league/commonmark/src/MarkdownConverter.php',
     'League\\CommonMark\\MarkdownConverterInterface' => $vendorDir . '/league/commonmark/src/MarkdownConverterInterface.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'League\\CommonMark\\Node\\Node' => $vendorDir . '/league/commonmark/src/Node/Node.php',
-    'League\\CommonMark\\Node\\NodeWalker' => $vendorDir . '/league/commonmark/src/Node/NodeWalker.php',
-    'League\\CommonMark\\Node\\NodeWalkerEvent' => $vendorDir . '/league/commonmark/src/Node/NodeWalkerEvent.php',
-    'League\\CommonMark\\Normalizer\\SlugNormalizer' => $vendorDir . '/league/commonmark/src/Normalizer/SlugNormalizer.php',
-    'League\\CommonMark\\Normalizer\\TextNormalizer' => $vendorDir . '/league/commonmark/src/Normalizer/TextNormalizer.php',
-    'League\\CommonMark\\Normalizer\\TextNormalizerInterface' => $vendorDir . '/league/commonmark/src/Normalizer/TextNormalizerInterface.php',
-=======
     'League\\CommonMark\\Node\\Block\\AbstractBlock' => $vendorDir . '/league/commonmark/src/Node/Block/AbstractBlock.php',
     'League\\CommonMark\\Node\\Block\\Document' => $vendorDir . '/league/commonmark/src/Node/Block/Document.php',
     'League\\CommonMark\\Node\\Block\\Paragraph' => $vendorDir . '/league/commonmark/src/Node/Block/Paragraph.php',
@@ -2864,15 +2669,20 @@ return array(
     'League\\CommonMark\\Node\\Inline\\DelimitedInterface' => $vendorDir . '/league/commonmark/src/Node/Inline/DelimitedInterface.php',
     'League\\CommonMark\\Node\\Inline\\Newline' => $vendorDir . '/league/commonmark/src/Node/Inline/Newline.php',
     'League\\CommonMark\\Node\\Inline\\Text' => $vendorDir . '/league/commonmark/src/Node/Inline/Text.php',
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Node\\Node' => $vendorDir . '/league/commonmark/src/Node/Node.php',
+    'League\\CommonMark\\Node\\NodeIterator' => $vendorDir . '/league/commonmark/src/Node/NodeIterator.php',
     'League\\CommonMark\\Node\\NodeWalker' => $vendorDir . '/league/commonmark/src/Node/NodeWalker.php',
     'League\\CommonMark\\Node\\NodeWalkerEvent' => $vendorDir . '/league/commonmark/src/Node/NodeWalkerEvent.php',
+    'League\\CommonMark\\Node\\Query' => $vendorDir . '/league/commonmark/src/Node/Query.php',
+    'League\\CommonMark\\Node\\Query\\AndExpr' => $vendorDir . '/league/commonmark/src/Node/Query/AndExpr.php',
+    'League\\CommonMark\\Node\\Query\\ExpressionInterface' => $vendorDir . '/league/commonmark/src/Node/Query/ExpressionInterface.php',
+    'League\\CommonMark\\Node\\Query\\OrExpr' => $vendorDir . '/league/commonmark/src/Node/Query/OrExpr.php',
+    'League\\CommonMark\\Node\\RawMarkupContainerInterface' => $vendorDir . '/league/commonmark/src/Node/RawMarkupContainerInterface.php',
+    'League\\CommonMark\\Node\\StringContainerHelper' => $vendorDir . '/league/commonmark/src/Node/StringContainerHelper.php',
+    'League\\CommonMark\\Node\\StringContainerInterface' => $vendorDir . '/league/commonmark/src/Node/StringContainerInterface.php',
     'League\\CommonMark\\Normalizer\\SlugNormalizer' => $vendorDir . '/league/commonmark/src/Normalizer/SlugNormalizer.php',
     'League\\CommonMark\\Normalizer\\TextNormalizer' => $vendorDir . '/league/commonmark/src/Normalizer/TextNormalizer.php',
     'League\\CommonMark\\Normalizer\\TextNormalizerInterface' => $vendorDir . '/league/commonmark/src/Normalizer/TextNormalizerInterface.php',
-<<<<<<< HEAD
     'League\\CommonMark\\Normalizer\\UniqueSlugNormalizer' => $vendorDir . '/league/commonmark/src/Normalizer/UniqueSlugNormalizer.php',
     'League\\CommonMark\\Normalizer\\UniqueSlugNormalizerInterface' => $vendorDir . '/league/commonmark/src/Normalizer/UniqueSlugNormalizerInterface.php',
     'League\\CommonMark\\Output\\RenderedContent' => $vendorDir . '/league/commonmark/src/Output/RenderedContent.php',
@@ -2898,17 +2708,11 @@ return array(
     'League\\CommonMark\\Parser\\MarkdownParserInterface' => $vendorDir . '/league/commonmark/src/Parser/MarkdownParserInterface.php',
     'League\\CommonMark\\Parser\\MarkdownParserState' => $vendorDir . '/league/commonmark/src/Parser/MarkdownParserState.php',
     'League\\CommonMark\\Parser\\MarkdownParserStateInterface' => $vendorDir . '/league/commonmark/src/Parser/MarkdownParserStateInterface.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Reference\\Reference' => $vendorDir . '/league/commonmark/src/Reference/Reference.php',
     'League\\CommonMark\\Reference\\ReferenceInterface' => $vendorDir . '/league/commonmark/src/Reference/ReferenceInterface.php',
     'League\\CommonMark\\Reference\\ReferenceMap' => $vendorDir . '/league/commonmark/src/Reference/ReferenceMap.php',
     'League\\CommonMark\\Reference\\ReferenceMapInterface' => $vendorDir . '/league/commonmark/src/Reference/ReferenceMapInterface.php',
     'League\\CommonMark\\Reference\\ReferenceParser' => $vendorDir . '/league/commonmark/src/Reference/ReferenceParser.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     'League\\CommonMark\\Reference\\ReferenceableInterface' => $vendorDir . '/league/commonmark/src/Reference/ReferenceableInterface.php',
     'League\\CommonMark\\Renderer\\Block\\DocumentRenderer' => $vendorDir . '/league/commonmark/src/Renderer/Block/DocumentRenderer.php',
     'League\\CommonMark\\Renderer\\Block\\ParagraphRenderer' => $vendorDir . '/league/commonmark/src/Renderer/Block/ParagraphRenderer.php',
@@ -2918,9 +2722,6 @@ return array(
     'League\\CommonMark\\Renderer\\Inline\\TextRenderer' => $vendorDir . '/league/commonmark/src/Renderer/Inline/TextRenderer.php',
     'League\\CommonMark\\Renderer\\MarkdownRendererInterface' => $vendorDir . '/league/commonmark/src/Renderer/MarkdownRendererInterface.php',
     'League\\CommonMark\\Renderer\\NodeRendererInterface' => $vendorDir . '/league/commonmark/src/Renderer/NodeRendererInterface.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\UnmatchedBlockCloser' => $vendorDir . '/league/commonmark/src/UnmatchedBlockCloser.php',
     'League\\CommonMark\\Util\\ArrayCollection' => $vendorDir . '/league/commonmark/src/Util/ArrayCollection.php',
     'League\\CommonMark\\Util\\Configuration' => $vendorDir . '/league/commonmark/src/Util/Configuration.php',
@@ -2928,30 +2729,17 @@ return array(
     'League\\CommonMark\\Util\\ConfigurationInterface' => $vendorDir . '/league/commonmark/src/Util/ConfigurationInterface.php',
     'League\\CommonMark\\Util\\Html5Entities' => $vendorDir . '/league/commonmark/src/Util/Html5Entities.php',
     'League\\CommonMark\\Util\\Html5EntityDecoder' => $vendorDir . '/league/commonmark/src/Util/Html5EntityDecoder.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'League\\CommonMark\\Util\\LinkParserHelper' => $vendorDir . '/league/commonmark/src/Util/LinkParserHelper.php',
-    'League\\CommonMark\\Util\\PrioritizedList' => $vendorDir . '/league/commonmark/src/Util/PrioritizedList.php',
-    'League\\CommonMark\\Util\\RegexHelper' => $vendorDir . '/league/commonmark/src/Util/RegexHelper.php',
-    'League\\CommonMark\\Util\\UrlEncoder' => $vendorDir . '/league/commonmark/src/Util/UrlEncoder.php',
-    'League\\CommonMark\\Util\\Xml' => $vendorDir . '/league/commonmark/src/Util/Xml.php',
-=======
     'League\\CommonMark\\Util\\HtmlElement' => $vendorDir . '/league/commonmark/src/Util/HtmlElement.php',
     'League\\CommonMark\\Util\\HtmlFilter' => $vendorDir . '/league/commonmark/src/Util/HtmlFilter.php',
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\CommonMark\\Util\\LinkParserHelper' => $vendorDir . '/league/commonmark/src/Util/LinkParserHelper.php',
     'League\\CommonMark\\Util\\PrioritizedList' => $vendorDir . '/league/commonmark/src/Util/PrioritizedList.php',
     'League\\CommonMark\\Util\\RegexHelper' => $vendorDir . '/league/commonmark/src/Util/RegexHelper.php',
+    'League\\CommonMark\\Util\\SpecReader' => $vendorDir . '/league/commonmark/src/Util/SpecReader.php',
     'League\\CommonMark\\Util\\UrlEncoder' => $vendorDir . '/league/commonmark/src/Util/UrlEncoder.php',
     'League\\CommonMark\\Util\\Xml' => $vendorDir . '/league/commonmark/src/Util/Xml.php',
-<<<<<<< HEAD
     'League\\CommonMark\\Xml\\FallbackNodeXmlRenderer' => $vendorDir . '/league/commonmark/src/Xml/FallbackNodeXmlRenderer.php',
     'League\\CommonMark\\Xml\\XmlNodeRendererInterface' => $vendorDir . '/league/commonmark/src/Xml/XmlNodeRendererInterface.php',
     'League\\CommonMark\\Xml\\XmlRenderer' => $vendorDir . '/league/commonmark/src/Xml/XmlRenderer.php',
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     'League\\Event\\AbstractEvent' => $vendorDir . '/league/event/src/AbstractEvent.php',
     'League\\Event\\AbstractListener' => $vendorDir . '/league/event/src/AbstractListener.php',
     'League\\Event\\BufferedEmitter' => $vendorDir . '/league/event/src/BufferedEmitter.php',
@@ -4418,14 +4206,6 @@ return array(
     'Ramsey\\Uuid\\UuidInterface' => $vendorDir . '/ramsey/uuid/src/UuidInterface.php',
     'Ramsey\\Uuid\\Validator\\GenericValidator' => $vendorDir . '/ramsey/uuid/src/Validator/GenericValidator.php',
     'Ramsey\\Uuid\\Validator\\ValidatorInterface' => $vendorDir . '/ramsey/uuid/src/Validator/ValidatorInterface.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'ReturnTypeWillChange' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'ReturnTypeWillChange' => $vendorDir . '/symfony/polyfill-php81/Resources/stubs/ReturnTypeWillChange.php',
->>>>>>> f330c64 (optimization in progress)
     'SebastianBergmann\\CliParser\\AmbiguousOptionException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/AmbiguousOptionException.php',
     'SebastianBergmann\\CliParser\\Exception' => $vendorDir . '/sebastian/cli-parser/src/exceptions/Exception.php',
     'SebastianBergmann\\CliParser\\OptionDoesNotAllowArgumentException' => $vendorDir . '/sebastian/cli-parser/src/exceptions/OptionDoesNotAllowArgumentException.php',
@@ -5409,14 +5189,6 @@ return array(
     'Symfony\\Polyfill\\Php72\\Php72' => $vendorDir . '/symfony/polyfill-php72/Php72.php',
     'Symfony\\Polyfill\\Php73\\Php73' => $vendorDir . '/symfony/polyfill-php73/Php73.php',
     'Symfony\\Polyfill\\Php80\\Php80' => $vendorDir . '/symfony/polyfill-php80/Php80.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'Symfony\\Polyfill\\Php81\\Php81' => $vendorDir . '/symfony/polyfill-php81/Php81.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'Symfony\\Polyfill\\Php81\\Php81' => $vendorDir . '/symfony/polyfill-php81/Php81.php',
->>>>>>> f330c64 (optimization in progress)
     'Tests\\CreatesApplication' => $baseDir . '/tests/CreatesApplication.php',
     'Tests\\TestCase' => $baseDir . '/tests/TestCase.php',
     'Tests\\Unit\\Backend\\AFL\\ConnectionControllerTest' => $baseDir . '/tests/Unit/Backend/AFL/ConnectionControllerTest.php',
@@ -5521,14 +5293,6 @@ return array(
     'phpDocumentor\\Reflection\\PseudoTypes\\CallableString' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/CallableString.php',
     'phpDocumentor\\Reflection\\PseudoTypes\\False_' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/False_.php',
     'phpDocumentor\\Reflection\\PseudoTypes\\HtmlEscapedString' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/HtmlEscapedString.php',
-<<<<<<< HEAD
-<<<<<<< HEAD
-    'phpDocumentor\\Reflection\\PseudoTypes\\LiteralString' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/LiteralString.php',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    'phpDocumentor\\Reflection\\PseudoTypes\\LiteralString' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/LiteralString.php',
->>>>>>> f330c64 (optimization in progress)
     'phpDocumentor\\Reflection\\PseudoTypes\\LowercaseString' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/LowercaseString.php',
     'phpDocumentor\\Reflection\\PseudoTypes\\NonEmptyLowercaseString' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/NonEmptyLowercaseString.php',
     'phpDocumentor\\Reflection\\PseudoTypes\\NonEmptyString' => $vendorDir . '/phpdocumentor/type-resolver/src/PseudoTypes/NonEmptyString.php',

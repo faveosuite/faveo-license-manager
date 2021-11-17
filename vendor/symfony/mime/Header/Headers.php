@@ -254,20 +254,7 @@ final class Headers
         return $arr;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    /**
-     * @internal
-     */
-    public function getHeaderBody(string $name)
-<<<<<<< HEAD
-=======
     public function getHeaderBody($name)
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->has($name) ? $this->get($name)->getBody() : null;
     }
@@ -301,15 +288,7 @@ final class Headers
     /**
      * @internal
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setHeaderParameter(string $name, string $parameter, ?string $value): void
-=======
     public function setHeaderParameter(string $name, string $parameter, $value): void
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setHeaderParameter(string $name, string $parameter, ?string $value): void
->>>>>>> f330c64 (optimization in progress)
     {
         if (!$this->has($name)) {
             throw new LogicException(sprintf('Unable to set parameter "%s" on header "%s" as the header is not defined.', $parameter, $name));

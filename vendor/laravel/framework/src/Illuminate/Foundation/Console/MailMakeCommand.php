@@ -2,29 +2,11 @@
 
 namespace Illuminate\Foundation\Console;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Illuminate\Console\Concerns\CreatesMatchingTest;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use Illuminate\Console\Concerns\CreatesMatchingTest;
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Console\GeneratorCommand;
 use Symfony\Component\Console\Input\InputOption;
 
 class MailMakeCommand extends GeneratorCommand
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    use CreatesMatchingTest;
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    use CreatesMatchingTest;
-
->>>>>>> f330c64 (optimization in progress)
     /**
      * The console command name.
      *
@@ -104,35 +86,9 @@ class MailMakeCommand extends GeneratorCommand
      */
     protected function getStub()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        return $this->resolveStubPath(
-            $this->option('markdown')
-                ? '/stubs/markdown-mail.stub'
-                : '/stubs/mail.stub');
-    }
-
-    /**
-     * Resolve the fully-qualified path to the stub.
-     *
-     * @param  string  $stub
-     * @return string
-     */
-    protected function resolveStubPath($stub)
-    {
-        return file_exists($customPath = $this->laravel->basePath(trim($stub, '/')))
-            ? $customPath
-            : __DIR__.$stub;
-<<<<<<< HEAD
-=======
         return $this->option('markdown')
                         ? __DIR__.'/stubs/markdown-mail.stub'
                         : __DIR__.'/stubs/mail.stub';
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

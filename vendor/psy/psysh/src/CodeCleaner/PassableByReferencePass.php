@@ -14,14 +14,6 @@ namespace Psy\CodeCleaner;
 use PhpParser\Node;
 use PhpParser\Node\Expr;
 use PhpParser\Node\Expr\Array_;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use PhpParser\Node\Expr\ArrayDimFetch;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use PhpParser\Node\Expr\ArrayDimFetch;
->>>>>>> f330c64 (optimization in progress)
 use PhpParser\Node\Expr\ClassConstFetch;
 use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
@@ -89,17 +81,7 @@ class PassableByReferencePass extends CodeCleanerPass
             $arg->value instanceof Variable ||
             $arg->value instanceof FuncCall ||
             $arg->value instanceof MethodCall ||
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $arg->value instanceof StaticCall ||
-            $arg->value instanceof ArrayDimFetch;
-=======
             $arg->value instanceof StaticCall;
->>>>>>> 22c0e54 (table changes)
-=======
-            $arg->value instanceof StaticCall ||
-            $arg->value instanceof ArrayDimFetch;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

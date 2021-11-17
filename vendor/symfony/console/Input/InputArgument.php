@@ -31,23 +31,10 @@ class InputArgument
     private $description;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * @param string                           $name        The argument name
-     * @param int|null                         $mode        The argument mode: self::REQUIRED or self::OPTIONAL
-     * @param string                           $description A description text
-     * @param string|bool|int|float|array|null $default     The default value (for self::OPTIONAL mode only)
-<<<<<<< HEAD
-=======
      * @param string               $name        The argument name
      * @param int|null             $mode        The argument mode: self::REQUIRED or self::OPTIONAL
      * @param string               $description A description text
      * @param string|string[]|null $default     The default value (for self::OPTIONAL mode only)
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws InvalidArgumentException When argument mode is not valid
      */
@@ -99,15 +86,7 @@ class InputArgument
     /**
      * Sets the default value.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param string|bool|int|float|array|null $default
-=======
      * @param string|string[]|null $default The default value
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param string|bool|int|float|array|null $default
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws LogicException When incorrect default value is given
      */
@@ -131,15 +110,7 @@ class InputArgument
     /**
      * Returns the default value.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return string|bool|int|float|array|null
-=======
      * @return string|string[]|null The default value
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return string|bool|int|float|array|null
->>>>>>> f330c64 (optimization in progress)
      */
     public function getDefault()
     {

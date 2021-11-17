@@ -61,35 +61,6 @@ class RateLimiter
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Attempts to execute a callback if it's not limited.
-     *
-     * @param  string  $key
-     * @param  int  $maxAttempts
-     * @param  \Closure  $callback
-     * @param  int  $decaySeconds
-     * @return mixed
-     */
-    public function attempt($key, $maxAttempts, Closure $callback, $decaySeconds = 60)
-    {
-        if ($this->tooManyAttempts($key, $maxAttempts)) {
-            return false;
-        }
-
-        return tap($callback() ?: true, function () use ($key, $decaySeconds) {
-            $this->hit($key, $decaySeconds);
-        });
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Determine if the given key has been "accessed" too many times.
      *
      * @param  string  $key
@@ -162,15 +133,7 @@ class RateLimiter
      * @param  int  $maxAttempts
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function remaining($key, $maxAttempts)
-=======
     public function retriesLeft($key, $maxAttempts)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function remaining($key, $maxAttempts)
->>>>>>> f330c64 (optimization in progress)
     {
         $attempts = $this->attempts($key);
 
@@ -178,27 +141,6 @@ class RateLimiter
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Get the number of retries left for the given key.
-     *
-     * @param  string  $key
-     * @param  int  $maxAttempts
-     * @return int
-     */
-    public function retriesLeft($key, $maxAttempts)
-    {
-        return $this->remaining($key, $maxAttempts);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Clear the hits and lockout timer for the given key.
      *
      * @param  string  $key

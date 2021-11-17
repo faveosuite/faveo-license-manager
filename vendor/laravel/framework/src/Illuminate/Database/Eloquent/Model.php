@@ -21,13 +21,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Traits\ForwardsCalls;
 use JsonSerializable;
 use LogicException;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use ReturnTypeWillChange;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
 abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jsonable, JsonSerializable, QueueableEntity, UrlRoutable
 {
@@ -174,22 +168,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
     protected static $lazyLoadingViolationCallback;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Indicates if broadcasting is currently enabled.
-     *
-     * @var bool
-     */
-    protected static $isBroadcasting = true;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * The name of the "created at" column.
      *
      * @var string|null
@@ -401,34 +379,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Execute a callback without broadcasting any model events for all model types.
-     *
-     * @param  callable  $callback
-     * @return mixed
-     */
-    public static function withoutBroadcasting(callable $callback)
-    {
-        $isBroadcasting = static::$isBroadcasting;
-
-        static::$isBroadcasting = false;
-
-        try {
-            return $callback();
-        } finally {
-            static::$isBroadcasting = $isBroadcasting;
-        }
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Fill the model with an array of attributes.
      *
      * @param  array  $attributes
@@ -486,28 +436,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Qualify the given columns with the model's table.
-     *
-     * @param  array  $columns
-     * @return array
-     */
-    public function qualifyColumns($columns)
-    {
-        return collect($columns)->map(function ($column) {
-            return $this->qualifyColumn($column);
-        })->all();
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Create a new instance of the given model.
      *
      * @param  array  $attributes
@@ -912,33 +840,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Update the model in the database within a transaction.
-     *
-     * @param  array  $attributes
-     * @param  array  $options
-     * @return bool
-     *
-     * @throws \Throwable
-     */
-    public function updateOrFail(array $attributes = [], array $options = [])
-    {
-        if (! $this->exists) {
-            return false;
-        }
-
-        return $this->fill($attributes)->saveOrFail($options);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Update the model in the database without raising any events.
      *
      * @param  array  $attributes
@@ -1045,15 +946,7 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * Save the model to the database within a transaction.
-=======
      * Save the model to the database using transaction.
->>>>>>> 22c0e54 (table changes)
-=======
-     * Save the model to the database within a transaction.
->>>>>>> f330c64 (optimization in progress)
      *
      * @param  array  $options
      * @return bool
@@ -1313,33 +1206,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Delete the model from the database within a transaction.
-     *
-     * @return bool|null
-     *
-     * @throws \Throwable
-     */
-    public function deleteOrFail()
-    {
-        if (! $this->exists) {
-            return false;
-        }
-
-        return $this->getConnection()->transaction(function () {
-            return $this->delete();
-        });
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Force a hard delete on a soft deleted model.
      *
      * This method protects developers from running forceDelete when the trait is missing.
@@ -1561,15 +1427,7 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
      *
      * @return array
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return $this->toArray();
@@ -1941,27 +1799,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Retrieve the model for a bound value.
-     *
-     * @param  mixed  $value
-     * @param  string|null  $field
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function resolveSoftDeletableRouteBinding($value, $field = null)
-    {
-        return $this->where($field ?? $this->getRouteKeyName(), $value)->withTrashed()->first();
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Retrieve the child model for a bound value.
      *
      * @param  string  $childType
@@ -1971,62 +1808,15 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
      */
     public function resolveChildRouteBinding($childType, $value, $field)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        return $this->resolveChildRouteBindingQuery($childType, $value, $field)->first();
-    }
-
-    /**
-     * Retrieve the child model for a bound value.
-     *
-     * @param  string  $childType
-     * @param  mixed  $value
-     * @param  string|null  $field
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    public function resolveSoftDeletableChildRouteBinding($childType, $value, $field)
-    {
-        return $this->resolveChildRouteBindingQuery($childType, $value, $field)->withTrashed()->first();
-    }
-
-    /**
-     * Retrieve the child model query for a bound value.
-     *
-     * @param  string  $childType
-     * @param  mixed  $value
-     * @param  string|null  $field
-     * @return \Illuminate\Database\Eloquent\Model|null
-     */
-    protected function resolveChildRouteBindingQuery($childType, $value, $field)
-    {
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         $relationship = $this->{Str::plural(Str::camel($childType))}();
 
         $field = $field ?: $relationship->getRelated()->getRouteKeyName();
 
         if ($relationship instanceof HasManyThrough ||
             $relationship instanceof BelongsToMany) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            return $relationship->where($relationship->getRelated()->getTable().'.'.$field, $value);
-        } else {
-            return $relationship->where($field, $value);
-=======
             return $relationship->where($relationship->getRelated()->getTable().'.'.$field, $value)->first();
         } else {
             return $relationship->where($field, $value)->first();
->>>>>>> 22c0e54 (table changes)
-=======
-            return $relationship->where($relationship->getRelated()->getTable().'.'.$field, $value);
-        } else {
-            return $relationship->where($field, $value);
->>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -2122,14 +1912,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
      * @param  mixed  $offset
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return ! is_null($this->getAttribute($offset));
@@ -2141,14 +1923,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
      * @param  mixed  $offset
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->getAttribute($offset);
@@ -2161,14 +1935,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         $this->setAttribute($offset, $value);
@@ -2180,14 +1946,6 @@ abstract class Model implements Arrayable, ArrayAccess, HasBroadcastChannel, Jso
      * @param  mixed  $offset
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         unset($this->attributes[$offset], $this->relations[$offset]);

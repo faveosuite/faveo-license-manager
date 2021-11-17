@@ -85,15 +85,7 @@ class MySqlSchemaState extends SchemaState
      */
     protected function baseDumpCommand()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $command = 'mysqldump '.$this->connectionString().' --no-tablespaces --skip-add-locks --skip-comments --skip-set-charset --tz-utc';
-=======
         $command = 'mysqldump '.$this->connectionString().' --skip-add-locks --skip-comments --skip-set-charset --tz-utc';
->>>>>>> 22c0e54 (table changes)
-=======
-        $command = 'mysqldump '.$this->connectionString().' --no-tablespaces --skip-add-locks --skip-comments --skip-set-charset --tz-utc';
->>>>>>> f330c64 (optimization in progress)
 
         if (! $this->connection->isMaria()) {
             $command .= ' --column-statistics=0 --set-gtid-purged=OFF';

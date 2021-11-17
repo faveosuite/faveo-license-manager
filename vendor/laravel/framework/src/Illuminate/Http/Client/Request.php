@@ -120,17 +120,9 @@ class Request implements ArrayAccess
      */
     public function headers()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->request->getHeaders();
-=======
         return collect($this->request->getHeaders())->mapWithKeys(function ($values, $header) {
             return [$header => $values];
         })->all();
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->request->getHeaders();
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -271,14 +263,6 @@ class Request implements ArrayAccess
      * @param  string  $offset
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return isset($this->data()[$offset]);
@@ -290,14 +274,6 @@ class Request implements ArrayAccess
      * @param  string  $offset
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->data()[$offset];
@@ -312,14 +288,6 @@ class Request implements ArrayAccess
      *
      * @throws \LogicException
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         throw new LogicException('Request data may not be mutated using array access.');
@@ -333,14 +301,6 @@ class Request implements ArrayAccess
      *
      * @throws \LogicException
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         throw new LogicException('Request data may not be mutated using array access.');

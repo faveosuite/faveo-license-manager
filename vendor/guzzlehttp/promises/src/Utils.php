@@ -48,19 +48,7 @@ final class Utils
         $promise = new Promise([$queue, 'run']);
         $queue->add(function () use ($task, $promise) {
             try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                if (Is::pending($promise)) {
-                    $promise->resolve($task());
-                }
-=======
                 $promise->resolve($task());
->>>>>>> 22c0e54 (table changes)
-=======
-                if (Is::pending($promise)) {
-                    $promise->resolve($task());
-                }
->>>>>>> f330c64 (optimization in progress)
             } catch (\Throwable $e) {
                 $promise->reject($e);
             } catch (\Exception $e) {

@@ -21,14 +21,6 @@ use Ramsey\Uuid\Rfc4122\UuidBuilder as Rfc4122UuidBuilder;
  *
  * @psalm-immutable
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class DefaultUuidBuilder extends Rfc4122UuidBuilder
-=======
 class DefaultUuidBuilder extends Rfc4122UuidBuilder implements UuidBuilderInterface
->>>>>>> 22c0e54 (table changes)
-=======
-class DefaultUuidBuilder extends Rfc4122UuidBuilder
->>>>>>> f330c64 (optimization in progress)
 {
 }

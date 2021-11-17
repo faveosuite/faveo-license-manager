@@ -97,23 +97,8 @@ abstract class ServiceProvider
      */
     public function callBootingCallbacks()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $index = 0;
-
-        while ($index < count($this->bootingCallbacks)) {
-            $this->app->call($this->bootingCallbacks[$index]);
-
-            $index++;
-<<<<<<< HEAD
-=======
         foreach ($this->bootingCallbacks as $callback) {
             $this->app->call($callback);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -124,23 +109,8 @@ abstract class ServiceProvider
      */
     public function callBootedCallbacks()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $index = 0;
-
-        while ($index < count($this->bootedCallbacks)) {
-            $this->app->call($this->bootedCallbacks[$index]);
-
-            $index++;
-<<<<<<< HEAD
-=======
         foreach ($this->bootedCallbacks as $callback) {
             $this->app->call($callback);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         }
     }
 

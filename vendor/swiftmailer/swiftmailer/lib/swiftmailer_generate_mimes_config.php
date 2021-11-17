@@ -106,15 +106,7 @@ function generateUpToDateMimeArray()
         // all extensions from second match
         foreach ($matches[2] as $i => $extensions) {
             // explode multiple extensions from string
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $extensions = explode(' ', strtolower($extensions ?? ''));
-=======
             $extensions = explode(' ', strtolower($extensions));
->>>>>>> 22c0e54 (table changes)
-=======
-            $extensions = explode(' ', strtolower($extensions ?? ''));
->>>>>>> f330c64 (optimization in progress)
 
             // force array for foreach
             if (!\is_array($extensions)) {
@@ -147,51 +139,21 @@ function generateUpToDateMimeArray()
         // get all matching extensions from match
         foreach ((array) $node->glob['pattern'] as $extension) {
             // skip none glob extensions
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (false === strpos($extension ?? '', '.')) {
-=======
             if (false === strpos($extension, '.')) {
->>>>>>> 22c0e54 (table changes)
-=======
-            if (false === strpos($extension ?? '', '.')) {
->>>>>>> f330c64 (optimization in progress)
                 continue;
             }
 
             // remove get only last part
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $extension = explode('.', strtolower($extension ?? ''));
-=======
             $extension = explode('.', strtolower($extension));
->>>>>>> 22c0e54 (table changes)
-=======
-            $extension = explode('.', strtolower($extension ?? ''));
->>>>>>> f330c64 (optimization in progress)
             $extension = end($extension);
         }
 
         if (isset($node->glob['pattern'][0])) {
             // mime type
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $mime_type = strtolower((string) $node['type'] ?? '');
-
-            // get first extension
-            $extension = strtolower(trim($node->glob['ddpattern'][0] ?? '', '*.'));
-=======
             $mime_type = strtolower((string) $node['type']);
 
             // get first extension
             $extension = strtolower(trim($node->glob['ddpattern'][0], '*.'));
->>>>>>> 22c0e54 (table changes)
-=======
-            $mime_type = strtolower((string) $node['type'] ?? '');
-
-            // get first extension
-            $extension = strtolower(trim($node->glob['ddpattern'][0] ?? '', '*.'));
->>>>>>> f330c64 (optimization in progress)
 
             // skip none glob extensions and check if string length between 1 and 10
             if (false !== strpos($extension, '.') || \strlen($extension) < 1 || \strlen($extension) > 9) {

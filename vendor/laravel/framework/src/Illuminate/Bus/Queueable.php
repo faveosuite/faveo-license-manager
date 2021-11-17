@@ -4,13 +4,7 @@ namespace Illuminate\Bus;
 
 use Closure;
 use Illuminate\Queue\CallQueuedClosure;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Illuminate\Queue\SerializableClosure;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Arr;
 use RuntimeException;
 
@@ -251,15 +245,7 @@ trait Queueable
     public function invokeChainCatchCallbacks($e)
     {
         collect($this->chainCatchCallbacks)->each(function ($callback) use ($e) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $callback($e);
-=======
             $callback instanceof SerializableClosure ? $callback->__invoke($e) : call_user_func($callback, $e);
->>>>>>> 22c0e54 (table changes)
-=======
-            $callback($e);
->>>>>>> f330c64 (optimization in progress)
         });
     }
 }

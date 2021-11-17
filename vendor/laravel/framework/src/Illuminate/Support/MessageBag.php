@@ -2,31 +2,15 @@
 
 namespace Illuminate\Support;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Countable;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Contracts\Support\MessageBag as MessageBagContract;
 use Illuminate\Contracts\Support\MessageProvider;
 use JsonSerializable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-class MessageBag implements Jsonable, JsonSerializable, MessageBagContract, MessageProvider
-=======
 use ReturnTypeWillChange;
 
 class MessageBag implements Arrayable, Countable, Jsonable, JsonSerializable, MessageBagContract, MessageProvider
->>>>>>> 22c0e54 (table changes)
-=======
-
-class MessageBag implements Jsonable, JsonSerializable, MessageBagContract, MessageProvider
->>>>>>> f330c64 (optimization in progress)
 {
     /**
      * All of the registered messages.
@@ -386,14 +370,6 @@ class MessageBag implements Jsonable, JsonSerializable, MessageBagContract, Mess
      *
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return count($this->messages, COUNT_RECURSIVE) - count($this->messages);
@@ -414,15 +390,7 @@ class MessageBag implements Jsonable, JsonSerializable, MessageBagContract, Mess
      *
      * @return array
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return $this->toArray();

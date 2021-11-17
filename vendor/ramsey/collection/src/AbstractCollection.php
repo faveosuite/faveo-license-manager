@@ -32,14 +32,6 @@ use function array_uintersect;
 use function current;
 use function end;
 use function in_array;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use function is_int;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use function is_int;
->>>>>>> f330c64 (optimization in progress)
 use function reset;
 use function sprintf;
 use function unserialize;
@@ -50,18 +42,8 @@ use function usort;
  * minimize the effort required to implement this interface
  *
  * @template T
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @extends AbstractArray<T>
- * @implements CollectionInterface<T>
-=======
  * @template-extends AbstractArray<T>
  * @template-implements CollectionInterface<T>
->>>>>>> 22c0e54 (table changes)
-=======
- * @extends AbstractArray<T>
- * @implements CollectionInterface<T>
->>>>>>> f330c64 (optimization in progress)
  */
 abstract class AbstractCollection extends AbstractArray implements CollectionInterface
 {
@@ -256,15 +238,7 @@ abstract class AbstractCollection extends AbstractArray implements CollectionInt
 
     public function merge(CollectionInterface ...$collections): CollectionInterface
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $mergedCollection = clone $this;
-=======
         $temp = [$this->data];
->>>>>>> 22c0e54 (table changes)
-=======
-        $mergedCollection = clone $this;
->>>>>>> f330c64 (optimization in progress)
 
         foreach ($collections as $index => $collection) {
             if (!$collection instanceof static) {
@@ -281,22 +255,6 @@ abstract class AbstractCollection extends AbstractArray implements CollectionInt
                 );
             }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-            foreach ($collection as $key => $value) {
-                if (is_int($key)) {
-                    $mergedCollection[] = $value;
-                } else {
-                    $mergedCollection[$key] = $value;
-                }
-            }
-<<<<<<< HEAD
-        }
-
-        return $mergedCollection;
-=======
             $temp[] = $collection->toArray();
         }
 
@@ -307,12 +265,6 @@ abstract class AbstractCollection extends AbstractArray implements CollectionInt
         $collection->data = $merge;
 
         return $collection;
->>>>>>> 22c0e54 (table changes)
-=======
-        }
-
-        return $mergedCollection;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

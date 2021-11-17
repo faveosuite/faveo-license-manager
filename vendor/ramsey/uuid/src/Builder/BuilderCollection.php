@@ -15,13 +15,7 @@ declare(strict_types=1);
 namespace Ramsey\Uuid\Builder;
 
 use Ramsey\Collection\AbstractCollection;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Ramsey\Collection\CollectionInterface;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Ramsey\Uuid\Converter\Number\GenericNumberConverter;
 use Ramsey\Uuid\Converter\Time\GenericTimeConverter;
 use Ramsey\Uuid\Converter\Time\PhpTimeConverter;
@@ -33,22 +27,8 @@ use Traversable;
 
 /**
  * A collection of UuidBuilderInterface objects
-<<<<<<< HEAD
-<<<<<<< HEAD
- *
- * @extends AbstractCollection<UuidBuilderInterface>
- */
-class BuilderCollection extends AbstractCollection
-=======
  */
 class BuilderCollection extends AbstractCollection implements CollectionInterface
->>>>>>> 22c0e54 (table changes)
-=======
- *
- * @extends AbstractCollection<UuidBuilderInterface>
- */
-class BuilderCollection extends AbstractCollection
->>>>>>> f330c64 (optimization in progress)
 {
     public function getType(): string
     {
@@ -72,26 +52,10 @@ class BuilderCollection extends AbstractCollection
      *     a UuidInterface instance
      *
      * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     */
-    public function unserialize($serialized): void
-    {
-        /** @var array<array-key, UuidBuilderInterface> $data */
-=======
      */
     public function unserialize($serialized): void
     {
         /** @var mixed[] $data */
->>>>>>> 22c0e54 (table changes)
-=======
-     * @psalm-suppress RedundantConditionGivenDocblockType
-     */
-    public function unserialize($serialized): void
-    {
-        /** @var array<array-key, UuidBuilderInterface> $data */
->>>>>>> f330c64 (optimization in progress)
         $data = unserialize($serialized, [
             'allowed_classes' => [
                 BrickMathCalculator::class,
@@ -104,21 +68,6 @@ class BuilderCollection extends AbstractCollection
             ],
         ]);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $this->data = array_filter(
-            $data,
-            function ($unserialized): bool {
-                return $unserialized instanceof UuidBuilderInterface;
-            }
-        );
-<<<<<<< HEAD
-=======
         $this->data = $data;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 }
