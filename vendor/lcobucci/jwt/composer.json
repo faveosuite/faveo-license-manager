@@ -4,7 +4,7 @@
     "type": "library",
     "authors": [
         {
-            "name": "Luís Cobucci",
+            "name": "Luís Otávio Cobucci Oblonczyk",
             "email": "lcobucci@gmail.com",
             "role": "Developer"
         }
@@ -17,46 +17,41 @@
         "BSD-3-Clause"
     ],
     "require": {
-        "php": "^7.4 || ^8.0",
+        "php": "^5.6 || ^7.0",
         "ext-mbstring": "*",
-        "ext-openssl": "*",
-        "lcobucci/clock": "^2.0"
+        "ext-openssl": "*"
     },
     "require-dev": {
-        "infection/infection": "^0.20",
-        "lcobucci/coding-standard": "^6.0",
-        "mikey179/vfsstream": "^1.6",
-        "phpbench/phpbench": "^0.17",
-        "phpstan/extension-installer": "^1.0",
-        "phpstan/phpstan": "^0.12",
-        "phpstan/phpstan-deprecation-rules": "^0.12",
-        "phpstan/phpstan-phpunit": "^0.12",
-        "phpstan/phpstan-strict-rules": "^0.12",
-        "phpunit/php-invoker": "^3.1",
-        "phpunit/phpunit": "^9.4"
+        "phpunit/phpunit": "^5.7 || ^7.3",
+        "squizlabs/php_codesniffer": "~2.3",
+        "phpmd/phpmd": "~2.2",
+        "phpunit/php-invoker": "~1.1",
+        "mikey179/vfsstream": "~1.5"
     },
     "autoload": {
         "psr-4": {
             "Lcobucci\\JWT\\": "src"
-        }
+        },
+        "files": [
+            "compat/class-aliases.php",
+            "compat/json-exception-polyfill.php",
+            "compat/lcobucci-clock-polyfill.php"
+        ]
     },
     "autoload-dev": {
         "psr-4": {
             "Lcobucci\\JWT\\": [
-                "test/_keys",
                 "test/unit",
-                "test/performance"
-            ],
-            "Lcobucci\\JWT\\FunctionalTests\\": "test/functional"
+                "test/functional"
+            ]
         }
     },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
+    "suggest": {
+        "lcobucci/clock": "*"
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0-dev"
+            "dev-master": "3.1-dev"
         }
     }
 }

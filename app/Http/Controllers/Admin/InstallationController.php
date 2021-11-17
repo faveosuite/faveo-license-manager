@@ -55,10 +55,6 @@ public function installationUpdate(Request $request)
 if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || empty($rows_array=AflInstallations::where('installation_id',$installation_id)->get())) //invalid record
     {
     return errorResponse(Lang::get('lang.invalid'),400);
-<<<<<<< HEAD
-    exit();
-=======
->>>>>>> 22c0e54 (table changes)
     }
     $api_key = new ApiKeysController();
     $api_action_success=$api_key->apiKeyCheck($api_key_secret,$this->ip_address);
@@ -162,8 +158,6 @@ public function deleteInstallation($installation_id)
         $Install = installArray();
         return successResponse(Lang::get('lang.Install_show'),$Install,200);
     }
-<<<<<<< HEAD
-
 
     //for localized license only
     public function installationAdd(Request $request){
@@ -223,6 +217,4 @@ public function deleteInstallation($installation_id)
             }
         }
     }
-=======
->>>>>>> 22c0e54 (table changes)
 }
