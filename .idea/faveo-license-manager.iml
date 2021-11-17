@@ -33,7 +33,6 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/paragonie/constant_time_encoding" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/php-http/message-factory" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/fideloper/proxy" />
-      <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/clock" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/lcobucci/jwt" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/firebase/php-jwt" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/hamcrest/hamcrest-php" />
@@ -134,6 +133,7 @@
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/psr7" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/webmozart/assert" />
       <excludeFolder url="file://$MODULE_DIR$/vendor/guzzlehttp/guzzle" />
+      <excludeFolder url="file://$MODULE_DIR$/vendor/laravel/serializable-closure" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
