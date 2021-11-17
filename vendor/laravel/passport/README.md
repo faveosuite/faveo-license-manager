@@ -1,12 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< HEAD
-<p align="center"><img src="/art/logo.svg" alt="Logo Laravel Passport"></p>
-=======
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-passport.svg"></p>
->>>>>>> 22c0e54 (table changes)
-=======
-<p align="center"><img src="/art/logo.svg" alt="Logo Laravel Passport"></p>
->>>>>>> f330c64 (optimization in progress)
 
 <p align="center">
 <a href="https://github.com/laravel/passport/actions"><img src="https://github.com/laravel/passport/workflows/tests/badge.svg" alt="Build Status"></a>
@@ -21,15 +13,7 @@ Laravel Passport is an OAuth2 server and API authentication package that is simp
 
 ## Official Documentation
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-Documentation for Passport can be found on the [Laravel website](https://laravel.com/docs/passport).
-=======
 Documentation for Passport can be found on the [Laravel website](https://laravel.com/docs/master/passport).
->>>>>>> 22c0e54 (table changes)
-=======
-Documentation for Passport can be found on the [Laravel website](https://laravel.com/docs/passport).
->>>>>>> f330c64 (optimization in progress)
 
 ## Contributing
 

@@ -171,15 +171,7 @@ abstract class AbstractPipes implements PipesInterface
     /**
      * @internal
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function handleError(int $type, string $msg)
-=======
     public function handleError($type, $msg)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function handleError(int $type, string $msg)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->lastError = $msg;
     }

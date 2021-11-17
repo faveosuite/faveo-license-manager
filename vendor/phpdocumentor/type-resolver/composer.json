@@ -14,17 +14,7 @@
         "phpdocumentor/reflection-common": "^2.0"
     },
     "require-dev": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        "ext-tokenizer": "*",
-        "psalm/phar": "^4.8"
-=======
         "ext-tokenizer": "*"
->>>>>>> 22c0e54 (table changes)
-=======
-        "ext-tokenizer": "*",
-        "psalm/phar": "^4.8"
->>>>>>> f330c64 (optimization in progress)
     },
     "autoload": {
         "psr-4": {

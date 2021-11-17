@@ -1,15 +1,7 @@
 {
     "require": {
         "php": "^7.2.5 || ^8.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
-        "phpstan/phpstan": "0.12.99",
-=======
         "phpstan/phpstan": "0.12.81",
->>>>>>> 22c0e54 (table changes)
-=======
-        "phpstan/phpstan": "0.12.99",
->>>>>>> f330c64 (optimization in progress)
         "phpstan/phpstan-deprecation-rules": "0.12.6"
     },
     "config": {

@@ -96,20 +96,7 @@ class AssertableJsonString implements ArrayAccess, Countable
 
         $expected = $this->reorderAssocKeys($data);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        PHPUnit::assertEquals(
-            json_encode($expected, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES),
-            json_encode($actual, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES)
-        );
-<<<<<<< HEAD
-=======
         PHPUnit::assertEquals(json_encode($expected), json_encode($actual));
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
@@ -347,14 +334,6 @@ class AssertableJsonString implements ArrayAccess, Countable
      *
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         return count($this->decoded);
@@ -366,14 +345,6 @@ class AssertableJsonString implements ArrayAccess, Countable
      * @param  mixed  $offset
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return isset($this->decoded[$offset]);
@@ -385,14 +356,6 @@ class AssertableJsonString implements ArrayAccess, Countable
      * @param  string  $offset
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->decoded[$offset];
@@ -405,14 +368,6 @@ class AssertableJsonString implements ArrayAccess, Countable
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         $this->decoded[$offset] = $value;
@@ -424,14 +379,6 @@ class AssertableJsonString implements ArrayAccess, Countable
      * @param  string  $offset
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         unset($this->decoded[$offset]);

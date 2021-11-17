@@ -371,18 +371,8 @@ class Passport
     /**
      * Set the current client for the application with the given scopes.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Laravel\Passport\Client  $client
-     * @param  array  $scopes
-=======
      * @param \Laravel\Passport\Client $client
      * @param array $scopes
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Laravel\Passport\Client  $client
-     * @param  array  $scopes
->>>>>>> f330c64 (optimization in progress)
      * @return \Laravel\Passport\Client
      */
     public static function actingAsClient($client, $scopes = [])

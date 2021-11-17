@@ -116,41 +116,21 @@ class HtmlDumper extends CliDumper
 
     /**
      * Sets an HTML header that will be dumped once in the output stream.
-<<<<<<< HEAD
-<<<<<<< HEAD
-     */
-    public function setDumpHeader(?string $header)
-=======
      *
      * @param string $header An HTML string
      */
     public function setDumpHeader($header)
->>>>>>> 22c0e54 (table changes)
-=======
-     */
-    public function setDumpHeader(?string $header)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->dumpHeader = $header;
     }
 
     /**
      * Sets an HTML prefix and suffix that will encapse every single dump.
-<<<<<<< HEAD
-<<<<<<< HEAD
-     */
-    public function setDumpBoundaries(string $prefix, string $suffix)
-=======
      *
      * @param string $prefix The prepended HTML string
      * @param string $suffix The appended HTML string
      */
     public function setDumpBoundaries($prefix, $suffix)
->>>>>>> 22c0e54 (table changes)
-=======
-     */
-    public function setDumpBoundaries(string $prefix, string $suffix)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->dumpPrefix = $prefix;
         $this->dumpSuffix = $suffix;
@@ -173,15 +153,7 @@ class HtmlDumper extends CliDumper
      */
     protected function getDumpHeader()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->headerIsDumped = $this->outputStream ?? $this->lineDumper;
-=======
         $this->headerIsDumped = null !== $this->outputStream ? $this->outputStream : $this->lineDumper;
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->headerIsDumped = $this->outputStream ?? $this->lineDumper;
->>>>>>> f330c64 (optimization in progress)
 
         if (null !== $this->dumpHeader) {
             return $this->dumpHeader;
@@ -879,15 +851,7 @@ EOHTML
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected function style(string $style, string $value, array $attr = [])
-=======
     protected function style($style, $value, $attr = [])
->>>>>>> 22c0e54 (table changes)
-=======
-    protected function style(string $style, string $value, array $attr = [])
->>>>>>> f330c64 (optimization in progress)
     {
         if ('' === $value) {
             return '';
@@ -987,15 +951,7 @@ EOHTML
         if (-1 === $this->lastDepth) {
             $this->line = sprintf($this->dumpPrefix, $this->dumpId, $this->indentPad).$this->line;
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($this->headerIsDumped !== ($this->outputStream ?? $this->lineDumper)) {
-=======
         if ($this->headerIsDumped !== (null !== $this->outputStream ? $this->outputStream : $this->lineDumper)) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($this->headerIsDumped !== ($this->outputStream ?? $this->lineDumper)) {
->>>>>>> f330c64 (optimization in progress)
             $this->line = $this->getDumpHeader().$this->line;
         }
 
@@ -1029,15 +985,7 @@ EOHTML
     }
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-function esc(string $str)
-=======
 function esc($str)
->>>>>>> 22c0e54 (table changes)
-=======
-function esc(string $str)
->>>>>>> f330c64 (optimization in progress)
 {
     return htmlspecialchars($str, \ENT_QUOTES, 'UTF-8');
 }

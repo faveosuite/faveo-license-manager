@@ -131,16 +131,6 @@ class Repository implements ArrayAccess, CacheContract
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return iterable
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return iterable
->>>>>>> f330c64 (optimization in progress)
      */
     public function getMultiple($keys, $default = null)
     {
@@ -229,16 +219,6 @@ class Repository implements ArrayAccess, CacheContract
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
->>>>>>> f330c64 (optimization in progress)
      */
     public function set($key, $value, $ttl = null)
     {
@@ -296,16 +276,6 @@ class Repository implements ArrayAccess, CacheContract
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
->>>>>>> f330c64 (optimization in progress)
      */
     public function setMultiple($values, $ttl = null)
     {
@@ -469,16 +439,6 @@ class Repository implements ArrayAccess, CacheContract
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
->>>>>>> f330c64 (optimization in progress)
      */
     public function delete($key)
     {
@@ -487,16 +447,6 @@ class Repository implements ArrayAccess, CacheContract
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
->>>>>>> f330c64 (optimization in progress)
      */
     public function deleteMultiple($keys)
     {
@@ -513,16 +463,6 @@ class Repository implements ArrayAccess, CacheContract
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
->>>>>>> f330c64 (optimization in progress)
      */
     public function clear()
     {
@@ -663,14 +603,6 @@ class Repository implements ArrayAccess, CacheContract
      * @param  string  $key
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return $this->has($key);
@@ -682,14 +614,6 @@ class Repository implements ArrayAccess, CacheContract
      * @param  string  $key
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return $this->get($key);
@@ -702,14 +626,6 @@ class Repository implements ArrayAccess, CacheContract
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         $this->put($key, $value, $this->default);
@@ -721,14 +637,6 @@ class Repository implements ArrayAccess, CacheContract
      * @param  string  $key
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         $this->forget($key);

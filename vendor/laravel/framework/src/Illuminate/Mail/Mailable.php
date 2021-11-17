@@ -77,15 +77,7 @@ class Mailable implements MailableContract, Renderable
      *
      * @var string
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public $markdown;
-=======
     protected $markdown;
->>>>>>> 22c0e54 (table changes)
-=======
-    public $markdown;
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * The HTML to use for the message.
@@ -626,19 +618,6 @@ class Mailable implements MailableContract, Renderable
      */
     protected function setAddress($address, $name = null, $property = 'to')
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (empty($address)) {
-            return $this;
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         foreach ($this->addressesToArray($address, $name) as $recipient) {
             $recipient = $this->normalizeRecipient($recipient);
 
@@ -700,19 +679,6 @@ class Mailable implements MailableContract, Renderable
      */
     protected function hasRecipient($address, $name = null, $property = 'to')
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (empty($address)) {
-            return false;
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         $expected = $this->normalizeRecipient(
             $this->addressesToArray($address, $name)[0]
         );
@@ -896,15 +862,7 @@ class Mailable implements MailableContract, Renderable
      * Assert that the given text is present in the HTML email body.
      *
      * @param  string  $string
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return $this
-=======
      * @return void
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return $this
->>>>>>> f330c64 (optimization in progress)
      */
     public function assertSeeInHtml($string)
     {
@@ -914,31 +872,13 @@ class Mailable implements MailableContract, Renderable
             Str::contains($html, $string),
             "Did not see expected text [{$string}] within email body."
         );
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        return $this;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
-        return $this;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
      * Assert that the given text is not present in the HTML email body.
      *
      * @param  string  $string
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return $this
-=======
      * @return void
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return $this
->>>>>>> f330c64 (optimization in progress)
      */
     public function assertDontSeeInHtml($string)
     {
@@ -948,31 +888,13 @@ class Mailable implements MailableContract, Renderable
             Str::contains($html, $string),
             "Saw unexpected text [{$string}] within email body."
         );
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        return $this;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
-        return $this;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
      * Assert that the given text is present in the plain-text email body.
      *
      * @param  string  $string
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return $this
-=======
      * @return void
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return $this
->>>>>>> f330c64 (optimization in progress)
      */
     public function assertSeeInText($string)
     {
@@ -982,31 +904,13 @@ class Mailable implements MailableContract, Renderable
             Str::contains($text, $string),
             "Did not see expected text [{$string}] within text email body."
         );
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        return $this;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
-        return $this;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
      * Assert that the given text is not present in the plain-text email body.
      *
      * @param  string  $string
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return $this
-=======
      * @return void
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return $this
->>>>>>> f330c64 (optimization in progress)
      */
     public function assertDontSeeInText($string)
     {
@@ -1016,16 +920,6 @@ class Mailable implements MailableContract, Renderable
             Str::contains($text, $string),
             "Saw unexpected text [{$string}] within text email body."
         );
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        return $this;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
-        return $this;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

@@ -3,21 +3,8 @@
 namespace Illuminate\Foundation\Providers;
 
 use Illuminate\Http\Request;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-use Illuminate\Log\Events\MessageLogged;
 use Illuminate\Support\AggregateServiceProvider;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Testing\LoggedExceptionCollection;
-<<<<<<< HEAD
-=======
-use Illuminate\Support\AggregateServiceProvider;
-use Illuminate\Support\Facades\URL;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Testing\ParallelTestingServiceProvider;
 use Illuminate\Validation\ValidationException;
 
@@ -58,14 +45,6 @@ class FoundationServiceProvider extends AggregateServiceProvider
 
         $this->registerRequestValidation();
         $this->registerRequestSignatureValidation();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->registerExceptionTracking();
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->registerExceptionTracking();
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -107,37 +86,4 @@ class FoundationServiceProvider extends AggregateServiceProvider
             return URL::hasValidSignature($this, $absolute = false);
         });
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-    /**
-     * Register an event listener to track logged exceptions.
-     *
-     * @return void
-     */
-    protected function registerExceptionTracking()
-    {
-        if (! $this->app->runningUnitTests()) {
-            return;
-        }
-
-        $this->app->instance(
-            LoggedExceptionCollection::class,
-            new LoggedExceptionCollection
-        );
-
-        $this->app->make('events')->listen(MessageLogged::class, function ($event) {
-            if (isset($event->context['exception'])) {
-                $this->app->make(LoggedExceptionCollection::class)
-                        ->push($event->context['exception']);
-            }
-        });
-    }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 }

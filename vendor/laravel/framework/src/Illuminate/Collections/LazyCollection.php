@@ -513,34 +513,6 @@ class LazyCollection implements Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Determine if any of the keys exist in the collection.
-     *
-     * @param  mixed  $key
-     * @return bool
-     */
-    public function hasAny($key)
-    {
-        $keys = array_flip(is_array($key) ? $key : func_get_args());
-
-        foreach ($this as $key => $value) {
-            if (array_key_exists($key, $keys)) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Concatenate values of a given key as a string.
      *
      * @param  string  $value
@@ -1085,18 +1057,8 @@ class LazyCollection implements Enumerable
      * @param  mixed  $value
      * @return mixed
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @throws \Illuminate\Support\ItemNotFoundException
-     * @throws \Illuminate\Support\MultipleItemsFoundException
-=======
      * @throws \Illuminate\Collections\ItemNotFoundException
      * @throws \Illuminate\Collections\MultipleItemsFoundException
->>>>>>> 22c0e54 (table changes)
-=======
-     * @throws \Illuminate\Support\ItemNotFoundException
-     * @throws \Illuminate\Support\MultipleItemsFoundException
->>>>>>> f330c64 (optimization in progress)
      */
     public function sole($key = null, $operator = null, $value = null)
     {
@@ -1113,39 +1075,6 @@ class LazyCollection implements Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Get the first item in the collection but throw an exception if no matching items exist.
-     *
-     * @param  mixed  $key
-     * @param  mixed  $operator
-     * @param  mixed  $value
-     * @return mixed
-     *
-     * @throws \Illuminate\Support\ItemNotFoundException
-     */
-    public function firstOrFail($key = null, $operator = null, $value = null)
-    {
-        $filter = func_num_args() > 1
-            ? $this->operatorForWhere(...func_get_args())
-            : $key;
-
-        return $this
-            ->when($filter)
-            ->filter($filter)
-            ->take(1)
-            ->collect()
-            ->firstOrFail();
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Chunk the collection into chunks of the given size.
      *
      * @param  int  $size
@@ -1400,39 +1329,6 @@ class LazyCollection implements Enumerable
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Return only unique items from the collection array.
-     *
-     * @param  string|callable|null  $key
-     * @param  bool  $strict
-     * @return static
-     */
-    public function unique($key = null, $strict = false)
-    {
-        $callback = $this->valueRetriever($key);
-
-        return new static(function () use ($callback, $strict) {
-            $exists = [];
-
-            foreach ($this as $key => $item) {
-                if (! in_array($id = $callback($item, $key), $exists, $strict)) {
-                    yield $key => $item;
-
-                    $exists[] = $id;
-                }
-            }
-        });
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Reset the keys on the underlying array.
      *
      * @return static
@@ -1505,14 +1401,6 @@ class LazyCollection implements Enumerable
      *
      * @return \Traversable
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         return $this->makeIterator($this->source);
@@ -1523,14 +1411,6 @@ class LazyCollection implements Enumerable
      *
      * @return int
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function count()
     {
         if (is_array($this->source)) {

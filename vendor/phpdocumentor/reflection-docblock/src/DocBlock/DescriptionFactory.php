@@ -15,18 +15,8 @@ namespace phpDocumentor\Reflection\DocBlock;
 
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use phpDocumentor\Reflection\Utils;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-use function count;
-=======
 use function count;
 use function explode;
->>>>>>> 22c0e54 (table changes)
-=======
-
-use function count;
->>>>>>> f330c64 (optimization in progress)
 use function implode;
 use function ltrim;
 use function min;
@@ -35,14 +25,6 @@ use function strlen;
 use function strpos;
 use function substr;
 use function trim;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use const PREG_SPLIT_DELIM_CAPTURE;
 
 /**
@@ -78,15 +60,7 @@ class DescriptionFactory
     /**
      * Returns the parsed text of this description.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function create(string $contents, ?TypeContext $context = null): Description
-=======
     public function create(string $contents, ?TypeContext $context = null) : Description
->>>>>>> 22c0e54 (table changes)
-=======
-    public function create(string $contents, ?TypeContext $context = null): Description
->>>>>>> f330c64 (optimization in progress)
     {
         $tokens   = $this->lex($contents);
         $count    = count($tokens);
@@ -114,15 +88,7 @@ class DescriptionFactory
      *
      * @return string[] A series of tokens of which the description text is composed.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private function lex(string $contents): array
-=======
     private function lex(string $contents) : array
->>>>>>> 22c0e54 (table changes)
-=======
-    private function lex(string $contents): array
->>>>>>> f330c64 (optimization in progress)
     {
         $contents = $this->removeSuperfluousStartingWhitespace($contents);
 
@@ -176,21 +142,9 @@ class DescriptionFactory
      * If we do not normalize the indentation then we have superfluous whitespace on the second and subsequent
      * lines and this may cause rendering issues when, for example, using a Markdown converter.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private function removeSuperfluousStartingWhitespace(string $contents): string
-    {
-        $lines = Utils::pregSplit("/\r\n?|\n/", $contents);
-=======
     private function removeSuperfluousStartingWhitespace(string $contents) : string
     {
         $lines = explode("\n", $contents);
->>>>>>> 22c0e54 (table changes)
-=======
-    private function removeSuperfluousStartingWhitespace(string $contents): string
-    {
-        $lines = Utils::pregSplit("/\r\n?|\n/", $contents);
->>>>>>> f330c64 (optimization in progress)
 
         // if there is only one line then we don't have lines with superfluous whitespace and
         // can use the contents as-is

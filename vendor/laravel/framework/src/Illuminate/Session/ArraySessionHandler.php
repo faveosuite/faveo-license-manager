@@ -3,13 +3,7 @@
 namespace Illuminate\Session;
 
 use Illuminate\Support\InteractsWithTime;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use ReturnTypeWillChange;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use SessionHandlerInterface;
 
 class ArraySessionHandler implements SessionHandlerInterface
@@ -43,22 +37,8 @@ class ArraySessionHandler implements SessionHandlerInterface
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
-=======
      */
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function open($savePath, $sessionName)
     {
         return true;
@@ -66,22 +46,8 @@ class ArraySessionHandler implements SessionHandlerInterface
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
-=======
      */
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function close()
     {
         return true;
@@ -89,22 +55,8 @@ class ArraySessionHandler implements SessionHandlerInterface
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return string|false
-     */
-    #[\ReturnTypeWillChange]
-=======
      */
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return string|false
-     */
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function read($sessionId)
     {
         if (! isset($this->storage[$sessionId])) {
@@ -124,22 +76,8 @@ class ArraySessionHandler implements SessionHandlerInterface
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
-=======
      */
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function write($sessionId, $data)
     {
         $this->storage[$sessionId] = [
@@ -152,22 +90,8 @@ class ArraySessionHandler implements SessionHandlerInterface
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
-=======
      */
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return bool
-     */
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function destroy($sessionId)
     {
         if (isset($this->storage[$sessionId])) {
@@ -179,22 +103,8 @@ class ArraySessionHandler implements SessionHandlerInterface
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return int|false
-     */
-    #[\ReturnTypeWillChange]
-=======
      */
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return int|false
-     */
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function gc($lifetime)
     {
         $expiration = $this->calculateExpiration($lifetime);

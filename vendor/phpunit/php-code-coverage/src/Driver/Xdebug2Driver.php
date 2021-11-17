@@ -39,21 +39,9 @@ final class Xdebug2Driver extends Driver
     private $pathCoverageIsMixedCoverage;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @throws WrongXdebugVersionException
-     * @throws Xdebug2NotEnabledException
-     * @throws XdebugNotAvailableException
-=======
      * @throws XdebugNotAvailableException
      * @throws WrongXdebugVersionException
      * @throws Xdebug2NotEnabledException
->>>>>>> 22c0e54 (table changes)
-=======
-     * @throws WrongXdebugVersionException
-     * @throws Xdebug2NotEnabledException
-     * @throws XdebugNotAvailableException
->>>>>>> f330c64 (optimization in progress)
      */
     public function __construct(Filter $filter)
     {

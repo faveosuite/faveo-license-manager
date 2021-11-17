@@ -74,17 +74,7 @@ final class ExecutionOrderDependency
         return array_values(
             array_filter(
                 $dependencies,
-<<<<<<< HEAD
-<<<<<<< HEAD
-                static function (self $d)
-                {
-=======
                 static function (self $d) {
->>>>>>> 22c0e54 (table changes)
-=======
-                static function (self $d)
-                {
->>>>>>> f330c64 (optimization in progress)
                     return $d->isValid();
                 }
             )
@@ -100,17 +90,7 @@ final class ExecutionOrderDependency
     public static function mergeUnique(array $existing, array $additional): array
     {
         $existingTargets = array_map(
-<<<<<<< HEAD
-<<<<<<< HEAD
-            static function ($dependency)
-            {
-=======
             static function ($dependency) {
->>>>>>> 22c0e54 (table changes)
-=======
-            static function ($dependency)
-            {
->>>>>>> f330c64 (optimization in progress)
                 return $dependency->getTarget();
             },
             $existing
@@ -146,17 +126,7 @@ final class ExecutionOrderDependency
 
         $diff         = [];
         $rightTargets = array_map(
-<<<<<<< HEAD
-<<<<<<< HEAD
-            static function ($dependency)
-            {
-=======
             static function ($dependency) {
->>>>>>> 22c0e54 (table changes)
-=======
-            static function ($dependency)
-            {
->>>>>>> f330c64 (optimization in progress)
                 return $dependency->getTarget();
             },
             $right

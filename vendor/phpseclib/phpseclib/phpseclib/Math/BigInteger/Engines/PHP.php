@@ -731,14 +731,8 @@ abstract class PHP extends Engine
      */
     protected function normalize(PHP $result)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         unset($result->reduce);
 
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         $result->precision = $this->precision;
         $result->bitmask = $this->bitmask;
 

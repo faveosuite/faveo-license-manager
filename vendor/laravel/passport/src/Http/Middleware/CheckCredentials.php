@@ -72,15 +72,7 @@ abstract class CheckCredentials
     /**
      * Validate the scopes and token on the incoming request.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Psr\Http\Message\ServerRequestInterface  $psr
-=======
      * @param  \Psr\Http\Message\ServerRequestInterface $psr
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Psr\Http\Message\ServerRequestInterface  $psr
->>>>>>> f330c64 (optimization in progress)
      * @param  array  $scopes
      * @return void
      *

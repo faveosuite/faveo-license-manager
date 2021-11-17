@@ -48,15 +48,7 @@ class ResourceCaster
     public static function castStream($stream, array $a, Stub $stub, bool $isNested)
     {
         $a = stream_get_meta_data($stream) + static::castStreamContext($stream, $a, $stub, $isNested);
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($a['uri'] ?? false) {
-=======
         if (isset($a['uri'])) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($a['uri'] ?? false) {
->>>>>>> f330c64 (optimization in progress)
             $a['uri'] = new LinkStub($a['uri']);
         }
 
@@ -68,15 +60,7 @@ class ResourceCaster
         return @stream_context_get_params($stream) ?: $a;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function castGd($gd, array $a, Stub $stub, bool $isNested)
-=======
     public static function castGd($gd, array $a, Stub $stub, $isNested)
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function castGd($gd, array $a, Stub $stub, bool $isNested)
->>>>>>> f330c64 (optimization in progress)
     {
         $a['size'] = imagesx($gd).'x'.imagesy($gd);
         $a['trueColor'] = imageistruecolor($gd);

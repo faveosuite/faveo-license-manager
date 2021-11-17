@@ -25,15 +25,7 @@ class Inspiring
             'Be present above all else. - Naval Ravikant',
             'Happiness is not something readymade. It comes from your own actions. - Dalai Lama',
             'He who is contented is rich. - Laozi',
-<<<<<<< HEAD
-<<<<<<< HEAD
-            'I begin to speak only when I am certain what I will say is not better left unsaid. - Cato the Younger',
-=======
             'I begin to speak only when I am certain what I will say is not better left unsaid - Cato the Younger',
->>>>>>> 22c0e54 (table changes)
-=======
-            'I begin to speak only when I am certain what I will say is not better left unsaid. - Cato the Younger',
->>>>>>> f330c64 (optimization in progress)
             'If you do not have a consistent goal in life, you can not live it in a consistent way. - Marcus Aurelius',
             'It is not the man who has too little, but the man who craves more, that is poor. - Seneca',
             'It is quality rather than quantity that matters. - Lucius Annaeus Seneca',
@@ -49,15 +41,7 @@ class Inspiring
             'Smile, breathe, and go slowly. - Thich Nhat Hanh',
             'The only way to do great work is to love what you do. - Steve Jobs',
             'The whole future lies in uncertainty: live immediately. - Seneca',
-<<<<<<< HEAD
-<<<<<<< HEAD
-            'Very little is needed to make a happy life. - Marcus Aurelius',
-=======
             'Very little is needed to make a happy life. - Marcus Antoninus',
->>>>>>> 22c0e54 (table changes)
-=======
-            'Very little is needed to make a happy life. - Marcus Aurelius',
->>>>>>> f330c64 (optimization in progress)
             'Waste no more time arguing what a good man should be, be one. - Marcus Aurelius',
             'Well begun is half done. - Aristotle',
             'When there is no desire, all things are at peace. - Laozi',

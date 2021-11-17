@@ -11,19 +11,7 @@ class InstallCommand extends Command
      *
      * @var string
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $signature = 'sail:install
-                {--with= : The services that should be included in the installation}
-                {--devcontainer : Create a .devcontainer configuration directory}';
-=======
     protected $signature = 'sail:install {--with= : The services that should be included in the installation}';
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $signature = 'sail:install
-                {--with= : The services that should be included in the installation}
-                {--devcontainer : Create a .devcontainer configuration directory}';
->>>>>>> f330c64 (optimization in progress)
 
     /**
      * The console command description.
@@ -50,19 +38,6 @@ class InstallCommand extends Command
         $this->buildDockerCompose($services);
         $this->replaceEnvVariables($services);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if ($this->option('devcontainer')) {
-            $this->installDevContainer();
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         $this->info('Sail scaffolding installed successfully.');
     }
 
@@ -161,37 +136,4 @@ class InstallCommand extends Command
 
         file_put_contents($this->laravel->basePath('.env'), $environment);
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-    /**
-     * Install the devcontainer.json configuration file.
-     *
-     * @return void
-     */
-    protected function installDevContainer()
-    {
-        if (! is_dir($this->laravel->basePath('.devcontainer'))) {
-            mkdir($this->laravel->basePath('.devcontainer'), 0755, true);
-        }
-
-        file_put_contents(
-            $this->laravel->basePath('.devcontainer/devcontainer.json'),
-            file_get_contents(__DIR__.'/../../stubs/devcontainer.stub')
-        );
-
-        $environment = file_get_contents($this->laravel->basePath('.env'));
-
-        $environment .= "\nWWWGROUP=1000";
-        $environment .= "\nWWWUSER=1000\n";
-
-        file_put_contents($this->laravel->basePath('.env'), $environment);
-    }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 }

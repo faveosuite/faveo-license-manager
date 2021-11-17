@@ -1,19 +1,5 @@
 #!/usr/bin/env bash
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-if ! [ -x "$(command -v docker-compose)" ]; then
-    shopt -s expand_aliases
-    alias docker-compose='docker compose'
-fi
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 UNAMEOUT="$(uname -s)"
 
 WHITE='\033[1;37m'
@@ -32,20 +18,6 @@ if [ "$MACHINE" == "UNKNOWN" ]; then
     exit 1
 fi
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-# Source the ".env" file so Laravel's environment variables are available...
-if [ -f ./.env ]; then
-    source ./.env
-fi
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 # Define environment variables...
 export APP_PORT=${APP_PORT:-80}
 export APP_SERVICE=${APP_SERVICE:-"laravel.test"}
@@ -56,10 +28,6 @@ export WWWGROUP=${WWWGROUP:-$(id -g)}
 export SAIL_SHARE_DASHBOARD=${SAIL_SHARE_DASHBOARD:-4040}
 export SAIL_SHARE_SERVER_HOST=${SAIL_SHARE_SERVER_HOST:-"laravel-sail.site"}
 export SAIL_SHARE_SERVER_PORT=${SAIL_SHARE_SERVER_PORT:-8080}
-<<<<<<< HEAD
-<<<<<<< HEAD
-export SAIL_SHARE_SUBDOMAIN=${SAIL_SHARE_SUBDOMAIN:-""}
-=======
 
 # Ensure that Docker is running...
 if ! docker info > /dev/null 2>&1; then
@@ -82,10 +50,6 @@ elif [ -n "$PSRESULT" ]; then
 else
     EXEC="no"
 fi
->>>>>>> 22c0e54 (table changes)
-=======
-export SAIL_SHARE_SUBDOMAIN=${SAIL_SHARE_SUBDOMAIN:-""}
->>>>>>> f330c64 (optimization in progress)
 
 # Function that outputs Sail is not running...
 function sail_is_not_running {
@@ -96,67 +60,12 @@ function sail_is_not_running {
     exit 1
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-if [ -z "$SAIL_SKIP_CHECKS" ]; then
-    # Ensure that Docker is running...
-    if ! docker info > /dev/null 2>&1; then
-        echo -e "${WHITE}Docker is not running.${NC}" >&2
-
-        exit 1
-<<<<<<< HEAD
-    fi
-
-    # Determine if Sail is currently up...
-    PSRESULT="$(docker-compose ps -q)"
-    if docker-compose ps | grep $APP_SERVICE | grep 'Exit'; then
-        echo -e "${WHITE}Shutting down old Sail processes...${NC}" >&2
-
-        docker-compose down > /dev/null 2>&1
-
-        EXEC="no"
-    elif [ -n "$PSRESULT" ]; then
-        EXEC="yes"
-    else
-        EXEC="no"
-    fi
-else
-    EXEC="yes"
-fi
-
-if [ $# -gt 0 ]; then
-=======
 if [ $# -gt 0 ]; then
     # Source the ".env" file so Laravel's environment variables are available...
     if [ -f ./.env ]; then
         source ./.env
     fi
 
->>>>>>> 22c0e54 (table changes)
-=======
-    fi
-
-    # Determine if Sail is currently up...
-    PSRESULT="$(docker-compose ps -q)"
-    if docker-compose ps | grep $APP_SERVICE | grep 'Exit'; then
-        echo -e "${WHITE}Shutting down old Sail processes...${NC}" >&2
-
-        docker-compose down > /dev/null 2>&1
-
-        EXEC="no"
-    elif [ -n "$PSRESULT" ]; then
-        EXEC="yes"
-    else
-        EXEC="no"
-    fi
-else
-    EXEC="yes"
-fi
-
-if [ $# -gt 0 ]; then
->>>>>>> f330c64 (optimization in progress)
     # Proxy PHP commands to the "php" binary on the application container...
     if [ "$1" == "php" ]; then
         shift 1
@@ -209,29 +118,6 @@ if [ $# -gt 0 ]; then
             sail_is_not_running
         fi
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    # Proxy the "debug" command to the "php artisan" binary on the application container with xdebug enabled...
-    elif [ "$1" == "debug" ]; then
-        shift 1
-
-        if [ "$EXEC" == "yes" ]; then
-            docker-compose exec \
-                -u sail \
-                -e XDEBUG_SESSION=1 \
-                "$APP_SERVICE" \
-                php artisan "$@"
-        else
-            sail_is_not_running
-        fi
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     # Proxy the "test" command to the "php artisan test" Artisan command...
     elif [ "$1" == "test" ]; then
         shift 1
@@ -252,15 +138,7 @@ if [ $# -gt 0 ]; then
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 -u sail \
-<<<<<<< HEAD
-<<<<<<< HEAD
-                -e "APP_URL=http://${APP_SERVICE}" \
-=======
                 -e "APP_URL=http://laravel.test" \
->>>>>>> 22c0e54 (table changes)
-=======
-                -e "APP_URL=http://${APP_SERVICE}" \
->>>>>>> f330c64 (optimization in progress)
                 -e "DUSK_DRIVER_URL=http://selenium:4444/wd/hub" \
                 "$APP_SERVICE" \
                 php artisan dusk "$@"
@@ -275,15 +153,7 @@ if [ $# -gt 0 ]; then
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 -u sail \
-<<<<<<< HEAD
-<<<<<<< HEAD
-                -e "APP_URL=http://${APP_SERVICE}" \
-=======
                 -e "APP_URL=http://laravel.test" \
->>>>>>> 22c0e54 (table changes)
-=======
-                -e "APP_URL=http://${APP_SERVICE}" \
->>>>>>> f330c64 (optimization in progress)
                 -e "DUSK_DRIVER_URL=http://selenium:4444/wd/hub" \
                 "$APP_SERVICE" \
                 php artisan dusk:fails "$@"
@@ -400,15 +270,7 @@ if [ $# -gt 0 ]; then
             docker-compose exec \
                 -u sail \
                 "$APP_SERVICE" \
-<<<<<<< HEAD
-<<<<<<< HEAD
-                bash "$@"
-=======
                 bash
->>>>>>> 22c0e54 (table changes)
-=======
-                bash "$@"
->>>>>>> f330c64 (optimization in progress)
         else
             sail_is_not_running
         fi
@@ -420,15 +282,7 @@ if [ $# -gt 0 ]; then
         if [ "$EXEC" == "yes" ]; then
             docker-compose exec \
                 "$APP_SERVICE" \
-<<<<<<< HEAD
-<<<<<<< HEAD
-                bash "$@"
-=======
                 bash
->>>>>>> 22c0e54 (table changes)
-=======
-                bash "$@"
->>>>>>> f330c64 (optimization in progress)
         else
             sail_is_not_running
         fi
@@ -454,15 +308,7 @@ if [ $# -gt 0 ]; then
             --server-host="$SAIL_SHARE_SERVER_HOST" \
             --server-port="$SAIL_SHARE_SERVER_PORT" \
             --auth="$SAIL_SHARE_TOKEN" \
-<<<<<<< HEAD
-<<<<<<< HEAD
-            --subdomain="$SAIL_SHARE_SUBDOMAIN" \
-=======
             --subdomain=""
->>>>>>> 22c0e54 (table changes)
-=======
-            --subdomain="$SAIL_SHARE_SUBDOMAIN" \
->>>>>>> f330c64 (optimization in progress)
             "$@"
         else
             sail_is_not_running

@@ -42,38 +42,6 @@ trait ValidatesAttributes
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Validate that an attribute was "accepted" when another attribute has a given value.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  mixed  $parameters
-     * @return bool
-     */
-    public function validateAcceptedIf($attribute, $value, $parameters)
-    {
-        $acceptable = ['yes', 'on', '1', 1, true, 'true'];
-
-        $this->requireParameterCount(2, $parameters, 'accepted_if');
-
-        [$values, $other] = $this->parseDependentRuleParameters($parameters);
-
-        if (in_array($other, $values, is_bool($other) || is_null($other))) {
-            return $this->validateRequired($attribute, $value) && in_array($value, $acceptable, true);
-        }
-
-        return true;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Validate that an attribute is an active URL.
      *
      * @param  string  $attribute
@@ -266,15 +234,7 @@ trait ValidatesAttributes
     protected function getDateTime($value)
     {
         try {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            return @Date::parse($value) ?: null;
-=======
             return Date::parse($value);
->>>>>>> 22c0e54 (table changes)
-=======
-            return @Date::parse($value) ?: null;
->>>>>>> f330c64 (optimization in progress)
         } catch (Exception $e) {
             //
         }
@@ -448,35 +408,11 @@ trait ValidatesAttributes
             return false;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        foreach ($parameters as $format) {
-            $date = DateTime::createFromFormat('!'.$format, $value);
-
-            if ($date && $date->format($format) == $value) {
-                return true;
-            }
-        }
-
-        return false;
-=======
         $format = $parameters[0];
-=======
-        foreach ($parameters as $format) {
-            $date = DateTime::createFromFormat('!'.$format, $value);
->>>>>>> f330c64 (optimization in progress)
 
-            if ($date && $date->format($format) == $value) {
-                return true;
-            }
-        }
+        $date = DateTime::createFromFormat('!'.$format, $value);
 
-<<<<<<< HEAD
         return $date && $date->format($format) == $value;
->>>>>>> 22c0e54 (table changes)
-=======
-        return false;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1576,38 +1512,6 @@ trait ValidatesAttributes
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Validate that other attributes do not exist when this attribute exists.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @param  mixed  $parameters
-     * @return bool
-     */
-    public function validateProhibits($attribute, $value, $parameters)
-    {
-        return ! Arr::hasAny($this->data, $parameters);
-    }
-
-    /**
-     * Indicate that an attribute is excluded.
-     *
-     * @return bool
-     */
-    public function validateExclude()
-    {
-        return false;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Indicate that an attribute should be excluded when another attribute has a given value.
      *
      * @param  string  $attribute
@@ -2021,15 +1925,7 @@ trait ValidatesAttributes
             return $value->getSize() / 1024;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return mb_strlen($value ?? '');
-=======
         return mb_strlen($value);
->>>>>>> 22c0e54 (table changes)
-=======
-        return mb_strlen($value ?? '');
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -2126,13 +2022,7 @@ trait ValidatesAttributes
      *
      * @param  string  $attribute
      * @param  string  $rule
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
      *
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * @return void
      */
     protected function shouldBeNumeric($attribute, $rule)

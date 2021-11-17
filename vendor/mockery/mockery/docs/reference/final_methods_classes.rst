@@ -9,23 +9,9 @@ classes or methods marked final is hard. The final keyword prevents methods so
 marked from being replaced in subclasses (subclassing is how mock objects can
 inherit the type of the class or object being mocked).
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-The simplest solution is to implement an interface in your final class and 
-typehint against / mock this.
-
-However this may not be possible in some third party libraries.
-=======
 The simplest solution is to not mark classes or methods as final!
 
 However, in a compromise between mocking functionality and type safety,
->>>>>>> 22c0e54 (table changes)
-=======
-The simplest solution is to implement an interface in your final class and 
-typehint against / mock this.
-
-However this may not be possible in some third party libraries.
->>>>>>> f330c64 (optimization in progress)
 Mockery does allow creating "proxy mocks" from classes marked final, or from
 classes with methods marked final. This offers all the usual mock object
 goodness but the resulting mock will not inherit the class type of the object

@@ -7,14 +7,6 @@ use Exception;
 use Illuminate\Contracts\Notifications\Dispatcher as NotificationDispatcher;
 use Illuminate\Contracts\Notifications\Factory as NotificationFactory;
 use Illuminate\Contracts\Translation\HasLocalePreference;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Illuminate\Notifications\AnonymousNotifiable;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use Illuminate\Notifications\AnonymousNotifiable;
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
@@ -40,29 +32,6 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
     public $locale;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Assert if a notification was sent on-demand based on a truth-test callback.
-     *
-     * @param  string|\Closure  $notification
-     * @param  callable|null  $callback
-     * @return void
-     *
-     * @throws \Exception
-     */
-    public function assertSentOnDemand($notification, $callback = null)
-    {
-        $this->assertSentTo(new AnonymousNotifiable, $notification, $callback);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Assert if a notification was sent based on a truth-test callback.
      *
      * @param  mixed  $notifiable
@@ -101,27 +70,6 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Assert if a notification was sent on-demand a number of times.
-     *
-     * @param  string  $notification
-     * @param  int  $times
-     * @return void
-     */
-    public function assertSentOnDemandTimes($notification, $times = 1)
-    {
-        return $this->assertSentToTimes(new AnonymousNotifiable, $notification, $times);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Assert if a notification was sent a number of times.
      *
      * @param  mixed  $notifiable
@@ -284,39 +232,9 @@ class NotificationFake implements NotificationDispatcher, NotificationFactory
                 $notification->id = Str::uuid()->toString();
             }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-            $notifiableChannels = $channels ?: $notification->via($notifiable);
-
-            if (method_exists($notification, 'shouldSend')) {
-                $notifiableChannels = array_filter(
-                    $notifiableChannels,
-                    function ($channel) use ($notification, $notifiable) {
-                        return $notification->shouldSend($notifiable, $channel) !== false;
-                    }
-                );
-
-                if (empty($notifiableChannels)) {
-                    continue;
-                }
-            }
-
-<<<<<<< HEAD
-            $this->notifications[get_class($notifiable)][$notifiable->getKey()][get_class($notification)][] = [
-                'notification' => $notification,
-                'channels' => $notifiableChannels,
-=======
             $this->notifications[get_class($notifiable)][$notifiable->getKey()][get_class($notification)][] = [
                 'notification' => $notification,
                 'channels' => $channels ?: $notification->via($notifiable),
->>>>>>> 22c0e54 (table changes)
-=======
-            $this->notifications[get_class($notifiable)][$notifiable->getKey()][get_class($notification)][] = [
-                'notification' => $notification,
-                'channels' => $notifiableChannels,
->>>>>>> f330c64 (optimization in progress)
                 'notifiable' => $notifiable,
                 'locale' => $notification->locale ?? $this->locale ?? value(function () use ($notifiable) {
                     if ($notifiable instanceof HasLocalePreference) {

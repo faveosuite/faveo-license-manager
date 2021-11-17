@@ -9,15 +9,7 @@ return [
     |
     | Choose your preferred editor to use when clicking any edit button.
     |
-<<<<<<< HEAD
-<<<<<<< HEAD
-    | Supported: "phpstorm", "vscode", "vscode-insiders", "vscodium", "textmate", "emacs",
-=======
     | Supported: "phpstorm", "vscode", "vscode-insiders", "textmate", "emacs",
->>>>>>> 22c0e54 (table changes)
-=======
-    | Supported: "phpstorm", "vscode", "vscode-insiders", "vscodium", "textmate", "emacs",
->>>>>>> f330c64 (optimization in progress)
     |            "sublime", "atom", "nova", "macvim", "idea", "netbeans",
     |            "xdebug"
     |

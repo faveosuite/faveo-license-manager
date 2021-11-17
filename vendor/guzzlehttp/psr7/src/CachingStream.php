@@ -36,23 +36,7 @@ final class CachingStream implements StreamInterface
 
     public function getSize(): ?int
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $remoteSize = $this->remoteStream->getSize();
-
-        if (null === $remoteSize) {
-            return null;
-        }
-
-        return max($this->stream->getSize(), $remoteSize);
-<<<<<<< HEAD
-=======
         return max($this->stream->getSize(), $this->remoteStream->getSize());
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     public function rewind(): void

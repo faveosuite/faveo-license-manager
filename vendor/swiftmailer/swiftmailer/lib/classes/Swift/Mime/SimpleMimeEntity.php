@@ -731,15 +731,7 @@ class Swift_Mime_SimpleMimeEntity implements Swift_Mime_CharsetObserver, Swift_M
         }
 
         $realLevel = $child->getNestingLevel();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $lowercaseType = strtolower($child->getContentType() ?? '');
-=======
         $lowercaseType = strtolower($child->getContentType());
->>>>>>> 22c0e54 (table changes)
-=======
-        $lowercaseType = strtolower($child->getContentType() ?? '');
->>>>>>> f330c64 (optimization in progress)
 
         if (isset($filter[$realLevel]) && isset($filter[$realLevel][$lowercaseType])) {
             return $filter[$realLevel][$lowercaseType];

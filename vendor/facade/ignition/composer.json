@@ -13,30 +13,12 @@
         "php": "^7.2.5|^8.0",
         "ext-json": "*",
         "ext-mbstring": "*",
-<<<<<<< HEAD
-<<<<<<< HEAD
-        "facade/flare-client-php": "^1.9.1",
-=======
         "facade/flare-client-php": "^1.6",
->>>>>>> 22c0e54 (table changes)
-=======
-        "facade/flare-client-php": "^1.9.1",
->>>>>>> f330c64 (optimization in progress)
         "facade/ignition-contracts": "^1.0.2",
         "illuminate/support": "^7.0|^8.0",
         "monolog/monolog": "^2.0",
         "symfony/console": "^5.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
-        "symfony/var-dumper": "^5.0",
-        "ext-curl": "*"
-=======
         "symfony/var-dumper": "^5.0"
->>>>>>> 22c0e54 (table changes)
-=======
-        "symfony/var-dumper": "^5.0",
-        "ext-curl": "*"
->>>>>>> f330c64 (optimization in progress)
     },
     "require-dev": {
         "friendsofphp/php-cs-fixer": "^2.14",

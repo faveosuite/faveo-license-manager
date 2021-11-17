@@ -44,15 +44,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
      * Minimum level for logs that are passed to handler
      *
      * @var int[]
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @phpstan-var array<Level, int>
-=======
      * @phpstan-var Level[]
->>>>>>> 22c0e54 (table changes)
-=======
-     * @phpstan-var array<Level, int>
->>>>>>> f330c64 (optimization in progress)
      */
     protected $acceptedLevels;
 
@@ -86,15 +78,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @phpstan-return array<int, Level>
-=======
      * @phpstan-return Level[]
->>>>>>> 22c0e54 (table changes)
-=======
-     * @phpstan-return array<int, Level>
->>>>>>> f330c64 (optimization in progress)
      */
     public function getAcceptedLevels(): array
     {
@@ -125,15 +109,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function isHandling(array $record): bool
     {
@@ -141,15 +117,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function handle(array $record): bool
     {
@@ -168,15 +136,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function handleBatch(array $records): void
     {
@@ -214,15 +174,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function setFormatter(FormatterInterface $formatter): HandlerInterface
     {
@@ -237,15 +189,7 @@ class FilterHandler extends Handler implements ProcessableHandlerInterface, Rese
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      */
     public function getFormatter(): FormatterInterface
     {

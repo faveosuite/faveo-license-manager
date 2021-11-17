@@ -153,23 +153,4 @@ class PreventRequestsDuringMaintenance
 
         return $headers;
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-    /**
-     * Get the URIs that should be accessible even when maintenance mode is enabled.
-     *
-     * @return array
-     */
-    public function getExcludedPaths()
-    {
-        return $this->except;
-    }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 }

@@ -37,15 +37,7 @@ final class Throws extends TagWithType implements Factory\StaticMethod
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
-<<<<<<< HEAD
-<<<<<<< HEAD
-    ): self {
-=======
     ) : self {
->>>>>>> 22c0e54 (table changes)
-=======
-    ): self {
->>>>>>> f330c64 (optimization in progress)
         Assert::notNull($typeResolver);
         Assert::notNull($descriptionFactory);
 
@@ -57,15 +49,7 @@ final class Throws extends TagWithType implements Factory\StaticMethod
         return new static($type, $description);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();

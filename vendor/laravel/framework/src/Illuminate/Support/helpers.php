@@ -216,15 +216,7 @@ if (! function_exists('retry')) {
      *
      * @param  int  $times
      * @param  callable  $callback
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  int|\Closure  $sleepMilliseconds
-=======
      * @param  int  $sleepMilliseconds
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  int|\Closure  $sleepMilliseconds
->>>>>>> f330c64 (optimization in progress)
      * @param  callable|null  $when
      * @return mixed
      *
@@ -246,15 +238,7 @@ if (! function_exists('retry')) {
             }
 
             if ($sleepMilliseconds) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                usleep(value($sleepMilliseconds, $attempts) * 1000);
-=======
                 usleep($sleepMilliseconds * 1000);
->>>>>>> 22c0e54 (table changes)
-=======
-                usleep(value($sleepMilliseconds, $attempts) * 1000);
->>>>>>> f330c64 (optimization in progress)
             }
 
             goto beginning;

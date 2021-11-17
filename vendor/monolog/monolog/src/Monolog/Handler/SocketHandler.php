@@ -36,15 +36,7 @@ class SocketHandler extends AbstractProcessingHandler
     private $writingTimeout = 10.0;
     /** @var ?int */
     private $lastSentBytes = null;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    /** @var ?int */
-=======
     /** @var int */
->>>>>>> 22c0e54 (table changes)
-=======
-    /** @var ?int */
->>>>>>> f330c64 (optimization in progress)
     private $chunkSize = null;
     /** @var bool */
     private $persistent = false;
@@ -205,15 +197,7 @@ class SocketHandler extends AbstractProcessingHandler
     /**
      * Get current chunk size
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getChunkSize(): ?int
-=======
     public function getChunkSize(): int
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getChunkSize(): ?int
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->chunkSize;
     }
@@ -281,19 +265,6 @@ class SocketHandler extends AbstractProcessingHandler
             throw new \LogicException('streamSetChunkSize called but $this->resource is not a resource');
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (null === $this->chunkSize) {
-            throw new \LogicException('streamSetChunkSize called but $this->chunkSize is not set');
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         return stream_set_chunk_size($this->resource, $this->chunkSize);
     }
 

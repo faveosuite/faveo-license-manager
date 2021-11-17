@@ -153,15 +153,7 @@ class ShareReportAction
         ];
 
         return Collection::make($contextItems)
-<<<<<<< HEAD
-<<<<<<< HEAD
-            ->reject(function ($_value, $group) use ($predefinedContextItemGroups) {
-=======
             ->reject(function ($value, $group) use ($predefinedContextItemGroups) {
->>>>>>> 22c0e54 (table changes)
-=======
-            ->reject(function ($_value, $group) use ($predefinedContextItemGroups) {
->>>>>>> f330c64 (optimization in progress)
                 return in_array($group, $predefinedContextItemGroups);
             })
             ->keys()

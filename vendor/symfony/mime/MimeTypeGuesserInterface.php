@@ -26,14 +26,8 @@ interface MimeTypeGuesserInterface
     /**
      * Guesses the MIME type of the file with the given path.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
      * @param string $path The path to the file
      *
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * @return string|null The MIME type or null, if none could be guessed
      *
      * @throws \LogicException           If the guesser is not supported

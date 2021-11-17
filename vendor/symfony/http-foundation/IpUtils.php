@@ -70,15 +70,7 @@ class IpUtils
             return self::$checkedIps[$cacheKey] = false;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_contains($ip, '/')) {
-=======
         if (false !== strpos($ip, '/')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_contains($ip, '/')) {
->>>>>>> f330c64 (optimization in progress)
             [$address, $netmask] = explode('/', $ip, 2);
 
             if ('0' === $netmask) {
@@ -125,15 +117,7 @@ class IpUtils
             throw new \RuntimeException('Unable to check Ipv6. Check that PHP was not compiled with option "disable-ipv6".');
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_contains($ip, '/')) {
-=======
         if (false !== strpos($ip, '/')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_contains($ip, '/')) {
->>>>>>> f330c64 (optimization in progress)
             [$address, $netmask] = explode('/', $ip, 2);
 
             if ('0' === $netmask) {

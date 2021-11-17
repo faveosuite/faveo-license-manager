@@ -28,15 +28,7 @@ class ConsoleEvent extends Event
     private $input;
     private $output;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __construct(?Command $command, InputInterface $input, OutputInterface $output)
-=======
     public function __construct(Command $command = null, InputInterface $input, OutputInterface $output)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __construct(?Command $command, InputInterface $input, OutputInterface $output)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->command = $command;
         $this->input = $input;

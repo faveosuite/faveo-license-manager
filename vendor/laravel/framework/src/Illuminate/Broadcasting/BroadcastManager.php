@@ -112,20 +112,7 @@ class BroadcastManager implements FactoryContract
      */
     public function queue($event)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if ($event instanceof ShouldBroadcastNow ||
-            (is_object($event) &&
-             method_exists($event, 'shouldBroadcastNow') &&
-             $event->shouldBroadcastNow())) {
-<<<<<<< HEAD
-=======
         if ($event instanceof ShouldBroadcastNow) {
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
             return $this->app->make(BusDispatcherContract::class)->dispatchNow(new BroadcastEvent(clone $event));
         }
 

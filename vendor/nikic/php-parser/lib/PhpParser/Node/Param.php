@@ -6,15 +6,7 @@ use PhpParser\NodeAbstract;
 
 class Param extends NodeAbstract
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    /** @var null|Identifier|Name|ComplexType Type declaration */
-=======
     /** @var null|Identifier|Name|NullableType|UnionType Type declaration */
->>>>>>> 22c0e54 (table changes)
-=======
-    /** @var null|Identifier|Name|ComplexType Type declaration */
->>>>>>> f330c64 (optimization in progress)
     public $type;
     /** @var bool Whether parameter is passed by reference */
     public $byRef;
@@ -32,20 +24,6 @@ class Param extends NodeAbstract
     /**
      * Constructs a parameter node.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * @param Expr\Variable|Expr\Error                $var        Parameter variable
-     * @param null|Expr                               $default    Default value
-     * @param null|string|Identifier|Name|ComplexType $type       Type declaration
-     * @param bool                                    $byRef      Whether is passed by reference
-     * @param bool                                    $variadic   Whether this is a variadic argument
-     * @param array                                   $attributes Additional attributes
-     * @param int                                     $flags      Optional visibility flags
-     * @param AttributeGroup[]                        $attrGroups PHP attribute groups
-<<<<<<< HEAD
-=======
      * @param Expr\Variable|Expr\Error                           $var        Parameter variable
      * @param null|Expr                                          $default    Default value
      * @param null|string|Identifier|Name|NullableType|UnionType $type       Type declaration
@@ -54,9 +32,6 @@ class Param extends NodeAbstract
      * @param array                                              $attributes Additional attributes
      * @param int                                                $flags      Optional visibility flags
      * @param AttributeGroup[]                                   $attrGroups PHP attribute groups
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      */
     public function __construct(
         $var, Expr $default = null, $type = null,

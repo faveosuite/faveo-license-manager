@@ -1136,23 +1136,6 @@ final class File extends Renderer
             self::$keywordTokens[constant('T_MATCH')] = true;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (defined('T_ENUM')) {
-            self::$keywordTokens[constant('T_ENUM')] = true;
-        }
-
-        if (defined('T_READONLY')) {
-            self::$keywordTokens[constant('T_READONLY')] = true;
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         return self::$keywordTokens;
     }
 }

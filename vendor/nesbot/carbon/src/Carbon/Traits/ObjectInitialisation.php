@@ -17,13 +17,5 @@ trait ObjectInitialisation
      *
      * @var string
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected $constructedObjectId;
-=======
     protected $constructedObjectId = null;
->>>>>>> 22c0e54 (table changes)
-=======
-    protected $constructedObjectId;
->>>>>>> f330c64 (optimization in progress)
 }

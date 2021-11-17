@@ -39,15 +39,7 @@ class SplCaster
         return self::castSplArray($c, $a, $stub, $isNested);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function castHeap(\Iterator $c, array $a, Stub $stub, bool $isNested)
-=======
     public static function castHeap(\Iterator $c, array $a, Stub $stub, $isNested)
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function castHeap(\Iterator $c, array $a, Stub $stub, bool $isNested)
->>>>>>> f330c64 (optimization in progress)
     {
         $a += [
             Caster::PREFIX_VIRTUAL.'heap' => iterator_to_array(clone $c),
@@ -137,15 +129,7 @@ class SplCaster
             }
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($a[$prefix.'realPath'] ?? false) {
-=======
         if (isset($a[$prefix.'realPath'])) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($a[$prefix.'realPath'] ?? false) {
->>>>>>> f330c64 (optimization in progress)
             $a[$prefix.'realPath'] = new LinkStub($a[$prefix.'realPath']);
         }
 

@@ -13,14 +13,6 @@ class Class_ extends ClassLike
     const MODIFIER_STATIC    =  8;
     const MODIFIER_ABSTRACT  = 16;
     const MODIFIER_FINAL     = 32;
-<<<<<<< HEAD
-<<<<<<< HEAD
-    const MODIFIER_READONLY  = 64;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    const MODIFIER_READONLY  = 64;
->>>>>>> f330c64 (optimization in progress)
 
     const VISIBILITY_MODIFIER_MASK = 7; // 1 | 2 | 4
 
@@ -104,19 +96,6 @@ class Class_ extends ClassLike
             throw new Error('Multiple final modifiers are not allowed');
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if ($a & self::MODIFIER_READONLY && $b & self::MODIFIER_READONLY) {
-            throw new Error('Multiple readonly modifiers are not allowed');
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         if ($a & 48 && $b & 48) {
             throw new Error('Cannot use the final modifier on an abstract class member');
         }

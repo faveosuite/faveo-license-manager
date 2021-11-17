@@ -15,14 +15,6 @@ declare(strict_types=1);
 namespace Ramsey\Uuid\Generator;
 
 use Ramsey\Uuid\Exception\RandomSourceException;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Throwable;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use Throwable;
->>>>>>> f330c64 (optimization in progress)
 
 /**
  * RandomBytesGenerator generates strings of random binary data using the
@@ -41,15 +33,7 @@ class RandomBytesGenerator implements RandomGeneratorInterface
     {
         try {
             return random_bytes($length);
-<<<<<<< HEAD
-<<<<<<< HEAD
-        } catch (Throwable $exception) {
-=======
         } catch (\Throwable $exception) {
->>>>>>> 22c0e54 (table changes)
-=======
-        } catch (Throwable $exception) {
->>>>>>> f330c64 (optimization in progress)
             throw new RandomSourceException(
                 $exception->getMessage(),
                 (int) $exception->getCode(),

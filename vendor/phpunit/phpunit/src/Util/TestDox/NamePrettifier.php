@@ -147,17 +147,7 @@ final class NamePrettifier
 
         $annotationWithPlaceholders = false;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $callback = static function (string $variable): string
-        {
-=======
         $callback = static function (string $variable): string {
->>>>>>> 22c0e54 (table changes)
-=======
-        $callback = static function (string $variable): string
-        {
->>>>>>> f330c64 (optimization in progress)
             return sprintf('/%s(?=\b)/', preg_quote($variable, '/'));
         };
 
@@ -328,17 +318,7 @@ final class NamePrettifier
         }
 
         if ($this->useColor) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $providedData = array_map(static function ($value)
-            {
-=======
             $providedData = array_map(static function ($value) {
->>>>>>> 22c0e54 (table changes)
-=======
-            $providedData = array_map(static function ($value)
-            {
->>>>>>> f330c64 (optimization in progress)
                 return Color::colorize('fg-cyan', Color::visualizeWhitespace((string) $value, true));
             }, $providedData);
         }

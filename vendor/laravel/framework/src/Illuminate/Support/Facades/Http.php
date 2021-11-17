@@ -20,15 +20,7 @@ use Illuminate\Http\Client\Factory;
  * @method static \Illuminate\Http\Client\PendingRequest contentType(string $contentType)
  * @method static \Illuminate\Http\Client\PendingRequest dd()
  * @method static \Illuminate\Http\Client\PendingRequest dump()
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0, ?callable $when = null)
-=======
  * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0)
->>>>>>> 22c0e54 (table changes)
-=======
- * @method static \Illuminate\Http\Client\PendingRequest retry(int $times, int $sleep = 0, ?callable $when = null)
->>>>>>> f330c64 (optimization in progress)
  * @method static \Illuminate\Http\Client\PendingRequest sink(string|resource $to)
  * @method static \Illuminate\Http\Client\PendingRequest stub(callable $callback)
  * @method static \Illuminate\Http\Client\PendingRequest timeout(int $seconds)
@@ -53,14 +45,6 @@ use Illuminate\Http\Client\Factory;
  * @method static \Illuminate\Http\Client\Response send(string $method, string $url, array $options = [])
  * @method static \Illuminate\Http\Client\ResponseSequence fakeSequence(string $urlPattern = '*')
  * @method static void assertSent(callable $callback)
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @method static void assertSentInOrder(array $callbacks)
-=======
->>>>>>> 22c0e54 (table changes)
-=======
- * @method static void assertSentInOrder(array $callbacks)
->>>>>>> f330c64 (optimization in progress)
  * @method static void assertNotSent(callable $callback)
  * @method static void assertNothingSent()
  * @method static void assertSentCount(int $count)

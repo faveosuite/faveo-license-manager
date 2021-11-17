@@ -482,21 +482,8 @@ final class ProgressBar
                     }
                     $this->output->clear($lineCount);
                 } else {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-                    for ($i = 0; $i < $this->formatLineCount; ++$i) {
-                        $this->cursor->moveToColumn(1);
-                        $this->cursor->clearLine();
-                        $this->cursor->moveUp();
-<<<<<<< HEAD
-=======
                     if ($this->formatLineCount > 0) {
                         $this->cursor->moveUp($this->formatLineCount);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
                     }
 
                     $this->cursor->moveToColumn(1);

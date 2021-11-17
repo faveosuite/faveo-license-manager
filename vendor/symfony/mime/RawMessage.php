@@ -33,24 +33,8 @@ class RawMessage implements \Serializable
         if (\is_string($this->message)) {
             return $this->message;
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($this->message instanceof \Traversable) {
-            $this->message = iterator_to_array($this->message, false);
-        }
-
-        return $this->message = implode('', $this->message);
-=======
 
         return $this->message = implode('', iterator_to_array($this->message, false));
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($this->message instanceof \Traversable) {
-            $this->message = iterator_to_array($this->message, false);
-        }
-
-        return $this->message = implode('', $this->message);
->>>>>>> f330c64 (optimization in progress)
     }
 
     public function toIterable(): iterable

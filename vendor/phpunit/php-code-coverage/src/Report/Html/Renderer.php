@@ -11,13 +11,7 @@ namespace SebastianBergmann\CodeCoverage\Report\Html;
 
 use function array_pop;
 use function count;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use function phpversion;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use function sprintf;
 use function str_repeat;
 use function substr_count;
@@ -311,23 +305,12 @@ abstract class Renderer
     {
         $runtime = new Runtime;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return sprintf(
-=======
         $buffer = sprintf(
->>>>>>> 22c0e54 (table changes)
-=======
-        return sprintf(
->>>>>>> f330c64 (optimization in progress)
             '<a href="%s" target="_top">%s %s</a>',
             $runtime->getVendorUrl(),
             $runtime->getName(),
             $runtime->getVersion()
         );
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 
         if ($runtime->hasPHPDBGCodeCoverage()) {
             return $buffer;
@@ -346,8 +329,5 @@ abstract class Renderer
         }
 
         return $buffer;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 }

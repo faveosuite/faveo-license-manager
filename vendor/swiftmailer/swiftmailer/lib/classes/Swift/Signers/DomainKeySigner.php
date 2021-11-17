@@ -332,15 +332,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
      */
     public function ignoreHeader($header_name)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->ignoredHeaders[strtolower($header_name ?? '')] = true;
-=======
         $this->ignoredHeaders[strtolower($header_name)] = true;
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->ignoredHeaders[strtolower($header_name ?? '')] = true;
->>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
@@ -358,15 +350,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
         $listHeaders = $headers->listAll();
         foreach ($listHeaders as $hName) {
             // Check if we need to ignore Header
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (!isset($this->ignoredHeaders[strtolower($hName ?? '')])) {
-=======
             if (!isset($this->ignoredHeaders[strtolower($hName)])) {
->>>>>>> 22c0e54 (table changes)
-=======
-            if (!isset($this->ignoredHeaders[strtolower($hName ?? '')])) {
->>>>>>> f330c64 (optimization in progress)
                 if ($headers->has($hName)) {
                     $tmp = $headers->getAll($hName);
                     foreach ($tmp as $header) {
@@ -391,15 +375,7 @@ class Swift_Signers_DomainKeySigner implements Swift_Signers_HeaderSigner
     public function addSignature(Swift_Mime_SimpleHeaderSet $headers)
     {
         // Prepare the DomainKey-Signature Header
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $params = ['a' => $this->hashAlgorithm, 'b' => chunk_split(base64_encode($this->getEncryptedHash() ?? ''), 73, ' '), 'c' => $this->canon, 'd' => $this->domainName, 'h' => implode(': ', $this->signedHeaders), 'q' => 'dns', 's' => $this->selector];
-=======
         $params = ['a' => $this->hashAlgorithm, 'b' => chunk_split(base64_encode($this->getEncryptedHash()), 73, ' '), 'c' => $this->canon, 'd' => $this->domainName, 'h' => implode(': ', $this->signedHeaders), 'q' => 'dns', 's' => $this->selector];
->>>>>>> 22c0e54 (table changes)
-=======
-        $params = ['a' => $this->hashAlgorithm, 'b' => chunk_split(base64_encode($this->getEncryptedHash() ?? ''), 73, ' '), 'c' => $this->canon, 'd' => $this->domainName, 'h' => implode(': ', $this->signedHeaders), 'q' => 'dns', 's' => $this->selector];
->>>>>>> f330c64 (optimization in progress)
         $string = '';
         foreach ($params as $k => $v) {
             $string .= $k.'='.$v.'; ';

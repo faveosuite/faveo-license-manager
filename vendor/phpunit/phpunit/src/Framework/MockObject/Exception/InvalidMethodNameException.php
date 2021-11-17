@@ -20,15 +20,7 @@ final class InvalidMethodNameException extends \PHPUnit\Framework\Exception impl
     {
         parent::__construct(
             sprintf(
-<<<<<<< HEAD
-<<<<<<< HEAD
-                'Cannot double method with invalid name "%s"',
-=======
                 'Cannot stub or mock method with invalid name "%s"',
->>>>>>> 22c0e54 (table changes)
-=======
-                'Cannot double method with invalid name "%s"',
->>>>>>> f330c64 (optimization in progress)
                 $method
             )
         );

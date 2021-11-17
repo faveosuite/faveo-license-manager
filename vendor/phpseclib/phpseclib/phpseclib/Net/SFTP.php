@@ -479,20 +479,7 @@ class SFTP extends SSH2
 
         $this->channel_status[self::CHANNEL] = NET_SSH2_MSG_CHANNEL_OPEN;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $response = $this->get_channel_packet(self::CHANNEL, true);
-        if ($response === true && $this->isTimeout()) {
-            return false;
-        }
-<<<<<<< HEAD
-=======
         $this->get_channel_packet(self::CHANNEL, true);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
         $packet = Strings::packSSH2(
             'CNsbs',
@@ -530,16 +517,6 @@ class SFTP extends SSH2
             if ($response === false) {
                 return false;
             }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        } else if ($response === true && $this->isTimeout()) {
-            return false;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        } else if ($response === true && $this->isTimeout()) {
-            return false;
->>>>>>> f330c64 (optimization in progress)
         }
 
         $this->channel_status[self::CHANNEL] = NET_SSH2_MSG_CHANNEL_DATA;
@@ -2963,15 +2940,7 @@ class SFTP extends SSH2
         while (strlen($this->packet_buffer) < 4) {
             $temp = $this->get_channel_packet(self::CHANNEL, true);
             if ($temp === true) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                if ($this->channel_status[self::CHANNEL] === NET_SSH2_MSG_CHANNEL_CLOSE) {
-=======
                 if ($this->channel_status[NET_SFTP_CHANNEL] === NET_SSH2_MSG_CHANNEL_CLOSE) {
->>>>>>> 22c0e54 (table changes)
-=======
-                if ($this->channel_status[self::CHANNEL] === NET_SSH2_MSG_CHANNEL_CLOSE) {
->>>>>>> f330c64 (optimization in progress)
                     $this->channel_close = true;
                 }
                 $this->packet_type = false;
@@ -2990,15 +2959,7 @@ class SFTP extends SSH2
         $tempLength-= strlen($this->packet_buffer);
 
         // 256 * 1024 is what SFTP_MAX_MSG_LENGTH is set to in OpenSSH's sftp-common.h
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!$this->use_request_id && $tempLength > 256 * 1024) {
-=======
         if ($tempLength > 256 * 1024) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (!$this->use_request_id && $tempLength > 256 * 1024) {
->>>>>>> f330c64 (optimization in progress)
             throw new \RuntimeException('Invalid Size');
         }
 
@@ -3140,15 +3101,7 @@ class SFTP extends SSH2
      *
      * @access public
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function enableDatePreservation()
-=======
     function enableDatePreservation()
->>>>>>> 22c0e54 (table changes)
-=======
-    public function enableDatePreservation()
->>>>>>> f330c64 (optimization in progress)
     {
         $this->preserveTime = true;
     }
@@ -3158,15 +3111,7 @@ class SFTP extends SSH2
      *
      * @access public
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function disableDatePreservation()
-=======
     function disableDatePreservation()
->>>>>>> 22c0e54 (table changes)
-=======
-    public function disableDatePreservation()
->>>>>>> f330c64 (optimization in progress)
     {
         $this->preserveTime = false;
     }

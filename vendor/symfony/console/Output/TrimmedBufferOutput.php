@@ -24,20 +24,12 @@ class TrimmedBufferOutput extends Output
     private $maxLength;
     private $buffer = '';
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __construct(int $maxLength, ?int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatterInterface $formatter = null) {
-=======
     public function __construct(
         int $maxLength,
         ?int $verbosity = self::VERBOSITY_NORMAL,
         bool $decorated = false,
         OutputFormatterInterface $formatter = null
     ) {
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __construct(int $maxLength, ?int $verbosity = self::VERBOSITY_NORMAL, bool $decorated = false, OutputFormatterInterface $formatter = null) {
->>>>>>> f330c64 (optimization in progress)
         if ($maxLength <= 0) {
             throw new InvalidArgumentException(sprintf('"%s()" expects a strictly positive maxLength. Got %d.', __METHOD__, $maxLength));
         }
@@ -62,15 +54,7 @@ class TrimmedBufferOutput extends Output
     /**
      * {@inheritdoc}
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected function doWrite(string $message, bool $newline)
-=======
     protected function doWrite($message, $newline)
->>>>>>> 22c0e54 (table changes)
-=======
-    protected function doWrite(string $message, bool $newline)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->buffer .= $message;
 

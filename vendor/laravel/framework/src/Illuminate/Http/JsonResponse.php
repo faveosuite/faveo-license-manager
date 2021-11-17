@@ -34,16 +34,6 @@ class JsonResponse extends BaseJsonResponse
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return static
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return static
->>>>>>> f330c64 (optimization in progress)
      */
     public static function fromJsonString(?string $data = null, int $status = 200, array $headers = [])
     {
@@ -75,16 +65,6 @@ class JsonResponse extends BaseJsonResponse
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return static
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return static
->>>>>>> f330c64 (optimization in progress)
      */
     public function setData($data = [])
     {
@@ -129,16 +109,6 @@ class JsonResponse extends BaseJsonResponse
 
     /**
      * {@inheritdoc}
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return static
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return static
->>>>>>> f330c64 (optimization in progress)
      */
     public function setEncodingOptions($options)
     {

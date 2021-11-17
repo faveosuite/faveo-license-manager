@@ -67,14 +67,6 @@ class OrderedTimeCodec extends StringCodec
 
         $bytes = $uuid->getFields()->getBytes();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
->>>>>>> f330c64 (optimization in progress)
         return $bytes[6] . $bytes[7]
             . $bytes[4] . $bytes[5]
             . $bytes[0] . $bytes[1] . $bytes[2] . $bytes[3]

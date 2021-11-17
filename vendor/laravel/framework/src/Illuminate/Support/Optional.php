@@ -68,14 +68,6 @@ class Optional implements ArrayAccess
      * @param  mixed  $key
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($key)
     {
         return Arr::accessible($this->value) && Arr::exists($this->value, $key);
@@ -87,14 +79,6 @@ class Optional implements ArrayAccess
      * @param  mixed  $key
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($key)
     {
         return Arr::get($this->value, $key);
@@ -107,14 +91,6 @@ class Optional implements ArrayAccess
      * @param  mixed  $value
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($key, $value)
     {
         if (Arr::accessible($this->value)) {
@@ -128,14 +104,6 @@ class Optional implements ArrayAccess
      * @param  string  $key
      * @return void
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($key)
     {
         if (Arr::accessible($this->value)) {

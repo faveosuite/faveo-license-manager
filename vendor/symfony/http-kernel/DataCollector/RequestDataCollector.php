@@ -34,15 +34,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
     private $sessionUsages = [];
     private $requestStack;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __construct(RequestStack $requestStack = null)
-=======
     public function __construct(?RequestStack $requestStack = null)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __construct(RequestStack $requestStack = null)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->controllers = new \SplObjectStorage();
         $this->requestStack = $requestStack;
@@ -222,28 +214,12 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
         return new ParameterBag($this->data['request_headers']->getValue());
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getRequestServer(bool $raw = false)
-=======
     public function getRequestServer($raw = false)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getRequestServer(bool $raw = false)
->>>>>>> f330c64 (optimization in progress)
     {
         return new ParameterBag($this->data['request_server']->getValue($raw));
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getRequestCookies(bool $raw = false)
-=======
     public function getRequestCookies($raw = false)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getRequestCookies(bool $raw = false)
->>>>>>> f330c64 (optimization in progress)
     {
         return new ParameterBag($this->data['request_cookies']->getValue($raw));
     }
@@ -457,29 +433,13 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
     /**
      * Parse a controller.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param string|object|array|null $controller The controller to parse
-=======
      * @param mixed $controller The controller to parse
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param string|object|array|null $controller The controller to parse
->>>>>>> f330c64 (optimization in progress)
      *
      * @return array|string An array of controller data or a simple string
      */
     protected function parseController($controller)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (\is_string($controller) && str_contains($controller, '::')) {
-=======
         if (\is_string($controller) && false !== strpos($controller, '::')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (\is_string($controller) && str_contains($controller, '::')) {
->>>>>>> f330c64 (optimization in progress)
             $controller = explode('::', $controller);
         }
 
@@ -516,15 +476,7 @@ class RequestDataCollector extends DataCollector implements EventSubscriberInter
                 'line' => $r->getStartLine(),
             ];
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (str_contains($r->name, '{closure}')) {
-=======
             if (false !== strpos($r->name, '{closure}')) {
->>>>>>> 22c0e54 (table changes)
-=======
-            if (str_contains($r->name, '{closure}')) {
->>>>>>> f330c64 (optimization in progress)
                 return $controller;
             }
             $controller['method'] = $r->name;

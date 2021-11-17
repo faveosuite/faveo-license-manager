@@ -19,25 +19,7 @@ final class Utils
     {
         $class = \get_class($object);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (false === ($pos = \strpos($class, "@anonymous\0"))) {
-            return $class;
-        }
-
-        if (false === ($parent = \get_parent_class($class))) {
-            return \substr($class, 0, $pos + 10);
-        }
-
-        return $parent . '@anonymous';
-<<<<<<< HEAD
-=======
         return 'c' === $class[0] && 0 === strpos($class, "class@anonymous\0") ? get_parent_class($class).'@anonymous' : $class;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     public static function substr(string $string, int $start, ?int $length = null): string
@@ -151,34 +133,6 @@ final class Utils
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * @internal
-     */
-    public static function pcreLastErrorMessage(int $code): string
-    {
-        if (PHP_VERSION_ID >= 80000) {
-            return preg_last_error_msg();
-        }
-
-        $constants = (get_defined_constants(true))['pcre'];
-        $constants = array_filter($constants, function ($key) {
-            return substr($key, -6) == '_ERROR';
-        }, ARRAY_FILTER_USE_KEY);
-
-        $constants = array_flip($constants);
-
-        return $constants[$code] ?? 'UNDEFINED_ERROR';
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Throws an exception according to a given code with a customized message
      *
      * @param  int               $code return code of json_last_error function
@@ -235,17 +189,7 @@ final class Utils
                 $data
             );
             if (!is_string($data)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                $pcreErrorCode = preg_last_error();
-                throw new \RuntimeException('Failed to preg_replace_callback: ' . $pcreErrorCode . ' / ' . self::pcreLastErrorMessage($pcreErrorCode));
-=======
                 throw new \RuntimeException('Failed to preg_replace_callback: '.preg_last_error().' / '.preg_last_error_msg());
->>>>>>> 22c0e54 (table changes)
-=======
-                $pcreErrorCode = preg_last_error();
-                throw new \RuntimeException('Failed to preg_replace_callback: ' . $pcreErrorCode . ' / ' . self::pcreLastErrorMessage($pcreErrorCode));
->>>>>>> f330c64 (optimization in progress)
             }
             $data = str_replace(
                 ['¤', '¦', '¨', '´', '¸', '¼', '½', '¾'],
@@ -254,47 +198,4 @@ final class Utils
             );
         }
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-    /**
-     * Converts a string with a valid 'memory_limit' format, to bytes.
-     *
-     * @param string|false $val
-     * @return int|false Returns an integer representing bytes. Returns FALSE in case of error.
-     */
-    public static function expandIniShorthandBytes($val)
-    {
-        if (!is_string($val)) {
-            return false;
-        }
-
-        // support -1
-        if ((int) $val < 0) {
-            return (int) $val;
-        }
-
-        if (!preg_match('/^\s*(?<val>\d+)(?:\.\d+)?\s*(?<unit>[gmk]?)\s*$/i', $val, $match)) {
-            return false;
-        }
-
-        $val = (int) $match['val'];
-        switch (strtolower($match['unit'] ?? '')) {
-            case 'g':
-                $val *= 1024;
-            case 'm':
-                $val *= 1024;
-            case 'k':
-                $val *= 1024;
-        }
-
-        return $val;
-    }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 }

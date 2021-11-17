@@ -9,14 +9,6 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Testing\Constraints\CountInDatabase;
 use Illuminate\Testing\Constraints\HasInDatabase;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Illuminate\Testing\Constraints\NotSoftDeletedInDatabase;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use Illuminate\Testing\Constraints\NotSoftDeletedInDatabase;
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Testing\Constraints\SoftDeletedInDatabase;
 use PHPUnit\Framework\Constraint\LogicalNot as ReverseConstraint;
 
@@ -117,67 +109,6 @@ trait InteractsWithDatabase
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Assert the given record has not been "soft deleted".
-     *
-     * @param  \Illuminate\Database\Eloquent\Model|string  $table
-     * @param  array  $data
-     * @param  string|null  $connection
-     * @param  string|null  $deletedAtColumn
-     * @return $this
-     */
-    protected function assertNotSoftDeleted($table, array $data = [], $connection = null, $deletedAtColumn = 'deleted_at')
-    {
-        if ($this->isSoftDeletableModel($table)) {
-            return $this->assertNotSoftDeleted($table->getTable(), [$table->getKeyName() => $table->getKey()], $table->getConnectionName(), $table->getDeletedAtColumn());
-        }
-
-        $this->assertThat(
-            $this->getTable($table), new NotSoftDeletedInDatabase($this->getConnection($connection), $data, $deletedAtColumn)
-        );
-
-        return $this;
-    }
-
-    /**
-     * Assert the given model exists in the database.
-     *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return $this
-     */
-    protected function assertModelExists($model)
-    {
-        return $this->assertDatabaseHas(
-            $model->getTable(),
-            [$model->getKeyName() => $model->getKey()],
-            $model->getConnectionName()
-        );
-    }
-
-    /**
-     * Assert the given model does not exist in the database.
-     *
-     * @param  \Illuminate\Database\Eloquent\Model  $model
-     * @return $this
-     */
-    protected function assertModelMissing($model)
-    {
-        return $this->assertDatabaseMissing(
-            $model->getTable(),
-            [$model->getKeyName() => $model->getKey()],
-            $model->getConnectionName()
-        );
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Determine if the argument is a soft deletable model.
      *
      * @param  mixed  $model

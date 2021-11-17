@@ -14,18 +14,6 @@ declare(strict_types=1);
 
 namespace Ramsey\Uuid\Generator;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-use function uuid_create;
-use function uuid_parse;
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use function uuid_create;
-use function uuid_parse;
-
->>>>>>> f330c64 (optimization in progress)
 use const UUID_TYPE_RANDOM;
 
 /**

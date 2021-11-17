@@ -135,15 +135,7 @@
     </xs:group>
     <xs:complexType name="directoryFilterType">
         <xs:simpleContent>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <xs:extension base="xs:string">
-=======
             <xs:extension base="xs:anyURI">
->>>>>>> 22c0e54 (table changes)
-=======
-            <xs:extension base="xs:string">
->>>>>>> f330c64 (optimization in progress)
                 <xs:attribute type="xs:string" name="prefix" default=""/>
                 <xs:attribute type="xs:string" name="suffix" default="Test.php"/>
                 <xs:attributeGroup ref="phpVersionGroup"/>
@@ -221,15 +213,7 @@
         <xs:attribute name="cacheResultFile" type="xs:anyURI"/>
         <xs:attribute name="colors" type="xs:boolean" default="false"/>
         <xs:attribute name="columns" type="columnsType" default="80"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <xs:attribute name="convertDeprecationsToExceptions" type="xs:boolean" default="false"/>
-=======
         <xs:attribute name="convertDeprecationsToExceptions" type="xs:boolean" default="true"/>
->>>>>>> 22c0e54 (table changes)
-=======
-        <xs:attribute name="convertDeprecationsToExceptions" type="xs:boolean" default="false"/>
->>>>>>> f330c64 (optimization in progress)
         <xs:attribute name="convertErrorsToExceptions" type="xs:boolean" default="true"/>
         <xs:attribute name="convertNoticesToExceptions" type="xs:boolean" default="true"/>
         <xs:attribute name="convertWarningsToExceptions" type="xs:boolean" default="true"/>
@@ -268,15 +252,7 @@
         <xs:attribute name="stderr" type="xs:boolean" default="false"/>
         <xs:attribute name="reverseDefectList" type="xs:boolean" default="false"/>
         <xs:attribute name="registerMockObjectsFromTestArgumentsRecursively" type="xs:boolean" default="false"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-        <xs:attribute name="extensionsDirectory" type="xs:anyURI"/>
-=======
         <xs:attribute name="extensionsDirectory" type="xs:string"/>
->>>>>>> 22c0e54 (table changes)
-=======
-        <xs:attribute name="extensionsDirectory" type="xs:anyURI"/>
->>>>>>> f330c64 (optimization in progress)
         <xs:attribute name="executionOrder" type="executionOrderType" default="default"/>
         <xs:attribute name="resolveDependencies" type="xs:boolean" default="true"/>
         <xs:attribute name="noInteraction" type="xs:boolean" default="false"/>
@@ -304,15 +280,7 @@
     <xs:complexType name="testSuiteType">
         <xs:sequence>
             <xs:group ref="pathGroup"/>
-<<<<<<< HEAD
-<<<<<<< HEAD
-            <xs:element name="exclude" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-=======
             <xs:element name="exclude" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded"/>
->>>>>>> 22c0e54 (table changes)
-=======
-            <xs:element name="exclude" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
->>>>>>> f330c64 (optimization in progress)
         </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required"/>
     </xs:complexType>

@@ -148,15 +148,7 @@ class Translator extends Translation\Translator
      */
     public function trans($id, array $parameters = [], $domain = null, $locale = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($domain === null) {
-=======
         if (null === $domain) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($domain === null) {
->>>>>>> f330c64 (optimization in progress)
             $domain = 'messages';
         }
 
@@ -280,15 +272,7 @@ class Translator extends Translation\Translator
         $this->loadMessagesFromFile($locale);
         $this->addResource('array', $messages, $locale);
         $this->messages[$locale] = array_merge(
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $this->messages[$locale] ?? [],
-=======
             isset($this->messages[$locale]) ? $this->messages[$locale] : [],
->>>>>>> 22c0e54 (table changes)
-=======
-            $this->messages[$locale] ?? [],
->>>>>>> f330c64 (optimization in progress)
             $messages
         );
 
@@ -342,15 +326,7 @@ class Translator extends Translation\Translator
 
         $previousLocale = $this->getLocale();
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($previousLocale === $locale && isset($this->messages[$locale])) {
-=======
         if ($previousLocale === $locale) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($previousLocale === $locale && isset($this->messages[$locale])) {
->>>>>>> f330c64 (optimization in progress)
             return true;
         }
 
@@ -379,15 +355,7 @@ class Translator extends Translation\Translator
         }
 
         // If subtag (ex: en_CA) first load the macro (ex: en) to have a fallback
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_contains($locale, '_') &&
-=======
         if (strpos($locale, '_') !== false &&
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_contains($locale, '_') &&
->>>>>>> f330c64 (optimization in progress)
             $this->loadMessagesFromFile($macroLocale = preg_replace('/^([^_]+).*$/', '$1', $locale))
         ) {
             parent::setLocale($macroLocale);

@@ -141,19 +141,11 @@ class Profile
      */
     public function getTime()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->time ?? 0;
-=======
         if (null === $this->time) {
             return 0;
         }
 
         return $this->time;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->time ?? 0;
->>>>>>> f330c64 (optimization in progress)
     }
 
     public function setTime(int $time)

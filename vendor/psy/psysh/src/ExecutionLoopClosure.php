@@ -33,15 +33,7 @@ class ExecutionLoopClosure extends ExecutionClosure
             // Restore execution scope variables
             \extract($__psysh__->getScopeVariables(false));
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-            while (true) {
-=======
             do {
->>>>>>> 22c0e54 (table changes)
-=======
-            while (true) {
->>>>>>> f330c64 (optimization in progress)
                 $__psysh__->beforeLoop();
 
                 try {
@@ -104,15 +96,7 @@ class ExecutionLoopClosure extends ExecutionClosure
                 }
 
                 $__psysh__->afterLoop();
-<<<<<<< HEAD
-<<<<<<< HEAD
-            }
-=======
             } while (true);
->>>>>>> 22c0e54 (table changes)
-=======
-            }
->>>>>>> f330c64 (optimization in progress)
         });
     }
 }

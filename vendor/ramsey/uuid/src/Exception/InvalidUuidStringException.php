@@ -20,14 +20,6 @@ namespace Ramsey\Uuid\Exception;
  * The InvalidArgumentException that this extends is the ramsey/uuid version
  * of this exception. It exists in the same namespace as this class.
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class InvalidUuidStringException extends InvalidArgumentException implements UuidExceptionInterface
-=======
 class InvalidUuidStringException extends InvalidArgumentException
->>>>>>> 22c0e54 (table changes)
-=======
-class InvalidUuidStringException extends InvalidArgumentException implements UuidExceptionInterface
->>>>>>> f330c64 (optimization in progress)
 {
 }

@@ -16,14 +16,6 @@ namespace phpDocumentor\Reflection\Types;
 use InvalidArgumentException;
 use phpDocumentor\Reflection\Fqsen;
 use phpDocumentor\Reflection\Type;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use function strpos;
 
 /**
@@ -60,28 +52,12 @@ final class Object_ implements Type
     /**
      * Returns the FQSEN associated with this object.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getFqsen(): ?Fqsen
-=======
     public function getFqsen() : ?Fqsen
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getFqsen(): ?Fqsen
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->fqsen;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         if ($this->fqsen) {
             return (string) $this->fqsen;

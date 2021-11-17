@@ -13,21 +13,9 @@ use Illuminate\Support\Enumerable;
 use Illuminate\Support\HigherOrderCollectionProxy;
 use Illuminate\Support\HigherOrderWhenProxy;
 use JsonSerializable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Symfony\Component\VarDumper\VarDumper;
-use Traversable;
-use UnexpectedValueException;
-=======
 use ReturnTypeWillChange;
 use Symfony\Component\VarDumper\VarDumper;
 use Traversable;
->>>>>>> 22c0e54 (table changes)
-=======
-use Symfony\Component\VarDumper\VarDumper;
-use Traversable;
-use UnexpectedValueException;
->>>>>>> f330c64 (optimization in progress)
 
 /**
  * @property-read HigherOrderCollectionProxy $average
@@ -758,58 +746,6 @@ trait EnumeratesValues
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Reduce the collection to multiple aggregate values.
-     *
-     * @param  callable  $callback
-     * @param  mixed  ...$initial
-     * @return array
-     *
-     * @deprecated Use "reduceSpread" instead
-     *
-     * @throws \UnexpectedValueException
-     */
-    public function reduceMany(callable $callback, ...$initial)
-    {
-        return $this->reduceSpread($callback, ...$initial);
-    }
-
-    /**
-     * Reduce the collection to multiple aggregate values.
-     *
-     * @param  callable  $callback
-     * @param  mixed  ...$initial
-     * @return array
-     *
-     * @throws \UnexpectedValueException
-     */
-    public function reduceSpread(callable $callback, ...$initial)
-    {
-        $result = $initial;
-
-        foreach ($this as $key => $value) {
-            $result = call_user_func_array($callback, array_merge($result, [$value, $key]));
-
-            if (! is_array($result)) {
-                throw new UnexpectedValueException(sprintf(
-                    "%s::reduceMany expects reducer to return an array, but got a '%s' instead.",
-                    class_basename(static::class), gettype($result)
-                ));
-            }
-        }
-
-        return $result;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Reduce an associative collection to a single value.
      *
      * @param  callable  $callback
@@ -839,9 +775,6 @@ trait EnumeratesValues
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
      * Return only unique items from the collection array.
      *
      * @param  string|callable|null  $key
@@ -864,9 +797,6 @@ trait EnumeratesValues
     }
 
     /**
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Return only unique items from the collection array using strict comparison.
      *
      * @param  string|callable|null  $key
@@ -904,15 +834,7 @@ trait EnumeratesValues
      *
      * @return array
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
     #[ReturnTypeWillChange]
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function jsonSerialize()
     {
         return array_map(function ($value) {

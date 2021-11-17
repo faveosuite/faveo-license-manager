@@ -20,18 +20,10 @@ use Symfony\Component\Console\Output\OutputInterface;
  */
 interface DescriptorInterface
 {
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function describe(OutputInterface $output, object $object, array $options = []);
-=======
     /**
      * Describes an object if supported.
      *
      * @param object $object
      */
     public function describe(OutputInterface $output, $object, array $options = []);
->>>>>>> 22c0e54 (table changes)
-=======
-    public function describe(OutputInterface $output, object $object, array $options = []);
->>>>>>> f330c64 (optimization in progress)
 }

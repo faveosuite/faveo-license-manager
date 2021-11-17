@@ -58,14 +58,6 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      *
      * @return SplFileInfo File information
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function current()
     {
         // the logic here avoids redoing the same work in all iterations
@@ -90,14 +82,6 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
      *
      * @throws AccessDeniedException
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function getChildren()
     {
         try {
@@ -125,21 +109,7 @@ class RecursiveDirectoryIterator extends \RecursiveDirectoryIterator
 
     /**
      * Do nothing for non rewindable stream.
-<<<<<<< HEAD
-<<<<<<< HEAD
-     *
-     * @return void
      */
-    #[\ReturnTypeWillChange]
-=======
-     */
->>>>>>> 22c0e54 (table changes)
-=======
-     *
-     * @return void
-     */
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function rewind()
     {
         if (false === $this->isRewindable()) {
