@@ -4,6 +4,7 @@ use App\Http\Controllers\AFL\ConnectionController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
 use App\Http\Controllers\AflCallbacks\LicenseVerifyController;
+use App\Http\Controllers\AflCallbacks\DownloadFileController;
 use Illuminate\Support\Facades\Route;
 
 use Illuminate\Support\Facades\Http;
@@ -33,5 +34,6 @@ Route::post('/apl_callbacks/connection_test.php',[ConnectionController::class,'c
 Route::post('/apl_callbacks/license_install.php',[LicenseInstallController::class,'licenseInstall']);
 Route::post('/apl_callbacks/license_scheme.php',[LicenseSchemeController::class,'licenseScheme']);
 Route::post('/apl_callbacks/license_verify.php',[LicenseVerifyController::class,'licenseVerify']);
+Route::post('/aus_callbacks/download_file.php',[DownloadFileController::class,'downloadFile']);
 
 
