@@ -8,14 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AflFailedLogins extends Model
 {
     use HasFactory;
-<<<<<<< HEAD
-<<<<<<< HEAD
+
     protected $guarded =[];
     protected $primaryKey = 'failed_login_id';
-=======
->>>>>>> 34fd2bf (installlicense completed and correction of connection test done)
-=======
-    protected $guarded =[];
-    protected $primaryKey = 'failed_login_id';
->>>>>>> 22c0e54 (table changes)
+
 }
