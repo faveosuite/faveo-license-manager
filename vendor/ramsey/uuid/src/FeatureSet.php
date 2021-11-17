@@ -274,14 +274,6 @@ class FeatureSet
         $this->numberConverter = $this->buildNumberConverter($calculator);
         $this->timeConverter = $this->buildTimeConverter($calculator);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        /** @psalm-suppress RedundantPropertyInitializationCheck */
->>>>>>> f330c64 (optimization in progress)
         if (isset($this->timeProvider)) {
             $this->timeGenerator = $this->buildTimeGenerator($this->timeProvider);
         }

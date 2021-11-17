@@ -138,25 +138,6 @@ trait Timestamp
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Returns the timestamp with millisecond precision.
-     *
-     * @return int
-     */
-    public function getTimestampMs()
-    {
-        return (int) $this->getPreciseTimestamp(3);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * @alias getTimestamp
      *
      * Returns the UNIX timestamp for the current date.
@@ -186,15 +167,7 @@ trait Timestamp
             $numbers = number_format($numbers, $decimals, '.', '');
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $sign = str_starts_with($numbers, '-') ? -1 : 1;
-=======
         $sign = substr($numbers, 0, 1) === '-' ? -1 : 1;
->>>>>>> 22c0e54 (table changes)
-=======
-        $sign = str_starts_with($numbers, '-') ? -1 : 1;
->>>>>>> f330c64 (optimization in progress)
         $integer = 0;
         $decimal = 0;
 

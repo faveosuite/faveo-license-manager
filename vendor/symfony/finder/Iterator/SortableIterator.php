@@ -30,16 +30,8 @@ class SortableIterator implements \IteratorAggregate
     private $sort;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param int|callable $sort The sort type (SORT_BY_NAME, SORT_BY_TYPE, or a PHP callback)
-=======
      * @param \Traversable $iterator The Iterator to filter
      * @param int|callable $sort     The sort type (SORT_BY_NAME, SORT_BY_TYPE, or a PHP callback)
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param int|callable $sort The sort type (SORT_BY_NAME, SORT_BY_TYPE, or a PHP callback)
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws \InvalidArgumentException
      */
@@ -90,14 +82,6 @@ class SortableIterator implements \IteratorAggregate
     /**
      * @return \Traversable
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function getIterator()
     {
         if (1 === $this->sort) {

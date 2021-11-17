@@ -67,22 +67,6 @@ class Factory implements FactoryContract
     protected $fallbackMessages = [];
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Indicates that unvalidated array keys should be excluded, even if the parent array was validated.
-     *
-     * @var bool
-     */
-    protected $excludeUnvalidatedArrayKeys;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * The Validator resolver instance.
      *
      * @var \Closure
@@ -131,16 +115,6 @@ class Factory implements FactoryContract
             $validator->setContainer($this->container);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $validator->excludeUnvalidatedArrayKeys = $this->excludeUnvalidatedArrayKeys;
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $validator->excludeUnvalidatedArrayKeys = $this->excludeUnvalidatedArrayKeys;
-
->>>>>>> f330c64 (optimization in progress)
         $this->addExtensions($validator);
 
         return $validator;
@@ -266,25 +240,6 @@ class Factory implements FactoryContract
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Indicate that unvalidated array keys should be excluded, even if the parent array was validated.
-     *
-     * @return void
-     */
-    public function excludeUnvalidatedArrayKeys()
-    {
-        $this->excludeUnvalidatedArrayKeys = true;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Set the Validator instance resolver.
      *
      * @param  \Closure  $resolver

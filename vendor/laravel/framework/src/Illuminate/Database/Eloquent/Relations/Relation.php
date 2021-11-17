@@ -58,22 +58,6 @@ abstract class Relation
     public static $morphMap = [];
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Prevents morph relationships without a morph map.
-     *
-     * @var bool
-     */
-    protected static $requireMorphMap = false;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * The count of self joins.
      *
      * @var int
@@ -393,50 +377,6 @@ abstract class Relation
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Prevent polymorphic relationships from being used without model mappings.
-     *
-     * @param  bool  $requireMorphMap
-     * @return void
-     */
-    public static function requireMorphMap($requireMorphMap = true)
-    {
-        static::$requireMorphMap = $requireMorphMap;
-    }
-
-    /**
-     * Determine if polymorphic relationships require explicit model mapping.
-     *
-     * @return bool
-     */
-    public static function requiresMorphMap()
-    {
-        return static::$requireMorphMap;
-    }
-
-    /**
-     * Define the morph map for polymorphic relations and require all morphed models to be explicitly mapped.
-     *
-     * @param  array  $map
-     * @param  bool  $merge
-     * @return array
-     */
-    public static function enforceMorphMap(array $map, $merge = true)
-    {
-        static::requireMorphMap();
-
-        return static::morphMap($map, $merge);
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Set or get the morph map for polymorphic relations.
      *
      * @param  array|null  $map
@@ -496,10 +436,6 @@ abstract class Relation
             return $this->macroCall($method, $parameters);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->forwardDecoratedCallTo($this->query, $method, $parameters);
-=======
         $result = $this->forwardCallTo($this->query, $method, $parameters);
 
         if ($result === $this->query) {
@@ -507,10 +443,6 @@ abstract class Relation
         }
 
         return $result;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->forwardDecoratedCallTo($this->query, $method, $parameters);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

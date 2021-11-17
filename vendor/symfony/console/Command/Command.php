@@ -420,18 +420,8 @@ class Command
     /**
      * Adds an argument.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param int|null $mode    The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
-     * @param mixed    $default The default value (for InputArgument::OPTIONAL mode only)
-=======
      * @param int|null             $mode    The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
      * @param string|string[]|null $default The default value (for InputArgument::OPTIONAL mode only)
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param int|null $mode    The argument mode: InputArgument::REQUIRED or InputArgument::OPTIONAL
-     * @param mixed    $default The default value (for InputArgument::OPTIONAL mode only)
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws InvalidArgumentException When argument mode is not valid
      *
@@ -450,21 +440,9 @@ class Command
     /**
      * Adds an option.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param string|array|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
-     * @param int|null          $mode     The option mode: One of the InputOption::VALUE_* constants
-     * @param mixed             $default  The default value (must be null for InputOption::VALUE_NONE)
-=======
      * @param string|array|null         $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
      * @param int|null                  $mode     The option mode: One of the InputOption::VALUE_* constants
      * @param string|string[]|bool|null $default  The default value (must be null for InputOption::VALUE_NONE)
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param string|array|null $shortcut The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
-     * @param int|null          $mode     The option mode: One of the InputOption::VALUE_* constants
-     * @param mixed             $default  The default value (must be null for InputOption::VALUE_NONE)
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      *
@@ -530,15 +508,7 @@ class Command
      * @param bool $hidden Whether or not the command should be hidden from the list of commands
      *                     The default value will be true in Symfony 6.0
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return $this
-=======
      * @return Command The current instance
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return $this
->>>>>>> f330c64 (optimization in progress)
      *
      * @final since Symfony 5.1
      */
@@ -682,15 +652,7 @@ class Command
      */
     public function addUsage(string $usage)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!str_starts_with($usage, $this->name)) {
-=======
         if (0 !== strpos($usage, $this->name)) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (!str_starts_with($usage, $this->name)) {
->>>>>>> f330c64 (optimization in progress)
             $usage = sprintf('%s %s', $this->name, $usage);
         }
 

@@ -277,15 +277,7 @@ class BelongsToMany extends Relation
 
         // Once we have an array dictionary of child objects we can easily match the
         // children back to their parent using the dictionary and the keys on the
-<<<<<<< HEAD
-<<<<<<< HEAD
-        // parent models. Then we should return these hydrated models back out.
-=======
         // the parent models. Then we will return the hydrated models back out.
->>>>>>> 22c0e54 (table changes)
-=======
-        // parent models. Then we should return these hydrated models back out.
->>>>>>> f330c64 (optimization in progress)
         foreach ($models as $model) {
             $key = $this->getDictionaryKey($model->{$this->parentKey});
 
@@ -871,33 +863,6 @@ class BelongsToMany extends Relation
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Paginate the given query into a cursor paginator.
-     *
-     * @param  int|null  $perPage
-     * @param  array  $columns
-     * @param  string  $cursorName
-     * @param  string|null  $cursor
-     * @return \Illuminate\Contracts\Pagination\CursorPaginator
-     */
-    public function cursorPaginate($perPage = null, $columns = ['*'], $cursorName = 'cursor', $cursor = null)
-    {
-        $this->query->addSelect($this->shouldSelect($columns));
-
-        return tap($this->query->cursorPaginate($perPage, $columns, $cursorName, $cursor), function ($paginator) {
-            $this->hydratePivotRelation($paginator->items());
-        });
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Chunk the results of the query.
      *
      * @param  int  $count

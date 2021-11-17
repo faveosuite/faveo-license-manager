@@ -78,31 +78,13 @@ use Psr\Container\ContainerInterface;
  *
  * @method mixed randomElement($array = ['a', 'b', 'c'])
  *
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @property int|string|null $randomKey
- *
- * @method int|string|null randomKey($array = [])
- *
- * @property array|string $shuffle
- *
- * @method array|string shuffle($arg = '')
-=======
  * @property int $randomKey
-=======
- * @property int|string|null $randomKey
->>>>>>> f330c64 (optimization in progress)
  *
- * @method int|string|null randomKey($array = [])
+ * @method int randomKey($array = [])
  *
- * @property array|string $shuffle
+ * @property array $shuffle
  *
-<<<<<<< HEAD
  * @method array shuffle($arg = '')
->>>>>>> 22c0e54 (table changes)
-=======
- * @method array|string shuffle($arg = '')
->>>>>>> f330c64 (optimization in progress)
  *
  * @property array $shuffleArray
  *
@@ -384,61 +366,25 @@ use Psr\Container\ContainerInterface;
  *
  * @method string word()
  *
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @property array|string $words
- *
- * @method array|string words($nb = 3, $asText = false)
-=======
  * @property array $words
  *
  * @method array words($nb = 3, $asText = false)
->>>>>>> 22c0e54 (table changes)
-=======
- * @property array|string $words
- *
- * @method array|string words($nb = 3, $asText = false)
->>>>>>> f330c64 (optimization in progress)
  *
  * @property string $sentence
  *
  * @method string sentence($nbWords = 6, $variableNbWords = true)
  *
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @property array|string $sentences
- *
- * @method array|string sentences($nb = 3, $asText = false)
-=======
  * @property array $sentences
  *
  * @method array sentences($nb = 3, $asText = false)
->>>>>>> 22c0e54 (table changes)
-=======
- * @property array|string $sentences
- *
- * @method array|string sentences($nb = 3, $asText = false)
->>>>>>> f330c64 (optimization in progress)
  *
  * @property string $paragraph
  *
  * @method string paragraph($nbSentences = 3, $variableNbSentences = true)
  *
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @property array|string $paragraphs
- *
- * @method array|string paragraphs($nb = 3, $asText = false)
-=======
  * @property array $paragraphs
  *
  * @method array paragraphs($nb = 3, $asText = false)
->>>>>>> 22c0e54 (table changes)
-=======
- * @property array|string $paragraphs
- *
- * @method array|string paragraphs($nb = 3, $asText = false)
->>>>>>> f330c64 (optimization in progress)
  *
  * @property string $text
  *
@@ -671,93 +617,31 @@ class Generator
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function format($format, $arguments = [])
-    {
-        return call_user_func_array($this->getFormatter($format), $arguments);
-    }
-
-    /**
-     * @param string $format
-     *
-     * @return callable
-     */
-    public function getFormatter($format)
-    {
-        if (isset($this->formatters[$format])) {
-            return $this->formatters[$format];
-        }
-
-        if (method_exists($this, $format)) {
-            $this->formatters[$format] = [$this, $format];
-
-            return $this->formatters[$format];
-        }
-
-        // "Faker\Core\Barcode->ean13"
-        if (preg_match('|^([a-zA-Z0-9\\\]+)->([a-zA-Z0-9]+)$|', $format, $matches)) {
-            $this->formatters[$format] = [$this->ext($matches[1]), $matches[2]];
-
-            return $this->formatters[$format];
-        }
-
-        foreach ($this->providers as $provider) {
-            if (method_exists($provider, $format)) {
-                $this->formatters[$format] = [$provider, $format];
-
-                return $this->formatters[$format];
-            }
-        }
-
-        throw new \InvalidArgumentException(sprintf('Unknown format "%s"', $format));
-=======
     public function format($formatter, $arguments = [])
-=======
-    public function format($format, $arguments = [])
->>>>>>> f330c64 (optimization in progress)
     {
-        return call_user_func_array($this->getFormatter($format), $arguments);
+        return call_user_func_array($this->getFormatter($formatter), $arguments);
     }
 
     /**
-     * @param string $format
+     * @param string $formatter
      *
      * @return callable
      */
-    public function getFormatter($format)
+    public function getFormatter($formatter)
     {
-        if (isset($this->formatters[$format])) {
-            return $this->formatters[$format];
-        }
-
-        if (method_exists($this, $format)) {
-            $this->formatters[$format] = [$this, $format];
-
-            return $this->formatters[$format];
-        }
-
-        // "Faker\Core\Barcode->ean13"
-        if (preg_match('|^([a-zA-Z0-9\\\]+)->([a-zA-Z0-9]+)$|', $format, $matches)) {
-            $this->formatters[$format] = [$this->ext($matches[1]), $matches[2]];
-
-            return $this->formatters[$format];
+        if (isset($this->formatters[$formatter])) {
+            return $this->formatters[$formatter];
         }
 
         foreach ($this->providers as $provider) {
-            if (method_exists($provider, $format)) {
-                $this->formatters[$format] = [$provider, $format];
+            if (method_exists($provider, $formatter)) {
+                $this->formatters[$formatter] = [$provider, $formatter];
 
-                return $this->formatters[$format];
+                return $this->formatters[$formatter];
             }
         }
 
-<<<<<<< HEAD
         throw new \InvalidArgumentException(sprintf('Unknown formatter "%s"', $formatter));
->>>>>>> 22c0e54 (table changes)
-=======
-        throw new \InvalidArgumentException(sprintf('Unknown format "%s"', $format));
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -769,21 +653,7 @@ class Generator
      */
     public function parse($string)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $callback = function ($matches) {
-            return $this->format($matches[1]);
-        };
-
-        return preg_replace_callback('/\{\{\s?(\w+)\s?\}\}/u', $callback, $string);
-<<<<<<< HEAD
-=======
         return preg_replace_callback('/\{\{\s?(\w+)\s?\}\}/u', [$this, 'callFormatWithMatches'], $string);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -954,43 +824,8 @@ class Generator
         );
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    /**
-     * Get a version number in semantic versioning syntax 2.0.0. (https://semver.org/spec/v2.0.0.html)
-     *
-     * @param bool $preRelease Pre release parts may be randomly included
-     * @param bool $build      Build parts may be randomly included
-     *
-     * @example 1.0.0
-     * @example 1.0.0-alpha.1
-     * @example 1.0.0-alpha.1+b71f04d
-     */
-    public function semver(bool $preRelease = false, bool $build = false): string
-    {
-        return $this->ext(Extension\VersionExtension::class)->semver($preRelease, $build);
-    }
-
-    /**
-     * @deprecated
-     */
-<<<<<<< HEAD
     protected function callFormatWithMatches($matches)
     {
-        trigger_deprecation('fakerphp/faker', '1.14', 'Protected method "callFormatWithMatches()" is deprecated and will be removed.');
-
-=======
-    protected function callFormatWithMatches($matches)
-    {
->>>>>>> 22c0e54 (table changes)
-=======
-    protected function callFormatWithMatches($matches)
-    {
-        trigger_deprecation('fakerphp/faker', '1.14', 'Protected method "callFormatWithMatches()" is deprecated and will be removed.');
-
->>>>>>> f330c64 (optimization in progress)
         return $this->format($matches[1]);
     }
 

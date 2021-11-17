@@ -17,14 +17,6 @@ use phpDocumentor\Reflection\DocBlock\Description;
 use phpDocumentor\Reflection\DocBlock\DescriptionFactory;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use Webmozart\Assert\Assert;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use function preg_match;
 
 /**
@@ -66,15 +58,7 @@ final class Version extends BaseTag implements Factory\StaticMethod
         ?string $body,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
-<<<<<<< HEAD
-<<<<<<< HEAD
-    ): ?self {
-=======
     ) : ?self {
->>>>>>> 22c0e54 (table changes)
-=======
-    ): ?self {
->>>>>>> f330c64 (optimization in progress)
         if (empty($body)) {
             return new static();
         }
@@ -98,15 +82,7 @@ final class Version extends BaseTag implements Factory\StaticMethod
     /**
      * Gets the version section of the tag.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getVersion(): ?string
-=======
     public function getVersion() : ?string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getVersion(): ?string
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->version;
     }
@@ -114,15 +90,7 @@ final class Version extends BaseTag implements Factory\StaticMethod
     /**
      * Returns a string representation for this tag.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();

@@ -150,15 +150,7 @@ class Route
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setPath(string $path)
-=======
     public function setPath($path)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setPath(string $path)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->path = $path;
     }
@@ -178,15 +170,7 @@ class Route
         return $this->localizedPaths;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setHost(string $pattern)
-=======
     public function setHost($pattern)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setHost(string $pattern)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->host = $pattern;
     }
@@ -196,15 +180,7 @@ class Route
         return $this->host;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setName(string $name)
-=======
     public function setName($name)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setName(string $name)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->name = $name;
     }
@@ -214,15 +190,7 @@ class Route
         return $this->name;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setRequirements(array $requirements)
-=======
     public function setRequirements($requirements)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setRequirements(array $requirements)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->requirements = $requirements;
     }
@@ -232,15 +200,7 @@ class Route
         return $this->requirements;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setOptions(array $options)
-=======
     public function setOptions($options)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setOptions(array $options)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->options = $options;
     }
@@ -250,15 +210,7 @@ class Route
         return $this->options;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setDefaults(array $defaults)
-=======
     public function setDefaults($defaults)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setDefaults(array $defaults)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->defaults = $defaults;
     }
@@ -288,15 +240,7 @@ class Route
         return $this->methods;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function setCondition(?string $condition)
-=======
     public function setCondition($condition)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function setCondition(?string $condition)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->condition = $condition;
     }

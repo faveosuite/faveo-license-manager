@@ -116,17 +116,7 @@ final class Color
             $last        = count($path) - 1;
             $path[$last] = preg_replace_callback(
                 '/([\-_\.]+|phpt$)/',
-<<<<<<< HEAD
-<<<<<<< HEAD
-                static function ($matches)
-                {
-=======
                 static function ($matches) {
->>>>>>> 22c0e54 (table changes)
-=======
-                static function ($matches)
-                {
->>>>>>> f330c64 (optimization in progress)
                     return self::dim($matches[0]);
                 },
                 $path[$last]
@@ -149,17 +139,7 @@ final class Color
     {
         $replaceMap = $visualizeEOL ? self::WHITESPACE_EOL_MAP : self::WHITESPACE_MAP;
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return preg_replace_callback('/\s+/', static function ($matches) use ($replaceMap)
-        {
-=======
         return preg_replace_callback('/\s+/', static function ($matches) use ($replaceMap) {
->>>>>>> 22c0e54 (table changes)
-=======
-        return preg_replace_callback('/\s+/', static function ($matches) use ($replaceMap)
-        {
->>>>>>> f330c64 (optimization in progress)
             return self::dim(strtr($matches[0], $replaceMap));
         }, $buffer);
     }

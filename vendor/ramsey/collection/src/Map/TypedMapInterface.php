@@ -19,15 +19,7 @@ namespace Ramsey\Collection\Map;
  * typed.
  *
  * @template T
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @extends MapInterface<T>
-=======
  * @template-extends MapInterface<T>
->>>>>>> 22c0e54 (table changes)
-=======
- * @extends MapInterface<T>
->>>>>>> f330c64 (optimization in progress)
  */
 interface TypedMapInterface extends MapInterface
 {

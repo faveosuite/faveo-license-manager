@@ -31,21 +31,7 @@ class CacheServiceProvider extends ServiceProvider implements DeferrableProvider
             return new MemcachedConnector;
         });
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $this->app->singleton(RateLimiter::class, function ($app) {
-            return new RateLimiter($app->make('cache')->driver(
-                $app['config']->get('cache.limiter')
-            ));
-        });
-<<<<<<< HEAD
-=======
         $this->app->singleton(RateLimiter::class);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

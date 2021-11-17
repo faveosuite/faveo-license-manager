@@ -104,15 +104,7 @@ class ConsoleLogger extends AbstractLogger
      */
     private function interpolate(string $message, array $context): string
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!str_contains($message, '{')) {
-=======
         if (false === strpos($message, '{')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (!str_contains($message, '{')) {
->>>>>>> f330c64 (optimization in progress)
             return $message;
         }
 

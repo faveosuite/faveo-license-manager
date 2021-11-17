@@ -23,16 +23,6 @@ use Serializable;
  * `ArrayInterface` provides traversable array functionality to data types.
  *
  * @template T
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @extends ArrayAccess<array-key, T>
- * @extends IteratorAggregate<array-key, T>
-=======
->>>>>>> 22c0e54 (table changes)
-=======
- * @extends ArrayAccess<array-key, T>
- * @extends IteratorAggregate<array-key, T>
->>>>>>> f330c64 (optimization in progress)
  */
 interface ArrayInterface extends
     ArrayAccess,

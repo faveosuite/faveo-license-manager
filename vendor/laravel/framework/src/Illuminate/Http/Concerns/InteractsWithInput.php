@@ -4,13 +4,7 @@ namespace Illuminate\Http\Concerns;
 
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Arr;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use Illuminate\Support\Str;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use SplFileInfo;
 use stdClass;
 use Symfony\Component\VarDumper\VarDumper;
@@ -61,23 +55,8 @@ trait InteractsWithInput
     {
         $header = $this->header('Authorization', '');
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $position = strrpos($header, 'Bearer ');
-
-        if ($position !== false) {
-            $header = substr($header, $position + 7);
-
-            return strpos($header, ',') !== false ? strstr(',', $header, true) : $header;
-<<<<<<< HEAD
-=======
         if (Str::startsWith($header, 'Bearer ')) {
             return Str::substr($header, 7);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -133,41 +112,14 @@ trait InteractsWithInput
      *
      * @param  string  $key
      * @param  callable  $callback
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  callable|null  $default
-     * @return $this|mixed
-     */
-    public function whenHas($key, callable $callback, callable $default = null)
-=======
      * @return $this|mixed
      */
     public function whenHas($key, callable $callback)
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  callable|null  $default
-     * @return $this|mixed
-     */
-    public function whenHas($key, callable $callback, callable $default = null)
->>>>>>> f330c64 (optimization in progress)
     {
         if ($this->has($key)) {
             return $callback(data_get($this->all(), $key)) ?: $this;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if ($default) {
-            return $default();
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         return $this;
     }
 
@@ -233,41 +185,14 @@ trait InteractsWithInput
      *
      * @param  string  $key
      * @param  callable  $callback
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  callable|null  $default
-     * @return $this|mixed
-     */
-    public function whenFilled($key, callable $callback, callable $default = null)
-=======
      * @return $this|mixed
      */
     public function whenFilled($key, callable $callback)
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  callable|null  $default
-     * @return $this|mixed
-     */
-    public function whenFilled($key, callable $callback, callable $default = null)
->>>>>>> f330c64 (optimization in progress)
     {
         if ($this->filled($key)) {
             return $callback(data_get($this->all(), $key)) ?: $this;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if ($default) {
-            return $default();
-        }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         return $this;
     }
 
@@ -359,26 +284,6 @@ trait InteractsWithInput
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Retrieve input from the request as a collection.
-     *
-     * @param  array|string|null  $key
-     * @return \Illuminate\Support\Collection
-     */
-    public function collect($key = null)
-    {
-        return collect(is_array($key) ? $this->only($key) : $this->input($key));
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Get a subset containing the provided keys with values from the input data.
      *
      * @param  array|mixed  $keys

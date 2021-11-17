@@ -20,15 +20,7 @@ namespace Monolog\Formatter;
 class ScalarFormatter extends NormalizerFormatter
 {
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * {@inheritDoc}
-=======
      * {@inheritdoc}
->>>>>>> 22c0e54 (table changes)
-=======
-     * {@inheritDoc}
->>>>>>> f330c64 (optimization in progress)
      *
      * @phpstan-return array<string, scalar|null> $record
      */

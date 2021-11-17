@@ -7,22 +7,8 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Cookie\CookieValuePrefix;
 use Illuminate\Database\Eloquent\Model;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Collection;
-<<<<<<< HEAD
-=======
-use Illuminate\Support\Arr;
-use Illuminate\Support\Carbon;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
 use Illuminate\Support\Traits\Tappable;
@@ -49,22 +35,6 @@ class TestResponse implements ArrayAccess
     public $baseResponse;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * The collection of logged exceptions for the request.
-     *
-     * @var \Illuminate\Support\Collection
-     */
-    protected $exceptions;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * The streamed content of the response.
      *
      * @var string
@@ -80,14 +50,6 @@ class TestResponse implements ArrayAccess
     public function __construct($response)
     {
         $this->baseResponse = $response;
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->exceptions = new Collection;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->exceptions = new Collection;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -110,15 +72,7 @@ class TestResponse implements ArrayAccess
     {
         PHPUnit::assertTrue(
             $this->isSuccessful(),
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $this->statusMessageWithDetails('>=200, <300', $this->getStatusCode())
-=======
             'Response status code ['.$this->getStatusCode().'] is not a successful status code.'
->>>>>>> 22c0e54 (table changes)
-=======
-            $this->statusMessageWithDetails('>=200, <300', $this->getStatusCode())
->>>>>>> f330c64 (optimization in progress)
         );
 
         return $this;
@@ -131,20 +85,12 @@ class TestResponse implements ArrayAccess
      */
     public function assertOk()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->assertStatus(200);
-=======
         PHPUnit::assertTrue(
             $this->isOk(),
             'Response status code ['.$this->getStatusCode().'] does not match expected 200 status code.'
         );
 
         return $this;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->assertStatus(200);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -154,10 +100,6 @@ class TestResponse implements ArrayAccess
      */
     public function assertCreated()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->assertStatus(201);
-=======
         $actual = $this->getStatusCode();
 
         PHPUnit::assertSame(
@@ -166,10 +108,6 @@ class TestResponse implements ArrayAccess
         );
 
         return $this;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->assertStatus(201);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -194,20 +132,12 @@ class TestResponse implements ArrayAccess
      */
     public function assertNotFound()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->assertStatus(404);
-=======
         PHPUnit::assertTrue(
             $this->isNotFound(),
             'Response status code ['.$this->getStatusCode().'] is not a not found status code.'
         );
 
         return $this;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->assertStatus(404);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -217,20 +147,12 @@ class TestResponse implements ArrayAccess
      */
     public function assertForbidden()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->assertStatus(403);
-=======
         PHPUnit::assertTrue(
             $this->isForbidden(),
             'Response status code ['.$this->getStatusCode().'] is not a forbidden status code.'
         );
 
         return $this;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->assertStatus(403);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -240,20 +162,6 @@ class TestResponse implements ArrayAccess
      */
     public function assertUnauthorized()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $this->assertStatus(401);
-    }
-
-    /**
-     * Assert that the response has a 422 status code.
-     *
-     * @return $this
-     */
-    public function assertUnprocessable()
-    {
-        return $this->assertStatus(422);
-=======
         $actual = $this->getStatusCode();
 
         PHPUnit::assertSame(
@@ -262,20 +170,6 @@ class TestResponse implements ArrayAccess
         );
 
         return $this;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $this->assertStatus(401);
-    }
-
-    /**
-     * Assert that the response has a 422 status code.
-     *
-     * @return $this
-     */
-    public function assertUnprocessable()
-    {
-        return $this->assertStatus(422);
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -286,117 +180,17 @@ class TestResponse implements ArrayAccess
      */
     public function assertStatus($status)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $message = $this->statusMessageWithDetails($status, $actual = $this->getStatusCode());
-
-        PHPUnit::assertSame($actual, $status, $message);
-=======
         $actual = $this->getStatusCode();
 
         PHPUnit::assertSame(
             $actual, $status,
             "Expected status code {$status} but received {$actual}."
         );
->>>>>>> 22c0e54 (table changes)
-=======
-        $message = $this->statusMessageWithDetails($status, $actual = $this->getStatusCode());
-
-        PHPUnit::assertSame($actual, $status, $message);
->>>>>>> f330c64 (optimization in progress)
 
         return $this;
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Get an assertion message for a status assertion containing extra details when available.
-     *
-     * @param  string|int  $expected
-     * @param  string|int  $actual
-     * @return string
-     */
-    protected function statusMessageWithDetails($expected, $actual)
-    {
-        $lastException = $this->exceptions->last();
-
-        if ($lastException) {
-            return $this->statusMessageWithException($expected, $actual, $lastException);
-        }
-
-        if ($this->baseResponse instanceof RedirectResponse) {
-            $session = $this->baseResponse->getSession();
-
-            if (! is_null($session) && $session->has('errors')) {
-                return $this->statusMessageWithErrors($expected, $actual, $session->get('errors')->all());
-            }
-        }
-
-        if ($this->baseResponse->headers->get('Content-Type') === 'application/json') {
-            $testJson = new AssertableJsonString($this->getContent());
-
-            if (isset($testJson['errors'])) {
-                return $this->statusMessageWithErrors($expected, $actual, $testJson->json());
-            }
-        }
-
-        return "Expected response status code [{$expected}] but received {$actual}.";
-    }
-
-    /**
-     * Get an assertion message for a status assertion that has an unexpected exception.
-     *
-     * @param  string|int  $expected
-     * @param  string|int  $actual
-     * @param  \Throwable  $exception
-     * @return string
-     */
-    protected function statusMessageWithException($expected, $actual, $exception)
-    {
-        $exception = (string) $exception;
-
-        return <<<EOF
-Expected response status code [$expected] but received $actual.
-
-The following exception occurred during the request:
-
-$exception
-EOF;
-    }
-
-    /**
-     * Get an assertion message for a status assertion that contained errors.
-     *
-     * @param  string|int  $expected
-     * @param  string|int  $actual
-     * @param  array  $errors
-     * @return string
-     */
-    protected function statusMessageWithErrors($expected, $actual, $errors)
-    {
-        $errors = $this->baseResponse->headers->get('Content-Type') === 'application/json'
-            ? json_encode($errors, JSON_PRETTY_PRINT)
-            : implode(PHP_EOL, Arr::flatten($errors));
-
-        return <<<EOF
-Expected response status code [$expected] but received $actual.
-
-The following errors occurred during the request:
-
-$errors
-
-EOF;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Assert whether the response is redirecting to a given URI.
      *
      * @param  string|null  $uri
@@ -416,71 +210,6 @@ EOF;
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Assert whether the response is redirecting to a URI that contains the given URI.
-     *
-     * @param  string  $uri
-     * @return $this
-     */
-    public function assertRedirectContains($uri)
-    {
-        PHPUnit::assertTrue(
-            $this->isRedirect(), 'Response status code ['.$this->getStatusCode().'] is not a redirect status code.'
-        );
-
-        PHPUnit::assertTrue(
-            Str::contains($this->headers->get('Location'), $uri), 'Redirect location ['.$this->headers->get('Location').'] does not contain ['.$uri.'].'
-        );
-
-        return $this;
-    }
-
-    /**
-     * Assert whether the response is redirecting to a given signed route.
-     *
-     * @param  string|null  $name
-     * @param  mixed  $parameters
-     * @return $this
-     */
-    public function assertRedirectToSignedRoute($name = null, $parameters = [])
-    {
-        if (! is_null($name)) {
-            $uri = route($name, $parameters);
-        }
-
-        PHPUnit::assertTrue(
-            $this->isRedirect(), 'Response status code ['.$this->getStatusCode().'] is not a redirect status code.'
-        );
-
-        $request = Request::create($this->headers->get('Location'));
-
-        PHPUnit::assertTrue(
-            $request->hasValidSignature(), 'The response is not a redirect to a signed route.'
-        );
-
-        if (! is_null($name)) {
-            $expectedUri = rtrim($request->fullUrlWithQuery([
-                'signature' => null,
-                'expires' => null,
-            ]), '?');
-
-            PHPUnit::assertEquals(
-                app('url')->to($uri), $expectedUri
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Asserts that the response contains the given header and equals the optional value.
      *
      * @param  string  $headerName
@@ -699,15 +428,7 @@ EOF;
      * @param  string  $cookieName
      * @return \Symfony\Component\HttpFoundation\Cookie|null
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getCookie($cookieName)
-=======
     protected function getCookie($cookieName)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getCookie($cookieName)
->>>>>>> f330c64 (optimization in progress)
     {
         foreach ($this->headers->getCookies() as $cookie) {
             if ($cookie->getName() === $cookieName) {
@@ -1207,114 +928,6 @@ EOF;
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Assert that the given keys do not have validation errors.
-     *
-     * @param  string|array|null  $keys
-     * @param  string  $errorBag
-     * @param  string  $responseKey
-     * @return $this
-     */
-    public function assertValid($keys = null, $errorBag = 'default', $responseKey = 'errors')
-    {
-        if ($this->baseResponse->headers->get('Content-Type') === 'application/json') {
-            return $this->assertJsonMissingValidationErrors($keys, $responseKey);
-        }
-
-        if ($this->session()->get('errors')) {
-            $errors = $this->session()->get('errors')->getBag($errorBag)->getMessages();
-        } else {
-            $errors = [];
-        }
-
-        if (empty($errors)) {
-            PHPUnit::assertTrue(true);
-
-            return $this;
-        }
-
-        if (is_null($keys) && count($errors) > 0) {
-            PHPUnit::fail(
-                'Response has unexpected validation errors: '.PHP_EOL.PHP_EOL.
-                json_encode($errors, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE)
-            );
-        }
-
-        foreach (Arr::wrap($keys) as $key) {
-            PHPUnit::assertFalse(
-                isset($errors[$key]),
-                "Found unexpected validation error for key: '{$key}'"
-            );
-        }
-
-        return $this;
-    }
-
-    /**
-     * Assert that the response has the given validation errors.
-     *
-     * @param  string|array|null  $errors
-     * @param  string  $errorBag
-     * @param  string  $responseKey
-     * @return $this
-     */
-    public function assertInvalid($errors = null,
-                                  $errorBag = 'default',
-                                  $responseKey = 'errors')
-    {
-        if ($this->baseResponse->headers->get('Content-Type') === 'application/json') {
-            return $this->assertJsonValidationErrors($errors, $responseKey);
-        }
-
-        $this->assertSessionHas('errors');
-
-        $keys = (array) $errors;
-
-        $sessionErrors = $this->session()->get('errors')->getBag($errorBag)->getMessages();
-
-        $errorMessage = $sessionErrors
-                ? 'Response has the following validation errors in the session:'.
-                        PHP_EOL.PHP_EOL.json_encode($sessionErrors, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE).PHP_EOL
-                : 'Response does not have validation errors in the session.';
-
-        foreach (Arr::wrap($errors) as $key => $value) {
-            PHPUnit::assertArrayHasKey(
-                (is_int($key)) ? $value : $key,
-                $sessionErrors,
-                "Failed to find a validation error in session for key: '{$value}'".PHP_EOL.PHP_EOL.$errorMessage
-            );
-
-            if (! is_int($key)) {
-                $hasError = false;
-
-                foreach (Arr::wrap($sessionErrors[$key]) as $sessionErrorMessage) {
-                    if (Str::contains($sessionErrorMessage, $value)) {
-                        $hasError = true;
-
-                        break;
-                    }
-                }
-
-                if (! $hasError) {
-                    PHPUnit::fail(
-                        "Failed to find a validation error for key and message: '$key' => '$value'".PHP_EOL.PHP_EOL.$errorMessage
-                    );
-                }
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Assert that the session has a given value.
      *
      * @param  string|array  $key
@@ -1596,28 +1209,6 @@ EOF;
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Set the previous exceptions on the response.
-     *
-     * @param  \Illuminate\Support\Collection  $exceptions
-     * @return $this
-     */
-    public function withExceptions(Collection $exceptions)
-    {
-        $this->exceptions = $exceptions;
-
-        return $this;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Dynamically access base response parameters.
      *
      * @param  string  $key
@@ -1645,14 +1236,6 @@ EOF;
      * @param  string  $offset
      * @return bool
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetExists($offset)
     {
         return $this->responseHasView()
@@ -1666,14 +1249,6 @@ EOF;
      * @param  string  $offset
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetGet($offset)
     {
         return $this->responseHasView()
@@ -1690,14 +1265,6 @@ EOF;
      *
      * @throws \LogicException
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetSet($offset, $value)
     {
         throw new LogicException('Response data may not be mutated using array access.');
@@ -1711,14 +1278,6 @@ EOF;
      *
      * @throws \LogicException
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function offsetUnset($offset)
     {
         throw new LogicException('Response data may not be mutated using array access.');

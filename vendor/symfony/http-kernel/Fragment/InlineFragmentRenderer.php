@@ -105,15 +105,7 @@ class InlineFragmentRenderer extends RoutableFragmentRenderer
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    protected function createSubRequest(string $uri, Request $request)
-=======
     protected function createSubRequest($uri, Request $request)
->>>>>>> 22c0e54 (table changes)
-=======
-    protected function createSubRequest(string $uri, Request $request)
->>>>>>> f330c64 (optimization in progress)
     {
         $cookies = $request->cookies->all();
         $server = $request->server->all();

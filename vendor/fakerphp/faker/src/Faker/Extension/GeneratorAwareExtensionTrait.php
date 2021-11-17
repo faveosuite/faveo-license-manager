@@ -19,15 +19,7 @@ trait GeneratorAwareExtensionTrait
     /**
      * @return static
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function withGenerator(Generator $generator): Extension
-=======
     public function withGenerator(Generator $generator): self
->>>>>>> 22c0e54 (table changes)
-=======
-    public function withGenerator(Generator $generator): Extension
->>>>>>> f330c64 (optimization in progress)
     {
         $instance = clone $this;
 

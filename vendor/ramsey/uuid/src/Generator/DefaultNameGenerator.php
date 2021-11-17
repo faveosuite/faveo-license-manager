@@ -16,14 +16,6 @@ namespace Ramsey\Uuid\Generator;
 
 use Ramsey\Uuid\Exception\NameException;
 use Ramsey\Uuid\UuidInterface;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use ValueError;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use ValueError;
->>>>>>> f330c64 (optimization in progress)
 
 use function hash;
 
@@ -36,23 +28,8 @@ class DefaultNameGenerator implements NameGeneratorInterface
     /** @psalm-pure */
     public function generate(UuidInterface $ns, string $name, string $hashAlgorithm): string
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        try {
-            /** @var string|bool $bytes */
-            $bytes = @hash($hashAlgorithm, $ns->getBytes() . $name, true);
-        } catch (ValueError $e) {
-            $bytes = false; // keep same behavior than PHP 7
-        }
-<<<<<<< HEAD
-=======
         /** @var string|bool $bytes */
         $bytes = @hash($hashAlgorithm, $ns->getBytes() . $name, true);
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
         if ($bytes === false) {
             throw new NameException(sprintf(

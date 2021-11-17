@@ -53,39 +53,17 @@ class InputOption
     private $description;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * @param string                           $name        The option name
-     * @param string|array|null                $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
-     * @param int|null                         $mode        The option mode: One of the VALUE_* constants
-     * @param string                           $description A description text
-     * @param string|bool|int|float|array|null $default     The default value (must be null for self::VALUE_NONE)
-<<<<<<< HEAD
-=======
      * @param string                    $name        The option name
      * @param string|array|null         $shortcut    The shortcuts, can be null, a string of shortcuts delimited by | or an array of shortcuts
      * @param int|null                  $mode        The option mode: One of the VALUE_* constants
      * @param string                    $description A description text
      * @param string|string[]|bool|null $default     The default value (must be null for self::VALUE_NONE)
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      *
      * @throws InvalidArgumentException If option mode is invalid or incompatible
      */
     public function __construct(string $name, $shortcut = null, int $mode = null, string $description = '', $default = null)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_starts_with($name, '--')) {
-=======
         if (0 === strpos($name, '--')) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_starts_with($name, '--')) {
->>>>>>> f330c64 (optimization in progress)
             $name = substr($name, 2);
         }
 
@@ -197,19 +175,11 @@ class InputOption
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param string|bool|int|float|array|null $default
-=======
      * Sets the default value.
      *
      * @param string|string[]|bool|null $default The default value
      *
      * @throws LogicException When incorrect default value is given
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param string|bool|int|float|array|null $default
->>>>>>> f330c64 (optimization in progress)
      */
     public function setDefault($default = null)
     {
@@ -231,15 +201,7 @@ class InputOption
     /**
      * Returns the default value.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @return string|bool|int|float|array|null
-=======
      * @return string|string[]|bool|null The default value
->>>>>>> 22c0e54 (table changes)
-=======
-     * @return string|bool|int|float|array|null
->>>>>>> f330c64 (optimization in progress)
      */
     public function getDefault()
     {

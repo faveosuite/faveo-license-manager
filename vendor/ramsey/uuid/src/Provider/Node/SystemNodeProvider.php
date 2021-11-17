@@ -132,15 +132,7 @@ class SystemNodeProvider implements NodeProviderInterface
             $node = $matches[1][0] ?? '';
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return $node;
-=======
         return (string) $node;
->>>>>>> 22c0e54 (table changes)
-=======
-        return $node;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

@@ -81,15 +81,7 @@ abstract class AbstractTestSessionListener implements EventSubscriberInterface
         if ($session instanceof Session ? !$session->isEmpty() || (null !== $this->sessionId && $session->getId() !== $this->sessionId) : $wasStarted) {
             $params = session_get_cookie_params() + ['samesite' => null];
             foreach ($this->sessionOptions as $k => $v) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-                if (str_starts_with($k, 'cookie_')) {
-=======
                 if (0 === strpos($k, 'cookie_')) {
->>>>>>> 22c0e54 (table changes)
-=======
-                if (str_starts_with($k, 'cookie_')) {
->>>>>>> f330c64 (optimization in progress)
                     $params[substr($k, 7)] = $v;
                 }
             }

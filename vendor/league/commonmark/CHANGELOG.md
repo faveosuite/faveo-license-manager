@@ -4,21 +4,6 @@ Updates should follow the [Keep a CHANGELOG](https://keepachangelog.com/) princi
 
 ## [Unreleased][unreleased]
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-## [1.6.6] - 2021-07-17
-
-### Fixed
-
- - Fixed Mentions inside of links creating nested links against the spec's rules (#688)
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 ## [1.6.5] - 2021-06-26
 
 ### Changed
@@ -490,17 +475,7 @@ No changes were made since 1.0.0-rc1.
    - Removed `DelimiterStack::iterateByCharacters()` (use the new `processDelimiters()` method instead)
    - Removed the protected `DelimiterStack::findMatchingOpener()` method
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-[unreleased]: https://github.com/thephpleague/commonmark/compare/1.6.6...1.6
-[1.6.6]: https://github.com/thephpleague/commonmark/compare/1.6.5...1.6.6
-=======
 [unreleased]: https://github.com/thephpleague/commonmark/compare/1.6.5...1.6
->>>>>>> 22c0e54 (table changes)
-=======
-[unreleased]: https://github.com/thephpleague/commonmark/compare/1.6.6...1.6
-[1.6.6]: https://github.com/thephpleague/commonmark/compare/1.6.5...1.6.6
->>>>>>> f330c64 (optimization in progress)
 [1.6.5]: https://github.com/thephpleague/commonmark/compare/1.6.4...1.6.5
 [1.6.4]: https://github.com/thephpleague/commonmark/compare/1.6.3...1.6.4
 [1.6.3]: https://github.com/thephpleague/commonmark/compare/1.6.2...1.6.3

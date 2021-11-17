@@ -113,15 +113,7 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_CharsetObserver
      */
     public function createParameterizedHeader($name, $value = null, $params = [])
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $header = new Swift_Mime_Headers_ParameterizedHeader($name, $this->encoder, ('content-disposition' == strtolower($name ?? '')) ? $this->paramEncoder : null);
-=======
         $header = new Swift_Mime_Headers_ParameterizedHeader($name, $this->encoder, ('content-disposition' == strtolower($name)) ? $this->paramEncoder : null);
->>>>>>> 22c0e54 (table changes)
-=======
-        $header = new Swift_Mime_Headers_ParameterizedHeader($name, $this->encoder, ('content-disposition' == strtolower($name ?? '')) ? $this->paramEncoder : null);
->>>>>>> f330c64 (optimization in progress)
         if (isset($value)) {
             $header->setFieldBodyModel($value);
         }
@@ -190,14 +182,6 @@ class Swift_Mime_SimpleHeaderFactory implements Swift_Mime_CharsetObserver
     {
         $this->encoder = clone $this->encoder;
         $this->paramEncoder = clone $this->paramEncoder;
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->addressEncoder = clone $this->addressEncoder;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->addressEncoder = clone $this->addressEncoder;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /** Apply the charset to the Header */

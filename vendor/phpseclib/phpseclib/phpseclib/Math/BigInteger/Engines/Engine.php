@@ -28,15 +28,7 @@ use phpseclib3\Common\Functions\Strings;
  * @author  Jim Wigginton <terrafrost@php.net>
  * @access  public
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-abstract class Engine
-=======
 abstract class Engine implements \Serializable
->>>>>>> 22c0e54 (table changes)
-=======
-abstract class Engine
->>>>>>> f330c64 (optimization in progress)
 {
     /**
      * Holds the BigInteger's value
@@ -74,24 +66,6 @@ abstract class Engine
     protected $reduce;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Mode independent value used for serialization.
-     *
-     * @see self::__sleep()
-     * @see self::__wakeup()
-     * @var string
-     */
-    protected $hex;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Default constructor
      *
      * @param mixed $x integer Base-10 number or base-$base number if $base set.
@@ -321,69 +295,31 @@ abstract class Engine
      *
      * @return string
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __sleep()
-    {
-        $this->hex = $this->toHex(true);
-        $vars = ['hex'];
-        if ($this->precision > 0) {
-            $vars[] = 'precision';
-        }
-        return $vars;
-=======
     public function serialize()
-=======
-    public function __sleep()
->>>>>>> f330c64 (optimization in progress)
     {
-        $this->hex = $this->toHex(true);
-        $vars = ['hex'];
+        $val = ['hex' => $this->toHex(true)];
         if ($this->precision > 0) {
-            $vars[] = 'precision';
+            $val['precision'] = $this->precision;
         }
-<<<<<<< HEAD
         return serialize($val);
->>>>>>> 22c0e54 (table changes)
-=======
-        return $vars;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
      * Serialize
      *
      * Will be called, automatically, when unserialize() is called on a BigInteger object.
-<<<<<<< HEAD
-<<<<<<< HEAD
-     */
-    public function __wakeup()
-    {
-        $temp = new static($this->hex, -16);
-        $this->value = $temp->value;
-        $this->is_negative = $temp->is_negative;
-        if ($this->precision > 0) {
-            // recalculate $this->bitmask
-            $this->setPrecision($this->precision);
-=======
      *
      * @param string $serialized
-=======
->>>>>>> f330c64 (optimization in progress)
      */
-    public function __wakeup()
+    public function unserialize($serialized)
     {
-        $temp = new static($this->hex, -16);
+        $r = unserialize($serialized);
+        $temp = new static($r['hex'], -16);
         $this->value = $temp->value;
         $this->is_negative = $temp->is_negative;
-        if ($this->precision > 0) {
+        if (isset($r['precision'])) {
             // recalculate $this->bitmask
-<<<<<<< HEAD
             $this->setPrecision($r['precision']);
->>>>>>> 22c0e54 (table changes)
-=======
-            $this->setPrecision($this->precision);
->>>>>>> f330c64 (optimization in progress)
         }
     }
 
@@ -1138,46 +1074,20 @@ abstract class Engine
             static::$modexpEngine;
         if (method_exists($fqengine, 'generateCustomReduction')) {
             $func = $fqengine::generateCustomReduction($this, static::class);
-<<<<<<< HEAD
-<<<<<<< HEAD
-            return eval('return function(' . static::class . ' $x) use ($func, $class) {
-=======
             $this->reduce = eval('return function(' . static::class . ' $x) use ($func, $class) {
->>>>>>> 22c0e54 (table changes)
-=======
-            return eval('return function(' . static::class . ' $x) use ($func, $class) {
->>>>>>> f330c64 (optimization in progress)
                 $r = new $class();
                 $r->value = $func($x->value);
                 return $r;
             };');
-<<<<<<< HEAD
-<<<<<<< HEAD
-        }
-        $n = $this->value;
-        return eval('return function(' . static::class . ' $x) use ($n, $fqengine, $class) {
-=======
             return clone $this->reduce;
         }
         $n = $this->value;
         $this->reduce = eval('return function(' . static::class . ' $x) use ($n, $fqengine, $class) {
->>>>>>> 22c0e54 (table changes)
-=======
-        }
-        $n = $this->value;
-        return eval('return function(' . static::class . ' $x) use ($n, $fqengine, $class) {
->>>>>>> f330c64 (optimization in progress)
             $r = new $class();
             $r->value = $fqengine::reduce($x->value, $n, $class);
             return $r;
         };');
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
         return clone $this->reduce;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

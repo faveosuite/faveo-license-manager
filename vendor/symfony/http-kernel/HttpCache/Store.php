@@ -298,15 +298,7 @@ class Store implements StoreInterface
             return [];
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return unserialize($entries) ?: [];
-=======
         return unserialize($entries);
->>>>>>> 22c0e54 (table changes)
-=======
-        return unserialize($entries) ?: [];
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

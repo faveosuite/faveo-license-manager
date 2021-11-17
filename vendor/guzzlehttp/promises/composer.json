@@ -5,36 +5,9 @@
     "license": "MIT",
     "authors": [
         {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-            "name": "Graham Campbell",
-            "email": "hello@gjcampbell.co.uk",
-            "homepage": "https://github.com/GrahamCampbell"
-        },
-        {
             "name": "Michael Dowling",
             "email": "mtdowling@gmail.com",
             "homepage": "https://github.com/mtdowling"
-        },
-        {
-            "name": "Tobias Nyholm",
-            "email": "tobias.nyholm@gmail.com",
-            "homepage": "https://github.com/Nyholm"
-        },
-        {
-            "name": "Tobias Schultze",
-            "email": "webmaster@tubo-world.de",
-            "homepage": "https://github.com/Tobion"
-<<<<<<< HEAD
-=======
-            "name": "Michael Dowling",
-            "email": "mtdowling@gmail.com",
-            "homepage": "https://github.com/mtdowling"
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         }
     ],
     "require": {
@@ -60,25 +33,7 @@
     },
     "extra": {
         "branch-alias": {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            "dev-master": "1.5-dev"
-        }
-    },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
-=======
             "dev-master": "1.4-dev"
         }
->>>>>>> 22c0e54 (table changes)
-=======
-            "dev-master": "1.5-dev"
-        }
-    },
-    "config": {
-        "preferred-install": "dist",
-        "sort-packages": true
->>>>>>> f330c64 (optimization in progress)
     }
 }

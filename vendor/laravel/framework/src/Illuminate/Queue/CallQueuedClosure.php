@@ -17,15 +17,7 @@ class CallQueuedClosure implements ShouldQueue
     /**
      * The serializable Closure instance.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @var \Laravel\SerializableClosure\SerializableClosure
-=======
      * @var \Illuminate\Queue\SerializableClosure
->>>>>>> 22c0e54 (table changes)
-=======
-     * @var \Laravel\SerializableClosure\SerializableClosure
->>>>>>> f330c64 (optimization in progress)
      */
     public $closure;
 
@@ -46,24 +38,10 @@ class CallQueuedClosure implements ShouldQueue
     /**
      * Create a new job instance.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Laravel\SerializableClosure\SerializableClosure  $closure
-     * @return void
-     */
-    public function __construct($closure)
-=======
      * @param  \Illuminate\Queue\SerializableClosure  $closure
      * @return void
      */
     public function __construct(SerializableClosure $closure)
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Laravel\SerializableClosure\SerializableClosure  $closure
-     * @return void
-     */
-    public function __construct($closure)
->>>>>>> f330c64 (optimization in progress)
     {
         $this->closure = $closure;
     }
@@ -76,15 +54,7 @@ class CallQueuedClosure implements ShouldQueue
      */
     public static function create(Closure $job)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return new self(SerializableClosureFactory::make($job));
-=======
         return new self(new SerializableClosure($job));
->>>>>>> 22c0e54 (table changes)
-=======
-        return new self(SerializableClosureFactory::make($job));
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -107,15 +77,7 @@ class CallQueuedClosure implements ShouldQueue
     public function onFailure($callback)
     {
         $this->failureCallbacks[] = $callback instanceof Closure
-<<<<<<< HEAD
-<<<<<<< HEAD
-                        ? SerializableClosureFactory::make($callback)
-=======
                         ? new SerializableClosure($callback)
->>>>>>> 22c0e54 (table changes)
-=======
-                        ? SerializableClosureFactory::make($callback)
->>>>>>> f330c64 (optimization in progress)
                         : $callback;
 
         return $this;
@@ -130,15 +92,7 @@ class CallQueuedClosure implements ShouldQueue
     public function failed($e)
     {
         foreach ($this->failureCallbacks as $callback) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $callback($e);
-=======
             call_user_func($callback instanceof SerializableClosure ? $callback->getClosure() : $callback, $e);
->>>>>>> 22c0e54 (table changes)
-=======
-            $callback($e);
->>>>>>> f330c64 (optimization in progress)
         }
     }
 

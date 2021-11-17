@@ -11,14 +11,6 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionFunction;
 use Throwable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use function array_map;
 use function get_class;
 use function get_resource_type;
@@ -54,54 +46,22 @@ final class InvalidTag implements Tag
         $this->body = $body;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getException(): ?Throwable
-=======
     public function getException() : ?Throwable
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getException(): ?Throwable
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->throwable;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getName(): string
-=======
     public function getName() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getName(): string
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->name;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public static function create(string $body, string $name = ''): self
-=======
     public static function create(string $body, string $name = '') : self
->>>>>>> 22c0e54 (table changes)
-=======
-    public static function create(string $body, string $name = ''): self
->>>>>>> f330c64 (optimization in progress)
     {
         return new self($name, $body);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function withError(Throwable $exception): self
-=======
     public function withError(Throwable $exception) : self
->>>>>>> 22c0e54 (table changes)
-=======
-    public function withError(Throwable $exception): self
->>>>>>> f330c64 (optimization in progress)
     {
         $this->flattenExceptionBacktrace($exception);
         $tag            = new self($this->name, $this->body);
@@ -116,15 +76,7 @@ final class InvalidTag implements Tag
      * Not all objects are serializable. So we need to remove them from the
      * stored exception to be sure that we do not break existing library usage.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    private function flattenExceptionBacktrace(Throwable $exception): void
-=======
     private function flattenExceptionBacktrace(Throwable $exception) : void
->>>>>>> 22c0e54 (table changes)
-=======
-    private function flattenExceptionBacktrace(Throwable $exception): void
->>>>>>> f330c64 (optimization in progress)
     {
         $traceProperty = (new ReflectionClass(Exception::class))->getProperty('trace');
         $traceProperty->setAccessible(true);
@@ -133,18 +85,8 @@ final class InvalidTag implements Tag
             $trace = $exception->getTrace();
             if (isset($trace[0]['args'])) {
                 $trace = array_map(
-<<<<<<< HEAD
-<<<<<<< HEAD
-                    function (array $call): array {
-                        $call['args'] = array_map([$this, 'flattenArguments'], $call['args'] ?? []);
-=======
                     function (array $call) : array {
                         $call['args'] = array_map([$this, 'flattenArguments'], $call['args']);
->>>>>>> 22c0e54 (table changes)
-=======
-                    function (array $call): array {
-                        $call['args'] = array_map([$this, 'flattenArguments'], $call['args'] ?? []);
->>>>>>> f330c64 (optimization in progress)
 
                         return $call;
                     },
@@ -186,15 +128,7 @@ final class InvalidTag implements Tag
         return $value;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function render(?Formatter $formatter = null): string
-=======
     public function render(?Formatter $formatter = null) : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function render(?Formatter $formatter = null): string
->>>>>>> f330c64 (optimization in progress)
     {
         if ($formatter === null) {
             $formatter = new Formatter\PassthroughFormatter();
@@ -203,15 +137,7 @@ final class InvalidTag implements Tag
         return $formatter->format($this);
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->body;
     }

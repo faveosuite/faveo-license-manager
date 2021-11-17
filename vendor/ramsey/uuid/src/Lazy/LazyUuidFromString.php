@@ -7,15 +7,7 @@
  * file that was distributed with this source code.
  *
  * @copyright Copyright (c) Ben Ramsey <ben@benramsey.com>
-<<<<<<< HEAD
-<<<<<<< HEAD
- * @license http://opensource.org/licenses/MIT MIT
-=======
  * @license   http://opensource.org/licenses/MIT MIT
->>>>>>> 22c0e54 (table changes)
-=======
- * @license http://opensource.org/licenses/MIT MIT
->>>>>>> f330c64 (optimization in progress)
  */
 
 declare(strict_types=1);
@@ -32,26 +24,10 @@ use Ramsey\Uuid\Type\Hexadecimal;
 use Ramsey\Uuid\Type\Integer as IntegerObject;
 use Ramsey\Uuid\UuidFactory;
 use Ramsey\Uuid\UuidInterface;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use ValueError;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use ValueError;
->>>>>>> f330c64 (optimization in progress)
 
 use function assert;
 use function bin2hex;
 use function hex2bin;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use function sprintf;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use function sprintf;
->>>>>>> f330c64 (optimization in progress)
 use function str_replace;
 use function substr;
 
@@ -115,25 +91,6 @@ final class LazyUuidFromString implements UuidInterface
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * @return array{string: string}
-     *
-     * @psalm-return array{string: non-empty-string}
-     */
-    public function __serialize(): array
-    {
-        return ['string' => $this->uuid];
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * {@inheritDoc}
      *
      * @param string $serialized
@@ -145,31 +102,6 @@ final class LazyUuidFromString implements UuidInterface
         $this->uuid = $serialized;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-    /**
-     * @param array{string: string} $data
-     *
-     * @psalm-param array{string: non-empty-string} $data
-     */
-    public function __unserialize(array $data): void
-    {
-        // @codeCoverageIgnoreStart
-        if (!isset($data['string'])) {
-            throw new ValueError(sprintf('%s(): Argument #1 ($data) is invalid', __METHOD__));
-        }
-        // @codeCoverageIgnoreEnd
-
-        $this->unserialize($data['string']);
-    }
-
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     /** @psalm-suppress DeprecatedMethod */
     public function getNumberConverter(): NumberConverterInterface
     {
@@ -310,14 +242,6 @@ final class LazyUuidFromString implements UuidInterface
      */
     public function getBytes(): string
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        /** @phpstan-ignore-next-line PHPStan complains that this is not a non-empty-string. */
->>>>>>> f330c64 (optimization in progress)
         return (string) hex2bin(str_replace('-', '', $this->uuid));
     }
 
@@ -573,15 +497,7 @@ final class LazyUuidFromString implements UuidInterface
     public function getTimestamp(): string
     {
         $instance = ($this->unwrapped ?? $this->unwrap());
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $fields = $instance->getFields();
-=======
         $fields   = $instance->getFields();
->>>>>>> 22c0e54 (table changes)
-=======
-        $fields = $instance->getFields();
->>>>>>> f330c64 (optimization in progress)
 
         if ($fields->getVersion() !== 1) {
             throw new UnsupportedOperationException('Not a time-based UUID');

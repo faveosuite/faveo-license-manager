@@ -7,13 +7,7 @@ Resources
 ---------
 
   * [Documentation](https://symfony.com/doc/current/components/psr7.html)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
   * [SensioFrameworkExtraBundle](https://symfony.com/doc/current/bundles/SensioFrameworkExtraBundle/index.html#psr-7-support)
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
 Running the tests
 -----------------

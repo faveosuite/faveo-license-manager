@@ -20,27 +20,11 @@ use phpDocumentor\Reflection\TypeResolver;
 use phpDocumentor\Reflection\Types\Context as TypeContext;
 use phpDocumentor\Reflection\Utils;
 use Webmozart\Assert\Assert;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use function array_shift;
 use function array_unshift;
 use function implode;
 use function strpos;
 use function substr;
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
->>>>>>> f330c64 (optimization in progress)
 use const PREG_SPLIT_DELIM_CAPTURE;
 
 /**
@@ -66,15 +50,7 @@ final class Property extends TagWithType implements Factory\StaticMethod
         ?TypeResolver $typeResolver = null,
         ?DescriptionFactory $descriptionFactory = null,
         ?TypeContext $context = null
-<<<<<<< HEAD
-<<<<<<< HEAD
-    ): self {
-=======
     ) : self {
->>>>>>> 22c0e54 (table changes)
-=======
-    ): self {
->>>>>>> f330c64 (optimization in progress)
         Assert::stringNotEmpty($body);
         Assert::notNull($typeResolver);
         Assert::notNull($descriptionFactory);
@@ -112,15 +88,7 @@ final class Property extends TagWithType implements Factory\StaticMethod
     /**
      * Returns the variable's name.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function getVariableName(): ?string
-=======
     public function getVariableName() : ?string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function getVariableName(): ?string
->>>>>>> f330c64 (optimization in progress)
     {
         return $this->variableName;
     }
@@ -128,15 +96,7 @@ final class Property extends TagWithType implements Factory\StaticMethod
     /**
      * Returns a string representation for this tag.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         if ($this->description) {
             $description = $this->description->render();

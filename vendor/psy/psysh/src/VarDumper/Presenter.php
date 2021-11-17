@@ -33,16 +33,6 @@ class Presenter
     ];
     private $styles = [
         'num'       => 'number',
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'integer'   => 'integer',
-        'float'     => 'float',
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        'integer'   => 'integer',
-        'float'     => 'float',
->>>>>>> f330c64 (optimization in progress)
         'const'     => 'const',
         'str'       => 'string',
         'cchr'      => 'default',

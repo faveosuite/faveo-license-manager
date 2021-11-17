@@ -467,14 +467,6 @@ class Factory implements FactoryContract
 
         $this->flushSections();
         $this->flushStacks();
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->flushComponents();
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->flushComponents();
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**

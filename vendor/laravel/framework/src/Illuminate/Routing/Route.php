@@ -14,20 +14,8 @@ use Illuminate\Routing\Matching\UriValidator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Macroable;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Laravel\SerializableClosure\SerializableClosure;
-use LogicException;
-use Opis\Closure\SerializableClosure as OpisSerializableClosure;
-=======
 use LogicException;
 use Opis\Closure\SerializableClosure;
->>>>>>> 22c0e54 (table changes)
-=======
-use Laravel\SerializableClosure\SerializableClosure;
-use LogicException;
-use Opis\Closure\SerializableClosure as OpisSerializableClosure;
->>>>>>> f330c64 (optimization in progress)
 use ReflectionFunction;
 use Symfony\Component\Routing\Route as SymfonyRoute;
 
@@ -106,22 +94,6 @@ class Route
     protected $originalParameters;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Indicates "trashed" models can be retrieved when resolving implicit model bindings for this route.
-     *
-     * @var bool
-     */
-    protected $withTrashedBindings = false;
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Indicates the maximum number of seconds the route should acquire a session lock for.
      *
      * @var int|null
@@ -588,38 +560,6 @@ class Route
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Allow "trashed" models to be retrieved when resolving implicit model bindings for this route.
-     *
-     * @param  bool  $withTrashed
-     * @return $this
-     */
-    public function withTrashed($withTrashed = true)
-    {
-        $this->withTrashedBindings = $withTrashed;
-
-        return $this;
-    }
-
-    /**
-     * Determines if the route allows "trashed" models to be retrieved when resolving implicit model bindings.
-     *
-     * @return bool
-     */
-    public function allowsTrashedBindings()
-    {
-        return $this->withTrashedBindings;
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Set a default value for the route.
      *
      * @param  string  $key
@@ -1005,22 +945,9 @@ class Route
         $missing = $this->action['missing'] ?? null;
 
         return is_string($missing) &&
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-            Str::startsWith($missing, [
-                'C:32:"Opis\\Closure\\SerializableClosure',
-                'O:47:"Laravel\\SerializableClosure\\SerializableClosure',
-            ]) ? unserialize($missing) : $missing;
-<<<<<<< HEAD
-=======
             Str::startsWith($missing, 'C:32:"Opis\\Closure\\SerializableClosure')
                 ? unserialize($missing)
                 : $missing;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1269,38 +1196,11 @@ class Route
     public function prepareForSerialization()
     {
         if ($this->action['uses'] instanceof Closure) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-            $this->action['uses'] = serialize(\PHP_VERSION_ID < 70400
-                ? new OpisSerializableClosure($this->action['uses'])
-                : new SerializableClosure($this->action['uses'])
-            );
-<<<<<<< HEAD
-        }
-
-        if (isset($this->action['missing']) && $this->action['missing'] instanceof Closure) {
-            $this->action['missing'] = serialize(\PHP_VERSION_ID < 70400
-                ? new OpisSerializableClosure($this->action['missing'])
-                : new SerializableClosure($this->action['missing'])
-            );
-=======
             $this->action['uses'] = serialize(new SerializableClosure($this->action['uses']));
         }
 
         if (isset($this->action['missing']) && $this->action['missing'] instanceof Closure) {
             $this->action['missing'] = serialize(new SerializableClosure($this->action['missing']));
->>>>>>> 22c0e54 (table changes)
-=======
-        }
-
-        if (isset($this->action['missing']) && $this->action['missing'] instanceof Closure) {
-            $this->action['missing'] = serialize(\PHP_VERSION_ID < 70400
-                ? new OpisSerializableClosure($this->action['missing'])
-                : new SerializableClosure($this->action['missing'])
-            );
->>>>>>> f330c64 (optimization in progress)
         }
 
         $this->compileRoute();

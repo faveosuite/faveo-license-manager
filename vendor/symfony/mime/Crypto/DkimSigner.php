@@ -68,14 +68,6 @@ final class DkimSigner
             throw new InvalidArgumentException('Invalid DKIM signing algorithm "%s".', $options['algorithm']);
         }
         $headersToIgnore['return-path'] = true;
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $headersToIgnore['x-transport'] = true;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-        $headersToIgnore['x-transport'] = true;
->>>>>>> f330c64 (optimization in progress)
         foreach ($options['headers_to_ignore'] as $name) {
             $headersToIgnore[strtolower($name)] = true;
         }
@@ -211,23 +203,7 @@ final class DkimSigner
             hash_update($hash, $canon);
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        // Add trailing Line return if last line is non empty
-        if (\strlen($currentLine) > 0) {
-            hash_update($hash, "\r\n");
-            $length += \strlen("\r\n");
-        }
-
-        if (!$relaxed && 0 === $length) {
-<<<<<<< HEAD
-=======
         if (0 === $length) {
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
             hash_update($hash, "\r\n");
             $length = 2;
         }

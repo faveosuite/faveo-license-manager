@@ -100,25 +100,9 @@ class ServeCommand extends Command
                 return [$key => $value];
             }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-            return in_array($key, [
-                'APP_ENV',
-                'LARAVEL_SAIL',
-                'PHP_CLI_SERVER_WORKERS',
-                'XDEBUG_CONFIG',
-                'XDEBUG_MODE',
-            ]) ? [$key => $value] : [$key => false];
-<<<<<<< HEAD
-=======
             return in_array($key, ['APP_ENV', 'LARAVEL_SAIL'])
                     ? [$key => $value]
                     : [$key => false];
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         })->all());
 
         $process->start(function ($type, $buffer) {
@@ -150,19 +134,7 @@ class ServeCommand extends Command
      */
     protected function host()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        [$host, ] = $this->getHostAndPort();
-
-        return $host;
-=======
         return $this->input->getOption('host');
->>>>>>> 22c0e54 (table changes)
-=======
-        [$host, ] = $this->getHostAndPort();
-
-        return $host;
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -172,52 +144,12 @@ class ServeCommand extends Command
      */
     protected function port()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        $port = $this->input->getOption('port');
-
-        if (is_null($port)) {
-            [, $port] = $this->getHostAndPort();
-        }
-
-        $port = $port ?: 8000;
-<<<<<<< HEAD
-=======
         $port = $this->input->getOption('port') ?: 8000;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
         return $port + $this->portOffset;
     }
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Get the host and port from the host option string.
-     *
-     * @return array
-     */
-    protected function getHostAndPort()
-    {
-        $hostParts = explode(':', $this->input->getOption('host'));
-
-        return [
-            $hostParts[0],
-            $hostParts[1] ?? null,
-        ];
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Check if the command has reached its max amount of port tries.
      *
      * @return bool

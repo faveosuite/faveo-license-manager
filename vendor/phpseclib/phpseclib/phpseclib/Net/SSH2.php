@@ -1123,15 +1123,7 @@ class SSH2
                   31 => 'NET_SSH2_MSG_KEX_ECDH_REPLY']
         );
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        self::$connections[$this->getResourceId()] = class_exists('WeakReference') ? \WeakReference::create($this) : $this;
-=======
         self::$connections[$this->getResourceId()] = $this;
->>>>>>> 22c0e54 (table changes)
-=======
-        self::$connections[$this->getResourceId()] = class_exists('WeakReference') ? \WeakReference::create($this) : $this;
->>>>>>> f330c64 (optimization in progress)
 
         if (is_resource($host)) {
             $this->fsock = $host;
@@ -3100,15 +3092,7 @@ class SSH2
             return $this->reconnect();
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->close_channel(self::CHANNEL_KEEP_ALIVE);
-=======
         $this->close_channel(NET_SSH2_CHANNEL_KEEP_ALIVE);
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->close_channel(self::CHANNEL_KEEP_ALIVE);
->>>>>>> f330c64 (optimization in progress)
         return true;
     }
 
@@ -4912,20 +4896,7 @@ class SSH2
      */
     public static function getConnectionByResourceId($id)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (isset(self::$connections[$id])) {
-            return self::$connections[$id] instanceof \WeakReference ? self::$connections[$id]->get() : self::$connections[$id];
-        }
-        return false;
-<<<<<<< HEAD
-=======
         return isset(self::$connections[$id]) ? self::$connections[$id] : false;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -4935,24 +4906,7 @@ class SSH2
      */
     public static function getConnections()
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        if (!class_exists('WeakReference')) {
-            return self::$connections;
-        }
-        $temp = [];
-        foreach (self::$connections as $key=>$ref) {
-            $temp[$key] = $ref->get();
-        }
-        return $temp;
-<<<<<<< HEAD
-=======
         return self::$connections;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     /*

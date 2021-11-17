@@ -372,9 +372,6 @@ header {
   font: 14px "Inconsolata", "Fira Mono", "Source Code Pro", Monaco, Consolas, "Lucida Console", monospace;
 }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 /* prettify code style
 Uses the Doxy theme as a base */
 pre .str, code .str { color: #BCD42A; }  /* string  */
@@ -418,9 +415,6 @@ pre:not(.prettyprinted) {
   padding-left: 60px;
 }
 
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 #plain-exception {
   display: none;
 }

@@ -15,15 +15,7 @@ class {{ class }} implements CastsAttributes
      * @param  array  $attributes
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function get($model, string $key, $value, array $attributes)
-=======
     public function get($model, $key, $value, $attributes)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function get($model, string $key, $value, array $attributes)
->>>>>>> f330c64 (optimization in progress)
     {
         return $value;
     }
@@ -37,15 +29,7 @@ class {{ class }} implements CastsAttributes
      * @param  array  $attributes
      * @return mixed
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function set($model, string $key, $value, array $attributes)
-=======
     public function set($model, $key, $value, $attributes)
->>>>>>> 22c0e54 (table changes)
-=======
-    public function set($model, string $key, $value, array $attributes)
->>>>>>> f330c64 (optimization in progress)
     {
         return $value;
     }

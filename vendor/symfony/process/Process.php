@@ -195,18 +195,6 @@ class Process implements \IteratorAggregate
         return $process;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    /**
-     * @return array
-     */
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    /**
-     * @return array
-     */
->>>>>>> f330c64 (optimization in progress)
     public function __sleep()
     {
         throw new \BadMethodCallException('Cannot serialize '.__CLASS__);
@@ -629,14 +617,6 @@ class Process implements \IteratorAggregate
      *
      * @return \Generator
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    #[\ReturnTypeWillChange]
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-    #[\ReturnTypeWillChange]
->>>>>>> f330c64 (optimization in progress)
     public function getIterator(int $flags = 0)
     {
         $this->readPipesForOutput(__FUNCTION__, false);
@@ -1403,15 +1383,7 @@ class Process implements \IteratorAggregate
         ob_start();
         phpinfo(\INFO_GENERAL);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        return self::$sigchild = str_contains(ob_get_clean(), '--enable-sigchild');
-=======
         return self::$sigchild = false !== strpos(ob_get_clean(), '--enable-sigchild');
->>>>>>> 22c0e54 (table changes)
-=======
-        return self::$sigchild = str_contains(ob_get_clean(), '--enable-sigchild');
->>>>>>> f330c64 (optimization in progress)
     }
 
     /**
@@ -1598,15 +1570,7 @@ class Process implements \IteratorAggregate
                 if (isset($varCache[$m[0]])) {
                     return $varCache[$m[0]];
                 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-                if (str_contains($value = $m[1], "\0")) {
-=======
                 if (false !== strpos($value = $m[1], "\0")) {
->>>>>>> 22c0e54 (table changes)
-=======
-                if (str_contains($value = $m[1], "\0")) {
->>>>>>> f330c64 (optimization in progress)
                     $value = str_replace("\0", '?', $value);
                 }
                 if (false === strpbrk($value, "\"%!\n")) {
@@ -1667,15 +1631,7 @@ class Process implements \IteratorAggregate
         if ('\\' !== \DIRECTORY_SEPARATOR) {
             return "'".str_replace("'", "'\\''", $argument)."'";
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (str_contains($argument, "\0")) {
-=======
         if (false !== strpos($argument, "\0")) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (str_contains($argument, "\0")) {
->>>>>>> f330c64 (optimization in progress)
             $argument = str_replace("\0", '?', $argument);
         }
         if (!preg_match('/[\/()%!^"<>&|\s]/', $argument)) {

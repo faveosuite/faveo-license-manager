@@ -20,28 +20,12 @@ use phpDocumentor\Reflection\Type;
  *
  * @psalm-immutable
  */
-<<<<<<< HEAD
-<<<<<<< HEAD
-class String_ implements Type
-=======
 final class String_ implements Type
->>>>>>> 22c0e54 (table changes)
-=======
-class String_ implements Type
->>>>>>> f330c64 (optimization in progress)
 {
     /**
      * Returns a rendered output of the Type as it would be used in a DocBlock.
      */
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function __toString(): string
-=======
     public function __toString() : string
->>>>>>> 22c0e54 (table changes)
-=======
-    public function __toString(): string
->>>>>>> f330c64 (optimization in progress)
     {
         return 'string';
     }

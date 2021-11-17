@@ -3,14 +3,6 @@
 namespace Illuminate\Foundation\Console;
 
 use Illuminate\Console\GeneratorCommand;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use Symfony\Component\Console\Input\InputOption;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use Symfony\Component\Console\Input\InputOption;
->>>>>>> f330c64 (optimization in progress)
 
 class RuleMakeCommand extends GeneratorCommand
 {
@@ -36,32 +28,6 @@ class RuleMakeCommand extends GeneratorCommand
     protected $type = 'Rule';
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-     * Build the class with the given name.
-     *
-     * @param  string  $name
-     * @return string
-     *
-     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
-     */
-    protected function buildClass($name)
-    {
-        return str_replace(
-            '{{ ruleType }}',
-            $this->option('implicit') ? 'ImplicitRule' : 'Rule',
-            parent::buildClass($name)
-        );
-    }
-
-    /**
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
      * Get the stub file for the generator.
      *
      * @return string
@@ -85,25 +51,4 @@ class RuleMakeCommand extends GeneratorCommand
     {
         return $rootNamespace.'\Rules';
     }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-    /**
-     * Get the console command options.
-     *
-     * @return array
-     */
-    protected function getOptions()
-    {
-        return [
-            ['implicit', 'i', InputOption::VALUE_NONE, 'Generate an implicit rule.'],
-        ];
-    }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 }

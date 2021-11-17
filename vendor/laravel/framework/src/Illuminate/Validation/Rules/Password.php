@@ -162,15 +162,7 @@ class Password implements Rule, DataAwareRule, ValidatorAwareRule
     /**
      * Set the performing validator.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-=======
      * @param \Illuminate\Contracts\Validation\Validator $validator
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
->>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public function setValidator($validator)
@@ -196,15 +188,7 @@ class Password implements Rule, DataAwareRule, ValidatorAwareRule
     /**
      * Sets the minimum size of the password.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  int  $size
-=======
      * @param  int $size
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  int  $size
->>>>>>> f330c64 (optimization in progress)
      * @return $this
      */
     public static function min($size)
@@ -284,25 +268,9 @@ class Password implements Rule, DataAwareRule, ValidatorAwareRule
      */
     public function passes($attribute, $value)
     {
-<<<<<<< HEAD
-<<<<<<< HEAD
-        $this->messages = [];
-
-        $validator = Validator::make($this->data, [
-            $attribute => 'string|min:'.$this->min,
-        ], $this->validator->customMessages, $this->validator->customAttributes);
-=======
         $validator = Validator::make($this->data, [
             $attribute => 'string|min:'.$this->min,
         ]);
->>>>>>> 22c0e54 (table changes)
-=======
-        $this->messages = [];
-
-        $validator = Validator::make($this->data, [
-            $attribute => 'string|min:'.$this->min,
-        ], $this->validator->customMessages, $this->validator->customAttributes);
->>>>>>> f330c64 (optimization in progress)
 
         if ($validator->fails()) {
             return $this->fail($validator->messages()->all());

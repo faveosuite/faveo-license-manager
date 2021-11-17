@@ -104,15 +104,7 @@ class JoinClause extends Builder
      *
      * @param  \Closure|string  $first
      * @param  string|null  $operator
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Illuminate\Database\Query\Expression|string|null  $second
-=======
      * @param  string|null  $second
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Illuminate\Database\Query\Expression|string|null  $second
->>>>>>> f330c64 (optimization in progress)
      * @return \Illuminate\Database\Query\JoinClause
      */
     public function orOn($first, $operator = null, $second = null)

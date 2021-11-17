@@ -57,15 +57,9 @@ class CombinedSelectorNode extends AbstractNode
         return $this->selector->getSpecificity()->plus($this->subSelector->getSpecificity());
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     /**
      * {@inheritdoc}
      */
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     public function __toString(): string
     {
         $combinator = ' ' === $this->combinator ? '<followed>' : $this->combinator;

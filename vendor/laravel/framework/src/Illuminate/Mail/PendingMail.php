@@ -5,24 +5,9 @@ namespace Illuminate\Mail;
 use Illuminate\Contracts\Mail\Mailable as MailableContract;
 use Illuminate\Contracts\Mail\Mailer as MailerContract;
 use Illuminate\Contracts\Translation\HasLocalePreference;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-use Illuminate\Support\Traits\Conditionable;
 
 class PendingMail
 {
-    use Conditionable;
-
-<<<<<<< HEAD
-=======
-
-class PendingMail
-{
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     /**
      * The mailer instance.
      *

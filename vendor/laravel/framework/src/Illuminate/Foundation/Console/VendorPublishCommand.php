@@ -169,15 +169,7 @@ class VendorPublishCommand extends Command
         }
 
         if ($published === false) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            $this->comment('No publishable resources for tag ['.$tag.'].');
-=======
             $this->error('Unable to locate publishable resources.');
->>>>>>> 22c0e54 (table changes)
-=======
-            $this->comment('No publishable resources for tag ['.$tag.'].');
->>>>>>> f330c64 (optimization in progress)
         } else {
             $this->laravel['events']->dispatch(new VendorTagPublished($tag, $pathsToPublish));
         }

@@ -19,15 +19,7 @@ class MaintenanceModeBypassCookie
 
         return new Cookie('laravel_maintenance', base64_encode(json_encode([
             'expires_at' => $expiresAt->getTimestamp(),
-<<<<<<< HEAD
-<<<<<<< HEAD
-            'mac' => hash_hmac('sha256', $expiresAt->getTimestamp(), $key),
-=======
             'mac' => hash_hmac('SHA256', $expiresAt->getTimestamp(), $key),
->>>>>>> 22c0e54 (table changes)
-=======
-            'mac' => hash_hmac('sha256', $expiresAt->getTimestamp(), $key),
->>>>>>> f330c64 (optimization in progress)
         ])), $expiresAt);
     }
 
@@ -45,15 +37,7 @@ class MaintenanceModeBypassCookie
         return is_array($payload) &&
             is_numeric($payload['expires_at'] ?? null) &&
             isset($payload['mac']) &&
-<<<<<<< HEAD
-<<<<<<< HEAD
-            hash_equals(hash_hmac('sha256', $payload['expires_at'], $key), $payload['mac']) &&
-=======
             hash_equals(hash_hmac('SHA256', $payload['expires_at'], $key), $payload['mac']) &&
->>>>>>> 22c0e54 (table changes)
-=======
-            hash_equals(hash_hmac('sha256', $payload['expires_at'], $key), $payload['mac']) &&
->>>>>>> f330c64 (optimization in progress)
             (int) $payload['expires_at'] >= Carbon::now()->getTimestamp();
     }
 }

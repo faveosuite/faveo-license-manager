@@ -1744,17 +1744,7 @@ abstract class TestCase extends Assert implements Reorderable, SelfDescribing, T
 
         $mockedMethodsThatDontExist = array_filter(
             $methods,
-<<<<<<< HEAD
-<<<<<<< HEAD
-            static function (string $method) use ($reflector)
-            {
-=======
             static function (string $method) use ($reflector) {
->>>>>>> 22c0e54 (table changes)
-=======
-            static function (string $method) use ($reflector)
-            {
->>>>>>> f330c64 (optimization in progress)
                 return !$reflector->hasMethod($method);
             }
         );

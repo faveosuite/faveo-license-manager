@@ -50,15 +50,9 @@ class HashNode extends AbstractNode
         return $this->selector->getSpecificity()->plus(new Specificity(1, 0, 0));
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
     /**
      * {@inheritdoc}
      */
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     public function __toString(): string
     {
         return sprintf('%s[%s#%s]', $this->getNodeName(), $this->selector, $this->id);

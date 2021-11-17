@@ -190,24 +190,10 @@ class Flare
         return $this;
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-    public function report(Throwable $throwable, callable $callback = null): ?Report
-    {
-        if (! $this->shouldSendReport($throwable)) {
-            return null;
-=======
     public function report(Throwable $throwable, callable $callback = null)
     {
         if (! $this->shouldSendReport($throwable)) {
             return;
->>>>>>> 22c0e54 (table changes)
-=======
-    public function report(Throwable $throwable, callable $callback = null): ?Report
-    {
-        if (! $this->shouldSendReport($throwable)) {
-            return null;
->>>>>>> f330c64 (optimization in progress)
         }
 
         $report = $this->createReport($throwable);
@@ -217,16 +203,6 @@ class Flare
         }
 
         $this->sendReportToApi($report);
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        return $report;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-
-        return $report;
->>>>>>> f330c64 (optimization in progress)
     }
 
     protected function shouldSendReport(Throwable $throwable): bool

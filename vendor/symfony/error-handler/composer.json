@@ -17,16 +17,8 @@
     ],
     "require": {
         "php": ">=7.2.5",
-<<<<<<< HEAD
-<<<<<<< HEAD
-        "psr/log": "^1|^2|^3",
-=======
         "psr/log": "^1.0",
         "symfony/polyfill-php80": "^1.15",
->>>>>>> 22c0e54 (table changes)
-=======
-        "psr/log": "^1|^2|^3",
->>>>>>> f330c64 (optimization in progress)
         "symfony/var-dumper": "^4.4|^5.0"
     },
     "require-dev": {

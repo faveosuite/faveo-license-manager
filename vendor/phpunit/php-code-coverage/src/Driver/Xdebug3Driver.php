@@ -35,21 +35,9 @@ use SebastianBergmann\CodeCoverage\RawCodeCoverageData;
 final class Xdebug3Driver extends Driver
 {
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @throws WrongXdebugVersionException
-     * @throws Xdebug3NotEnabledException
-     * @throws XdebugNotAvailableException
-=======
      * @throws XdebugNotAvailableException
      * @throws WrongXdebugVersionException
      * @throws Xdebug3NotEnabledException
->>>>>>> 22c0e54 (table changes)
-=======
-     * @throws WrongXdebugVersionException
-     * @throws Xdebug3NotEnabledException
-     * @throws XdebugNotAvailableException
->>>>>>> f330c64 (optimization in progress)
      */
     public function __construct(Filter $filter)
     {
@@ -68,15 +56,7 @@ final class Xdebug3Driver extends Driver
 
         $mode = getenv('XDEBUG_MODE');
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($mode === false || $mode === '') {
-=======
         if ($mode === false) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($mode === false || $mode === '') {
->>>>>>> f330c64 (optimization in progress)
             $mode = ini_get('xdebug.mode');
         }
 

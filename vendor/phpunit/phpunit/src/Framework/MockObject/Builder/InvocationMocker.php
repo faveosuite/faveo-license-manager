@@ -235,17 +235,7 @@ final class InvocationMocker implements InvocationStubber, MethodNameMatch
         }
 
         $configurableMethodNames = array_map(
-<<<<<<< HEAD
-<<<<<<< HEAD
-            static function (ConfigurableMethod $configurable)
-            {
-=======
             static function (ConfigurableMethod $configurable) {
->>>>>>> 22c0e54 (table changes)
-=======
-            static function (ConfigurableMethod $configurable)
-            {
->>>>>>> f330c64 (optimization in progress)
                 return strtolower($configurable->getName());
             },
             $this->configurableMethods

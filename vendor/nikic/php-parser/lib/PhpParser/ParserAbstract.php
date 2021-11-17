@@ -977,21 +977,6 @@ abstract class ParserAbstract implements Parser
                     break;
             }
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-
-        if ($node->flags & Class_::MODIFIER_READONLY) {
-            $this->emitError(new Error(
-                sprintf('Method %s() cannot be readonly', $node->name),
-                $this->getAttributesAt($modifierPos)));
-        }
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
     }
 
     protected function checkClassConst(ClassConst $node, $modifierPos) {
@@ -1005,21 +990,9 @@ abstract class ParserAbstract implements Parser
                 "Cannot use 'abstract' as constant modifier",
                 $this->getAttributesAt($modifierPos)));
         }
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if ($node->flags & Class_::MODIFIER_READONLY) {
-            $this->emitError(new Error(
-                "Cannot use 'readonly' as constant modifier",
-=======
         if ($node->flags & Class_::MODIFIER_FINAL) {
             $this->emitError(new Error(
                 "Cannot use 'final' as constant modifier",
->>>>>>> 22c0e54 (table changes)
-=======
-        if ($node->flags & Class_::MODIFIER_READONLY) {
-            $this->emitError(new Error(
-                "Cannot use 'readonly' as constant modifier",
->>>>>>> f330c64 (optimization in progress)
                 $this->getAttributesAt($modifierPos)));
         }
     }

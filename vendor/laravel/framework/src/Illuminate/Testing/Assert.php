@@ -10,13 +10,7 @@ use PHPUnit\Framework\Constraint\FileExists;
 use PHPUnit\Framework\Constraint\LogicalNot;
 use PHPUnit\Framework\Constraint\RegularExpression;
 use PHPUnit\Framework\InvalidArgumentException;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 use PHPUnit\Util\InvalidArgumentHelper;
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
 
 /**
  * @internal This class is not meant to be used or overwritten outside the framework itself.
@@ -35,14 +29,6 @@ abstract class Assert extends PHPUnit
     public static function assertArraySubset($subset, $array, bool $checkForIdentity = false, string $msg = ''): void
     {
         if (! (is_array($subset) || $subset instanceof ArrayAccess)) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-            throw InvalidArgumentException::create(1, 'array or ArrayAccess');
-        }
-
-        if (! (is_array($array) || $array instanceof ArrayAccess)) {
-            throw InvalidArgumentException::create(2, 'array or ArrayAccess');
-=======
             if (class_exists(InvalidArgumentException::class)) {
                 throw InvalidArgumentException::create(1, 'array or ArrayAccess');
             } else {
@@ -56,14 +42,6 @@ abstract class Assert extends PHPUnit
             } else {
                 throw InvalidArgumentHelper::factory(2, 'array or ArrayAccess');
             }
->>>>>>> 22c0e54 (table changes)
-=======
-            throw InvalidArgumentException::create(1, 'array or ArrayAccess');
-        }
-
-        if (! (is_array($array) || $array instanceof ArrayAccess)) {
-            throw InvalidArgumentException::create(2, 'array or ArrayAccess');
->>>>>>> f330c64 (optimization in progress)
         }
 
         $constraint = new ArraySubset($subset, $checkForIdentity);

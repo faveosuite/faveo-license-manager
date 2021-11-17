@@ -27,16 +27,8 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
     private $parent;
 
     /**
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param array $messages An array of messages classified by domain
-=======
      * @param string $locale   The locale
      * @param array  $messages An array of messages classified by domain
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param array $messages An array of messages classified by domain
->>>>>>> f330c64 (optimization in progress)
      */
     public function __construct(string $locale, array $messages = [])
     {
@@ -58,25 +50,11 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
     public function getDomains()
     {
         $domains = [];
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        foreach ($this->messages as $domain => $messages) {
-            if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-                $domain = substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX));
-=======
         $suffixLength = \strlen(self::INTL_DOMAIN_SUFFIX);
 
         foreach ($this->messages as $domain => $messages) {
             if (\strlen($domain) > $suffixLength && false !== $i = strpos($domain, self::INTL_DOMAIN_SUFFIX, -$suffixLength)) {
                 $domain = substr($domain, 0, $i);
->>>>>>> 22c0e54 (table changes)
-=======
-
-        foreach ($this->messages as $domain => $messages) {
-            if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-                $domain = substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX));
->>>>>>> f330c64 (optimization in progress)
             }
             $domains[$domain] = $domain;
         }
@@ -91,15 +69,7 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
     {
         if (null !== $domain) {
             // skip messages merge if intl-icu requested explicitly
-<<<<<<< HEAD
-<<<<<<< HEAD
-            if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-=======
             if (false !== strpos($domain, self::INTL_DOMAIN_SUFFIX)) {
->>>>>>> 22c0e54 (table changes)
-=======
-            if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
->>>>>>> f330c64 (optimization in progress)
                 return $this->messages[$domain] ?? [];
             }
 
@@ -107,25 +77,11 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
         }
 
         $allMessages = [];
-<<<<<<< HEAD
-<<<<<<< HEAD
-
-        foreach ($this->messages as $domain => $messages) {
-            if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-                $domain = substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX));
-=======
         $suffixLength = \strlen(self::INTL_DOMAIN_SUFFIX);
 
         foreach ($this->messages as $domain => $messages) {
             if (\strlen($domain) > $suffixLength && false !== $i = strpos($domain, self::INTL_DOMAIN_SUFFIX, -$suffixLength)) {
                 $domain = substr($domain, 0, $i);
->>>>>>> 22c0e54 (table changes)
-=======
-
-        foreach ($this->messages as $domain => $messages) {
-            if (str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-                $domain = substr($domain, 0, -\strlen(self::INTL_DOMAIN_SUFFIX));
->>>>>>> f330c64 (optimization in progress)
                 $allMessages[$domain] = $messages + ($allMessages[$domain] ?? []);
             } else {
                 $allMessages[$domain] = ($allMessages[$domain] ?? []) + $messages;
@@ -206,16 +162,8 @@ class MessageCatalogue implements MessageCatalogueInterface, MetadataAwareInterf
             $this->messages[$domain] = [];
         }
         $intlDomain = $domain;
-<<<<<<< HEAD
-<<<<<<< HEAD
-        if (!str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
-=======
         $suffixLength = \strlen(self::INTL_DOMAIN_SUFFIX);
         if (\strlen($domain) < $suffixLength || false === strpos($domain, self::INTL_DOMAIN_SUFFIX, -$suffixLength)) {
->>>>>>> 22c0e54 (table changes)
-=======
-        if (!str_ends_with($domain, self::INTL_DOMAIN_SUFFIX)) {
->>>>>>> f330c64 (optimization in progress)
             $intlDomain .= self::INTL_DOMAIN_SUFFIX;
         }
         foreach ($messages as $id => $message) {

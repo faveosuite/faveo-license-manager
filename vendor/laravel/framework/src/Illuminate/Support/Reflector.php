@@ -5,14 +5,6 @@ namespace Illuminate\Support;
 use ReflectionClass;
 use ReflectionMethod;
 use ReflectionNamedType;
-<<<<<<< HEAD
-<<<<<<< HEAD
-use ReflectionUnionType;
-=======
->>>>>>> 22c0e54 (table changes)
-=======
-use ReflectionUnionType;
->>>>>>> f330c64 (optimization in progress)
 
 class Reflector
 {
@@ -77,54 +69,6 @@ class Reflector
             return;
         }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f330c64 (optimization in progress)
-        return static::getTypeName($parameter, $type);
-    }
-
-    /**
-     * Get the class names of the given parameter's type, including union types.
-     *
-     * @param  \ReflectionParameter  $parameter
-     * @return array
-     */
-    public static function getParameterClassNames($parameter)
-    {
-        $type = $parameter->getType();
-
-        if (! $type instanceof ReflectionUnionType) {
-            return array_filter([static::getParameterClassName($parameter)]);
-        }
-
-        $unionTypes = [];
-
-        foreach ($type->getTypes() as $listedType) {
-            if (! $listedType instanceof ReflectionNamedType || $listedType->isBuiltin()) {
-                continue;
-            }
-
-            $unionTypes[] = static::getTypeName($parameter, $listedType);
-        }
-
-        return array_filter($unionTypes);
-    }
-
-    /**
-     * Get the given type's class name.
-     *
-     * @param  \ReflectionParameter  $parameter
-     * @param  \ReflectionNamedType  $type
-     * @return string
-     */
-    protected static function getTypeName($parameter, $type)
-    {
-<<<<<<< HEAD
-=======
->>>>>>> 22c0e54 (table changes)
-=======
->>>>>>> f330c64 (optimization in progress)
         $name = $type->getName();
 
         if (! is_null($class = $parameter->getDeclaringClass())) {

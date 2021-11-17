@@ -18,15 +18,7 @@
 %left T_BOOLEAN_AND
 %left '|'
 %left '^'
-<<<<<<< HEAD
-<<<<<<< HEAD
-%left T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
-=======
 %left '&'
->>>>>>> 22c0e54 (table changes)
-=======
-%left T_AMPERSAND_NOT_FOLLOWED_BY_VAR_OR_VARARG T_AMPERSAND_FOLLOWED_BY_VAR_OR_VARARG
->>>>>>> f330c64 (optimization in progress)
 %nonassoc T_IS_EQUAL T_IS_NOT_EQUAL T_IS_IDENTICAL T_IS_NOT_IDENTICAL T_SPACESHIP
 %nonassoc '<' T_IS_SMALLER_OR_EQUAL '>' T_IS_GREATER_OR_EQUAL
 %left T_SL T_SR
@@ -82,15 +74,7 @@
 %token T_USE
 %token T_INSTEADOF
 %token T_GLOBAL
-<<<<<<< HEAD
-<<<<<<< HEAD
-%right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
-=======
 %right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC
->>>>>>> 22c0e54 (table changes)
-=======
-%right T_STATIC T_ABSTRACT T_FINAL T_PRIVATE T_PROTECTED T_PUBLIC T_READONLY
->>>>>>> f330c64 (optimization in progress)
 %token T_VAR
 %token T_UNSET
 %token T_ISSET

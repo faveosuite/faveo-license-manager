@@ -998,15 +998,7 @@ class Grammar extends BaseGrammar
     /**
      * Compile an "upsert" statement into SQL.
      *
-<<<<<<< HEAD
-<<<<<<< HEAD
-     * @param  \Illuminate\Database\Query\Builder  $query
-=======
      * @param  \Illuminate\Database\Query\Builder $query
->>>>>>> 22c0e54 (table changes)
-=======
-     * @param  \Illuminate\Database\Query\Builder  $query
->>>>>>> f330c64 (optimization in progress)
      * @param  array  $values
      * @param  array  $uniqueBy
      * @param  array  $update
