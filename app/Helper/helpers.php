@@ -732,3 +732,36 @@ function extractDetailsOfSettings(){
         return $set;
     }
 }
+/**
+* This function return asset link based on link.php settings
+* @param string $type
+* @param string $key
+* @return type
+*/
+function assetLink(string $type, string $key)
+{
+    // if request if language, it should append & language to it
+    return asset(\Config::get('link.' . $type . '.' . $key));
+}
+
+/**
+ * Gives bundle URL after appending version number to it
+ * @param  string $url
+ * @return string
+ */
+function bundleLink(string $url) : string
+{
+    $baseUrl = asset($url)."?version=".\Config::get('app.tags');
+
+    // if call is for language file, we should append language too in the url
+    // REASON: we are sending cache headers while sending language response, which will improve performance since browser
+    // will cache it. But as soon as language changes, language in cache will be same and will cause conflicts
+    // adding language to argument will cause browser to request fresh response as soon as langauge changes
+    // appending all activated plugin names too with the URL, so that if a plugin is activated, it requests a new
+    // language file
+    if(strpos($url, "js/lang") !== false){
+        $baseUrl = $baseUrl."&lang=".App::getLocale();
+    }
+
+    return $baseUrl;
+}
