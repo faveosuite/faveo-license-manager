@@ -694,6 +694,7 @@ let routes = [
         component: ResetPassword
     },
 
+
 	{
 		path: '*',
 		name:"404",

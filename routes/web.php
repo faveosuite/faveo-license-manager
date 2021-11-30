@@ -22,9 +22,11 @@ use Illuminate\Support\Str;
 |
 */
 
-// Auth::routes();
+Auth::routes();
 
 Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class,'getLanguageFile'])->name('assets.lang');
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
