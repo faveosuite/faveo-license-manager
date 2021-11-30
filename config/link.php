@@ -19,7 +19,6 @@ return [
         'pagination'                => 'themes/default/css/pagination.min.css',
         'glyphicon'                 => 'themes/default/css/glyphicon.css',
         'icheck'                    => 'themes/default/css/icheck.min.css',
-
     ],
     'js'    => [
         'select2'                   => 'themes/default/js/select2.min.js',
