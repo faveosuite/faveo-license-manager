@@ -54,8 +54,11 @@ return[
    'got_it' => 'The search results are as follows for the above search',
 
     'config' => 'The config file has been updated by the given values in config generator',
-    'no_config' => "Something went wrong so no config file was generated"
-
-   
+    'no_config' => "Something went wrong so no config file was generated",
+    'dashboard' => 'Dashboard',
+    'version' => 'Version',
+    'copyright'  => 'Copyright',
+    'all_rights_reserved'  => 'All rights reserved',
+    'powered_by' => 'Powered by',
 
 ];

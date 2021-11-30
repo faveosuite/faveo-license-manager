@@ -1,5 +1,9 @@
 window._ = require('lodash');
 
+window.Vue = require('vue').default;
+
+import {lang} from 'helpers/extraLogics';
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -7,10 +11,9 @@ window._ = require('lodash');
  */
 
 try {
-    window.Popper = require('popper.js').default;
+
     window.$ = window.jQuery = require('jquery');
 
-    require('bootstrap');
 } catch (e) {}
 
 /**
@@ -22,20 +25,24 @@ try {
 window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+window.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
 
-/**
- * Echo exposes an expressive API for subscribing to channels and listening
- * for events that are broadcast by Laravel. Echo and event broadcasting
- * allows your team to easily build robust real-time web applications.
- */
+//fetching language file from server and declaring that as global prop
+//if file doesn't have the passed key, it is going to return string
+Vue.prototype.lang = lang;
 
-// import Echo from 'laravel-echo';
+// gives basePath
+Vue.prototype.basePath = () => (window.axios.defaults.baseURL)
 
-// window.Pusher = require('pusher-js');
+Vue.mixin({
+    
+    methods: {
+    
+      basePath : () => (window.axios.defaults.baseURL),
 
-// window.Echo = new Echo({
-//     broadcaster: 'pusher',
-//     key: process.env.MIX_PUSHER_APP_KEY,
-//     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-//     forceTLS: true
-// });
+      trans: (string) => lang(string)
+    },
+
+    data: () =>({})
+});
+
