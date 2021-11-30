@@ -22,11 +22,9 @@ use Illuminate\Support\Str;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
 Auth::routes();
+
+Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class,'getLanguageFile'])->name('assets.lang');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
@@ -36,4 +34,6 @@ Route::post('/apl_callbacks/license_scheme.php',[LicenseSchemeController::class,
 Route::post('/apl_callbacks/license_verify.php',[LicenseVerifyController::class,'licenseVerify']);
 Route::post('/aus_callbacks/download_file.php',[DownloadFileController::class,'downloadFile']);
 
-
+Route::get('/{one?}/{two?}/{three?}/{four?}/', function(){
+    return view('welcome');
+});
