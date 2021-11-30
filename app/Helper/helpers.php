@@ -732,6 +732,7 @@ function extractDetailsOfSettings(){
         return $set;
     }
 }
+
 /**
 * This function return asset link based on link.php settings
 * @param string $type
