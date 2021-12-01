@@ -17,11 +17,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class,'getLanguageFile'])->name('assets.lang');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
 Route::post('/apl_callbacks/connection_test.php',[ConnectionController::class,'connection']);

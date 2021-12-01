@@ -60,5 +60,18 @@ return[
     'copyright'  => 'Copyright',
     'all_rights_reserved'  => 'All rights reserved',
     'powered_by' => 'Powered by',
+    'products' => 'Products',
+    'create' => 'Create',
+    'edit' => 'Edit',
+    'clients' => 'Clients',
+    'licenses' => 'Licenses',
+    'installations' => 'Installations',
+    'callbacks' => 'Callbacks',
+    'reports' => 'Reports',
+    'server_notify' => 'Server Notifications',
+    'settings' => 'Settings',
+    'api_keys' => 'API Keys',
+    'banned-hosts' => 'Banned Hosts',
+    'configuration' => 'Configuration',
 
 ];
