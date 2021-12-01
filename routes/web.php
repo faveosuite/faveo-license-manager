@@ -22,11 +22,11 @@ use Illuminate\Support\Str;
 |
 */
 
-Auth::routes();
+// Auth::routes();
 
 Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class,'getLanguageFile'])->name('assets.lang');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::post('/apl_callbacks/connection_test.php',[ConnectionController::class,'connection']);
 Route::post('/apl_callbacks/license_install.php',[LicenseInstallController::class,'licenseInstall']);

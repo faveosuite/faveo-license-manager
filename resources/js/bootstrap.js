@@ -4,6 +4,8 @@ window.Vue = require('vue').default;
 
 import {lang} from 'helpers/extraLogics';
 
+import {store} from 'store'
+
 /**
  * We'll load jQuery and the Bootstrap jQuery plugin which provides support
  * for JavaScript based Bootstrap features such as modals and tabs. This
@@ -26,6 +28,7 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
+window.axios.defaults.headers.common['Authorization'] = 'Bearer'+' '+ store.getters.getUserToken;
 
 //fetching language file from server and declaring that as global prop
 //if file doesn't have the passed key, it is going to return string
