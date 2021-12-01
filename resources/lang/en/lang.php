@@ -274,4 +274,5 @@ return [
     'apiUpdate' => 'The Current API Key Details Has Been Updated',
     'reset_password' => 'Reset Password'
 
+
 ];

@@ -31,7 +31,7 @@ const state = {
     },
 
     updateApiKey(state,payload) {
-        
+
         state.api_key = payload
     }
  }
@@ -39,6 +39,7 @@ const state = {
  const actions = {
 
     setLoggedInUserToken({commit},payload) {
+
         commit('updateUserToken',payload) 
     },
 
@@ -62,6 +63,7 @@ const state = {
                 errorHandler(err);
             }
         });
+
     }
  }
  
