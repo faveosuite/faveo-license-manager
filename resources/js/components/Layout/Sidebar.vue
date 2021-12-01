@@ -7,7 +7,7 @@
     		<img :src="basePath()+'/themes/default/img/logo.png'" alt="Faveo Logo" class="brand-image ml-0 float-none">
     	</a>
 
-    	<div class="sidebar">
+    	<div class="sidebar" :key="counter">
       		
       		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
         		
@@ -24,58 +24,89 @@
 
       		<nav class="mt-2">
         		
-        		<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          			
-          			<li class="nav-item menu-open">
-            			
-            			<a href="javascript:;" class="nav-link active">
-              				
-              				<i class="nav-icon fas fa-tachometer-alt"></i>
-              				
-              				<p>Starter Pages
-                			
-                				<i class="right fas fa-angle-left"></i>
-              				</p>
-            			</a>
-            			
-            			<ul class="nav nav-treeview">
-              				
-              				<li class="nav-item">
+        		<div v-if="loading" class="license-navigation">
 
-				                <a href="javascript:;" class="nav-link active">
-				                
-				                  <i class="far fa-circle nav-icon"></i>
-				                
-				                  <p>Active Page</p>
-				                </a>
-              				</li>
-			              	
-			              	<li class="nav-item">
-			                	
-			                	<a href="javascript:;" class="nav-link">
-			                  		
-			                  		<i class="far fa-circle nav-icon"></i>
-			                  		
-			                  		<p>Inactive Page</p>
-			                	</a>
-			              	</li>
-            			</ul>
-          			</li>
-          			
-          			<li class="nav-item">
-            			
-            			<a href="javascript:;" class="nav-link">
-              				
-              				<i class="nav-icon fas fa-th"></i>
-              				
-              				<p>
-				                Simple Link
-				                <span class="right badge badge-danger">New</span>
-              				</p>
-            			</a>
-          			</li>
-        		</ul>
+					<loader :size="40"></loader>
+				</div> 
+
+				<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent"
+	                role="menu" data-accordion="true">
+               
+	                <navigation v-for="(navigation, index) in navigations" :menuItem="navigation" :key="index">
+	                	
+	                </navigation>
+	            </ul>
       		</nav>
      	</div>
     </aside>
 </template>
+
+<script>
+	
+	import axios from 'axios';
+
+	export default {
+
+		name : 'side-bar',
+
+		data () {
+
+			return {
+
+				navigations : [],
+
+				loading : true,
+
+				active : false,
+
+				counter : 0
+			}
+		},
+
+		beforeMount () {
+
+			this.getRoutes();
+		},
+
+		watch : {
+
+			$route(to, from){
+        
+        		this.counter += 1;
+		   	}
+		},
+
+		methods : {
+
+			getRoutes() {
+          		
+          		axios.get('/json/routes.json').then((response) => {
+            		
+            		setTimeout(()=>{
+
+            			this.loading = false;
+
+            			this.navigations = response.data.navigations;
+
+            		},1000);
+          		
+          		}).catch((error) => {
+            		
+            		this.loading = false;
+          		})
+        	}
+		},
+
+		components : {
+
+			'loader': require('components/Reusable/Loader').default,
+
+			'navigation': require('./Navigation').default,
+		}
+	}
+</script>
+
+<style scoped>
+	
+	.license-navigation { margin-top : 200px !important;}
+</style>

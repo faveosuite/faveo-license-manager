@@ -11,3 +11,55 @@ export const lang = (string) => {
 	}
 	return string;
 }
+
+/**
+ * Converts given string into boolean based on php rules
+ * for eg. `0` means false, '1' means true, null means false
+ * @return {any}
+ */
+export const boolean = (value) => {
+
+    //for checking if variable is an empty array
+    if (Array.isArray(value) && value.length === 0) {
+        return false;
+    }
+
+    switch (value) {
+        case 0:
+            return false;
+
+        case '0':
+            return false;
+
+        case null:
+            return false;
+
+        case "":
+            return false;
+
+        case undefined:
+            return false;
+
+        case false:
+            return false;
+
+        default:
+            return true;
+    }
+};
+
+/**
+ * gets the substring value of a given string
+ * @param  {string} name
+ * @param  {count} number of letters
+ * @return {string}     string
+ */
+export const getSubStringValue = (name,count) => {
+    if(name){
+        if(name.length>count){
+            return name.substring(0,count) + '...';
+        } else {
+            return name;
+        }
+    }
+};

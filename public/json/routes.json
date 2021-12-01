@@ -1,0 +1,411 @@
+{
+"navigations" : [		
+{
+"name": "Dashboard",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-tachometer-alt",
+"order": 0,
+"routeString": "/dashboard",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "Products",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-cart-arrow-down",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "New Product",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/products/create",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "All Products",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/products/list",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Clients",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-users",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "New Client",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/clients/create",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "All Clients",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/clients/list",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Licenses",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-id-card",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "New License",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/licenses/create",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "All Licenses",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/licenses/list",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Installations",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-download",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "All Installations",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/installations/list",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Callbacks",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-phone",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "All Callbacks",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/callbacks/list",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Reports",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-chart-bar",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "License Reports",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/reports/license",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "System Reports",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/reports/system",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "Cracking Reports",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/reports/crack",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Server Notifications",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-flag",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "Customize Notifications",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/server/notifications",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "Customize Emails",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/server/emails",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Software Settings",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-cogs",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "General Settings",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/settings/general",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "Advanced Settings",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/settings/advanced",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "Security Settings",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/settings/security",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "Email Settings",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/settings/email",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "System Cleanup Settings",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/settings/cleanup",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "API Keys",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-key",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "New API Key",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/apikeys/create",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "All API Keys",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/apikeys/list",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Banned Hosts",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-ban",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "New Banned Host",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/banned-hosts/create",
+"hasChildren": false,
+"children": []
+},
+{
+"name": "All Banned Hosts",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/banned-hosts/list",
+"hasChildren": false,
+"children": []
+}
+]
+},
+{
+"name": "Extra Tools",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "fas fa-wrench",
+"order": 0,
+"redirectUrl": null,
+"routeString": "",
+"hasChildren": true,
+"children": [
+{
+"name": "Configuration Generator",
+"key": null,
+"count": 0,
+"hasCount": false,
+"iconClass": "far fa-circle",
+"order": 0,
+"routeString": "/tools/config",
+"hasChildren": false,
+"children": []
+}
+]
+}		
+] 
+}
