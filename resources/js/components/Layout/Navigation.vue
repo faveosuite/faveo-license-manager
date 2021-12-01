@@ -78,6 +78,7 @@
 		            return;
 		        }
 
+
 		        this.$router.replace(this.menuItem.routeString);
 		    },
 
@@ -128,3 +129,4 @@
 
 	.hideMenu { display : none !important; }
 </style>
+
