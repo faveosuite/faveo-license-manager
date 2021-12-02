@@ -11,48 +11,83 @@
 	  		
 	  		<li class="nav-item d-none d-sm-inline-block">
 				
-				<a href="index3.html" class="nav-link">Home</a>
+				<router-link to="/dashboard" class="nav-link">{{trans('home')}}</router-link>
 	  		</li>
 	  		
 		</ul>
 
-		<ul class="navbar-nav ml-auto">
+		<ul class="navbar-nav ml-auto" v-if="user">
 	 
-			<li class="nav-item dropdown user-menu">
+			<li class="nav-item user-menu">
         		
-        		<a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+        		<a class="nav-link" data-toggle="dropdown" aria-expanded="true">
           			
-          			<img :src="basePath()+'/themes/default/img/user2-160x160.jpg'" class="user-image img-circle elevation-2" alt="User Image">
+          			<img :src="basePath()+'/themes/default/img/avatar5.png'" class="user-image img-circle elevation-2" 
+          				alt="User Image">
           			
-          			<span class="d-none d-md-inline">Alexander Pierce</span>
+          			<span class="d-none d-md-inline">{{user.admin_fname + ' ' + user.admin_lname}}</span>
         		</a>
-        		
-        		<ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-          			
-          			<li class="user-header bg-white">
-            		
-            			<img :src="basePath()+'/themes/default/img/user2-160x160.jpg'" class="img-circle elevation-2" alt="User Image">
-
-            			<p>Alexander Pierce<small>Admin</small></p>
-          			</li>
-          			
-          			<li class="user-footer">
-            			
-            			<a href="javascript:;" class="btn btn-primary btn-flat">Profile</a>
-            			
-            			<a href="javascript:;" class="btn btn-danger btn-flat float-right">Sign out</a>
-          			</li>
-        		</ul>
       		</li>
+
+      		<li class="nav-item">
+		        
+		        <a class="nav-link" href="javascript:;" role="button" v-tooltip="trans('sign_out')" @click="signOut()">
+		        
+		          	<i class="fas fa-power-off"></i>
+		        </a>
+		    </li>
 		</ul>
+
+	    <custom-loader v-if="loading"></custom-loader>
   	</nav>
 </template>
 
 <script>
+
+	import { errorHandler } from 'helpers/responseHandler';
 	
 	export default {
 
-		name : 'nav-bar'
+		name : 'nav-bar',
+
+		props : {
+
+			user : { type : Object | String, default : ''}
+		},
+
+		data () {
+
+			return {
+
+				loading : false
+			}
+		},
+
+		methods : {
+
+			signOut() {
+
+				this.loading = true;
+
+				axios.post('/api/admin/logout/'+this.user.admin_id).then(res=>{
+
+					this.$store.dispatch('setLoggedInUserToken','');
+          
+          			this.$store.dispatch('setUserInfo','');
+
+          			this.loading = false;
+
+          			this.$router.push('/login')
+
+				}).catch(err=>{
+
+					errorHandler(err);
+
+          			this.loading = false;
+
+				})
+			}
+		}
 	}
 </script>
 

@@ -118,4 +118,8 @@ return[
     'forgot_password' => 'Forgot Password',
     'know_password' => 'I know my password',
     'send' => 'Send',
+    'home' => 'Home',
+    'admin' => 'Admin',
+    'sign_out' => 'Sign Out',
+    'create_product' => 'Create Product',
 ];
