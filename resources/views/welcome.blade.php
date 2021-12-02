@@ -37,6 +37,8 @@
 
     <link rel="stylesheet" href="{{assetLink('css','glyphicon')}}">
 
+    <link rel="stylesheet" href="{{assetLink('css','icheck')}}">
+
     <script src="{{assetLink('js','jquery')}}" type="text/javascript" media="none" onload="this.media='all';">
         
     </script>
