@@ -18,6 +18,7 @@ return [
         'adminlte-3'                => 'themes/default/css/adminlte.min.css',
         'pagination'                => 'themes/default/css/pagination.min.css',
         'glyphicon'                 => 'themes/default/css/glyphicon.css',
+        'icheck'                    => 'themes/default/css/icheck.min.css',
 
     ],
     'js'    => [
