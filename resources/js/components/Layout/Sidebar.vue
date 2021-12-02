@@ -13,6 +13,7 @@
 
         		<div class="image">
 
+
           			<img :src="basePath()+'/themes/default/img/avatar5.png'" class="img-circle elevation-2" alt="User Image">
         		</div>
 

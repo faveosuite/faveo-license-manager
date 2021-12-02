@@ -29,6 +29,7 @@
 				<v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
 
 				</v-client-table>
+
 			</div>
 		</div>
 	</div>
@@ -41,6 +42,7 @@
 	export default {
 
 		name: 'products-list',
+
 
 		data() {
 

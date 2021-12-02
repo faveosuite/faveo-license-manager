@@ -17,6 +17,7 @@
 					<div class="row">
 						
 						<transition name="fade" mode="out-in">
+
 							<router-view :key="$route.fullPath" :user="getUserData"></router-view>
 						</transition>
 					</div>
