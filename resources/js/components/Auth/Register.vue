@@ -17,58 +17,61 @@
 
           <alert componentName="register"></alert>
 
-          <text-field :labelStyle="labelStyle" :label="trans('firstname')" :value="first_name" 
-            type="text" name="first_name" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="First Name" classname="" :required="true">
-              
-          </text-field>
-
-          <text-field :labelStyle="labelStyle" :label="trans('lastname')" :value="last_name" 
-            type="text" name="last_name" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="Last Name" classname="" :required="true">
-              
-          </text-field>
-
-          <text-field :labelStyle="labelStyle" :label="trans('email')" :value="email" 
-            type="email" name="email" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="Email" classname="" :required="true">
-              
-          </text-field>
-
-          <text-field :labelStyle="labelStyle" :label="trans('password')" :value="password" 
-            type="password" name="password" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="Password" classname="" :required="true">
-                  
-          </text-field>
-
-          <text-field :labelStyle="labelStyle" :label="trans('password')" :value="confirm" 
-            type="password" name="confirm" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="Confirm Password" classname="" :required="true">
-                  
-          </text-field>
-
-          <div class="social-auth-links text-center mb-1">
+          <div v-if="loading" class="mt-4 mb-4">
         
-            <a href="javascript:;" class="btn btn-block btn-primary" @click="onSubmit()">
-
-              <i class="fas fa-user-plus"></i>&nbsp;&nbsp;{{trans('register')}}
-            </a>
+            <loader></loader>
           </div>
 
-          <p class="mb-0">
+          <template v-if="!loading">
             
-            <router-link to="/login" class="btn btn-block btn-primary">
+            <text-field :labelStyle="labelStyle" :label="trans('firstname')" :value="first_name" 
+              type="text" name="first_name" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="First Name" classname="" :required="true">
+                
+            </text-field>
 
-              <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;{{trans('login')}}
-            </router-link>
-          </p>
+            <text-field :labelStyle="labelStyle" :label="trans('lastname')" :value="last_name" 
+              type="text" name="last_name" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="Last Name" classname="" :required="true">
+                
+            </text-field>
+
+            <text-field :labelStyle="labelStyle" :label="trans('email')" :value="email" 
+              type="email" name="email" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="Email" classname="" :required="true">
+                
+            </text-field>
+
+            <text-field :labelStyle="labelStyle" :label="trans('password')" :value="password" 
+              type="password" name="password" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="Password" classname="" :required="true">
+                    
+            </text-field>
+
+            <text-field :labelStyle="labelStyle" :label="trans('password')" :value="confirm" 
+              type="password" name="confirm" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="Confirm Password" classname="" :required="true">
+                    
+            </text-field>
+
+            <div class="social-auth-links text-center mb-1">
+          
+              <a href="javascript:;" class="btn btn-block btn-primary" @click="onSubmit()">
+
+                <i class="fas fa-user-plus"></i>&nbsp;&nbsp;{{trans('register')}}
+              </a>
+            </div>
+
+            <p class="mb-0">
+              
+              <router-link to="/login" class="btn btn-block btn-primary">
+
+                <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;{{trans('login')}}
+              </router-link>
+            </p>
+          </template>
         </div>
       </div>
-    </div>
-
-    <div v-if="loading">
-        
-      <custom-loader></custom-loader>
     </div>
   </div>
 </template>
@@ -148,6 +151,10 @@ export default {
       if(this.isValid()) {
 
         if(this.password === this.confirm){
+
+          this.$store.dispatch('unsetAlert');
+        
+          this.$store.dispatch('unsetValidationError');
 
           this.loading = true;
 

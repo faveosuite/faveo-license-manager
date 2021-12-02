@@ -17,45 +17,48 @@
 
           <alert componentName="login"></alert>
 
-          <text-field :labelStyle="labelStyle" :label="trans('username')" :value="user_name" 
-            type="text" name="user_name" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="Email/Username" classname="" :required="true">
-              
-          </text-field>
-
-          <text-field :labelStyle="labelStyle" :label="trans('password')" :value="password" 
-            type="password" name="password" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="Password" classname="" :required="true">
-                  
-          </text-field>
-
-          <div class="social-auth-links text-center mb-1">
+          <div v-if="loading" class="mt-4 mb-4">
         
-            <a href="javascript:;" class="btn btn-block btn-primary" @click="onSubmit()">
-
-              <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;{{trans('login')}}
-            </a>
+            <loader></loader>
           </div>
-          
-          <p class="mb-1">
-            
-            <router-link to="/forgot-password">{{trans('iforgot')}}</router-link>
-          </p>
-          
-          <p class="mb-0">
-            
-            <router-link to="/register" class="btn btn-block btn-primary">
 
-              <i class="fas fa-user-plus"></i>&nbsp;&nbsp;{{trans('register')}}
-            </router-link>
-          </p>
+          <template v-if="!loading">
+            
+            <text-field :labelStyle="labelStyle" :label="trans('username')" :value="user_name" 
+              type="text" name="user_name" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="Email/Username" classname="" :required="true">
+                
+            </text-field>
+
+            <text-field :labelStyle="labelStyle" :label="trans('password')" :value="password" 
+              type="password" name="password" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="Password" classname="" :required="true">
+                    
+            </text-field>
+
+            <div class="social-auth-links text-center mb-1">
+          
+              <a href="javascript:;" class="btn btn-block btn-primary" @click="onSubmit()">
+
+                <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;{{trans('login')}}
+              </a>
+            </div>
+            
+            <p class="mb-1">
+              
+              <router-link to="/forgot-password">{{trans('iforgot')}}</router-link>
+            </p>
+            
+            <p class="mb-0">
+              
+              <router-link to="/register" class="btn btn-block btn-primary">
+
+                <i class="fas fa-user-plus"></i>&nbsp;&nbsp;{{trans('register')}}
+              </router-link>
+            </p>
+          </template>
         </div>
       </div>
-    </div>
-
-    <div v-if="loading">
-        
-      <custom-loader></custom-loader>
     </div>
   </div>
 </template>
@@ -127,6 +130,10 @@ export default {
     onSubmit() {
 
       if(this.isValid()) {
+
+        this.$store.dispatch('unsetAlert');
+        
+        this.$store.dispatch('unsetValidationError');
 
         this.loading = true;
 
