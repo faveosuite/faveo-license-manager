@@ -112,7 +112,7 @@ class  AuthController extends Controller
         $email = $request->input('admin_email');
 
         if(AflAdmins::where('admin_email',$email)->doesntExist()){
-            return errorResponse(Lang::get('auth.failed'),404);
+            return errorResponse(Lang::get('auth.failed'),400);
         }
         $tokens = Str::random(10);
         try {
