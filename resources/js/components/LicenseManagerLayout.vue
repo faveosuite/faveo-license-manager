@@ -2,9 +2,9 @@
 
 	<div class="wrapper">
 
-		<nav-bar></nav-bar>
+		<nav-bar :user="getUserData"></nav-bar>
 
-		<side-bar></side-bar>
+		<side-bar :user="getUserData"></side-bar>
 
 		<div class="content-wrapper">
 
@@ -18,7 +18,7 @@
 						
 						<transition name="fade" mode="out-in">
 
-							<router-view :key="$route.fullPath"></router-view>
+							<router-view :key="$route.fullPath" :user="getUserData"></router-view>
 						</transition>
 					</div>
 				</div>
@@ -30,6 +30,8 @@
 </template>
 
 <script>
+
+	import { mapGetters } from 'vuex';
 
 	export default {
 
@@ -44,6 +46,11 @@
 			'bread-crumbs' : require('./Layout/Breadcrumbs').default,
 
 			'license-footer' : require('./Layout/Footer').default,
+		},
+
+		computed : {
+
+			...mapGetters(['getUserData'])
 		}
 	};
 </script>
