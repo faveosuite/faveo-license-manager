@@ -19,6 +19,7 @@
       <a v-if="showNewButton" class="btn btn-default btn-xs float-right" href="javascript:;" @click="clickEvent(name)">
 
         <i class="fas fa-plus"> </i> {{trans(newBtnName)}}
+
       </a>
 
       <i class="float-right" v-if="showPreview">(e.g {{showPreview}})</i>
