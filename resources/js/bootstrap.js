@@ -1,5 +1,11 @@
 window._ = require('lodash');
 
+require('../css/app.scss');
+
+require('../css/dynamicSelectCommon.css');
+
+require('../css/tooltip.css');
+
 window.Vue = require('vue').default;
 
 import {lang} from 'helpers/extraLogics';
