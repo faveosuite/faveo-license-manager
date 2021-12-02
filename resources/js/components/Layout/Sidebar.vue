@@ -1,6 +1,6 @@
 <template>
 	
-	<aside class="main-sidebar sidebar-dark-primary elevation-4">
+	<aside class="main-sidebar sidebar-dark-secondary elevation-4">
     
     	<a href="javascript:;" class="brand-link text-center">
 
@@ -9,16 +9,18 @@
 
     	<div class="sidebar" :key="counter">
       		
-      		<div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      		<div class="user-panel mt-3 pb-3 mb-3 d-flex" v-if="user">
         		
         		<div class="image">
           		
-          			<img :src="basePath()+'/themes/default/img/user2-160x160.jpg'" class="img-circle elevation-2" alt="User Image">
+          			<img :src="basePath()+'/themes/default/img/avatar5.png'" class="img-circle elevation-2" alt="User Image">
         		</div>
         		
         		<div class="info">
           			
-          			<a href="javascript:;" class="d-block">Alexander Pierce</a>
+          			<a href="javascript:;" class="d-block" v-tooltip="user.admin_fname + ' ' + user.admin_lname">
+          				{{subString(user.admin_fname + ' ' + user.admin_lname)}}
+          			</a>
         		</div>
       		</div>
 
@@ -45,9 +47,16 @@
 	
 	import axios from 'axios';
 
+	import { getSubStringValue } from 'helpers/extraLogics'
+
 	export default {
 
 		name : 'side-bar',
+
+		props : {
+
+			user : { type : Object | String, default : ''}
+		},
 
 		data () {
 
@@ -77,6 +86,11 @@
 		},
 
 		methods : {
+
+			subString(value,length = 15){
+	 
+				return getSubStringValue(value,length)
+			},
 
 			getRoutes() {
           		

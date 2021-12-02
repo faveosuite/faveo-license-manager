@@ -17,36 +17,39 @@
 
           <alert componentName="forgot"></alert>
 
-          <text-field :labelStyle="labelStyle" :label="trans('email')" :value="email" 
-            type="email" name="email" :keyupListener="triggerEvent" :onChange="onChange"
-            placehold="Email" classname="" :required="true">
+          <div v-if="loading" class="mt-4 mb-4">
+        
+            <loader></loader>
+          </div>
+
+          <template v-if="!loading">
+
+            <text-field :labelStyle="labelStyle" :label="trans('email')" :value="email" 
+              type="email" name="email" :keyupListener="triggerEvent" :onChange="onChange"
+              placehold="Email" classname="" :required="true">
+                
+            </text-field>
+
+            <p class="mb-1">
               
-          </text-field>
+              <div class="row">
 
-          <p class="mb-1">
-            
-            <div class="row">
+                <div class="col-sm-6">
 
-              <div class="col-sm-6">
+                  <router-link to="/login">{{trans('know_password')}}</router-link>
+                </div>
 
-                <router-link to="/login">{{trans('know_password')}}</router-link>
+                <div class="col-sm-6">
+
+                  <button type="button" class="btn btn-primary float-right" @click="onSubmit()">
+
+                    <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;{{trans('send')}}</button>
+                </div>
               </div>
-
-              <div class="col-sm-6">
-
-                <button type="button" class="btn btn-primary float-right" @click="onSubmit()">
-
-                  <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;{{trans('send')}}</button>
-              </div>
-            </div>
-          </p>
+            </p>
+          </template>
         </div>
       </div>
-    </div>
-
-    <div v-if="loading">
-        
-      <custom-loader></custom-loader>
     </div>
   </div>
 </template>
@@ -116,6 +119,10 @@ export default {
     onSubmit() {
 
       if(this.isValid()) {
+
+        this.$store.dispatch('unsetAlert');
+        
+        this.$store.dispatch('unsetValidationError');
 
         this.loading = true;
 
