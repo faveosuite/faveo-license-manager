@@ -48,6 +48,7 @@
             formStyle:{type:Object},
 
             max : { type : String | Number, default :''},
+
             placeholder : { type : String, default : 'Enter a value'},
 
             pattern: { type: String, default: null }

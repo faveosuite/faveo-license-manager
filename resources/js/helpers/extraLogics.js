@@ -15,7 +15,6 @@ export const getIdFromUrl = (url) => {
 };
 
 /**
-
  * converts english string into language string
  * NOTE: global lang() method is only available in vue components, so it is required to declare again
  *
@@ -27,6 +26,7 @@ export const lang = (string) => {
         return (translator.lang[string] ? translator.lang[string] : string);
     }
     return string;
+
 };
 
 /**
