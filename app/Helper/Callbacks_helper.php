@@ -239,7 +239,7 @@ function generateServerSignature($product_id, $root_url, $client_email, $license
     }
 
     function productArray(){
-
+     $root_array=[];
         $rows_array =DB::table('afl_products')
             ->select('afl_products.*',
                 DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id) AS total_licenses'),
@@ -266,11 +266,12 @@ function generateServerSignature($product_id, $root_url, $client_email, $license
           $item_array['product_status_formatted']=returnFormattedStatusArray($item_array['product_status']);
           $root_array[]=$item_array;
     }
-
      return $root_array;
     }
 
     function licenseArray(){
+             $root_array=[];
+
         $rows_array= DB::table('afl_licenses')
             ->select('afl_licenses.*','afl_clients.client_email',
                 DB::raw("(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations"),
@@ -324,6 +325,7 @@ return $root_array;
 }
 
 function installArray(){
+     $root_array=[];
 
     $rows_array= DB::table('afl_installations')
         ->leftJoin('afl_products','afl_installations.product_id','=','afl_products.product_id')

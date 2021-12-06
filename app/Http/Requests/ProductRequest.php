@@ -5,9 +5,11 @@ namespace App\Http\Requests;
 use App\Models\AflProducts;
 use App\Http\Controllers\Admin\ProductsController;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestJsonValidation;
 
 class ProductRequest extends FormRequest
 {
+    use RequestJsonValidation;
     /**
      * Determine if the user is authorized to make this request.
      *

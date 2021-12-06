@@ -4,6 +4,10 @@ import {store} from 'store'
 
 window.Vue = require('vue').default;
 
+import {ServerTable, ClientTable, Event} from 'vue-tables-2';
+
+Vue.use(ClientTable);
+
 Vue.component('license-manager-renderer', require('./components/LicenseManagerRenderer.vue').default);
 
 Vue.component('alert', require('./components/Reusable/Alert.vue').default);
