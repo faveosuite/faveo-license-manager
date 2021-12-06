@@ -89,9 +89,9 @@ function successResponse($message = '', $data = '', $statusCode = FAVEO_SUCCESS_
     }
 
     // If data given
-    if (!empty($data)) {
+    // if (!empty($data)) {
         $response['data'] = $data;
-    }
+    // }
 
     return response()->json($response, $statusCode);
 }

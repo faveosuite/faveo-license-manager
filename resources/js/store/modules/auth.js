@@ -31,6 +31,7 @@ const state = {
     },
 
     updateApiKey(state,payload) {
+        
         state.api_key = payload
     }
  }
@@ -44,8 +45,23 @@ const state = {
     setUserInfo({commit},payload) {
         commit('updateUserInfo',payload)
     },
-    setApiKey({commit},payload) {
-        commit('updateApiKey',payload)
+
+    setApiKey({commit}) {
+
+        axios.get('/api/admin/viewApiKeys').then(res => {
+            
+            console.log(res.data.data,'aaa')
+            commit('updateApiKey',res.data.data[0].api_key_secret)
+
+        }).catch(err => {
+            
+            commit('updateApiKey',payload)
+            
+            if(err.response){
+                
+                errorHandler(err);
+            }
+        });
     }
  }
  
