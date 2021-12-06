@@ -16,5 +16,10 @@
         this.$store.dispatch('unsetValidationError');
       }
     },
+
+    beforeMount(){
+
+      this.$store.dispatch('setApiKey');
+    },
   }
 </script>

@@ -20,8 +20,10 @@
 			</div>
 			
 			<div class="card-body" id="my_products">
-			
-				<!-- <data-table :url="apiUrl" :dataColumns="columns"  :option="options" scroll_to="canned_response"></data-table> -->
+
+				 <v-client-table v-if="data" :columns="columns" v-model="data" :options="options">
+
+				  </v-client-table>
 			</div>
 		</div>
 	</div>
@@ -39,17 +41,134 @@
 
 			return {
 
-				columns: ['title', 'created_at', 'updated_at', 'action'],
+				data : '',
 
-				options: {},
+				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations', 'product_status', 'actions'],
 
-				apiUrl:'/api/admin/viewproducts',
+				options: {}
 			}
 		},
 
 		beforeMount(){
 
 			const self= this;
+
+			this.getData();
+
+			this.options = {
+
+				sortIcon: {
+						
+					base : 'glyphicon',
+						
+					up: 'glyphicon-chevron-up',
+						
+					down: 'glyphicon-chevron-down'
+				},
+
+				texts: { filter: '', limit: '' },
+
+				columnsClasses : {
+
+		          	product_title : 'product_title',
+
+		          	product_sku: 'product_sku',
+
+		         	product_url_homepage : 'product_url',
+
+		         	product_status: 'product_status',
+
+		         	product_version : 'product_version',
+
+		         	total_licenses : 'product_licenses',
+
+		         	total_installations : 'product_installations'
+		        },
+
+		        templates : {
+
+		        	product_url_homepage(createElement, row) {
+
+						return createElement('a', {
+							attrs: {
+								href: row.product_url_homepage,
+								target:'_blank'
+							}
+						}, row.product_url_homepage);
+					},
+
+					product_version(h,row) {
+
+						return row.product_version ? row.product_version : '---'
+					},
+
+					product_status(createElement, row) {
+			          	
+			          	let span = createElement('span', {
+			             	
+			             	attrs: {
+			               		'class' : row.product_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+			             	}
+			          	}, row.product_status ? 'Active' : 'Inactive');
+			          	
+			          	return createElement('a',{},[span]);
+			        },
+		        },
+
+				pagination:{chunk:5,nav: 'fixed',edge:true},
+
+				headings: {
+			        
+			        product_title: 'Product',
+			        
+			        product_sku: 'SKU',
+			   		
+			   		product_url_homepage: 'Homepage',
+
+			   		product_version: 'Version',
+
+			   		total_licenses: 'Licenses',
+			   		
+			   		total_installations: 'Installations',
+			   		
+			   		product_status: 'Status',
+
+			   		actions: 'Actions'
+			    },
+			}
+		},
+
+		methods : {
+
+			getData() {
+
+				axios.get('/api/admin/viewproducts').then(res=>{
+
+					this.data = res.data.data;
+				})
+			}
 		}
 	};
 </script>
+
+<style>
+	
+	.product_title,
+	.product_sku,
+	.product_url,
+	.product_status,
+	.product_version,
+	.product_licenses
+	.product_installations{ max-width: 250px; word-break: break-all;}
+	
+	#my_products .VueTables .table-responsive {
+		overflow-x: auto;
+	}
+
+	#my_products .VueTables .table-responsive > table{
+		width : max-content;
+		min-width : 100%;
+		max-width : max-content;
+		overflow: auto !important;
+	}
+</style>
