@@ -81,236 +81,133 @@
 </template>
 
 <script>
-
 	import axios from 'axios'
-
 	import { successHandler, errorHandler } from 'helpers/responseHandler';
-
 	import { getIdFromUrl } from 'helpers/extraLogics';
-
 	import { validateProductSettings } from "helpers/validator/productValidation.js";
-
 	import { mapGetters } from 'vuex';
-
 	export default {
-
 		name: 'product-create-edit',
-
 		data() {
-
 			return {
-
 				title: 'create_new_product',
-
 				iconClass: 'fas fa-save',
-
 				btnName: 'save',
-
 				hasDataPopulated: false,
-
 				loading: false,
-
 				radioOptions: [{ name: 'active', value: 1 }, { name: 'inactive', value: 0 }],
-
 				product_title: '',
-
 				product_sku: '',
-
 				product_status: 1,
-
 				product_description: '',
-
 				product_url_homepage: '',
-
 				product_url_download: '',
-
 				product_version: '',
-
 				product_envato_id: '',
-
 				apiEndpoint: '',
-
 				product_id: ''
 			}
 		},
-
 		beforeMount() {
-
 			const path = window.location.pathname
-
 			this.getValues(path);
 		},
-
 		computed: {
-
 			...mapGetters(['getApiKey'])
 		},
-
 		methods: {
-
 			getValues(path) {
-
 				const productId = getIdFromUrl(path)
-
 				if (path.indexOf('edit') >= 0) {
-
 					this.title = 'edit_product'
-
 					this.iconClass = 'fas fa-sync'
-
 					this.btnName = 'update'
-
 					this.hasDataPopulated = false
-
 					this.getInitialValues(productId);
-
 					this.product_id = productId;
-
 					this.apiEndpoint = '/api/admin/products/edit';
-
 				} else {
-
 					this.loading = false;
-
 					this.hasDataPopulated = true;
-
 					this.apiEndpoint = '/api/admin/products/add';
 				}
 			},
-
 			getInitialValues(id) {
-
 				this.loading = true
-
 				axios.get('/api/admin/product/' + id).then(res => {
-
 					this.loading = false;
-
 					this.hasDataPopulated = true
-
 					this.updateStatesWithData(res.data.data.product);
-
 				}).catch(error => {
-
 					this.loading = false;
 				});
 			},
-
 			updateStatesWithData(data) {
-
 				const self = this;
-
 				const stateData = this.$data;
-
 				Object.keys(data).map(key => {
-
 					if (stateData.hasOwnProperty(key)) {
-
 						self[key] = data[key];
 					}
 				});
 			},
-
 			isValid() {
-
 				const { errors, isValid } = validateProductSettings(this.$data);
-
 				return isValid;
 			},
-
 			onChange(value, name) {
-
 				this[name] = value ? value : '';
 			},
-
 			validUrl(path) {
-
 				if (this[path]) {
-
 					let regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-
 					if (this[path].match(regex)) { return true }
-
 					else {
-
 						this.$store.dispatch('setAlert', {
 							type: 'danger', message: `Invalid Homepage or Download URL`,
 							component_name: 'product'
 						});
 					}
-
 				} else {
-
 					return true
 				}
 			},
-
 			onSubmit() {
-
 				if (this.isValid() && this.validUrl('product_url_homepage') && this.validUrl('product_url_download')) {
-
 					this.loading = true
-
 					const data = {};
-
 					if (this.product_id) {
-
 						data['product_id'] = this.product_id;
 					}
-
 					data['api_key_secret'] = this.getApiKey;
-
 					data['product_title'] = this.product_title;
-
 					data['product_sku'] = this.product_sku;
-
 					data['product_status'] = this.product_status ? 1 : 0;
-
 					data['product_description'] = this.product_description;
-
 					data['product_url_homepage'] = this.product_url_homepage;
-
 					data['product_url_download'] = this.product_url_download;
-
 					data['product_version'] = this.product_version;
-
 					data['product_envato_id'] = this.product_envato_id;
-
 					axios.post(this.apiEndpoint, data).then(res => {
-
 						this.loading = false
-
 						successHandler(res, 'product')
-
 						if (!this.product_id) {
-
 							setTimeout(() => {
-
 								this.$router.push('/products')
-
 							}, 2000)
-
 						} else {
-
 							this.getInitialValues(this.product_id)
 						}
-
 					}).catch(err => {
-
 						this.loading = false
-
 						errorHandler(err, 'product')
 					});
 				}
 			}
 		},
-
 		components: {
-
 			"text-field": require("components/Reusable/FormField/TextField").default,
-
 			"radio-button": require("components/Reusable/FormField/RadioButton").default,
-
 			"number-field": require("components/Reusable/FormField/NumberField").default,
 		}
 	}
