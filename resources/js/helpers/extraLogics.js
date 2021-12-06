@@ -1,4 +1,20 @@
 /**
+ * gets the last integer from a given url(string)
+ * @param  {string} url  url with/without Id
+ * @return {integer}     id
+ */
+export const getIdFromUrl = (url) => {
+
+    let urlArray = url.split("/");
+
+    let idArray = urlArray.filter(function (item) {
+        return (parseInt(item) == item);
+    });
+
+    return idArray[idArray.length - 1];
+};
+
+/**
  * converts english string into language string
  * NOTE: global lang() method is only available in vue components, so it is required to declare again
  *
@@ -10,7 +26,7 @@ export const lang = (string) => {
 		return (translator.lang[string] ? translator.lang[string] : string);
 	}
 	return string;
-}
+};
 
 /**
  * Converts given string into boolean based on php rules
