@@ -108,6 +108,7 @@ return [
     'password_is_same' => 'New password is same as old. Please choose a different password',
     'password_does_not_match' => 'Password does not match',
     'invalid_url' => 'Invalid URL',
+
     'licenser' => 'Licenser',
     'auto' => 'Auto',
     'register_new_membership' => 'Register a new membership',

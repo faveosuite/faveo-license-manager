@@ -16,6 +16,7 @@ export function validateProductSettings(data) {
 
     product_description: [product_description, { 'max(250)' : 'The description should be less than 250 characters.'} ]
 
+
   };
 
   const validator = new Validator(lang);
