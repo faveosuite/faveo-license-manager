@@ -126,6 +126,10 @@
 				product_version : '',
 
 				product_envato_id : '',
+
+				apiEndpoint : '',
+
+				product_id : ''
 			}
 		},
 
@@ -161,11 +165,15 @@
 
 					this.product_id = productId;
 
+					this.apiEndpoint = '/api/admin/products/edit';
+
 				} else {
 
 					this.loading = false;
 
-					this.hasDataPopulated = true
+					this.hasDataPopulated = true;
+
+					this.apiEndpoint = '/api/admin/products/add';
 				}
 			},
 
@@ -179,9 +187,7 @@
 
 					this.hasDataPopulated = true
 
-					this.updateStatesWithData(res.data.data.product)
-
-					this.product_id = res.data.data.product.id;
+					this.updateStatesWithData(res.data.data.product);
 				
 				}).catch(error=>{
 					
@@ -244,6 +250,11 @@
 
 					const data = {};
 
+					if(this.product_id){
+
+						data['product_id']= this.product_id;
+					}
+
 					data['api_key_secret']= this.getApiKey;
 
 					data['product_title'] = this.product_title;
@@ -262,7 +273,7 @@
 					
 					data['product_envato_id'] = this.product_envato_id;
 
-					axios.post('/api/admin/products/add', data).then(res => {
+					axios.post(this.apiEndpoint, data).then(res => {
 
 						this.loading = false
 						
