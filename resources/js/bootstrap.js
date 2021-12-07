@@ -8,6 +8,8 @@ require('../css/tooltip.css');
 
 window.Vue = require('vue').default;
 
+window.eventHub = new Vue();
+
 import {lang} from 'helpers/extraLogics';
 
 import {store} from 'store'

@@ -2,19 +2,14 @@
 
 	<div class="actions-row">
 
-		<router-link v-if="data.edit_url" class="btn btn-default" :to="data.edit_url" v-tooltip="trans('edit')">
+		<router-link v-if="data.edit_url" class="btn btn-default btn-act" :to="data.edit_url" v-tooltip="trans('edit')">
 
 			<i class="fas fa-edit"></i>
 		</router-link>
 
-		<router-link v-if="data.view_url" class="btn btn-default" :to="data.view_url" v-tooltip="trans('view')">
-	
-			<i class="fas fa-eye"></i>
-		</router-link>
+		<span v-tooltip="disabled ? trans('default_field_is_not_deletable') : trans('delte')">
 
-		<span v-tooltip="disabled ? trans('default_field_is_not_deletable') : trans('delete')">
-
-			<button v-if="data.delete_url" class="btn btn-default" @click="showModalMethod"
+			<button v-if="data.delete_url" class="btn btn-default btn-act" @click="showModalMethod"
 				:disabled="disabled">
 
 				<i class="fas fa-trash"></i>
@@ -24,7 +19,7 @@
 		<transition name="modal">
 
 		 	<delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" :deleteUrl="data.delete_url" 
-		 		:alertComponentName="alert">
+		 		:alertComponentName="alert" :keyVal="data.keyVal" :idVal="data.idVal">
 		 		
 		 	</delete-modal>
 		</transition> 
@@ -91,7 +86,7 @@
 		
 		components:{
 		
-			'delete-modal': require('./DeleteModal'),
+			'delete-modal': require('./DeleteModal').default,
 		}
 	};
 </script>
@@ -99,5 +94,7 @@
 <style scoped>
 	
 	.actions-row a { padding-right: 10px;padding-left: 10px; }
+
+	.btn-act { background: gainsboro !important; }
 </style>
 

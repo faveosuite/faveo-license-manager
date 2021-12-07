@@ -18,6 +18,8 @@ Vue.component('custom-loader', require('./components/Reusable/CustomLoader.vue')
 
 Vue.component('data-table', require('./components/Reusable/Datatable.vue').default);
 
+Vue.component('table-actions', require('./components/Reusable/DatatableActions.vue').default);
+
 Vue.component('tool-tip', require('./components/Reusable/Tooltip.vue').default);
 
 Vue.component('modal', require('./components/Reusable/Modal.vue').default);
