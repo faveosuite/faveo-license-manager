@@ -81,6 +81,7 @@ export default {
 			
 			this.selectedValue = newValues;
 		}
+
 	},
 	beforeMount() {
 		this.listElements = Boolean(this.elements) ? this.elements : [];
@@ -105,6 +106,7 @@ export default {
 		},
 	},
 	components: {
+
 		'v-select': vSelect,
 		"form-field-template": require("./FormFieldTemplate").default
 	}
