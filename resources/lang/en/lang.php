@@ -130,4 +130,7 @@ return[
     'status' => 'Status',
     'active' => 'Active',
     'inactive' => 'Inactive',
+    'are_you_sure' => 'Are you sure?',
+    'delte' => 'Delete',
+    'nothing_updated' => 'Nothing was updated.',
 ];

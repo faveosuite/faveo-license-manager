@@ -21,7 +21,7 @@
 			
 			<div class="card-body" id="my_products">
 
-				 <v-client-table v-if="data" :columns="columns" v-model="data" :options="options">
+				 <v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
 
 				  </v-client-table>
 			</div>
@@ -45,8 +45,15 @@
 
 				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations', 'product_status', 'actions'],
 
-				options: {}
+				options: {},
+
+				counter : 0
 			}
+		},
+
+		created() {
+		
+			window.eventHub.$on('refreshData',this.updateData);
 		},
 
 		beforeMount(){
@@ -113,6 +120,8 @@
 			          	
 			          	return createElement('a',{},[span]);
 			        },
+
+			        actions : 'table-actions'
 		        },
 
 				pagination:{chunk:5,nav: 'fixed',edge:true},
@@ -140,11 +149,29 @@
 
 		methods : {
 
+			updateData() {
+
+				this.counter++;
+
+				this.getData();
+			},
+
 			getData() {
 
 				axios.get('/api/admin/viewproducts').then(res=>{
 
-					this.data = res.data.data;
+					this.data = res.data.data.map(data => {
+
+						data.edit_url = '/products/' + data.product_id + '/edit';
+
+						data.delete_url = '/api/admin/products/delete';
+
+						data.keyVal = 'product_id';
+
+						data.idVal = data.product_id;
+
+						return data;
+					})
 				})
 			}
 		}
@@ -159,10 +186,10 @@
 	.product_status,
 	.product_version,
 	.product_licenses
-	.product_installations{ max-width: 250px; word-break: break-all;}
+	.product_installations{ max-width: 200px; word-break: break-all;}
 	
 	#my_products .VueTables .table-responsive {
-		overflow-x: auto;
+		overflow-x: auto;overflow-y: hidden;
 	}
 
 	#my_products .VueTables .table-responsive > table{

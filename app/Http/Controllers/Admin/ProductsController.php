@@ -255,13 +255,19 @@ public function deleteProduct(Request $request)
 
     }
 
-        /* public function edit($product_id)
+        public function edit($product_id)
        {
 
-        $ticket = Ticket::where('product_id',$product_id)->firstOrFail();
-        return view('',compact('ticket'));
+        $product = AflProducts::where('product_id',$product_id)->firstOrFail();
 
-       }*/
+        if(!empty($product)){
+
+            return successResponse('', ['product' => $product],200);
+        }
+        
+        return errorResponse(Lang::get('lang.invalid'),400);
+
+       }
 
        /**
      * Updates the product details into the database
@@ -377,7 +383,7 @@ Public function productUpdate(Request $request){
                         {
                         $api_error_detected=1;
 
-                        return errorResponse(Lang::get('lang.error'),400);
+                        return errorResponse(Lang::get('lang.nothing_updated'),400);
                         }
                     else
                         {

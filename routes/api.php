@@ -70,6 +70,7 @@ Route::post('products/add',[ProductsController::class,'productAdd']);
 Route::get('viewproducts',[ProductsController::class,'show']);
 Route::post('products/delete',[ProductsController::class,'deleteProduct']);
 Route::post('products/edit',[ProductsController::class,'productUpdate']);
+Route::get('product/{product_id}',[ProductsController::class,'edit']);
 
 //CLIENTS
 Route::post('clients/add',[ClientsController::class,'clientAdd']);
