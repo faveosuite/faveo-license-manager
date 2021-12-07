@@ -5,10 +5,12 @@ namespace App\Http\Requests;
 use App\Models\AflClients;
 use App\Http\Controllers\Admin\ClientsController;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestJsonValidation;
 
 
 class ClientRequest extends FormRequest
 {
+    use RequestJsonValidation;
     /**
      * Determine if the user is authorized to make this request.
      *

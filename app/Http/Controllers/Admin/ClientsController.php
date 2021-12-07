@@ -144,6 +144,21 @@ class ClientsController extends Controller
         return $removed_records;
 
     }
+
+    public function edit($client_id)
+       {
+
+        $client = AflClients::where('client_id',$client_id)->firstOrFail();
+
+        if(!empty($client)){
+
+            return successResponse('', ['client' => $client],200);
+        }
+        
+        return errorResponse(Lang::get('lang.invalid'),400);
+
+       }
+
     /**
      * Updates the clients from the database based on the id
      *
@@ -198,7 +213,8 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) ||
 
                     if (!aflValidateIntegerValue($updated_records))
                         {
-                        return errorResponse(Lang::get('lang.no_client_update'),400);
+                        $error_detected=1;
+                        return errorResponse(Lang::get('lang.nothing_updated'),400);
                         }
                     else
                         {

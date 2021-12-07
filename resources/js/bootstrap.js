@@ -6,6 +6,8 @@ require('../css/dynamicSelectCommon.css');
 
 require('../css/tooltip.css');
 
+import "vue-select/src/scss/vue-select.scss";
+
 window.Vue = require('vue').default;
 
 window.eventHub = new Vue();
