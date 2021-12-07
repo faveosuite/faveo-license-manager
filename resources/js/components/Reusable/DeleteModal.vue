@@ -4,12 +4,12 @@
 
 		<div slot="title">
 			
-			<h4 class="modal-title">{{trans('delete')}}</h4>
+			<h4 class="modal-title">{{trans('delte')}}</h4>
 		</div>
 
 		<div v-if="!loading" slot="fields">
 	
-			<span v-else>{{trans('are_you_sure_you_want_to_delete_dependencies')}}</span>
+			<span>{{trans('are_you_sure')}}</span>
 		</div>
 
 		<div slot="alert">
@@ -26,7 +26,7 @@
 			
 			<button type="button" @click = "onSubmit()" class="btn btn-danger" :disabled="isDisabled">
 
-				<i class="fas fa-trash" aria-hidden="true"></i> {{trans('delete')}}
+				<i class="fas fa-trash" aria-hidden="true"></i> {{trans('delte')}}
 			</button>
 		</div>
 	</modal>
@@ -37,6 +37,8 @@
 	import axios from 'axios'
 
 	import {errorHandler, successHandler} from 'helpers/responseHandler'
+
+	import { mapGetters } from 'vuex';
 
 	export default {
 
@@ -54,7 +56,11 @@
 
 			alertComponentName : { type : String, default : 'dataTableModal'},
 
-			componentTitle : { type : String, default : ''}
+			componentTitle : { type : String, default : ''},
+
+			keyVal : {type : String, default : ''},
+
+			idVal : { type : String | Number, default : '' }
 
 		},
 
@@ -74,6 +80,11 @@
 			}
 		},
 
+		computed : {
+
+			...mapGetters(['getApiKey'])
+		},
+
 		methods:{
 
 			onSubmit(){
@@ -81,8 +92,14 @@
 				this.loading = true
 
 				this.isDisabled = true;
+
+				const data = {};
+
+				data[this.keyVal] = this.idVal;
+
+				data['api_key_secret']= this.getApiKey;
 				
-				axios.delete(this.apiUrl).then(res=>{
+				axios.post(this.apiUrl,data).then(res=>{
 
 					successHandler(res,this.alertComponentName);
 
@@ -100,9 +117,7 @@
 
 			afterRespond(){
 
-				window.eventHub.$emit(this.componentTitle+'refreshData');
-
-				window.eventHub.$emit(this.componentTitle+'uncheckCheckbox');
+				window.eventHub.$emit('refreshData');
 
 				this.onClose();
 

@@ -63,11 +63,6 @@
             }
         },
 
-        created() {
-        
-            window.eventHub.$on('removeVal',this.initialState)
-        },
-
         mounted(){
         
             this.changedValue = this.value;
@@ -109,11 +104,6 @@
                     evt.preventDefault();
                 }   
             },
-
-            initialState(){
-
-                this.changedValue = 0;
-            }
         },
 
         components:{

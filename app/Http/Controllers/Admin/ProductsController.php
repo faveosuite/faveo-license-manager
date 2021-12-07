@@ -255,13 +255,21 @@ class ProductsController extends Controller
 
     }
 
-    /* public function edit($product_id)
-   {
-    $ticket = Ticket::where('product_id',$product_id)->firstOrFail();
-    return view('',compact('ticket'));
-   }*/
+        public function edit($product_id)
+       {
 
-    /**
+        $product = AflProducts::where('product_id',$product_id)->firstOrFail();
+
+        if(!empty($product)){
+
+            return successResponse('', ['product' => $product],200);
+        }
+        
+        return errorResponse(Lang::get('lang.invalid'),400);
+
+       }
+
+       /**
      * Updates the product details into the database
      * @param ProductRequest $request
      * @param $api_key_secret
@@ -375,8 +383,8 @@ class ProductsController extends Controller
                     {
                         $api_error_detected=1;
 
-                        return errorResponse(Lang::get('lang.error'),400);
-                    }
+                        return errorResponse(Lang::get('lang.nothing_updated'),400);
+                        }
                     else
                     {
                         return successResponse(Lang::get('lang.Product_Update'),$updated_records,200);
