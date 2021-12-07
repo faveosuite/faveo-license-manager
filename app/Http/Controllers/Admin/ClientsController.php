@@ -225,13 +225,19 @@ class ClientsController extends Controller
 }
     }
 
-        /* public function edit($client_id)
+    public function edit($client_id)
        {
 
-        $client = afl_clients::where('client_id',$client_id)->firstOrFail();
-        return view('',compact('client'));
+        $client = AflClients::where('client_id',$client_id)->firstOrFail();
 
-       }*/
+        if(!empty($client)){
+
+            return successResponse('', ['client' => $client],200);
+        }
+        
+        return errorResponse(Lang::get('lang.invalid'),400);
+
+       }
 
     /**
      * Updates the clients from the database based on the id
@@ -332,7 +338,7 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) || empty($rows_arr
                     if (!aflValidateIntegerValue($updated_records))
                         {
                         $error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid'),400);
+                        return errorResponse(Lang::get('lang.nothing_updated'),400);
                         }
                     else
                         {
