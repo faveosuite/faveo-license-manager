@@ -55,196 +55,110 @@
 </template>
 
 <script>
-
 	import axios from 'axios'
-
 	import { successHandler, errorHandler } from 'helpers/responseHandler';
-
 	import { getIdFromUrl } from 'helpers/extraLogics';
-
 	import { validateClientSettings } from "helpers/validator/clientValidation.js";
-
 	import { mapGetters } from 'vuex';
-
 	export default {
-
 		name: 'client-create-edit',
-
 		data() {
-
 			return {
-
 				title: 'create_new_client',
-
 				iconClass: 'fas fa-save',
-
 				btnName: 'save',
-
 				hasDataPopulated: false,
-
 				loading: false,
-
 				radioOptions: [{ name: 'active', value: 1 }, { name: 'inactive', value: 0 }],
-
 				client_fname: '',
-
 				client_lname: '',
-
 				client_status: 1,
-
 				client_email: '',
-
 				apiEndpoint: '',
-
 				client_id: ''
 			}
 		},
-
 		beforeMount() {
-
 			const path = window.location.pathname
-
 			this.getValues(path);
 		},
-
 		computed: {
-
 			...mapGetters(['getApiKey'])
 		},
-
 		methods: {
-
 			getValues(path) {
-
 				const clientId = getIdFromUrl(path)
-
 				if (path.indexOf('edit') >= 0) {
-
 					this.title = 'edit_client'
-
 					this.iconClass = 'fas fa-sync'
-
 					this.btnName = 'update'
-
 					this.hasDataPopulated = false
-
 					this.getInitialValues(clientId);
-
 					this.client_id = clientId;
-
 					this.apiEndpoint = '/api/admin/clients/edit';
-
 				} else {
-
 					this.loading = false;
-
 					this.hasDataPopulated = true;
-
 					this.apiEndpoint = '/api/admin/clients/add';
 				}
 			},
-
 			getInitialValues(id) {
-
 				this.loading = true
-
 				axios.get('/api/admin/client/' + id).then(res => {
-
 					this.loading = false;
-
 					this.hasDataPopulated = true
-
 					this.updateStatesWithData(res.data.data.client);
-
 				}).catch(error => {
-
 					this.loading = false;
 				});
 			},
-
 			updateStatesWithData(data) {
-
 				const self = this;
-
 				const stateData = this.$data;
-
 				Object.keys(data).map(key => {
-
 					if (stateData.hasOwnProperty(key)) {
-
 						self[key] = data[key];
 					}
 				});
 			},
-
 			isValid() {
-
 				const { errors, isValid } = validateClientSettings(this.$data);
-
 				return isValid;
 			},
-
 			onChange(value, name) {
-
 				this[name] = value ? value : '';
 			},
-
 			onSubmit() {
-
 				if (this.isValid()) {
-
 					this.loading = true
-
 					const data = {};
-
 					if (this.client_id) {
-
 						data['client_id'] = this.client_id;
 					}
-
 					data['api_key_secret'] = this.getApiKey;
-
 					data['client_fname'] = this.client_fname;
-
 					data['client_lname'] = this.client_lname;
-
 					data['client_email'] = this.client_email;
-
 					data['client_status'] = this.client_status ? 1 : 0;
-
 					axios.post(this.apiEndpoint, data).then(res => {
-
 						this.loading = false
-
 						successHandler(res, 'client')
-
 						if (!this.client_id) {
-
 							setTimeout(() => {
-
 								this.$router.push('/clients')
-
 							}, 2000)
-
 						} else {
-
 							this.getInitialValues(this.client_id)
 						}
-
 					}).catch(err => {
-
 						this.loading = false
-
 						errorHandler(err, 'client')
 					});
 				}
 			}
 		},
-
 		components: {
-
 			"text-field": require("components/Reusable/FormField/TextField").default,
-
 			"radio-button": require("components/Reusable/FormField/RadioButton").default
 		}
 	}
