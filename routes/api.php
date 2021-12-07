@@ -83,10 +83,12 @@ Route::post('products/edit',[ProductsController::class,'productUpdate']);
 Route::get('product/{product_id}',[ProductsController::class,'edit']);
 
 //CLIENTS
-    Route::post('clients/add', [ClientsController::class, 'clientAdd']);
-    Route::get('viewClients', [ClientsController::class, 'show']);
-    Route::post('clients/delete', [ClientsController::class, 'deleteClient']);
-    Route::post('clients/edit', [ClientsController::class, 'clientUpdate']);
+
+Route::post('clients/add',[ClientsController::class,'clientAdd']);
+Route::get('viewClients',[ClientsController::class,'show']);
+Route::post('clients/delete',[ClientsController::class,'deleteClient']);
+Route::post('clients/edit',[ClientsController::class,'clientUpdate']);
+Route::get('client/{client_id}',[ClientsController::class,'edit']);
 
 
 //LICENSES
