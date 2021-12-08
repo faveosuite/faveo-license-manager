@@ -101,6 +101,7 @@
                 this.loading = true;
 				axios.get('/api/admin/viewClients').then(res => {
                     this.loading = false;
+
 					this.data = res.data.data.map(data => {
 						data.edit_url = '/clients/' + data.client_id + '/edit';
 						data.delete_url = '/api/admin/clients/delete';
