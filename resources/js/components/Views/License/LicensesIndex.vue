@@ -43,7 +43,8 @@
 
 				data : '',
 
-				columns: ['product_id', 'license_code', 'total_installations', 'license_status', 'actions'],
+				columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks', 'license_date', 
+					'latest_callback_date_time', 'actions'],
 
 				options: {},
 
@@ -77,16 +78,44 @@
 
 				columnsClasses : {
 
-		          	product_id : 'license_product_id',
+		          	product_title : 'license_product_title',
 
 		          	license_code: 'license_code',
 
 		         	total_installations : 'license_install',
 
-		         	license_status: 'license_status'
+		         	total_callbacks: 'license_callbacks',
+
+		         	latest_callback_date_time : 'latest_callback_time',
+
+		         	license_date : 'license_date',
 		        },
 
 		        templates : {
+
+		        	product_title(createElement, row) {
+
+		        		return createElement('router-link', {
+							attrs: {
+								to: '/products/'+row.product_id+'/edit'
+							}
+						}, row.product_title);
+		        	},
+
+		        	license_code(h,row){
+
+		        		return row.license_code ? row.license_code : '---';
+		        	},
+
+		        	license_date(h,row){
+
+		        		return row.license_date ? row.license_date : '---'
+		        	},
+
+		        	latest_callback_date_time(h,row) {
+		        	
+		        		return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
+		        	},
 
 					license_status(createElement, row) {
 			          	
@@ -113,7 +142,11 @@
 			   		
 			   		total_installations: 'Installations',
 
-			   		license_status: 'Status',
+			   		total_callbacks: 'Callbacks',
+
+			   		latest_callback_date_time : 'Latest Callback',
+
+			   		license_date : 'Latest License',
 
 			   		actions: 'Actions'
 			    },
@@ -151,7 +184,7 @@
 
 <style>
 	
-	.license_name,.license_email,.license_date,.license_status{ max-width: 200px; word-break: break-all;}
+	.license_product_title,.license_code,.license_install,.license_callbacks, .latest_callback_time, .license_date{ max-width: 200px; word-break: break-all;}
 	
 	#my_licenses .VueTables .table-responsive {
 		overflow-x: auto;overflow-y: hidden;
