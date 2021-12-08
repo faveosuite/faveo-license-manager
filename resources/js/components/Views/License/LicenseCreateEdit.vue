@@ -310,9 +310,19 @@
 
 					this.loading = false;
 
-					this.hasDataPopulated = true
+					this.hasDataPopulated = true;
 
-					this.updateStatesWithData(res.data.data.license);
+					let resData = res.data.data.license;
+
+					resData['license_domain'] = resData.license_domain ? resData.license_domain.split(',') : '';
+
+					resData['license_expire_date'] = resData.license_expire_date ? new Date(moment(resData.license_expire_date).format("MM-DD-YYYY")) : ''; 
+					
+					resData['license_updates_date'] = resData.license_updates_date ? new Date(moment(resData.license_updates_date).format("MM-DD-YYYY")) : ''; 
+					
+					resData['license_support_date'] = resData.license_support_date ? new Date(moment(resData.license_support_date).format("MM-DD-YYYY")) : '';
+
+					this.updateStatesWithData(resData);
 				
 				}).catch(error=>{
 					
@@ -343,7 +353,7 @@
 			},
 
 			onChange(value, name) {
-console.log(value,name)
+
 				this[name] = value ? value : '';
 
 				if(name === 'client_id') {

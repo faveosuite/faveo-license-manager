@@ -416,6 +416,19 @@ public function formatClient($license_code, $client_email)
 
     return $client_formatted;
 }
+public function edit($license_id)
+       {
+
+        $license = AflLicenses::where('license_id',$license_id)->firstOrFail();
+
+        if(!empty($license)){
+
+            return successResponse('', ['license' => $license],200);
+        }
+        
+        return errorResponse(Lang::get('lang.invalid'),400);
+
+       }
 
 
 /***
