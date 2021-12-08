@@ -217,4 +217,17 @@ public function deleteInstallation($installation_id)
             }
         }
     }
+
+    public function edit($installation_id)
+       {
+
+        $installation = AflInstallations::where('installation_id',$installation_id)->firstOrFail();
+
+        if(!empty($installation)){
+
+            return successResponse('', ['installation' => $installation],200);
+        }
+      
+        return errorResponse(Lang::get('lang.invalid'),400);
+       }
 }

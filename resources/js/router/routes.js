@@ -187,6 +187,8 @@ let licensesMenu = {
 
 import InstallationsIndex from 'components/Views/Installations/InstallationsIndex.vue';
 
+import InstallationCreateEdit from 'components/Views/Installations/InstallationCreateEdit.vue';
+
 let installationsMenu = {
 
 	path: '/installations',
@@ -210,7 +212,18 @@ let installationsMenu = {
 			component: InstallationsIndex,
 			
 			meta: { title : 'installations', crumb : { link: { name : 'dashboard', to : '/' }, active : 'installations' } }
-		}
+		},
+
+		{
+
+			path: ':id/edit',
+			
+			name: 'Installation Edit',
+			
+			component: InstallationCreateEdit,
+			
+			meta: { title : 'installations', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'installations', to : '/installations' }, active : 'edit' } }
+		},
 	]
 }
 
