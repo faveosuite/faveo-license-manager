@@ -165,136 +165,76 @@
 </template>
 
 <script>
-
 	import axios from 'axios'
-
 	import { successHandler, errorHandler } from 'helpers/responseHandler';
-
 	import { validateCustomNoteSettings } from "helpers/validator/customNoteValidation.js";
-
 	import { mapGetters } from 'vuex';
-
 	export default {
-
 		name: 'customize-notifications',
-
 		data() {
-
 			return {
-
 				hasDataPopulated: false,
-
 				loading: false,
-
 				notification_id: '',
-
 				notification_product_not_found: '',
-
 				notification_product_inactive: '',
-
 				notification_license_ok: '',
-
 				notification_license_not_found: '',
-
 				notification_invalid_ip: '',
-
 				notification_invalid_domain: '',
-
 				notification_domain_required: '',
-
 				notification_domain_in_use: '',
-
 				notification_license_suspended: '',
-
 				notification_license_expired: '',
-
 				notification_updates_expired: '',
-
 				notification_support_expired: '',
-
 				notification_license_cancelled: '',
-
 				notification_license_limit: '',
-
 				notification_installation_not_found: '',
-
 				notification_invalid_signature: '',
-
 				notification_host_banned: '',
-
 				notification_unknown_error: '',
 			}
 		},
-
 		beforeMount() {
-
 			this.getInitialValues();
 		},
-
 		computed: {
-
 			...mapGetters(['getApiKey'])
 		},
-
 		methods: {
-
 			getInitialValues() {
-
 				this.loading = true
-
 				axios.get('/api/admin/viewNotifications').then(res => {
-
 					this.loading = false;
-
 					this.hasDataPopulated = true;
-
 					let resData = res.data.data[0];
-
 					this.updateStatesWithData(resData);
-
 				}).catch(error => {
-
 					this.loading = false;
 				});
 			},
-
 			updateStatesWithData(data) {
-
 				const self = this;
-
 				const stateData = this.$data;
-
 				Object.keys(data).map(key => {
-
 					if (stateData.hasOwnProperty(key)) {
-
 						self[key] = data[key];
 					}
 				});
 			},
-
 			isValid() {
-
 				const { errors, isValid } = validateCustomNoteSettings(this.$data);
-
 				return isValid;
 			},
-
 			onChange(value, name) {
-
 				this[name] = value ? value : '';
 			},
-
 			onSubmit() {
-
 				if (this.isValid()) {
-
 					this.loading = true
-
 					const data = {};
-
 					data['api_key_secret'] = this.getApiKey;
-
 					data['notification_product_not_found'] = this.notification_product_not_found;
 					data['notification_product_inactive'] = this.notification_product_inactive;
 					data['notification_license_ok'] = this.notification_license_ok;
@@ -313,27 +253,18 @@
 					data['notification_invalid_signature'] = this.notification_invalid_signature;
 					data['notification_host_banned'] = this.notification_host_banned;
 					data['notification_unknown_error'] = this.notification_unknown_error;
-
 					axios.post('/api/admin/notifications/' + this.notification_id, data).then(res => {
-
 						this.loading = false
-
 						successHandler(res, 'custom-note');
-
 						this.getInitialValues();
-
 					}).catch(err => {
-
 						this.loading = false
-
 						errorHandler(err, 'custom-note')
 					});
 				}
 			}
 		},
-
 		components: {
-
 			"text-field": require("components/Reusable/FormField/TextField").default,
 		}
 	}
