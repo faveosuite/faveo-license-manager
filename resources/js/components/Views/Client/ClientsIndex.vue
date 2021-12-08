@@ -140,8 +140,6 @@
 
 			getData() {
 
-				console.log('ssss')
-
 				axios.get('/api/admin/viewClients').then(res=>{
 
 					this.data = res.data.data.map(data => {

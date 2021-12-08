@@ -16,9 +16,9 @@
       <i v-if="isClearField && value && typeof(value) == 'object'" @click="clearField" class="fas fa-times clear-btn" 
         title="Clear" aria-hidden="true"></i>
 
-      <a v-if="showNewButton" class="btn btn-primary btn-xs float-right" href="javascript:;" @click="clickEvent(name)">
+      <a v-if="showNewButton" class="btn btn-default btn-xs float-right" href="javascript:;" @click="clickEvent(name)">
 
-        <i class="fas fa-plus"> </i> {{lang('new')}}
+        <i class="fas fa-plus"> </i> {{trans(newBtnName)}}
       </a>
 
       <i class="float-right" v-if="showPreview">(e.g {{showPreview}})</i>
@@ -86,6 +86,8 @@ export default {
     showPreview : { type : String | Object, default : '' },
 
     tipRule : { type : Number | Boolean, default : false },
+
+    newBtnName : { type : String, default : '' }
   },
 
   computed: {
