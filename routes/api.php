@@ -92,17 +92,19 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
 
 
 //LICENSES
-    Route::post('license/add', [LicenseController::class, 'licenseAdd']);
-    Route::get('viewLicenses', [LicenseController::class, 'show']);
-    Route::post('license/delete', [LicenseController::class, 'deleteLicense']);
-    Route::post('license/edit', [LicenseController::class, 'licenseUpdate']);
+Route::post('license/add',[LicenseController::class,'licenseAdd']);
+Route::get('viewLicenses',[LicenseController::class,'show']);
+Route::post('license/delete',[LicenseController::class,'deleteLicense']);
+Route::post('license/edit',[LicenseController::class,'licenseUpdate']);
+Route::get('license/{license_id}',[LicenseController::class,'edit']);
+
 
 //INSTALLATIONS
-    Route::post('installations/delete', [InstallationController::class, 'deleteInstallation']);
-    Route::post('installations/edit', [InstallationController::class, 'installationUpdate']);
-    Route::get('viewInstallations', [InstallationController::class, 'show']);
-    Route::post('addInstallation', [InstallationController::class, 'installationAdd']);
-
+Route::post('installations/delete',[InstallationController::class,'deleteInstallation']);
+Route::post('installations/edit',[InstallationController::class,'installationUpdate']);
+Route::get('viewInstallations',[InstallationController::class,'show']);
+Route::post('addInstallation',[InstallationController::class,'installationAdd']);
+Route::get('installation/{installation_id}',[InstallationController::class,'edit']);
 
 //BANNED HOSTS
     Route::post('bannedHosts/add', [BannedHostController::class, 'bannedHostAdd']);

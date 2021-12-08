@@ -21,9 +21,9 @@
 			
 			<div class="card-body" id="my_licenses">
 
-				 <v-license-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
+				<v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
 
-				  </v-license-table>
+				</v-client-table>
 			</div>
 		</div>
 	</div>
@@ -43,7 +43,7 @@
 
 				data : '',
 
-				columns: ['full_name', 'license_email', 'license_active_date', 'license_status', 'actions'],
+				columns: ['product_id', 'license_code', 'total_installations', 'license_status', 'actions'],
 
 				options: {},
 
@@ -77,11 +77,11 @@
 
 				columnsClasses : {
 
-		          	full_name : 'license_name',
+		          	product_id : 'license_product_id',
 
-		          	license_email: 'license_email',
+		          	license_code: 'license_code',
 
-		         	license_active_date : 'license_date',
+		         	total_installations : 'license_install',
 
 		         	license_status: 'license_status'
 		        },
@@ -100,17 +100,6 @@
 			          	return createElement('a',{},[span]);
 			        },
 
-			        full_name: function(createElement, row) {
-
-						return createElement('router-link', {
-							
-							attrs: {
-								to: '/licenses/' + row.license_id + '/edit',
-							}
-
-						}, row.license_fname + ' ' + row.license_lname);
-					},
-
 			        actions : 'table-actions'
 		        },
 
@@ -118,11 +107,11 @@
 
 				headings: {
 			        
-			        full_name: 'Full Name',
+			        product_id: 'Product',
 			        
-			        license_email: 'Email',
+			        license_code: 'License Code',
 			   		
-			   		license_active_date: 'Active Date',
+			   		total_installations: 'Installations',
 
 			   		license_status: 'Status',
 
@@ -146,7 +135,7 @@
 
 						data.edit_url = '/licenses/' + data.license_id + '/edit';
 
-						data.delete_url = '/api/admin/licenses/delete';
+						data.delete_url = '/api/admin/license/delete';
 
 						data.keyVal = 'license_id';
 

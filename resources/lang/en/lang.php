@@ -167,4 +167,7 @@ return[
     'invalid_license_ip' => 'Invalid License IP Address',
     'invalid_domain' => 'Invalid Domain(s) Address',
     'domain_tip' => 'Domain(s) to be licensed (like clientdomain.com, clientdomain.com/path, or sub.clientdomain.com) (optional)',
+    'ip_address' => 'IP Address',
+    'disable_ip' => 'Disable IP Address Verification',
+    'delete_installation' => 'Delete Installation',
 ];
