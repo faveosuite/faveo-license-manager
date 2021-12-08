@@ -23,8 +23,6 @@
 			<div class="card-header">
 				
 				<h3 class="card-title">{{trans(title)}}</h3>
-
-				&nbsp;<tool-tip :message="trans('license_tooltip')"></tool-tip>
 			</div>
 
 			<div class="card-body">
@@ -45,21 +43,78 @@
 				</div>
 
 				<div class="row">
+
+                    <text-field :label="trans('license_code')" :value="license_code" type="text" name="license_code" 
+						:onChange="onChange" classname="col-sm-6" :required="client_id ? false : true" :showNewButton="client_id ? false : true"
+						newBtnName="generate" :onNewButtonClick="generateCode" :disabled="client_id ? true : false">
 					
-					<div class="col-md-6">
+					</text-field>
 
-                        <div class="form-group">
-                            
-                            <label>{{trans('license_code')}} 
+                    <number-field :label="trans('order_number')" :value="license_order_number" name="license_order_number" 
+						:onChange="onChange" classname="col-sm-6">
+					
+					</number-field>
+				</div>
 
-                            	<span v-if="!client_id">(<a href="javascript:;" @click="generateCode();return false;" class="text-primary">{{trans('generate')}}</a>)<span class="text-red"> *</span></span>
+				<div class="row">
+					
+					<text-field :label="trans('licensed_ip')" :value="license_ip" type="text" name="license_ip" 
+						:onChange="onChange" classname="col-sm-6">
+					
+					</text-field>
 
-                            </label>
-                            
-                            <input type="text" name="license_code" v-model="license_code" class="form-control" placeholder="Code..."
-                            	:disabled="client_id ? true : false">
-                        </div>
-                    </div>
+					<dynamic-select :label="trans('licensed_domain')" :multiple="true" :elements="[]"
+						name="license_domain" classname="col-sm-6"
+						:value="license_domain" :onChange="onChange" :strlength="35"
+						:required="false" :taggable="true" :hint="trans('domain_tip')">
+					</dynamic-select>
+				</div>
+
+				<div class="row">
+					
+					<date-picker :label="trans('license_expire_date')" :value="license_expire_date" type="date" 
+						name="license_expire_date" :onChange="onChange" :required="false" format="DD-MM-YYYY" classname="col-sm-4" 
+						:clearable="true" :disabled="false" :confirm="false">
+							
+					</date-picker>
+
+					<date-picker :label="trans('license_updates_date')" :value="license_updates_date" type="date" 
+						name="license_updates_date" :onChange="onChange" :required="false" format="DD-MM-YYYY" classname="col-sm-4" 
+						:clearable="true" :disabled="false" :confirm="false">
+							
+					</date-picker>
+
+					<date-picker :label="trans('license_support_date')" :value="license_support_date" type="date" 
+						name="license_support_date" :onChange="onChange" :required="false" format="DD-MM-YYYY" classname="col-sm-4" 
+						:clearable="true" :disabled="false" :confirm="false">
+							
+					</date-picker>	
+				</div>
+
+				<div class="row">
+					
+					<radio-button :options="domainOptions" :label="trans('license_require_domain')" name="license_require_domain" 
+						:value="license_require_domain" :onChange="onChange" classname="form-group col-sm-4" >
+									
+					</radio-button>
+
+					<radio-button :options="radioOptions" :label="trans('status')" name="license_status" :value="license_status"
+						:onChange="onChange" classname="form-group col-sm-4" >
+									
+					</radio-button>
+
+					<number-field :label="trans('installations_limit')" :value="license_limit" name="license_limit" 
+						:onChange="onChange" classname="col-sm-4">
+					
+					</number-field>
+				</div>
+
+				<div class="row">
+					
+					<text-field :label="trans('comments')" :value="license_comments" type="textarea" name="license_comments" 
+						:onChange="onChange" classname="col-sm-12">
+					
+					</text-field>
 				</div>
 			</div>
 
@@ -83,6 +138,8 @@
 
 	import { mapGetters } from 'vuex';
 
+	import moment from 'moment'
+
 	export default {
 
 		name : 'license-create-edit',
@@ -101,7 +158,13 @@
 
 				loading : false,
 
+				license_status : 1,
+
 				radioOptions:[{name:'active',value:1},{name:'inactive',value:0}],
+
+				license_require_domain :1,
+
+				domainOptions:[{name:'yes',value:1},{name:'no',value:0}],
 
 				apiEndpoint : '',
 
@@ -113,9 +176,27 @@
 
 				client_id : '',
 
+				clientOptions: [],
+
 				license_code : '',
 
-				clientOptions: [],
+				license_order_number : '',
+
+				license_ip : '',
+
+				license_domain : '',
+
+				license_limit : '',
+
+				license_expire_date : '',
+
+				license_updates_date : '',
+
+				license_support_date : '',
+
+				license_comments : '',
+
+				moment:moment
 			}
 		},
 
@@ -209,7 +290,7 @@
 
 					this.license_id = licenseId;
 
-					this.apiEndpoint = '/api/admin/licenses/edit';
+					this.apiEndpoint = '/api/admin/license/edit';
 
 				} else {
 
@@ -217,7 +298,7 @@
 
 					this.hasDataPopulated = true;
 
-					this.apiEndpoint = '/api/admin/licenses/add';
+					this.apiEndpoint = '/api/admin/license/add';
 				}
 			},
 
@@ -290,28 +371,9 @@ console.log(value,name)
                 this.license_code = a;
 			},
 
-			validLicense() {
-
-				if(!this.client_id){
-
-					if(!this.license_code){
-
-						this.$store.dispatch('setAlert', { type: 'danger', message: `License Code is required.`, 
-			    		component_name: 'license' });
-
-					} else{
-					
-						return true
-					}
-				} else {
-
-					return true
-				}
-			},
-
 			onSubmit(){
 			
-				if(this.isValid() && this.validLicense()){
+				if(this.isValid()){
 
 					this.loading = true 
 
@@ -326,11 +388,40 @@ console.log(value,name)
 					
 					data['product_id'] = this.product_id ? this.product_id.id : '';
 
-					data['client_id'] = this.client_id ? this.client_id.id : '';
+					data['license_status'] = this.license_status ? 1 : 0;
 
+					data['license_require_domain'] = this.license_require_domain ? 1 : 0;
+					
+					if(this.license_order_number){ data['license_order_number'] = this.license_order_number; }
+					
+					data['license_ip'] = this.license_ip;
+
+					data['license_domain'] = this.license_domain.toString();
+
+					if(this.license_limit) { data['license_limit'] = this.license_limit; }
+
+					data['license_comments'] = this.license_comments;
+
+					if(this.license_expire_date){
+						data['license_expire_date'] = moment(this.license_expire_date).format("YYYY-MM-DD");
+					}
+
+					if(this.license_updates_date){
+						data['license_updates_date'] = moment(this.license_updates_date).format("YYYY-MM-DD");
+					}
+
+					if(this.license_support_date){
+						data['license_support_date'] = moment(this.license_support_date).format("YYYY-MM-DD");
+					}
+					
 					if(!this.client_id){
 
 						data['license_code'] = this.license_code;
+					}
+
+					if(!this.license_code){
+
+						data['client_id'] = this.client_id ? this.client_id.id : '';
 					}
 					
 					axios.post(this.apiEndpoint, data).then(res => {
@@ -372,7 +463,9 @@ console.log(value,name)
 
 			"dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
 
-			"radio-button": require("components/Reusable/FormField/RadioButton").default
+			"radio-button": require("components/Reusable/FormField/RadioButton").default,
+
+			"date-picker": require("components/Reusable/FormField/DateTimePicker").default
 		}
 	}
 </script>

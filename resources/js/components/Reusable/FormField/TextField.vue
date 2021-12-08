@@ -1,7 +1,7 @@
 <template>
 
 	<form-field-template :label="label" :labelStyle="labelStyle" :name="name" :classname="classname" :hint="hint" :required="required"
-		:actionBtn="actionBtn" :tipRule="tipRule">
+		:showNewButton="showNewButton" :newBtnName="newBtnName" :onClickEvent="getActionEvent">
 
 		<template>
 
@@ -16,7 +16,6 @@
 					:cols="columns" 
 					:rows="rows" 
 					:style="inputStyle" 
-					:pattern="pattern ? pattern : null" 
 					:placeholder="placehold">
 							
 				</textarea>
@@ -35,7 +34,6 @@
 				@paste="pasteEvt($event,name)"
 				:placeholder="placehold" 
 				:maxlength="max ? max : undefined" 
-				:pattern="pattern ? pattern : null"
 			/>
 		</template>
 	</form-field-template>
@@ -99,11 +97,11 @@
 
 			showWordLimit: { type: Boolean, default: false },
 
-			pattern: { type: String, default: null },
+			showNewButton: { type: Boolean, default: false },
 
-			actionBtn: { type: Object, default: () => null },
+			newBtnName : { type : String, default : '' },
 
-			tipRule : { type : Number | Boolean, default : false }
+			onNewButtonClick: { type : Function, default : ()=>{}},
 		},
 
 		data() {
@@ -125,6 +123,14 @@
 				
 				this.changedValue = newVal;
 			}
+		},
+
+		methods : {
+			
+			getActionEvent(name){
+						
+				this.onNewButtonClick(name)
+			},
 		},
 
 		components: {
