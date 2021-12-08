@@ -163,4 +163,7 @@ return[
     'ip_address' => 'IP Address',
     'disable_ip' => 'Disable IP Address Verification',
     'delete_installation' => 'Delete Installation',
+    'invalid_licnese_ip' => 'Invalid License IP Address',
+    'invalid_licnese_domain' => 'Invalid License Domain(s)',
+    'edit_installation' => 'Edit Installation',
 ];

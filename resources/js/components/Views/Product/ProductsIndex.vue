@@ -94,6 +94,15 @@
 
 		        templates : {
 
+		        	product_title(createElement, row) {
+
+		        		return createElement('router-link', {
+							attrs: {
+								to: '/products/'+row.product_id+'/edit'
+							}
+						}, row.product_title);
+		        	},
+
 		        	product_url_homepage(createElement, row) {
 
 						return createElement('a', {

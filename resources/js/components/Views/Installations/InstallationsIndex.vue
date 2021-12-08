@@ -2,6 +2,11 @@
 		
 	<div class="col-sm-12">
 		
+		<div class="row" v-if="loading">
+
+			<custom-loader :duration="4000"></custom-loader>
+		</div>
+
 		<alert componentName="dataTableModal"/>
 
 		<div class="card card-light ">
@@ -35,11 +40,13 @@
 
 				data : '',
 
-				columns: ['product_title', 'license_code', 'total_installations', 'license_status', 'actions'],
+				columns: ['product_title', 'license_code', 'total_installations', 'latest_installation', 'installation_status', 'actions'],
 
 				options: {},
 
-				counter : 0
+				counter : 0,
+
+				loading : false
 			}
 		},
 
@@ -69,25 +76,52 @@
 
 				columnsClasses : {
 
-		          	product_id : 'license_product_id',
+		          	product_title : 'i_product_title',
 
-		          	license_code: 'license_code',
+		          	license_code : 'i_license_code',
 
-		         	total_installations : 'license_install',
+		          	total_installations : 'i_total_installations',
 
-		         	license_status: 'license_status'
+		          	latest_installation : 'i_latest_installation',
+
+		          	installation_status : 'i_installation_status',
 		        },
 
 		        templates : {
 
-					license_status(createElement, row) {
+		        	product_title(createElement, row) {
+
+		        		if(row.product_id) {
+
+		        			return createElement('router-link', {
+								attrs: {
+									to: '/products/'+row.product_id+'/edit'
+								}
+							}, row.product_title);
+		        		
+		        		} else{
+		        			return '---'
+		        		}
+		        	},
+
+		        	license_code(h,row){
+
+		        		return row.license_code ? row.license_code : '---';
+		        	},
+
+		        	latest_installation(h,row){
+
+		        		return row.latest_installation ? row.latest_installation.installation_date : '---';
+		        	},
+
+					installation_status(createElement, row) {
 			          	
 			          	let span = createElement('span', {
 			             	
 			             	attrs: {
-			               		'class' : row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+			               		'class' : row.installation_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
 			             	}
-			          	}, row.license_status ? 'Active' : 'Inactive');
+			          	}, row.installation_status ? 'Active' : 'Inactive');
 			          	
 			          	return createElement('a',{},[span]);
 			        },
@@ -99,13 +133,15 @@
 
 				headings: {
 			        
-			        product_id: 'Product',
-			        
-			        license_code: 'License Code',
-			   		
-			   		total_installations: 'Installations',
+			        product_title: 'Product',
 
-			   		license_status: 'Status',
+			        license_code : 'License Code',
+
+			        total_installations : 'Total Installations',
+
+			        latest_installation : 'Latest Installation',
+
+			        installation_status : 'Status',
 
 			   		actions: 'Actions'
 			    },
@@ -121,7 +157,11 @@
 
 			getData() {
 
+				this.loading = true;
+
 				axios.get('/api/admin/viewInstallations').then(res=>{
+
+					this.loading = false;
 
 					this.data = res.data.data.map(data => {
 
@@ -129,6 +169,9 @@
 
 						return data;
 					})
+				}).catch(err=>{
+					
+					this.loading = false;
 				})
 			}
 		}
@@ -137,7 +180,7 @@
 
 <style>
 	
-	.license_name,.license_email,.license_date,.license_status{ max-width: 200px; word-break: break-all;}
+	.i_product_title,.i_license_code,.i_total_installations,.i_latest_installation,.i_installation_status{ max-width: 200px; word-break: break-all;}
 	
 	#my_installations .VueTables .table-responsive {
 		overflow-x: auto;overflow-y: hidden;
