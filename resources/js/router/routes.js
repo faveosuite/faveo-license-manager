@@ -297,7 +297,9 @@ let reportsMenu = {
 
 //===========================SERVER MENU==========================
 
-import ServerNotifications from 'components/Views/ServerNotifications/ServerNotifications.vue';
+import CustomizeNotifications from 'components/Views/ServerNotifications/CustomizeNotifications.vue';
+
+import CustomizeEmails from 'components/Views/ServerNotifications/CustomizeEmails.vue';
 
 let serverMenu = {
 
@@ -315,13 +317,24 @@ let serverMenu = {
 		
 		{
 
-			path: ':category',
+			path: 'notifications',
 			
-			name: 'Server Notifications Index',
+			name: 'Customize Notifications',
 			
-			component: ServerNotifications,
+			component: CustomizeNotifications,
 			
-			meta: { title : 'server_notify', crumb : { link: { name : 'dashboard', to : '/' }, active : 'server_notify' } }
+			meta: { title : 'server_notify', crumb : { link: { name : 'dashboard', to : '/' }, active : 'customize_notifications' } }
+		},
+
+		{
+
+			path: 'emails',
+			
+			name: 'Customize Emails',
+			
+			component: CustomizeEmails,
+			
+			meta: { title : 'server_notify', crumb : { link: { name : 'dashboard', to : '/' }, active : 'customize_emails' } }
 		}
 	]
 }
