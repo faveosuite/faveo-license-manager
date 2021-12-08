@@ -274,6 +274,4 @@ return [
     'edit_banned_host' => 'Edit Banned Host',
     'apiUpdate' => 'The Current API Key Details Has Been Updated',
     'reset_password' => 'Reset Password'
-
-
 ];
