@@ -77,11 +77,11 @@ export default {
 				this.listElements = newValue;
 			}
 		},
+
 		value(newValues, oldValues) {
 			
 			this.selectedValue = newValues;
 		}
-
 	},
 	beforeMount() {
 		this.listElements = Boolean(this.elements) ? this.elements : [];
