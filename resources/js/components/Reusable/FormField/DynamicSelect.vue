@@ -85,7 +85,7 @@ export default {
 
 	data: () => ({
 		
-		selectedValue: "",
+		selectedValue: null,
 
 		searchQuery : undefined,
 
@@ -110,6 +110,11 @@ export default {
 				this.listElements = newValue;
 			}
 		},
+
+		value(newValues, oldValues) {
+			
+			this.selectedValue = newValues;
+		}
 	},
 
 	beforeMount() {
