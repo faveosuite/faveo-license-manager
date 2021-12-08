@@ -7,8 +7,11 @@ use App\Http\Controllers\Admin\LicenseController;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+use App\Traits\RequestJsonValidation;
+
 class LicenseRequest extends FormRequest
 {
+    use RequestJsonValidation;
     /**
      * Determine if the user is authorized to make this request.
      *

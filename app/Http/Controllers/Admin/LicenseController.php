@@ -156,7 +156,7 @@ public function licenseAdd(LicenseRequest $request){
                       $api_error_detected=1;
                       return errorResponse(Lang::get('lang.invalid_license_limit'),400);
                     }
-
+// dd($license_expire_date);
                 if (!empty($license_expire_date) && !aflVerifyDateTime($license_expire_date, "Y-m-d"))
                     {
                         $api_error_detected=1;
@@ -256,7 +256,8 @@ public function licenseAdd(LicenseRequest $request){
                             $client_formatted=formatClient($license_code, $client_email);
 
                                $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>1, "error_detected"=>0, "page_message"=>$client_formatted); //make array with response data
-                                return json_encode($api_response_array);//return successResponse(Lang::get('lang.success'),$client_formatted,201);
+                                // return json_encode($api_response_array);
+                                return successResponse(Lang::get('lang.License_add'),$client_formatted,201);
                             }
                         }
                     }
@@ -525,7 +526,7 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                             }
 
                         $client_formatted=formatClient($license_code, $client_email);
-                        return successResponse(Lang::get('lang.license_Update'),$client_formatted,200);
+                        return successResponse(Lang::get('lang.License_edit'),$client_formatted,200);
                         }
                     }
                 }

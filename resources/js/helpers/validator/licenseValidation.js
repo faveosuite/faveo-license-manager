@@ -6,13 +6,19 @@ import { lang } from 'helpers/extraLogics';
 
 export function validateLicenseSettings(data) {
 
-  const { product_id } = data
+  const { product_id, license_code, client_id } = data
 
   var validatingData = {
 
     product_id: [product_id, 'isRequired']
 
   };
+
+  if(!data.client_id){
+       
+    validatingData['license_code'] = [data.license_code,'isRequired'];
+       
+  }
 
   const validator = new Validator(lang);
 
