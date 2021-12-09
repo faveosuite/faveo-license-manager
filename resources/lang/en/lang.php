@@ -186,4 +186,10 @@ return[
     'notification_invalid_signature' => 'Invalid License Signature',
     'notification_host_banned' => 'Host Banned',
     'notification_unknown_error' => 'Unknown Error',
+    'email_expiring_license_subject' => 'Expiring License Email Subject',
+    'email_expiring_license_text' => 'Expiring License Email Text',
+    'email_expiring_updates_subject' => 'Expiring Updates Email Subject',
+    'email_expiring_updates_text' => 'Expiring Updates Email Text',
+    'email_expiring_support_subject' => 'Expiring Support Email Subject',
+    'email_expiring_support_text' => 'Expiring Support Email Text',
 ];
