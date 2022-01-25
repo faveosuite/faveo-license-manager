@@ -15,7 +15,7 @@ class AfuVersions extends Model
     public $timestamps = false;
 
     public function product(){
-        return $this->hasMany(AflProducts::class);
+        return $this->hasMany(AfuProducts::class);
     }
     public function updateInstallation(){
         return $this->hasMany(AfuInstallations::class);
