@@ -49,7 +49,6 @@ public function productAdd(ProductRequest $request)
         $api_key_secret = $request->get('api_key_secret');
         $product_title = $request->get('product_title');
         $product_sku = $request->get('product_sku');
-        $product_key = $request->get('product_key');
         $product_status = $request->get('product_status');
         $product_description= $request->get('product_description');
         $product_url_homepage= $request->get('product_url_homepage');
@@ -67,7 +66,7 @@ public function productAdd(ProductRequest $request)
                  $$optional_api_parameter="";
              }
          }
-          if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) &&   !empty($product_key) && $api_action_success==1)
+          if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
                 {
                 if (!empty($product_url_homepage) && !filter_var($product_url_homepage, FILTER_VALIDATE_URL))
                     {
@@ -89,7 +88,6 @@ public function productAdd(ProductRequest $request)
                             'product_title' => $product_title,
                             'product_description' => $product_description,
                             'product_sku' => $product_sku,
-                            'product_key'=>$product_key,
                             'product_url_homepage' => $product_url_homepage,
                             'product_url_download' => $product_url_download,
                             'product_date' => $product_date,
@@ -152,9 +150,9 @@ public function deleteProduct(Request $request)
         DB::beginTransaction();//mysqli_begin_transaction($GLOBALS["mysqli"]);
         $transaction_errors_array=array();
         try{
-        AFlCallbacks::where('product_id',$product_id)->delete();//Delete all callback for that product
-        AFlInstallations::where('product_id',$product_id)->delete();//Delete all installations for that product
-        AFlLicenses::where('product_id',$product_id)->delete();//Delete all licenses for that product
+        AflCallbacks::where('product_id',$product_id)->delete();//Delete all callback for that product
+        AflInstallations::where('product_id',$product_id)->delete();//Delete all installations for that product
+        AflLicenses::where('product_id',$product_id)->delete();//Delete all licenses for that product
         $removed_records+=AFlProducts::where('product_id',$product_id)->delete();//Delete the product
         DB::commit();
         }
@@ -202,7 +200,6 @@ Public function productUpdate(Request $request){
         $product_url_download= $request->get('product_url_download');
         $product_version= $request->get('product_version');
         $product_envato_id= $request->get('product_envato_id');
-        $product_key = $request->get('product_key');
 
         if (empty($product_id) || !aflValidateIntegerValue($product_id) || empty($rows_array=AflProducts::where('product_id',$product_id)->get()->toArray())) //invalid record
         {
@@ -210,7 +207,7 @@ Public function productUpdate(Request $request){
         }
         $api_key = new ApiKeysController();
         $api_action_success=$api_key->apiKeyCheck($api_key_secret,$this->ip_address);
-         if (!empty($product_title) && !empty($product_sku) && !empty($product_key) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
+         if (!empty($product_title) && !empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success==1)
                 {
                 if (!empty($product_url_homepage) && !filter_var($product_url_homepage, FILTER_VALIDATE_URL))
                     {

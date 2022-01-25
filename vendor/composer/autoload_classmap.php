@@ -94,6 +94,7 @@ return array(
     'App\\Models\\AfuFailedUpdates' => $baseDir . '/app/Models/AfuFailedUpdates.php',
     'App\\Models\\AfuInstallations' => $baseDir . '/app/Models/AfuInstallations.php',
     'App\\Models\\AfuNotifications' => $baseDir . '/app/Models/AfuNotifications.php',
+    'App\\Models\\AfuProducts' => $baseDir . '/app/Models/AfuProducts.php',
     'App\\Models\\AfuVersions' => $baseDir . '/app/Models/AfuVersions.php',
     'App\\Models\\FaveoLicense' => $baseDir . '/app/Models/FaveoLicense.php',
     'App\\Models\\OauthAccessToken' => $baseDir . '/app/Models/OauthAccessToken.php',

@@ -90,7 +90,7 @@ class DatabaseSeeder extends Seeder
         'ROOT_URL'=>'https://license.faveohelpdesk.com',
         'CLIENT_EMAIL' => 'admin@ladybirdweb.com',
         'LICENSE_CODE' => 'a607e11e-5949-4339-a182-e49f2bd51186',
-        'INSTALLATION_HASH' => '0b656b2163477d0aa1fa698d014fba16dd03703273b2c205ca14576560a13d89',
+        'INSTALLATION_HASH' => '    ',
         'SYSTEM_LANGUAGE' => 'en',
         'TIMEZONE' => 'UTC',
         'RECORDS_ARCHIVE_DAYS' => '365',
