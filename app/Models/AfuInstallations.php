@@ -12,7 +12,7 @@ class AfuInstallations extends Model
     protected $primaryKey = 'installation_id';
     public $timestamps = false;
     public function product(){
-        return $this->hasMany(AflProducts::class);
+        return $this->hasMany(AfuProducts::class);
     }
 
     public function client(){

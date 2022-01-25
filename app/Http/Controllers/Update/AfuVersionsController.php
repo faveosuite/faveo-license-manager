@@ -10,6 +10,7 @@ use App\Models\AflInstallations;
 use App\Models\AflProducts;
 use App\Models\AfuCallbacks;
 use App\Models\AfuInstallations;
+use App\Models\AfuProducts;
 use FilesystemIterator;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -137,7 +138,7 @@ class AfuVersionsController extends Controller
                     {
                         $version_date=date("Y-m-d");
 
-                        $product_array=AflProducts::where('product_id', $product_id)->get()->toArray(); //fetch product details to be used in file names and reports
+                        $product_array=AfuProducts::where('product_id', $product_id)->get()->toArray(); //fetch product details to be used in file names and reports
                         foreach ($product_array as $product)
                         {
                             extract($product);
@@ -450,7 +451,7 @@ class AfuVersionsController extends Controller
 
                     if ($error_detected!=1)
                     {
-                        $product_array=AflProducts::where('product_id', $product_id)->get()->toArray(); //fetch product details to be used in file names and reports
+                        $product_array=AfuProducts::where('product_id', $product_id)->get()->toArray(); //fetch product details to be used in file names and reports
                         foreach ($product_array as $product)
                         {
                             extract($product);
