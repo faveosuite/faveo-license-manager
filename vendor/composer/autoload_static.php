@@ -678,6 +678,7 @@ class ComposerStaticInit665e58ec24b08bc6ec1e13efdbf01307
         'App\\Models\\AfuFailedUpdates' => __DIR__ . '/../..' . '/app/Models/AfuFailedUpdates.php',
         'App\\Models\\AfuInstallations' => __DIR__ . '/../..' . '/app/Models/AfuInstallations.php',
         'App\\Models\\AfuNotifications' => __DIR__ . '/../..' . '/app/Models/AfuNotifications.php',
+        'App\\Models\\AfuProducts' => __DIR__ . '/../..' . '/app/Models/AfuProducts.php',
         'App\\Models\\AfuVersions' => __DIR__ . '/../..' . '/app/Models/AfuVersions.php',
         'App\\Models\\FaveoLicense' => __DIR__ . '/../..' . '/app/Models/FaveoLicense.php',
         'App\\Models\\OauthAccessToken' => __DIR__ . '/../..' . '/app/Models/OauthAccessToken.php',

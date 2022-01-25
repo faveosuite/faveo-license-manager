@@ -30,6 +30,7 @@ use App\Http\Controllers\AfuCallbacks\GetAllVersionsController;
 use App\Http\Controllers\AfuCallbacks\FetchQueryController;
 use App\Http\Controllers\AfuCallbacks\DownloadFileController;
 use App\Http\Controllers\Update\DirectoryController;
+use App\Http\Controllers\Update\AfuProductsController;
 use App\Http\Controllers\TestController;
 use App\Http\Middleware\Manager;
 
@@ -182,6 +183,11 @@ Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 
 
 
 /**************************************************** UPDATE MANAGER ************************************************************/
+
+//PRODUCTS
+    Route::post('products/UpdateAdd', [AfuProductsController::class, 'productUpdateAdd']);
+    Route::post('products/UpdateDelete', [AfuProductsController::class, 'deleteUpdateProduct']);
+    Route::post('products/UpdateEdit', [AfuProductsController::class, 'productUpdateUpdate']);
 
 //VERSIONS
         Route::post('versions/add', [AfuVersionsController::class, 'versionAdd']);

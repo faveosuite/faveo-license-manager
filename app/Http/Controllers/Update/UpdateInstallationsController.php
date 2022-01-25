@@ -72,7 +72,7 @@ class UpdateInstallationsController extends Controller
                             }
                             else {
                                 $action_success=1;
-                                foreach ($rows_array= AfuInstallations::leftJoin('afl_products','afu_installations.product_id','=','afl_products.product_id')
+                                foreach ($rows_array= AfuInstallations::leftJoin('afu_products','afu_installations.product_id','=','afu_products.product_id')
                                                                        ->where('afu_installations.installation_id',$installation_id)->get()->toArray() as $row) {
                                     extract($row);
                                 }
@@ -120,7 +120,7 @@ class UpdateInstallationsController extends Controller
         return successResponse(Lang::get('lang.Install_show'),$Install,200);
     }
     private function updateInstallArray(){
-        $rows_array=AfuInstallations::leftJoin('afl_products','afu_installations.product_id','=','afl_products.product_id')
+        $rows_array=AfuInstallations::leftJoin('afu_products','afu_installations.product_id','=','afu_products.product_id')
                                      ->leftJoin('afu_versions','afu_installations.version_id','=','afu_versions.version_id')
                                      ->orderBy('installation_date','DESC')
                                      ->orderBy('installation_id','DESC')->get()->toArray();

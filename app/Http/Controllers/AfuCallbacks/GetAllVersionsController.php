@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AfuCallbacks;
 
 use App\Http\Controllers\Controller;
 use App\Models\AflProducts;
+use App\Models\AfuProducts;
 use App\Models\AfuVersions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -71,7 +72,7 @@ class GetAllVersionsController extends Controller
             $version_array = array();
             $elements_to_unset_array = array("product_key", "version_install_file", "version_install_query", "version_raw_install_query", "version_upgrade_file", "version_upgrade_query", "version_raw_upgrade_query", "version_install_limit", "version_install_count", "version_upgrade_limit", "version_upgrade_count", "version_changelog", "version_comments"); //elements to be removed from final array (notification_data) because of security or other reasons for this page
 
-            $product_array = AflProducts::where('product_id',$product_id)->where('product_key',$product_key)->get()->toArray();//fetchRow("SELECT * FROM aus_products WHERE product_id=? AND product_key=?", array($product_id, $product_key), array("i", "s")); //check if product exists, so it's possible to generate reports with product name even if product is inactive or version doesn't exist
+            $product_array = AfuProducts::where('product_id',$product_id)->where('product_key',$product_key)->get()->toArray();//fetchRow("SELECT * FROM aus_products WHERE product_id=? AND product_key=?", array($product_id, $product_key), array("i", "s")); //check if product exists, so it's possible to generate reports with product name even if product is inactive or version doesn't exist
             if (empty($product_array)) //product doesn't exist
             {
                 $error_detected = 1;
