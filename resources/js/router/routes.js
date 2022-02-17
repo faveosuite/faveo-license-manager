@@ -12,7 +12,6 @@ import ForgotPassword from 'components/Auth/ForgotPassword.vue';
 
 import ResetPassword from 'components/Auth/ResetPassword.vue'
 
-
 //===========================PRODUCTS MENU=========================
 
 import ProductCreateEdit from 'components/Views/Product/ProductCreateEdit.vue';
@@ -41,7 +40,6 @@ let productsMenu = {
 
 			component: ProductsIndex,
 
-
 			meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, active : 'products' } }
 		},
 
@@ -53,7 +51,6 @@ let productsMenu = {
 
 			component: ProductCreateEdit,
 
-
 			meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'create' } }
 		},
 
@@ -64,7 +61,6 @@ let productsMenu = {
 			name: 'Product Edit',
 
 			component: ProductCreateEdit,
-
 
 			meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'edit' } }
 		},
@@ -101,7 +97,6 @@ let clientsMenu = {
 
 			component: ClientsIndex,
 
-
 			meta: { title : 'clients', crumb : { link: { name : 'dashboard', to : '/' }, active : 'clients' } }
 		},
 
@@ -123,7 +118,6 @@ let clientsMenu = {
 			name: 'Client Edit',
 
 			component: ClientCreateEdit,
-
 
 			meta: { title : 'clients', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'clients', to : '/clients' }, active : 'edit' } }
 		},
@@ -160,7 +154,6 @@ let licensesMenu = {
 
 			component: LicensesIndex,
 
-
 			meta: { title : 'licenses', crumb : { link: { name : 'dashboard', to : '/' }, active : 'licenses' } }
 		},
 
@@ -172,7 +165,6 @@ let licensesMenu = {
 
 			component: LicenseCreateEdit,
 
-
 			meta: { title : 'licenses', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'licenses', to : '/licenses' }, active : 'create' } }
 		},
 
@@ -183,7 +175,6 @@ let licensesMenu = {
 			name: 'License Edit',
 
 			component: LicenseCreateEdit,
-
 
 			meta: { title : 'licenses', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'licenses', to : '/licenses' }, active : 'edit' } }
 		},
@@ -233,7 +224,6 @@ let installationsMenu = {
 
 			meta: { title : 'installations', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'installations', to : '/installations' }, active : 'edit' } }
 		},
-
 	]
 }
 
@@ -291,7 +281,6 @@ let callbacksMenu = {
 
             meta: { title : 'callbacks', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'callbacks', to : '/callbacks' }, active : 'edit' } }
         },
-
 	]
 }
 
@@ -351,7 +340,6 @@ let reportsMenu = {
 
             meta: { title : 'reports', crumb : { link: { name : 'dashboard', to : '/' }, active : 'view_system_reports' } }
         }
-
 	]
 }
 
@@ -397,7 +385,6 @@ let serverMenu = {
 			component: CustomizeEmails,
 
 			meta: { title : 'server_notify', crumb : { link: { name : 'dashboard', to : '/' }, active : 'customize_emails' } }
-
 		}
 	]
 }
@@ -415,6 +402,7 @@ import SecuritySettings from 'components/Views/Settings/SecuritySettings.vue';
 import EmailSettings from 'components/Views/Settings/EmailSettings.vue';
 
 import SystemCleanupSettings from 'components/Views/Settings/SystemCleanupSettings.vue';
+
 
 
 let settingsMenu = {
@@ -485,7 +473,6 @@ let settingsMenu = {
 
             meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'system_cleanup_settings' } }
         }
-
 	]
 }
 
@@ -519,7 +506,6 @@ let apiMenu = {
 
 			component: APIKeyIndex,
 
-
 			meta: { title : 'api_keys', crumb : { link: { name : 'dashboard', to : '/' }, active : 'api_keys' } }
 		},
 
@@ -541,7 +527,6 @@ let apiMenu = {
 			name: 'API Key Edit',
 
 			component: APIKeyCreateEdit,
-
 
 			meta: { title : 'api_keys', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'api_keys', to : '/apikeys' }, active : 'edit' } }
 		},
@@ -578,7 +563,6 @@ let bannedMenu = {
 
 			component: BannedHostsIndex,
 
-
 			meta: { title : 'banned-hosts', crumb : { link: { name : 'dashboard', to : '/' }, active : 'banned-hosts' } }
 		},
 
@@ -590,7 +574,6 @@ let bannedMenu = {
 
 			component: BannedHostCreateEdit,
 
-
 			meta: { title : 'banned-hosts', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'banned-hosts', to : '/banned-hosts' }, active : 'create' } }
 		},
 
@@ -601,7 +584,6 @@ let bannedMenu = {
 			name: 'Banned Host Edit',
 
 			component: BannedHostCreateEdit,
-
 
 			meta: { title : 'banned-hosts', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'banned-hosts', to : '/banned-hosts' }, active : 'edit' } }
 		},
@@ -635,7 +617,6 @@ let extraMenu = {
 			name: 'Configuration Settings',
 
 			component: ConfigurationSettings,
-
 
 			meta: { title : 'configuration', crumb : { link: { name : 'dashboard', to : '/' }, active : 'configuration' } }
 		}
@@ -701,7 +682,6 @@ let routes = [
         component: Login
     },
 
-
     {
         path: '/forgot-password',
         name: 'forgot-password',
@@ -713,7 +693,6 @@ let routes = [
         name: 'reset-password',
         component: ResetPassword
     },
-
 
 	{
 		path: '*',
