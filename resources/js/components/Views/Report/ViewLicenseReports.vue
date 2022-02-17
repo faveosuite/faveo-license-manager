@@ -3,7 +3,7 @@
     <div class="col-sm-12">
 
         <div class="alert alert-info">
-            <p>View existing license verification callbacks. If any callback needs to be deleted, check the client or license code and click the 'Submit' button.</p>
+            <p>View license reports. If any report needs to be deleted, check the report and click the 'Submit' button.</p>
         </div>
 
         <div class="row" v-if="loading">
@@ -17,18 +17,11 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('callbacks')}}</h3>
+                <h3 class="card-title">{{lang('view_license_reports')}}</h3>
 
-                <div class="card-tools">
-
-                    <router-link to="/callbacks/create" class="btn-tool" v-tooltip="lang('create_callback')">
-
-                        <i class="fas fa-plus"></i>
-                    </router-link>
-                </div>
             </div>
 
-            <div class="card-body" id="my_installations">
+            <div class="card-body" id="my_license">
 
                 <v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
 
@@ -44,7 +37,7 @@ import axios from 'axios';
 
 export default {
 
-    name : 'callbacks-list',
+    name : 'license-list',
 
     data() {
 
@@ -52,13 +45,13 @@ export default {
 
             data : '',
 
-            columns: ['product_title', 'total_callbacks', 'latest_callbacks', 'callbacks_status', 'actions'],
+            columns: ['product_title', 'reports', 'latest_reports', 'report_status', 'actions'],
 
             options: {},
 
             counter : 0,
 
-            installation_id : '',
+            license_id : '',
 
             loading : false
         }
@@ -92,11 +85,11 @@ export default {
 
                 product_title : 'i_product_title',
 
-                total_callbacks : 'i_total_callbacks',
+                reports: 'i_reports',
 
-                latest_callback : 'i_latest_callback',
+                latest_reports : 'i_latest_reports',
 
-                callback_status : 'i_callback_status',
+                report_status : 'i_report_status',
             },
 
             templates : {
@@ -116,19 +109,19 @@ export default {
                     }
                 },
 
-                latest_callback(h,row){
+                latest_reports(h,row){
 
-                    return row.latest_callback ? row.latest_callback.callback_date : '---';
+                    return row.latest_reports ? row.latest_reports.report_date : '---';
                 },
 
-                callback_status(createElement, row) {
+                report_status(createElement, row) {
 
                     let span = createElement('span', {
 
                         attrs: {
-                            'class' : row.callback_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                            'class' : row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
                         }
-                    }, row.callback_status ? 'Active' : 'Inactive');
+                    }, row.report_status ? 'Active' : 'Inactive');
 
                     return createElement('a',{},[span]);
                 },
@@ -142,16 +135,17 @@ export default {
 
                 product_title: 'Product',
 
-                total_callbacks : 'Total Callbacks',
+                reports: 'Reports',
 
-                latest_callbacks : 'Latest Callback',
+                latest_reports : 'Latest Reports',
 
-                callbacks_status : 'Status',
+                report_status : 'Status',
 
                 actions: 'Actions'
             },
         }
     },
+
 
 };
 </script>
