@@ -3,7 +3,8 @@
     <div class="col-sm-12">
 
         <div class="alert alert-info">
-            <p>View existing license verification callbacks. If any callback needs to be deleted, check the client or license code and click the 'Submit' button.</p>
+            <p>View cracking reports. If any report needs to be deleted, check the report and click the 'Submit' button.<br><br>
+                <b>Attention</b>: all failed installations and verifications are displayed in View License Reports section; therefore, this section should always be empty. If you see any record here, most likely someone was sending invalid data to licensing server. If automatic hosts banning is enabled, Auto PHP Licenser will ban attacker automatically. Otherwise, you should ban attacker's host manually.</p>
         </div>
 
         <div class="row" v-if="loading">
@@ -17,18 +18,11 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('callbacks')}}</h3>
+                <h3 class="card-title">{{lang('view_cracking_reports')}}</h3>
 
-                <div class="card-tools">
-
-                    <router-link to="/callbacks/create" class="btn-tool" v-tooltip="lang('create_callback')">
-
-                        <i class="fas fa-plus"></i>
-                    </router-link>
-                </div>
             </div>
 
-            <div class="card-body" id="my_installations">
+            <div class="card-body" id="my_cracking">
 
                 <v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
 
@@ -44,7 +38,7 @@ import axios from 'axios';
 
 export default {
 
-    name : 'callbacks-list',
+    name : 'cracking-list',
 
     data() {
 
@@ -52,13 +46,13 @@ export default {
 
             data : '',
 
-            columns: ['product_title', 'total_callbacks', 'latest_callbacks', 'callbacks_status', 'actions'],
+            columns: ['report_title', 'client_license', 'report_date', 'report_status'],
 
             options: {},
 
             counter : 0,
 
-            installation_id : '',
+            report_id : '',
 
             loading : false
         }
@@ -90,13 +84,13 @@ export default {
 
             columnsClasses : {
 
-                product_title : 'i_product_title',
+                report_title : 'i_report_title',
 
-                total_callbacks : 'i_total_callbacks',
+                client_license : 'i_client_license',
 
-                latest_callback : 'i_latest_callback',
+                report_date : 'i_report_date',
 
-                callback_status : 'i_callback_status',
+                report_status : 'i_report_status',
             },
 
             templates : {
@@ -116,19 +110,19 @@ export default {
                     }
                 },
 
-                latest_callback(h,row){
+                latest_report(h,row){
 
-                    return row.latest_callback ? row.latest_callback.callback_date : '---';
+                    return row.client_license ? row.client_license.report_date : '---';
                 },
 
-                callback_status(createElement, row) {
+                report_status(createElement, row) {
 
                     let span = createElement('span', {
 
                         attrs: {
-                            'class' : row.callback_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                            'class' : row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
                         }
-                    }, row.callback_status ? 'Active' : 'Inactive');
+                    }, row.report_status ? 'Active' : 'Inactive');
 
                     return createElement('a',{},[span]);
                 },
@@ -140,18 +134,17 @@ export default {
 
             headings: {
 
-                product_title: 'Product',
+                report_title : 'Report',
 
-                total_callbacks : 'Total Callbacks',
+                client_license : 'Client or License Code',
 
-                latest_callbacks : 'Latest Callback',
+                report_date : 'Date',
 
-                callbacks_status : 'Status',
-
-                actions: 'Actions'
+                report_status : 'Status',
             },
         }
     },
+
 
 };
 </script>
@@ -160,11 +153,11 @@ export default {
 
 .i_product_title,.i_license_code,.i_total_installations,.i_latest_installation,.i_installation_status{ max-width: 200px; word-break: break-all;}
 
-#my_installations .VueTables .table-responsive {
+#my_cracking .VueTables .table-responsive {
     overflow-x: auto;overflow-y: hidden;
 }
 
-#my_installations .VueTables .table-responsive > table{
+#my_cracking .VueTables .table-responsive > table{
     width : max-content;
     min-width : 100%;
     max-width : max-content;
