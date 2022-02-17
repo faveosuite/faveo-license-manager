@@ -399,7 +399,7 @@ public function returnInstallationsArray($product_id, $date_from="", $date_to=""
                             })
                     ->orderBy('installation_date','desc')
                     ->orderBy('installation_id','desc')
-                    ->limit($results_limit)->get()->toArray();
+                    ->get()->toArray(); //showing installation path details
 
         }
     else
