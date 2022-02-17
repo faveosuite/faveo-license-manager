@@ -199,4 +199,13 @@ return[
     'email_expiring_updates_text' => 'Expiring Updates Email Text',
     'email_expiring_support_subject' => 'Expiring Support Email Subject',
     'email_expiring_support_text' => 'Expiring Support Email Text',
+    'create_callback' => 'Create Callback',
+    'view_license_reports' => 'View License Reports',
+    'view_cracking_reports' => 'View Cracking Reports',
+    'view_system_reports' => 'View System Reports',
+    'general_settings' => 'General Settings',
+    'advanced_settings' => 'Advanced Settings',
+    'email_settings' => 'Email Settings',
+    'security_settings' => 'Security Settings',
+    'system_cleanup_settings' => 'System Cleanup Settings'
 ];
