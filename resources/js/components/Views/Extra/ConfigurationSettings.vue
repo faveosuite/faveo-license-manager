@@ -1,3 +1,184 @@
 <template>
-	<h1>Configuaration Settings</h1>
+
+    <div class="col-sm-12">
+
+        <div class="alert alert-info">
+            <p>Automatically generate settings for apl_core_configuration.php file. Select product to be licensed, license verification period, license storage options, and click the 'Submit' button. Once configuration is generated, copy/paste its content to your apl_core_configuration.php file.</p>
+        </div>
+
+        <div class="row" v-if="!hasDataPopulated || loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
+
+        <alert componentName="license"/>
+
+        <div class="card card-light" v-if="hasDataPopulated">
+
+            <div class="card-header">
+
+                <h3 class="card-title">{{trans(title)}}</h3>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <dynamic-select :label="trans('product')" :multiple="false" classname="col-sm-6" :strlength="35">
+                    </dynamic-select>
+
+                    <text-field :label="trans('license_verification_period')" type="text" classname="col-sm-6">
+
+                    </text-field>
+                </div>
+
+                <div class="row">
+
+                    <dynamic-select :label="trans('license_storage_type')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false">
+                    </dynamic-select>
+
+                    <text-field :label="trans('license_file_location')" type="text" classname="col-sm-6">
+
+                    </text-field>
+                </div>
+
+                <div class="row">
+
+                    <text-field :label="trans('mysql_tablename')" type="text" classname="col-sm-6">
+
+                    </text-field>
+
+                    <dynamic-select :label="trans('delete_cancelled_license')" :multiple="true" classname="col-sm-6" :strlength="35"
+                                    :required="false">
+                    </dynamic-select>
+                </div>
+
+                <div class="row">
+
+                    <dynamic-select :label="trans('delete_cracked_license')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false">
+                    </dynamic-select>
+
+                    <dynamic-select :label="trans('god_mode')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false">
+                    </dynamic-select>
+
+                </div>
+            </div>
+
+            <div class="card-footer">
+
+                <button class="btn btn-default" @click="onSubmit()"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+            </div>
+        </div>
+    </div>
 </template>
+
+<script>
+
+import axios from 'axios'
+
+import { successHandler, errorHandler } from 'helpers/responseHandler';
+
+import  { getIdFromUrl } from 'helpers/extraLogics';
+
+import { validateLicenseSettings } from "helpers/validator/licenseValidation.js";
+
+import { mapGetters } from 'vuex';
+
+import moment from 'moment'
+
+export default {
+
+    name : 'Configuration Generator',
+
+    data() {
+
+        return {
+
+            title : 'configuration_generator',
+
+            iconClass : 'fas fa-save',
+
+            btnName : 'save',
+
+            hasDataPopulated : false,
+
+            loading : false,
+
+            apiEndpoint : '',
+
+            moment:moment
+        }
+    },
+
+    beforeMount() {
+
+        const path = window.location.pathname
+
+        this.getValues(path);
+
+        this.loadData();
+    },
+
+    methods : {
+
+        loadData() {
+
+            this.loading = true;
+
+            this.hasDataPopulated = false;
+
+            Promise.all([this.getProducts(),this.getClients()]).then((values) => {
+
+                [this.productOptions, this.clientOptions] = values;
+
+                this.loading = false;
+
+                this.hasDataPopulated = true;
+
+            }).catch(function (error) {
+
+                this.loading = false;
+
+                this.hasDataPopulated = true;
+            });
+        },
+
+        getProducts() {
+        },
+
+        getClients() {
+        },
+
+        getValues(){
+        },
+
+        getInitialValues(){
+        },
+
+        updateStatesWithData(){
+        },
+
+        isValid() {
+        },
+
+        onChange() {
+        },
+
+        generateCode() {
+        },
+
+        onSubmit(){
+        }
+    },
+
+    components : {
+
+        "text-field": require("components/Reusable/FormField/TextField").default,
+
+        "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
+    }
+}
+</script>
