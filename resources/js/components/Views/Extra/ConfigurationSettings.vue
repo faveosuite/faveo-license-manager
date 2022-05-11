@@ -11,8 +11,6 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="license"/>
-
         <div class="card card-light" v-if="hasDataPopulated">
 
             <div class="card-header">
@@ -24,7 +22,7 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('product')" :multiple="false" classname="col-sm-6" :strlength="35">
+                    <dynamic-select :label="trans('product')" :elements="productOptions" :multiple="false" classname="col-sm-6" :strlength="35">
                     </dynamic-select>
 
                     <text-field :label="trans('license_verification_period')" type="text" classname="col-sm-6">
@@ -83,8 +81,6 @@ import { successHandler, errorHandler } from 'helpers/responseHandler';
 
 import  { getIdFromUrl } from 'helpers/extraLogics';
 
-import { validateLicenseSettings } from "helpers/validator/licenseValidation.js";
-
 import { mapGetters } from 'vuex';
 
 import moment from 'moment'
@@ -109,7 +105,9 @@ export default {
 
             apiEndpoint : '',
 
-            moment:moment
+            moment:moment,
+
+            productOptions: []
         }
     },
 
@@ -147,6 +145,20 @@ export default {
         },
 
         getProducts() {
+
+            axios.get('/api/admin/viewproducts').then(res=>{
+
+                this.productOptions =  res.data.data.map(data=>{
+
+                    data.name = data.product_title;
+
+                    data.id = data.product_id;
+
+                    return data;
+                })
+            });
+
+            return this.productOptions
         },
 
         getClients() {
