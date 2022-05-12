@@ -25,7 +25,7 @@
                     <dynamic-select :label="trans('product')" :elements="productOptions" :multiple="false" classname="col-sm-6" :strlength="35">
                     </dynamic-select>
 
-                    <text-field :label="trans('license_verification_period')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('license_verification_period')" :value="license_verification_period" name="license_verification_period" :onchange="onChange" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
@@ -107,7 +107,9 @@ export default {
 
             moment:moment,
 
-            productOptions: []
+            productOptions: [],
+
+            license_verification_period : ''
         }
     },
 
@@ -176,13 +178,88 @@ export default {
         isValid() {
         },
 
-        onChange() {
-        },
+        onChange(value, name) {
 
-        generateCode() {
+            this[name] = value ? value : '';
+
+            if(name === 'client_id') {
+
+                if(value){ this.license_code = '' }
+            }
         },
 
         onSubmit(){
+
+            if(this.isValid()){
+
+                this.loading = true
+
+                const data = {};
+
+                data['product_id'] = this.product_id ? this.product_id.id : '';
+
+                data['license_status'] = this.license_status ? 1 : 0;
+
+                data['license_require_domain'] = this.license_require_domain ? 1 : 0;
+
+                if(this.license_verification_period){ data['license_verification_period'] = this.license_verification_period; }
+
+                data['license_ip'] = this.license_ip;
+
+                data['license_domain'] = this.license_domain.toString();
+
+                if(this.license_limit) { data['license_limit'] = this.license_limit; }
+
+                data['license_comments'] = this.license_comments;
+
+                if(this.license_expire_date){
+                    data['license_expire_date'] = moment(this.license_expire_date).format("YYYY-MM-DD");
+                }
+
+                if(this.license_updates_date){
+                    data['license_updates_date'] = moment(this.license_updates_date).format("YYYY-MM-DD");
+                }
+
+                if(this.license_support_date){
+                    data['license_support_date'] = moment(this.license_support_date).format("YYYY-MM-DD");
+                }
+
+                if(!this.client_id){
+
+                    data['license_code'] = this.license_code;
+                }
+
+                if(!this.license_code){
+
+                    data['client_id'] = this.client_id ? this.client_id.id : '';
+                }
+
+                axios.post(this.apiEndpoint, data).then(res => {
+
+                    this.loading = false
+
+                    successHandler(res,'tools')
+
+                    if(!this.license_id){
+
+                        setTimeout(()=>{
+
+                            this.$router.push('/tools')
+
+                        },2000)
+
+                    } else {
+
+                        this.getInitialValues(this.license_id)
+                    }
+
+                }).catch(err => {
+
+                    this.loading = false
+
+                    errorHandler(err,'tools')
+                });
+            }
         }
     },
 
