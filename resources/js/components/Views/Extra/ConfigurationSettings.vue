@@ -142,9 +142,9 @@ export default {
 
             this.hasDataPopulated = false;
 
-            Promise.all([this.getProducts(),this.getClients()]).then((values) => {
+            Promise.all([this.getProducts()]).then((values) => {
 
-                [this.productOptions, this.clientOptions] = values;
+                [this.productOptions] = values;
 
                 this.loading = false;
 
