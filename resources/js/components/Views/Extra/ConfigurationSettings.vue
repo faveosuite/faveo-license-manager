@@ -25,40 +25,40 @@
                     <dynamic-select :label="trans('product')" :elements="productOptions" :multiple="false" classname="col-sm-6" :strlength="35">
                     </dynamic-select>
 
-                    <text-field :label="trans('license_verification_period')" :value="license_verification_period" name="license_verification_period" :onchange="onChange" type="text" classname="col-sm-6">
+                    <text-field :label="trans('license_verification_period')" :value="License_Verification_Period" name="License_Verification_Period" :onchange="onChange" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('license_storage_type')" :multiple="false" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="trans('license_storage_type')" :elements="License_Storage_type" :multiple="false" classname="col-sm-6" :strlength="35"
                                     :required="false">
                     </dynamic-select>
 
-                    <text-field :label="trans('license_file_location')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('license_file_location')" :value="Database_License_File_Location" name="Database_License_File_Location" :onchange="onChange" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
 
                 <div class="row">
 
-                    <text-field :label="trans('mysql_tablename')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('mysql_tablename')" :value="MySQL_Table_Name" name="MySQL_Table_Name" :onchange="onChange" type="text" classname="col-sm-6">
 
                     </text-field>
 
-                    <dynamic-select :label="trans('delete_cancelled_license')" :multiple="true" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="trans('delete_cancelled_license')" :elements="Delete_Cancelled_License" :multiple="true" classname="col-sm-6" :strlength="35"
                                     :required="false">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('delete_cracked_license')" :multiple="false" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="trans('delete_cracked_license')" :elements="Delete_Cracked_License" :multiple="false" classname="col-sm-6" :strlength="35"
                                     :required="false">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('god_mode')" :multiple="false" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="trans('god_mode')" :elements="God_Mode" :multiple="false" classname="col-sm-6" :strlength="35"
                                     :required="false">
                     </dynamic-select>
 
@@ -107,9 +107,21 @@ export default {
 
             moment:moment,
 
-            productOptions: [],
+            productOptions : [],
 
-            license_verification_period : ''
+            License_Verification_Period : '',
+
+            License_Storage_type : '',
+
+            MySQL_Table_Name : '',
+
+            Database_License_File_Location : '',
+
+            Delete_Cancelled_License : '',
+
+            Delete_Cracked_License : '',
+
+            God_Mode : '',
         }
     },
 
@@ -198,41 +210,19 @@ export default {
 
                 data['product_id'] = this.product_id ? this.product_id.id : '';
 
-                data['license_status'] = this.license_status ? 1 : 0;
+                data['License_Storage_type'] = this.License_Storage_type;
 
-                data['license_require_domain'] = this.license_require_domain ? 1 : 0;
+                data['license_require_domain'] = this.license_require_domain;
 
-                if(this.license_verification_period){ data['license_verification_period'] = this.license_verification_period; }
+                data['Database_License_File_Location'] = this.Database_License_File_Location;
 
-                data['license_ip'] = this.license_ip;
+                data['Delete_Cancelled_License'] = this.Delete_Cancelled_License;
 
-                data['license_domain'] = this.license_domain.toString();
+                data['Delete_Cracked_License'] = this.Delete_Cracked_License;
 
-                if(this.license_limit) { data['license_limit'] = this.license_limit; }
+                data['God_Mode'] = this.God_Mode;
 
-                data['license_comments'] = this.license_comments;
-
-                if(this.license_expire_date){
-                    data['license_expire_date'] = moment(this.license_expire_date).format("YYYY-MM-DD");
-                }
-
-                if(this.license_updates_date){
-                    data['license_updates_date'] = moment(this.license_updates_date).format("YYYY-MM-DD");
-                }
-
-                if(this.license_support_date){
-                    data['license_support_date'] = moment(this.license_support_date).format("YYYY-MM-DD");
-                }
-
-                if(!this.client_id){
-
-                    data['license_code'] = this.license_code;
-                }
-
-                if(!this.license_code){
-
-                    data['client_id'] = this.client_id ? this.client_id.id : '';
-                }
+                if(this.License_Verification_Period){ data['License_Verification_Period'] = this.License_Verification_Period; }
 
                 axios.post(this.apiEndpoint, data).then(res => {
 
@@ -240,7 +230,7 @@ export default {
 
                     successHandler(res,'tools')
 
-                    if(!this.license_id){
+                    if(!this.config){
 
                         setTimeout(()=>{
 
@@ -250,7 +240,7 @@ export default {
 
                     } else {
 
-                        this.getInitialValues(this.license_id)
+                        this.getInitialValues(this.config)
                     }
 
                 }).catch(err => {
