@@ -26,11 +26,11 @@
 
                 <div class="row">
 
-                    <text-field :label="trans('from_name')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('from_name')" :value="fromName" :onChange="onChange" name="from_name" type="text" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('from_address')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('from_address')" :value="fromAddress" :onChange="onChange" name="from_address" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
@@ -38,22 +38,23 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('send_copy_sender')" :multiple="false"
-                                    classname="col-sm-6" :strlength="35" :required="false">
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="send_copy_sender" :elements="copySender" :value="copySenderType" :onChange="onChange" >
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('expiring_license_reminder')" :multiple="false" classname="col-sm-6"
-                                    :strlength="35" :required="false">
+                    <dynamic-select :label="trans('expiring_license_reminder')" :multiple="false"  classname="col-sm-6" :strlength="35"
+                                    :required="false" name="expiring_license_reminder" :elements="licenseReminder" :value="licenseReminderType" :onChange="onChange" >
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('expiring_updates_reminder')" :multiple="false" classname="col-sm-6"
-                                    :strlength="35" :required="false">
+                    <dynamic-select :label="trans('expiring_updates_reminder')" :multiple="false"  classname="col-sm-6" :strlength="35"
+                                    :required="false" name="expiring_updates_reminder" :elements="updatesReminder" :value="updatesReminderType" :onChange="onChange" >
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('expiring_support_reminder')" :multiple="true" classname="col-sm-6"
-                                    :strlength="35" :required="false">
+                    <dynamic-select :label="trans('expiring_support_reminder')" :multiple="false"  classname="col-sm-6" :strlength="35"
+                                    :required="false" name="expiring_support_reminder" :elements="supportReminder" :value="supportReminderType" :onChange="onChange" >
                     </dynamic-select>
                 </div>
             </div>
@@ -98,7 +99,35 @@ export default {
 
             apiEndpoint : '',
 
-            moment:moment
+            moment : moment,
+
+            fromName : null,
+
+            fromAddress : null,
+
+            copySender: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            copySenderType: null,
+
+            licenseReminder: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            licenseReminderType: null,
+
+            updatesReminder: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            updatesReminderType: null,
+
+            supportReminder: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            supportReminderType: null,
         }
     },
 
