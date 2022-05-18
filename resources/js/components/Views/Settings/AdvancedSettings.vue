@@ -25,10 +25,11 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('auto_php_licenser')" :multiple="false"
-                                     classname="col-sm-6" :strlength="35">
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="auto_php_licenser" :elements="autoPhpLicenser" :value="autoPhpLicenserType" :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="trans('evanto_api_token')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('evanto_api_token')" :value="evantoApiToken" :onChange="onChange" name="evanto_api_token" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
@@ -74,7 +75,15 @@ export default {
 
             apiEndpoint : '',
 
-            moment:moment
+            moment : moment,
+
+            autoPhpLicenser: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            autoPhpLicenserType: null,
+
+            evantoApiToken : null
         }
     },
 
