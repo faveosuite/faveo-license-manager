@@ -46,7 +46,7 @@ export default {
             data : '',
 
             columns: ['api_secret', 'ip_address', 'add_edit_products', 'add_edit_clients', 'add_edit_licenses',
-                'edit_installations', 'search', 'status'],
+                'edit_installations', 'search', 'actions'],
 
             options: {},
 
@@ -93,11 +93,58 @@ export default {
                 edit_installations : 'edit_installations',
 
                 search : 'search',
-
-                status : 'status'
             },
 
             templates : {
+
+                api_secret(createElement, row) {
+
+                    return row.api_secret ? row.api_secret : '---';
+                },
+
+                ip_address(h,row){
+
+                    return row.ip_address ? row.ip_address : '---';
+                },
+
+                add_edit_products(h,row){
+
+                    return row.add_edit_products ? row.add_edit_products : '---'
+                },
+
+                add_edit_clients(h,row) {
+
+                    return row.add_edit_clients ? row.add_edit_clients : '---';
+                },
+
+                add_edit_licenses(h,row) {
+
+                    return row.add_edit_licenses ? row.add_edit_licenses : '---';
+                },
+
+                edit_installations(h,row) {
+
+                    return row.edit_installations ? row.edit_installations : '---';
+                },
+
+                search(h,row) {
+
+                    return row.search ? row.search : '---';
+                },
+
+                status(createElement, row) {
+
+                    let span = createElement('span', {
+
+                        attrs: {
+                            'class' : row.status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                        }
+                    }, row.status ? 'Active' : 'Inactive');
+
+                    return createElement('a',{},[span]);
+                },
+
+                actions : 'table-actions'
             },
 
             pagination:{chunk:5,nav: 'fixed',edge:true},
@@ -117,8 +164,6 @@ export default {
                 edit_installations : 'Edit Installations',
 
                 search: 'Search',
-
-                status: 'Status'
             },
         }
     },
@@ -136,9 +181,9 @@ export default {
 
                 this.data = res.data.data.map(data => {
 
-                    data.edit_url = '/apikey/' + data.license_id + '/edit';
+                    data.edit_url = 'editnewapi/{api_key_id}';
 
-                    data.delete_url = '/api/admin/apikey/delete';
+                    data.delete_url = '/api/admin/deleteapi/{api_key_id}';
 
                     return data;
                 })
