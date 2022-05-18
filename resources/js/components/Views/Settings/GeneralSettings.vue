@@ -25,40 +25,46 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('smart_reports')" :multiple="false"
-                                     classname="col-sm-6" :strlength="35">
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="smart_reports" :elements="smartReports" :value="smartReportsType" :onChange="onChange" >
                     </dynamic-select>
 
                     <dynamic-select :label="trans('smart_tables')" :multiple="false"
-                                    classname="col-sm-6" :strlength="35" :required="false">
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="smart_tables" :elements="smartTables" :value="smartTablesType" :onChange="onChange" >
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
                     <dynamic-select :label="trans('records_per_page')" :multiple="false"
-                                    classname="col-sm-6" :strlength="35" :required="false">
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="records_per_page" :elements="recordsPerPage" :value="recordsPerPageType" :onChange="onChange" >
                     </dynamic-select>
 
                     <dynamic-select :label="trans('records_on_index_page')" :multiple="false"
-                                    classname="col-sm-6" :strlength="35" :required="false">
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="records_on_index_page" :elements="recordIndexPage" :value="recordIndexPageType" :onChange="onChange" >
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('search_result_limit')" :multiple="false" classname="col-sm-6"
-                                    :strlength="35" :required="false">
+                    <dynamic-select :label="trans('search_result_limit')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="search_result_limit" :elements="searchLimit" :value="searchLimitType" :onChange="onChange" >
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('archive_older_records')" :multiple="true"
-                                    classname="col-sm-6" :strlength="35" :required="false">
+                    <dynamic-select :label="trans('archive_older_records')" :multiple="false"
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="archive_older_records" :elements="archiveOlderRecords" :value="archiveOlderRecordsType" :onChange="onChange" >
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
                     <dynamic-select :label="trans('timezone')" :multiple="false"
-                                    classname="col-sm-6" :strlength="35" :required="false">
+                                    classname="col-sm-6" :strlength="35"
+                                    :required="false" name="license_storage_type" :elements="storageTypes" :value="selectedStorageType" :onChange="onChange" >
                     </dynamic-select>
 
                 </div>
@@ -102,7 +108,60 @@ export default {
 
             apiEndpoint : '',
 
-            moment:moment
+            moment : moment,
+
+            smartReports: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            smartReportsType: null,
+
+            smartTables: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            smartTablesType: null,
+
+            recordsPerPage: [
+                {name: '10 Records', value: '1'},
+                {name: '25 Records', value: '2'},
+                {name: '50 Records', value: '3'},
+                {name: '100 Records', value: '4'},
+                {name: '200 Records', value: '5'},
+                {name: '500 Records', value: '6'}
+            ],
+            recordsPerPageType: null,
+
+            recordIndexPage: [
+                {name: '1 Records', value: '1'},
+                {name: '3 Records', value: '2'},
+                {name: '5 Records', value: '3'},
+                {name: '10 Records', value: '4'}
+            ],
+            recordIndexPageType: null,
+
+            searchLimit: [
+                {name: '10 Records', value: '1'},
+                {name: '25 Records', value: '2'},
+                {name: '50 Records', value: '3'},
+                {name: '100 Records', value: '4'},
+                {name: '200 Records', value: '5'},
+                {name: '500 Records', value: '6'}
+            ],
+            searchLimitType: null,
+
+            archiveOlderRecords: [
+                {name: 'Disabled', value: 'disabled'},
+                {name: '7 Days', value: '2'},
+                {name: '14 Days', value: '3'},
+                {name: '30 Days', value: '4'},
+                {name: '60 Days', value: '5'},
+                {name: '90 Days', value: '6'},
+                {name: '180 Days', value: '2'},
+                {name: '365 Days', value: '3'},
+                {name: '730 Days', value: '4'}
+            ],
+            archiveOlderRecordsType: null,
         }
     },
 
@@ -135,6 +194,10 @@ export default {
 
                 this.hasDataPopulated = true;
             });
+        },
+
+        onChange(){
+
         },
 
         getProducts() {

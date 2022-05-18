@@ -213,7 +213,7 @@ return[
     'records_per_page' => 'Records Per Page',
     'records_on_index_page' => 'Records On Index Page',
     'search_result_limit' => 'Search Results Limit',
-    'archive_older_records' => 'Archive Records Oldere Than...',
+    'archive_older_records' => 'Archive Records Older Than...',
     'timezone' => 'Timezone',
     'auto_php_licenser' => 'Auto PHP Licenser API',
     'evanto_api_token' => 'Evanto API Token',
