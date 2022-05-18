@@ -24,29 +24,30 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('auto_system_cleanup')" :multiple="false" classname="col-sm-6" :strlength="35">
+                    <dynamic-select :label="trans('auto_system_cleanup')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="auto_system_cleanup" :elements="autoSystemCleanup" :value="autoSystemCleanupType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('remove_callbacks_older_than')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="remove_callbacks_older_than" :elements="removeOlderCallbacks" :value="removeOlderCallbacksOptions" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
                     <dynamic-select :label="trans('remove_license_reports')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="remove_license_reports" :elements="removeLicenseReports" :value="removeLicenseReportsOptions" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('remove_system_reports')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="remove_system_reports" :elements="removeSystemReports" :value="removeSystemReportsOptions" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('remove_licenses_cancelled')" :multiple="false" classname="col-sm-6" :onChange="onChange" :strlength="35"
-                                    :required="false">
+                    <dynamic-select :label="trans('remove_licenses_cancelled')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="remove_licenses_cancelled" :elements="removeLicenseCancelled" :value="removeLicenseCancelledType" :onChange="onChange">
                     </dynamic-select>
                 </div>
             </div>
@@ -91,7 +92,55 @@ export default {
 
             apiEndpoint : '',
 
-            moment:moment
+            moment : moment,
+
+            autoSystemCleanup: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            autoSystemCleanupType: null,
+
+            removeOlderCallbacks: [
+                {name: 'Disabled', value: 'disabled'},
+                {name: '7 Days', value: '1'},
+                {name: '14 Days', value: '2'},
+                {name: '30 Days', value: '3'},
+                {name: '60 Days', value: '4'},
+                {name: '90 Days', value: '5'},
+                {name: '180 Days', value: '6'},
+                {name: '365 Days', value: '7'}
+            ],
+            removeOlderCallbacksOptions: null,
+
+            removeLicenseReports: [
+                {name: 'Disabled', value: 'disabled'},
+                {name: '7 Days', value: '1'},
+                {name: '14 Days', value: '2'},
+                {name: '30 Days', value: '3'},
+                {name: '60 Days', value: '4'},
+                {name: '90 Days', value: '5'},
+                {name: '180 Days', value: '6'},
+                {name: '365 Days', value: '7'}
+            ],
+            removeLicenseReportsOptions: null,
+
+            removeSystemReports: [
+                {name: 'Disabled', value: 'disabled'},
+                {name: '7 Days', value: '1'},
+                {name: '14 Days', value: '2'},
+                {name: '30 Days', value: '3'},
+                {name: '60 Days', value: '4'},
+                {name: '90 Days', value: '5'},
+                {name: '180 Days', value: '6'},
+                {name: '365 Days', value: '7'}
+            ],
+            removeSystemReportsOptions: null,
+
+            removeLicenseCancelled: [
+                {name: 'Enabled', value: 'enabled'},
+                {name: 'Disabled', value: 'disabled'}
+            ],
+            removeLicenseCancelledType: null,
         }
     },
 
