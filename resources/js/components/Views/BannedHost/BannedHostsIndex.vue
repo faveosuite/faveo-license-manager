@@ -21,7 +21,7 @@
                 </div>
             </div>
 
-            <div class="card-body" id="my_licenses">
+            <div class="card-body" id="banned_hosts">
 
                 <v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
 
@@ -45,7 +45,7 @@ export default {
 
             data : '',
 
-            columns: ['ip_address', 'comments', 'date', 'blocks', 'latest_blocks'],
+            columns: ['ip_address', 'comments', 'date', 'blocks', 'latest_blocks', 'actions'],
 
             options: {},
 
@@ -91,6 +91,40 @@ export default {
             },
 
             templates : {
+
+                ip_address(h,row){
+
+                    return row.ip_address ? row.ip_address : '---';
+                },
+
+                comments(h,row){
+
+                    return row.comments ? row.comments : '---'
+                },
+
+                date(h,row) {
+
+                    return row.date ? row.date : '---';
+                },
+
+                latest_blocks(h,row) {
+
+                    return row.latest_blocks ? row.latest_blocks : '---';
+                },
+
+                status(createElement, row) {
+
+                    let span = createElement('span', {
+
+                        attrs: {
+                            'class' : row.status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                        }
+                    }, row.status ? 'Active' : 'Inactive');
+
+                    return createElement('a',{},[span]);
+                },
+
+                actions : 'table-actions'
             },
 
             pagination:{chunk:5,nav: 'fixed',edge:true},
@@ -139,13 +173,11 @@ export default {
 
 <style>
 
-.license_product_title,.license_code,.license_install,.license_callbacks, .latest_callback_time, .license_date{ max-width: 200px; word-break: break-all;}
-
-#my_licenses .VueTables .table-responsive {
+#banned_hosts .VueTables .table-responsive {
     overflow-x: auto;overflow-y: hidden;
 }
 
-#my_licenses .VueTables .table-responsive > table{
+#banned_hosts .VueTables .table-responsive > table{
     width : max-content;
     min-width : 100%;
     max-width : max-content;
