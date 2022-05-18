@@ -29,7 +29,7 @@
 
                     </text-field>
 
-                    <text-field :label="trans('api_ip')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('api_ip')" :value="apiIp" :onChange="onChange" name="api_ip" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
@@ -37,33 +37,33 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('permissions_to_add_products')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="permissions_to_add_products" :elements="addProductPermission" :value="addPermissionType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('permissions_to_edit_products')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="permissions_to_edit_products" :elements="editProductPermission" :value="editPermissionType" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
                     <dynamic-select :label="trans('permissions_to_add_clients')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="permissions_to_add_clients" :elements="addClientPermission" :value="addClientPermissionType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('permissions_to_edit_clients')" :multiple="true" classname="col-sm-6" :strlength="35"
-                                    :required="false" :taggable="true">
+                    <dynamic-select :label="trans('permissions_to_edit_clients')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="permissions_to_edit_clients" :elements="editClientPermission" :value="editClientPermissionType" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
                     <dynamic-select :label="trans('permissions_to_add_licenses')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="permissions_to_add_licenses" :elements="addLicensePermission" :value="addLicensePermissionType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('permissions_to_edit_licenses')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="permissions_to_edit_licenses" :elements="editLicensePermission" :value="editLicensePermissionType" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -71,11 +71,11 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('permissions_to_add_installations')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="permissions_to_add_installations" :elements="addInstallationsPermission" :value="addInstallationsPermissionType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('permissions_to_use_search')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="permissions_to_use_search" :elements="useSearchPermission" :value="useSearchPermissionType" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -83,7 +83,7 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('api_key_status')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                                    :required="false" name="api_key_status" :elements="apiKeyStatus" :value="apiKeyStatusType" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -129,7 +129,63 @@ export default {
 
             apiEndpoint : '',
 
-            moment:moment
+            moment : moment,
+
+            apiIp : null,
+
+            editProductPermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            editPermissionType: null,
+
+            addProductPermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            addPermissionType: null,
+
+            addClientPermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            addClientPermissionType: null,
+
+            editClientPermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            editClientPermissionType: null,
+
+            addLicensePermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            addLicensePermissionType: null,
+
+            editLicensePermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            editLicensePermissionType: null,
+
+            addInstallationsPermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            addInstallationsPermissionType: null,
+
+            useSearchPermission: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            useSearchPermissionType: null,
+
+            apiKeyStatus: [
+                {name: 'Active', value: 'active'},
+                {name: 'Inactive', value: 'inactive'}
+            ],
+            apiKeyStatusType: null,
         }
     },
 
@@ -166,6 +222,25 @@ export default {
             });
         },
 
+        generateCode() {
+
+            var a = ''
+
+            var n = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+            for (var e = 1; e <= 16; e++) {
+
+                a += n.charAt(Math.floor(Math.random() * n.length));
+
+                if (e % 4 == 0 && e != 16) {
+
+                    a += ''
+                }
+            }
+
+            this.license_code = a;
+        },
+
         getProducts() {
         },
 
@@ -185,9 +260,6 @@ export default {
         },
 
         onChange() {
-        },
-
-        generateCode() {
         },
 
         onSubmit(){
