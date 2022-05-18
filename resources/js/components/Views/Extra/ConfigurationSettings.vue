@@ -11,6 +11,8 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
+        <alert componentName="tools"/>
+
         <div class="card card-light" v-if="hasDataPopulated">
 
             <div class="card-header">
@@ -22,44 +24,44 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('product')" :elements="productOptions" :multiple="false" classname="col-sm-6" :strlength="35">
+                    <dynamic-select :label="trans('product')" :multiple="false" classname="col-sm-6" :strlength="35" :value="selectedProduct" :onChange="onChange" :elements="products" name="product">
                     </dynamic-select>
 
-                    <text-field :label="trans('license_verification_period')" :value="License_Verification_Period" name="License_Verification_Period" :onchange="onChange" type="text" classname="col-sm-6">
+                    <text-field :label="trans('license_verification_period')"  :value="verificationPeriod"  :onChange="onChange" name="license_verification_period" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('license_storage_type')" :elements="License_Storage_type" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                    <dynamic-select :label="trans('license_storage_type')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="license_storage_type" :elements="storageTypes" :value="selectedStorageType" :onChange="onChange" >
                     </dynamic-select>
 
-                    <text-field :label="trans('license_file_location')" :value="Database_License_File_Location" name="Database_License_File_Location" :onchange="onChange" type="text" classname="col-sm-6">
+                    <text-field :label="trans('license_file_location')" :value="fileLocation" :onChange="onChange" name="license_file_location" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
 
                 <div class="row">
 
-                    <text-field :label="trans('mysql_tablename')" :value="MySQL_Table_Name" name="MySQL_Table_Name" :onchange="onChange" type="text" classname="col-sm-6">
+                    <text-field :label="trans('mysql_tablename')" :value="mysqlTablename" :onChange="onChange" name="mysql_tablename" type="text" classname="col-sm-6">
 
                     </text-field>
 
-                    <dynamic-select :label="trans('delete_cancelled_license')" :elements="Delete_Cancelled_License" :multiple="true" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                    <dynamic-select :label="trans('delete_cancelled_license')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="delete_cancelled_license" :elements="delCancelledLicenceOpt" :value="delCancelledLicence" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('delete_cracked_license')" :elements="Delete_Cracked_License" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                    <dynamic-select :label="trans('delete_cracked_license')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="delete_cracked_license" :elements="delCrackedLicenceOpt" :value="delCrackedLicence" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('god_mode')" :elements="God_Mode" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false">
+                    <dynamic-select :label="trans('god_mode')" :multiple="false" classname="col-sm-6" :strlength="35"
+                                    :required="false" name="god_mode" :elements="godModeOpt" :value="godMode" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -81,6 +83,8 @@ import { successHandler, errorHandler } from 'helpers/responseHandler';
 
 import  { getIdFromUrl } from 'helpers/extraLogics';
 
+import { validateLicenseSettings } from "helpers/validator/licenseValidation.js";
+
 import { mapGetters } from 'vuex';
 
 import moment from 'moment'
@@ -93,35 +97,57 @@ export default {
 
         return {
 
-            title : 'configuration_generator',
+            title: 'configuration_generator',
 
-            iconClass : 'fas fa-save',
+            iconClass: 'fas fa-save',
 
-            btnName : 'save',
+            btnName: 'save',
 
-            hasDataPopulated : false,
+            hasDataPopulated: false,
 
-            loading : false,
+            loading: false,
 
-            apiEndpoint : '',
+            apiEndpoint: '',
 
-            moment:moment,
+            moment: moment,
 
-            productOptions : [],
+            products: [],
 
-            License_Verification_Period : '',
+            selectedProduct: null,
 
-            License_Storage_type : '',
+            verificationPeriod: null,
 
-            MySQL_Table_Name : '',
+            storageTypes: [
+                {name: 'Database', value: 'databse'},
+                {name: 'File', value: 'file'}
+            ],
 
-            Database_License_File_Location : '',
+            selectedStorageType: null,
 
-            Delete_Cancelled_License : '',
+            fileLocation: null,
 
-            Delete_Cracked_License : '',
+            mysqlTablename: null,
 
-            God_Mode : '',
+            delCancelledLicenceOpt: [
+                {name: 'Yes', value: 'yes'},
+                {name: 'No', value: 'no'}
+            ],
+
+            delCancelledLicence: null,
+
+            delCrackedLicenceOpt: [
+                {name: 'Yes', value: 'yes'},
+                {name: 'No', value: 'no'}
+            ],
+
+            delCrackedLicence: null,
+
+            godModeOpt: [
+                {name: 'Yes', value: 'yes'},
+                {name: 'No', value: 'no'}
+            ],
+
+            godMode: null
         }
     },
 
@@ -162,94 +188,56 @@ export default {
 
             axios.get('/api/admin/viewproducts').then(res=>{
 
-                this.productOptions =  res.data.data.map(data=>{
+                this.products = res.data.data.map(data => {
 
-                    data.name = data.product_title;
-
-                    data.id = data.product_id;
-
-                    return data;
+                    return {
+                        name : data.product_title,
+                        value : data.product_id
+                    };
                 })
-            });
-
-            return this.productOptions
-        },
-
-        getClients() {
+            })
         },
 
         getValues(){
         },
 
-        getInitialValues(){
-        },
+        onChange(option, name) {
 
-        updateStatesWithData(){
-        },
+            if(name === 'product'){
 
-        isValid() {
-        },
+                this.selectedProduct = option
 
-        onChange(value, name) {
+            } else if(name === 'license_storage_type'){
 
-            this[name] = value ? value : '';
+                this.selectedStorageType = option
 
-            if(name === 'client_id') {
+            }else if(name === 'delete_cancelled_license'){
 
-                if(value){ this.license_code = '' }
+                this.delCancelledLicence = option
+
+            }else if(name === 'delete_cracked_license'){
+
+                this.delCrackedLicence = option
+
+            }else if(name === 'god_mode'){
+
+                this.godMode = option
+
+            }else if(name === 'license_verification_period'){
+
+                this.verificationPeriod = option
+
+            }else if(name === 'license_file_location'){
+
+                this.fileLocation = option
+
+            }else if(name === 'mysql_tablename'){
+
+                this.mysqlTablename = option
             }
         },
 
         onSubmit(){
-
-            if(this.isValid()){
-
-                this.loading = true
-
-                const data = {};
-
-                data['product_id'] = this.product_id ? this.product_id.id : '';
-
-                data['License_Storage_type'] = this.License_Storage_type;
-
-                data['license_require_domain'] = this.license_require_domain;
-
-                data['Database_License_File_Location'] = this.Database_License_File_Location;
-
-                data['Delete_Cancelled_License'] = this.Delete_Cancelled_License;
-
-                data['Delete_Cracked_License'] = this.Delete_Cracked_License;
-
-                data['God_Mode'] = this.God_Mode;
-
-                if(this.License_Verification_Period){ data['License_Verification_Period'] = this.License_Verification_Period; }
-
-                axios.post(this.apiEndpoint, data).then(res => {
-
-                    this.loading = false
-
-                    successHandler(res,'tools')
-
-                    if(!this.config){
-
-                        setTimeout(()=>{
-
-                            this.$router.push('/tools')
-
-                        },2000)
-
-                    } else {
-
-                        this.getInitialValues(this.config)
-                    }
-
-                }).catch(err => {
-
-                    this.loading = false
-
-                    errorHandler(err,'tools')
-                });
-            }
         }
     },
 
