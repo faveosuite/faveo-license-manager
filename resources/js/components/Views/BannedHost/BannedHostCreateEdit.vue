@@ -22,11 +22,11 @@
 
                 <div class="row">
 
-                    <text-field :label="trans('ip_address')" type="text" classname="col-sm-6">
+                    <text-field :label="trans('ip_address')" :value="ipAddress" :onchange="onChange" name="ip_address" type="text" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('comments')" type="text"classname="col-sm-6">
+                    <text-field :label="trans('comments')" type="text" :value="comments" :onchange="onChange" name="comments" classname="col-sm-6">
 
                     </text-field>
                 </div>
@@ -74,7 +74,11 @@ export default {
 
             apiEndpoint : '',
 
-            moment:moment
+            moment : moment,
+
+            ipAddress : null,
+
+            comment : null
         }
     },
 
