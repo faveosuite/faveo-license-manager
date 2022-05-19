@@ -22,11 +22,11 @@
 
                 <div class="row">
 
-                    <text-field :label="trans('ip_address')" :value="ipAddress" :onchange="onChange" name="ip_address" type="text" classname="col-sm-6">
+                    <text-field :label="trans('ip_address')" :value="ipAddress" :onChange="onChange" name="ip_address" type="text" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('comments')" type="text" :value="comments" :onchange="onChange" name="comments" classname="col-sm-6">
+                    <text-field :label="trans('comments')" type="text" :value="comments" :onChange="onChange" name="comments" classname="col-sm-6">
 
                     </text-field>
                 </div>
@@ -34,7 +34,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                <button class="btn btn-default" @click="onSubmit"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -78,7 +78,7 @@ export default {
 
             ipAddress : null,
 
-            comment : null
+            comments : null
         }
     },
 
@@ -133,13 +133,42 @@ export default {
         isValid() {
         },
 
-        onChange() {
+        onChange(value, name) {
+            if(name === 'ip_address'){
+                this.ipAddress = value
+            }
+            else if(name === 'comments') {
+                this.comments = value
+            }
         },
 
         generateCode() {
         },
 
         onSubmit(){
+            const apiKeySecret= this.$store.getters.getApiKey
+            if(this.ipAddress && apiKeySecret) {
+                const formData = {
+                    banned_host_ip: this.ipAddress,
+                    banned_host_comments: this.comments,
+                    api_key_secret: apiKeySecret
+                }
+                axios.post("/api/admin/bannedHosts/add",formData).then((res) => {
+
+                    this.loading = false;
+                    successHandler(res,'add_bannedHosts');
+
+                    setTimeout(()=>{
+                    
+                        this.$router.push('/banned-hosts/list');
+                    
+                    },2000);
+
+                }).catch((err) => {
+                    this.loading = false;
+                    errorHandler(err,'add_bannedHosts');
+                });
+            }
         }
     },
 

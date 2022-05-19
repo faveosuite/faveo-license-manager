@@ -117,17 +117,19 @@ export default {
             this.getData();
         },
 
-        getData() {
+        async getData() {
 
-            axios.get('/api/admin/viewBannedHost').then(res=>{
+            await axios.get('/api/admin/viewBannedHost').then(res=>{
 
-                this.data = res.data.data.map(data => {
-
-                    data.edit_url = '/bannedHosts/' + data.license_id + '/edit';
-
-                    data.delete_url = '/api/admin/bannedHosts/delete';
-
-                    return data;
+                this.data = res.data.data.map(row => {
+                    return {
+                        id: row.banned_host_id,
+                        ip_address: row.banned_host_ip, 
+                        comments: row.banned_host_comments,
+                        date: row.banned_host_date,
+                        blocks: row.banned_host_blocks,
+                        latest_blocks: row.banned_host_last_block_date,
+                    };
                 })
             })
         }
