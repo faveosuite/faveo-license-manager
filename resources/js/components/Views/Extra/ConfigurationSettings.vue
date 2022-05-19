@@ -91,7 +91,7 @@ import moment from 'moment'
 
 export default {
 
-    name : 'Configuration Generator',
+    name : 'configuration-generator',
 
     data() {
 
@@ -118,8 +118,8 @@ export default {
             verificationPeriod: null,
 
             storageTypes: [
-                {name: 'Database', value: 'databse'},
-                {name: 'File', value: 'file'}
+                {name: 'Database', value: 'DATABASE'},
+                {name: 'File', value: 'FILE'}
             ],
 
             selectedStorageType: null,
@@ -129,22 +129,22 @@ export default {
             mysqlTablename: null,
 
             delCancelledLicenceOpt: [
-                {name: 'Yes', value: 'yes'},
-                {name: 'No', value: 'no'}
+                {name: 'Yes', value: 'YES'},
+                {name: 'No', value: 'NO'}
             ],
 
             delCancelledLicence: null,
 
             delCrackedLicenceOpt: [
-                {name: 'Yes', value: 'yes'},
-                {name: 'No', value: 'no'}
+                {name: 'Yes', value: 'YES'},
+                {name: 'No', value: 'NO'}
             ],
 
             delCrackedLicence: null,
 
             godModeOpt: [
-                {name: 'Yes', value: 'yes'},
-                {name: 'No', value: 'no'}
+                {name: 'Yes', value: 'YES'},
+                {name: 'No', value: 'NO'}
             ],
 
             godMode: null
@@ -237,7 +237,41 @@ export default {
             }
         },
 
-        onSubmit(){
+        async onSubmit(){
+            this.loading = true;
+
+            const formData = {
+
+                product_id: this.selectedProduct? this.selectedProduct.value: null,
+
+                License_Verification_Period: this.verificationPeriod,
+
+                License_Storage_type: this.selectedStorageType ? this.selectedStorageType.value: null,
+
+                MySQL_Table_Name: this.mysqlTablename,
+
+                Database_License_File_Location: this.fileLocation,
+
+                Delete_Cancelled_License: this.delCancelledLicence ? this.delCancelledLicence.value: null,
+
+                Delete_Cracked_License: this.delCrackedLicence ? this.delCrackedLicence.value: null,
+
+                God_Mode: this.godMode? this.godMode.value: null,
+
+            }
+
+            await axios.post("/api/admin/config",formData).then((res) => {
+
+                this.loading = false;
+
+                successHandler(res,'tools');
+
+            }).catch((err) => {
+
+                this.loading = false;
+
+                errorHandler(err,'tools');
+            });
         }
     },
 
