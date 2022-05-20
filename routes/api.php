@@ -175,6 +175,12 @@ Route::get('installation/{installation_id}',[InstallationController::class,'edit
 
 //API KEYS
 
+Route::post('addnewapi',[ApiKeysController::class,'apiKeyAdd']);
+Route::post('editnewapi/{api_key_id}',[ApiKeysController::class,'apiKeyUpdate']);
+Route::post('deleteapi/{api_key_id}',[ApiKeysController::class,'apiKeyDelete']);
+Route::get('viewApiKeys',[ApiKeysController::class,'show']);
+});
+
     Route::post('addnewapi', [ApiKeysController::class, 'apiKeyAdd']);
     Route::post('editnewapi/{api_key_id}', [ApiKeysController::class, 'apiKeyUpdate']);
     Route::Delete('deleteapi/{api_key_id}', [ApiKeysController::class, 'apiKeyDelete']);
