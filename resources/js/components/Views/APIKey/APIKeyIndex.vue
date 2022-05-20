@@ -65,6 +65,15 @@ export default {
 
         this.getData();
 
+        function createPermissionStatusLabel(h,hasPrmission) {
+            return h('span', {
+                        attrs: {
+                            'class' : hasPrmission ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                        }
+                        }, hasPrmission ? 'Active' : 'Inactive')
+        };
+
+
         this.options = {
 
             sortIcon: {
@@ -99,49 +108,44 @@ export default {
 
                 api_secret(createElement, row) {
 
-                    return row.api_secret ? row.api_secret : '---';
+                    return row.api_key_secret ? row.api_key_secret : '---';
                 },
 
                 ip_address(h,row){
 
-                    return row.ip_address ? row.ip_address : '---';
+                    return row.api_key_ip ? row.api_key_ip : '---';
                 },
 
                 add_edit_products(h,row){
 
-                    return row.add_edit_products ? row.add_edit_products : '---'
+                    const add = 'api_key_products_add' in row ?  createPermissionStatusLabel(h, row.api_key_products_add) : '---'
+                   const edit = 'api_key_products_edit' in row ? createPermissionStatusLabel(h, row.api_key_products_edit) : '---'
+                   return h('div',{},[add , ' / ', edit])
                 },
 
                 add_edit_clients(h,row) {
 
-                    return row.add_edit_clients ? row.add_edit_clients : '---';
+                    const add = 'api_key_clients_add' in row ?  createPermissionStatusLabel(h, row.api_key_clients_add) : '---'
+                   const edit = 'api_key_clients_edit' in row ? createPermissionStatusLabel(h, row.api_key_clients_edit) : '---'
+                   return h('div',{},[add , ' / ', edit])
                 },
 
                 add_edit_licenses(h,row) {
-
-                    return row.add_edit_licenses ? row.add_edit_licenses : '---';
+                   const add = 'api_key_licenses_add' in row ?  createPermissionStatusLabel(h, row.api_key_licenses_add) : '---'
+                   const edit = 'api_key_licenses_edit' in row ? createPermissionStatusLabel(h, row.api_key_licenses_edit) : '---'
+                   return h('div',{},[add , ' / ', edit])
                 },
 
                 edit_installations(h,row) {
-
-                    return row.edit_installations ? row.edit_installations : '---';
+                    const edit = 'api_key_installations_edit' in row ?  createPermissionStatusLabel(h, row.api_key_installations_edit) : '---'
+                    return h('div',{},[edit])
                 },
 
                 search(h,row) {
 
-                    return row.search ? row.search : '---';
-                },
+                    const edit = 'api_key_search' in row ?  createPermissionStatusLabel(h, row.api_key_search) : '---'
+                    return h('div',{},[edit])
 
-                status(createElement, row) {
-
-                    let span = createElement('span', {
-
-                        attrs: {
-                            'class' : row.status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-                        }
-                    }, row.status ? 'Active' : 'Inactive');
-
-                    return createElement('a',{},[span]);
                 },
 
                 actions : 'table-actions'
@@ -164,13 +168,15 @@ export default {
                 edit_installations : 'Edit Installations',
 
                 search: 'Search',
+
+                actions: 'Actions'
             },
         }
     },
 
     methods : {
 
-        updateData() {
+       updateData() {
 
             this.getData();
         },
@@ -181,9 +187,9 @@ export default {
 
                 this.data = res.data.data.map(data => {
 
-                    data.edit_url = 'editnewapi/{api_key_id}';
+                    data.edit_url = `editnewapi/${data.api_key_id}`;
 
-                    data.delete_url = '/api/admin/deleteapi/{api_key_id}';
+                    data.delete_url = `/api/admin/deleteapi/${data.api_key_id}`;
 
                     return data;
                 })
