@@ -143,7 +143,7 @@ class SettingsController extends Controller
             $ema = new AflSettings([
             'EMAIL_FROM_NAME'=> $request->get('EMAIL_FROM_NAME'),
             'EMAIL_FROM_ADDRESS' => $request->get('EMAIL_FROM_ADDRESS'),
-            'EMAIL_CC_SENDER' => $request->get('EMAIL_CC_SENDER'),
+            'EMAIL_CC_ADMIN' => $request->get('EMAIL_CC_SENDER'),
             'EMAIL_EXPIRING_LICENSE_DAYS' => $request->get('EMAIL_EXPIRING_LICENSE_DAYS'),
             'EMAIL_EXPIRING_UPDATES_DAYS' => $request->get('EMAIL_EXPIRING_UPDATES_DAYS'),
             'EMAIL_EXPIRING_SUPPORT_DAYS' => $request->get('EMAIL_EXPIRING_SUPPORT_DAYS')
@@ -154,7 +154,7 @@ class SettingsController extends Controller
         else{
              $emaset->EMAIL_FROM_NAME= $request->get('EMAIL_FROM_NAME');
              $emaset->EMAIL_FROM_ADDRESS = $request->get('EMAIL_FROM_ADDRESS');
-             $emaset->EMAIL_CC_SENDER = $request->get('EMAIL_CC_SENDER');
+             $emaset->EMAIL_CC_ADMIN = $request->get('EMAIL_CC_SENDER');
              $emaset->EMAIL_EXPIRING_LICENSE_DAYS = $request->get('EMAIL_EXPIRING_LICENSE_DAYS');
              $emaset->EMAIL_EXPIRING_UPDATES_DAYS = $request->get('EMAIL_EXPIRING_UPDATES_DAYS');
              $emaset->EMAIL_EXPIRING_SUPPORT_DAYS = $request->get('EMAIL_EXPIRING_SUPPORT_DAYS');

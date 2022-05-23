@@ -31,7 +31,10 @@
 
                     <dynamic-select :label="trans('remove_callbacks_older_than')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="remove_callbacks_older_than"
-                        :elements="removeOlderCallbacks" :value="removeOlderCallbacksOptions" :onChange="onChange">
+                        :elements="removeOlderCallbacks" :value="removeOlderCallbacksOptions" 
+                        optionLabel="title"
+                        :onChange="onChange">
+
                     </dynamic-select>
                 </div>
 
@@ -39,12 +42,17 @@
 
                     <dynamic-select :label="trans('remove_license_reports')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="remove_license_reports" :elements="removeLicenseReports"
-                        :value="removeLicenseReportsOptions" :onChange="onChange">
+                        :value="removeLicenseReportsOptions" 
+                        optionLabel="title"
+                        :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('remove_system_reports')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="remove_system_reports" :elements="removeSystemReports"
-                        :value="removeSystemReportsOptions" :onChange="onChange">
+                        :value="removeSystemReportsOptions" 
+                        optionLabel="title"
+                        :onChange="onChange">
+
                     </dynamic-select>
                 </div>
 
@@ -52,14 +60,16 @@
 
                     <dynamic-select :label="trans('remove_licenses_cancelled')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="remove_licenses_cancelled"
-                        :elements="removeLicenseCancelled" :value="removeLicenseCancelledType" :onChange="onChange">
+                        :elements="removeLicenseCancelled" 
+                        optionLabel="title"
+                        :value="removeLicenseCancelledType" :onChange="onChange">
                     </dynamic-select>
                 </div>
             </div>
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i
+                <button class="btn btn-default" @click="onSubmit"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
             </div>
         </div>
@@ -159,7 +169,7 @@
             async getCleanUpDropdownOptions() {
                 this.loading = true;
 
-                return await axios.get("/api/admin/cleanUpDropdown").then((res) => {
+                return await axios.get("/api/admin/cleanupSettings").then((res) => {
                     const options = res.data
 
                     if (options['database cleanup callbacks']) {
@@ -215,7 +225,6 @@
             },
 
             onChange(value, name) {
-
                 if (name === 'auto_system_cleanup') {
                     this.autoSystemCleanupType = value
                 } else if (name === 'remove_callbacks_older_than') {
@@ -278,14 +287,9 @@
             isValid() {
             },
 
-            onChange() {
-            },
+           
 
-            generateCode() {
-            },
-
-            onSubmit() {
-            }
+            
         },
 
         components: {
