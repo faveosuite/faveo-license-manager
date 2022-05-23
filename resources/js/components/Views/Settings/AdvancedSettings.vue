@@ -37,7 +37,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                <button class="btn btn-default" @click="onSubmit"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -78,12 +78,14 @@ export default {
             moment : moment,
 
             autoPhpLicenser: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
+                {name: 'Enabled', value: 1},
+                {name: 'Disabled', value: 0}
             ],
             autoPhpLicenserType: null,
 
-            evantoApiToken : null
+            evantoApiToken : null,
+
+            settingId: 'new'
         }
     },
 
@@ -103,28 +105,36 @@ export default {
 
     methods : {
 
-        loadData() {
+        async loadData() {
 
             this.loading = true;
 
             this.hasDataPopulated = false;
 
-            Promise.all([this.getProducts(),this.getClients()]).then((values) => {
+            await this.$store.dispatch('fetchSettings');
 
-                [this.productOptions, this.clientOptions] = values;
+            this.setFormData()
 
-                this.loading = false;
+            this.hasDataPopulated = true;
+            
+            this.loading = false;
 
-                this.hasDataPopulated = true;
-
-            }).catch(function (error) {
-
-                this.loading = false;
-
-                this.hasDataPopulated = true;
-            });
         },
+        setFormData(){
+        const advancedSettings = this.$store.getters['getAdvancedSettings']
 
+            if(advancedSettings){
+
+                this.settingId = advancedSettings.SETTING_ID ?? 'new'
+
+                this.autoPhpLicenserType = this.autoPhpLicenser.find((opt)=>{
+                    return opt.value === advancedSettings.API_STATUS
+                })
+
+                this.evantoApiToken = advancedSettings.ENVATO_API_TOKEN ?? null
+            }
+        },
+       
         getProducts() {
         },
 
@@ -143,14 +153,40 @@ export default {
         isValid() {
         },
 
-        onChange() {
+        onChange(value, name) {
+
+            if(name === 'auto_php_licenser'){
+                this.autoPhpLicenserType = value
+            } else if (name === 'evanto_api_token'){
+                this.evantoApiToken = value
+            }
         },
 
-        generateCode() {
-        },
+    
+        async onSubmit(){
+            const formData = {
+                API_STATUS : this.autoPhpLicenserType ? this.autoPhpLicenserType.value: null,
+            }
 
-        onSubmit(){
+            if(this.evantoApiToken)
+            {
+                formData.ENVATO_API_TOKEN = this.evantoApiToken
+            }
 
+            await axios.post(`/api/admin/advancedsettings/${this.settingId}`,formData).then(async (res) => {
+
+                successHandler(res,'advancedsettings');
+
+                await this.$store.dispatch('fetchSettings');
+
+                this.loading = false;
+
+            }).catch((err) => {
+
+                this.loading = false;
+
+                errorHandler(err,'advancedsettings');
+            });
         }
     },
 

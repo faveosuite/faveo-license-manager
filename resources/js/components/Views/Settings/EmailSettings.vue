@@ -5,7 +5,8 @@
         <div class="alert alert-info">
             <p>Configure reminder email settings, enable and disable individual options.</p><br>
 
-                <p><b>Attention</b>: reminder emails will only be sent to personal (email-based) license owners who have their email addresses set.</p>
+            <p><b>Attention</b>: reminder emails will only be sent to personal (email-based) license owners who have
+                their email addresses set.</p>
         </div>
 
         <div class="row" v-if="!hasDataPopulated || loading">
@@ -13,7 +14,7 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="settings"/>
+        <alert componentName="settings" />
 
         <div class="card card-light" v-if="hasDataPopulated">
 
@@ -26,42 +27,48 @@
 
                 <div class="row">
 
-                    <text-field :label="trans('from_name')" :value="fromName" :onChange="onChange" name="from_name" type="text" classname="col-sm-6">
+                    <text-field :label="trans('from_name')" :value="fromName" :onChange="onChange" name="from_name"
+                        type="text" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('from_address')" :value="fromAddress" :onChange="onChange" name="from_address" type="text" classname="col-sm-6">
+                    <text-field :label="trans('from_address')" :value="fromAddress" :onChange="onChange"
+                        name="from_address" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('send_copy_sender')" :multiple="false"
-                                    classname="col-sm-6" :strlength="35"
-                                    :required="false" name="send_copy_sender" :elements="copySender" :value="copySenderType" :onChange="onChange" >
+                    <dynamic-select :label="trans('send_copy_sender')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="send_copy_sender" :elements="copySender"
+                        :value="copySenderType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('expiring_license_reminder')" :multiple="false"  classname="col-sm-6" :strlength="35"
-                                    :required="false" name="expiring_license_reminder" :elements="licenseReminder" :value="licenseReminderType" :onChange="onChange" >
+                    <dynamic-select :label="trans('expiring_license_reminder')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="expiring_license_reminder" :elements="licenseReminder"
+                        :value="licenseReminderType" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('expiring_updates_reminder')" :multiple="false"  classname="col-sm-6" :strlength="35"
-                                    :required="false" name="expiring_updates_reminder" :elements="updatesReminder" :value="updatesReminderType" :onChange="onChange" >
+                    <dynamic-select :label="trans('expiring_updates_reminder')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="expiring_updates_reminder" :elements="updatesReminder"
+                        :value="updatesReminderType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('expiring_support_reminder')" :multiple="false"  classname="col-sm-6" :strlength="35"
-                                    :required="false" name="expiring_support_reminder" :elements="supportReminder" :value="supportReminderType" :onChange="onChange" >
+                    <dynamic-select :label="trans('expiring_support_reminder')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="expiring_support_reminder" :elements="supportReminder"
+                        :value="supportReminderType" :onChange="onChange">
                     </dynamic-select>
                 </div>
             </div>
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                <button class="btn btn-default" @click="onSubmit()"><i
+                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -69,138 +76,216 @@
 
 <script>
 
-import axios from 'axios'
+    import axios from 'axios'
 
-import { successHandler, errorHandler } from 'helpers/responseHandler';
+    import { successHandler, errorHandler } from 'helpers/responseHandler';
 
-import  { getIdFromUrl } from 'helpers/extraLogics';
+    import { getIdFromUrl } from 'helpers/extraLogics';
 
-import { mapGetters } from 'vuex';
+    import { mapGetters } from 'vuex';
 
-import moment from 'moment'
+    import moment from 'moment'
 
-export default {
+    export default {
 
-    name : 'Email Settings',
+        name: 'Email Settings',
 
-    data() {
+        data() {
 
-        return {
+            return {
 
-            title : 'email_settings',
+                title: 'email_settings',
 
-            iconClass : 'fas fa-save',
+                iconClass: 'fas fa-save',
 
-            btnName : 'save',
+                btnName: 'save',
 
-            hasDataPopulated : false,
+                hasDataPopulated: false,
 
-            loading : false,
+                loading: false,
 
-            apiEndpoint : '',
+                apiEndpoint: '',
 
-            moment : moment,
+                moment: moment,
 
-            fromName : null,
+                fromName: null,
 
-            fromAddress : null,
+                fromAddress: null,
 
-            copySender: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
-            ],
-            copySenderType: null,
+                copySender: [
+                    { name: 'Enabled', value: 1 },
+                    { name: 'Disabled', value: 0 }
+                ],
 
-            licenseReminder: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
-            ],
-            licenseReminderType: null,
+                copySenderType: null,
 
-            updatesReminder: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
-            ],
-            updatesReminderType: null,
+                licenseReminder: [
+                    { name: 'Enabled', value: 1 },
+                    { name: 'Disabled', value: 0 }
+                ],
 
-            supportReminder: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
-            ],
-            supportReminderType: null,
-        }
-    },
+                licenseReminderType: null,
 
-    beforeMount() {
+                updatesReminder: [
+                    { name: 'Enabled', value: 1 },
+                    { name: 'Disabled', value: 0 }
+                ],
 
-        const path = window.location.pathname
+                updatesReminderType: null,
 
-        this.getValues(path);
+                supportReminder: [
+                    { name: 'Enabled', value: 1 },
+                    { name: 'Disabled', value: 0 }
+                ],
 
-        this.loadData();
-    },
+                supportReminderType: null,
 
-    methods : {
+                settingId: 'new'
+            }
+        },
 
-        loadData() {
+        async beforeMount() {
 
-            this.loading = true;
+            const path = window.location.pathname
 
-            this.hasDataPopulated = false;
+            this.getValues(path);
 
-            Promise.all([this.getProducts(),this.getClients()]).then((values) => {
+            await this.getEmailDropdownOptions()
 
-                [this.productOptions, this.clientOptions] = values;
+            this.loadData();
+        },
 
-                this.loading = false;
+        methods: {
+
+            async loadData() {
+
+                this.loading = true;
+
+                this.hasDataPopulated = false;
+
+                await this.$store.dispatch('fetchSettings');
+
+                this.setFormData()
 
                 this.hasDataPopulated = true;
 
-            }).catch(function (error) {
-
                 this.loading = false;
+            },
 
-                this.hasDataPopulated = true;
-            });
+            async getEmailDropdownOptions() {
+                this.loading = true;
+
+                return await axios.get("/api/admin/emailDropdown").then((res) => {
+                    const options = res.data
+
+                    if (options['email expiring license days']) {
+                        this.licenseReminderType = options['email expiring license days']
+                    }
+                    if (options['email expiring updates days']) {
+                        this.updatesReminderType = options['email expiring updates days']
+                    }
+                    if (options['email expiring support days']) {
+                        this.supportReminderType = options['email expiring support days']
+                    }
+
+                    this.loading = false;
+
+                }).catch((err) => {
+
+                    this.loading = false;
+
+                });
+            },
+
+            setFormData() {
+
+                const emailSettings = this.$store.getters['getemailSettings']
+
+                if (emailSettings) {
+
+                    this.settingId = emailSettings.SETTING_ID ?? 'new'
+
+                    this.fromName = emailSettings.EMAIL_FROM_NAME ?? null
+
+                    this.fromAddress = emailSettings.EMAIL_FROM_ADDRESS ?? null
+
+                    this.copySenderType = this.copySender.find((opt) => {
+                        return opt.value === emailSettings.EMAIL_CC_SENDER
+                    })
+
+                    this.licenseReminderType = this.licenseReminder.find((opt) => {
+                        return opt.value === emailSettings.EMAIL_EXPIRING_LICENSE_DAYS
+                    })
+
+                    this.updatesReminderType = this.updatesReminder.find((opt) => {
+                        return opt.value === emailSettings.EMAIL_EXPIRING_UPDATES_DAYS
+                    })
+
+                    this.supportReminderType = this.supportReminder.find((opt) => {
+                        return opt.value === emailSettings.EMAIL_EXPIRING_SUPPORT_DAYS
+                    })
+                }
+            },
+
+            onChange(value, name) {
+
+                if (name === 'send_copy_sender') {
+                    this.copySenderType = value
+                } else if (name === 'expiring_license_reminder') {
+                    this.licenseReminderType = value
+                } else if (name === 'expiring_updates_reminder') {
+                    this.updatesReminderType = value
+                } else if (name === 'expiring_support_reminder') {
+                    this.supportReminderType = value
+                }
+            },
+
+            async onSubmit() {
+                const formData = {
+
+                    EMAIL_FROM_NAME: this.fromName ?? null,
+
+                    EMAIL_FROM_ADDRESS: this.fromAddress ?? null,
+
+                    EMAIL_CC_SENDER: this.copySenderType ? this.copySenderType.value : null,
+
+                    EMAIL_EXPIRING_LICENSE_DAYS: this.licenseReminderType ? this.licenseReminderType.value : null,
+
+                    EMAIL_EXPIRING_UPDATES_DAYS: this.updatesReminderType ? this.updatesReminderType.value : null,
+
+                    EMAIL_EXPIRING_SUPPORT_DAYS: this.supportReminderType ? this.supportReminderType.value : null,
+                }
+
+                await axios.post(`/api/admin/emailsettings/${this.settingId}`, formData).then(async (res) => {
+
+
+                    successHandler(res, 'emailsettings');
+
+                    await this.$store.dispatch('fetchSettings');
+
+                    this.loading = false;
+
+                }).catch((err) => {
+
+                    this.loading = false;
+
+                    errorHandler(err, 'emailsettings');
+                });
+            },
+
+            getValues() {
+            },
         },
 
-        getProducts() {
-        },
+        components: {
 
-        getClients() {
-        },
+            "text-field": require("components/Reusable/FormField/TextField").default,
 
-        getValues(){
-        },
+            "number-field": require("components/Reusable/FormField/NumberField").default,
 
-        getInitialValues(){
-        },
+            "static-select": require("components/Reusable/FormField/StaticSelect").default,
 
-        updateStatesWithData(){
-        },
-
-        isValid() {
-        },
-
-        onChange() {
-        },
-
-        generateCode() {
-        },
-
-        onSubmit(){
+            "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
         }
-    },
-
-    components : {
-
-        "text-field": require("components/Reusable/FormField/TextField").default,
-
-        "number-field": require("components/Reusable/FormField/NumberField").default,
-
-        "static-select": require("components/Reusable/FormField/StaticSelect").default,
-
-        "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
     }
-}
 </script>

@@ -31,7 +31,8 @@
 
                     <dynamic-select :label="trans('smart_tables')" :multiple="false"
                                     classname="col-sm-6" :strlength="35"
-                                    :required="false" name="smart_tables" :elements="smartTables" :value="smartTablesType" :onChange="onChange" >
+                                    :required="false" name="smart_tables" :elements="smartTables" :value="smartTablesType" 
+                                    :onChange="onChange" >
                     </dynamic-select>
                 </div>
 
@@ -39,24 +40,28 @@
 
                     <dynamic-select :label="trans('records_per_page')" :multiple="false"
                                     classname="col-sm-6" :strlength="35"
-                                    :required="false" name="records_per_page" :elements="recordsPerPage" :value="recordsPerPageType" :onChange="onChange" >
+                                    :required="false" name="records_per_page" :elements="recordsPerPage" :value="recordsPerPageType" 
+                                    optionLabel="title":onChange="onChange" >
                     </dynamic-select>
 
                     <dynamic-select :label="trans('records_on_index_page')" :multiple="false"
                                     classname="col-sm-6" :strlength="35"
-                                    :required="false" name="records_on_index_page" :elements="recordIndexPage" :value="recordIndexPageType" :onChange="onChange" >
+                                    :required="false" name="records_on_index_page" :elements="recordIndexPage" :value="recordIndexPageType" 
+                                    optionLabel="title":onChange="onChange" >
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
                     <dynamic-select :label="trans('search_result_limit')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false" name="search_result_limit" :elements="searchLimit" :value="searchLimitType" :onChange="onChange" >
+                                    :required="false" name="search_result_limit" :elements="searchLimit" :value="searchLimitType" 
+                                    optionLabel="title":onChange="onChange" >
                     </dynamic-select>
 
                     <dynamic-select :label="trans('archive_older_records')" :multiple="false"
                                     classname="col-sm-6" :strlength="35"
-                                    :required="false" name="archive_older_records" :elements="archiveOlderRecords" :value="archiveOlderRecordsType" :onChange="onChange" >
+                                    :required="false" name="archive_older_records" :elements="archiveOlderRecords" :value="archiveOlderRecordsType" 
+                                    optionLabel="title":onChange="onChange" >
                     </dynamic-select>
                 </div>
 
@@ -64,7 +69,7 @@
 
                     <dynamic-select :label="trans('timezone')" :multiple="false"
                                     classname="col-sm-6" :strlength="35"
-                                    :required="false" name="license_storage_type" :elements="storageTypes" :value="selectedStorageType" :onChange="onChange" >
+                                    :required="false" name="timezones" :elements="timezones" :value="selectedTimezone" :onChange="onChange" optionLabel="title" >
                     </dynamic-select>
 
                 </div>
@@ -110,94 +115,155 @@ export default {
 
             moment : moment,
 
+            settingId: 'new',
+
+            timezones: [],
+
+            selectedTimezone: null,
+
             smartReports: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
+                {name: 'Enabled', value: 1},
+                {name: 'Disabled', value: 0}
             ],
+
             smartReportsType: null,
 
             smartTables: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
+                {name: 'Enabled', value: 1},
+                {name: 'Disabled', value: 0}
             ],
+
             smartTablesType: null,
 
-            recordsPerPage: [
-                {name: '10 Records', value: '1'},
-                {name: '25 Records', value: '2'},
-                {name: '50 Records', value: '3'},
-                {name: '100 Records', value: '4'},
-                {name: '200 Records', value: '5'},
-                {name: '500 Records', value: '6'}
-            ],
+            recordsPerPage: [],
+
             recordsPerPageType: null,
 
-            recordIndexPage: [
-                {name: '1 Records', value: '1'},
-                {name: '3 Records', value: '2'},
-                {name: '5 Records', value: '3'},
-                {name: '10 Records', value: '4'}
-            ],
+            recordIndexPage: [],
+
             recordIndexPageType: null,
 
-            searchLimit: [
-                {name: '10 Records', value: '1'},
-                {name: '25 Records', value: '2'},
-                {name: '50 Records', value: '3'},
-                {name: '100 Records', value: '4'},
-                {name: '200 Records', value: '5'},
-                {name: '500 Records', value: '6'}
-            ],
+            searchLimit: [],
+
             searchLimitType: null,
 
-            archiveOlderRecords: [
-                {name: 'Disabled', value: 'disabled'},
-                {name: '7 Days', value: '2'},
-                {name: '14 Days', value: '3'},
-                {name: '30 Days', value: '4'},
-                {name: '60 Days', value: '5'},
-                {name: '90 Days', value: '6'},
-                {name: '180 Days', value: '2'},
-                {name: '365 Days', value: '3'},
-                {name: '730 Days', value: '4'}
-            ],
+            archiveOlderRecords: [ ],
+
             archiveOlderRecordsType: null,
         }
     },
 
-    beforeMount() {
+    async beforeMount() {
 
         const path = window.location.pathname
+        await this.getGeneralDropDownOptions()
 
         this.loadData();
     },
 
     methods : {
 
-        loadData() {
+         async loadData() {
 
             this.loading = true;
 
             this.hasDataPopulated = false;
 
-            Promise.all([this.getProducts(),this.getClients()]).then((values) => {
+            await this.$store.dispatch('fetchSettings');
 
-                [this.productOptions, this.clientOptions] = values;
+            this.setFormData()
+
+            this.hasDataPopulated = true;
+
+
+            this.loading = false;
+           
+        },
+        async getGeneralDropDownOptions(){
+            this.loading = true;
+             return await axios.get("/api/admin/generalDropdown").then((res) => {
+                 const options=res.data
+                if(options.Timezon){
+                    this.timezones= options.Timezon
+                }
+                if(options['records on admin page']){
+                    this.recordsPerPage= options['records on admin page']
+                }
+                if(options['records on index page']){
+                    this.recordIndexPage= options['records on index page']
+                }
+                if(options['records on search page']){
+                    this.searchLimit= options['records on search page']
+                }
+                if(options['records on archieve days']){
+                    this.archiveOlderRecords= options['records on archieve days']
+                }
+
+               
+                this.loading = false;
+                
+
+            }).catch((err) => {
 
                 this.loading = false;
 
-                this.hasDataPopulated = true;
-
-            }).catch(function (error) {
-
-                this.loading = false;
-
-                this.hasDataPopulated = true;
             });
         },
 
-        onChange(){
+        setFormData(){
+            const generalSetting = this.$store.getters['getGeneralSettings']
 
+            if(generalSetting){
+
+                this.settingId = generalSetting.SETTING_ID ?? 'new'
+
+                this.smartReportsType = this.smartReports.find((opt)=>{
+                    return opt.value === generalSetting.SMART_REPORTS
+                })
+
+                this.smartTablesType = this.smartTables.find((opt)=>{
+                    return opt.value === generalSetting.SMART_TABLES
+                })
+
+                this.selectedTimezone = this.timezones.find((opt)=>{
+                    return opt.value === generalSetting.TIMEZONE
+                })
+
+                this.archiveOlderRecordsType = this.archiveOlderRecords.find((opt)=>{
+                    return opt.value === generalSetting.RECORDS_ARCHIVE_DAYS
+                })
+
+                this.recordsPerPageType = this.recordsPerPage.find((opt)=>{
+                    return opt.value === generalSetting.RECORDS_ON_ADMIN_PAGE
+                })
+
+                this.recordIndexPageType = this.recordIndexPage.find((opt)=>{
+                    return opt.value === generalSetting.RECORDS_ON_INDEX_PAGE
+                })
+
+                this.searchLimitType = this.searchLimit.find((opt)=>{
+                    return opt.value === generalSetting.RECORDS_ON_SEARCH_PAGE
+                })
+            }
+        },
+       
+        onChange(value, name){
+
+           if(name === 'smart_reports'){
+                this.smartReportsType = value
+            } else if(name === 'smart_tables'){
+                this.smartTablesType = value
+            } else if(name === 'records_per_page'){
+                this.recordsPerPageType = value
+            } else if(name === 'records_on_index_page'){
+                this.recordIndexPageType = value
+            } else if(name === 'search_result_limit'){
+                this.searchLimitType = value
+            } else if(name === 'archive_older_records'){
+                this.archiveOlderRecordsType = value
+            } else if(name === 'timezones'){
+                this.selectedTimezone = value
+            }  
         },
 
         getProducts() {
@@ -208,8 +274,42 @@ export default {
 
         },
 
-        onSubmit(){
+        async onSubmit(){
 
+            const formData = {
+
+                SMART_REPORTS:  this.smartReportsType ? this.smartReportsType.value : null,
+
+                SMART_TABLES: this.smartTablesType? this.smartTablesType.value : null,
+
+                TIMEZONE: this.selectedTimezone? this.selectedTimezone.value : null,
+
+                RECORDE_ARCHIVE_DAYS: this.archiveOlderRecordsType ? this.archiveOlderRecordsType.value : null,
+
+                RECORDE_ON_ADMIN_PAGE: this.recordsPerPageType ? this.recordsPerPageType.value : null,
+
+                RECORDE_ON_INDEX_PAGE:  this.recordIndexPageType ? this.recordIndexPageType.value : null,
+
+                RECORDE_ON_SEARCH_PAGE: this.searchLimitType ? this.searchLimitType.value : null,
+            }
+
+            await axios.post(`/api/admin/generalsettings/${this.settingId}`,formData).then(async (res) => {
+
+
+                successHandler(res,'generalsettings');
+
+                await this.$store.dispatch('fetchSettings');
+                
+                this.loading = false;
+               
+
+
+            }).catch((err) => {
+
+                this.loading = false;
+
+                errorHandler(err,'generalsettings');
+            });
         }
     },
 

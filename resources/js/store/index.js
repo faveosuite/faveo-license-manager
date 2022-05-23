@@ -6,6 +6,8 @@ import auth from './modules/auth';
 
 import alert from './modules/alert';
 
+import setting from './modules/setting';
+
 import VuexPersist from 'vuex-persist';
 
 Vue.use(Vuex);
@@ -20,7 +22,8 @@ const vuexLocalStorage = new VuexPersist({
 export const store = new Vuex.Store({
   modules : {
     auth,
-    alert
+    alert,
+    setting
   },
   plugins: [vuexLocalStorage.plugin]
 })

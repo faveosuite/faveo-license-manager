@@ -11,7 +11,7 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="settings"/>
+        <alert componentName="settings" />
 
         <div class="card card-light" v-if="hasDataPopulated">
 
@@ -24,37 +24,43 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('auto_system_cleanup')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false" name="auto_system_cleanup" :elements="autoSystemCleanup" :value="autoSystemCleanupType" :onChange="onChange">
+                    <dynamic-select :label="trans('auto_system_cleanup')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="auto_system_cleanup" :elements="autoSystemCleanup"
+                        :value="autoSystemCleanupType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('remove_callbacks_older_than')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false" name="remove_callbacks_older_than" :elements="removeOlderCallbacks" :value="removeOlderCallbacksOptions" :onChange="onChange">
-                    </dynamic-select>
-                </div>
-
-                <div class="row">
-
-                    <dynamic-select :label="trans('remove_license_reports')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false" name="remove_license_reports" :elements="removeLicenseReports" :value="removeLicenseReportsOptions" :onChange="onChange">
-                    </dynamic-select>
-
-                    <dynamic-select :label="trans('remove_system_reports')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false" name="remove_system_reports" :elements="removeSystemReports" :value="removeSystemReportsOptions" :onChange="onChange">
+                    <dynamic-select :label="trans('remove_callbacks_older_than')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="remove_callbacks_older_than"
+                        :elements="removeOlderCallbacks" :value="removeOlderCallbacksOptions" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('remove_licenses_cancelled')" :multiple="false" classname="col-sm-6" :strlength="35"
-                                    :required="false" name="remove_licenses_cancelled" :elements="removeLicenseCancelled" :value="removeLicenseCancelledType" :onChange="onChange">
+                    <dynamic-select :label="trans('remove_license_reports')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="remove_license_reports" :elements="removeLicenseReports"
+                        :value="removeLicenseReportsOptions" :onChange="onChange">
+                    </dynamic-select>
+
+                    <dynamic-select :label="trans('remove_system_reports')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="remove_system_reports" :elements="removeSystemReports"
+                        :value="removeSystemReportsOptions" :onChange="onChange">
+                    </dynamic-select>
+                </div>
+
+                <div class="row">
+
+                    <dynamic-select :label="trans('remove_licenses_cancelled')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="remove_licenses_cancelled"
+                        :elements="removeLicenseCancelled" :value="removeLicenseCancelledType" :onChange="onChange">
                     </dynamic-select>
                 </div>
             </div>
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                <button class="btn btn-default" @click="onSubmit()"><i
+                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -62,158 +68,235 @@
 
 <script>
 
-import axios from 'axios'
+    import axios from 'axios'
 
-import { successHandler, errorHandler } from 'helpers/responseHandler';
+    import { successHandler, errorHandler } from 'helpers/responseHandler';
 
-import  { getIdFromUrl } from 'helpers/extraLogics';
+    import { getIdFromUrl } from 'helpers/extraLogics';
 
-import { mapGetters } from 'vuex';
+    import { mapGetters } from 'vuex';
 
-import moment from 'moment'
+    import moment from 'moment'
 
-export default {
+    export default {
 
-    name : 'Syatem Cleanup Settings',
+        name: 'System_Cleanup_Settings',
 
-    data() {
+        data() {
 
-        return {
+            return {
 
-            title : 'system_cleanup_settings',
+                title: 'system_cleanup_settings',
 
-            iconClass : 'fas fa-save',
+                iconClass: 'fas fa-save',
 
-            btnName : 'save',
+                btnName: 'save',
 
-            hasDataPopulated : false,
+                hasDataPopulated: false,
 
-            loading : false,
+                loading: false,
 
-            apiEndpoint : '',
+                apiEndpoint: '',
 
-            moment : moment,
+                moment: moment,
 
-            autoSystemCleanup: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
-            ],
-            autoSystemCleanupType: null,
+                autoSystemCleanup: [
+                    { name: 'Enabled', value: 1 },
+                    { name: 'Disabled', value: 0 }
+                ],
+                autoSystemCleanupType: null,
 
-            removeOlderCallbacks: [
-                {name: 'Disabled', value: 'disabled'},
-                {name: '7 Days', value: '1'},
-                {name: '14 Days', value: '2'},
-                {name: '30 Days', value: '3'},
-                {name: '60 Days', value: '4'},
-                {name: '90 Days', value: '5'},
-                {name: '180 Days', value: '6'},
-                {name: '365 Days', value: '7'}
-            ],
-            removeOlderCallbacksOptions: null,
+                removeOlderCallbacks: [],
 
-            removeLicenseReports: [
-                {name: 'Disabled', value: 'disabled'},
-                {name: '7 Days', value: '1'},
-                {name: '14 Days', value: '2'},
-                {name: '30 Days', value: '3'},
-                {name: '60 Days', value: '4'},
-                {name: '90 Days', value: '5'},
-                {name: '180 Days', value: '6'},
-                {name: '365 Days', value: '7'}
-            ],
-            removeLicenseReportsOptions: null,
+                removeOlderCallbacksOptions: null,
 
-            removeSystemReports: [
-                {name: 'Disabled', value: 'disabled'},
-                {name: '7 Days', value: '1'},
-                {name: '14 Days', value: '2'},
-                {name: '30 Days', value: '3'},
-                {name: '60 Days', value: '4'},
-                {name: '90 Days', value: '5'},
-                {name: '180 Days', value: '6'},
-                {name: '365 Days', value: '7'}
-            ],
-            removeSystemReportsOptions: null,
+                removeLicenseReports: [],
 
-            removeLicenseCancelled: [
-                {name: 'Enabled', value: 'enabled'},
-                {name: 'Disabled', value: 'disabled'}
-            ],
-            removeLicenseCancelledType: null,
-        }
-    },
+                removeLicenseReportsOptions: null,
 
-    beforeMount() {
+                removeSystemReports: [],
 
-        const path = window.location.pathname
+                removeSystemReportsOptions: null,
 
-        this.getValues(path);
+                removeLicenseCancelled: [
+                    { name: 'Enabled', value: 1 },
+                    { name: 'Disabled', value: 0 }
+                ],
 
-        this.loadData();
-    },
+                removeLicenseCancelledType: null,
+                
+            }
+        },
 
-    methods : {
+         async beforeMount() {
 
-        loadData() {
+            const path = window.location.pathname
 
-            this.loading = true;
+            this.getValues(path);
 
-            this.hasDataPopulated = false;
+            await this.getCleanUpDropdownOptions()
 
-            Promise.all([this.getProducts(),this.getClients()]).then((values) => {
+            this.loadData();
+        },
 
-                [this.productOptions, this.clientOptions] = values;
+        methods: {
 
-                this.loading = false;
+            async loadData() {
+
+                this.loading = true;
+
+                this.hasDataPopulated = false;
+
+                await this.$store.dispatch('fetchSettings');
+
+                this.setFormData()
 
                 this.hasDataPopulated = true;
 
-            }).catch(function (error) {
-
                 this.loading = false;
+            },
 
-                this.hasDataPopulated = true;
-            });
+            async getCleanUpDropdownOptions() {
+                this.loading = true;
+
+                return await axios.get("/api/admin/cleanUpDropdown").then((res) => {
+                    const options = res.data
+
+                    if (options['database cleanup callbacks']) {
+                        this.removeOlderCallbacks = options['database cleanup callbacks']
+                    }
+                    if (options['database cleanup reports main']) {
+                        this.removeLicenseReports = options['database cleanup reports main']
+                    }
+                    if (options['database cleanup reports system']) {
+                        this.removeSystemReports = options['database cleanup reports system']
+                    }
+                    if (options['database cleanup licenses']) {
+                        this.removeLicenseCancelled = options['database cleanup licenses']
+                    }
+
+                    this.loading = false;
+
+                }).catch((err) => {
+
+                    this.loading = false;
+
+                });
+            },
+
+            setFormData() {
+
+                const cleanUpSettings = this.$store.getters['getCleanUpSettings']
+
+                if (cleanUpSettings) {
+
+                    this.settingId = cleanUpSettings.SETTING_ID ?? 'new'
+
+                    this.autoSystemCleanupType = this.autoSystemCleanup.find((opt) => {
+                        return opt.value === cleanUpSettings.DATABASE_CLEANUP_ENABLED
+                    })
+
+                    this.removeOlderCallbacksOptions = this.removeOlderCallbacks.find((opt) => {
+                        return opt.value === cleanUpSettings.DATABASE_CLEANUP_CALLBACKS
+                    })
+
+                    this.removeLicenseReportsOptions = this.removeLicenseReports.find((opt) => {
+                        return opt.value === cleanUpSettings.DATABASE_CLEANUP_REPORTS_MAIN
+                    })
+
+                    this.removeSystemReportsOptions = this.removeSystemReports.find((opt) => {
+                        return opt.value === cleanUpSettings.DATABASE_CLEANUP_REPORTS_SYSTEM
+                    })
+
+                    this.removeLicenseCancelledType = this.removeLicenseCancelled.find((opt) => {
+                        return opt.value === cleanUpSettings.DATABASE_CLEANUP_REPORTS_LICENSES
+                    })
+                }
+            },
+
+            onChange(value, name) {
+
+                if (name === 'auto_system_cleanup') {
+                    this.autoSystemCleanupType = value
+                } else if (name === 'remove_callbacks_older_than') {
+                    this.removeOlderCallbacksOptions = value
+                } else if (name === 'remove_license_reports') {
+                    this.removeLicenseReportsOptions = value
+                } else if (name === 'remove_system_reports') {
+                    this.removeSystemReportsOptions = value
+                } else if (name === 'remove_licenses_cancelled') {
+                    this.removeLicenseCancelledType = value
+                }
+            },
+
+            async onSubmit() {
+                const formData = {
+
+                    DATABASE_CLEANUP_ENABLED: this.autoSystemCleanupType ? this.autoSystemCleanupType.value : null,
+
+                    DATABASE_CLEANUP_CALLBACKS: this.removeOlderCallbacksOptions ? this.removeOlderCallbacksOptions.value : null,
+
+                    DATABASE_CLEANUP_REPORTS_MAIN: this.removeLicenseReportsOptions ? this.removeLicenseReportsOptions.value : null,
+
+                    DATABASE_CLEANUP_REPORTS_SYSTEM: this.removeSystemReportsOptions ? this.removeSystemReportsOptions.value : null,
+
+                    DATABASE_CLEANUP_REPORTS_LICENSES: this.removeLicenseCancelledType ? this.removeLicenseCancelledType.value : null,
+                }
+
+                await axios.post(`/api/admin/cleanupsettings/${this.settingId}`, formData).then(async (res) => {
+
+
+                    successHandler(res, 'cleanupsettings');
+
+                    await this.$store.dispatch('fetchSettings');
+
+                    this.loading = false;
+
+                }).catch((err) => {
+
+                    this.loading = false;
+
+                    errorHandler(err, 'cleanupsettings');
+                });
+            },
+
+            getProducts() {
+            },
+
+            getClients() {
+            },
+
+            getValues() {
+            },
+
+            getInitialValues() {
+            },
+
+            updateStatesWithData() {
+            },
+
+            isValid() {
+            },
+
+            onChange() {
+            },
+
+            generateCode() {
+            },
+
+            onSubmit() {
+            }
         },
 
-        getProducts() {
-        },
+        components: {
 
-        getClients() {
-        },
+            "text-field": require("components/Reusable/FormField/TextField").default,
 
-        getValues(){
-        },
+            "number-field": require("components/Reusable/FormField/NumberField").default,
 
-        getInitialValues(){
-        },
+            "static-select": require("components/Reusable/FormField/StaticSelect").default,
 
-        updateStatesWithData(){
-        },
-
-        isValid() {
-        },
-
-        onChange() {
-        },
-
-        generateCode() {
-        },
-
-        onSubmit(){
+            "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
         }
-    },
-
-    components : {
-
-        "text-field": require("components/Reusable/FormField/TextField").default,
-
-        "number-field": require("components/Reusable/FormField/NumberField").default,
-
-        "static-select": require("components/Reusable/FormField/StaticSelect").default,
-
-        "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
     }
-}
 </script>

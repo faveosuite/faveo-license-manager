@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\AflSettings;
-use App\Http\Requests\Settings\GeneralSettingsRequest;
-use App\Http\Requests\Settings\AdvancedSettingRequest;
-use App\Http\Requests\Settings\SecuritySettingRequest;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Lang;
 use App\Http\Requests\Settings\EmailSettingRequest;
 use App\Http\Requests\Settings\CleanUpSettingRequest;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Lang;
+use App\Http\Requests\Settings\AdvancedSettingRequest;
+use App\Http\Requests\Settings\GeneralSettingsRequest;
+use App\Http\Requests\Settings\SecuritySettingRequest;
 
 
 /**
@@ -46,12 +47,12 @@ class SettingsController extends Controller
         return successResponse(Lang::get('lang.settings_created'),$gen,201);
     }
     else{
-            $genset->SMART_REPORTS = $request->get('SMART_REPORTS');
+            $genset->SMART_REPORTS  = $request->get('SMART_REPORTS');
             $genset->SMART_TABLES = $request->get('SMART_TABLES');
-            $genset->RECORDE_ON_ADMIN_PAGE=$request->get('RECORDS_ON_ADMIN_PAGE');
-            $genset->RECORDE_ON_INDEX_PAGE=$request->get('RECORDS_ON_INDEX_PAGE');
-            $genset->RECORDE_ON_SEARCH_PAGE=  $request->get('RECORDS_ON_SEARCH_PAGE');
-            $genset->RECORDE_ARCHIVE_DAYS = $request->get('RECORDS_ARCHIVE_DAYS');
+            $genset->RECORDS_ON_ADMIN_PAGE=$request->get('RECORDE_ON_ADMIN_PAGE');
+            $genset->RECORDS_ON_INDEX_PAGE=$request->get('RECORDE_ON_INDEX_PAGE');
+            $genset->RECORDS_ON_SEARCH_PAGE=  $request->get('RECORDE_ON_SEARCH_PAGE');
+            $genset->RECORDS_ARCHIVE_DAYS = $request->get('RECORDE_ARCHIVE_DAYS');
             $genset->TIMEZONE=  $request->get('TIMEZONE');
             $genset->save();
             return successResponse(Lang::get('lang.settings_updated'),$genset,200);
@@ -63,11 +64,11 @@ class SettingsController extends Controller
 
     /**
      * To Add or Update the advanced settings of license manager
-     * @param AdvancedSettingsRequest $request
+     * @param   Request $request
      * @param $SETTING_ID
      * @return $advset with a success response leaving the other fields to be null if not filled
      */
-    public function advancedSettings(AdvancedSettingRequest $request,$SETTING_ID){
+    public function advancedSettings(AdvancedSettingRequest $request,$SETTING_ID=null){
 
           $advset = AflSettings::find($SETTING_ID);
           if(empty($advset)){
@@ -269,7 +270,7 @@ class SettingsController extends Controller
             'database cleanup callbacks'=>$database_cleanup_callbacks_array,
             'database cleanup reports main'=>$database_cleanup_reports_main_array,
             'database cleanup reports system'=>$database_cleanup_reports_system_array,
-            'database cleanuo licenses' => $database_cleanup_licenses_array]);
+            'database cleanup licenses' => $database_cleanup_licenses_array]);
     }
 
 
