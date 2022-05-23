@@ -47,6 +47,7 @@ class SettingsController extends Controller
         return successResponse(Lang::get('lang.settings_created'),$gen,201);
     }
     else{
+
             $genset->SMART_REPORTS  = $request->get('SMART_REPORTS');
             $genset->SMART_TABLES = $request->get('SMART_TABLES');
             $genset->RECORDS_ON_ADMIN_PAGE=$request->get('RECORDE_ON_ADMIN_PAGE');
