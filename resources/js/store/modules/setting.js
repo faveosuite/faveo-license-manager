@@ -47,7 +47,7 @@ const state = {
             SETTING_ID: state.settings.SETTING_ID,
             EMAIL_FROM_NAME: state.settings.EMAIL_FROM_NAME,
             EMAIL_FROM_ADDRESS: state.settings.EMAIL_FROM_ADDRESS,
-            EMAIL_CC_SENDER: state.settings.EMAIL_CC_SENDER,
+            EMAIL_CC_SENDER: state.settings.EMAIL_CC_ADMIN,
             EMAIL_EXPIRING_LICENSE_DAYS: state.settings.EMAIL_EXPIRING_LICENSE_DAYS,
             EMAIL_EXPIRING_UPDATES_DAYS: state.settings.EMAIL_EXPIRING_UPDATES_DAYS,
             EMAIL_EXPIRING_SUPPORT_DAYS: state.settings.EMAIL_EXPIRING_SUPPORT_DAYS,
@@ -88,9 +88,7 @@ const state = {
             
             commit('setSettings',{})
             
-            if(err.response){
-                errorHandler(err);
-            }
+           return err
         });
     }
  }

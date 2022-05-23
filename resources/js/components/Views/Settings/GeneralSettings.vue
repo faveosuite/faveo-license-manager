@@ -41,7 +41,8 @@
                     <dynamic-select :label="trans('records_per_page')" :multiple="false"
                                     classname="col-sm-6" :strlength="35"
                                     :required="false" name="records_per_page" :elements="recordsPerPage" :value="recordsPerPageType" 
-                                    optionLabel="title":onChange="onChange" >
+                                    optionLabel="title"
+                                    :onChange="onChange" >
                     </dynamic-select>
 
                     <dynamic-select :label="trans('records_on_index_page')" :multiple="false"

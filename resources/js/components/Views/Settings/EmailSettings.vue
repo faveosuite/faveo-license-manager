@@ -199,7 +199,7 @@
 
             setFormData() {
 
-                const emailSettings = this.$store.getters['getemailSettings']
+                const emailSettings = this.$store.getters['getEmailSettings']
 
                 if (emailSettings) {
 
@@ -229,7 +229,11 @@
 
             onChange(value, name) {
 
-                if (name === 'send_copy_sender') {
+                if (name === 'from_name') {
+                    this.fromName = value
+                } else if (name === 'from_address') {
+                    this.fromAddress = value
+                } else if (name === 'send_copy_sender') {
                     this.copySenderType = value
                 } else if (name === 'expiring_license_reminder') {
                     this.licenseReminderType = value
