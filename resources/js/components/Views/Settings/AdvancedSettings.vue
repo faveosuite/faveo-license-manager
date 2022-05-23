@@ -175,8 +175,8 @@ export default {
 
             await axios.post(`/api/admin/advancedsettings/${this.settingId}`,formData).then(async (res) => {
 
-                successHandler(res,'advancedsettings');
-
+                successHandler(res,'settings');
+               
                 await this.$store.dispatch('fetchSettings');
 
                 this.loading = false;
@@ -185,7 +185,7 @@ export default {
 
                 this.loading = false;
 
-                errorHandler(err,'advancedsettings');
+                errorHandler(err,'settings');
             });
         }
     },
