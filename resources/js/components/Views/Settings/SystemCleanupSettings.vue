@@ -255,7 +255,7 @@
                 await axios.post(`/api/admin/cleanupsettings/${this.settingId}`, formData).then(async (res) => {
 
 
-                    successHandler(res, 'cleanupsettings');
+                    successHandler(res, 'settings');
 
                     await this.$store.dispatch('fetchSettings');
 
@@ -265,7 +265,7 @@
 
                     this.loading = false;
 
-                    errorHandler(err, 'cleanupsettings');
+                    errorHandler(err, 'settings');
                 });
             },
 
