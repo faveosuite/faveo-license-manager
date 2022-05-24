@@ -6,6 +6,8 @@
             <p>View existing API keys. If any API key needs to be modified, click the API secret. If any API key needs to be deleted, check the API secret and click the 'Submit' button.</p>
         </div>
 
+        <alert componentName="api_keys"/>
+
         <div class="card card-light ">
 
             <div class="card-header">
@@ -187,7 +189,7 @@ export default {
 
                 this.data = res.data.data.map(data => {
 
-                    data.edit_url = `editnewapi/${data.api_key_id}`;
+                    data.edit_url = `/apikeys/${data.api_key_id}/edit`;
 
                     data.delete_url = `/api/admin/deleteapi/${data.api_key_id}`;
 
