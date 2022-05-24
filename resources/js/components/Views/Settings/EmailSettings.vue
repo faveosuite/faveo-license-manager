@@ -263,7 +263,7 @@
                 await axios.post(`/api/admin/emailsettings/${this.settingId}`, formData).then(async (res) => {
 
 
-                    successHandler(res, 'emailsettings');
+                    successHandler(res, 'settings');
 
                     await this.$store.dispatch('fetchSettings');
 
@@ -273,7 +273,7 @@
 
                     this.loading = false;
 
-                    errorHandler(err, 'emailsettings');
+                    errorHandler(err, 'settings');
                 });
             },
 

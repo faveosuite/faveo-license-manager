@@ -297,7 +297,7 @@ export default {
             await axios.post(`/api/admin/generalsettings/${this.settingId}`,formData).then(async (res) => {
 
 
-                successHandler(res,'generalsettings');
+                successHandler(res,'settings');
 
                 await this.$store.dispatch('fetchSettings');
                 
@@ -309,7 +309,7 @@ export default {
 
                 this.loading = false;
 
-                errorHandler(err,'generalsettings');
+                errorHandler(err,'settings');
             });
         }
     },

@@ -295,7 +295,7 @@
                 await axios.post(`/api/admin/securitysettings/${this.settingId}`, formData).then(async (res) => {
 
 
-                    successHandler(res, 'securitysettings');
+                    successHandler(res, 'settings');
 
                     await this.$store.dispatch('fetchSettings');
 
@@ -305,7 +305,7 @@
 
                     this.loading = false;
 
-                    errorHandler(err, 'securitysettings');
+                    errorHandler(err, 'settings');
                 });
             }
         },
