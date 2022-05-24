@@ -266,6 +266,8 @@ return[
     'delete_cancelled_license' => 'Delete Cancelled License',
     'delete_cracked_license' => 'Delete Cracked License',
     'god_mode' => 'GOD Mode',
+    'add' => 'API Key Added Successfully',
+    'Delete' => 'API Key Deleted Successfully'
 
 
 
