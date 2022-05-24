@@ -50,15 +50,13 @@ import { successHandler, errorHandler } from 'helpers/responseHandler';
 
 import  { getIdFromUrl } from 'helpers/extraLogics';
 
-import { validateLicenseSettings } from "helpers/validator/licenseValidation.js";
-
 import { mapGetters } from 'vuex';
 
 import moment from 'moment'
 
 export default {
 
-    name : 'Add New Banned Host',
+    name : 'Add-New-Banned-Host',
 
     data() {
 
@@ -126,15 +124,6 @@ export default {
         getValues(){
         },
 
-        getInitialValues(){
-        },
-
-        updateStatesWithData(){
-        },
-
-        isValid() {
-        },
-
         onChange(value, name) {
             if(name === 'ip_address'){
                 this.ipAddress = value
@@ -142,9 +131,6 @@ export default {
             else if(name === 'comments') {
                 this.comments = value
             }
-        },
-
-        generateCode() {
         },
 
         onSubmit(){
