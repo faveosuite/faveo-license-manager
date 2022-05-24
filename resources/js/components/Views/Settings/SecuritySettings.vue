@@ -100,7 +100,7 @@
 
     export default {
 
-        name: 'Security Settings',
+        name: 'Security-Settings',
 
         data() {
 
@@ -160,8 +160,6 @@
         async beforeMount() {
 
             const path = window.location.pathname
-
-            this.getValues(path);
 
             await this.getSecurityDropdownOptions()
 
@@ -262,15 +260,6 @@
                 } else if (name === 'minimum_password_length') {
                     this.minPasswordLength = value
                 }
-            },
-
-            getProducts() {
-            },
-
-            getClients() {
-            },
-
-            getValues() {
             },
 
             async onSubmit() {
