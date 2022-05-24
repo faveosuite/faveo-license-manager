@@ -88,7 +88,7 @@
 
     export default {
 
-        name: 'Email Settings',
+        name: 'Email-Settings',
 
         data() {
 
@@ -147,8 +147,6 @@
         async beforeMount() {
 
             const path = window.location.pathname
-
-            this.getValues(path);
 
             await this.getEmailDropdownOptions()
 
@@ -275,9 +273,6 @@
 
                     errorHandler(err, 'settings');
                 });
-            },
-
-            getValues() {
             },
         },
 
