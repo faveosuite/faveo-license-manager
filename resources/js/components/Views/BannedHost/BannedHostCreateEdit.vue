@@ -11,6 +11,8 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
+        <alert componentName="banned-hosts"/>
+
         <div class="card card-light" v-if="hasDataPopulated">
 
             <div class="card-header">
@@ -156,7 +158,7 @@ export default {
                 axios.post("/api/admin/bannedHosts/add",formData).then((res) => {
 
                     this.loading = false;
-                    successHandler(res,'add_bannedHosts');
+                    successHandler(res,'banned-hosts');
 
                     setTimeout(()=>{
                     
@@ -166,7 +168,7 @@ export default {
 
                 }).catch((err) => {
                     this.loading = false;
-                    errorHandler(err,'add_bannedHosts');
+                    errorHandler(err,'banned-hosts');
                 });
             }
         }
