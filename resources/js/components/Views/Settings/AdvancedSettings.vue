@@ -11,7 +11,7 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="settings"/>
+        <alert componentName="settings" />
 
         <div class="card card-light" v-if="hasDataPopulated">
 
@@ -24,12 +24,13 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('auto_php_licenser')" :multiple="false"
-                                    classname="col-sm-6" :strlength="35"
-                                    :required="false" name="auto_php_licenser" :elements="autoPhpLicenser" :value="autoPhpLicenserType" :onChange="onChange">
+                    <dynamic-select :label="trans('auto_php_licenser')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="auto_php_licenser" :elements="autoPhpLicenser"
+                        :value="autoPhpLicenserType" :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="trans('evanto_api_token')" :value="evantoApiToken" :onChange="onChange" name="evanto_api_token" type="text" classname="col-sm-6">
+                    <text-field :label="trans('evanto_api_token')" :value="evantoApiToken" :onChange="onChange"
+                        name="evanto_api_token" type="text" classname="col-sm-6">
 
                     </text-field>
                 </div>
@@ -37,7 +38,8 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit"><i :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                <button class="btn btn-default" @click="onSubmit"><i
+                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -45,164 +47,143 @@
 
 <script>
 
-import axios from 'axios'
+    import axios from 'axios'
 
-import { successHandler, errorHandler } from 'helpers/responseHandler';
+    import { successHandler, errorHandler } from 'helpers/responseHandler';
 
-import  { getIdFromUrl } from 'helpers/extraLogics';
+    import { getIdFromUrl } from 'helpers/extraLogics';
 
-import { mapGetters } from 'vuex';
+    import { mapGetters } from 'vuex';
 
-import moment from 'moment'
+    import moment from 'moment'
 
-export default {
+    export default {
 
-    name : 'Advanced Settings',
+        name: 'Advanced-Settings',
 
-    data() {
+        data() {
 
-        return {
+            return {
 
-            title : 'advanced_settings',
+                title: 'advanced_settings',
 
-            iconClass : 'fas fa-save',
+                iconClass: 'fas fa-save',
 
-            btnName : 'save',
+                btnName: 'save',
 
-            hasDataPopulated : false,
+                hasDataPopulated: false,
 
-            loading : false,
+                loading: false,
 
-            apiEndpoint : '',
+                apiEndpoint: '',
 
-            moment : moment,
+                moment: moment,
 
-            autoPhpLicenser: [
-                {name: 'Enabled', value: 1},
-                {name: 'Disabled', value: 0}
-            ],
-            autoPhpLicenserType: null,
+                autoPhpLicenser: [
+                    { name: 'Enabled', value: 1 },
+                    { name: 'Disabled', value: 0 }
+                ],
+                autoPhpLicenserType: null,
 
-            evantoApiToken : null,
+                evantoApiToken: null,
 
-            settingId: 'new'
-        }
-    },
-
-    beforeMount() {
-
-        const path = window.location.pathname
-
-        this.getValues(path);
-
-        this.loadData();
-    },
-
-    computed : {
-
-        ...mapGetters(['getApiKey'])
-    },
-
-    methods : {
-
-        async loadData() {
-
-            this.loading = true;
-
-            this.hasDataPopulated = false;
-
-            await this.$store.dispatch('fetchSettings');
-
-            this.setFormData()
-
-            this.hasDataPopulated = true;
-            
-            this.loading = false;
-
-        },
-        setFormData(){
-        const advancedSettings = this.$store.getters['getAdvancedSettings']
-
-            if(advancedSettings){
-
-                this.settingId = advancedSettings.SETTING_ID ?? 'new'
-
-                this.autoPhpLicenserType = this.autoPhpLicenser.find((opt)=>{
-                    return opt.value === advancedSettings.API_STATUS
-                })
-
-                this.evantoApiToken = advancedSettings.ENVATO_API_TOKEN ?? null
-            }
-        },
-       
-        getProducts() {
-        },
-
-        getClients() {
-        },
-
-        getValues(){
-        },
-
-        getInitialValues(){
-        },
-
-        updateStatesWithData(){
-        },
-
-        isValid() {
-        },
-
-        onChange(value, name) {
-
-            if(name === 'auto_php_licenser'){
-                this.autoPhpLicenserType = value
-            } else if (name === 'evanto_api_token'){
-                this.evantoApiToken = value
+                settingId: 'new'
             }
         },
 
-    
-        async onSubmit(){
-            const formData = {
-                API_STATUS : this.autoPhpLicenserType ? this.autoPhpLicenserType.value: null,
-            }
+        beforeMount() {
 
-            if(this.evantoApiToken)
-            {
-                formData.ENVATO_API_TOKEN = this.evantoApiToken
-            }
+            const path = window.location.pathname
 
-            await axios.post(`/api/admin/advancedsettings/${this.settingId}`,formData).then(async (res) => {
+            this.loadData();
+        },
 
-                successHandler(res,'settings');
-               
+        computed: {
+
+            ...mapGetters(['getApiKey'])
+        },
+
+        methods: {
+
+            async loadData() {
+
+                this.loading = true;
+
+                this.hasDataPopulated = false;
+
                 await this.$store.dispatch('fetchSettings');
 
+                this.setFormData()
+
+                this.hasDataPopulated = true;
+
                 this.loading = false;
 
-            }).catch((err) => {
+            },
+            setFormData() {
+                const advancedSettings = this.$store.getters['getAdvancedSettings']
 
-                this.loading = false;
+                if (advancedSettings) {
 
-                errorHandler(err,'settings');
-            });
+                    this.settingId = advancedSettings.SETTING_ID ?? 'new'
+
+                    this.autoPhpLicenserType = this.autoPhpLicenser.find((opt) => {
+                        return opt.value === advancedSettings.API_STATUS
+                    })
+
+                    this.evantoApiToken = advancedSettings.ENVATO_API_TOKEN ?? null
+                }
+            },
+
+            onChange(value, name) {
+
+                if (name === 'auto_php_licenser') {
+                    this.autoPhpLicenserType = value
+                } else if (name === 'evanto_api_token') {
+                    this.evantoApiToken = value
+                }
+            },
+
+
+            async onSubmit() {
+                const formData = {
+                    API_STATUS: this.autoPhpLicenserType ? this.autoPhpLicenserType.value : null,
+                }
+
+                if (this.evantoApiToken) {
+                    formData.ENVATO_API_TOKEN = this.evantoApiToken
+                }
+
+                await axios.post(`/api/admin/advancedsettings/${this.settingId}`, formData).then(async (res) => {
+
+                    successHandler(res, 'settings');
+
+                    await this.$store.dispatch('fetchSettings');
+
+                    this.loading = false;
+
+                }).catch((err) => {
+
+                    this.loading = false;
+
+                    errorHandler(err, 'settings');
+                });
+            }
+        },
+
+        components: {
+
+            "text-field": require("components/Reusable/FormField/TextField").default,
+
+            "number-field": require("components/Reusable/FormField/NumberField").default,
+
+            "static-select": require("components/Reusable/FormField/StaticSelect").default,
+
+            "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
+
+            "radio-button": require("components/Reusable/FormField/RadioButton").default,
+
+            "date-picker": require("components/Reusable/FormField/DateTimePicker").default
         }
-    },
-
-    components : {
-
-        "text-field": require("components/Reusable/FormField/TextField").default,
-
-        "number-field": require("components/Reusable/FormField/NumberField").default,
-
-        "static-select": require("components/Reusable/FormField/StaticSelect").default,
-
-        "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
-
-        "radio-button": require("components/Reusable/FormField/RadioButton").default,
-
-        "date-picker": require("components/Reusable/FormField/DateTimePicker").default
     }
-}
 </script>
