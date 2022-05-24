@@ -11,7 +11,7 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="tools"/>
+        <alert componentName="configuration"/>
 
         <div class="card card-light" v-if="hasDataPopulated">
 
@@ -264,13 +264,13 @@ export default {
 
                 this.loading = false;
 
-                successHandler(res,'tools');
+                successHandler(res,'configuration');
 
             }).catch((err) => {
 
                 this.loading = false;
 
-                errorHandler(err,'tools');
+                errorHandler(err,'configuration');
             });
         }
     },
