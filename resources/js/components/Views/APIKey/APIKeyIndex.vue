@@ -7,7 +7,7 @@
                 to be deleted, check the API secret and click the 'Submit' button.</p>
         </div>
 
-        <alert componentName="api_keys" />
+        <alert componentName="dataTableModal" />
 
         <div class="card card-light ">
 
@@ -111,7 +111,13 @@
 
                     api_secret(createElement, row) {
 
-                        return row.api_key_secret ? row.api_key_secret : '---';
+                        return createElement('router-link', {
+                            attrs: {
+                                to: '/apikey/' + row.api_key_id+'/edit'
+                            }
+                        }, row.api_key_secret);
+
+                        // return row.api_key_secret ? row.api_key_secret : '---';
                     },
 
                     ip_address(h, row) {
@@ -153,7 +159,7 @@
                     search(h, row) {
 
                         const edit = 'api_key_search' in row ? createPermissionStatusLabel(h, row.api_key_search) : '---'
-                        
+
                         return h('div', {}, [edit])
 
                     },
