@@ -11,6 +11,8 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
+        <alert componentName="api_keys"/>
+
         <div class="card card-light" v-if="hasDataPopulated">
 
             <div class="card-header">
@@ -320,7 +322,7 @@ export default {
 
                 this.loading = false;
 
-                successHandler(res,'addnewapi');
+                successHandler(res,'api_keys');
 
                 setTimeout(()=>{
 
@@ -332,7 +334,7 @@ export default {
 
                 this.loading = false;
 
-                errorHandler(err,'addnewapi');
+                errorHandler(err,'api_keys');
                 });
         }
     },
