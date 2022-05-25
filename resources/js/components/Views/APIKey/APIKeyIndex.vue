@@ -111,13 +111,13 @@
 
                     api_secret(createElement, row) {
 
-                        return createElement('router-link', {
-                            attrs: {
-                                to: '/apikey/' + row.api_key_id+'/edit'
-                            }
-                        }, row.api_key_secret);
+                        // return createElement('router-link', {
+                        //     attrs: {
+                        //         to: '/apikey/' + row.api_key_id+'/edit'
+                        //     }
+                        // }, row.api_key_secret);
 
-                        // return row.api_key_secret ? row.api_key_secret : '---';
+                        return row.api_key_secret ? row.api_key_secret : '---';
                     },
 
                     ip_address(h, row) {
