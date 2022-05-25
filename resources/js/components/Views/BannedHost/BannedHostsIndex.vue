@@ -45,7 +45,7 @@ export default {
 
             data : '',
 
-            columns: ['ip_address', 'comments', 'date', 'blocks', 'latest_blocks', 'actions'],
+            columns: ['ip_address', 'comments', 'date', 'blocks', 'latest_blocks'],
 
             options: {},
 
@@ -107,6 +107,11 @@ export default {
                     return row.date ? row.date : '---';
                 },
 
+                blocks(h,row) {
+
+                    return row.blocks ? row.blocks : '---';
+                },
+
                 latest_blocks(h,row) {
 
                     return row.latest_blocks ? row.latest_blocks : '---';
@@ -123,8 +128,6 @@ export default {
 
                     return createElement('a',{},[span]);
                 },
-
-                actions : 'table-actions'
             },
 
             pagination:{chunk:5,nav: 'fixed',edge:true},
@@ -158,7 +161,7 @@ export default {
                 this.data = res.data.data.map(row => {
                     return {
                         id: row.banned_host_id,
-                        ip_address: row.banned_host_ip, 
+                        ip_address: row.banned_host_ip,
                         comments: row.banned_host_comments,
                         date: row.banned_host_date,
                         blocks: row.banned_host_blocks,
