@@ -124,7 +124,7 @@
 
     export default {
 
-        name: 'Add API ',
+        name: 'add-api',
 
         data() {
 
@@ -302,29 +302,29 @@
             },
 
             onSubmit() {
-                
+
                 const formData = {
-                    
+
                     api_key_secret: this.apiSecret,
-                    
+
                     api_key_ip: this.apiIp,
-                    
+
                     api_key_clients_add: this.addClientPermissionType ? this.addClientPermissionType.value : null,
-                    
+
                     api_key_clients_edit: this.editClientPermissionType ? this.editClientPermissionType.value : null,
-                    
+
                     api_key_licenses_add: this.addLicensePermissionType ? this.addLicensePermissionType.value : null,
-                    
+
                     api_key_licenses_edit: this.editLicensePermissionType ? this.editLicensePermissionType.value : null,
-                    
+
                     api_key_products_add: this.addPermissionType ? this.addPermissionType.value : null,
-                    
+
                     api_key_products_edit: this.editPermissionType ? this.editPermissionType.value : null,
-                    
+
                     api_key_installations_edit: this.addInstallationsPermissionType ? this.addInstallationsPermissionType.value : null,
-                    
+
                     api_key_search: this.useSearchPermissionType ? this.useSearchPermissionType.value : null,
-                    
+
                     api_key_status: this.apiKeyStatusType ? this.apiKeyStatusType.value : null,
                 }
 
