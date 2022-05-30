@@ -136,7 +136,6 @@ class ModelMakeCommand extends GeneratorCommand
             'name' => "{$controller}Controller",
             '--model' => $this->option('resource') || $this->option('api') ? $modelName : null,
             '--api' => $this->option('api'),
-            '--requests' => $this->option('requests') || $this->option('all'),
         ]));
     }
 
@@ -209,7 +208,6 @@ class ModelMakeCommand extends GeneratorCommand
             ['pivot', 'p', InputOption::VALUE_NONE, 'Indicates if the generated model should be a custom intermediate table model'],
             ['resource', 'r', InputOption::VALUE_NONE, 'Indicates if the generated controller should be a resource controller'],
             ['api', null, InputOption::VALUE_NONE, 'Indicates if the generated controller should be an API controller'],
-            ['requests', 'R', InputOption::VALUE_NONE, 'Create new form request classes and use them in the resource controller'],
         ];
     }
 }

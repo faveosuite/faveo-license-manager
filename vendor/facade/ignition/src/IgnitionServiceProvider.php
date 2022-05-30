@@ -27,7 +27,6 @@ use Facade\Ignition\Logger\FlareHandler;
 use Facade\Ignition\LogRecorder\LogRecorder;
 use Facade\Ignition\Middleware\AddDumps;
 use Facade\Ignition\Middleware\AddEnvironmentInformation;
-use Facade\Ignition\Middleware\AddExceptionInformation;
 use Facade\Ignition\Middleware\AddGitInformation;
 use Facade\Ignition\Middleware\AddJobInformation;
 use Facade\Ignition\Middleware\AddLogs;
@@ -393,7 +392,6 @@ class IgnitionServiceProvider extends ServiceProvider
         $middlewares = [
             SetNotifierName::class,
             AddEnvironmentInformation::class,
-            AddExceptionInformation::class,
         ];
 
         if (config('flare.reporting.report_logs')) {

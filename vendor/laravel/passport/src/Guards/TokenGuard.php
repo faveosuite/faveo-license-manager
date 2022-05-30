@@ -269,7 +269,7 @@ class TokenGuard
     {
         return (array) JWT::decode(
             CookieValuePrefix::remove($this->encrypter->decrypt($request->cookie(Passport::cookie()), Passport::$unserializesCookies)),
-            Passport::tokenEncryptionKey($this->encrypter),
+            $this->encrypter->getKey(),
             ['HS256']
         );
     }

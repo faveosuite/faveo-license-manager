@@ -27,7 +27,6 @@ Example
 -------
 ```php
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 $key = "example_key";
 $payload = array(
@@ -43,8 +42,8 @@ $payload = array(
  * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40
  * for a list of spec-compliant algorithms.
  */
-$jwt = JWT::encode($payload, $key, 'HS256');
-$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+$jwt = JWT::encode($payload, $key);
+$decoded = JWT::decode($jwt, $key, array('HS256'));
 
 print_r($decoded);
 
@@ -63,13 +62,12 @@ $decoded_array = (array) $decoded;
  * Source: http://self-issued.info/docs/draft-ietf-oauth-json-web-token.html#nbfDef
  */
 JWT::$leeway = 60; // $leeway in seconds
-$decoded = JWT::decode($jwt, new Key($key, 'HS256'));
+$decoded = JWT::decode($jwt, $key, array('HS256'));
 ```
 Example with RS256 (openssl)
 ----------------------------
 ```php
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 $privateKey = <<<EOD
 -----BEGIN RSA PRIVATE KEY-----
@@ -108,7 +106,7 @@ $payload = array(
 $jwt = JWT::encode($payload, $privateKey, 'RS256');
 echo "Encode:\n" . print_r($jwt, true) . "\n";
 
-$decoded = JWT::decode($jwt, new Key($publicKey, 'RS256'));
+$decoded = JWT::decode($jwt, $publicKey, array('RS256'));
 
 /*
  NOTE: This will now be an object instead of an associative array. To get
@@ -123,9 +121,6 @@ Example with a passphrase
 -------------------------
 
 ```php
-use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
-
 // Your passphrase
 $passphrase = '[YOUR_PASSPHRASE]';
 
@@ -152,7 +147,7 @@ echo "Encode:\n" . print_r($jwt, true) . "\n";
 // Get public key from the private key, or pull from from a file.
 $publicKey = openssl_pkey_get_details($privateKey)['key'];
 
-$decoded = JWT::decode($jwt, new Key($publicKey, 'RS256'));
+$decoded = JWT::decode($jwt, $publicKey, array('RS256'));
 echo "Decode:\n" . print_r((array) $decoded, true) . "\n";
 ```
 
@@ -160,7 +155,6 @@ Example with EdDSA (libsodium and Ed25519 signature)
 ----------------------------
 ```php
 use Firebase\JWT\JWT;
-use Firebase\JWT\Key;
 
 // Public and private keys are expected to be Base64 encoded. The last
 // non-empty line is used so that keys can be generated with
@@ -183,7 +177,7 @@ $payload = array(
 $jwt = JWT::encode($payload, $privateKey, 'EdDSA');
 echo "Encode:\n" . print_r($jwt, true) . "\n";
 
-$decoded = JWT::decode($jwt, new Key($publicKey, 'EdDSA'));
+$decoded = JWT::decode($jwt, $publicKey, array('EdDSA'));
 echo "Decode:\n" . print_r((array) $decoded, true) . "\n";
 ````
 
@@ -200,7 +194,6 @@ $jwks = ['keys' => []];
 
 // JWK::parseKeySet($jwks) returns an associative array of **kid** to private
 // key. Pass this as the second parameter to JWT::decode.
-// NOTE: The deprecated $supportedAlgorithm must be supplied when parsing from JWK.
 JWT::decode($payload, JWK::parseKeySet($jwks), $supportedAlgorithm);
 ```
 
