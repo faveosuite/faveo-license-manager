@@ -4,12 +4,11 @@ namespace Illuminate\Support;
 
 use ArrayAccess;
 use ArrayIterator;
-use Illuminate\Contracts\Support\CanBeEscapedWhenCastToString;
 use Illuminate\Support\Traits\EnumeratesValues;
 use Illuminate\Support\Traits\Macroable;
 use stdClass;
 
-class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerable
+class Collection implements ArrayAccess, Enumerable
 {
     use EnumeratesValues, Macroable;
 
@@ -1382,7 +1381,7 @@ class Collection implements ArrayAccess, CanBeEscapedWhenCastToString, Enumerabl
             return new static(array_splice($this->items, $offset));
         }
 
-        return new static(array_splice($this->items, $offset, $length, $this->getArrayableItems($replacement)));
+        return new static(array_splice($this->items, $offset, $length, $replacement));
     }
 
     /**

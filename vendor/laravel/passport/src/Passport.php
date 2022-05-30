@@ -5,7 +5,6 @@ namespace Laravel\Passport;
 use Carbon\Carbon;
 use DateInterval;
 use DateTimeInterface;
-use Illuminate\Contracts\Encryption\Encrypter;
 use Illuminate\Support\Facades\Route;
 use League\OAuth2\Server\ResourceServer;
 use Mockery;
@@ -40,49 +39,22 @@ class Passport
      * The date when access tokens expire.
      *
      * @var \DateTimeInterface|null
-     *
-     * @deprecated Will be removed in the next major Passport release.
      */
     public static $tokensExpireAt;
 
     /**
-     * The interval when access tokens expire.
-     *
-     * @var \DateInterval|null
-     */
-    public static $tokensExpireIn;
-
-    /**
      * The date when refresh tokens expire.
      *
      * @var \DateTimeInterface|null
-     *
-     * @deprecated Will be removed in the next major Passport release.
      */
     public static $refreshTokensExpireAt;
 
     /**
-     * The date when refresh tokens expire.
-     *
-     * @var \DateInterval|null
-     */
-    public static $refreshTokensExpireIn;
-
-    /**
      * The date when personal access tokens expire.
      *
      * @var \DateTimeInterface|null
-     *
-     * @deprecated Will be removed in the next major Passport release.
      */
     public static $personalAccessTokensExpireAt;
-
-    /**
-     * The date when personal access tokens expire.
-     *
-     * @var \DateInterval|null
-     */
-    public static $personalAccessTokensExpireIn;
 
     /**
      * The name for API token cookies.
@@ -162,18 +134,9 @@ class Passport
     public static $unserializesCookies = false;
 
     /**
-     * Indicates if client secrets will be hashed.
-     *
      * @var bool
      */
     public static $hashesClientSecrets = false;
-
-    /**
-     * The callback that should be used to generate JWT encryption keys.
-     *
-     * @var callable
-     */
-    public static $tokenEncryptionKeyCallback;
 
     /**
      * Indicates the scope should inherit its parent scope.
@@ -298,11 +261,12 @@ class Passport
     public static function tokensExpireIn(DateTimeInterface $date = null)
     {
         if (is_null($date)) {
-            return static::$tokensExpireIn ?? new DateInterval('P1Y');
+            return static::$tokensExpireAt
+                            ? Carbon::now()->diff(static::$tokensExpireAt)
+                            : new DateInterval('P1Y');
         }
 
         static::$tokensExpireAt = $date;
-        static::$tokensExpireIn = Carbon::now()->diff($date);
 
         return new static;
     }
@@ -316,11 +280,12 @@ class Passport
     public static function refreshTokensExpireIn(DateTimeInterface $date = null)
     {
         if (is_null($date)) {
-            return static::$refreshTokensExpireIn ?? new DateInterval('P1Y');
+            return static::$refreshTokensExpireAt
+                            ? Carbon::now()->diff(static::$refreshTokensExpireAt)
+                            : new DateInterval('P1Y');
         }
 
         static::$refreshTokensExpireAt = $date;
-        static::$refreshTokensExpireIn = Carbon::now()->diff($date);
 
         return new static;
     }
@@ -334,11 +299,12 @@ class Passport
     public static function personalAccessTokensExpireIn(DateTimeInterface $date = null)
     {
         if (is_null($date)) {
-            return static::$personalAccessTokensExpireIn ?? new DateInterval('P1Y');
+            return static::$personalAccessTokensExpireAt
+                ? Carbon::now()->diff(static::$personalAccessTokensExpireAt)
+                : new DateInterval('P1Y');
         }
 
         static::$personalAccessTokensExpireAt = $date;
-        static::$personalAccessTokensExpireIn = Carbon::now()->diff($date);
 
         return new static;
     }
@@ -648,32 +614,6 @@ class Passport
         static::$hashesClientSecrets = true;
 
         return new static;
-    }
-
-    /**
-     * Specify the callback that should be invoked to generate encryption keys for encrypting JWT tokens.
-     *
-     * @param  callable  $callback
-     * @return static
-     */
-    public static function encryptTokensUsing($callback)
-    {
-        static::$tokenEncryptionKeyCallback = $callback;
-
-        return new static;
-    }
-
-    /**
-     * Generate an encryption key for encrypting JWT tokens.
-     *
-     * @param  \Illuminate\Contracts\Encryption\Encrypter  $encrypter
-     * @return string
-     */
-    public static function tokenEncryptionKey(Encrypter $encrypter)
-    {
-        return is_callable(static::$tokenEncryptionKeyCallback) ?
-            (static::$tokenEncryptionKeyCallback)($encrypter) :
-            $encrypter->getKey();
     }
 
     /**

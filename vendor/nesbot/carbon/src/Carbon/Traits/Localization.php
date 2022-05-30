@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Carbon\Traits;
 
 use Carbon\CarbonInterface;
@@ -238,11 +237,10 @@ trait Localization
     /**
      * Translate using translation string or callback available.
      *
-     * @param string                                                  $key
-     * @param array                                                   $parameters
-     * @param string|int|float|null                                   $number
-     * @param \Symfony\Component\Translation\TranslatorInterface|null $translator
-     * @param bool                                                    $altNumbers
+     * @param string                                             $key
+     * @param array                                              $parameters
+     * @param string|int|float|null                              $number
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      *
      * @return string
      */

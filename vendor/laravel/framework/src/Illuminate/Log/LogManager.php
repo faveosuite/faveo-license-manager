@@ -69,8 +69,6 @@ class LogManager implements LoggerInterface
      */
     public function build(array $config)
     {
-        unset($this->channels['ondemand']);
-
         return $this->get('ondemand', $config);
     }
 

@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Carbon;
 
 use Carbon\Exceptions\BadFluentConstructorException;
@@ -192,14 +191,14 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
     /**
      * Interval spec period designators
      */
-    public const PERIOD_PREFIX = 'P';
-    public const PERIOD_YEARS = 'Y';
-    public const PERIOD_MONTHS = 'M';
-    public const PERIOD_DAYS = 'D';
-    public const PERIOD_TIME_PREFIX = 'T';
-    public const PERIOD_HOURS = 'H';
-    public const PERIOD_MINUTES = 'M';
-    public const PERIOD_SECONDS = 'S';
+    const PERIOD_PREFIX = 'P';
+    const PERIOD_YEARS = 'Y';
+    const PERIOD_MONTHS = 'M';
+    const PERIOD_DAYS = 'D';
+    const PERIOD_TIME_PREFIX = 'T';
+    const PERIOD_HOURS = 'H';
+    const PERIOD_MINUTES = 'M';
+    const PERIOD_SECONDS = 'S';
 
     /**
      * A translator to ... er ... translate stuff
@@ -523,10 +522,10 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
      * echo Carboninterval::createFromFormat('H:i', '1:30');
      * ```
      *
-     * @param string      $format   Format of the $interval input string
-     * @param string|null $interval Input string to convert into an interval
+     * @param string $format   Format of the $interval input string
+     * @param string $interval Input string to convert into an interval
      *
-     * @throws \Carbon\Exceptions\ParseErrorException when the $interval cannot be parsed as an interval.
+     * @throws Exception when the $interval cannot be parsed as an interval.
      *
      * @return static
      */
@@ -1906,8 +1905,8 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
     /**
      * Add given parameters to the current interval.
      *
-     * @param int       $years
-     * @param int       $months
+     * @param int $years
+     * @param int $months
      * @param int|float $weeks
      * @param int|float $days
      * @param int|float $hours
@@ -1936,8 +1935,8 @@ class CarbonInterval extends DateInterval implements CarbonConverterInterface
     /**
      * Add given parameters to the current interval.
      *
-     * @param int       $years
-     * @param int       $months
+     * @param int $years
+     * @param int $months
      * @param int|float $weeks
      * @param int|float $days
      * @param int|float $hours

@@ -2,7 +2,6 @@
 
 namespace Illuminate\Database\Query;
 
-use BackedEnum;
 use Closure;
 use DateTimeInterface;
 use Illuminate\Contracts\Support\Arrayable;
@@ -2102,7 +2101,7 @@ class Builder
         $property = $this->unions ? 'unionLimit' : 'limit';
 
         if ($value >= 0) {
-            $this->$property = (int) $value;
+            $this->$property = $value;
         }
 
         return $this;
@@ -3259,30 +3258,12 @@ class Builder
         }
 
         if (is_array($value)) {
-            $this->bindings[$type] = array_values(array_map(
-                [$this, 'castBinding'],
-                array_merge($this->bindings[$type], $value),
-            ));
+            $this->bindings[$type] = array_values(array_merge($this->bindings[$type], $value));
         } else {
-            $this->bindings[$type][] = $this->castBinding($value);
+            $this->bindings[$type][] = $value;
         }
 
         return $this;
-    }
-
-    /**
-     * Cast the given binding value.
-     *
-     * @param  mixed  $value
-     * @return mixed
-     */
-    public function castBinding($value)
-    {
-        if (function_exists('enum_exists') && $value instanceof BackedEnum) {
-            return $value->value;
-        }
-
-        return $value;
     }
 
     /**
@@ -3306,13 +3287,9 @@ class Builder
      */
     public function cleanBindings(array $bindings)
     {
-        return collect($bindings)
-                    ->reject(function ($binding) {
-                        return $binding instanceof Expression;
-                    })
-                    ->map([$this, 'castBinding'])
-                    ->values()
-                    ->all();
+        return array_values(array_filter($bindings, function ($binding) {
+            return ! $binding instanceof Expression;
+        }));
     }
 
     /**
