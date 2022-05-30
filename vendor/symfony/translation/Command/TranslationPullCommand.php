@@ -119,7 +119,6 @@ EOF
         $writeOptions = [
             'path' => end($this->transPaths),
             'xliff_version' => $xliffVersion,
-            'default_locale' => $this->defaultLocale,
         ];
 
         if (!$domains) {

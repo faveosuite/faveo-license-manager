@@ -8,7 +8,6 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-
 namespace Carbon;
 
 use BadMethodCallException;
@@ -28,7 +27,6 @@ use DateTimeZone;
 use JsonSerializable;
 use ReflectionException;
 use ReturnTypeWillChange;
-use Symfony\Component\Translation\TranslatorInterface;
 use Throwable;
 
 /**
@@ -2150,8 +2148,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
 
     /**
      * {@inheritdoc}
-     *
-     * @return array
      */
     #[ReturnTypeWillChange]
     public static function getLastErrors();
@@ -2262,13 +2258,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * @return string
      */
     public static function getTimeFormatByPrecision($unitPrecision);
-
-    /**
-     * Returns the timestamp with millisecond precision.
-     *
-     * @return int
-     */
-    public function getTimestampMs();
 
     /**
      * Get the translation of the current week day name (with context for languages with multiple forms).
@@ -3343,8 +3332,6 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      * Calls \DateTime::modify if mutable or \DateTimeImmutable::modify else.
      *
      * @see https://php.net/manual/en/datetime.modify.php
-     *
-     * @return static|false
      */
     #[ReturnTypeWillChange]
     public function modify($modify);
@@ -3805,7 +3792,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      *
      * @return $this
      */
-    public function setLocalTranslator(TranslatorInterface $translator);
+    public function setLocalTranslator(\Symfony\Component\Translation\TranslatorInterface $translator);
 
     /**
      * Set the current translator locale and indicate if the source locale file exists.
@@ -3930,7 +3917,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      *
      * @return void
      */
-    public static function setTranslator(TranslatorInterface $translator);
+    public static function setTranslator(\Symfony\Component\Translation\TranslatorInterface $translator);
 
     /**
      * Set specified unit to new given value.
@@ -4785,15 +4772,14 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
     /**
      * Translate using translation string or callback available.
      *
-     * @param string                                                  $key
-     * @param array                                                   $parameters
-     * @param string|int|float|null                                   $number
-     * @param \Symfony\Component\Translation\TranslatorInterface|null $translator
-     * @param bool                                                    $altNumbers
+     * @param string                                             $key
+     * @param array                                              $parameters
+     * @param string|int|float|null                              $number
+     * @param \Symfony\Component\Translation\TranslatorInterface $translator
      *
      * @return string
      */
-    public function translate(string $key, array $parameters = [], $number = null, ?TranslatorInterface $translator = null, bool $altNumbers = false): string;
+    public function translate(string $key, array $parameters = [], $number = null, ?\Symfony\Component\Translation\TranslatorInterface $translator = null, bool $altNumbers = false): string;
 
     /**
      * Returns the alternative number for a given integer if available in the current locale.
@@ -4842,7 +4828,7 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      *
      * @return string
      */
-    public static function translateWith(TranslatorInterface $translator, string $key, array $parameters = [], $number = null): string;
+    public static function translateWith(\Symfony\Component\Translation\TranslatorInterface $translator, string $key, array $parameters = [], $number = null): string;
 
     /**
      * Format as ->format() do (using date replacements patterns from https://php.net/manual/en/function.date.php)
@@ -5026,8 +5012,8 @@ interface CarbonInterface extends DateTimeInterface, JsonSerializable
      *
      * /!\ Use this method for unit tests only.
      *
-     * @param Closure|static|string|false|null $testNow  real or mock Carbon instance
-     * @param Closure|null                     $callback
+     * @param Closure|static|string|false|null $testNow real or mock Carbon instance
+     * @param Closure|null $callback
      *
      * @return mixed
      */

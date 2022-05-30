@@ -33,7 +33,7 @@ class Application extends Container implements ApplicationContract, CachesConfig
      *
      * @var string
      */
-    const VERSION = '8.71.0';
+    const VERSION = '8.66.0';
 
     /**
      * The base path for the Laravel installation.
@@ -628,7 +628,7 @@ class Application extends Container implements ApplicationContract, CachesConfig
      */
     public function runningUnitTests()
     {
-        return $this->bound('env') && $this['env'] === 'testing';
+        return $this['env'] === 'testing';
     }
 
     /**

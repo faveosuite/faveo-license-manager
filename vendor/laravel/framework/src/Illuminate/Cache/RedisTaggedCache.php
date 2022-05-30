@@ -89,9 +89,7 @@ class RedisTaggedCache extends TaggedCache
         $this->deleteForeverKeys();
         $this->deleteStandardKeys();
 
-        $this->tags->flush();
-
-        return true;
+        return parent::flush();
     }
 
     /**
