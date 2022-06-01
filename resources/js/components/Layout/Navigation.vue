@@ -7,9 +7,8 @@
 
 		    <i :class="'nav-icon '+menuItem.iconClass"></i>
 
-		    <p>{{ menuItem.name }}</p>
+		    <p>{{ menuItem.name }}  <i v-if="isExpandable" class="right fas fa-angle-left"></i></p>
 
-		    <i v-if="isExpandable" class="right fas fa-angle-left"></i>
 		</a>
 
     	<ul class="nav nav-treeview" v-for="item in menuItem.children">
@@ -78,7 +77,6 @@
 		            return;
 		        }
 
-
 		        this.$router.replace(this.menuItem.routeString);
 		    },
 
@@ -129,4 +127,3 @@
 
 	.hideMenu { display : none !important; }
 </style>
-

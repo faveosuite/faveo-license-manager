@@ -46,95 +46,156 @@
 </template>
 
 <script>
+
     import axios from 'axios'
+
     import { successHandler, errorHandler } from 'helpers/responseHandler';
+
     import { getIdFromUrl } from 'helpers/extraLogics';
+
     import { validateAdvancedSettings } from "helpers/validator/validateAdvancedSettings.js";
+
     import { mapGetters } from 'vuex';
+
     import moment from 'moment'
+
     export default {
+
         name: 'Advanced-Settings',
+
         data() {
+
             return {
+
                 title: 'advanced_settings',
+
                 iconClass: 'fas fa-save',
+
                 btnName: 'save',
+
                 hasDataPopulated: false,
+
                 loading: false,
+
                 apiEndpoint: '',
+
                 moment: moment,
+
                 autoPhpLicenser: [
                     { name: 'Enabled', value: 1 },
                     { name: 'Disabled', value: 0 }
                 ],
                 autoPhpLicenserType: null,
+
                 evantoApiToken: null,
+
                 settingId: 'new'
             }
         },
+
         beforeMount() {
+
             const path = window.location.pathname
+
             this.loadData();
         },
+
         computed: {
+
             ...mapGetters(['getApiKey'])
         },
+
         methods: {
+
             async loadData() {
+
                 this.loading = true;
+
                 this.hasDataPopulated = false;
+
                 await this.$store.dispatch('fetchSettings');
+
                 this.setFormData()
+
                 this.hasDataPopulated = true;
+
                 this.loading = false;
+
             },
             setFormData() {
                 const advancedSettings = this.$store.getters['getAdvancedSettings']
+
                 if (advancedSettings) {
+
                     this.settingId = advancedSettings.SETTING_ID ?? 'new'
+
                     this.autoPhpLicenserType = this.autoPhpLicenser.find((opt) => {
                         return opt.value === advancedSettings.API_STATUS
                     })
+
                     this.evantoApiToken = advancedSettings.ENVATO_API_TOKEN ?? null
                 }
             },
+
             isValid() {
+
                 const { errors, isValid } = validateAdvancedSettings(this.$data);
+
                 return isValid;
             },
+
             onChange(value, name) {
+
                 if (name === 'API_STATUS') {
                     this.autoPhpLicenserType = value
                 } else if (name === 'ENVATO_API_TOKEN') {
                     this.evantoApiToken = value
                 }
             },
+
+
             async onSubmit() {
                 if (this.isValid()) {
+
                     this.loading = true
                     const formData = {
                         API_STATUS: this.autoPhpLicenserType ? this.autoPhpLicenserType.value : null,
                     }
+
                     if (this.evantoApiToken) {
                         formData.ENVATO_API_TOKEN = this.evantoApiToken
                     }
+
                     await axios.post(`/api/admin/advancedsettings/${this.settingId}`, formData).then(async (res) => {
+
                         successHandler(res, 'settings');
+
                         await this.$store.dispatch('fetchSettings');
+
                         this.loading = false;
+
                     }).catch((err) => {
+
                         this.loading = false;
+
                         errorHandler(err, 'settings');
                     });
                 }
             }
         },
+
         components: {
+
             "text-field": require("components/Reusable/FormField/TextField").default,
+
             "number-field": require("components/Reusable/FormField/NumberField").default,
+
             "static-select": require("components/Reusable/FormField/StaticSelect").default,
+
             "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
+
             "radio-button": require("components/Reusable/FormField/RadioButton").default,
+
         }
     }
 </script>

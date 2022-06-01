@@ -10,7 +10,6 @@
 		<span v-tooltip="disabled ? trans('default_field_is_not_deletable') : trans('delte')">
 
 			<button v-if="data.delete_url" class="btn btn-default btn-act" @click="showModalMethod"
-
 				:disabled="disabled">
 
 				<i class="fas fa-trash"></i>

@@ -138,7 +138,6 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
     Route::get('viewNotifications', [NotificationsController::class, 'show']);
     Route::get('viewEmails', [EmailsController::class, 'show']);
 
-
 //EDIT PROFILE
     Route::post('editprofile/{admin_id}', [EditProfilesController::class, 'editProfile']);
 

@@ -102,7 +102,6 @@
 			newBtnName : { type : String, default : '' },
 
 			onNewButtonClick: { type : Function, default : ()=>{}},
-
 		},
 
 		data() {
