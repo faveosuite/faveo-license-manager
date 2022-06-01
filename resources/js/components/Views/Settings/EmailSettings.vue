@@ -20,19 +20,19 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{trans(title)}}</h3>
+                <h3 class="card-title">{{lang(title)}}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <text-field :label="trans('from_name')" :value="fromName" :onChange="onChange" name="from_name"
+                    <text-field :label="lang('from_name')" :value="fromName" :onChange="onChange" name="from_name"
                         type="text" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('from_address')" :value="fromAddress" :onChange="onChange"
+                    <text-field :label="lang('from_address')" :value="fromAddress" :onChange="onChange"
                         name="from_address" type="text" classname="col-sm-6">
 
                     </text-field>
@@ -40,12 +40,12 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('send_copy_sender')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('send_copy_sender')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="send_copy_sender" :elements="copySender"
                         :value="copySenderType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('expiring_license_reminder')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('expiring_license_reminder')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="expiring_license_reminder" :elements="licenseReminder"
                         :value="licenseReminderType" :onChange="onChange">
                     </dynamic-select>
@@ -53,12 +53,12 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('expiring_updates_reminder')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('expiring_updates_reminder')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="expiring_updates_reminder" :elements="updatesReminder"
                         :value="updatesReminderType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('expiring_support_reminder')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('expiring_support_reminder')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="expiring_support_reminder" :elements="supportReminder"
                         :value="supportReminderType" :onChange="onChange">
                     </dynamic-select>
@@ -68,7 +68,7 @@
             <div class="card-footer">
 
                 <button class="btn btn-default" @click="onSubmit()"><i
-                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                        :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -168,6 +168,8 @@
                 this.hasDataPopulated = true;
 
                 this.loading = false;
+
+                console.log(this.$route)
             },
 
             async getEmailDropdownOptions() {

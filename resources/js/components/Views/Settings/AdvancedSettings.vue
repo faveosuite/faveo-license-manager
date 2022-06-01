@@ -17,19 +17,19 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{trans(title)}}</h3>
+                <h3 class="card-title">{{lang(title)}}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('auto_php_licenser')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('auto_php_licenser')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="auto_php_licenser" :elements="autoPhpLicenser"
                         :value="autoPhpLicenserType" :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="trans('evanto_api_token')" :value="evantoApiToken" :onChange="onChange"
+                    <text-field :label="lang('evanto_api_token')" :value="evantoApiToken" :onChange="onChange"
                         name="evanto_api_token" type="text" classname="col-sm-6">
 
                     </text-field>
@@ -39,7 +39,7 @@
             <div class="card-footer">
 
                 <button class="btn btn-default" @click="onSubmit"><i
-                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                        :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -183,7 +183,6 @@
 
             "radio-button": require("components/Reusable/FormField/RadioButton").default,
 
-            "date-picker": require("components/Reusable/FormField/DateTimePicker").default
         }
     }
 </script>

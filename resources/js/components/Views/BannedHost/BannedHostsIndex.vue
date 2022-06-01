@@ -3,8 +3,11 @@
     <div class="col-sm-12">
 
         <div class="alert alert-info">
-            <p>View existing banned hosts. If any banned host needs to be modified, click the IP address. If any banned host needs to be deleted, check the IP address and click the 'Submit' button.</p>
+            <p>View existing banned hosts. If any banned host needs to be modified, click the IP address. If any banned
+                host needs to be deleted, check the IP address and click the 'Submit' button.</p>
         </div>
+
+        <alert componentName="dataTableModal" />
 
         <div class="card card-light ">
 
@@ -33,157 +36,156 @@
 
 <script>
 
-import axios from 'axios';
+    import axios from 'axios';
 
-export default {
+    export default {
 
-    name : 'api-keys',
+        name: 'banned-hosts',
 
-    data() {
+        data() {
 
-        return {
+            return {
 
-            data : '',
+                data: '',
 
-            columns: ['ip_address', 'comments', 'date', 'blocks', 'latest_blocks'],
+                columns: ['ip_address', 'comments', 'date', 'blocks', 'latest_blocks', 'actions'],
 
-            options: {},
+                options: {},
 
-            counter : 0
-        }
-    },
-
-    created() {
-
-        window.eventHub.$on('refreshData',this.updateData);
-    },
-
-    beforeMount(){
-
-        const self= this;
-
-        this.getData();
-
-        this.options = {
-
-            sortIcon: {
-
-                base : 'glyphicon',
-
-                up: 'glyphicon-chevron-up',
-
-                down: 'glyphicon-chevron-down'
-            },
-
-            texts: { filter: '', limit: '' },
-
-            columnsClasses : {
-
-                ip_address : 'ip_address',
-
-                comments: 'comments',
-
-                date : 'date',
-
-                blocks: 'blocks',
-
-                latest_blocks : 'latest_blocks',
-            },
-
-            templates : {
-
-                ip_address(h,row){
-
-                    return row.ip_address ? row.ip_address : '---';
-                },
-
-                comments(h,row){
-
-                    return row.comments ? row.comments : '---'
-                },
-
-                date(h,row) {
-
-                    return row.date ? row.date : '---';
-                },
-
-                blocks(h,row) {
-
-                    return row.blocks ? row.blocks : '---';
-                },
-
-                latest_blocks(h,row) {
-
-                    return row.latest_blocks ? row.latest_blocks : '---';
-                },
-
-                status(createElement, row) {
-
-                    let span = createElement('span', {
-
-                        attrs: {
-                            'class' : row.status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-                        }
-                    }, row.status ? 'Active' : 'Inactive');
-
-                    return createElement('a',{},[span]);
-                },
-            },
-
-            pagination:{chunk:5,nav: 'fixed',edge:true},
-
-            headings: {
-
-                ip_address: 'IP Address',
-
-                comments: 'Comments',
-
-                date: 'Date',
-
-                blocks: 'Blocks',
-
-                latest_blocks : 'Latest Blocks',
-            },
-        }
-    },
-
-    methods : {
-
-        updateData() {
-
-            this.getData();
+                counter: 0
+            }
         },
 
-        async getData() {
+        created() {
 
-            await axios.get('/api/admin/viewBannedHost').then(res=>{
+            window.eventHub.$on('refreshData', this.updateData);
+        },
 
-                this.data = res.data.data.map(row => {
-                    return {
-                        id: row.banned_host_id,
-                        ip_address: row.banned_host_ip,
-                        comments: row.banned_host_comments,
-                        date: row.banned_host_date,
-                        blocks: row.banned_host_blocks,
-                        latest_blocks: row.banned_host_last_block_date,
-                    };
+        async beforeMount() {
+
+            const self = this;
+
+            await this.getData();
+
+            this.options = {
+
+                sortIcon: {
+
+                    base: 'glyphicon',
+
+                    up: 'glyphicon-chevron-up',
+
+                    down: 'glyphicon-chevron-down'
+                },
+
+                texts: { filter: '', limit: '' },
+
+                columnsClasses: {
+
+                    ip_address: 'ip_address',
+
+                    comments: 'comments',
+
+                    date: 'date',
+
+                    blocks: 'blocks',
+
+                    latest_blocks: 'latest_blocks',
+                },
+
+                templates: {
+
+                    ip_address(h, row) {
+
+                        return row.banned_host_ip ? row.banned_host_ip : '---';
+                    },
+
+                    comments(h, row) {
+
+                        return row.banned_host_comments ? row.banned_host_comments : '---'
+                    },
+
+                    date(h, row) {
+
+                        return row.banned_host_date ? row.banned_host_date : '---';
+                    },
+
+                    blocks(h, row) {
+
+                        return row.banned_host_blocks ? row.banned_host_blocks : '---';
+                    },
+
+                    latest_blocks(h, row) {
+
+                        return row.banned_host_last_block_date ? row.banned_host_last_block_date : '---';
+                    },
+
+                    status(createElement, row) {
+
+                        let span = createElement('span', {
+
+                            attrs: {
+                                'class': row.status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                            }
+                        }, row.status ? 'Active' : 'Inactive');
+
+                        return createElement('a', {}, [span]);
+                    },
+                    actions: 'table-actions'
+                },
+
+                pagination: { chunk: 5, nav: 'fixed', edge: true },
+
+                headings: {
+
+                    ip_address: 'IP Address',
+
+                    comments: 'Comments',
+
+                    date: 'Date',
+
+                    blocks: 'Blocks',
+
+                    latest_blocks: 'Latest Blocks',
+
+                    actions: 'Actions'
+                },
+            }
+        },
+
+        methods: {
+
+            updateData() {
+                this.getData();
+            },
+
+            async getData() {
+                return await axios.get('/api/admin/viewBannedHost').then(res => {
+
+                    this.data = res.data.data.map(row => {
+                        row.id = row.banned_host_id;
+                        row.edit_url = '/banned-hosts/' + row.banned_host_id + '/edit';
+                        row.delete_url = `/api/admin/bannedHosts/delete`;
+                        row.keyVal = 'banned_host_id';
+                        row.idVal = row.banned_host_id;
+                        return row
+                    })
                 })
-            })
+            }
         }
-    }
-};
+    };
 </script>
 
 <style>
+    #banned_hosts .VueTables .table-responsive {
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
 
-#banned_hosts .VueTables .table-responsive {
-    overflow-x: auto;overflow-y: hidden;
-}
-
-#banned_hosts .VueTables .table-responsive > table{
-    width : max-content;
-    min-width : 100%;
-    max-width : max-content;
-    overflow: auto !important;
-}
+    #banned_hosts .VueTables .table-responsive>table {
+        width: max-content;
+        min-width: 100%;
+        max-width: max-content;
+        overflow: auto !important;
+    }
 </style>
