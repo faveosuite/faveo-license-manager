@@ -53,92 +53,163 @@
 </template>
 
 <script>
+
 	import axios from 'axios'
+
 	import { successHandler, errorHandler } from 'helpers/responseHandler';
+
 	import { getIdFromUrl } from 'helpers/extraLogics';
+
 	import { validateInstallationSettings } from "helpers/validator/installationValidation.js";
+
 	import { mapGetters } from 'vuex';
+
 	export default {
+
 		name: 'installation-create-edit',
+
 		data() {
+
 			return {
+
 				hasDataPopulated: false,
+
 				loading: false,
+
 				radioOptions: [{ name: 'yes', value: 1 }, { name: 'no', value: 0 }],
+
 				statusOptions: [{ name: 'Active', value: 1 }, { name: 'Inactive', value: 0 }],
+
 				installation_id: '',
+
 				installation_ip: '',
+
 				installation_status: 1,
+
 				installation_disable_ip_verification: 0,
+
 				delete_record: 0,
 			}
 		},
+
 		beforeMount() {
+
 			const path = window.location.pathname
+
 			this.getInitialValues(path);
 		},
+
 		computed: {
+
 			...mapGetters(['getApiKey'])
 		},
+
 		methods: {
+
 			getInitialValues(path) {
+
 				const installationId = getIdFromUrl(path)
+
 				this.installation_id = installationId;
+
 				this.loading = true
+
 				axios.get('/api/admin/installation/' + installationId).then(res => {
+
 					this.loading = false;
+
 					this.hasDataPopulated = true;
+
 					let resData = res.data.data.installation;
+
 					this.updateStatesWithData(resData);
+
 				}).catch(error => {
+
 					this.loading = false;
 				});
 			},
+
 			updateStatesWithData(data) {
+
 				const self = this;
+
 				const stateData = this.$data;
+
 				Object.keys(data).map(key => {
+
 					if (stateData.hasOwnProperty(key)) {
+
 						self[key] = data[key];
 					}
 				});
 			},
+
 			isValid() {
+
 				const { errors, isValid } = validateInstallationSettings(this.$data);
+
 				return isValid;
 			},
+
 			onChange(value, name) {
+
 				this[name] = value ? value : '';
 			},
+
 			onSubmit() {
+
 				if (this.isValid()) {
+
 					this.loading = true
+
 					const data = {};
+
 					data['installation_id'] = this.installation_id;
+
 					data['api_key_secret'] = this.getApiKey;
+
 					data['installation_ip'] = this.installation_ip;
+
 					data['installation_status'] = this.installation_status ? 1 : 0;
+
 					data['installation_disable_ip'] = this.installation_disable_ip_verification ? 1 : 0;
+
 					data['delete_record'] = this.delete_record ? 1 : 0;
+
 					axios.post('/api/admin/installations/edit', data).then(res => {
+
 						this.loading = false
+
 						if (res.data.error_detected) {
+
 							errorHandler({ response: { status: 400, data: { message: res.data.page_message } } }, 'installation');
+
 						} else {
+
 							successHandler({ status: 200, data: { message: res.data.page_message } }, 'installation');
+
 							setTimeout(() => {
+
 								this.$router.push('/installations')
+
 							}, 2000)
 						}
+
 					}).catch(err => {
+
 						this.loading = false
+
 						errorHandler(err, 'installation')
 					});
 				}
 			}
 		},
+
 		components: {
+
 			"text-field": require("components/Reusable/FormField/TextField").default,
+
 			"radio-button": require("components/Reusable/FormField/RadioButton").default,
 		}
 	}

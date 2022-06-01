@@ -49,12 +49,10 @@
               <router-link to="/forgot-password">{{lang('iforgot')}}</router-link>
             </p>
             
-
           </template>
         </div>
       </div>
     </div>
-
   </div>
 </template>
 <script>
@@ -90,7 +88,6 @@
       if (this.getUserToken) {
 
         this.$router.push({ name: 'Dashboard' }).catch(err => { })
-
       }
     },
 

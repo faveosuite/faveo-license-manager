@@ -51,7 +51,6 @@
 		computed : {
 
 			...mapGetters(['getUserData'])
-
 		}
 	};
 </script>

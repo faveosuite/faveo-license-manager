@@ -87,61 +87,108 @@
 </template>
 
 <script>
+
     import axios from 'axios'
+
     import { successHandler, errorHandler } from 'helpers/responseHandler';
+
     import { getIdFromUrl } from 'helpers/extraLogics';
+
     import { validateSecuritySettings } from "helpers/validator/validateSecuritySettings.js";
+
     import { mapGetters } from 'vuex';
+
     import moment from 'moment'
+
     export default {
+
         name: 'Security-Settings',
+
         data() {
+
             return {
+
                 title: 'security_settings',
+
                 iconClass: 'fas fa-save',
+
                 btnName: 'save',
+
                 hasDataPopulated: false,
+
                 loading: false,
+
                 apiEndpoint: '',
+
                 moment: moment,
+
                 whitelistedAccess: [
                     { name: 'Enabled', value: 1 },
                     { name: 'Disabled', value: 0 }
                 ],
+
                 whitelistedAccessType: null,
+
                 whiteListedIp: '',
+
                 bannedHosts: [
                     { name: 'Enabled', value: 1 },
                     { name: 'Disabled', value: 0 }
                 ],
+
                 bannedHostsType: null,
+
                 messageBannedHosts: null,
+
                 autobanFailedLogin: null,
+
                 autobanFailedLoginOptions: [],
+
                 autobanFailedLicensing: null,
+
                 autobanFailedLicensingOptions: [],
+
                 ForgetFailedAttempts: null,
+
                 ForgetFailedAttemptsOptions: [],
+
                 minPasswordLength: null,
+
                 settingId: 'new'
+
             }
         },
+
         async beforeMount() {
+
             const path = window.location.pathname
+
             await this.getSecurityDropdownOptions()
+
             this.loadData();
         },
+
         methods: {
+
             async loadData() {
+
                 this.loading = true;
+
                 this.hasDataPopulated = false;
+
                 await this.$store.dispatch('fetchSettings');
+
                 this.setFormData()
+
                 this.hasDataPopulated = true;
+
                 this.loading = false;
             },
+
             async getSecurityDropdownOptions() {
+
                 this.loading = true;
+
                 return await axios.get("/api/admin/securityDropdown").then((res) => {
                     const options = res.data
                     if (options['failed logins limit']) {
@@ -153,36 +200,54 @@
                     if (options['failed hosts forget']) {
                         this.ForgetFailedAttemptsOptions = options['failed hosts forget']
                     }
+
                     this.loading = false;
+
                 }).catch((err) => {
+
                     this.loading = false;
+
                 });
             },
+
             isValid() {
+
                 const { errors, isValid } = validateSecuritySettings(this.$data);
+
                 return isValid;
             },
+
             setFormData() {
                 const securitySettings = this.$store.getters['getSecuritySettings']
+
                 if (securitySettings) {
+
                     this.settingId = securitySettings.SETTING_ID ?? 'new'
+
                     this.whitelistedAccessType = this.whitelistedAccess.find((opt) => {
                         return opt.value === securitySettings.WHITELISTED_ACCESS
                     })
+
                     this.whiteListedIp = securitySettings.WHITELISTED_IP ?? null
+
                     this.bannedHostsType = this.bannedHosts.find((opt) => {
                         return opt.value === securitySettings.BANNED_HOSTS
                     })
+
                     this.messageBannedHosts = securitySettings.BANNED_HOST_MESSAGE ?? null
+
                     this.autobanFailedLicensing = this.autobanFailedLicensingOptions.find((opt) => {
                         return opt.value === securitySettings.FAILED_LICENSINGS_LIMIT
                     })
+
                     this.ForgetFailedAttempts = this.ForgetFailedAttemptsOptions.find((opt) => {
                         return opt.value === securitySettings.FAILED_HOSTS_FORGET
                     })
+
                     this.autobanFailedLogin = this.autobanFailedLoginOptions.find((opt) => {
                         return opt.value === securitySettings.FAILED_LOGINS_LIMIT
                     })
+
                     this.minPasswordLength = securitySettings.MIN_PASSWORD_LENGTH ?? null
                 }
             },
@@ -205,37 +270,62 @@
                     this.minPasswordLength = value
                 }
             },
+
             async onSubmit() {
+
                 if (this.isValid()) {
+
                     this.loading = true
                     
                     const formData = {
                         MIN_PASSWORD_LENGTH: this.minPasswordLength ?? null,
+
                         WHITELISTED_ACCESS: this.whitelistedAccessType ? this.whitelistedAccessType.value : null,
+
                         BANNED_HOSTS: this.bannedHostsType ? this.bannedHostsType.value : null,
+
                         BANNED_HOST_MESSAGE: this.messageBannedHosts ?? null,
+
                         FAILED_LOGINS_LIMIT: this.autobanFailedLogin ? this.autobanFailedLogin.value : null,
+
                         FAILED_LICENSINGS_LIMIT: this.autobanFailedLicensing ? this.autobanFailedLicensing.value : null,
+
                         FAILED_HOSTS_FORGET: this.ForgetFailedAttempts ? this.ForgetFailedAttempts.value : null,
+
                         WHITELISTED_IP: this.whiteListedIp ?? null,
                     }
+
                     await axios.post(`/api/admin/securitysettings/${this.settingId}`, formData).then(async (res) => {
+
+
                         successHandler(res, 'settings');
+
                         await this.$store.dispatch('fetchSettings');
+
                         this.loading = false;
+
                     }).catch((err) => {
+
                         this.loading = false;
+
                         errorHandler(err, 'settings');
                     });
                 }
             }
             },
+
             components: {
+
                 "text-field": require("components/Reusable/FormField/TextField").default,
+
                 "number-field": require("components/Reusable/FormField/NumberField").default,
+
                 "static-select": require("components/Reusable/FormField/StaticSelect").default,
+
                 "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
+
                 "radio-button": require("components/Reusable/FormField/RadioButton").default,
+
             }
         }
 </script>
