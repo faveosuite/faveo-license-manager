@@ -17,19 +17,19 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{trans(title)}}</h3>
+                <h3 class="card-title">{{lang(title)}}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('whitelisted_access')" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="lang('whitelisted_access')" classname="col-sm-6" :strlength="35"
                         :required="false" name="whitelisted_access" :elements="whitelistedAccess"
                         :value="whitelistedAccessType" :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="trans('whitelisted_ip')" :value="whiteListedIp" :onChange="onChange"
+                    <text-field :label="lang('whitelisted_ip')" :value="whiteListedIp" :onChange="onChange"
                         name="whitelisted_ip" type="text" classname="col-sm-6">
 
                     </text-field>
@@ -37,12 +37,12 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('banned_hosts')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="banned_hosts" :elements="bannedHosts"
-                        :value="bannedHostsType" :onChange="onChange">
+                    <dynamic-select :label="lang('banned_hosts')" :multiple="false" classname="col-sm-6" :strlength="35"
+                        :required="false" name="banned_hosts" :elements="bannedHosts" :value="bannedHostsType"
+                        :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="trans('message_for_banned_hosts')" :value="messageBannedHosts"
+                    <text-field :label="lang('message_for_banned_hosts')" :value="messageBannedHosts"
                         :onChange="onChange" name="message_for_banned_hosts" type="text" classname="col-sm-6">
 
                     </text-field>
@@ -50,13 +50,13 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('autoban_failed_login_hosts')" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="lang('autoban_failed_login_hosts')" classname="col-sm-6" :strlength="35"
                         :required="false" name="autoban_failed_login_hosts" :elements="autobanFailedLoginOptions"
                         :value="autobanFailedLogin" :onChange="onChange" optionLabel="title">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('autoban_failed_licensing_hosts')" classname="col-sm-6"
-                        :strlength="35" :required="false" name="autoban_failed_licensing_hosts"
+                    <dynamic-select :label="lang('autoban_failed_licensing_hosts')" classname="col-sm-6" :strlength="35"
+                        :required="false" name="autoban_failed_licensing_hosts"
                         :elements="autobanFailedLicensingOptions" :value="autobanFailedLicensing" :onChange="onChange"
                         optionLabel="title">
                     </dynamic-select>
@@ -64,13 +64,13 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('forget_failed_attempts')" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="lang('forget_failed_attempts')" classname="col-sm-6" :strlength="35"
                         :required="false" name="forget_failed_attempts" :elements="ForgetFailedAttemptsOptions"
                         :value="ForgetFailedAttempts" :onChange="onChange" optionLabel="title">
                     </dynamic-select>
 
-                    <text-field :label="trans('minimum_password_length')" :value="minPasswordLength"
-                        :onChange="onChange" name="minimum_password_length" type="number" classname="col-sm-6">
+                    <text-field :label="lang('minimum_password_length')" :value="minPasswordLength" :onChange="onChange"
+                        name="minimum_password_length" type="number" classname="col-sm-6">
 
                     </text-field>
 
@@ -80,7 +80,7 @@
             <div class="card-footer">
 
                 <button class="btn btn-default" @click="onSubmit()"><i
-                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                        :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -311,7 +311,6 @@
 
             "radio-button": require("components/Reusable/FormField/RadioButton").default,
 
-            "date-picker": require("components/Reusable/FormField/DateTimePicker").default
         }
     }
 </script>

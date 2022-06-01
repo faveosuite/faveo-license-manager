@@ -18,9 +18,17 @@ use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\EmailsController;
 use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\ApiController;
+use App\Http\Controllers\Admin\ApiKeysController;
+use App\Http\Controllers\Admin\BannedHostController;
+use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\ConfigGenerateController;
+use App\Http\Controllers\Admin\EmailsController;
+use App\Http\Controllers\Admin\InstallationController;
+use App\Http\Controllers\Admin\LicenseController;
+use App\Http\Controllers\Admin\NotificationsController;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SearchController;
-use App\Http\Controllers\EditProfilesController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
 use App\Http\Controllers\AflCallbacks\LicenseVerifyController;
@@ -33,7 +41,7 @@ use App\Http\Controllers\Update\DirectoryController;
 use App\Http\Controllers\Update\AfuProductsController;
 use App\Http\Controllers\TestController;
 use App\Http\Middleware\Manager;
-
+use App\Http\Controllers\EditProfilesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -92,26 +100,25 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
 
 
 //LICENSES
-Route::post('license/add',[LicenseController::class,'licenseAdd']);
-Route::get('viewLicenses',[LicenseController::class,'show']);
-Route::post('license/delete',[LicenseController::class,'deleteLicense']);
-Route::post('license/edit',[LicenseController::class,'licenseUpdate']);
-Route::get('license/{license_id}',[LicenseController::class,'edit']);
-
+    Route::post('license/add', [LicenseController::class, 'licenseAdd']);
+    Route::get('viewLicenses', [LicenseController::class, 'show']);
+    Route::post('license/delete', [LicenseController::class, 'deleteLicense']);
+    Route::post('license/edit', [LicenseController::class, 'licenseUpdate']);
+    Route::get('license/{license_id}', [LicenseController::class, 'edit']);
 
 //INSTALLATIONS
-Route::post('installations/delete',[InstallationController::class,'deleteInstallation']);
-Route::post('installations/edit',[InstallationController::class,'installationUpdate']);
-Route::get('viewInstallations',[InstallationController::class,'show']);
-Route::post('addInstallation',[InstallationController::class,'installationAdd']);
-Route::get('installation/{installation_id}',[InstallationController::class,'edit']);
+    Route::post('installations/delete', [InstallationController::class, 'deleteInstallation']);
+    Route::post('installations/edit', [InstallationController::class, 'installationUpdate']);
+    Route::get('viewInstallations', [InstallationController::class, 'show']);
+    Route::post('addInstallation', [InstallationController::class, 'installationAdd']);
+    Route::get('installation/{installation_id}', [InstallationController::class, 'edit']);
 
 //BANNED HOSTS
     Route::post('bannedHosts/add', [BannedHostController::class, 'bannedHostAdd']);
     Route::post('bannedHosts/delete', [BannedHostController::class, 'deleteBannedHost']);
     Route::post('bannedHosts/edit', [BannedHostController::class, 'bannedHostUpdate']);
     Route::get('viewBannedHost', [BannedHostController::class, 'show']);
-
+    Route::get('viewBannedHost/{banned_host_id}', [BannedHostController::class, 'view']);
 
 //SETTINGS
     Route::post('generalsettings/{SETTING_ID}', [SettingsController::class, 'generalSettingsCreate']);
@@ -135,50 +142,18 @@ Route::get('installation/{installation_id}',[InstallationController::class,'edit
 //EDIT PROFILE
     Route::post('editprofile/{admin_id}', [EditProfilesController::class, 'editProfile']);
 
-
 //CONFIGURATION GENERATOR
     Route::post('config', [ConfigGenerateController::class, 'configGenerate']);
 
 //SEARCH
     Route::post('search', [SearchController::class, 'search']);
-
-
-//BANNED HOSTS
-    Route::post('bannedHosts/add', [BannedHostController::class, 'bannedHostAdd']);
-    Route::post('bannedHosts/delete', [BannedHostController::class, 'deleteBannedHost']);
-    Route::post('bannedHosts/edit', [BannedHostController::class, 'bannedHostUpdate']);
-
-
-//SETTINGS
-    Route::post('generalsettings/{SETTING_ID}', [SettingsController::class, 'generalSettingsCreate']);
-    Route::post('advancedsettings/{SETTING_ID}', [SettingsController::class, 'advancedSettings']);
-    Route::post('securitysettings/{SETTING_ID}', [SettingsController::class, 'securitySettings']);
-    Route::post('emailsettings/{SETTING_ID}', [SettingsController::class, 'emailSettings']);
-    Route::post('cleanupsettings/{SETTING_ID}', [SettingsController::class, 'cleanUpSettings']);
-
-
-//NOTIFICATIONS
-    Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);
-    Route::post('emails/{email_id}', [EmailsController::class, 'emails']);
-
-
-//EDIT PROFILE
-    Route::post('editprofile/{admin_id}', [EditProfilesController::class, 'editProfile']);
-
-
-//CONFIGURATION GENERATOR
-    Route::post('config', [ConfigGenerateController::class, 'configGenerate']);
-
-//SEARCH
-    Route::post('search', [SearchController::class, 'search']);
-
 
 //API KEYS
-
-Route::post('addnewapi',[ApiKeysController::class,'apiKeyAdd']);
-Route::post('editnewapi/{api_key_id}',[ApiKeysController::class,'apiKeyUpdate']);
-Route::post('deleteapi/{api_key_id}',[ApiKeysController::class,'apiKeyDelete']);
-Route::get('viewApiKeys',[ApiKeysController::class,'show']);
+    Route::post('addnewapi', [ApiKeysController::class, 'apiKeyAdd']);
+    Route::post('editnewapi/{api_key_id}', [ApiKeysController::class, 'apiKeyUpdate']);
+    Route::post('deleteapi/{api_key_id}', [ApiKeysController::class, 'apiKeyDelete']);
+    Route::get('viewApiKeys', [ApiKeysController::class, 'show']);
+    Route::get('viewApiKeys/{api_key_id}', [ApiKeysController::class, 'view']);
 });
 
     Route::post('addnewapi', [ApiKeysController::class, 'apiKeyAdd']);
@@ -226,7 +201,6 @@ Route::get('viewApiKeys',[ApiKeysController::class,'show']);
 
 });
 /*Route::middleware('auth:api')->group(function (){
-
 
 });*/
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {

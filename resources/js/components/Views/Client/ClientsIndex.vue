@@ -1,109 +1,109 @@
 <template>
-		
+
 	<div class="col-sm-12">
-		
-		<alert componentName="dataTableModal"/>
+
+		<alert componentName="dataTableModal" />
 
 		<div class="card card-light ">
-		
+
 			<div class="card-header">
-			
+
 				<h3 class="card-title">{{lang('Clients')}}</h3>
 
 				<div class="card-tools">
-					
+
 					<router-link to="/clients/create" class="btn-tool" v-tooltip="lang('create_client')">
-          
-          			<i class="fas fa-plus"></i>
-        			</router-link>
+
+						<i class="fas fa-plus"></i>
+					</router-link>
 				</div>
 			</div>
-			
+
 			<div class="card-body" id="my_clients">
 
-				 <v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
+				<v-client-table v-if="data" :columns="columns" v-model="data" :options="options" :key="counter">
 
-				  </v-client-table>
+				</v-client-table>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script>
-	
+
 	import axios from 'axios';
 
 	export default {
 
-		name : 'clients-list',
+		name: 'clients-list',
 
 		data() {
 
 			return {
 
-				data : '',
+				data: '',
 
 				columns: ['full_name', 'client_email', 'client_active_date', 'client_status', 'actions'],
 
 				options: {},
 
-				counter : 0
+				counter: 0
 			}
 		},
 
 		created() {
-		
-			window.eventHub.$on('refreshData',this.updateData);
+
+			window.eventHub.$on('refreshData', this.updateData);
 		},
 
-		beforeMount(){
+		beforeMount() {
 
-			const self= this;
+			const self = this;
 
 			this.getData();
 
 			this.options = {
 
 				sortIcon: {
-						
-					base : 'glyphicon',
-						
+
+					base: 'glyphicon',
+
 					up: 'glyphicon-chevron-up',
-						
+
 					down: 'glyphicon-chevron-down'
 				},
 
 				texts: { filter: '', limit: '' },
 
-				columnsClasses : {
+				columnsClasses: {
 
-		          	full_name : 'client_name',
+					full_name: 'client_name',
 
-		          	client_email: 'client_email',
+					client_email: 'client_email',
 
-		         	client_active_date : 'client_date',
+					client_active_date: 'client_date',
 
-		         	client_status: 'client_status'
-		        },
+					client_status: 'client_status'
+				},
 
-		        templates : {
+				templates: {
 
 					client_status(createElement, row) {
-			          	
-			          	let span = createElement('span', {
-			             	
-			             	attrs: {
-			               		'class' : row.client_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-			             	}
-			          	}, row.client_status ? 'Active' : 'Inactive');
-			          	
-			          	return createElement('a',{},[span]);
-			        },
 
-			        full_name: function(createElement, row) {
+						let span = createElement('span', {
+
+							attrs: {
+								'class': row.client_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+							}
+						}, row.client_status ? 'Active' : 'Inactive');
+
+						return createElement('a', {}, [span]);
+					},
+
+					full_name: function (createElement, row) {
 
 						return createElement('router-link', {
-							
+
 							attrs: {
 								to: '/clients/' + row.client_id + '/edit',
 							}
@@ -111,27 +111,27 @@
 						}, row.client_fname + ' ' + row.client_lname);
 					},
 
-			        actions : 'table-actions'
-		        },
+					actions: 'table-actions'
+				},
 
-				pagination:{chunk:5,nav: 'fixed',edge:true},
+				pagination: { chunk: 5, nav: 'fixed', edge: true },
 
 				headings: {
-			        
-			        full_name: 'Full Name',
-			        
-			        client_email: 'Email',
-			   		
-			   		client_active_date: 'Active Date',
 
-			   		client_status: 'Status',
+					full_name: 'Full Name',
 
-			   		actions: 'Actions'
-			    },
+					client_email: 'Email',
+
+					client_active_date: 'Active Date',
+
+					client_status: 'Status',
+
+					actions: 'Actions'
+				},
 			}
 		},
 
-		methods : {
+		methods: {
 
 			updateData() {
 
@@ -140,7 +140,7 @@
 
 			getData() {
 
-				axios.get('/api/admin/viewClients').then(res=>{
+				axios.get('/api/admin/viewClients').then(res => {
 
 					this.data = res.data.data.map(data => {
 
@@ -161,17 +161,23 @@
 </script>
 
 <style>
-	
-	.client_name,.client_email,.client_date,.client_status{ max-width: 200px; word-break: break-all;}
-	
-	#my_clients .VueTables .table-responsive {
-		overflow-x: auto;overflow-y: hidden;
+	.client_name,
+	.client_email,
+	.client_date,
+	.client_status {
+		max-width: 200px;
+		word-break: break-all;
 	}
 
-	#my_clients .VueTables .table-responsive > table{
-		width : max-content;
-		min-width : 100%;
-		max-width : max-content;
+	#my_clients .VueTables .table-responsive {
+		overflow-x: auto;
+		overflow-y: hidden;
+	}
+
+	#my_clients .VueTables .table-responsive>table {
+		width: max-content;
+		min-width: 100%;
+		max-width: max-content;
 		overflow: auto !important;
 	}
 </style>

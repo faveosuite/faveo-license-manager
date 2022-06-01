@@ -1,8 +1,8 @@
 <?php
 
-return[
+return [
 
-       /*
+    /*
     |--------------------------------------------------------------------------
     | Custom Language Lines
     |--------------------------------------------------------------------------
@@ -11,7 +11,7 @@ return[
     | messages that we need to display to the user. You are free to modify
     | these language lines according to your application's requirements.
     |
-    */
+     */
 
    'Client_Add' => 'Client and the Client\'s details has been added',
    'Client_Show' => 'All the Details of the client\'s registered so far are displayed',
@@ -28,20 +28,20 @@ return[
     'no_product' => 'No product was added.',
     'invalid_product' => 'This is an invalid product.',
 
-   'Exit' => 'You are now exited from the page',
-   'Connection_OK'=> 'The connection to the Auto Faveo license manager has been established successfully',
+    'Exit' => 'You are now exited from the page',
+    'Connection_OK' => 'The connection to the Auto Faveo license manager has been established successfully',
 
-   'Login'=>'You have logged in successfully to Auto Faveo Licenser',
-   'Logout'=>'You have has logged out successfully from Auto Faveo Licenser',
-   'registered' => 'You Have registered successfuly to Auto Faveo Licenser',
+    'Login' => 'You have logged in successfully to Auto Faveo Licenser',
+    'Logout' => 'You have has logged out successfully from Auto Faveo Licenser',
+    'registered' => 'You Have registered successfuly to Auto Faveo Licenser',
 
-   'form'=> 'The details entered into the form seems to be incomplete',
-   'invalid' => 'There are invalid details present in this request',
+    'form' => 'The details entered into the form seems to be incomplete',
+    'invalid' => 'There are invalid details present in this request',
 
-   'License_add' => 'License has been successfully added to the Auto faveo License Manager',
-   'License_edit' => 'License details has been successfully edited and updated in Auto Faveo Licenser',
+    'License_add' => 'License has been successfully added to the Auto faveo License Manager',
+    'License_edit' => 'License details has been successfully edited and updated in Auto Faveo Licenser',
 
-   'install_edit' => 'Installation details has been successfully edited and updates in Auto Faveo Licenser',
+    'install_edit' => 'Installation details has been successfully edited and updates in Auto Faveo Licenser',
 
    'banned_add' => 'A new Banned Host has been added from Auto Faveo Licenser',
    'banned_edit' => 'Banned Host details of Auto Faveo Licenser has been updated',
@@ -49,24 +49,24 @@ return[
     'banned_empty' => 'Banned Host ip is not present or api key secret is invalid.',
     'banned_host_not_found'=> 'Banned host you\'re looking for is not found',
 
-   'settings_updated' => 'The above settings of Auto Faveo license manager has been updated ',
-   'settings_created' => 'The above settings of Auto Faveo license manager has been created ',
+    'settings_updated' => 'The above settings of Auto Faveo license manager has been updated ',
+    'settings_created' => 'The above settings of Auto Faveo license manager has been created ',
 
-   'notifications' => 'The server notification details has been updated',
-   'emails' => 'Email notification details regarding the Auto Faveo License Expiry has been updated',
+    'notifications' => 'The server notification details has been updated',
+    'emails' => 'Email notification details regarding the Auto Faveo License Expiry has been updated',
 
-   'no_edit' =>'Invalid record details, duplicated data, or database error.',
-   'edit' => 'The details of Auto Licnese Manager user has been updated',
+    'no_edit' => 'Invalid record details, duplicated data, or database error.',
+    'edit' => 'The details of Auto Licnese Manager user has been updated',
 
-   'got_it' => 'The search results are as follows for the above search',
+    'got_it' => 'The search results are as follows for the above search',
 
     'config' => 'The config file has been updated by the given values in config generator',
 
     'no_config' => "Something went wrong so no config file was generated",
     'dashboard' => 'Dashboard',
     'version' => 'Version',
-    'copyright'  => 'Copyright',
-    'all_rights_reserved'  => 'All rights reserved',
+    'copyright' => 'Copyright',
+    'all_rights_reserved' => 'All rights reserved',
     'powered_by' => 'Powered by',
     'products' => 'Products',
     'create' => 'Create',
@@ -97,16 +97,16 @@ return[
     'only_num_are_allowed' => 'Only numbers are allowed',
     'not_a_valid_email' => 'Not a valid email address',
     'invalid_field_format' => 'The field format is invalid',
-    'max_length_exceeded'=> 'Maximum length exceeded',
-    'not_enough_length'=> 'Input is shorter than minimum value',
-    'invalid_email'=> 'Please type a valid email address',
+    'max_length_exceeded' => 'Maximum length exceeded',
+    'not_enough_length' => 'Input is shorter than minimum value',
+    'invalid_email' => 'Please type a valid email address',
     'not_alpha' => 'Input should only consist of alphabets',
-    'not_alphanumeric'=> 'Input should only consist of alphabets and numbers',
-    'invalid_number'=> 'Input should only consist of numbers',
-    'more_than_max_value'=> 'Maximum value exceeded',
-    'less_than_min_value'=> 'Less than minimum value allowed',
-    'password_is_same'=> 'New password is same as old. Please choose a different password',
-    'password_does_not_match'=> 'Password does not match',
+    'not_alphanumeric' => 'Input should only consist of alphabets and numbers',
+    'invalid_number' => 'Input should only consist of numbers',
+    'more_than_max_value' => 'Maximum value exceeded',
+    'less_than_min_value' => 'Less than minimum value allowed',
+    'password_is_same' => 'New password is same as old. Please choose a different password',
+    'password_does_not_match' => 'Password does not match',
     'invalid_url' => 'Invalid URL',
 
     'licenser' => 'Licenser',
@@ -174,12 +174,12 @@ return[
     'invalid_licnese_domain' => 'Invalid License Domain(s)',
     'edit_installation' => 'Edit Installation',
     'customize_notifications' => 'Customize Notifications',
-    'customize_emails'=> 'Customize Emails',
-    'notification_product_not_found'=> 'Invalid Product',
-    'notification_product_inactive'=>'Inactive Product',
-    'notification_license_ok'=>'Valid License',
-    'notification_license_not_found'=>'Invalid License',
-    'notification_invalid_ip'=>'Invalid IP',
+    'customize_emails' => 'Customize Emails',
+    'notification_product_not_found' => 'Invalid Product',
+    'notification_product_inactive' => 'Inactive Product',
+    'notification_license_ok' => 'Valid License',
+    'notification_license_not_found' => 'Invalid License',
+    'notification_invalid_ip' => 'Invalid IP',
     'notification_invalid_domain' => 'Invalid Domain',
     'notification_domain_required' => 'Domain Required',
     'notification_domain_in_use' => 'Domain in Use',
@@ -189,7 +189,7 @@ return[
     'notification_support_expired' => 'Expired Support',
     'notification_license_cancelled' => 'Cancelled License',
     'notification_license_limit' => 'Maximum Installations Limit Reached',
-    'notification_installation_not_found' =>'Non-Existing Installation',
+    'notification_installation_not_found' => 'Non-Existing Installation',
     'notification_invalid_signature' => 'Invalid License Signature',
     'notification_host_banned' => 'Host Banned',
     'notification_unknown_error' => 'Unknown Error',
@@ -217,7 +217,7 @@ return[
     'timezone' => 'Timezone',
     'auto_php_licenser' => 'Auto PHP Licenser API',
     'evanto_api_token' => 'Evanto API Token',
-    'whitelisted_access'=> 'Whitelisted Access Only',
+    'whitelisted_access' => 'Whitelisted Access Only',
     'whitelisted_ip' => 'Whitelisted IP(s)',
     'banned_hosts' => 'Banned Hosts',
     'message_for_banned_hosts' => 'Message For Banned Hosts',
@@ -267,8 +267,10 @@ return[
     'delete_cracked_license' => 'Delete Cracked License',
     'god_mode' => 'GOD Mode',
     'add' => 'API Key Added Successfully',
-    'Delete' => 'API Key Deleted Successfully'
-
-
+    'Delete' => 'API Key Deleted Successfully',
+    'copy_response' => 'Are You Sure About Copying The Response',
+    'response' => 'Configuration Response',
+    'edit_api_key' => 'Edit API Key',
+    'edit_banned_host' => 'Edit Banned Host',
 
 ];

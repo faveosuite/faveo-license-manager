@@ -132,7 +132,7 @@ class ApiKeysController extends Controller
         return successResponse(Lang::get('lang.Delete'),$removed_records,200);
     }
 
-      public function show(){
+    public function show(){
         $apis = AflApiKeys::all();
         return successResponse(Lang::get('lang.Api_show'),$apis,200);
     }
@@ -163,5 +163,19 @@ class ApiKeysController extends Controller
             }
         }
     }
+    public function view($api_key_id)
+       {
+
+        $api_key = AflApiKeys::where('api_key_id',$api_key_id)->firstOrFail();
+
+        if(!empty($api_key)){
+
+            return successResponse('', ['api_key' => $api_key],200);
+        }
+        
+        return errorResponse(Lang::get('lang.invalid'),400);
+
+       }
+
 
 }
