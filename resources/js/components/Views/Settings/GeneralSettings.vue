@@ -17,32 +17,32 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{trans(title)}}</h3>
+                <h3 class="card-title">{{lang(title)}}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('smart_reports')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('smart_reports')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="smart_reports" :elements="smartReports"
                         :value="smartReportsType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('smart_tables')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="smart_tables" :elements="smartTables"
-                        :value="smartTablesType" :onChange="onChange">
+                    <dynamic-select :label="lang('smart_tables')" :multiple="false" classname="col-sm-6" :strlength="35"
+                        :required="false" name="smart_tables" :elements="smartTables" :value="smartTablesType"
+                        :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('records_per_page')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('records_per_page')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="records_per_page" :elements="recordsPerPage"
                         :value="recordsPerPageType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('records_on_index_page')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('records_on_index_page')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="records_on_index_page" :elements="recordIndexPage"
                         :value="recordIndexPageType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
@@ -50,12 +50,12 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('search_result_limit')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('search_result_limit')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="search_result_limit" :elements="searchLimit"
                         :value="searchLimitType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('archive_older_records')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('archive_older_records')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="archive_older_records" :elements="archiveOlderRecords"
                         :value="archiveOlderRecordsType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
@@ -63,7 +63,7 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('timezone')" :multiple="false" classname="col-sm-6" :strlength="35"
+                    <dynamic-select :label="lang('timezone')" :multiple="false" classname="col-sm-6" :strlength="35"
                         :required="false" name="timezones" :elements="timezones" :value="selectedTimezone"
                         :onChange="onChange" optionLabel="title">
                     </dynamic-select>
@@ -74,7 +74,7 @@
             <div class="card-footer">
 
                 <button class="btn btn-default" @click="onSubmit()"><i
-                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                        :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -265,7 +265,7 @@
                     this.selectedTimezone = value
                 }
             },
-            
+
             async onSubmit() {
 
                 const formData = {

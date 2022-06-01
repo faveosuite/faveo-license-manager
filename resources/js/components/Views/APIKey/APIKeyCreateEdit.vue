@@ -17,20 +17,20 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{trans(title)}}</h3>
+                <h3 class="card-title">{{lang(title)}}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <text-field :label="trans('api_secret')" type="text" classname="col-sm-6"
+                    <text-field :label="lang('api_secret')" type="text" classname="col-sm-6"
                         :showNewButton="apiSecret ? false : true" newBtnName="generate" :onNewButtonClick="generateCode"
                         name="api_secret" :value="apiSecret" :onChange="onChange">
 
                     </text-field>
 
-                    <text-field :label="trans('api_ip')" :value="apiIp" :onChange="onChange" name="api_ip" type="text"
+                    <text-field :label="lang('api_ip')" :value="apiIp" :onChange="onChange" name="api_ip" type="text"
                         classname="col-sm-6">
 
                     </text-field>
@@ -38,25 +38,25 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('permissions_to_add_products')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('permissions_to_add_products')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="permissions_to_add_products"
                         :elements="addProductPermission" :value="addPermissionType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('permissions_to_edit_products')" :multiple="false"
-                        classname="col-sm-6" :strlength="35" :required="false" name="permissions_to_edit_products"
+                    <dynamic-select :label="lang('permissions_to_edit_products')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="permissions_to_edit_products"
                         :elements="editProductPermission" :value="editPermissionType" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('permissions_to_add_clients')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('permissions_to_add_clients')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="permissions_to_add_clients"
                         :elements="addClientPermission" :value="addClientPermissionType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('permissions_to_edit_clients')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('permissions_to_edit_clients')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="permissions_to_edit_clients"
                         :elements="editClientPermission" :value="editClientPermissionType" :onChange="onChange">
                     </dynamic-select>
@@ -64,13 +64,13 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('permissions_to_add_licenses')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('permissions_to_add_licenses')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="permissions_to_add_licenses"
                         :elements="addLicensePermission" :value="addLicensePermissionType" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('permissions_to_edit_licenses')" :multiple="false"
-                        classname="col-sm-6" :strlength="35" :required="false" name="permissions_to_edit_licenses"
+                    <dynamic-select :label="lang('permissions_to_edit_licenses')" :multiple="false" classname="col-sm-6"
+                        :strlength="35" :required="false" name="permissions_to_edit_licenses"
                         :elements="editLicensePermission" :value="editLicensePermissionType" :onChange="onChange">
                     </dynamic-select>
 
@@ -78,13 +78,13 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('permissions_to_add_installations')" :multiple="false"
+                    <dynamic-select :label="lang('permissions_to_add_installations')" :multiple="false"
                         classname="col-sm-6" :strlength="35" :required="false" name="permissions_to_add_installations"
                         :elements="addInstallationsPermission" :value="addInstallationsPermissionType"
                         :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="trans('permissions_to_use_search')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('permissions_to_use_search')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="permissions_to_use_search"
                         :elements="useSearchPermission" :value="useSearchPermissionType" :onChange="onChange">
                     </dynamic-select>
@@ -93,7 +93,7 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('api_key_status')" :multiple="false" classname="col-sm-6"
+                    <dynamic-select :label="lang('api_key_status')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="false" name="api_key_status" :elements="apiKeyStatus"
                         :value="apiKeyStatusType" :onChange="onChange">
                     </dynamic-select>
@@ -104,7 +104,7 @@
             <div class="card-footer">
 
                 <button class="btn btn-default" @click="onSubmit"><i
-                        :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                        :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>
     </div>
@@ -116,9 +116,7 @@
 
     import { successHandler, errorHandler } from 'helpers/responseHandler';
 
-    import { getIdFromUrl } from 'helpers/extraLogics';
-
-    import { mapGetters } from 'vuex';
+    import { getIdFromUrl, generateRandomString } from 'helpers/extraLogics';
 
     import moment from 'moment'
 
@@ -147,6 +145,8 @@
                 apiIp: null,
 
                 apiSecret: null,
+
+                api_key_id: '',
 
                 editProductPermission: [
                     { name: 'Active', value: 1 },
@@ -216,55 +216,104 @@
         beforeMount() {
 
             const path = window.location.pathname
-
             this.getValues(path);
 
-            this.loadData();
         },
 
         methods: {
 
-            loadData() {
+            getValues(path) {
+                console.log('getValues 1', path)
 
-                this.loading = true;
+                const apiKeyId = getIdFromUrl(path)
+                console.log('getValues', apiKeyId)
+                if (path.indexOf('edit') >= 0) {
 
-                this.hasDataPopulated = false;
+                    this.title = 'edit_api_key'
 
-                Promise.all([this.getProducts()]).then((values) => {
+                    this.iconClass = 'fas fa-sync'
 
-                    [this.productOptions] = values;
+                    this.btnName = 'update'
+
+                    this.hasDataPopulated = false
+
+                    this.getInitialValues(apiKeyId);
+
+                    this.api_key_id = apiKeyId;
+
+                    this.apiEndpoint = `/api/admin/editnewapi/${apiKeyId}`;
+
+                } else {
 
                     this.loading = false;
 
                     this.hasDataPopulated = true;
 
-                }).catch(function (error) {
+                    this.apiEndpoint = '/api/admin/addnewapi';
+                }
+            },
+
+            getInitialValues(id) {
+
+                this.loading = true
+
+                axios.get(`/api/admin/viewApiKeys/${id}`).then(res => {
 
                     this.loading = false;
 
-                    this.hasDataPopulated = true;
+                    this.hasDataPopulated = true
+
+                    this.updateStatesWithData(res.data.data.api_key);
+
+                }).catch(error => {
+
+                    this.loading = false;
                 });
             },
 
-            generateCode() {
-
-                var a = ''
-
-                var n = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-
-                for (var e = 1; e <= 16; e++) {
-
-                    a += n.charAt(Math.floor(Math.random() * n.length));
-
-                    if (e % 4 == 0 && e != 16) {
-
-                        a += ''
-                    }
+            updateStatesWithData(data) {
+                if ('api_key_secret' in data) {
+                    this.apiSecret = data.api_key_secret
                 }
-
-                this.apiSecret = a;
+                if ('api_key_ip' in data) {
+                    this.apiIp = data.api_key_ip
+                }
+                if ('api_key_products_add' in data) {
+                    this.addPermissionType = this.findOption('addProductPermission', data.api_key_products_add)
+                }
+                if ('api_key_products_edit' in data) {
+                    this.editPermissionType = this.findOption('editProductPermission', data.api_key_products_edit)
+                }
+                if ('api_key_clients_add' in data) {
+                    this.addClientPermissionType = this.findOption('addClientPermission', data.api_key_clients_add)
+                }
+                if ('api_key_clients_edit' in data) {
+                    this.editClientPermissionType = this.findOption('editClientPermission', data.api_key_clients_edit)
+                }
+                if ('api_key_licenses_add' in data) {
+                    this.addLicensePermissionType = this.findOption('addLicensePermission', data.api_key_licenses_add)
+                }
+                if ('api_key_licenses_edit' in data) {
+                    this.editLicensePermissionType = this.findOption('editLicensePermission', data.api_key_licenses_edit)
+                }
+                if ('api_key_installations_edit' in data) {
+                    this.addInstallationsPermissionType = this.findOption('addInstallationsPermission', data.api_key_installations_edit)
+                }
+                if ('api_key_search' in data) {
+                    this.useSearchPermissionType = this.findOption('useSearchPermission', data.api_key_search)
+                }
+                if ('api_key_status' in data) {
+                    this.apiKeyStatusType = this.findOption('apiKeyStatus', data.api_key_status)
+                }
             },
 
+            generateCode() {
+                this.apiSecret = generateRandomString(16);
+            },
+
+            findOption(options, value) {
+                return this[options].find((option) => option.value === value)
+            },
             onChange(value, name) {
                 if (name === 'api_key') {
                     this.apiSecret = value
@@ -328,17 +377,24 @@
                     api_key_status: this.apiKeyStatusType ? this.apiKeyStatusType.value : null,
                 }
 
-                axios.post("/api/admin/addnewapi", formData).then((res) => {
+                axios.post(this.apiEndpoint, formData).then((res) => {
 
                     this.loading = false;
 
                     successHandler(res, 'api_keys');
 
-                    setTimeout(() => {
+                    if (!this.api_key_id) {
 
-                        this.$router.push('/apikeys/list');
+                        setTimeout(() => {
 
-                    }, 2000);
+                            this.$router.push('/apikeys/list')
+
+                        }, 2000)
+
+                    } else {
+
+                        this.getInitialValues(this.api_key_id)
+                    }
 
                 }).catch((err) => {
 
@@ -348,14 +404,7 @@
                 });
             },
 
-            getProducts() {
-            },
 
-            getClients() {
-            },
-
-            getValues() {
-            },
         },
 
         components: {

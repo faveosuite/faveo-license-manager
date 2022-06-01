@@ -133,4 +133,18 @@ public function deleteBannedHost(Request $request)
         return successResponse(Lang::get('lang.Banned_Show'),$banned,200);
     }
 
+    public function view($banned_host_id)
+       {
+
+        $banned_host_data = AflBannedHosts::where('banned_host_id',$banned_host_id)->firstOrFail();
+
+        if(!empty($banned_host_data)){
+
+            return successResponse('', ['banned_host_data' => $banned_host_data],200);
+        }
+        
+        return errorResponse(Lang::get('lang.invalid'),400);
+
+       }
+
 }

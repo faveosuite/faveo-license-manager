@@ -22,10 +22,10 @@ export const getIdFromUrl = (url) => {
  * @return {string}             language string
  */
 export const lang = (string) => {
-	if( typeof translator !== 'undefined'){
-		return (translator.lang[string] ? translator.lang[string] : string);
-	}
-	return string;
+    if (typeof translator !== 'undefined') {
+        return (translator.lang[string] ? translator.lang[string] : string);
+    }
+    return string;
 };
 
 /**
@@ -70,12 +70,35 @@ export const boolean = (value) => {
  * @param  {count} number of letters
  * @return {string}     string
  */
-export const getSubStringValue = (name,count) => {
-    if(name){
-        if(name.length>count){
-            return name.substring(0,count) + '...';
+export const getSubStringValue = (name, count) => {
+    if (name) {
+        if (name.length > count) {
+            return name.substring(0, count) + '...';
         } else {
             return name;
         }
     }
+};
+
+/**
+ * gets the substring value of a given string
+ * @param  {number} length
+ * @return {string}     string
+ */
+export const generateRandomString = (length = 16) => {
+    var a = ''
+
+    var n = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+
+    for (var e = 1; e <= length; e++) {
+
+        a += n.charAt(Math.floor(Math.random() * n.length));
+
+        if (e % 4 == 0 && e != length) {
+
+            a += ''
+        }
+    }
+
+    return a;
 };
