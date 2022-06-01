@@ -386,20 +386,18 @@ public function returnInstallationsArray($product_id, $date_from="", $date_to=""
         {
         $search_keyword="%$search_keyword%"; //add wildcards
 
-        $rows_array=DB::table('afl_installations')
-                    ->leftJoin('afl_products','afl_installations.product_id','=','afl_products.product_id')
-                    ->leftJoin('afl_clients','afl_installations.client_id','=','afl_clients.client_id')
-                    ->where('afl_installations.installation_date','>=',$date_from)
-                    ->where('afl_installations.installation_date','<=', $date_to)
-                    ->where(function ($query) use ($search_keyword) {
-                        $query->where('afl_clients.client_email', 'like', $search_keyword)
-                            ->orWhere('afl_installations.license_code', 'like', $search_keyword)
-                            ->orWhere('afl_installations.installation_domain', 'like', $search_keyword)
-                            ->orWhere('afl_installations.installation_ip', 'like', $search_keyword);
-                            })
-                    ->orderBy('installation_date','desc')
-                    ->orderBy('installation_id','desc')
-                    ->get()->toArray(); //showing installation path details
+         $rows_array= DB::table('afl_installations')
+                        ->leftJoin('afl_products','afl_installations.product_id','=','afl_products.product_id')
+                        ->leftJoin('afl_clients','afl_installations.client_id','=','afl_clients.client_id')
+                        ->where('afl_installations.installation_date','>=',$date_from)
+                        ->where('afl_installations.installation_date','<=', $date_to)
+                        ->where('afl_clients.client_email', 'like', $search_keyword)
+                        ->orWhere('afl_installations.license_code', 'like', $search_keyword)
+                        ->orWhere('afl_installations.license_code', 'like', $search_keyword)
+                        ->orWhere('afl_installations.installation_domain', 'like', $search_keyword)
+                        ->orWhere('afl_installations.installation_ip', 'like', $search_keyword)
+                        ->orderBy('installation_date','desc')
+                        ->orderBy('installation_id','desc')->get()->toArray();//showing installation path details
 
         }
     else
