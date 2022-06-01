@@ -104,7 +104,6 @@
                     evt.preventDefault();
                 }   
             },
-
         },
 
         components:{

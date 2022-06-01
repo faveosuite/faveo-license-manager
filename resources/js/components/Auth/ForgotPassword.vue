@@ -53,62 +53,106 @@
   </div>
 </template>
 <script>
+
   import { mapGetters } from 'vuex';
+
   import { errorHandler, successHandler } from 'helpers/responseHandler'
+
   import { validateForgotSettings } from "helpers/validator/forgotRules";
+
   import axios from 'axios'
+
   export default {
+
     name: 'forgot-password',
+
     data() {
+
       return {
+
         email: '',
+
         labelStyle: { display: 'none' },
+
         loading: false,
       }
     },
+
     beforeMount() {
+
       if (this.getUserToken) {
+
         this.$router.push({ name: 'Dashboard' }).catch(err => { })
       }
     },
+
     computed: {
+
       ...mapGetters(['getUserToken'])
     },
+
     methods: {
+
       onChange(value, name) {
+
         this[name] = value;
       },
+
       isValid() {
+
         const { errors, isValid } = validateForgotSettings(this.$data);
+
         return isValid;
       },
+
       triggerEvent(event) {
+
         var key = event.which || event.keyCode;
+
         if (key === 13) { // 13 is enter
+
           this.onSubmit();
         }
       },
+
       onSubmit() {
+
         if (this.isValid()) {
+
           this.$store.dispatch('unsetAlert');
+
           this.$store.dispatch('unsetValidationError');
+
           this.loading = true;
+
           let data = {}
+
           data['admin_email'] = this.email;
+
           axios.post("/api/forgot", data).then((res) => {
+
             this.loading = false;
+
             successHandler(res, 'forgot');
+
             setTimeout(() => {
+
               this.$router.push('/login').catch(err => { });
+
             }, 2000);
+
           }).catch((err) => {
+
             this.loading = false;
+
             errorHandler(err, 'forgot');
           });
         }
       }
     },
+
     components: {
+
       "text-field": require("components/Reusable/FormField/TextField").default,
     }
   };

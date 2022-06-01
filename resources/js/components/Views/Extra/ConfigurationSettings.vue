@@ -97,74 +97,126 @@
 </template>
 
 <script>
+
     import axios from 'axios'
+
     import { successHandler, errorHandler } from 'helpers/responseHandler';
+
     import { getIdFromUrl } from 'helpers/extraLogics';
+
     import { validateConfigGenerator } from "helpers/validator/validateConfigGenerator.js"
+
     import { mapGetters } from 'vuex';
+
     import moment from 'moment'
+
     export default {
+
         name: 'configuration-generator',
+
         data() {
+
             return {
+
                 title: 'configuration_generator',
+
                 iconClass: 'fas fa-save',
+
                 btnName: 'save',
+
                 hasDataPopulated: false,
+
                 loading: false,
+
                 apiEndpoint: '',
+
                 moment: moment,
+
                 products: [],
+
                 selectedProduct: null,
+
                 verificationPeriod: null,
+
                 storageTypes: [
                     { name: 'Database', value: 'DATABASE' },
                     { name: 'File', value: 'FILE' }
                 ],
+
                 selectedStorageType: null,
+
                 fileLocation: null,
+
                 mysqlTablename: null,
+
                 delCancelledLicenceOpt: [
                     { name: 'Yes', value: 'YES' },
                     { name: 'No', value: 'NO' }
                 ],
+
                 delCancelledLicence: null,
+
                 delCrackedLicenceOpt: [
                     { name: 'Yes', value: 'YES' },
                     { name: 'No', value: 'NO' }
                 ],
+
                 delCrackedLicence: null,
+
                 godModeOpt: [
                     { name: 'Yes', value: 'YES' },
                     { name: 'No', value: 'NO' }
                 ],
+
                 godMode: null,
+
                 showModal: false,
+
                 responseData: '',
+
                 modalTitle: 'Copy Response'
             }
         },
+
         beforeMount() {
+
             const path = window.location.pathname
+
             this.getValues(path);
+
             this.loadData();
         },
+
         methods: {
+
             loadData() {
+
                 this.loading = true;
+
                 this.hasDataPopulated = false;
+
                 Promise.all([this.getProducts()]).then((values) => {
+
                     [this.productOptions] = values;
+
                     this.loading = false;
+
                     this.hasDataPopulated = true;
+
                 }).catch(function (error) {
+
                     this.loading = false;
+
                     this.hasDataPopulated = true;
                 });
             },
+
             getProducts() {
+
                 axios.get('/api/admin/viewproducts').then(res => {
+
                     this.products = res.data.data.map(data => {
+
                         return {
                             name: data.product_title,
                             value: data.product_id
@@ -172,63 +224,111 @@
                     })
                 })
             },
+
             getValues() {
             },
+
             onChange(option, name) {
+
                 if (name === 'product') {
+
                     this.selectedProduct = option
+
                 } else if (name === 'License_Storage_type') {
+
                     this.selectedStorageType = option
+
                 } else if (name === 'Delete_Cancelled_License') {
+
                     this.delCancelledLicence = option
+
                 } else if (name === 'Delete_Cracked_License') {
+
                     this.delCrackedLicence = option
+
                 } else if (name === 'God_Mode') {
+
                     this.godMode = option
+
                 } else if (name === 'License_Verification_Period') {
+
                     this.verificationPeriod = option
+
                 } else if (name === 'Database_License_File_Location') {
+
                     this.fileLocation = option
+
                 } else if (name === 'MySQL_Table_Name') {
+
                     this.mysqlTablename = option
                 }
             },
+
             onClose() {
+
                 this.showModal = false;
                 this.responseData = null;
+
             },
+
             isValid() {
+
                 const { errors, isValid } = validateConfigGenerator(this.$data);
+
                 return isValid;
             },
+
             async onSubmit() {
+
                 if (this.isValid) {
+
                     this.loading = true
+
                     const formData = {
+
                         product_id: this.selectedProduct ? this.selectedProduct.value : null,
+
                         License_Verification_Period: this.verificationPeriod,
+
                         License_Storage_type: this.selectedStorageType ? this.selectedStorageType.value : null,
+
                         MySQL_Table_Name: this.mysqlTablename,
+
                         Database_License_File_Location: this.fileLocation,
+
                         Delete_Cancelled_License: this.delCancelledLicence ? this.delCancelledLicence.value : null,
+
                         Delete_Cracked_License: this.delCrackedLicence ? this.delCrackedLicence.value : null,
+
                         God_Mode: this.godMode ? this.godMode.value : null,
+
                     }
+
                     await axios.post("/api/admin/config", formData).then((res) => {
+
                         this.loading = false;
+
                         successHandler(res, 'configuration');
+
                         this.responseData = res
                         this.showModal = true
+
                     }).catch((err) => {
+
                         this.loading = false;
+
                         errorHandler(err, 'configuration');
                     });
                 }
             }
         },
+
         components: {
+
             "text-field": require("components/Reusable/FormField/TextField").default,
+
             "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
+
             'response-modal': require('components/Reusable/ResponseModal').default,
         }
     }

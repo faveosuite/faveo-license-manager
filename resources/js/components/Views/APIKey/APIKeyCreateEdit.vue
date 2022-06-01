@@ -111,105 +111,168 @@
 </template>
 
 <script>
+
     import axios from 'axios'
+
     import { successHandler, errorHandler } from 'helpers/responseHandler';
+
     import { getIdFromUrl, generateRandomString } from 'helpers/extraLogics';
+
     // import { ApiKeyValidation } from "helpers/validator/ApiKeysValidation.js";
+
     import moment from 'moment'
+
     export default {
+
         name: 'add-api',
+
         data() {
+
             return {
+
                 title: 'add_new_api_key',
+
                 iconClass: 'fas fa-save',
+
                 btnName: 'save',
+
                 hasDataPopulated: false,
+
                 loading: false,
+
                 apiEndpoint: '',
+
                 moment: moment,
+
                 apiIp: null,
+
                 apiSecret: null,
+
                 api_key_id: '',
+
                 editProductPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 editPermissionType: null,
+
                 addProductPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 addPermissionType: null,
+
                 addClientPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 addClientPermissionType: null,
+
                 editClientPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 editClientPermissionType: null,
+
                 addLicensePermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 addLicensePermissionType: null,
+
                 editLicensePermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 editLicensePermissionType: null,
+
                 addInstallationsPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 addInstallationsPermissionType: null,
+
                 useSearchPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 useSearchPermissionType: null,
+
                 apiKeyStatus: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
+
                 apiKeyStatusType: null,
             }
         },
+
         beforeMount() {
+
             const path = window.location.pathname
             this.getValues(path);
+
         },
+
         methods: {
+
             getValues(path) {
                 console.log('getValues 1', path)
+
                 const apiKeyId = getIdFromUrl(path)
                 console.log('getValues', apiKeyId)
                 if (path.indexOf('edit') >= 0) {
+
                     this.title = 'edit_api_key'
+
                     this.iconClass = 'fas fa-sync'
+
                     this.btnName = 'update'
+
                     this.hasDataPopulated = false
+
                     this.getInitialValues(apiKeyId);
+
                     this.api_key_id = apiKeyId;
+
                     this.apiEndpoint = `/api/admin/editnewapi/${apiKeyId}`;
+
                 } else {
+
                     this.loading = false;
+
                     this.hasDataPopulated = true;
+
                     this.apiEndpoint = '/api/admin/addnewapi';
                 }
             },
+
             getInitialValues(id) {
+
                 this.loading = true
+
                 axios.get(`/api/admin/viewApiKeys/${id}`).then(res => {
+
                     this.loading = false;
+
                     this.hasDataPopulated = true
+
                     this.updateStatesWithData(res.data.data.api_key);
+
                 }).catch(error => {
+
                     this.loading = false;
                 });
             },
+
             updateStatesWithData(data) {
                 if ('api_key_secret' in data) {
                     this.apiSecret = data.api_key_secret
@@ -245,13 +308,18 @@
                     this.apiKeyStatusType = this.findOption('apiKeyStatus', data.api_key_status)
                 }
             },
+
             isValid() {
+
                 const { errors, isValid } = ApiKeysValidation(this.$data);
+
                 return isValid;
             },
+
             generateCode() {
                 this.apiSecret = generateRandomString(16);
             },
+
             findOption(options, value) {
                 return this[options].find((option) => option.value === value)
             },
@@ -290,41 +358,74 @@
                     this.apiKeyStatusType = value
                 }
             },
+
             onSubmit() {
+
                 this.loading = true
+
                 const formData = {
+
                     api_key_secret: this.apiSecret,
+
                     api_key_ip: this.apiIp,
+
                     api_key_clients_add: this.addClientPermissionType ? this.addClientPermissionType.value : null,
+
                     api_key_clients_edit: this.editClientPermissionType ? this.editClientPermissionType.value : null,
+
                     api_key_licenses_add: this.addLicensePermissionType ? this.addLicensePermissionType.value : null,
+
                     api_key_licenses_edit: this.editLicensePermissionType ? this.editLicensePermissionType.value : null,
+
                     api_key_products_add: this.addPermissionType ? this.addPermissionType.value : null,
+
                     api_key_products_edit: this.editPermissionType ? this.editPermissionType.value : null,
+
                     api_key_installations_edit: this.addInstallationsPermissionType ? this.addInstallationsPermissionType.value : null,
+
                     api_key_search: this.useSearchPermissionType ? this.useSearchPermissionType.value : null,
+
                     api_key_status: this.apiKeyStatusType ? this.apiKeyStatusType.value : null,
                 }
+
                 axios.post(this.apiEndpoint, formData).then((res) => {
+
                     this.loading = false;
+
                     successHandler(res, 'api_keys');
+
                     if (!this.api_key_id) {
+
                         setTimeout(() => {
+
                             this.$router.push('/apikeys/list')
+
                         }, 2000)
+
                     } else {
+
                         this.getInitialValues(this.api_key_id)
                     }
+
                 }).catch((err) => {
+
                     this.loading = false;
+
                     errorHandler(err, 'api_keys');
                 });
             },
+
+
         },
+
         components: {
+
             "text-field": require("components/Reusable/FormField/TextField").default,
+
             "number-field": require("components/Reusable/FormField/NumberField").default,
+
             "static-select": require("components/Reusable/FormField/StaticSelect").default,
+
             "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
         }
     }

@@ -75,67 +75,111 @@
 </template>
 
 <script>
+
     import axios from 'axios'
+
     import { successHandler, errorHandler } from 'helpers/responseHandler';
+
     import { getIdFromUrl } from 'helpers/extraLogics';
+
     import { validateEmailSettings } from "helpers/validator/validateEmailSettings.js";
+
     import { mapGetters } from 'vuex';
+
     import moment from 'moment'
+
     export default {
+
         name: 'Email-Settings',
+
         data() {
+
             return {
+
                 title: 'email_settings',
+
                 iconClass: 'fas fa-save',
+
                 btnName: 'save',
+
                 hasDataPopulated: false,
+
                 loading: false,
+
                 apiEndpoint: '',
+
                 moment: moment,
+
                 fromName: null,
+
                 fromAddress: null,
+
                 copySender: [
                     { name: 'Enabled', value: 1 },
                     { name: 'Disabled', value: 0 }
                 ],
+
                 copySenderType: null,
+
                 licenseReminder: [
                     { name: 'Enabled', value: 1 },
                     { name: 'Disabled', value: 0 }
                 ],
+
                 licenseReminderType: null,
+
                 updatesReminder: [
                     { name: 'Enabled', value: 1 },
                     { name: 'Disabled', value: 0 }
                 ],
+
                 updatesReminderType: null,
+
                 supportReminder: [
                     { name: 'Enabled', value: 1 },
                     { name: 'Disabled', value: 0 }
                 ],
+
                 supportReminderType: null,
+
                 settingId: 'new'
             }
         },
+
         async beforeMount() {
+
             const path = window.location.pathname
+
             await this.getEmailDropdownOptions()
+
             this.loadData();
         },
+
         methods: {
+
             async loadData() {
+
                 this.loading = true;
+
                 this.hasDataPopulated = false;
+
                 await this.$store.dispatch('fetchSettings');
+
                 this.setFormData()
+
                 this.hasDataPopulated = true;
+
                 this.loading = false;
+
                 console.log(this.$route)
             },
+
             async getEmailDropdownOptions() {
                 this.loading = true;
+
                 return await axios.get("/api/admin/emailDropdown").then((res) => {
                     const options = res.data
+
                     if (options['email expiring license days']) {
                         this.licenseReminderType = options['email expiring license days']
                     }
@@ -145,36 +189,55 @@
                     if (options['email expiring support days']) {
                         this.supportReminderType = options['email expiring support days']
                     }
+
                     this.loading = false;
+
                 }).catch((err) => {
+
                     this.loading = false;
+
                 });
             },
+
             isValid() {
+
                 const { errors, isValid } = validateEmailSettings(this.$data);
+
                 return isValid;
             },
+
             setFormData() {
+
                 const emailSettings = this.$store.getters['getEmailSettings']
+
                 if (emailSettings) {
+
                     this.settingId = emailSettings.SETTING_ID ?? 'new'
+
                     this.fromName = emailSettings.EMAIL_FROM_NAME ?? null
+
                     this.fromAddress = emailSettings.EMAIL_FROM_ADDRESS ?? null
+
                     this.copySenderType = this.copySender.find((opt) => {
                         return opt.value === emailSettings.EMAIL_CC_SENDER
                     })
+
                     this.licenseReminderType = this.licenseReminder.find((opt) => {
                         return opt.value === emailSettings.EMAIL_EXPIRING_LICENSE_DAYS
                     })
+
                     this.updatesReminderType = this.updatesReminder.find((opt) => {
                         return opt.value === emailSettings.EMAIL_EXPIRING_UPDATES_DAYS
                     })
+
                     this.supportReminderType = this.supportReminder.find((opt) => {
                         return opt.value === emailSettings.EMAIL_EXPIRING_SUPPORT_DAYS
                     })
                 }
             },
+
             onChange(value, name) {
+
                 if (name === 'EMAIL_FROM_NAME') {
                     this.fromName = value
                 } else if (name === 'EMAIL_FROM_ADDRESS') {
@@ -189,32 +252,55 @@
                     this.supportReminderType = value
                 }
             },
+
             async onSubmit() {
+
                 if (this.isValid()) {
+
                     this.loading = true
+
                     const formData = {
+
                         EMAIL_FROM_NAME: this.fromName ?? null,
+
                         EMAIL_FROM_ADDRESS: this.fromAddress ?? null,
+
                         EMAIL_CC_SENDER: this.copySenderType ? this.copySenderType.value : null,
+
                         EMAIL_EXPIRING_LICENSE_DAYS: this.licenseReminderType ? this.licenseReminderType.value : null,
+
                         EMAIL_EXPIRING_UPDATES_DAYS: this.updatesReminderType ? this.updatesReminderType.value : null,
+
                         EMAIL_EXPIRING_SUPPORT_DAYS: this.supportReminderType ? this.supportReminderType.value : null,
                     }
+
                     await axios.post(`/api/admin/emailsettings/${this.settingId}`, formData).then(async (res) => {
+
+
                         successHandler(res, 'settings');
+
                         await this.$store.dispatch('fetchSettings');
+
                         this.loading = false;
+
                     }).catch((err) => {
+
                         this.loading = false;
+
                         errorHandler(err, 'settings');
                     });
                 }
             }
         },
+
         components: {
+
             "text-field": require("components/Reusable/FormField/TextField").default,
+
             "number-field": require("components/Reusable/FormField/NumberField").default,
+
             "static-select": require("components/Reusable/FormField/StaticSelect").default,
+
             "dynamic-select": require("components/Reusable/FormField/DynamicSelect").default,
         }
     }

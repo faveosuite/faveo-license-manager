@@ -26,7 +26,6 @@ export const lang = (string) => {
         return (translator.lang[string] ? translator.lang[string] : string);
     }
     return string;
-
 };
 
 /**
