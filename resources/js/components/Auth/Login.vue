@@ -48,14 +48,7 @@
 
               <router-link to="/forgot-password">{{lang('iforgot')}}</router-link>
             </p>
-
-            <p class="mb-0">
-
-              <router-link to="/register" class="btn btn-block btn-primary">
-
-                <i class="fas fa-user-plus"></i>&nbsp;&nbsp;{{lang('register')}}
-              </router-link>
-            </p>
+            
           </template>
         </div>
       </div>

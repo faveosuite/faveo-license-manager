@@ -8,8 +8,6 @@ import NotFound from 'components/Views/NotFound/NotFound.vue';
 
 import Login from 'components/Auth/Login.vue';
 
-import Register from 'components/Auth/Register.vue';
-
 import ForgotPassword from 'components/Auth/ForgotPassword.vue';
 
 //===========================PRODUCTS MENU=========================
@@ -681,11 +679,7 @@ let routes = [
         name: 'login',
         component: Login
     },
-    {
-        path: '/register',
-        name: 'register',
-        component: Register
-    },
+    
     {
         path: '/forgot-password',
         name: 'forgot-password',
