@@ -134,7 +134,7 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
 
 //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);
-    Route::post('emails/{email_id}', [EmailsController::class, 'emails']);
+    Route::post('emails', [EmailsController::class, 'emails']);
     Route::get('viewNotifications', [NotificationsController::class, 'show']);
     Route::get('viewEmails', [EmailsController::class, 'show']);
 

@@ -112,7 +112,7 @@ class ApiKeysController extends Controller
         }
         else
         {
-            return successResponse(Lang::get('lang.Update'),$updateapi,200);
+            return successResponse(Lang::get('lang.apiUpdate'),$updateapi,200);
         }
   }
 
@@ -120,7 +120,7 @@ class ApiKeysController extends Controller
       /**
        * To Delete Api keys to the license manager
        * @param $api_key_id
-       * @return success response if Delete successfuly
+       * @return success response if Delete successfully
        */
   public function apiKeyDelete($api_key_id)
   {
@@ -172,7 +172,7 @@ class ApiKeysController extends Controller
 
             return successResponse('', ['api_key' => $api_key],200);
         }
-        
+
         return errorResponse(Lang::get('lang.invalid'),400);
 
        }

@@ -35,7 +35,9 @@
 <script type="text/javascript">
 
 
-	export default {
+	import {successHandler} from "../../helpers/responseHandler";
+
+    export default {
 
 		name: 'response-modal',
 
@@ -44,7 +46,6 @@
 		props: {
 
 			showModal: { type: Boolean, default: false },
-
 
 			onClose: { type: Function },
 
@@ -81,22 +82,24 @@
 			},
 			copyMethod() {
 				let inputElem = document.createElement("input");
-
 				inputElem.type = "text";
 				// inputElem.hidden = true;
 				inputElem.value = this.stringify(this.responseData);
 				document.body.appendChild(inputElem);
 				inputElem.select();
-
 				document.execCommand("Copy");
-
-
 				document.body.removeChild(inputElem);
+                successHandler({
+                    status: 200,
+                    data: {
+                        message: 'Response has been copied to clipboard'
+                    }
+                }, 'configuration');
 				this.onClose()
 
 			},
 
-			
+
 		}
 	};
 </script>
