@@ -266,12 +266,7 @@
 
                 this.showModal = false;
                 this.responseData = null;
-                successHandler({
-                    status: 200,
-                    data: {
-                        message: 'Response has been copied to clipboard'
-                    }
-                }, 'configuration');
+
             },
 
             async onSubmit() {

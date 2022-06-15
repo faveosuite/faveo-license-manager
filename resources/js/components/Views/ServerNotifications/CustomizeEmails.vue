@@ -192,7 +192,7 @@
 
 					data['email_expiring_support_text'] = this.email_expiring_support_text;
 
-					axios.post('/api/admin/emails/' + this.email_id, data).then(res => {
+					axios.post('/api/admin/emails', data).then(res => {
 
 						this.loading = false
 
