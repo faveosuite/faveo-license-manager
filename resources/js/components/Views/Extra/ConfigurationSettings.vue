@@ -276,6 +276,7 @@
                 const { errors, isValid } = validateConfigGenerator(this.$data);
 
                 return isValid;
+
             },
 
             async onSubmit() {
