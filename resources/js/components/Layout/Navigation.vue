@@ -1,8 +1,8 @@
 <template>
 
 	<li :class="isMenuExtended ? 'menu-open nav-item' : 'nav-item'">
-    	
-    	<a class="nav-link" :class="{'active': isMainActive || isOneOfChildrenActive}" 
+
+    	<a class="nav-link" :class="{'active': isMainActive || isOneOfChildrenActive}"
     		@click="handleMainMenuAction">
 
 		    <i :class="'nav-icon '+menuItem.iconClass"></i>
@@ -13,9 +13,9 @@
 		</a>
 
     	<ul class="nav nav-treeview" v-for="item in menuItem.children">
-        	
+
         	<li class="nav-item">
-            	
+
             	<router-link :to="item.routeString" class="nav-link" exact exact-active-class="active">
 
                 <i :class="'nav-icon '+item.iconClass"></i>
@@ -29,7 +29,7 @@
 </template>
 
 <script>
-	
+
 	export default {
 
 		props : {
@@ -42,24 +42,24 @@
 			return {
 
      			isMenuExtended: false,
-    		
+
     			isExpandable: false,
-    			
+
     			isMainActive: false,
-    			
+
     			isOneOfChildrenActive: false,
 			}
 		},
 
 		mounted () {
-        	
+
         	this.isExpandable =
             this.menuItem &&
             this.menuItem.children &&
             this.menuItem.children.length > 0;
-        	
+
         	this.calculateIsActive(this.$router.currentRoute.path);
-        	
+
         	this.$router.afterEach((to) => {
 
             	this.calculateIsActive(to.path);
@@ -70,47 +70,47 @@
     	methods : {
 
     		handleMainMenuAction() {
-		    
+
 		        if (this.isExpandable) {
-		    
+
 		            this.toggleMenu();
-		    
+
 		            return;
 		        }
-		    
+
 		        this.$router.replace(this.menuItem.routeString);
 		    },
 
 		    toggleMenu() {
-		    
+
 		        this.isMenuExtended = !this.isMenuExtended;
 		    },
 
 		    calculateIsActive(url) {
 
         		this.isMainActive = false;
-       	 		
+
        	 		this.isOneOfChildrenActive = false;
-        		
+
         		if (this.isExpandable) {
-            		
+
             		this.menuItem.children.forEach((item) => {
-                		
+
                 		if (item.routeString === url) {
-                    		
+
                     		this.isOneOfChildrenActive = true;
-                    		
+
                     		this.isMenuExtended = true;
                	 		}
             		});
-        		
+
         		} else if (this.menuItem.routeString === url) {
-            		
+
             		this.isMainActive = true;
         		}
-        		
+
         		if (!this.isMainActive && !this.isOneOfChildrenActive) {
-            		
+
             		this.isMenuExtended = false;
         		}
     		}
@@ -119,7 +119,7 @@
 </script>
 
 <style scoped>
-	
+
 	.nav-item {
     	cursor: pointer;
 	}

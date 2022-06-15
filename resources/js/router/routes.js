@@ -10,6 +10,8 @@ import Login from 'components/Auth/Login.vue';
 
 import ForgotPassword from 'components/Auth/ForgotPassword.vue';
 
+import ResetPassword from 'components/Auth/ResetPassword.vue'
+
 //===========================PRODUCTS MENU=========================
 
 import ProductCreateEdit from 'components/Views/Product/ProductCreateEdit.vue';
@@ -679,11 +681,17 @@ let routes = [
         name: 'login',
         component: Login
     },
-    
+
     {
         path: '/forgot-password',
         name: 'forgot-password',
         component: ForgotPassword
+    },
+
+    {
+        path: '/reset/:id',
+        name: 'reset-password',
+        component: ResetPassword
     },
 
 	{
