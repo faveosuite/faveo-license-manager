@@ -5,8 +5,7 @@
 </head>
 <body>
 <h1></h1>
-<p>Change Your password <a href="http://127.0.0.1/reset/{{$token}}">Click here</a></p>
-
+<p>Change Your password <a href="{{ url('reset/'.$token) }}">Click here</a></p>
 <p>Thank you</p>
 </body>
 </html>
