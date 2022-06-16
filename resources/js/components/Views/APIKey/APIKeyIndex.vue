@@ -92,7 +92,7 @@
                     down: 'glyphicon-chevron-down'
                 },
 
-                texts: {filter: '', limit: ''},
+                texts: { filter: '', limit: '' },
 
                 columnsClasses: {
 
@@ -171,7 +171,7 @@
                     actions: 'table-actions'
                 },
 
-                pagination: {chunk: 5, nav: 'fixed', edge: true},
+                pagination: { chunk: 5, nav: 'fixed', edge: true },
 
                 headings: {
 
