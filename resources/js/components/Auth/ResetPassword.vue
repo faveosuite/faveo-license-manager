@@ -57,77 +57,133 @@
     </div>
 </template>
 <script>
+
     import { mapGetters } from 'vuex';
+
     import { errorHandler, successHandler } from 'helpers/responseHandler'
+
     import { validateResetSettings } from "helpers/validator/resetRules";
+
     import axios from 'axios'
+
     export default {
+
         name: 'reset',
+
         data() {
+
             return {
+
                 email: '',
+
                 password: '',
+
                 password_confirmation:'',
+
                 path:'',
+
                 labelStyle: { display: 'none' },
+
                 token:'',
+
                 userEmail : '',
+
                 loading: false,
             }
         },
+
         beforeMount() {
+
             if (this.getUserToken) {
+
                 this.$router.push({ name: 'Login' }).catch(err => { })
             }
         },
+
         mounted(){
+
             this.userEmail = location.search.split('=');
+
             this.user = decodeURIComponent(this.userEmail[this.userEmail.length-1]);
+
             this.loading = false;
         },
+
         computed: {
+
             ...mapGetters(['getUserToken'])
         },
+
         methods: {
+
             onChange(value, name) {
+
                 this[name] = value;
             },
+
             isValid() {
+
                 const { errors, isValid } = validateResetSettings(this.$data);
+
                 return isValid;
+
             },
+
             triggerEvent(event) {
+
                 var key = event.which || event.keyCode;
+
                 if (key === 13) { // 13 is enter
+
                     this.onSubmit();
                 }
             },
+
             onSubmit() {
+
                 if(this.isValid()){
+
                     if(this.password === this.password_confirmation){
+
                         this.loading = true;
+
                         this.path= location.pathname.split('/');
+
                         this.token = this.path[this.path.length-1];
+
                         const data = {token : this.token, password : this.password_confirmation}
+
                         data['email'] = this.email
+
                         data['password'] = this.password
+
                         data['password_confirmation'] = this.password_confirmation
+
                         axios.post('api/reset',data).then(res=>{
+
                             this.loading = false;
+
                             successHandler(res,'reset');
+
                             setTimeout(()=>{
+
                                 this.$router.push({ path:'/login/',name: 'login'});
                             },3000)
+
                         }).catch(error=>{
+
                             errorHandler(error,'reset');
+
                             this.loading = false;
                         })
                     }
                     else {
+
                         this.$store.dispatch('setValidationError', {'password_confirmation' : 'Password does not match'})
                     }
                 }
             }
+
             // onSubmit() {
             //
             //     if(this.isValid()){
@@ -174,7 +230,9 @@
             //     }
             // }
         },
+
         components: {
+
             "text-field": require("components/Reusable/FormField/TextField").default,
         }
     };
