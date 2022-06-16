@@ -25,7 +25,7 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('auto_php_licenser')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="auto_php_licenser" :elements="autoPhpLicenser"
+                        :strlength="35" :required="true" name="auto_php_licenser" :elements="autoPhpLicenser"
                         :value="autoPhpLicenserType" :onChange="onChange">
                     </dynamic-select>
 
@@ -38,7 +38,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit"><i
+                <button class="btn btn-primary" @click="onSubmit"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>

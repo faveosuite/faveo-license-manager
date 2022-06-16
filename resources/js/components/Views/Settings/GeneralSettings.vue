@@ -25,12 +25,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('smart_reports')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="smart_reports" :elements="smartReports"
+                        :strlength="35" :required="true" name="smart_reports" :elements="smartReports"
                         :value="smartReportsType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('smart_tables')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="false" name="smart_tables" :elements="smartTables" :value="smartTablesType"
+                        :required="true" name="smart_tables" :elements="smartTables" :value="smartTablesType"
                         :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -38,12 +38,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('records_per_page')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="records_per_page" :elements="recordsPerPage"
+                        :strlength="35" :required="true" name="records_per_page" :elements="recordsPerPage"
                         :value="recordsPerPageType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('records_on_index_page')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="records_on_index_page" :elements="recordIndexPage"
+                        :strlength="35" :required="true" name="records_on_index_page" :elements="recordIndexPage"
                         :value="recordIndexPageType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -51,12 +51,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('search_result_limit')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="search_result_limit" :elements="searchLimit"
+                        :strlength="35" :required="true" name="search_result_limit" :elements="searchLimit"
                         :value="searchLimitType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('archive_older_records')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="archive_older_records" :elements="archiveOlderRecords"
+                        :strlength="35" :required="true" name="archive_older_records" :elements="archiveOlderRecords"
                         :value="archiveOlderRecordsType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -64,7 +64,7 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('timezone')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="false" name="timezones" :elements="timezones" :value="selectedTimezone"
+                        :required="true" name="timezones" :elements="timezones" :value="selectedTimezone"
                         :onChange="onChange" optionLabel="title">
                     </dynamic-select>
 
@@ -73,7 +73,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i
+                <button class="btn btn-primary" @click="onSubmit()"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>

@@ -157,7 +157,7 @@
 
 			<div class="card-footer">
 
-				<button class="btn btn-default" @click="onSubmit()"><i
+				<button class="btn btn-primary" @click="onSubmit()"><i
 						class="fas fa-sync"></i>&nbsp;&nbsp;{{trans('update')}}</button>
 			</div>
 		</div>
