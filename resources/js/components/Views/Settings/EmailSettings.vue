@@ -28,12 +28,12 @@
                 <div class="row">
 
                     <text-field :label="lang('from_name')" :value="fromName" :onChange="onChange" name="from_name"
-                        type="text" classname="col-sm-6">
+                        type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
 
                     <text-field :label="lang('from_address')" :value="fromAddress" :onChange="onChange"
-                        name="from_address" type="text" classname="col-sm-6">
+                        name="from_address" type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
                 </div>
@@ -41,12 +41,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('send_copy_sender')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="send_copy_sender" :elements="copySender"
+                        :strlength="35" :required="true" name="send_copy_sender" :elements="copySender"
                         :value="copySenderType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('expiring_license_reminder')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="expiring_license_reminder" :elements="licenseReminder"
+                        :strlength="35" :required="true" name="expiring_license_reminder" :elements="licenseReminder"
                         :value="licenseReminderType" :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -54,12 +54,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('expiring_updates_reminder')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="expiring_updates_reminder" :elements="updatesReminder"
+                        :strlength="35" :required="true" name="expiring_updates_reminder" :elements="updatesReminder"
                         :value="updatesReminderType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('expiring_support_reminder')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="expiring_support_reminder" :elements="supportReminder"
+                        :strlength="35" :required="true" name="expiring_support_reminder" :elements="supportReminder"
                         :value="supportReminderType" :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -67,7 +67,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i
+                <button class="btn btn-primary" @click="onSubmit()"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>

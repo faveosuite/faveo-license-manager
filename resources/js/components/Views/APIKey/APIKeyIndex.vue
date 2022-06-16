@@ -48,8 +48,8 @@
 
                 data: '',
 
-                columns: ['api_secret', 'ip_address', 'add_edit_products', 'add_edit_clients', 'add_edit_licenses',
-                    'edit_installations', 'search', 'actions'],
+                columns: ['api_key_secret', 'api_key_ip', 'api_key_clients_add', 'api_key_clients_edit', 'api_key_licenses_add',
+                    'api_key_installations_edit', 'api_key_search', 'actions'],
 
                 options: {},
 
@@ -74,8 +74,7 @@
                         'class': hasPrmission ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
                     }
                 }, hasPrmission ? 'Active' : 'Inactive')
-            };
-
+            }
 
             this.options = {
 
@@ -88,28 +87,28 @@
                     down: 'glyphicon-chevron-down'
                 },
 
-                texts: {filter: '', limit: ''},
+                texts: { filter: '', limit: '' },
 
                 columnsClasses: {
 
-                    api_secret: 'api_secret',
+                    api_key_secret: 'api_key_secret',
 
-                    ip_address: 'ip_address',
+                    api_key_ip: 'api_key_ip',
 
-                    add_edit_products: 'add_edit_products',
+                    api_key_clients_add: 'api_key_clients_add',
 
-                    add_edit_clients: 'add_edit_clients',
+                    api_key_clients_edit: 'api_key_clients_edit',
 
-                    add_edit_licenses: 'add_edit_licenses',
+                    api_key_licenses_add: 'api_key_licenses_add',
 
-                    edit_installations: 'edit_installations',
+                    api_key_installations_edit: 'api_key_installations_edit',
 
-                    search: 'search',
+                    api_key_search: 'api_key_search',
                 },
 
                 templates: {
 
-                    api_secret(createElement, row) {
+                    api_key_secret(createElement, row) {
 
                         // return createElement('router-link', {
                         //     attrs: {
@@ -120,12 +119,12 @@
                         return row.api_key_secret ? row.api_key_secret : '---';
                     },
 
-                    ip_address(h, row) {
+                    api_key_ip(h, row) {
 
                         return row.api_key_ip ? row.api_key_ip : '---';
                     },
 
-                    add_edit_products(h, row) {
+                    api_key_clients_add(h, row) {
 
                         const add = 'api_key_products_add' in row ? createPermissionStatusLabel(h, row.api_key_products_add) : '---'
 
@@ -134,7 +133,7 @@
                         return h('div', {}, [add, ' / ', edit])
                     },
 
-                    add_edit_clients(h, row) {
+                    api_key_clients_edit(h, row) {
 
                         const add = 'api_key_clients_add' in row ? createPermissionStatusLabel(h, row.api_key_clients_add) : '---'
 
@@ -143,7 +142,7 @@
                         return h('div', {}, [add, ' / ', edit])
                     },
 
-                    add_edit_licenses(h, row) {
+                    api_key_licenses_add(h, row) {
                         const add = 'api_key_licenses_add' in row ? createPermissionStatusLabel(h, row.api_key_licenses_add) : '---'
 
                         const edit = 'api_key_licenses_edit' in row ? createPermissionStatusLabel(h, row.api_key_licenses_edit) : '---'
@@ -151,12 +150,12 @@
                         return h('div', {}, [add, ' / ', edit])
                     },
 
-                    edit_installations(h, row) {
+                    api_key_installations_edit(h, row) {
                         const edit = 'api_key_installations_edit' in row ? createPermissionStatusLabel(h, row.api_key_installations_edit) : '---'
                         return h('div', {}, [edit])
                     },
 
-                    search(h, row) {
+                    api_key_search(h, row) {
 
                         const edit = 'api_key_search' in row ? createPermissionStatusLabel(h, row.api_key_search) : '---'
 
@@ -167,23 +166,23 @@
                     actions: 'table-actions'
                 },
 
-                pagination: {chunk: 5, nav: 'fixed', edge: true},
+                pagination: { chunk: 5, nav: 'fixed', edge: true },
 
                 headings: {
 
-                    api_secret: 'API Secret',
+                    api_key_secret: 'API Secret',
 
-                    ip_address: 'IP Address',
+                    api_key_ip: 'IP Address',
 
-                    add_edit_products: 'Add/Edit Products',
+                    api_key_clients_add: 'Add/Edit Products',
 
-                    add_edit_clients: 'Add/Edit Clients',
+                    api_key_clients_edit: 'Add/Edit Clients',
 
-                    add_edit_licenses: 'Add/Edit Licenses',
+                    api_key_licenses_add: 'Add/Edit Licenses',
 
-                    edit_installations: 'Edit Installations',
+                    api_key_installations_edit: 'Edit Installations',
 
-                    search: 'Search',
+                    api_key_search: 'Search',
 
                     actions: 'Actions'
                 },
