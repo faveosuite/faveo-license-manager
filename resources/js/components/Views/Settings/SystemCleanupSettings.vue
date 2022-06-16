@@ -25,12 +25,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('auto_system_cleanup')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="auto_system_cleanup" :elements="autoSystemCleanup"
+                        :strlength="35" :required="true" name="auto_system_cleanup" :elements="autoSystemCleanup"
                         :value="autoSystemCleanupType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('remove_callbacks_older_than')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="remove_callbacks_older_than"
+                        :strlength="35" :required="true" name="remove_callbacks_older_than"
                         :elements="removeOlderCallbacks" :value="removeOlderCallbacksOptions" optionLabel="title"
                         :onChange="onChange">
 
@@ -40,12 +40,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('remove_license_reports')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="remove_license_reports" :elements="removeLicenseReports"
+                        :strlength="35" :required="true" name="remove_license_reports" :elements="removeLicenseReports"
                         :value="removeLicenseReportsOptions" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('remove_system_reports')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="remove_system_reports" :elements="removeSystemReports"
+                        :strlength="35" :required="true" name="remove_system_reports" :elements="removeSystemReports"
                         :value="removeSystemReportsOptions" optionLabel="title" :onChange="onChange">
 
                     </dynamic-select>
@@ -54,7 +54,7 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('remove_licenses_cancelled')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="remove_licenses_cancelled"
+                        :strlength="35" :required="true" name="remove_licenses_cancelled"
                         :elements="removeLicenseCancelled" optionLabel="title" :value="removeLicenseCancelledType"
                         :onChange="onChange">
                     </dynamic-select>
@@ -63,7 +63,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit"><i
+                <button class="btn btn-primary" @click="onSubmit"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>

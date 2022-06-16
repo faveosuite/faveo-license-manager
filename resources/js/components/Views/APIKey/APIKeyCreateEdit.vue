@@ -26,7 +26,7 @@
 
                     <text-field :label="lang('api_secret')" type="text" classname="col-sm-6"
                         :showNewButton="apiSecret ? false : true" newBtnName="generate" :onNewButtonClick="generateCode"
-                        name="api_secret" :value="apiSecret" :onChange="onChange">
+                        name="api_secret" :value="apiSecret" :onChange="onChange" :required="true">
 
                     </text-field>
 
@@ -39,12 +39,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('permissions_to_add_products')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="permissions_to_add_products"
+                        :strlength="35" :required="true" name="permissions_to_add_products"
                         :elements="addProductPermission" :value="addPermissionType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_edit_products')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="permissions_to_edit_products"
+                        :strlength="35" :required="true" name="permissions_to_edit_products"
                         :elements="editProductPermission" :value="editPermissionType" :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -52,12 +52,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('permissions_to_add_clients')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="permissions_to_add_clients"
+                        :strlength="35" :required="true" name="permissions_to_add_clients"
                         :elements="addClientPermission" :value="addClientPermissionType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_edit_clients')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="permissions_to_edit_clients"
+                        :strlength="35" :required="true" name="permissions_to_edit_clients"
                         :elements="editClientPermission" :value="editClientPermissionType" :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -65,12 +65,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('permissions_to_add_licenses')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="permissions_to_add_licenses"
+                        :strlength="35" :required="true" name="permissions_to_add_licenses"
                         :elements="addLicensePermission" :value="addLicensePermissionType" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_edit_licenses')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="permissions_to_edit_licenses"
+                        :strlength="35" :required="true" name="permissions_to_edit_licenses"
                         :elements="editLicensePermission" :value="editLicensePermissionType" :onChange="onChange">
                     </dynamic-select>
 
@@ -79,13 +79,13 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('permissions_to_add_installations')" :multiple="false"
-                        classname="col-sm-6" :strlength="35" :required="false" name="permissions_to_add_installations"
+                        classname="col-sm-6" :strlength="35" :required="true" name="permissions_to_add_installations"
                         :elements="addInstallationsPermission" :value="addInstallationsPermissionType"
                         :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_use_search')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="permissions_to_use_search"
+                        :strlength="35" :required="true" name="permissions_to_use_search"
                         :elements="useSearchPermission" :value="useSearchPermissionType" :onChange="onChange">
                     </dynamic-select>
 
@@ -94,7 +94,7 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('api_key_status')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="api_key_status" :elements="apiKeyStatus"
+                        :strlength="35" :required="true" name="api_key_status" :elements="apiKeyStatus"
                         :value="apiKeyStatusType" :onChange="onChange">
                     </dynamic-select>
 
@@ -103,7 +103,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit"><i
+                <button class="btn btn-primary" @click="onSubmit"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>

@@ -27,11 +27,13 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('product')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :value="selectedProduct" :onChange="onChange" :elements="products" name="product">
+                        :value="selectedProduct" :onChange="onChange" :elements="products" name="product"
+                        :required="true">
                     </dynamic-select>
 
                     <text-field :label="trans('license_verification_period')" :value="verificationPeriod"
-                        :onChange="onChange" name="license_verification_period" type="text" classname="col-sm-6">
+                        :onChange="onChange" name="license_verification_period" type="text" classname="col-sm-6"
+                        :required="true">
 
                     </text-field>
                 </div>
@@ -39,12 +41,12 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('license_storage_type')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="license_storage_type" :elements="storageTypes"
+                        :strlength="35" :required="true" name="license_storage_type" :elements="storageTypes"
                         :value="selectedStorageType" :onChange="onChange">
                     </dynamic-select>
 
                     <text-field :label="trans('license_file_location')" :value="fileLocation" :onChange="onChange"
-                        name="license_file_location" type="text" classname="col-sm-6">
+                        name="license_file_location" type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
                 </div>
@@ -52,12 +54,12 @@
                 <div class="row">
 
                     <text-field :label="trans('mysql_tablename')" :value="mysqlTablename" :onChange="onChange"
-                        name="mysql_tablename" type="text" classname="col-sm-6">
+                        name="mysql_tablename" type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
 
                     <dynamic-select :label="trans('delete_cancelled_license')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="delete_cancelled_license"
+                        :strlength="35" :required="true" name="delete_cancelled_license"
                         :elements="delCancelledLicenceOpt" :value="delCancelledLicence" :onChange="onChange">
                     </dynamic-select>
                 </div>
@@ -65,12 +67,12 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('delete_cracked_license')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="false" name="delete_cracked_license" :elements="delCrackedLicenceOpt"
+                        :strlength="35" :required="true" name="delete_cracked_license" :elements="delCrackedLicenceOpt"
                         :value="delCrackedLicence" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('god_mode')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="false" name="god_mode" :elements="godModeOpt" :value="godMode" :onChange="onChange">
+                        :required="true" name="god_mode" :elements="godModeOpt" :value="godMode" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -78,7 +80,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i
+                <button class="btn btn-primary" @click="onSubmit()"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
             </div>
         </div>

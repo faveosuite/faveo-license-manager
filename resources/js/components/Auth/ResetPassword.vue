@@ -36,8 +36,8 @@
 
                         </text-field>
 
-                        <text-field :labelStyle="labelStyle" :label="lang('confirm')" :value="confirm" type="password" name="confirm"
-                            :onChange="onChange" placehold="Confirm Password" :keyupListener="triggerEvent" id="pass_reset_confirm"
+                        <text-field :labelStyle="labelStyle" :label="lang('password_confirmation')" :value="password_confirmation" type="password" name="password_confirmation"
+                            :onChange="onChange" placehold="Confirm Password" :keyupListener="triggerEvent" id="password_confirmation"
                             :required="true">
 
                         </text-field>
@@ -78,7 +78,7 @@
 
                 password: '',
 
-                confirm:'',
+                password_confirmation:'',
 
                 path:'',
 
@@ -125,11 +125,6 @@
 
                 const { errors, isValid } = validateResetSettings(this.$data);
 
-                // if (!isValid) {
-                //
-                //     return false
-                // }
-                // return true
                 return isValid;
 
             },
@@ -146,46 +141,46 @@
 
             onSubmit() {
 
-                if (this.isValid()) {
+                if(this.isValid()){
 
-                    this.$store.dispatch('unsetAlert');
+                    if(this.password === this.password_confirmation){
 
-                    this.$store.dispatch('unsetValidationError');
+                        this.loading = true;
 
-                    this.token = this.path[this.path.length-1];
+                        this.path= location.pathname.split('/');
 
-                    this.loading = true;
+                        this.token = this.path[this.path.length-1];
 
-                    let data = {}
+                        const data = {token : this.token, password : this.password_confirmation}
 
-                    data['email'] = this.email
+                        data['email'] = this.email
 
-                    data['password'] = this.password
+                        data['password'] = this.password
 
-                    data['confirm'] = this.confirm
+                        data['password_confirmation'] = this.password_confirmation
 
-                    axios.post("/api/reset", data).then((res) => {
+                        axios.post('api/reset',data).then(res=>{
 
-                        this.loading = false;
+                            this.loading = false;
 
-                        successHandler(res, 'reset');
+                            successHandler(res,'reset');
 
-                        //   this.$store.dispatch('setLoggedInUserToken', res.data.data.token);
+                            setTimeout(()=>{
 
-                        //   this.$store.dispatch('setUserInfo', res.data.data.user);
+                                this.$router.push({ path:'/login/',name: 'login'});
+                            },3000)
 
-                        setTimeout(() => {
+                        }).catch(error=>{
 
-                            this.$router.push('/login').catch(err => { });
+                            errorHandler(error,'reset');
 
-                        }, 2000);
+                            this.loading = false;
+                        })
+                    }
+                    else {
 
-                    }).catch((err) => {
-
-                        this.loading = false;
-
-                        errorHandler(err, 'reset');
-                    });
+                        this.$store.dispatch('setValidationError', {'password_confirmation' : 'Password does not match'})
+                    }
                 }
             }
 

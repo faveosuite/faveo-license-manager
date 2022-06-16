@@ -48,7 +48,7 @@
 
                 data: '',
 
-                columns: ['ip_address', 'comments', 'date', 'blocks', 'latest_blocks', 'actions'],
+                columns: ['banned_host_ip', 'banned_host_comments', 'banned_host_date', 'banned_host_blocks', 'banned_host_last_block_date', 'actions'],
 
                 options: {},
 
@@ -82,40 +82,40 @@
 
                 columnsClasses: {
 
-                    ip_address: 'ip_address',
+                    banned_host_ip: 'banned_host_ip',
 
-                    comments: 'comments',
+                    banned_host_comments: 'banned_host_comments',
 
-                    date: 'date',
+                    banned_host_date: 'banned_host_date	',
 
-                    blocks: 'blocks',
+                    banned_host_blocks: 'banned_host_blocks',
 
-                    latest_blocks: 'latest_blocks',
+                    banned_host_last_block_date: 'banned_host_last_block_date',
                 },
 
                 templates: {
 
-                    ip_address(h, row) {
+                    banned_host_ip(h, row) {
 
                         return row.banned_host_ip ? row.banned_host_ip : '---';
                     },
 
-                    comments(h, row) {
+                    banned_host_comments(h, row) {
 
                         return row.banned_host_comments ? row.banned_host_comments : '---'
                     },
 
-                    date(h, row) {
+                    banned_host_date(h, row) {
 
                         return row.banned_host_date ? row.banned_host_date : '---';
                     },
 
-                    blocks(h, row) {
+                    banned_host_blocks(h, row) {
 
                         return row.banned_host_blocks ? row.banned_host_blocks : '---';
                     },
 
-                    latest_blocks(h, row) {
+                    banned_host_last_block_date(h, row) {
 
                         return row.banned_host_last_block_date ? row.banned_host_last_block_date : '---';
                     },
@@ -138,15 +138,15 @@
 
                 headings: {
 
-                    ip_address: 'IP Address',
+                    banned_host_ip: 'IP Address',
 
-                    comments: 'Comments',
+                    banned_host_comments: 'Comments',
 
-                    date: 'Date',
+                    banned_host_date: 'Date',
 
-                    blocks: 'Blocks',
+                    banned_host_blocks: 'Blocks',
 
-                    latest_blocks: 'Latest Blocks',
+                    banned_host_last_block_date: 'Latest Blocks',
 
                     actions: 'Actions'
                 },

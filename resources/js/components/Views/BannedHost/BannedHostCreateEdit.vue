@@ -26,7 +26,7 @@
                 <div class="row">
 
                     <text-field :label="lang('ip_address')" :value="ipAddress" :onChange="onChange" name="ip_address"
-                        type="text" classname="col-sm-6">
+                        type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
 
@@ -39,7 +39,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit"><i
+                <button class="btn btn-primary" @click="onSubmit"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>

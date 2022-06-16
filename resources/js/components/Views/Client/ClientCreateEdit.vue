@@ -47,7 +47,7 @@
 
 			<div class="card-footer">
 
-				<button class="btn btn-default" @click="onSubmit()"><i
+				<button class="btn btn-primary" @click="onSubmit()"><i
 						:class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
 			</div>
 		</div>

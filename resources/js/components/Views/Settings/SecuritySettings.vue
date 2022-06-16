@@ -25,12 +25,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('whitelisted_access')" classname="col-sm-6" :strlength="35"
-                        :required="false" name="whitelisted_access" :elements="whitelistedAccess"
+                        :required="true" name="whitelisted_access" :elements="whitelistedAccess"
                         :value="whitelistedAccessType" :onChange="onChange">
                     </dynamic-select>
 
                     <text-field :label="lang('whitelisted_ip')" :value="whiteListedIp" :onChange="onChange"
-                        name="whitelisted_ip" type="text" classname="col-sm-6">
+                        name="whitelisted_ip" type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
                 </div>
@@ -38,12 +38,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('banned_hosts')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="false" name="banned_hosts" :elements="bannedHosts" :value="bannedHostsType"
+                        :required="true" name="banned_hosts" :elements="bannedHosts" :value="bannedHostsType"
                         :onChange="onChange">
                     </dynamic-select>
 
                     <text-field :label="lang('message_for_banned_hosts')" :value="messageBannedHosts"
-                        :onChange="onChange" name="message_for_banned_hosts" type="text" classname="col-sm-6">
+                        :onChange="onChange" name="message_for_banned_hosts" type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
                 </div>
@@ -51,12 +51,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('autoban_failed_login_hosts')" classname="col-sm-6" :strlength="35"
-                        :required="false" name="autoban_failed_login_hosts" :elements="autobanFailedLoginOptions"
+                        :required="true" name="autoban_failed_login_hosts" :elements="autobanFailedLoginOptions"
                         :value="autobanFailedLogin" :onChange="onChange" optionLabel="title">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('autoban_failed_licensing_hosts')" classname="col-sm-6" :strlength="35"
-                        :required="false" name="autoban_failed_licensing_hosts"
+                        :required="true" name="autoban_failed_licensing_hosts"
                         :elements="autobanFailedLicensingOptions" :value="autobanFailedLicensing" :onChange="onChange"
                         optionLabel="title">
                     </dynamic-select>
@@ -65,12 +65,12 @@
                 <div class="row">
 
                     <dynamic-select :label="lang('forget_failed_attempts')" classname="col-sm-6" :strlength="35"
-                        :required="false" name="forget_failed_attempts" :elements="ForgetFailedAttemptsOptions"
+                        :required="true" name="forget_failed_attempts" :elements="ForgetFailedAttemptsOptions"
                         :value="ForgetFailedAttempts" :onChange="onChange" optionLabel="title">
                     </dynamic-select>
 
                     <text-field :label="lang('minimum_password_length')" :value="minPasswordLength" :onChange="onChange"
-                        name="minimum_password_length" type="number" classname="col-sm-6">
+                        name="minimum_password_length" type="number" classname="col-sm-6" :required="true">
 
                     </text-field>
 
@@ -79,7 +79,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-default" @click="onSubmit()"><i
+                <button class="btn btn-primary" @click="onSubmit()"><i
                         :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
             </div>
         </div>
