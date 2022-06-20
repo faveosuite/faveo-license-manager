@@ -4,17 +4,13 @@ import { Validator } from 'easy-validator-js';
 
 import { lang } from 'helpers/extraLogics';
 
-export function validateProductSettings(data) {
+export function bannedHostValidation(data) {
 
-  const { product_title, product_sku,product_description } = data
+  const { banned_host_comments } = data
 
   var validatingData = {
 
-    product_title: [product_title, 'isRequired'],
-
-    product_sku: [product_sku, 'isRequired'],
-
-    product_description: [product_description, { 'max(250)' : 'The description should be less than 250 characters.'} ]
+    banned_host_comments: [banned_host_comments ,{ 'max(250)' : 'The description should be less than 250 characters.'}]
 
   };
 

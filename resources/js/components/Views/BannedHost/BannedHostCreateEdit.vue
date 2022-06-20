@@ -52,6 +52,8 @@
 
     import { successHandler, errorHandler } from 'helpers/responseHandler';
 
+    import { bannedHostValidation } from "helpers/validator/bannedHostValidation.js"
+
     import { getIdFromUrl } from 'helpers/extraLogics';
 
     import { mapGetters } from 'vuex';
@@ -170,8 +172,15 @@
 
             },
 
+            isValid() {
+
+                const { errors, isValid } = bannedHostValidation(this.$data);
+
+                return isValid;
+            },
+
             onSubmit() {
-                if (this.ipAddress) {
+                if (this.isValid() && this.ipAddress) {
 
                     this.loading = true
 

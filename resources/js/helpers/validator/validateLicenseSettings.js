@@ -4,18 +4,14 @@ import { Validator } from 'easy-validator-js';
 
 import { lang } from 'helpers/extraLogics';
 
-export function validateProductSettings(data) {
+export function validateLicenseSettings(data) {
 
-  const { product_title, product_sku,product_description } = data
+  const { license_comments } = data
 
   var validatingData = {
 
-    product_title: [product_title, 'isRequired'],
-
-    product_sku: [product_sku, 'isRequired'],
-
-    product_description: [product_description, { 'max(250)' : 'The description should be less than 250 characters.'} ]
-
+    license_comments:[license_comments, { 'max(250)' : 'The comments limit should be less than 250 characters.'}]
+   
   };
 
   const validator = new Validator(lang);
