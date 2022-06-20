@@ -77,7 +77,7 @@
 
 				columnsClasses: {
 
-					full_name: 'client_name',
+					full_name: 'client_fname' + 'client_fname',
 
 					client_email: 'client_email',
 
