@@ -145,7 +145,7 @@
 
 	import { getIdFromUrl, generateRandomString } from 'helpers/extraLogics';
 
-	import { validateLicenseSettings } from "helpers/validator/licenseValidation.js";
+	import { validateLicenseSettings } from "helpers/validator/validateLicenseSettings.js";
 
 	import { mapGetters } from 'vuex';
 
