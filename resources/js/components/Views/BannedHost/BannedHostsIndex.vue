@@ -7,6 +7,11 @@
                 host needs to be deleted, check the IP address and click the 'Submit' button.</p>
         </div>
 
+        <div class="row" v-if="loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
+
         <alert componentName="dataTableModal" />
 
         <div class="card card-light ">
@@ -160,7 +165,11 @@
             },
 
             async getData() {
+                this.loading = true;
+
                 return await axios.get('/api/admin/viewBannedHost').then(res => {
+
+                    this.loading = false;
 
                     this.data = res.data.data.map(row => {
                         row.id = row.banned_host_id;
@@ -170,6 +179,9 @@
                         row.idVal = row.banned_host_id;
                         return row
                     })
+                }).catch(err => {
+
+                    this.loading = false;
                 })
             }
         }
