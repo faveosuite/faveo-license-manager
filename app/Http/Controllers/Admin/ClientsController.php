@@ -101,7 +101,10 @@ class ClientsController extends Controller
     */
     public function show(){
 
-        $clients  = AflClients::all();
+        $clients =  AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id','client_email','client_status','client_cancel_date','client_active_date')
+        ->get();
+                    
+            
         return successResponse(Lang::get('lang.Client_Show'),$clients,200);
     }
 
