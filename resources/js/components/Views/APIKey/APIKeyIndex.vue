@@ -7,6 +7,11 @@
                 to be deleted, check the API secret and click the 'Submit' button.</p>
         </div>
 
+        <div class="row" v-if="loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
+
         <alert componentName="dataTableModal" />
 
         <div class="card card-light ">
@@ -198,7 +203,11 @@
 
             getData() {
 
+                this.loading = true;
+
                 axios.get('/api/admin/viewApiKeys').then(res => {
+
+                    this.loading = false;
 
                     this.data = res.data.data.map(data => {
 
@@ -208,6 +217,9 @@
 
                         return data;
                     })
+                }).catch(err => {
+
+                    this.loading = false;
                 })
             }
         }
