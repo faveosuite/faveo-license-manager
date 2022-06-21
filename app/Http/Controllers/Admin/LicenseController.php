@@ -420,10 +420,19 @@ public function edit($license_id)
        {
 
         $license = AflLicenses::where('license_id',$license_id)->firstOrFail();
+        $product_name = AflLicenses::join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')->where('afl_licenses.license_id',$license_id)
+               ->get(['afl_products.product_title','afl_licenses.product_id']);
+      
+       $client_name = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname,"<",client_email,">") AS full_name'),'afl_clients.client_id')
+                        ->join('afl_licenses', 'afl_licenses.client_id', '=', 'afl_clients.client_id')->where('afl_licenses.license_id',$license_id)
+                        ->get('full_name','afl_clients.client_id');
+
+                   
+      
 
         if(!empty($license)){
 
-            return successResponse('', ['license' => $license],200);
+            return successResponse('', ['license' => $license,'product_name' => $product_name,'client_name' => $client_name],200);
         }
         
         return errorResponse(Lang::get('lang.invalid'),400);
