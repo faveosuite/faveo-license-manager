@@ -82,7 +82,7 @@
 
 				columnsClasses: {
 
-					full_name: 'client_fname' + 'client_fname',
+					full_name: 'full_name',
 
 					client_email: 'client_email',
 
@@ -113,7 +113,7 @@
 								to: '/clients/' + row.client_id + '/edit',
 							}
 
-						}, row.client_fname + ' ' + row.client_lname);
+						}, row.full_name);
 					},
 
 					actions: 'table-actions'
