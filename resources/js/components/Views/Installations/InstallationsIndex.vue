@@ -167,6 +167,12 @@
 
 						data.edit_url = '/installations/' + data.installation_id + '/edit';
 
+						data.delete_url = '/api/admin/installations/delete';
+
+						data.keyVal = 'installation_id';
+
+						data.idVal = data.installation_id;
+						
 						return data;
 					})
 				}).catch(err => {
