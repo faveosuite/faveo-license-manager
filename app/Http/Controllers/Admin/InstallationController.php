@@ -70,7 +70,7 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
             }
             if (!empty($delete_record) && $delete_record==1)
                 {
-                $removed_records+=$this->deleteInstallation($installation_id);
+                $removed_records+=$this->deleteInstallation();
                 if ($removed_records>0)
                     {
                     $action_success=1;
@@ -141,8 +141,11 @@ if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || emp
  * @param $installation_id
  * @return success response if the record was found and deleted
  */
-public function deleteInstallation($installation_id)
+public function deleteInstallation(Request $request)
     {
+
+     $installation_id = $request->get('installation_id');
+
       $removed_records=0;
     if (aflValidateIntegerValue($installation_id))
         {
