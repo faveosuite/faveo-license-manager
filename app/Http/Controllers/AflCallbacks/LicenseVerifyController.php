@@ -19,7 +19,7 @@ class LicenseVerifyController extends Controller
 
         $this->ip_address=request()->server('REMOTE_ADDR');
 
-        if (null!==(request()->server('HTT')))
+        if (null!==(request()->server('HTTP_REFERER')))
         {
             $this->refer=request()->server('HTTP_REFERER');
         }
