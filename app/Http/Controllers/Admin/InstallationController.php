@@ -150,7 +150,7 @@ public function deleteInstallation(Request $request)
     if (aflValidateIntegerValue($installation_id))
         {
           $removed_records+=AflInstallations::where('installation_id',$installation_id)->delete();
-
+          return successResponse(Lang::get('lang.Destroy'), $removed_records,200);
         }
     return $removed_records;
 }
@@ -230,7 +230,7 @@ public function deleteInstallation(Request $request)
 
             return successResponse('', ['installation' => $installation],200);
         }
-      
+
         return errorResponse(Lang::get('lang.invalid'),400);
        }
 }
