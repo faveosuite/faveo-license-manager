@@ -31,8 +31,8 @@ class LicenseRequest extends FormRequest
     {
         return [
 
-                    'license_code' => 'string',
-                    'product_id' => 'numeric',
+                    'license_code' => 'required',
+                    'product_id' => 'required',
                     'license_order_number' => 'numeric',
                     'license_require_domain' => 'boolean',
                     'license_limit' => 'numeric',
@@ -43,7 +43,20 @@ class LicenseRequest extends FormRequest
                     'license_updates_email_date' =>'date',
                     'license_support_email_date' => 'date',
                     'license_support_date' => 'date',
-                    'license_status' =>'boolean'
+                    'license_status' =>'boolean',
+                    'license_expire_date' => 'required|date',
+                    'license_updates_date' => 'required|date',
+                    'license_support_date' =>  'required|date'
+        ];
+    }
+    public function messages()
+    {
+        return[
+            'license_code.required'           => 'Please Generate license code',
+            'product_id.required'             => 'Please select the product',
+            'license_expire_date.required'    => 'Please select License Expiration Date',
+            'license_updates_date.required'   => 'Please select License Update Date',
+            'license_support_date.required'   => 'Please select License support Date',
         ];
     }
 }
