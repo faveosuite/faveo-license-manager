@@ -20,6 +20,12 @@ return [
     'no_client' => 'No client was added to license manager',
     'not_found_client' =>'The client you\'re looking for is not found',
     'no_client_update'=>'Client details were not updated',
+    'Destroy' => 'The record you have selected has been deleted from the Database',
+    'invalid_license_expiry' => 'Please update the License Expiration Date',
+    'invalid_license_update_date' => 'Please update the License Update Date',
+    'invalid_license_support_date' => 'Please update the License Support Date',
+    'invalid_record_data' => 'Some Invalid data present in your details',
+    'license_id' => 'Please update the License ID',
 
    'Product_Add' => 'Product and the Product\'s details has been added',
    'Product_Show' => 'All the Details of the Product\'s registered so far are displayed',
