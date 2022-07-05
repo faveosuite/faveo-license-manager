@@ -252,11 +252,7 @@
 
 				axios.get('/api/admin/viewproducts').then(res => {
 
-				// console.log("View products ===>>>>",res)
-
 					this.productOptions = res.data.data.map(data => {
-
-						// console.log(data, 'productOptions')
 
 						data.name = data.product_title;
 
@@ -321,8 +317,6 @@
 				this.loading = true
 
 				axios.get('/api/admin/license/' + id).then(res => {
-
-					// console.log(res.data.data.product_name[0]?.product_title,'Product')
 
 					this.loading = false;
 
