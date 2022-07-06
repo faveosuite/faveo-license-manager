@@ -4,9 +4,12 @@ namespace App\Http\Requests\Settings;
 use App\Models\AflSettings;
 use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestJsonValidation;
 
 class AdvancedSettingRequest extends FormRequest
 {
+ use RequestJsonValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      *
