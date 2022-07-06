@@ -4,9 +4,13 @@ namespace App\Http\Requests\Settings;
 use App\Models\AflSettings;
 use App\Http\Controllers\Admin\SettingsController;
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestJsonValidation;
+
 
 class EmailSettingRequest extends FormRequest
 {
+    use RequestJsonValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -27,10 +31,10 @@ class EmailSettingRequest extends FormRequest
         return [
             'EMAIL_FROM_NAME'=> 'required|string', 
             'EMAIL_FROM_ADDRESS'=>'required|string|unique:afl_settings,EMAIL_FROM_ADDRESS', 
-            'EMAIL_CC_SENDER'=>'boolean', 
-            'EMAIL_EXPIRING_LICENSE_DAYS'=>'numeric|min:0|max:30', 
-            'EMAIL_EXPIRING_UPDATES_DAYS'=>'numeric|min:0|max:30', 
-            'EMAIL_EXPIRING_SUPPORT_DAYS'=>'numeric|min:0|max:30'
+            'EMAIL_CC_SENDER'=>'required|boolean', 
+            'EMAIL_EXPIRING_LICENSE_DAYS'=>'required|numeric|min:0|max:30', 
+            'EMAIL_EXPIRING_UPDATES_DAYS'=>'required|numeric|min:0|max:30', 
+            'EMAIL_EXPIRING_SUPPORT_DAYS'=>'required|numeric|min:0|max:30'
         ];
     }
 }
