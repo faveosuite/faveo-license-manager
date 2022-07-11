@@ -73,7 +73,7 @@ class ApiKeysController extends Controller
        * @param $api_key_id
        * @return success response if Updated successfuly
        */
-   public function apiKeyUpdate(ApiRequest $request, $api_key_id)
+   public function apiKeyUpdate(Request $request, $api_key_id)
   {
 
 
