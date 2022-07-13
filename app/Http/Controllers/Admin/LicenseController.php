@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use App\Http\Requests\LicenseRequest;
-use App\Models\AflClients;
 
 
 /**
@@ -81,45 +80,6 @@ public function licenseAdd(LicenseRequest $request){
                            return $licenseChecks->content();
                         }
                     if($api_error_detected!=1)
-                    {
-
-                    $license_domain_array=explode(",", $license_domain);
-                    foreach ($license_domain_array as $license_domain_array_key=>$license_domain_array_value)
-                        {
-                        if (!aflValidateRawDomain(aflGetRawDomain($license_domain_array_value)) || !ctype_alnum(substr($license_domain_array_value, -1))) //invalid TLD, scheme included, or last symbol is not alphanumeric (most likely ends with / or another non-alphanumeric character)
-                            {
-                            $api_error_detected=1;
-                            return errorResponse(Lang::get('lang.invalid_domain'),400);
-                            break;
-                            }
-                        }
-                    }
-
-                if (!empty($license_limit) && !aflValidateIntegerValue($license_limit))
-                    {
-                      $api_error_detected=1;
-                      return errorResponse(Lang::get('lang.invalid_license_limit'),400);
-                    }
-// dd($license_expire_date);
-                if (!empty($license_expire_date) && !aflVerifyDateTime($license_expire_date, "Y-m-d"))
-                    {
-                        $api_error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid_license_expiry'),400);
-                    }
-
-                if (!empty($license_updates_date) && !aflVerifyDateTime($license_updates_date, "Y-m-d"))
-                    {
-                        $api_error_detected=1;
-                        return errorResponse(Lang::get('lang.invalid_license_update_date'),400);
-                    }
-
-                if (!empty($license_support_date) && !aflVerifyDateTime($license_support_date, "Y-m-d"))
-                    {
-                     $api_error_detected=1;
-                     return errorResponse(Lang::get('lang.invalid_license_support_date'),400);
-                    }
-
-                if ($api_error_detected!=1)
                     {
                     $license_date=date("Y-m-d");
                     if (empty($license_envato) || !aflValidateIntegerValue($license_envato))
@@ -194,8 +154,7 @@ public function licenseAdd(LicenseRequest $request){
                             $client_formatted=formatClient($license_code, $client_email);
 
                                $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>1, "error_detected"=>0, "page_message"=>$client_formatted); //make array with response data
-                                // return json_encode($api_response_array);
-                                return successResponse(Lang::get('lang.License_add'),$client_formatted,201);
+                                return json_encode($api_response_array);//return successResponse(Lang::get('lang.success'),$client_formatted,201);
                             }
                         }
                     }
@@ -274,7 +233,9 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                     }
                     $licenseChecks=$this->licenseChecks($client_id,$license_code,$license_ip,$license_domain,$license_limit,$license_expire_date,$license_updates_date,$license_support_date);
                     if(!empty($licenseChecks)){
-                        return $licenseChecks->content();
+                        return errorResponse($licenseChecks->getOriginalContent()['message'],400);
+
+
                     }
                 if ($api_action_success==1)
                     {
@@ -359,7 +320,7 @@ if (empty($license_id) || !aflValidateIntegerValue($license_id) || empty($rows_a
                             }
 
                         $client_formatted=formatClient($license_code, $client_email);
-                        return successResponse(Lang::get('lang.License_edit'),$client_formatted,200);
+                        return successResponse(Lang::get('lang.license_Update'),$client_formatted,200);
                         }
                     }
                 }
@@ -417,28 +378,6 @@ public function formatClient($license_code, $client_email)
 
     return $client_formatted;
 }
-public function edit($license_id)
-       {
-
-        $license = AflLicenses::where('license_id',$license_id)->firstOrFail();
-        $product_name = AflLicenses::join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')->where('afl_licenses.license_id',$license_id)
-               ->get(['afl_products.product_title','afl_licenses.product_id']);
-      
-       $client_name = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname,"<",client_email,">") AS full_name'),'afl_clients.client_id')
-                        ->join('afl_licenses', 'afl_licenses.client_id', '=', 'afl_clients.client_id')->where('afl_licenses.license_id',$license_id)
-                        ->get('full_name','afl_clients.client_id');
-
-                   
-      
-
-        if(!empty($license)){
-
-            return successResponse('', ['license' => $license,'product_name' => $product_name,'client_name' => $client_name],200);
-        }
-        
-        return errorResponse(Lang::get('lang.invalid'),400);
-
-       }
 
 
 /***
