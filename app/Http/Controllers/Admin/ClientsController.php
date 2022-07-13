@@ -225,6 +225,6 @@ if (empty($client_id) || !aflValidateIntegerValue($client_id) ||
                         }
 
                 }
-                    return errorResponse(Lang::get('lang.invalid'),400);
+                    return errorResponse(Lang::get('lang.invalid_client'),400);
     }
 }
