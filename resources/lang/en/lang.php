@@ -26,6 +26,7 @@ return [
     'invalid_license_support_date' => 'Please update the License Support Date',
     'invalid_record_data' => 'Some Invalid data present in your details',
     'license_id' => 'Please update the License ID',
+    'invalid_client' => 'Nothing Updated',
 
    'Product_Add' => 'Product and the Product\'s details has been added',
    'Product_Show' => 'All the Details of the Product\'s registered so far are displayed',

@@ -270,19 +270,20 @@ function generateServerSignature($product_id, $root_url, $client_email, $license
     }
 
     function licenseArray(){
-             $root_array=[];
 
-        $rows_array= DB::table('afl_licenses')
-            ->select('afl_licenses.*','afl_clients.client_email','afl_products.product_title',
+
+         $root_array=[];
+     $rows_array= DB::table('afl_licenses')
+      ->select('afl_licenses.*','afl_clients.client_email','afl_products.product_title',
                 DB::raw("(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations"),
                 DB::raw("(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time"),
                 DB::raw("(SELECT COUNT(*) FROM afl_callbacks WHERE afl_callbacks.license_code = afl_licenses.license_code) AS total_callbacks")
-           )->join('afl_products','afl_licenses.product_id','=','afl_products.product_id')
-            ->leftJoin('afl_clients','afl_licenses.client_id','=','afl_clients.client_id')
-            ->orderBy('license_date','desc')
-            ->orderBy('license_id','desc')
-            ->get()->toArray();
-
+           )
+        ->leftJoin('afl_products','afl_licenses.product_id','=','afl_products.product_id')
+        ->leftJoin('afl_clients','afl_licenses.client_id','=','afl_clients.client_id')
+        ->orderBy('license_date','desc')
+        ->orderBy('license_id','desc')->get()->toArray();
+        
 
 foreach ($rows_array as $row)
 {
@@ -290,37 +291,16 @@ foreach ($rows_array as $row)
     {
         $item_array[$key]=$value;
     }
-
-    if (!aflValidateIntegerValue($item_array['license_limit']))
-    {
-        $item_array['license_limit']="";
-    }
-
-    if (aflVerifyDateTime($item_array['license_expire_date'], "Y-m-d") && $item_array['license_expire_date']<=date("Y-m-d")) //expired status will be formatted
-    {
-        $item_array['license_status']=2;
-    }
-
-    if (!aflVerifyDateTime($item_array['license_expire_date'], "Y-m-d"))
-    {
-        $item_array['license_expire_date']="";
-    }
-
-    if (!aflVerifyDateTime($item_array['license_updates_date'], "Y-m-d"))
-    {
-        $item_array['license_updates_date']="";
-    }
-
-    if (!aflVerifyDateTime($item_array['license_support_date'], "Y-m-d"))
-    {
-        $item_array['license_support_date']="";
-    }
-
-    //$item_array['client_email']= null;
+    $total_license = DB::table('afl_licenses')->where('license_code',$item_array['license_code'])->get('license_code')->count();
+    $item_array['total_license'] = $total_license;
+    $latest_license = DB::table('afl_licenses')->where('license_code',$item_array['license_code'])->orderBy('license_date','desc')->get('license_date');
+    $item_array['latest_license'] = $latest_license[0];
     $item_array['client_formatted']=formatClient($item_array['license_code'], $item_array['client_email']);
-    $item_array['latest_callback_date_time']=removeSeconds($item_array['latest_callback_date_time']);
-    $item_array['license_status_formatted']=returnFormattedStatusArray($item_array['license_status'], "Active", "Inactive", "Expired");
+    $item_array['license_status_formatted']=returnFormattedStatusArray($item_array['license_status'], "Active", "Inactive", "Unknown");
+
     $root_array[]=$item_array;
+
+
 }
 return $root_array;
 }
