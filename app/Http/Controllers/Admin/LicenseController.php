@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use App\Http\Requests\LicenseRequest;
+use App\Models\AflClients;
+
 
 
 /**
@@ -154,7 +156,7 @@ public function licenseAdd(LicenseRequest $request){
                             $client_formatted=formatClient($license_code, $client_email);
 
                                $api_response_array=array("api_action_success"=>$api_action_success, "api_error_detected"=>$api_error_detected, "action_success"=>1, "error_detected"=>0, "page_message"=>$client_formatted); //make array with response data
-                                return json_encode($api_response_array);//return successResponse(Lang::get('lang.success'),$client_formatted,201);
+                                return successResponse(Lang::get('lang.adddd'),$client_formatted,201);
                             }
                         }
                     }
@@ -355,6 +357,29 @@ public function deleteLicense(Request $request)
     public function show(){
         $Licenses = licenseArray();
         return successResponse(Lang::get('lang.License_show'),$Licenses,200);
+    }
+
+    public function edit($license_id)
+    {
+
+
+        $license = AflLicenses::where('license_id',$license_id)->firstOrFail();
+        $product_name = AflLicenses::join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')->where('afl_licenses.license_id',$license_id)
+            ->get(['afl_products.product_title','afl_licenses.product_id']);
+
+        $client_name = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname,"<",client_email,">") AS full_name'),'afl_clients.client_id')
+            ->join('afl_licenses', 'afl_licenses.client_id', '=', 'afl_clients.client_id')->where('afl_licenses.license_id',$license_id)
+            ->get('full_name','afl_clients.client_id');
+
+
+
+
+        if(!empty($license)){
+
+            return successResponse('', ['license' => $license,'product_name' => $product_name,'client_name' => $client_name],200);
+        }
+
+        return errorResponse(Lang::get('lang.invalid'),400);
     }
 
 

@@ -67,10 +67,10 @@
 
 					</text-field>
 
-					<dynamic-select :label="trans('licensed_domain')" :multiple="true" :elements="[]"
+					<text-field :label="trans('licensed_domain')" :multiple="true" :elements="[]"
 						name="license_domain" classname="col-sm-6" :value="license_domain" :onChange="onChange"
 						:strlength="35" :required="false" :taggable="true" :hint="trans('domain_tip')">
-					</dynamic-select>
+					</text-field>
 				</div>
 
 				<div class="row">
@@ -97,13 +97,13 @@
 				<div class="row">
 
 					<radio-button :options="domainOptions" :label="trans('license_require_domain')"
-						name="license_require_domain" :value="license_require_domain" :onChange="onChange"
+						name="license_require_domain" :value="license_require_domain ? license_require_domain : 0" :onChange="onChange"
 						classname="form-group col-sm-4">
 
 					</radio-button>
 
 					<radio-button :options="radioOptions" :label="trans('status')" name="license_status"
-						:value="license_status" :onChange="onChange" classname="form-group col-sm-4">
+						:value="license_status ? license_status : 0" :onChange="onChange" classname="form-group col-sm-4">
 
 					</radio-button>
 
@@ -374,7 +374,7 @@
 
                 this.license_require_domain = data.license.license_require_domain;
 
-                this.license_status = data.license.license_status;
+                this.license_status = data.license.license_status ;
 
                 this.license_domain = data.license.license_domain;
 
@@ -451,8 +451,6 @@
 					}
 
 					axios.post(this.apiEndpoint, data).then(res => {
-
-                        console.log(res , 'response')
 
 						this.loading = false
 
