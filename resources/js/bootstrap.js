@@ -39,7 +39,28 @@ window.axios = require('axios');
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
 window.axios.defaults.headers.common['Authorization'] = 'Bearer'+' '+ store.getters.getUserToken;
+window.axios.interceptors.response.use((response) => {
 
+    return response
+
+},function (error) {
+
+    if (error.response.status === 401) {
+
+        store.dispatch('setAlert', { type: 'danger', message: 'Unauthorized!'});
+        store.dispatch('setLoggedInUserToken', '');
+
+        setTimeout(()=>{
+
+            window.location = window.axios.defaults.baseURL;
+        },2000);
+
+        return Promise.reject(error);
+    }
+
+    return Promise.reject(error);
+
+});
 //fetching language file from server and declaring that as global prop
 //if file doesn't have the passed key, it is going to return string
 Vue.prototype.lang = lang;
@@ -48,9 +69,9 @@ Vue.prototype.lang = lang;
 Vue.prototype.basePath = () => (window.axios.defaults.baseURL)
 
 Vue.mixin({
-    
+
     methods: {
-    
+
       basePath : () => (window.axios.defaults.baseURL),
 
       trans: (string) => lang(string)

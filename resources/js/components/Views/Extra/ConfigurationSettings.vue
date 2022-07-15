@@ -230,7 +230,7 @@
 
             onChange(option, name) {
 
-                if (name === 'product') {
+                if (name === 'product_id') {
 
                     this.selectedProduct = option
 
