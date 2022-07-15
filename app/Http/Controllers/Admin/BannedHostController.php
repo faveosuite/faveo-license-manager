@@ -49,7 +49,6 @@ public function bannedHostAdd(BannedHostRequest $request)
        $api_key = new ApiKeysController();
        $api_action_success=$api_key->apiKeyCheck($api_key_secret,$this->ip_address);
        $banned_host_date = \date("y-m-d");
-
     if(empty($banned_host_ip) || $api_action_success!=1){
         return errorResponse(Lang::get('lang.banned_empty'),400);
       }
@@ -142,7 +141,7 @@ public function deleteBannedHost(Request $request)
 
             return successResponse('', ['banned_host_data' => $banned_host_data],200);
         }
-        
+
         return errorResponse(Lang::get('lang.invalid'),400);
 
        }

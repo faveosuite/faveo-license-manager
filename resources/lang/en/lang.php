@@ -27,6 +27,8 @@ return [
     'invalid_record_data' => 'Some Invalid data present in your details',
     'license_id' => 'Please update the License ID',
     'invalid_client' => 'Nothing Updated',
+    'license_Update' => 'The license Details has been Updated Successfully',
+    'adddd' => 'New License added Successfully',
 
    'Product_Add' => 'Product and the Product\'s details has been added',
    'Product_Show' => 'All the Details of the Product\'s registered so far are displayed',
