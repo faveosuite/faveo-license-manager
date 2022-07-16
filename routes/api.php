@@ -18,17 +18,9 @@ use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\EmailsController;
 use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\ApiController;
-use App\Http\Controllers\Admin\ApiKeysController;
-use App\Http\Controllers\Admin\BannedHostController;
-use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\ConfigGenerateController;
-use App\Http\Controllers\Admin\EmailsController;
-use App\Http\Controllers\Admin\InstallationController;
-use App\Http\Controllers\Admin\LicenseController;
-use App\Http\Controllers\Admin\NotificationsController;
-use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SearchController;
-use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\EditProfilesController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
 use App\Http\Controllers\AflCallbacks\LicenseVerifyController;
@@ -41,7 +33,6 @@ use App\Http\Controllers\Update\DirectoryController;
 use App\Http\Controllers\Update\AfuProductsController;
 use App\Http\Controllers\TestController;
 use App\Http\Middleware\Manager;
-use App\Http\Controllers\EditProfilesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,7 +144,6 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
     Route::post('deleteapi/{api_key_id}', [ApiKeysController::class, 'apiKeyDelete']);
     Route::get('viewApiKeys', [ApiKeysController::class, 'show']);
     Route::get('viewApiKeys/{api_key_id}', [ApiKeysController::class, 'view']);
-});
 
     Route::post('addnewapi', [ApiKeysController::class, 'apiKeyAdd']);
     Route::post('editnewapi/{api_key_id}', [ApiKeysController::class, 'apiKeyUpdate']);
