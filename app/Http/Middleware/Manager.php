@@ -12,6 +12,8 @@ use App\Http\Controllers\Api\AuthController;
 use Lcobucci\JWT\Configuration;
 use Lcobucci\JWT\Token\Parser;
 use Lcobucci\JWT\Encoding\JoseEncoder;
+use Illuminate\Support\Facades\Lang;
+
 
 
 
@@ -38,8 +40,7 @@ class Manager
                     return $next($request);
                 }
                 else {
-                    return response(['message'=> 'Not Authorized']);
-                }
+                return errorResponse(Lang::get('lang.invalid_token'),401);                }
 
             }
 }
