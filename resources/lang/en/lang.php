@@ -282,5 +282,7 @@ return [
     'edit_api_key' => 'Edit API Key',
     'edit_banned_host' => 'Edit Banned Host',
     'apiUpdate' => 'The Current API Key Details Has Been Updated',
-    'reset_password' => 'Reset Password'
+    'reset_password' => 'Reset Password',
+    'invalid_token' => 'Your personal access Token is invalid',
+    'error_client_or_license_code' => 'The License code is manditory',
 ];
