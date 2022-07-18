@@ -262,7 +262,7 @@
                     this.messageBannedHosts = value
                 } else if (name === 'FAILED_LOGINS_LIMIT') {
                     this.autobanFailedLogin = value
-                } else if (name === 'autoban_failed_licensing_hosts') {
+                } else if (name === 'FAILED_LICENSINGS_LIMIT') {
                     this.autobanFailedLicensing = value
                 } else if (name === 'FAILED_HOSTS_FORGET') {
                     this.ForgetFailedAttempts = value
@@ -276,7 +276,7 @@
                 if (this.isValid()) {
 
                     this.loading = true
-                    
+
                     const formData = {
                         MIN_PASSWORD_LENGTH: this.minPasswordLength ?? null,
 
