@@ -33,7 +33,7 @@
 
                     <text-field :label="trans('license_verification_period')" :value="verificationPeriod"
                         :onChange="onChange" name="License_Verification_Period" type="text" classname="col-sm-6"
-                        :required="true">
+                        :required="true" placehold="Verification Period should be less than 365">
 
                     </text-field>
                 </div>
