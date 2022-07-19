@@ -54,7 +54,7 @@
                 data: '',
 
                 columns: ['api_key_secret', 'api_key_ip', 'api_key_clients_add', 'api_key_clients_edit', 'api_key_licenses_add',
-                    'api_key_installations_edit', 'api_key_search', 'actions'],
+                    'api_key_installations_edit', 'api_key_search', 'api_key_status' ,'actions'],
 
                 options: {},
 
@@ -109,6 +109,8 @@
                     api_key_installations_edit: 'api_key_installations_edit',
 
                     api_key_search: 'api_key_search',
+
+                    api_key_status: 'api_key_status'
                 },
 
                 templates: {
@@ -168,6 +170,14 @@
 
                     },
 
+                    api_key_status(h, row) {
+
+                        const edit = 'api_key_status' in row ? createPermissionStatusLabel(h, row.api_key_status) : '---'
+
+                        return h('div', {}, [edit])
+
+                    },
+
                     actions: 'table-actions'
                 },
 
@@ -188,6 +198,8 @@
                     api_key_installations_edit: 'Edit Installations',
 
                     api_key_search: 'Search',
+
+                    api_key_status: 'Status',
 
                     actions: 'Actions'
                 },
