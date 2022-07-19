@@ -75,7 +75,7 @@ class SettingsController extends Controller
           if(empty($advset)){
               $adv = new AflSettings([
                   'API_STATUS' => $request->get('API_STATUS'),
-                  'VERIFED_UPDATES' => $request->get('VERIFIED_UPDATES'),
+                  'VERIFIED_UPDATES' => $request->get('VERIFIED_UPDATES'),
                   'ENVATO_API_TOKEN' => $request->get('ENVATO_API_TOKEN')
               ]);
               $adv->save();
@@ -83,7 +83,7 @@ class SettingsController extends Controller
               }
               else{
                   $advset->API_STATUS = $request->get('API_STATUS');
-                  $advset->VERFIED_UPDATES = $request->get('VERIFIED_UPDATES');
+                  $advset->VERIFIED_UPDATES = $request->get('VERIFIED_UPDATES');
                   $advset->ENVATO_API_TOKEN = $request->get('ENVATO_API_TOKEN');
                   $advset->save();
                   return successResponse(Lang::get('lang.settings_updated'),$advset,200);
