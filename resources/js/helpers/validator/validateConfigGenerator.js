@@ -16,7 +16,7 @@ export function validateConfigGenerator(data) {
 
         License_Storage_type: [License_Storage_type, 'isRequired'],
 
-        Database_License_File_Location: [Database_License_File_Location, 'iaRequired'],
+        Database_License_File_Location: [Database_License_File_Location, 'isRequired'],
 
         MySQL_Table_Name: [MySQL_Table_Name, 'isRequired'],
 
