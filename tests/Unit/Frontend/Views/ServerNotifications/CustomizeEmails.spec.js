@@ -75,7 +75,7 @@ describe('CustomizeEmails', () => {
     wrapper.vm.onSubmit()
 
     setTimeout(() => {
-      expect(moxios.requests.mostRecent().url).toBe('/api/admin/emails/');
+      expect(moxios.requests.mostRecent().url).toBe('/api/admin/emails');
       expect(moxios.requests.mostRecent().config.method).toBe('post');
       done();
     }, 1)

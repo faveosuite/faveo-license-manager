@@ -415,7 +415,7 @@
 						data['license_id'] = this.license_id;
 					}
 
-					data['api_key_secret'] = this.getApiKey;
+					data['api_key_secret'] = this.api_key_secret;
 
 					data['product_id'] = this.product_id ? this.product_id.id : '';
 
@@ -445,10 +445,7 @@
 						data['license_support_date'] = moment(this.license_support_date).format("YYYY-MM-DD");
 					}
 
-					if (!this.client_id) {
-
-						data['license_code'] = this.license_code;
-					}
+					data['license_code'] = this.license_code;
 
 					axios.post(this.apiEndpoint, data).then(res => {
 

@@ -25,12 +25,12 @@
 
                 <div class="row">
 
-                    <text-field :label="lang('ip_address')" :value="ipAddress" :onChange="onChange" name="banned_host_ip"
+                    <text-field :label="lang('ip_address')" :value="banned_host_ip" :onChange="onChange" name="banned_host_ip"
                         type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
 
-                    <text-field :label="lang('comments')" type="text" :value="comments" :onChange="onChange"
+                    <text-field :label="lang('comments')" type="text" :value="banned_host_comments" :onChange="onChange"
                         name="banned_host_comments" classname="col-sm-6">
 
                     </text-field>
@@ -86,6 +86,8 @@
 
                 banned_host_comments: null,
 
+                banned_host_ip: null,
+
                 hostId: null
             }
         },
@@ -107,10 +109,10 @@
 
             onChange(value, name) {
                 if (name === 'banned_host_ip') {
-                    this.ipAddress = value
+                    this.banned_host_ip = value
                 }
                 else if (name === 'banned_host_comments') {
-                    this.comments = value
+                    this.banned_host_comments = value
                 }
             },
 
@@ -164,10 +166,10 @@
 
             updateStatesWithData(data) {
                 if (data.banned_host_ip) {
-                    this.ipAddress = data.banned_host_ip
+                    this.banned_host_ip = data.banned_host_ip
                 }
                 if (data.banned_host_comments) {
-                    this.comments = data.banned_host_comments
+                    this.banned_host_comments = data.banned_host_comments
                 }
 
             },
@@ -180,13 +182,13 @@
             },
 
             onSubmit() {
-                if (this.isValid) {
+                if (this.isValid()) {
 
                     this.loading = true
 
                     const formData = {
-                        banned_host_ip: this.ipAddress,
-                        banned_host_comments: this.comments,
+                        banned_host_ip: this.banned_host_ip,
+                        banned_host_comments: this.banned_host_comments,
                         api_key_secret: this.getApiKey
                     }
 

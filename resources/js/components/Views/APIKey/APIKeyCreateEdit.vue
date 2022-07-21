@@ -25,12 +25,12 @@
                 <div class="row">
 
                     <text-field :label="lang('api_secret')" type="text" classname="col-sm-6"
-                        :showNewButton="apiSecret ? false : true" newBtnName="generate" :onNewButtonClick="generateCode"
-                        name="api_key_secret" :value="apiSecret" :onChange="onChange" :required="true">
+                        :showNewButton="api_key_secret ? false : true" newBtnName="generate" :onNewButtonClick="generateCode"
+                        name="api_key_secret" :value="api_key_secret" :onChange="onChange" :required="true">
 
                     </text-field>
 
-                    <text-field :label="lang('api_ip')" :value="apiIp" :onChange="onChange" name="api_ip" type="text"
+                    <text-field :label="lang('api_ip')" :value="api_key_ip" :onChange="onChange" name="api_key_ip" type="text"
                         classname="col-sm-6">
 
                     </text-field>
@@ -40,12 +40,12 @@
 
                     <dynamic-select :label="lang('permissions_to_add_products')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_products_add"
-                        :elements="addProductPermission" :value="addPermissionType" :onChange="onChange">
+                        :elements="addProductPermission" :value="api_key_products_add" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_edit_products')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_products_edit"
-                        :elements="editProductPermission" :value="editPermissionType" :onChange="onChange">
+                        :elements="editProductPermission" :value="api_key_products_edit" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
@@ -53,12 +53,12 @@
 
                     <dynamic-select :label="lang('permissions_to_add_clients')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_clients_add"
-                        :elements="addClientPermission" :value="addClientPermissionType" :onChange="onChange">
+                        :elements="addClientPermission" :value="api_key_clients_add" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_edit_clients')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_clients_edit"
-                        :elements="editClientPermission" :value="editClientPermissionType" :onChange="onChange">
+                        :elements="editClientPermission" :value="api_key_clients_edit" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
@@ -66,12 +66,12 @@
 
                     <dynamic-select :label="lang('permissions_to_add_licenses')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_licenses_add"
-                        :elements="addLicensePermission" :value="addLicensePermissionType" :onChange="onChange">
+                        :elements="addLicensePermission" :value="api_key_licenses_add" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_edit_licenses')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_licenses_edit"
-                        :elements="editLicensePermission" :value="editLicensePermissionType" :onChange="onChange">
+                        :elements="editLicensePermission" :value="api_key_licenses_edit" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -80,13 +80,13 @@
 
                     <dynamic-select :label="lang('permissions_to_add_installations')" :multiple="false"
                         classname="col-sm-6" :strlength="35" :required="true" name="api_key_installations_edit"
-                        :elements="addInstallationsPermission" :value="addInstallationsPermissionType"
+                        :elements="addInstallationsPermission" :value="api_key_installations_edit"
                         :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="lang('permissions_to_use_search')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_search"
-                        :elements="useSearchPermission" :value="useSearchPermissionType" :onChange="onChange">
+                        :elements="useSearchPermission" :value="api_key_search" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -95,7 +95,7 @@
 
                     <dynamic-select :label="lang('api_key_status')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="api_key_status" :elements="apiKeyStatus"
-                        :value="apiKeyStatusType" :onChange="onChange">
+                        :value="api_key_status" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -118,7 +118,7 @@
 
     import { getIdFromUrl, generateRandomString } from 'helpers/extraLogics';
 
-    // import { ApiKeyValidation } from "helpers/validator/ApiKeysValidation.js";
+    import { ApiKeysValidation } from "helpers/validator/ApiKeysValidation.js";
 
     import moment from 'moment'
 
@@ -144,9 +144,9 @@
 
                 moment: moment,
 
-                apiIp: null,
+                api_key_ip: null,
 
-                apiSecret: null,
+                api_key_secret: '',
 
                 api_key_id: '',
 
@@ -155,69 +155,70 @@
                     { name: 'Inactive', value: 0 }
                 ],
 
-                editPermissionType: null,
+                api_key_products_edit: '',
 
                 addProductPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                addPermissionType: null,
+                api_key_products_add: '',
 
                 addClientPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                addClientPermissionType: null,
+                api_key_clients_add: '',
 
                 editClientPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                editClientPermissionType: null,
+                api_key_clients_edit: '',
 
                 addLicensePermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                addLicensePermissionType: null,
+                api_key_licenses_add: '',
 
                 editLicensePermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                editLicensePermissionType: null,
+                api_key_licenses_edit: '',
 
                 addInstallationsPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                addInstallationsPermissionType: null,
+                api_key_installations_edit: '',
 
                 useSearchPermission: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                useSearchPermissionType: null,
+                api_key_search: '',
 
                 apiKeyStatus: [
                     { name: 'Active', value: 1 },
                     { name: 'Inactive', value: 0 }
                 ],
 
-                apiKeyStatusType: null,
+                api_key_status: '',
             }
         },
 
         beforeMount() {
 
             const path = window.location.pathname
+
             this.getValues(path);
 
         },
@@ -225,10 +226,9 @@
         methods: {
 
             getValues(path) {
-                console.log('getValues 1', path)
 
                 const apiKeyId = getIdFromUrl(path)
-                console.log('getValues', apiKeyId)
+
                 if (path.indexOf('edit') >= 0) {
 
                     this.title = 'edit_api_key'
@@ -274,38 +274,39 @@
             },
 
             updateStatesWithData(data) {
+
                 if ('api_key_secret' in data) {
-                    this.apiSecret = data.api_key_secret
+                    this.api_key_secret = data.api_key_secret
                 }
                 if ('api_key_ip' in data) {
-                    this.apiIp = data.api_key_ip
+                    this.api_key_ip = data.api_key_ip
                 }
                 if ('api_key_products_add' in data) {
-                    this.addPermissionType = this.findOption('addProductPermission', data.api_key_products_add)
+                    this.api_key_products_add = this.findOption('addProductPermission', data.api_key_products_add)
                 }
                 if ('api_key_products_edit' in data) {
-                    this.editPermissionType = this.findOption('editProductPermission', data.api_key_products_edit)
+                    this.api_key_products_edit = this.findOption('editProductPermission', data.api_key_products_edit)
                 }
                 if ('api_key_clients_add' in data) {
-                    this.addClientPermissionType = this.findOption('addClientPermission', data.api_key_clients_add)
+                    this.api_key_clients_add = this.findOption('addClientPermission', data.api_key_clients_add)
                 }
                 if ('api_key_clients_edit' in data) {
-                    this.editClientPermissionType = this.findOption('editClientPermission', data.api_key_clients_edit)
+                    this.api_key_clients_edit = this.findOption('editClientPermission', data.api_key_clients_edit)
                 }
                 if ('api_key_licenses_add' in data) {
-                    this.addLicensePermissionType = this.findOption('addLicensePermission', data.api_key_licenses_add)
+                    this.api_key_licenses_add = this.findOption('addLicensePermission', data.api_key_licenses_add)
                 }
                 if ('api_key_licenses_edit' in data) {
-                    this.editLicensePermissionType = this.findOption('editLicensePermission', data.api_key_licenses_edit)
+                    this.api_key_licenses_edit = this.findOption('editLicensePermission', data.api_key_licenses_edit)
                 }
                 if ('api_key_installations_edit' in data) {
-                    this.addInstallationsPermissionType = this.findOption('addInstallationsPermission', data.api_key_installations_edit)
+                    this.api_key_installations_edit = this.findOption('addInstallationsPermission', data.api_key_installations_edit)
                 }
                 if ('api_key_search' in data) {
-                    this.useSearchPermissionType = this.findOption('useSearchPermission', data.api_key_search)
+                    this.api_key_search = this.findOption('useSearchPermission', data.api_key_search)
                 }
                 if ('api_key_status' in data) {
-                    this.apiKeyStatusType = this.findOption('apiKeyStatus', data.api_key_status)
+                    this.api_key_status = this.findOption('apiKeyStatus', data.api_key_status)
                 }
             },
 
@@ -317,103 +318,109 @@
             },
 
             generateCode() {
-                this.apiSecret = generateRandomString(16);
+                this.api_key_secret = generateRandomString(16);
             },
 
             findOption(options, value) {
                 return this[options].find((option) => option.value === value)
             },
             onChange(value, name) {
-                if (name === 'api_key') {
-                    this.apiSecret = value
+                if (name === 'api_key_secret') {
+                    this.api_key_secret = value
                 }
-                else if (name === 'api_ip') {
-                    this.apiIp = value
+                else if (name === 'api_key_ip') {
+                    this.api_key_ip = value
                 }
                 else if (name === 'api_key_products_add') {
-                    this.addPermissionType = value
+                    this.api_key_products_add = value
                 }
                 else if (name === 'api_key_products_edit') {
-                    this.editPermissionType = value
+                    this.api_key_products_edit = value
                 }
                 else if (name === 'api_key_clients_add') {
-                    this.addClientPermissionType = value
+                    this.api_key_clients_add = value
                 }
                 else if (name === 'api_key_clients_edit') {
-                    this.editClientPermissionType = value
+                    this.api_key_clients_edit = value
                 }
                 else if (name === 'api_key_licenses_add') {
-                    this.addLicensePermissionType = value
+                    this.api_key_licenses_add = value
                 }
                 else if (name === 'api_key_licenses_edit') {
-                    this.editLicensePermissionType = value
+                    this.api_key_licenses_edit = value
                 }
                 else if (name === 'api_key_installations_edit') {
-                    this.addInstallationsPermissionType = value
+                    this.api_key_installations_edit = value
                 }
                 else if (name === 'api_key_search') {
-                    this.useSearchPermissionType = value
+                    this.api_key_search = value
                 }
                 else if (name === 'api_key_status') {
-                    this.apiKeyStatusType = value
+                    this.api_key_status = value
                 }
             },
 
             onSubmit() {
 
-                this.loading = true
+                if (this.isValid()) {
 
-                const formData = {
+                    this.loading = true
 
-                    api_key_secret: this.apiSecret,
+                    const formData = {
 
-                    api_key_ip: this.apiIp,
+                        api_key_secret: this.api_key_secret,
 
-                    api_key_clients_add: this.addClientPermissionType ? this.addClientPermissionType.value : null,
+                        api_key_ip: this.api_key_ip,
 
-                    api_key_clients_edit: this.editClientPermissionType ? this.editClientPermissionType.value : null,
+                        api_key_id: this.api_key_id,
 
-                    api_key_licenses_add: this.addLicensePermissionType ? this.addLicensePermissionType.value : null,
+                        api_key_clients_add: this.api_key_clients_add ? this.api_key_clients_add.value : null,
 
-                    api_key_licenses_edit: this.editLicensePermissionType ? this.editLicensePermissionType.value : null,
+                        api_key_clients_edit: this.api_key_clients_edit ? this.api_key_clients_edit.value : null,
 
-                    api_key_products_add: this.addPermissionType ? this.addPermissionType.value : null,
+                        api_key_licenses_add: this.api_key_licenses_add ? this.api_key_licenses_add.value : null,
 
-                    api_key_products_edit: this.editPermissionType ? this.editPermissionType.value : null,
+                        api_key_licenses_edit: this.api_key_licenses_edit ? this.api_key_licenses_edit.value : null,
 
-                    api_key_installations_edit: this.addInstallationsPermissionType ? this.addInstallationsPermissionType.value : null,
+                        api_key_products_add: this.api_key_products_add ? this.api_key_products_add.value : null,
 
-                    api_key_search: this.useSearchPermissionType ? this.useSearchPermissionType.value : null,
+                        api_key_products_edit: this.api_key_products_edit ? this.api_key_products_edit.value : null,
 
-                    api_key_status: this.apiKeyStatusType ? this.apiKeyStatusType.value : null,
-                }
+                        api_key_installations_edit: this.api_key_installations_edit ? this.api_key_installations_edit.value : null,
 
-                axios.post(this.apiEndpoint, formData).then((res) => {
+                        api_key_search: this.api_key_search ? this.api_key_search.value : null,
 
-                    this.loading = false;
-
-                    successHandler(res, 'api_keys');
-
-                    if (!this.api_key_id) {
-
-                        setTimeout(() => {
-
-                            this.$router.push('/apikeys/list')
-
-                        }, 2000)
-
-                    } else {
-
-                        this.getInitialValues(this.api_key_id)
+                        api_key_status: this.api_key_status ? this.api_key_status.value : null,
                     }
 
-                }).catch((err) => {
+                    axios.post(this.apiEndpoint, formData).then((res) => {
 
-                    this.loading = false;
+                        this.loading = false;
 
-                    errorHandler(err, 'api_keys');
-                });
+                        successHandler(res, 'api_keys');
+
+                        if (!this.api_key_id) {
+
+                            setTimeout(() => {
+
+                                this.$router.push('/apikeys/list')
+
+                            }, 2000)
+
+                        } else {
+
+                            this.getInitialValues(this.api_key_id)
+                        }
+
+                    }).catch((err) => {
+
+                        this.loading = false;
+
+                        errorHandler(err, 'api_keys');
+                    });
+                }
             },
+
 
 
         },
