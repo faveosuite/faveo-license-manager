@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use App\Models\AflApiKeys;
 use App\Http\Requests\ApiRequest;
+use App\Http\Requests\UpdateApiRequest;
 
 
 
@@ -73,7 +74,7 @@ class ApiKeysController extends Controller
        * @param $api_key_id
        * @return success response if Updated successfuly
        */
-   public function apiKeyUpdate(Request $request, $api_key_id)
+   public function apiKeyUpdate(UpdateApiRequest $request, $api_key_id)
   {
 
 
