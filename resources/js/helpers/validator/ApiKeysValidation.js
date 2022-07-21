@@ -16,7 +16,7 @@ export function ApiKeysValidation(data) {
 
         api_key_products_edit: [api_key_products_edit, 'isRequired'],
 
-        api_key_clients_add: [api_key_clients_add, 'iaRequired'],
+        api_key_clients_add: [api_key_clients_add, 'isRequired'],
 
         api_key_clients_edit: [api_key_clients_edit, 'isRequired'],
 

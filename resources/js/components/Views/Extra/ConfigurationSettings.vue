@@ -27,11 +27,11 @@
                 <div class="row">
 
                     <dynamic-select :label="trans('product')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :value="selectedProduct" :onChange="onChange" :elements="products" name="product_id"
+                        :value="product_id" :onChange="onChange" :elements="products" name="product_id"
                         :required="true">
                     </dynamic-select>
 
-                    <text-field :label="trans('license_verification_period')" :value="verificationPeriod"
+                    <text-field :label="trans('license_verification_period')" :value="License_Verification_Period"
                         :onChange="onChange" name="License_Verification_Period" type="text" classname="col-sm-6"
                         :required="true" placehold="Verification Period should be less than 365">
 
@@ -42,10 +42,10 @@
 
                     <dynamic-select :label="trans('license_storage_type')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="License_Storage_type" :elements="storageTypes"
-                        :value="selectedStorageType" :onChange="onChange">
+                        :value="License_Storage_type" :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="trans('license_file_location')" :value="fileLocation" :onChange="onChange"
+                    <text-field :label="trans('license_file_location')" :value="Database_License_File_Location" :onChange="onChange"
                         name="Database_License_File_Location" type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
@@ -53,14 +53,14 @@
 
                 <div class="row">
 
-                    <text-field :label="trans('mysql_tablename')" :value="mysqlTablename" :onChange="onChange"
+                    <text-field :label="trans('mysql_tablename')" :value="MySQL_Table_Name" :onChange="onChange"
                         name="MySQL_Table_Name" type="text" classname="col-sm-6" :required="true">
 
                     </text-field>
 
                     <dynamic-select :label="trans('delete_cancelled_license')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="Delete_Cancelled_License"
-                        :elements="delCancelledLicenceOpt" :value="delCancelledLicence" :onChange="onChange">
+                        :elements="delCancelledLicenceOpt" :value="Delete_Cancelled_License" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
@@ -68,11 +68,11 @@
 
                     <dynamic-select :label="trans('delete_cracked_license')" :multiple="false" classname="col-sm-6"
                         :strlength="35" :required="true" name="Delete_Cracked_License" :elements="delCrackedLicenceOpt"
-                        :value="delCrackedLicence" :onChange="onChange">
+                        :value="Delete_Cracked_License" :onChange="onChange">
                     </dynamic-select>
 
                     <dynamic-select :label="trans('god_mode')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="true" name="God_Mode" :elements="godModeOpt" :value="godMode" :onChange="onChange">
+                        :required="true" name="God_Mode" :elements="godModeOpt" :value="God_Mode" :onChange="onChange">
                     </dynamic-select>
 
                 </div>
@@ -134,41 +134,41 @@
 
                 products: [],
 
-                selectedProduct: null,
+                product_id: "",
 
-                verificationPeriod: null,
+                License_Verification_Period: "",
 
                 storageTypes: [
                     { name: 'Database', value: 'DATABASE' },
                     { name: 'File', value: 'FILE' }
                 ],
 
-                selectedStorageType: null,
+                License_Storage_type: "",
 
-                fileLocation: null,
+                Database_License_File_Location: "",
 
-                mysqlTablename: null,
+                MySQL_Table_Name: "",
 
                 delCancelledLicenceOpt: [
                     { name: 'Yes', value: 'YES' },
                     { name: 'No', value: 'NO' }
                 ],
 
-                delCancelledLicence: null,
+                Delete_Cancelled_License: "",
 
                 delCrackedLicenceOpt: [
                     { name: 'Yes', value: 'YES' },
                     { name: 'No', value: 'NO' }
                 ],
 
-                delCrackedLicence: null,
+                Delete_Cracked_License: "",
 
                 godModeOpt: [
                     { name: 'Yes', value: 'YES' },
                     { name: 'No', value: 'NO' }
                 ],
 
-                godMode: null,
+                God_Mode: "",
 
                 showModal: false,
 
@@ -230,38 +230,7 @@
 
             onChange(option, name) {
 
-                if (name === 'product_id') {
-
-                    this.selectedProduct = option
-
-                } else if (name === 'License_Storage_type') {
-
-                    this.selectedStorageType = option
-
-                } else if (name === 'Delete_Cancelled_License') {
-
-                    this.delCancelledLicence = option
-
-                } else if (name === 'Delete_Cracked_License') {
-
-                    this.delCrackedLicence = option
-
-                } else if (name === 'God_Mode') {
-
-                    this.godMode = option
-
-                } else if (name === 'License_Verification_Period') {
-
-                    this.verificationPeriod = option
-
-                } else if (name === 'Database_License_File_Location') {
-
-                    this.fileLocation = option
-
-                } else if (name === 'MySQL_Table_Name') {
-
-                    this.mysqlTablename = option
-                }
+                this[name] = option ? option : '';
             },
 
             onClose() {
@@ -280,27 +249,27 @@
 
             async onSubmit() {
 
-                if (this.isValid) {
+                if (this.isValid()) {
 
                     this.loading = true
 
                     const formData = {
 
-                        product_id: this.selectedProduct ? this.selectedProduct.value : null,
+                        product_id: this.product_id ? this.product_id.value : null,
 
-                        License_Verification_Period: this.verificationPeriod,
+                        License_Verification_Period: this.License_Verification_Period,
 
-                        License_Storage_type: this.selectedStorageType ? this.selectedStorageType.value : null,
+                        License_Storage_type: this.License_Storage_type ? this.License_Storage_type.value : null,
 
-                        MySQL_Table_Name: this.mysqlTablename,
+                        MySQL_Table_Name: this.MySQL_Table_Name,
 
-                        Database_License_File_Location: this.fileLocation,
+                        Database_License_File_Location: this.Database_License_File_Location,
 
-                        Delete_Cancelled_License: this.delCancelledLicence ? this.delCancelledLicence.value : null,
+                        Delete_Cancelled_License: this.Delete_Cancelled_License ? this.Delete_Cancelled_License.value : null,
 
-                        Delete_Cracked_License: this.delCrackedLicence ? this.delCrackedLicence.value : null,
+                        Delete_Cracked_License: this.Delete_Cracked_License ? this.Delete_Cracked_License.value : null,
 
-                        God_Mode: this.godMode ? this.godMode.value : null,
+                        God_Mode: this.God_Mode ? this.God_Mode.value : null,
 
                     }
 
@@ -310,7 +279,7 @@
 
                         successHandler(res, 'configuration');
 
-                        this.responseData = res
+                        this.responseData = res.data
                         this.showModal = true
 
                     }).catch((err) => {
