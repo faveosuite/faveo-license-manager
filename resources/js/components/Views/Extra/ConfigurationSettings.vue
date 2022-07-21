@@ -279,7 +279,8 @@
 
                         successHandler(res, 'configuration');
 
-                        this.responseData = res.data
+                        this.responseData = res.data.replaceAll('<br />\r\n', "")
+                        // this.responseData = this.contentParser(res.data.data.mail_body.replaceAll('<br />\r\n', ""));
                         this.showModal = true
 
                     }).catch((err) => {
