@@ -192,6 +192,8 @@
 
 				license_order_number: '',
 
+                api_key_secret : '',
+
 				license_ip: '',
 
 				license_domain: '',
@@ -312,6 +314,11 @@
 				}
 			},
 
+            computed: {
+
+                ...mapGetters(['getApiKey'])
+            },
+
 			getInitialValues(id) {
 
 				this.loading = true
@@ -324,9 +331,15 @@
 
 					let resData = res.data.data;
 
+                    console.log(resData , 'udvsibcbcaciuciudciudscijudscs')
+
                     let licenseData = res.data.data.license;
 
-                    licenseData['license_domain'] = licenseData.license_domain ? licenseData.license_domain.split(',') : '';
+                    // console.log(res.data.data.license, 'wuefvidcidsncoidsco')
+
+                    licenseData['api_key_secret'] = licenseData.api_key_secret ? licenseData.api_key_secret.split(','): '';
+
+                    // licenseData['license_domain'] = licenseData.license_domain ? licenseData.license_domain.split(',') : '';
 
                     licenseData['license_expire_date'] = licenseData.license_expire_date ? new Date(moment(licenseData.license_expire_date).format("MM-DD-YYYY")) : '';
 
@@ -359,6 +372,8 @@
                 this.product_id = { id : data.product_name[0].product_id , name : data.product_name[0].product_title }
 
                 this.license_id = data.license.license_id;
+
+                console.log(this.api_key_secret,'this.api_key_secret')
 
                 this.api_key_secret = data.license.api_key_secret;
 
@@ -415,7 +430,9 @@
 						data['license_id'] = this.license_id;
 					}
 
-					data['api_key_secret'] = this.api_key_secret;
+                    console.log(data , 'siudchsdojcojcodsncodsncodsnciodsni')
+
+					data['api_key_secret'] = this.getApiKey;
 
 					data['product_id'] = this.product_id ? this.product_id.id : '';
 
