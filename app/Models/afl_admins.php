@@ -31,6 +31,6 @@ class AflAdmins extends Model
 
     public function AauthAcessToken()
     {
-        return $this->hasMany('App\Models\oauth_access_token');
+        return $this->hasMany(\App\Models\oauth_access_token::class);
     }
 }
