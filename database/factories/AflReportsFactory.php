@@ -8,13 +8,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 class AflReportsFactory extends Factory
 {
     /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = AflReports::class;
-
-    /**
      * Define the model's default state.
      *
      * @return array
