@@ -2,14 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\AflProducts;
-use App\Http\Controllers\Admin\ProductsController;
-use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\RequestJsonValidation;
+use Illuminate\Foundation\Http\FormRequest;
 
 class ProductRequest extends FormRequest
 {
     use RequestJsonValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,7 +27,7 @@ class ProductRequest extends FormRequest
     public function rules()
     {
         return [
-            'product_title'=> 'string|unique:afl_products,product_title',
+            'product_title' => 'string|unique:afl_products,product_title',
             'product_sku' => 'string|unique:afl_products,product_sku',
             /*'product_date'=> 'date',
             'product_version'=> 'string',

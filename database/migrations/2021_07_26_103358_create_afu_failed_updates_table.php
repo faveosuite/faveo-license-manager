@@ -15,7 +15,7 @@ class CreateAfuFailedUpdatesTable extends Migration
     {
         Schema::create('afu_failed_updates', function (Blueprint $table) {
             $table->increments('failed_update_id');
-            $table->string('failed_update_ip',125);
+            $table->string('failed_update_ip', 125);
             $table->mediumInteger('failed_update_attempts');
             $table->date('failed_update_last_attempt_date');
         });

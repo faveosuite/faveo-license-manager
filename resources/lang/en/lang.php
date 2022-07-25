@@ -13,13 +13,13 @@ return [
     |
      */
 
-   'Client_Add' => 'Client and the Client\'s details has been added',
-   'Client_Show' => 'All the Details of the client\'s registered so far are displayed',
-   'Client_Destroy' => 'The Choosen Client has been deleted from the database',
-   'Client_Update' => 'The Current Client Deatils has been updated',
+    'Client_Add' => 'Client and the Client\'s details has been added',
+    'Client_Show' => 'All the Details of the client\'s registered so far are displayed',
+    'Client_Destroy' => 'The Choosen Client has been deleted from the database',
+    'Client_Update' => 'The Current Client Deatils has been updated',
     'no_client' => 'No client was added to license manager',
-    'not_found_client' =>'The client you\'re looking for is not found',
-    'no_client_update'=>'Client details were not updated',
+    'not_found_client' => 'The client you\'re looking for is not found',
+    'no_client_update' => 'Client details were not updated',
     'Destroy' => 'The record you have selected has been deleted from the Database',
     'invalid_license_expiry' => 'Please update the License Expiration Date',
     'invalid_license_update_date' => 'Please update the License Update Date',
@@ -30,10 +30,10 @@ return [
     'license_Update' => 'The license Details has been Updated Successfully',
     'adddd' => 'New License added Successfully',
 
-   'Product_Add' => 'Product and the Product\'s details has been added',
-   'Product_Show' => 'All the Details of the Product\'s registered so far are displayed',
-   'Product_Destroy' => 'The Choosen Product has been deleted from the database',
-   'Product_Update' => 'The Current Product Deatils has been updated',
+    'Product_Add' => 'Product and the Product\'s details has been added',
+    'Product_Show' => 'All the Details of the Product\'s registered so far are displayed',
+    'Product_Destroy' => 'The Choosen Product has been deleted from the database',
+    'Product_Update' => 'The Current Product Deatils has been updated',
     'no_product' => 'No product was added.',
     'invalid_product' => 'This is an invalid product.',
 
@@ -52,11 +52,11 @@ return [
 
     'install_edit' => 'Installation details has been successfully edited and updates in Auto Faveo Licenser',
 
-   'banned_add' => 'A new Banned Host has been added from Auto Faveo Licenser',
-   'banned_edit' => 'Banned Host details of Auto Faveo Licenser has been updated',
-   'delete' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database',
+    'banned_add' => 'A new Banned Host has been added from Auto Faveo Licenser',
+    'banned_edit' => 'Banned Host details of Auto Faveo Licenser has been updated',
+    'delete' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database',
     'banned_empty' => 'Banned Host ip is not present or api key secret is invalid.',
-    'banned_host_not_found'=> 'Banned host you\'re looking for is not found',
+    'banned_host_not_found' => 'Banned host you\'re looking for is not found',
 
     'settings_updated' => 'The above settings of Auto Faveo license manager has been updated ',
     'settings_created' => 'The above settings of Auto Faveo license manager has been created ',
@@ -71,7 +71,7 @@ return [
 
     'config' => 'The config file has been updated by the given values in config generator',
 
-    'no_config' => "Something went wrong so no config file was generated",
+    'no_config' => 'Something went wrong so no config file was generated',
     'dashboard' => 'Dashboard',
     'version' => 'Version',
     'copyright' => 'Copyright',

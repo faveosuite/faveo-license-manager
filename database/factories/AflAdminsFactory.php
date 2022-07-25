@@ -25,9 +25,9 @@ class AflAdminsFactory extends Factory
             'admin_fname' => 'Sandesh',
             'admin_lname' => 'Menath',
             'admin_email' => 'sandesh@gmail.com',
-            'admin_password'=>'$2y$04$05PqD4ZF.l2RGZPnmBowDOXMbfyXvQrExZ28BR60zlvF8VUv32.1m',
+            'admin_password' => '$2y$04$05PqD4ZF.l2RGZPnmBowDOXMbfyXvQrExZ28BR60zlvF8VUv32.1m',
             'admin_date' => now(),
-            'admin_status' =>1
+            'admin_status' => 1,
         ];
     }
 }

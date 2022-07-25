@@ -16,11 +16,11 @@ class CreateAflEmailsTable extends Migration
         Schema::create('afl_emails', function (Blueprint $table) {
             //$table->primary('email_id');
             $table->increments('email_id')->unique();
-            $table->string('email_expiring_license_subject',125);
+            $table->string('email_expiring_license_subject', 125);
             $table->text('email_expiring_license_text');
-            $table->string('email_expiring_updates_subject',125);
+            $table->string('email_expiring_updates_subject', 125);
             $table->text('email_expiring_updates_text');
-            $table->string('email_expiring_support_subject',125);
+            $table->string('email_expiring_support_subject', 125);
             $table->text('email_expiring_support_text');
             $table->timestamps();
         });

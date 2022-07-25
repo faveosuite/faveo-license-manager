@@ -10,10 +10,10 @@ use Lcobucci\Jose\Parsing\Exception;
 
 class UpdateNotificationsController extends Controller
 {
-    public function updateNotificationFields(Request $request,$notification_id){
-
-        $afuNotifications = AfuNotifications::where('notification_id',$notification_id)->firstOrFail();
-        if(!empty($afuNotifications)) {
+    public function updateNotificationFields(Request $request, $notification_id)
+    {
+        $afuNotifications = AfuNotifications::where('notification_id', $notification_id)->firstOrFail();
+        if (! empty($afuNotifications)) {
             try {
                 $afuNotifications->notification_operation_ok = $request->get('notification_operation_ok');
                 $afuNotifications->notification_product_not_found = $request->get('notification_product_not_found');
@@ -37,17 +37,18 @@ class UpdateNotificationsController extends Controller
                 $afuNotifications->notification_unknown_error = $request->get('notification_unknown_error');
 
                 $afuNotifications->save();
-                return successResponse(Lang::get('lang.'),$afuNotifications,200);
-            }
-            catch (Exception $exception){
+
+                return successResponse(Lang::get('lang.'), $afuNotifications, 200);
+            } catch (Exception $exception) {
                 return $exception->getMessage();
             }
         }
-
-
     }
-    public function show(){
+
+    public function show()
+    {
         $afu = AfuNotifications::all();
+
         return $afu;
     }
 }

@@ -29,11 +29,12 @@ class CreateAflProductsTable extends Migration
             $table->boolean('product_status');
             $table->timestamps();
         });
-
     }
+
     /**
      * Reverse the migrations.
      *  `
+     *
      * @return void
      */
     public function down()

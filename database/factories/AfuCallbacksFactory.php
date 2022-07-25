@@ -24,11 +24,11 @@ class AfuCallbacksFactory extends Factory
         return [
             'product_id' => 100,
             'version_id' => 2,
-            'callback_type'=>'version check',
-            'callback_path'=>'script/signature',
+            'callback_type' => 'version check',
+            'callback_path' => 'script/signature',
             'callback_ip' => '106.51.140.178',
             'callback_date_time' => now(),
-            'callback_status' => 1
+            'callback_status' => 1,
         ];
     }
 }

@@ -1,38 +1,36 @@
 <?php
 
-use App\Http\Controllers\Admin\CallBackController;
-use App\Http\Controllers\Admin\ReportsController;
-use App\Http\Controllers\Update\UpdateInstallationsController;
-use App\Http\Controllers\Update\UpdateNotificationsController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Api\AuthController;
-use App\Http\Controllers\Admin\ProductsController;
-use App\Http\Controllers\Admin\ClientsController;
-use App\Http\Controllers\AFL\ConnectionController;
-use App\Http\Controllers\Admin\LicenseController;
-use App\Http\Controllers\Admin\InstallationController;
-use App\Http\Controllers\Admin\BannedHostController;
-use App\Http\Controllers\Admin\SettingsController;
-use App\Http\Controllers\Admin\NotificationsController;
-use App\Http\Controllers\Admin\EmailsController;
 use App\Http\Controllers\Admin\ApiKeysController;
-use App\Http\Controllers\Admin\ApiController;
+use App\Http\Controllers\Admin\BannedHostController;
+use App\Http\Controllers\Admin\CallBackController;
+use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\ConfigGenerateController;
+use App\Http\Controllers\Admin\EmailsController;
+use App\Http\Controllers\Admin\InstallationController;
+use App\Http\Controllers\Admin\LicenseController;
+use App\Http\Controllers\Admin\NotificationsController;
+use App\Http\Controllers\Admin\ProductsController;
+use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SearchController;
-use App\Http\Controllers\EditProfilesController;
+use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\AFL\ConnectionController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
 use App\Http\Controllers\AflCallbacks\LicenseVerifyController;
-use App\Http\Controllers\Update\AfuVersionsController;
-use App\Http\Controllers\AfuCallbacks\GetVersionsController;
-use App\Http\Controllers\AfuCallbacks\GetAllVersionsController;
-use App\Http\Controllers\AfuCallbacks\FetchQueryController;
 use App\Http\Controllers\AfuCallbacks\DownloadFileController;
-use App\Http\Controllers\Update\DirectoryController;
+use App\Http\Controllers\AfuCallbacks\FetchQueryController;
+use App\Http\Controllers\AfuCallbacks\GetAllVersionsController;
+use App\Http\Controllers\AfuCallbacks\GetVersionsController;
+use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\EditProfilesController;
 use App\Http\Controllers\Update\AfuProductsController;
-use App\Http\Controllers\TestController;
+use App\Http\Controllers\Update\AfuVersionsController;
+use App\Http\Controllers\Update\DirectoryController;
+use App\Http\Controllers\Update\UpdateInstallationsController;
+use App\Http\Controllers\Update\UpdateNotificationsController;
 use App\Http\Middleware\Manager;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,10 +43,10 @@ use App\Http\Middleware\Manager;
 |
 */
 //AUTHENTICATION
-    Route::post('/register',[AuthController::class,'register']);
-    Route::post('/login',[AuthController::class,'login']);
-    Route::post('/forgot',[AuthController::class,'forgot']);
-    Route::post('/reset',[AuthController::class,'reset']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/forgot', [AuthController::class, 'forgot']);
+    Route::post('/reset', [AuthController::class, 'reset']);
 
 /*************************************** CALLBACK FROM FAVEO TO LICENSE AND UPDATE *******************************************/
 
@@ -67,51 +65,49 @@ use App\Http\Middleware\Manager;
 /********************************************************* CALLBACK *******************************************************************/
 
 //API CALLS FOR UI OF LICENSE AND UPDATE MANAGER AND BILLING
-Route::group(array('prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'manager'), function () {
-
+Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'manager'], function () {
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
 
     /******************************************* LICENSE MANAGER ******************************************************/
 
-//PRODUCTS
+    //PRODUCTS
 
-Route::post('products/add',[ProductsController::class,'productAdd']);
-Route::get('viewproducts',[ProductsController::class,'show']);
-Route::post('products/delete',[ProductsController::class,'deleteProduct']);
-Route::post('products/edit',[ProductsController::class,'productUpdate']);
-Route::get('product/{product_id}',[ProductsController::class,'edit']);
+    Route::post('products/add', [ProductsController::class, 'productAdd']);
+    Route::get('viewproducts', [ProductsController::class, 'show']);
+    Route::post('products/delete', [ProductsController::class, 'deleteProduct']);
+    Route::post('products/edit', [ProductsController::class, 'productUpdate']);
+    Route::get('product/{product_id}', [ProductsController::class, 'edit']);
 
-//CLIENTS
+    //CLIENTS
 
-Route::post('clients/add',[ClientsController::class,'clientAdd']);
-Route::get('viewClients',[ClientsController::class,'show']);
-Route::post('clients/delete',[ClientsController::class,'deleteClient']);
-Route::post('clients/edit',[ClientsController::class,'clientUpdate']);
-Route::get('client/{client_id}',[ClientsController::class,'edit']);
+    Route::post('clients/add', [ClientsController::class, 'clientAdd']);
+    Route::get('viewClients', [ClientsController::class, 'show']);
+    Route::post('clients/delete', [ClientsController::class, 'deleteClient']);
+    Route::post('clients/edit', [ClientsController::class, 'clientUpdate']);
+    Route::get('client/{client_id}', [ClientsController::class, 'edit']);
 
-
-//LICENSES
+    //LICENSES
     Route::post('license/add', [LicenseController::class, 'licenseAdd']);
     Route::get('viewLicenses', [LicenseController::class, 'show']);
     Route::post('license/delete', [LicenseController::class, 'deleteLicense']);
     Route::post('license/edit', [LicenseController::class, 'licenseUpdate']);
     Route::get('license/{license_id}', [LicenseController::class, 'edit']);
 
-//INSTALLATIONS
+    //INSTALLATIONS
     Route::post('installations/delete', [InstallationController::class, 'deleteInstallation']);
     Route::post('installations/edit', [InstallationController::class, 'installationUpdate']);
     Route::get('viewInstallations', [InstallationController::class, 'show']);
     Route::post('addInstallation', [InstallationController::class, 'installationAdd']);
     Route::get('installation/{installation_id}', [InstallationController::class, 'edit']);
 
-//BANNED HOSTS
+    //BANNED HOSTS
     Route::post('bannedHosts/add', [BannedHostController::class, 'bannedHostAdd']);
     Route::post('bannedHosts/delete', [BannedHostController::class, 'deleteBannedHost']);
     Route::post('bannedHosts/edit', [BannedHostController::class, 'bannedHostUpdate']);
     Route::get('viewBannedHost', [BannedHostController::class, 'show']);
     Route::get('viewBannedHost/{banned_host_id}', [BannedHostController::class, 'view']);
 
-//SETTINGS
+    //SETTINGS
     Route::post('generalsettings/{SETTING_ID}', [SettingsController::class, 'generalSettingsCreate']);
     Route::post('advancedsettings/{SETTING_ID}', [SettingsController::class, 'advancedSettings']);
     Route::post('securitysettings/{SETTING_ID}', [SettingsController::class, 'securitySettings']);
@@ -123,22 +119,22 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
     Route::get('emailsDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
 
-//NOTIFICATIONS
+    //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);
     Route::post('emails', [EmailsController::class, 'emails']);
     Route::get('viewNotifications', [NotificationsController::class, 'show']);
     Route::get('viewEmails', [EmailsController::class, 'show']);
 
-//EDIT PROFILE
+    //EDIT PROFILE
     Route::post('editprofile/{admin_id}', [EditProfilesController::class, 'editProfile']);
 
-//CONFIGURATION GENERATOR
+    //CONFIGURATION GENERATOR
     Route::post('config', [ConfigGenerateController::class, 'configGenerate']);
 
-//SEARCH
+    //SEARCH
     Route::post('search', [SearchController::class, 'search']);
 
-//API KEYS
+    //API KEYS
     Route::post('addnewapi', [ApiKeysController::class, 'apiKeyAdd']);
     Route::post('editnewapi/{api_key_id}', [ApiKeysController::class, 'apiKeyUpdate']);
     Route::post('deleteapi/{api_key_id}', [ApiKeysController::class, 'apiKeyDelete']);
@@ -150,44 +146,41 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
     Route::Delete('deleteapi/{api_key_id}', [ApiKeysController::class, 'apiKeyDelete']);
     Route::get('viewApiKeys', [ApiKeysController::class, 'show']);
 
-//REPORTS FOR LICENSE AND UPDATE
-        Route::post('reports/delete',[ReportsController::class,'reports']);
-        Route::get('reportSystem',[ReportsController::class,'reportArraySystem']);
-        Route::get('reportLicense',[ReportsController::class,'reportArrayLicense']);
-        Route::get('reportCracking',[ReportsController::class,'reportArrayCracking']);
-        Route::get('reportUpdate',[ReportsController::class,'reportArrayUpdate']);
+    //REPORTS FOR LICENSE AND UPDATE
+    Route::post('reports/delete', [ReportsController::class, 'reports']);
+    Route::get('reportSystem', [ReportsController::class, 'reportArraySystem']);
+    Route::get('reportLicense', [ReportsController::class, 'reportArrayLicense']);
+    Route::get('reportCracking', [ReportsController::class, 'reportArrayCracking']);
+    Route::get('reportUpdate', [ReportsController::class, 'reportArrayUpdate']);
 
+    /**************************************************** UPDATE MANAGER ************************************************************/
 
-/**************************************************** UPDATE MANAGER ************************************************************/
-
-//PRODUCTS
+    //PRODUCTS
     Route::post('products/UpdateAdd', [AfuProductsController::class, 'productUpdateAdd']);
     Route::post('products/UpdateDelete', [AfuProductsController::class, 'deleteUpdateProduct']);
     Route::post('products/UpdateEdit', [AfuProductsController::class, 'productUpdateUpdate']);
 
-//VERSIONS
-        Route::post('versions/add', [AfuVersionsController::class, 'versionAdd']);
-        Route::post('versions/edit', [AfuVersionsController::class, 'versionUpdate']);
-        Route::post('versions/delete', [AfuVersionsController::class, 'deleteVersion']);
+    //VERSIONS
+    Route::post('versions/add', [AfuVersionsController::class, 'versionAdd']);
+    Route::post('versions/edit', [AfuVersionsController::class, 'versionUpdate']);
+    Route::post('versions/delete', [AfuVersionsController::class, 'deleteVersion']);
 
+    //TO SET PATH FOR ARCHIVES_DIRECTORY AND QUERSIES_DIRECTORY
 
-//TO SET PATH FOR ARCHIVES_DIRECTORY AND QUERSIES_DIRECTORY
+    Route::post('/setPath', [DirectoryController::class, 'setDirectory']);
 
-        Route::post('/setPath',[DirectoryController::class,'setDirectory']);
+    //NOTIFICATION HEADER RESPONSES FOR CALLBACKS APIs UPDATE MANAGER
+    Route::post('/updateNotifications/{notification_id}', [UpdateNotificationsController::class, 'updateNotificationFields']);
+    Route::get('showUpdateNotifications', [UpdateNotificationsController::class, 'show']);
 
-//NOTIFICATION HEADER RESPONSES FOR CALLBACKS APIs UPDATE MANAGER
-        Route::post('/updateNotifications/{notification_id}' ,[UpdateNotificationsController::class,'updateNotificationFields']);
-        Route::get('showUpdateNotifications',[UpdateNotificationsController::class,'show']);
+    //CALLBACKS FOR UPDATE MANAGER
+    Route::get('showLicenseCallbacks', [CallBackController::class, 'licneseCallbacks']);
+    Route::get('showUpdateCallbacks', [CallBackController::class, 'updateCallbacks']);
+    Route::post('callbackdelete', [CallBackController::class, 'callbacksDelete']);
 
-//CALLBACKS FOR UPDATE MANAGER
-        Route::get('showLicenseCallbacks',[CallBackController::class,'licneseCallbacks']);
-        Route::get('showUpdateCallbacks',[CallBackController::class,'updateCallbacks']);
-        Route::post('callbackdelete',[CallBackController::class,'callbacksDelete']);
-
-//UPDATE INSTALLATION AFTER UPDATING THE VERSION
-        Route::post('updatedInstallation/edit',[UpdateInstallationsController::class,'updateInstallationEdit']);
-        Route::get('showUpdateInstall',[UpdateInstallationsController::class,'show']);
-
+    //UPDATE INSTALLATION AFTER UPDATING THE VERSION
+    Route::post('updatedInstallation/edit', [UpdateInstallationsController::class, 'updateInstallationEdit']);
+    Route::get('showUpdateInstall', [UpdateInstallationsController::class, 'show']);
 });
 /*Route::middleware('auth:api')->group(function (){
 
@@ -195,4 +188,3 @@ Route::get('client/{client_id}',[ClientsController::class,'edit']);
 /*Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });*/
-

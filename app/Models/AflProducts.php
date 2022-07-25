@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class AflProducts extends Model
 {
     use HasFactory;
-    protected $guarded =[];
+
+    protected $guarded = [];
 
     protected $primaryKey = 'product_id';
+
     public $timestamps = false;
 
     public function license()
@@ -18,8 +20,8 @@ class AflProducts extends Model
         return $this->belongTo(AflLicenses::class);
     }
 
-    public function installation(){
+    public function installation()
+    {
         return $this->belongsTo(AflInstallations::class);
     }
-
 }

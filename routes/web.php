@@ -1,15 +1,11 @@
 <?php
 
 use App\Http\Controllers\AFL\ConnectionController;
+use App\Http\Controllers\AflCallbacks\DownloadFileController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
 use App\Http\Controllers\AflCallbacks\LicenseVerifyController;
-use App\Http\Controllers\AflCallbacks\DownloadFileController;
 use Illuminate\Support\Facades\Route;
-
-use Illuminate\Support\Facades\Http;
-use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,18 +20,18 @@ use Illuminate\Support\Str;
 
 // Auth::routes();
 
-Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class,'getLanguageFile'])->name('assets.lang');
+Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class, 'getLanguageFile'])->name('assets.lang');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::post('/apl_callbacks/connection_test.php',[ConnectionController::class,'connection']);
-Route::post('/apl_callbacks/license_install.php',[LicenseInstallController::class,'licenseInstall']);
-Route::post('/apl_callbacks/license_scheme.php',[LicenseSchemeController::class,'licenseScheme']);
-Route::post('/apl_callbacks/license_verify.php',[LicenseVerifyController::class,'licenseVerify']);
-Route::post('/aus_callbacks/download_file.php',[DownloadFileController::class,'downloadFile']);
+Route::post('/apl_callbacks/connection_test.php', [ConnectionController::class, 'connection']);
+Route::post('/apl_callbacks/license_install.php', [LicenseInstallController::class, 'licenseInstall']);
+Route::post('/apl_callbacks/license_scheme.php', [LicenseSchemeController::class, 'licenseScheme']);
+Route::post('/apl_callbacks/license_verify.php', [LicenseVerifyController::class, 'licenseVerify']);
+Route::post('/aus_callbacks/download_file.php', [DownloadFileController::class, 'downloadFile']);
 
-Route::get('/{one?}/{two?}/{three?}/{four?}/', function(){
+Route::get('/{one?}/{two?}/{three?}/{four?}/', function () {
     return view('welcome');
 });

@@ -9,7 +9,7 @@ class AflFailedLogins extends Model
 {
     use HasFactory;
 
-    protected $guarded =[];
-    protected $primaryKey = 'failed_login_id';
+    protected $guarded = [];
 
+    protected $primaryKey = 'failed_login_id';
 }

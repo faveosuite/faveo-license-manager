@@ -27,7 +27,6 @@ class AddVERIFIEDUPDATESToAflSettingsTable extends Migration
     {
         Schema::table('afl_settings', function (Blueprint $table) {
             $table->dropForeign('VERIFIED_UPDATES');
-
         });
     }
 }
