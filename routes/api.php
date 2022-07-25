@@ -65,7 +65,7 @@ use Illuminate\Support\Facades\Route;
 /********************************************************* CALLBACK *******************************************************************/
 
 //API CALLS FOR UI OF LICENSE AND UPDATE MANAGER AND BILLING
-Route::group(['prefix' => 'admin', 'namespace' => 'Admin', 'middleware' => 'manager'], function () {
+Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(function () {
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
 
     /******************************************* LICENSE MANAGER ******************************************************/
