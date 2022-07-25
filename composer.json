@@ -18,7 +18,8 @@
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.2",
-        "lcobucci/jwt": "3.4"
+        "lcobucci/jwt": "3.4",
+        "league/flysystem-aws-s3-v3": "^3.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
