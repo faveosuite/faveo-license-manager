@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\AfuVersions;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AfuVersionsFactory extends Factory

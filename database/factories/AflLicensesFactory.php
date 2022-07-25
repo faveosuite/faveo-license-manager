@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\AflLicenses;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AflLicensesFactory extends Factory

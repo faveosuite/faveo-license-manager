@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\AflBannedHosts;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AflBannedHostsFactory extends Factory

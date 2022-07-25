@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\AflSettings;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AflSettingsFactory extends Factory

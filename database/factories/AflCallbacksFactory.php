@@ -2,7 +2,6 @@
 
 namespace Database\Factories;
 
-use App\Models\AflCallbacks;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AflCallbacksFactory extends Factory
