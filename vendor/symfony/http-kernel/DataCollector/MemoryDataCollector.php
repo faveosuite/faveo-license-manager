@@ -15,8 +15,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * MemoryDataCollector.
- *
  * @author Fabien Potencier <fabien@symfony.com>
  *
  * @final
@@ -55,29 +53,16 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
         $this->updateMemoryUsage();
     }
 
-    /**
-     * Gets the memory.
-     *
-     * @return int The memory
-     */
-    public function getMemory()
+    public function getMemory(): int
     {
         return $this->data['memory'];
     }
 
-    /**
-     * Gets the PHP memory limit.
-     *
-     * @return int The memory limit
-     */
-    public function getMemoryLimit()
+    public function getMemoryLimit(): int|float
     {
         return $this->data['memory_limit'];
     }
 
-    /**
-     * Updates the memory usage data.
-     */
     public function updateMemoryUsage()
     {
         $this->data['memory'] = memory_get_peak_usage(true);
@@ -86,15 +71,12 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
     /**
      * {@inheritdoc}
      */
-    public function getName()
+    public function getName(): string
     {
         return 'memory';
     }
 
-    /**
-     * @return int|float
-     */
-    private function convertToBytes(string $memoryLimit)
+    private function convertToBytes(string $memoryLimit): int|float
     {
         if ('-1' === $memoryLimit) {
             return -1;
@@ -112,11 +94,8 @@ class MemoryDataCollector extends DataCollector implements LateDataCollectorInte
 
         switch (substr($memoryLimit, -1)) {
             case 't': $max *= 1024;
-            // no break
             case 'g': $max *= 1024;
-            // no break
             case 'm': $max *= 1024;
-            // no break
             case 'k': $max *= 1024;
         }
 
