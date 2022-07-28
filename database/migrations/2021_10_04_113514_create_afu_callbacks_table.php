@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAfuCallbacksTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -17,15 +17,15 @@ class CreateAfuCallbacksTable extends Migration
             $table->increments('callback_id')->unique();
 
             $table->integer('product_id')
-                ->constrained('afl_products','product_id')
+                ->constrained('afl_products', 'product_id')
                 ->onDelete('cascade');
 
             $table->string('version_id')->default('null')
-                ->constrained('afu_versions','version_id')
+                ->constrained('afu_versions', 'version_id')
                 ->onDelete('cascade');
-            $table->string('callback_type',125);
-            $table->string('callback_ip',125);
-            $table->string('callback_path',125);
+            $table->string('callback_type', 125);
+            $table->string('callback_ip', 125);
+            $table->string('callback_path', 125);
             $table->dateTime('callback_date_time');
             $table->boolean('callback_status');
             $table->timestamps();
@@ -41,4 +41,4 @@ class CreateAfuCallbacksTable extends Migration
     {
         Schema::dropIfExists('afu_callbacks');
     }
-}
+};

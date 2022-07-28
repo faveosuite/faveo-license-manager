@@ -10,6 +10,6 @@ class AflEmails extends Model
     use HasFactory;
 
     protected $guarded = [];
-    protected $primaryKey = 'email_id';
 
+    protected $primaryKey = 'email_id';
 }

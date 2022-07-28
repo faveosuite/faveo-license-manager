@@ -8,8 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AflNotifications extends Model
 {
     use HasFactory;
-    protected $guarded = [];
-    protected $primaryKey = 'notification_id';
-        public $timestamps = false;
 
+    protected $guarded = [];
+
+    protected $primaryKey = 'notification_id';
+
+    public $timestamps = false;
 }

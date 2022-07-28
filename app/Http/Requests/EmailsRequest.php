@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
-use App\Models\AflEmails;
-use App\Http\Controllers\Admin\EmailsController;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class EmailsRequest extends FormRequest
@@ -25,13 +24,12 @@ class EmailsRequest extends FormRequest
     public function rules()
     {
         return [
-            'email_expiring_license_subject'=> 'required|string',
-            'email_expiring_license_text'=> 'required|string',
-            'email_expiring_updates_subject'=>'required|string',
-            'email_expiring_updates_text'=>'required|string',
-            'email_expiring_support_subject'=>'required|string',
-            'email_expiring_support_text'=>'required|string'
+            'email_expiring_license_subject' => 'required|string',
+            'email_expiring_license_text' => 'required|string',
+            'email_expiring_updates_subject' => 'required|string',
+            'email_expiring_updates_text' => 'required|string',
+            'email_expiring_support_subject' => 'required|string',
+            'email_expiring_support_text' => 'required|string',
         ];
     }
-
 }

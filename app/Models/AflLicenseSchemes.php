@@ -8,6 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AflLicenseSchemes extends Model
 {
     use HasFactory;
-        public $timestamps = false;
 
+    public $timestamps = false;
 }

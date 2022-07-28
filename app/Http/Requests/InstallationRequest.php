@@ -1,8 +1,7 @@
 <?php
 
 namespace App\Http\Requests;
-use App\Models\AflInstallations;
-use App\Http\Controllers\Admin\InstallationController;
+
 use Illuminate\Foundation\Http\FormRequest;
 
 class InstallationRequest extends FormRequest
@@ -27,8 +26,8 @@ class InstallationRequest extends FormRequest
         return [
             'installation_ip' => 'string|unique:afl_installations,installation_ip',
             'installation_status' => 'boolean',
-            'installation_disable_ip_verification'=>'boolean'
-            
+            'installation_disable_ip_verification' => 'boolean',
+
         ];
     }
 }

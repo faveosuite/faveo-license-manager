@@ -2,16 +2,13 @@
 
 namespace App\Http\Requests;
 
-use App\Models\AflLicenses;
-use App\Http\Controllers\Admin\LicenseController;
-
-use Illuminate\Foundation\Http\FormRequest;
-
 use App\Traits\RequestJsonValidation;
+use Illuminate\Foundation\Http\FormRequest;
 
 class LicenseRequest extends FormRequest
 {
     use RequestJsonValidation;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -31,32 +28,33 @@ class LicenseRequest extends FormRequest
     {
         return [
 
-                    'license_code' => 'required',
-                    'product_id' => 'required',
-                    'license_order_number' => 'numeric',
-                    'license_require_domain' => 'boolean',
-                    'license_limit' => 'numeric',
-                    'license_date' => 'date',
-                    'license_cancel_date' => 'date',
-                    'license_expire_email_date' => 'date',
-                    'license_updates_date' => 'date',
-                    'license_updates_email_date' =>'date',
-                    'license_support_email_date' => 'date',
-                    'license_support_date' => 'date',
-                    'license_status' =>'boolean',
-                    'license_expire_date' => 'required|date',
-                    'license_updates_date' => 'required|date',
-                    'license_support_date' =>  'required|date'
+            'license_code' => 'required',
+            'product_id' => 'required',
+            'license_order_number' => 'numeric',
+            'license_require_domain' => 'boolean',
+            'license_limit' => 'numeric',
+            'license_date' => 'date',
+            'license_cancel_date' => 'date',
+            'license_expire_email_date' => 'date',
+            'license_updates_date' => 'date',
+            'license_updates_email_date' => 'date',
+            'license_support_email_date' => 'date',
+            'license_support_date' => 'date',
+            'license_status' => 'boolean',
+            'license_expire_date' => 'required|date',
+            'license_updates_date' => 'required|date',
+            'license_support_date' => 'required|date',
         ];
     }
+
     public function messages()
     {
         return[
-            'license_code.required'           => 'Please Generate license code',
-            'product_id.required'             => 'Please select the product',
-            'license_expire_date.required'    => 'Please select License Expiration Date',
-            'license_updates_date.required'   => 'Please select License Update Date',
-            'license_support_date.required'   => 'Please select License support Date',
+            'license_code.required' => 'Please Generate license code',
+            'product_id.required' => 'Please select the product',
+            'license_expire_date.required' => 'Please select License Expiration Date',
+            'license_updates_date.required' => 'Please select License Update Date',
+            'license_support_date.required' => 'Please select License support Date',
         ];
     }
 }
