@@ -9,15 +9,6 @@ use Illuminate\Support\Facades\DB;
 class Kernel extends ConsoleKernel
 {
     /**
-     * The Artisan commands provided by your application.
-     *
-     * @var array
-     */
-    protected $commands = [
-        //
-    ];
-
-    /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
@@ -27,10 +18,9 @@ class Kernel extends ConsoleKernel
     {
         $schedule->call(function () {
             DB::table('oauth_access_tokens')
-                ->orWhere('revoked',1)
-                ->orWhere('expires_at','<',date('Y-m-d'))->delete();
+                ->orWhere('revoked', 1)
+                ->orWhere('expires_at', '<', date('Y-m-d'))->delete();
         })->daily();
-
     }
 
     /**

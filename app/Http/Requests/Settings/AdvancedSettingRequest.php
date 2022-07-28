@@ -1,14 +1,13 @@
 <?php
 
 namespace App\Http\Requests\Settings;
-use App\Models\AflSettings;
-use App\Http\Controllers\Admin\SettingsController;
-use Illuminate\Foundation\Http\FormRequest;
+
 use App\Traits\RequestJsonValidation;
+use Illuminate\Foundation\Http\FormRequest;
 
 class AdvancedSettingRequest extends FormRequest
 {
- use RequestJsonValidation;
+    use RequestJsonValidation;
 
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +28,7 @@ class AdvancedSettingRequest extends FormRequest
     {
         return [
             'API_STATUS' => 'required|boolean',
-            'ENVATO_API_TOKEN' => 'string'
+            'ENVATO_API_TOKEN' => 'string',
         ];
     }
 }

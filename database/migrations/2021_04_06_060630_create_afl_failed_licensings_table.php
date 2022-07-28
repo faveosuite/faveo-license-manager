@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAflFailedLicensingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -16,7 +16,7 @@ class CreateAflFailedLicensingsTable extends Migration
         Schema::create('afl_failed_licensings', function (Blueprint $table) {
             //$table->primary('failed_licensing_id');
             $table->increments('failed_licensing_id')->unique();
-            $table->string('failed_licensing_ip',125)->unique();
+            $table->string('failed_licensing_ip', 125)->unique();
             $table->integer('failed_licensing_attempts');
             $table->date('failed_licensing_last_attempt_date');
             $table->timestamps();
@@ -32,4 +32,4 @@ class CreateAflFailedLicensingsTable extends Migration
     {
         Schema::dropIfExists('afl_failed_licensings');
     }
-}
+};

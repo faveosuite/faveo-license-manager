@@ -2,34 +2,33 @@
 
     <form-field-template :label="label" :name="name" :labelStyle="labelStyle"  :classname="classname" :hint="hint" :required="required">
 
-
-        <date-picker type="datetime" 
-            v-model="changedValue" lang="en"  
-            :type="type" 
-            :time-picker-options="timePickerOptions" 
-            :format="format" 
-            :placeholder="place" 
-            :disabled="disabled" 
-            :range="range" 
-            :input-class="['form-control']" 
-            @input="onDateTimeChange(changedValue, name)" 
-            :clearable="clearable" 
+        <date-picker
+            v-model:value="changedValue"
+            :type="type"
+            :time-picker-options="timePickerOptions"
+            :format="format"
+            :placeholder="place"
+            :disabled="disabled"
+            :range="range"
+            :input-class="['form-control']"
+            @change="onDateTimeChange(changedValue, name)"
+            :clearable="clearable"
             :confirm="confirm"
-            :editable="editable" 
-            :shortcuts="pickers" 
-            :not-before="notBefore" 
-            :not-after="notAfter">        
-        </date-picker>
+            :editable="editable"
+            :shortcuts="pickers"
+            :disabled-date="notBefore"
+            :disabled-time="notAfter"
+        ></date-picker>
     </form-field-template>
 </template>
 
 <script type="text/javascript">
 
-    import DatePicker from 'vue2-datepicker'
-
-    import 'vue2-datepicker/index.css';
+    import DatePicker from 'vue-datepicker-next';
 
     import moment from 'moment'
+
+    import FormFieldTemplate from "./FormFieldTemplate.vue";
 
     export default {
 
@@ -43,14 +42,14 @@
 
             hint: { type:String, default: '' }, //for tooltip message
 
-            value: { type: String|Date, required: true },
+            value: { type: [String,Date], required: true },
 
-            name: { type: String|Number, required: true },
+            name: { type: [String,Number], required: true },
 
             type: {type: String, default: 'text'},
 
             onChange:{type: Function, Required: true},
-            
+
             classname : {type: String, default:''},
 
             labelStyle:{type:Object},
@@ -67,11 +66,11 @@
 
             range: { type : Boolean, default : false},
 
-            place: { type : String},
-    
-            notBefore: { type : String|Date },
+            place: { type : String, default : 'Select date'},
 
-            notAfter: { type : String|Date },
+            notBefore: { type : [String,Date] },
+
+            notAfter: { type : [String,Date] },
 
             currentYearDate : { type : Boolean , default : false},
 
@@ -79,13 +78,13 @@
 
             editable : { type : Boolean , default : true},
 
-            pickers : { type : Boolean | Array , default : ()=>[]},
+            pickers : { type : [Boolean, Array] , default : false},
         },
 
         data(){
 
             return {
-                
+
                 changedValue: this.value,
 
                 moment:moment,
@@ -99,7 +98,7 @@
           onDateTimeChange(changedValue, name){
 
             this.count++;
-            
+
             this.onChange(changedValue, name);
           }
         },
@@ -107,7 +106,7 @@
         watch:{
 
             value(newValue,oldValue){
-                
+
                 this.changedValue = newValue === '' ? null : newValue;
             }
         },
@@ -116,7 +115,7 @@
 
             DatePicker,
 
-            'form-field-template' : require('./FormFieldTemplate').default
+            'form-field-template' : FormFieldTemplate
         }
     };
 
@@ -124,15 +123,15 @@
 
 <style>
     .mx-input{border-radius: 0 !important;}
-    
+
     .mx-shortcuts-wrapper .mx-shortcuts {text-transform: capitalize;}
-    
+
     .mx-datepicker{width: 100% !important;}
-    
+
     .mx-datepicker-range {width: 100% !important;}
-    
+
     .mx-input-wrapper input {background-color: transparent !important;}
-    
+
     .mx-calendar-icon{height: auto !important;}
 
     .mx-input-append{background-color: transparent !important;}

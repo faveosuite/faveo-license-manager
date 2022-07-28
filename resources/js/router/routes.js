@@ -1,79 +1,79 @@
-import {store} from 'store'
+import store from '../store/index'
 
-import LicenseLayout from 'components/LicenseManagerLayout.vue';
+import LicenseLayout from '../Layouts/LicenseManagerLayout.vue';
 
-import Dashboard from 'components/Views/Dashboard/Dashboard.vue';
+import Dashboard from '../Pages/Dashboard.vue';
 
-import NotFound from 'components/Views/NotFound/NotFound.vue';
+import NotFound from '../Pages/NotFound.vue';
 
-import Login from 'components/Auth/Login.vue';
+import Login from '../Pages/Auth/Login.vue';
 
-import ForgotPassword from 'components/Auth/ForgotPassword.vue';
+import ForgotPassword from '../Pages/Auth/ForgotPassword.vue';
 
-import ResetPassword from 'components/Auth/ResetPassword.vue'
+import ResetPassword from '../Pages/Auth/ResetPassword.vue'
 
 //===========================PRODUCTS MENU=========================
 
-import ProductCreateEdit from 'components/Views/Product/ProductCreateEdit.vue';
+import ProductCreateEdit from '../Pages/Product/ProductCreateEdit.vue';
 
-import ProductsIndex from 'components/Views/Product/ProductsIndex.vue';
+import ProductsIndex from '../Pages/Product/ProductsIndex.vue';
 
 let productsMenu = {
 
-	path: '/products',
+    path: '/products',
 
-	component: LicenseLayout,
+    component: LicenseLayout,
 
-	name: 'Products',
+    name: 'Products',
 
-	redirect: '/products/list',
+    redirect: '/products/list',
 
-	beforeEnter: requireAuth,
+    beforeEnter: requireAuth,
 
-	children: [
+    children: [
 
-		{
+        {
 
-			path: 'list',
+            path: 'list',
 
-			name: 'Products Index',
+            name: 'Products Index',
 
-			component: ProductsIndex,
+            component: ProductsIndex,
 
-			meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, active : 'products' } }
-		},
+            meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, active : 'products' } }
+        },
 
-		{
+        {
 
-			path: 'create',
+            path: 'create',
 
-			name: 'Product Create',
+            name: 'Product Create',
 
-			component: ProductCreateEdit,
+            component: ProductCreateEdit,
 
-			meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'create' } }
-		},
+            meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'create' } }
+        },
 
-		{
+        {
 
-			path: ':id/edit',
+            path: ':id/edit',
 
-			name: 'Product Edit',
+            name: 'Product Edit',
 
-			component: ProductCreateEdit,
+            component: ProductCreateEdit,
 
-			meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'edit' } }
-		},
-	]
+            meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'edit' } }
+        },
+    ]
 }
 
 //=================================================================
 
 //===========================CLIENTS MENU==========================
 
-import ClientCreateEdit from 'components/Views/Client/ClientCreateEdit.vue';
+import ClientCreateEdit from '../Pages/Client/ClientCreateEdit.vue';
 
-import ClientsIndex from 'components/Views/Client/ClientsIndex.vue';
+import ClientsIndex from '../Pages/Client/ClientsIndex.vue';
 
 let clientsMenu = {
 
@@ -128,9 +128,9 @@ let clientsMenu = {
 
 //===========================LICENSES MENU=========================
 
-import LicenseCreateEdit from 'components/Views/License/LicenseCreateEdit.vue';
+import LicenseCreateEdit from '../Pages/License/LicenseCreateEdit.vue';
 
-import LicensesIndex from 'components/Views/License/LicensesIndex.vue';
+import LicensesIndex from '../Pages/License/LicensesIndex.vue';
 
 let licensesMenu = {
 
@@ -185,9 +185,9 @@ let licensesMenu = {
 
 //===========================INSTALLATIONS MENU==========================
 
-import InstallationsIndex from 'components/Views/Installations/InstallationsIndex.vue';
+import InstallationsIndex from '../Pages/Installations/InstallationsIndex.vue';
 
-import InstallationCreateEdit from 'components/Views/Installations/InstallationCreateEdit.vue';
+import InstallationCreateEdit from '../Pages/Installations/InstallationCreateEdit.vue';
 
 let installationsMenu = {
 
@@ -231,9 +231,9 @@ let installationsMenu = {
 
 //===========================CALLBACKS MENU==========================
 
-import CallbacksIndex from 'components/Views/Callbacks/CallbacksIndex.vue';
+import CallbacksIndex from '../Pages/Callbacks/CallbacksIndex.vue';
 
-import CallbackCreateEdit from 'components/Views/Callbacks/CallbackCreateEdit.vue'
+import CallbackCreateEdit from '../Pages/Callbacks/CallbackCreateEdit.vue'
 
 let callbacksMenu = {
 
@@ -288,11 +288,11 @@ let callbacksMenu = {
 
 //===========================REPORTS MENU==========================
 
-import ViewCrackingReports from 'components/Views/Report/ViewCrackingReports.vue';
+import ViewCrackingReports from '../Pages/Report/ViewCrackingReports.vue';
 
-import ViewLicenseReports from 'components/Views/Report/ViewLicenseReports.vue';
+import ViewLicenseReports from '../Pages/Report/ViewLicenseReports.vue';
 
-import ViewSystemReports from 'components/Views/Report/ViewSystemReports.vue';
+import ViewSystemReports from '../Pages/Report/ViewSystemReports.vue';
 
 let reportsMenu = {
 
@@ -347,9 +347,9 @@ let reportsMenu = {
 
 //===========================SERVER MENU==========================
 
-import CustomizeNotifications from 'components/Views/ServerNotifications/CustomizeNotifications.vue';
+import CustomizeNotifications from '../Pages/ServerNotifications/CustomizeNotifications.vue';
 
-import CustomizeEmails from 'components/Views/ServerNotifications/CustomizeEmails.vue';
+import CustomizeEmails from '../Pages/ServerNotifications/CustomizeEmails.vue';
 
 let serverMenu = {
 
@@ -393,17 +393,15 @@ let serverMenu = {
 
 //===========================SETTINGS MENU=========================
 
-import GeneralSettings from 'components/Views/Settings/GeneralSettings.vue';
+import GeneralSettings from '../Pages/Settings/GeneralSettings.vue';
 
-import AdvancedSettings from 'components/Views/Settings/AdvancedSettings.vue';
+import AdvancedSettings from '../Pages/Settings/AdvancedSettings.vue';
 
-import SecuritySettings from 'components/Views/Settings/SecuritySettings.vue';
+import SecuritySettings from '../Pages/Settings/SecuritySettings.vue';
 
-import EmailSettings from 'components/Views/Settings/EmailSettings.vue';
+import EmailSettings from '../Pages/Settings/EmailSettings.vue';
 
-import SystemCleanupSettings from 'components/Views/Settings/SystemCleanupSettings.vue';
-
-
+import SystemCleanupSettings from '../Pages/Settings/SystemCleanupSettings.vue';
 
 let settingsMenu = {
 
@@ -476,13 +474,12 @@ let settingsMenu = {
 	]
 }
 
-//=================================================================
 
 //===========================API KEY MENU==========================
 
-import APIKeyCreateEdit from 'components/Views/APIKey/APIKeyCreateEdit.vue';
+import APIKeyCreateEdit from '../Pages/APIKey/APIKeyCreateEdit.vue';
 
-import APIKeyIndex from 'components/Views/APIKey/APIKeyIndex.vue';
+import APIKeyIndex from '../Pages/APIKey/APIKeyIndex.vue';
 
 let apiMenu = {
 
@@ -533,13 +530,11 @@ let apiMenu = {
 	]
 }
 
-//=================================================================
-
 //===========================BANNED HOSTS MENU==========================
 
-import BannedHostCreateEdit from 'components/Views/BannedHost/BannedHostCreateEdit.vue';
+import BannedHostCreateEdit from '../Pages/BannedHost/BannedHostCreateEdit.vue';
 
-import BannedHostsIndex from 'components/Views/BannedHost/BannedHostsIndex.vue';
+import BannedHostsIndex from '../Pages/BannedHost/BannedHostsIndex.vue';
 
 let bannedMenu = {
 
@@ -590,11 +585,9 @@ let bannedMenu = {
 	]
 }
 
-//=================================================================
-
 //===========================EXTRA MENU=========================
 
-import ConfigurationSettings from 'components/Views/Extra/ConfigurationSettings.vue';
+import ConfigurationSettings from '../Pages/Extra/ConfigurationSettings.vue';
 
 let extraMenu = {
 
@@ -625,9 +618,9 @@ let extraMenu = {
 
 //=================================================================
 
-let routes = [
+const routes = [
 
-	{
+    {
 
 		path: '/',
 
@@ -654,29 +647,29 @@ let routes = [
 		]
 	},
 
-	productsMenu,
+    productsMenu,
 
-	clientsMenu,
+    clientsMenu,
 
-	licensesMenu,
+    licensesMenu,
 
-	installationsMenu,
+    installationsMenu,
 
-	callbacksMenu,
+    callbacksMenu,
 
-	reportsMenu,
+    reportsMenu,
 
-	serverMenu,
+    serverMenu,
 
-	settingsMenu,
+    settingsMenu,
 
-	apiMenu,
+    apiMenu,
 
-	bannedMenu,
+    bannedMenu,
 
-	extraMenu,
+    extraMenu,
 
-	{
+    {
         path: '/login',
         name: 'login',
         component: Login
@@ -695,7 +688,7 @@ let routes = [
     },
 
 	{
-		path: '*',
+        path: '/:pathMatch(.*)*',
 		name:"404",
 		component: NotFound
 	}

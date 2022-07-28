@@ -85,7 +85,7 @@ import vSelect from "vue-select";
 
 import axios from "axios";
 
-import FormFieldTemplate from "./FormFieldTemplate";
+import FormFieldTemplate from "./FormFieldTemplate.vue";
 
 import { errorHandler } from "helpers/responseHandler";
 

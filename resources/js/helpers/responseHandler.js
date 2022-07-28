@@ -4,7 +4,7 @@
  */
 
 
-import { store } from "store";
+import store from "../store";
 
 /**
  * TODO: if error response is 400, write to vuex for components to read

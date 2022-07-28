@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AflClients extends Model
 {
     use HasFactory;
-    protected $guarded =[];
+
+    protected $guarded = [];
 
     protected $primaryKey = 'client_id';
 
@@ -22,10 +23,8 @@ class AflClients extends Model
         return $this->hasMany(AflInstallations::class);
     }
 
-
     public function updateInstallation()
     {
         return $this->hasMany(AfuInstallations::class);
     }
-
 }

@@ -1,6 +1,6 @@
 import {store} from "store";
 
-import {Validator} from 'easy-validator-js';
+import {Validator} from '../easy-validator';
 
 import {lang} from 'helpers/extraLogics';
 
@@ -13,7 +13,7 @@ export function validateRegisterSettings(data){
         first_name: [first_name, 'isRequired'],
 
         last_name: [last_name, 'isRequired'],
-        
+
         email: [email, 'isRequired', 'isEmail'],
 
         password: [password, 'isRequired', 'max(50)', 'min(2)'],

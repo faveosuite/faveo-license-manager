@@ -9,7 +9,9 @@ class AflCallbacks extends Model
 {
     use HasFactory;
 
-     protected $guarded=[];
+    protected $guarded = [];
+
     protected $primaryKey = 'callback_id';
+
     public $timestamps = false;
 }
