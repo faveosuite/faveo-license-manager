@@ -1,4 +1,4 @@
-require('./bootstrap');
+import './bootstrap';
 
 import {store} from 'store'
 

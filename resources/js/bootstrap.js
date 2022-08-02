@@ -1,10 +1,11 @@
-window._ = require('lodash');
+import _ from 'lodash';
+window._ = _;
 
-require('../css/app.scss');
+import '../css/app.scss';
 
-require('../css/dynamicSelectCommon.css');
+import '../css/dynamicSelectCommon.css';
 
-require('../css/tooltip.css');
+import '../css/tooltip.css';
 
 import "vue-select/src/scss/vue-select.scss";
 
@@ -34,7 +35,8 @@ try {
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-window.axios = require('axios');
+import axios from 'axios';
+window.axios = axios;
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
