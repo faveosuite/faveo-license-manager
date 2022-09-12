@@ -47,6 +47,7 @@ use Illuminate\Support\Facades\Route;
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/forgot', [AuthController::class, 'forgot']);
     Route::post('/reset', [AuthController::class, 'reset']);
+    Route::get('/admin/viewApiKeys', [ApiKeysController::class, 'show']);
 
 /*************************************** CALLBACK FROM FAVEO TO LICENSE AND UPDATE *******************************************/
 
@@ -138,13 +139,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('addnewapi', [ApiKeysController::class, 'apiKeyAdd']);
     Route::post('editnewapi/{api_key_id}', [ApiKeysController::class, 'apiKeyUpdate']);
     Route::post('deleteapi/{api_key_id}', [ApiKeysController::class, 'apiKeyDelete']);
-    Route::get('viewApiKeys', [ApiKeysController::class, 'show']);
     Route::get('viewApiKeys/{api_key_id}', [ApiKeysController::class, 'view']);
-
-    Route::post('addnewapi', [ApiKeysController::class, 'apiKeyAdd']);
-    Route::post('editnewapi/{api_key_id}', [ApiKeysController::class, 'apiKeyUpdate']);
-    Route::Delete('deleteapi/{api_key_id}', [ApiKeysController::class, 'apiKeyDelete']);
-    Route::get('viewApiKeys', [ApiKeysController::class, 'show']);
 
     //REPORTS FOR LICENSE AND UPDATE
     Route::post('reports/delete', [ReportsController::class, 'reports']);

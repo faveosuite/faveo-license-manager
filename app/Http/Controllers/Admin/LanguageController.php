@@ -47,7 +47,7 @@ class LanguageController extends Controller
      */
     private function appendCoreLanguage(string $languageName, array &$languageArray): void
     {
-        $path = resource_path('lang/'.$languageName);
+        $path = base_path('lang/'.$languageName);
         $this->updateLanguageArray($path, $languageArray);
     }
 

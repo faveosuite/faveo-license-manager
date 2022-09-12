@@ -3,18 +3,32 @@ import laravel from 'laravel-vite-plugin';
 import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
+    server: {
+        hmr: {
+            host: 'localhost',
+        }
+    },
+    resolve: {
+        alias: {
+            vue: 'vue/dist/vue.esm-bundler'
+        }
+    },
     plugins: [
-        laravel([
-            'resources/sass/app.scss',
-            'resources/js/app.js',
-        ]),
         vue({
             template: {
-                transformAssetUrls: {
-                    base: null,
-                    includeAbsolute: false,
-                },
-            },
+                compilerOptions: {
+                    isCustomElement: (tag) => {
+                        return tag.startsWith('is-') // (return true)
+                    }
+                }
+            }
+        }),
+        laravel({
+            input: [
+                'resources/css/app.css',
+                'resources/js/app.js',
+            ],
+            refresh: true,
         }),
     ],
 });

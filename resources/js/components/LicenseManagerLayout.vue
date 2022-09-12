@@ -15,7 +15,7 @@
 				<div class="container-fluid">
 
 					<div class="row">
-						
+
 						<transition name="fade" mode="out-in">
 
 							<router-view :key="$route.fullPath" :user="getUserData"></router-view>
@@ -39,13 +39,13 @@
 
 		components : {
 
-			'nav-bar' : require('./Layout/Navbar').default,
+			'nav-bar' : require('../Layouts/Components/Navbar').default,
 
-			'side-bar' : require('./Layout/Sidebar').default,
+			'side-bar' : require('../Layouts/Components/Sidebar').default,
 
-			'bread-crumbs' : require('./Layout/Breadcrumbs').default,
+			'bread-crumbs' : require('../Layouts/Components/Breadcrumbs').default,
 
-			'license-footer' : require('./Layout/Footer').default,
+			'license-footer' : require('../Layouts/Components/Footer').default,
 		},
 
 		computed : {
@@ -56,7 +56,7 @@
 </script>
 
 <style scoped>
-	
+
 	.fade-enter {
 	  opacity: 0;
 	}

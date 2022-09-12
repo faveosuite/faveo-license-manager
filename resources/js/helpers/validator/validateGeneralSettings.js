@@ -1,8 +1,8 @@
-import {store} from 'store'
+import store from '../../store'
 
 import { Validator } from 'easy-validator-js';
 
-import { lang } from 'helpers/extraLogics';
+import { lang } from '../../helpers/extraLogics';
 
 export function validateGeneralSettings(data) {
 

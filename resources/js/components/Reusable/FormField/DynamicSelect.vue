@@ -1,14 +1,14 @@
 <template>
 
-	<form-field-template :label="label" :name="name" :classname="classname" :hint="hint" :required="required" 
+	<form-field-template :label="label" :name="name" :classname="classname" :hint="hint" :required="required"
 		:labelStyle="labelStyle">
 
 		<div class="dynamic-select">
 
-			<v-select 
+			<v-select
 			    :options="listElements"
 			    :class="['faveo-dynamic-select']"
-			    v-model="selectedValue"
+			    v-model:modelValue="selectedValue"
 				:label="optionLabel"
 				:multiple="multiple"
 				:placeholder="placeholder"
@@ -17,10 +17,10 @@
 				:searchable="searchable"
 				:closeOnSelect="closeOnSelect"
 				:taggable="taggable"
-				@input="onValueChange"
+				@update:modelValue="onValueChange"
 				@search="onSearch"
 			>
-				
+
 			</v-select>
 		</div>
 	</form-field-template>
@@ -30,19 +30,25 @@
 
 import vSelect from "vue-select";
 
-import { getSubStringValue, boolean } from 'helpers/extraLogics';
+import '../../../../css/dynamicSelectCommon.css';
+
+import 'vue-select/dist/vue-select.css';
+
+import { getSubStringValue, boolean } from '../../../helpers/extraLogics';
 
 import _ from 'lodash';
 
 import axios from "axios";
+
+import FormFieldTemplate from "./FormFieldTemplate.vue";
 
 export default {
 
 	name: "static-select",
 
 	props: {
-		
-		name: { type: String | Number,Required: true},
+
+		name: { type: [String, Number],Required: true},
 
 		hint: {type: String,default: ""},
 
@@ -50,13 +56,13 @@ export default {
 
 		classname: {type: String,default: ""},
 
-		id: {type: String | Number,default: "dynamic-select"},
+		id: {type: [String, Number],default: "dynamic-select"},
 
 		labelStyle: {type: Object,default: function () {return {};}},
 
 		onChange: {type: Function,required: true},
 
-		value: {type: Object | String,default: null},
+		value: {type: [Object, String],default: null},
 
 		elements: {type: Array,default () {return []}},
 
@@ -80,23 +86,17 @@ export default {
 
 		taggable: {type: Boolean,default: false},
 
-		strlength: {type: Number | String,default: 40},
+		strlength: {type: [Number, String],default: 40},
 	},
 
 	data: () => ({
-		
+
 		selectedValue: null,
 
 		searchQuery : undefined,
 
 		listElements: [],
 	}),
-
-	watch: {
-		value(newvalue) {
-			this.selectedValue = newvalue;
-		}
-	},
 
 	mounted() {
 		//initialising input state with prop data
@@ -112,7 +112,7 @@ export default {
 		},
 
 		value(newValues, oldValues) {
-			
+
 			this.selectedValue = newValues;
 		}
 	},
@@ -147,7 +147,7 @@ export default {
 		}, 350),
 
 		filterListElements() {
-			
+
 			this.listElements = this.elements.filter((element) => element[this.optionLabel].toLowerCase().includes(this.searchQuery.toLowerCase()));
 		},
 	},
@@ -156,7 +156,7 @@ export default {
 
 		'v-select': vSelect,
 
-		"form-field-template": require("./FormFieldTemplate").default
+		"form-field-template": FormFieldTemplate
 	}
 };
 </script>
