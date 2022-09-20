@@ -31,20 +31,20 @@
 
             <p class="mb-1">
 
-            <div class="row">
+                <div class="row">
 
-              <div class="col-sm-6">
+                  <div class="col-sm-6">
 
-                <router-link to="/login">{{lang('know_password')}}</router-link>
-              </div>
+                    <router-link to="/login">{{lang('know_password')}}</router-link>
+                  </div>
 
-              <div class="col-sm-6">
+                  <div class="col-sm-6">
 
-                <button type="button" class="btn btn-primary float-right" @click="onSubmit()">
+                    <button type="button" class="btn btn-primary float-right" @click="onSubmit()">
 
-                  <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;{{lang('send')}}</button>
-              </div>
-            </div>
+                      <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;{{lang('send')}}</button>
+                  </div>
+                </div>
             </p>
           </template>
         </div>
@@ -54,8 +54,6 @@
 </template>
 <script>
 
-  import { mapGetters } from 'vuex';
-
   import { errorHandler, successHandler } from '../../helpers/responseHandler'
 
   import { validateForgotSettings } from "../../helpers/validator/forgotRules";
@@ -64,9 +62,23 @@
 
   import TextField from "../../components/Reusable/FormField/TextField.vue";
 
+  import {useStore} from "vuex";
+
+  import {computed} from "vue";
+
   export default {
 
     name: 'forgot-password',
+
+      setup() {
+
+          const store = useStore();
+
+          return {
+              // getter
+              getUserToken: computed(() => store.getters.getUserToken)
+          };
+      },
 
     data() {
 
@@ -84,13 +96,8 @@
 
       if (this.getUserToken) {
 
-        this.$router.push({ name: 'Dashboard' }).catch(err => { })
+        this.$router.push({ name: 'Dashboard' });
       }
-    },
-
-    computed: {
-
-      ...mapGetters(['getUserToken'])
     },
 
     methods: {
@@ -139,7 +146,7 @@
 
             setTimeout(() => {
 
-              this.$router.push('/login').catch(err => { });
+              this.$router.push('/login')
 
             }, 2000);
 

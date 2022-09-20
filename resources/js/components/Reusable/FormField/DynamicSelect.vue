@@ -30,10 +30,6 @@
 
 import vSelect from "vue-select";
 
-import '../../../../css/dynamicSelectCommon.css';
-
-import 'vue-select/dist/vue-select.css';
-
 import { getSubStringValue, boolean } from '../../../helpers/extraLogics';
 
 import _ from 'lodash';

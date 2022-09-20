@@ -26,8 +26,6 @@
 
     import DatePicker from 'vue-datepicker-next';
 
-    import 'vue-datepicker-next/index.css';
-
     import moment from 'moment'
 
     import FormFieldTemplate from "./FormFieldTemplate.vue";

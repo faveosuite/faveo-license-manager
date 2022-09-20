@@ -48,7 +48,7 @@
 
 		props: {
 
-			label: { type: String, required: true },
+			label: { type: String, default : '' },
 
 			hint: { type: String, default: "" }, //for tooltip message
 

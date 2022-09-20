@@ -226,6 +226,9 @@
                             value: data.product_id
                         };
                     })
+                }).catch(err=>{
+
+                    this.loading = false;
                 })
             },
 

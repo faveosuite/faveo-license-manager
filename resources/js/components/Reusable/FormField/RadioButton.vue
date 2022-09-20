@@ -107,6 +107,6 @@
         vertical-align: bottom;
         position: relative;
         top: -3px;
-        *overflow: hidden;
+        overflow: hidden;
     }
 </style>
