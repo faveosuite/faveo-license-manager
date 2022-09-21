@@ -79,7 +79,7 @@
           }
       </style>
 
-      @vite(['resources/css/app.css', 'resources/css/app.scss', 'resources/js/app.js'])
+      @vite(['resources/css/app.scss', 'resources/js/app.js'])
   </head>
 
   <body class="sidebar-mini layout-fixed layout-navbar-fixed text-sm layout-footer-fixed">
