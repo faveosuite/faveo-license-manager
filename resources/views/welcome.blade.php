@@ -77,6 +77,13 @@
           .VueTables__search-field input{
               width : 300px !important;
           }
+
+          .form-group.has-error label {
+              color: #dd4b39;
+          }
+          .form-group.has-error .vs__dropdown-toggle {
+              border-color: #d73925 !important;
+          }
       </style>
 
       @vite(['resources/css/app.scss', 'resources/js/app.js'])

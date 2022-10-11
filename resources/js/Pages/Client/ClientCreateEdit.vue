@@ -183,7 +183,14 @@
 
 			onChange(value, name) {
 
-				this[name] = value ? value : '';
+                if(name == 'client_status') {
+
+                    this[name] = value;
+
+                } else {
+
+                    this[name] = value ? value : '';
+                }
 			},
 
 			onSubmit() {

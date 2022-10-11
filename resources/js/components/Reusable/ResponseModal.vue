@@ -1,105 +1,117 @@
 <template>
 
-	<modal v-if="showModal" :showModal="showModal" :onClose="onClose" :containerStyle="containerStyle" modalBodyClass="body-scrollable">
+    <modal v-if="showModal" :showModal="showModal" :onClose="onClose" :containerStyle="containerStyle" modalBodyClass="body-scrollable">
 
-		<div slot="title">
+        <template v-slot:title>
 
-			<h4 class="modal-title">{{trans('response')}}</h4>
-		</div>
+            <div>
 
-		<div v-if="!loading" slot="fields">
+                <h4 class="modal-title">{{trans('response')}}</h4>
+            </div>
+        </template>
 
-			<span>{{ responseData}}</span>
-		</div>
+        <template v-slot:fields>
 
-		<div slot="alert">
+            <div v-if="!loading">
 
-			<alert componentName="response-modal"></alert>
-		</div>
+                <span>{{ responseData}}</span>
+            </div>
 
-		<div v-if="loading" slot="fields">
+            <div v-if="loading">
 
-			<loader :animation-duration="4000" color="#1d78ff" :size="60" />
-		</div>
+                <loader :animation-duration="4000" color="#1d78ff" :size="60" />
+            </div>
+        </template>
 
-		<div slot="controls">
+        <template v-slot:alert>
 
-			<button type="button" @click="copyMethod" class="btn btn-default" :disabled="isDisabled">
+            <div>
 
-				<i class="fas fa-copy" aria-hidden="true"></i> {{trans('copy')}}
-			</button>
-		</div>
-	</modal>
+                <alert componentName="response-modal"></alert>
+            </div>
+        </template>
+
+        <template v-slot:controls>
+
+            <div>
+
+                <button type="button" @click="copyMethod" class="btn btn-default" :disabled="isDisabled">
+
+                    <i class="fas fa-copy" aria-hidden="true"></i> {{trans('copy')}}
+                </button>
+            </div>
+        </template>
+    </modal>
 </template>
 
 <script type="text/javascript">
 
 
-	import {successHandler} from "../../helpers/responseHandler";
+import {successHandler} from "../../helpers/responseHandler";
 
-    export default {
+export default {
 
-		name: 'response-modal',
+    name: 'response-modal',
 
-		description: 'Response Modal component',
+    description: 'Response Modal component',
 
-		props: {
+    props: {
 
-			showModal: { type: Boolean, default: false },
+        showModal: { type: Boolean, default: false },
 
-			onClose: { type: Function },
+        onClose: { type: Function },
 
-			componentTitle: { type: String, default: '' },
+        componentTitle: { type: String, default: '' },
 
-			responseData: { type: Object | String | Number, default: '' },
+        responseData: { type: [Object, String, Number], default: '' },
 
-		},
+    },
 
-		data() {
+    data() {
 
-			return {
+        return {
 
-				containerStyle: { width: '650px' },
+            containerStyle: { width: '650px' },
 
-				loading: false,
+            loading: false,
 
-				isDisabled: false,
+            isDisabled: false,
 
-				labelStyle: { display: 'none' },
+            labelStyle: { display: 'none' },
 
-				apiUrl: this.deleteUrl
-			}
-		},
-
-
-		methods: {
-
-			stringify(value) {
-				switch (typeof value) {
-					case 'string': case 'object': return JSON.stringify(value);
-					default: return String(value);
-				}
-			},
-			copyMethod() {
-				let inputElem = document.createElement("input");
-				inputElem.type = "text";
-				// inputElem.hidden = true;
-				inputElem.value = this.stringify(this.responseData);
-				document.body.appendChild(inputElem);
-				inputElem.select();
-				document.execCommand("Copy");
-				document.body.removeChild(inputElem);
-                successHandler({
-                    status: 200,
-                    data: {
-                        message: 'Response has been copied to clipboard'
-                    }
-                }, 'configuration');
-				this.onClose()
-
-			},
+            apiUrl: this.deleteUrl
+        }
+    },
 
 
-		}
-	};
+    methods: {
+
+        stringify(value) {
+            switch (typeof value) {
+                case 'string': case 'object': return JSON.stringify(value);
+                default: return String(value);
+            }
+        },
+        copyMethod() {
+            let inputElem = document.createElement("input");
+            inputElem.type = "text";
+            // inputElem.hidden = true;
+            inputElem.value = this.stringify(this.responseData);
+            document.body.appendChild(inputElem);
+            inputElem.select();
+            document.execCommand("Copy");
+            document.body.removeChild(inputElem);
+            successHandler({
+                status: 200,
+                data: {
+                    message: 'Response has been copied to clipboard'
+                }
+            }, 'configuration');
+            this.onClose()
+
+        },
+
+
+    }
+};
 </script>

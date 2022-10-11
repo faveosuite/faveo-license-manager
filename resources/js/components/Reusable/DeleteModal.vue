@@ -12,7 +12,7 @@
 
         <template v-slot:fields>
 
-            <div v-if="loading">
+            <div v-if="loading" class="mt-5 mb-5">
 
                 <loader :animation-duration="4000" color="#1d78ff" :size="60"/>
             </div>

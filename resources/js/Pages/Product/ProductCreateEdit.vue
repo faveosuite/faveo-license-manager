@@ -232,7 +232,14 @@
 
 			onChange(value, name) {
 
-				this[name] = value ? value : '';
+                if(name == 'product_status') {
+
+                    this[name] = value;
+
+                } else {
+
+                    this[name] = value ? value : '';
+                }
 			},
 
 			validUrl(path) {
