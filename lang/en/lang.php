@@ -285,4 +285,12 @@ return [
     'reset_password' => 'Reset Password',
     'invalid_token' => 'Your personal access Token is invalid',
     'error_client_or_license_code' => 'The License code is manditory',
+     'create_callbacks'           => 'Create CallBacks',
+    'latest_callbacks'            =>  'Latest CallBacks',
+    'callbacks'                   =>   'CallBacks',
+    'cracking_reports'            =>    'Cracking Reports',
+    'view_cracking_reports'       =>     'View Cracking Reports',
+
+
+
 ];

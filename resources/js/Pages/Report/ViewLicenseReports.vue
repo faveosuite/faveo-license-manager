@@ -1,30 +1,26 @@
 <template>
-
     <div class="col-sm-12">
-
-        <div class="alert alert-info">
-            <span>View license reports. If any report needs to be deleted, check the report and click the 'Submit' button.</span>
-        </div>
-
         <div class="row" v-if="loading">
-
             <custom-loader :duration="4000"></custom-loader>
         </div>
-
-        <alert componentName="dataTableModal"/>
-
-        <div class="card card-light ">
-
+        <alert componentName="dataTableModal" />
+        <div class="card card-light">
             <div class="card-header">
-
-                <h3 class="card-title">{{lang('view_license_reports')}}</h3>
-
+                <h3 class="card-title">{{ lang('view_license_reports') }}</h3>
             </div>
-
-            <div class="card-body" id="my_license">
-
+            <div class="card-body" id="my_licenses">
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
-
+                    <template v-slot:product_title="props">
+                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{ props.row.product_title }}</router-link>
+                    </template>
+                    <template v-slot:license_status="props">
+            <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+              {{ props.row.license_status ? 'Active' : 'Inactive' }}
+            </span>
+                    </template>
+                    <template v-slot:actions="props">
+                        <table-actions :data="props.row"></table-actions>
+                    </template>
                 </v-client-table>
             </div>
         </div>
@@ -32,136 +28,94 @@
 </template>
 
 <script>
-
 import axios from 'axios';
 
 export default {
-
-    name : 'license-list',
-
+    name: 'licenses-list',
     data() {
-
         return {
-
-            data : '',
-
-            columns: ['product_title', 'reports', 'latest_reports', 'report_status', 'actions'],
-
+            data: '',
+            columns: ['report_id', 'license_code', 'report_date_time', 'report_status', 'report_text'],
             options: {},
-
-            counter : 0,
-
-            license_id : '',
-
-            loading : false
-        }
+            counter: 0,
+            loading: false, // Add the 'loading' property
+        };
     },
-
     created() {
-
-        this.emitter.on('refreshData',this.updateData);
+        this.emitter.on('refreshData', this.updateData);
     },
-
-    beforeMount(){
-
-        const self= this;
-
-        // this.getData();
-
+    beforeMount() {
+        this.getData();
         this.options = {
-
             sortIcon: {
-
-                base : 'glyphicon',
-
+                base: 'glyphicon',
                 up: 'glyphicon-chevron-up',
-
-                down: 'glyphicon-chevron-down'
+                down: 'glyphicon-chevron-down',
             },
-
             texts: { filter: '', limit: '' },
-
-            columnsClasses : {
-
-                product_title : 'i_product_title',
-
-                reports: 'i_reports',
-
-                latest_reports : 'i_latest_reports',
-
-                report_status : 'i_report_status',
+            columnsClasses: {
+                product_title: 'license_product_title',
+                license_code: 'license_code',
+                report_date_time: 'report_date_time',
+                report_text: 'report_text',
+                report_status: 'Status',
             },
-
-            templates : {
-
-                product_title(createElement, row) {
-
-                    if(row.product_id) {
-
-                        return createElement('router-link', {
-                            attrs: {
-                                to: '/products/'+row.product_id+'/edit'
-                            }
-                        }, row.product_title);
-
-                    } else{
-                        return '---'
-                    }
-                },
-
-                latest_reports(h,row){
-
-                    return row.latest_reports ? row.latest_reports.report_date : '---';
-                },
-
-                report_status(createElement, row) {
-
-                    let span = createElement('span', {
-
-                        attrs: {
-                            'class' : row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-                        }
-                    }, row.report_status ? 'Active' : 'Inactive');
-
-                    return createElement('a',{},[span]);
-                },
-
-                actions : 'table-actions'
-            },
-
-            pagination:{chunk:5,nav: 'fixed',edge:true},
-
+            // Remove the 'templates' property for now
+            pagination: { chunk: 5, nav: 'fixed', edge: true },
             headings: {
-
                 product_title: 'Product',
-
-                reports: 'Reports',
-
-                latest_reports : 'Latest Reports',
-
-                report_status : 'Status',
-
-                actions: 'Actions'
+                license_code: 'License Code',
+                report_text: 'Report',
+                report_date_time: 'Report Date Time',
+                report_status: 'Status',
             },
-        }
-    },
+            templates :{
 
+                license_code(h, row) {
+
+                    return row.license_code ? row.license_code : '---';
+                },
+            }
+        };
+    },
+    methods: {
+        getData() {
+            this.loading = true;
+            axios
+                .get('/api/admin/reportLicense')
+                .then((res) => {
+                    this.loading = false;
+                    this.data = res.data.map((data) => {
+                        return data;
+                    });
+                })
+                .catch((err) => {
+                    this.loading = false;
+                });
+        },
+    },
 
 };
 </script>
 
 <style>
-
-.i_product_title,.i_license_code,.i_total_installations,.i_latest_installation,.i_installation_status{ max-width: 200px; word-break: break-all;}
-
-#my_installations .VueTables .table-responsive {
-    overflow-x: auto;overflow-y: hidden;
+.license_product_title,
+.license_code,
+.license_install,
+.license_callbacks,
+.latest_callback_time,
+.license_date {
+    max-width: 200px;
+    word-break: break-all;
 }
 
-#my_installations .VueTables .table-responsive > table{
-    width : max-content;
-    min-width : 100%;
-    max-width : max-content;
-    overflow: auto !important;
+.VueTables .table-responsive>table th {
+    white-space: nowrap;
+    width: 200px;
+}
+
+.glyphicon-sort {
+    margin-left: 178px;
+    margin-top: -19px;
 }
 </style>

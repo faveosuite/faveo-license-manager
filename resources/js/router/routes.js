@@ -233,8 +233,6 @@ let installationsMenu = {
 
 import CallbacksIndex from '../Pages/Callbacks/CallbacksIndex.vue';
 
-import CallbackCreateEdit from '../Pages/Callbacks/CallbackCreateEdit.vue'
-
 let callbacksMenu = {
 
 	path: '/callbacks',
@@ -259,28 +257,17 @@ let callbacksMenu = {
 
 			meta: { title : 'callbacks', crumb : { link: { name : 'dashboard', to : '/' }, active : 'callbacks' } }
 		},
-
-        {
-
-            path: 'create',
-
-            name: 'Callback Create',
-
-            component: CallbackCreateEdit,
-
-            meta: { title : 'callbacks', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'callbacks', to : '/callbacks' }, active : 'create' } }
-        },
-
-        {
-
-            path: ':id/edit',
-
-            name: 'Callback Edit',
-
-            component: CallbackCreateEdit,
-
-            meta: { title : 'callbacks', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'callbacks', to : '/callbacks' }, active : 'edit' } }
-        },
+        //
+        // {
+        //
+        //     path: ':id/edit',
+        //
+        //     name: 'Callback Edit',
+        //
+        //     component: CallbackCreateEdit,
+        //
+        //     meta: { title : 'callbacks', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'callbacks', to : '/callbacks' }, active : 'edit' } }
+        // },
 	]
 }
 

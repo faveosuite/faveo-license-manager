@@ -452,19 +452,22 @@ function generateUpdateServerSignature($ROOT_URL, $product_id, $product_key)
 
 function callbackArray()
 {
+    ini_set('memory_limit', '256M');
+
     $rows_array = DB::table('afl_callbacks')
         ->leftJoin('afl_products', 'afl_callbacks.product_id', '=', 'afl_products.product_id')
         ->leftJoin('afl_clients', 'afl_callbacks.client_id', '=', 'afl_clients.client_id')
         ->orderBy('afl_callbacks.callback_date_time', 'desc')
         ->orderBy('afl_callbacks.callback_id', 'desc')->get()->toArray();
-    foreach ($rows_array as $row) {
-        foreach ($row as $key => $value) {
-            $item_array[$key] = $value;
-        }
+    
+    $root_array = []; // Initialize the root array
 
-        $item_array['client_formatted'] = formatClient($item_array['license_code'], $item_array['client_email']);
-        $item_array['callback_date_time'] = removeSeconds($item_array['callback_date_time']);
-        $item_array['callback_status_formatted'] = returnFormattedStatusArray($item_array['callback_status'], 'Success', 'Error', 'Unknown');
+    foreach ($rows_array as $key => $row) {
+        $item_array = (object) $row; // Convert the row to an object
+
+        $item_array->client_formatted = formatClient($item_array->license_code, $item_array->client_email);
+        $item_array->callback_date_time = removeSeconds($item_array->callback_date_time);
+        $item_array->callback_status_formatted = returnFormattedStatusArray($item_array->callback_status, 'Success', 'Error', 'Unknown');
 
         $root_array[] = $item_array;
     }

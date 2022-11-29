@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\DB;
 class Kernel extends ConsoleKernel
 {
 
-     protected $commands = [
-        SetupTestEnv::class,
-    ];
     /**
      * Define the application's command schedule.
      *
      * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
+
+      protected $commands = [
+        SetupTestEnv::class,
+    ];
+
     protected function schedule(Schedule $schedule)
     {
         $schedule->call(function () {
