@@ -2,17 +2,12 @@
 
     <div class="col-sm-12">
 
-        <div class="alert alert-info">
-            <span>View cracking reports. If any report needs to be deleted, check the report and click the 'Submit' button.<br><br>
-                <b>Attention</b>: all failed installations and verifications are displayed in View License Reports section; therefore, this section should always be empty. If you see any record here, most likely someone was sending invalid data to licensing server. If automatic hosts banning is enabled, Auto PHP Licenser will ban attacker automatically. Otherwise, you should ban attacker's host manually.</span>
-        </div>
-
         <div class="row" v-if="loading">
 
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="dataTableModal"/>
+        <alert componentName="dataTableModal" />
 
         <div class="card card-light ">
 
@@ -22,10 +17,27 @@
 
             </div>
 
-            <div class="card-body" id="my_cracking">
+            <div class="card-body" id="my_licenses">
 
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
 
+                    <template v-slot:product_title="props">
+
+                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
+                    </template>
+
+                    <template v-slot:license_status="props">
+
+                        <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+
+                            {{ props.row.license_status ? 'Active' : 'Inactive'}}
+                        </span>
+                    </template>
+
+                    <template v-slot:actions="props">
+
+                        <table-actions :data="props.row"></table-actions>
+                    </template>
                 </v-client-table>
             </div>
         </div>
@@ -38,42 +50,38 @@ import axios from 'axios';
 
 export default {
 
-    name : 'cracking-list',
+    name: 'licenses-list',
 
     data() {
 
         return {
 
-            data : '',
+            data: '',
 
-            columns: ['report_title', 'client_license', 'report_date', 'report_status'],
+            columns: ['product_title','license_code','report_date_time','report_text'],
 
             options: {},
 
-            counter : 0,
-
-            report_id : '',
-
-            loading : false
+            counter: 0
         }
     },
 
     created() {
 
-        this.emitter.on('refreshData',this.updateData);
+        this.emitter.on('refreshData', this.updateData);
     },
 
-    beforeMount(){
+    beforeMount() {
 
-        const self= this;
+        const self = this;
 
-        // this.getData();
+        this.getData();
 
         this.options = {
 
             sortIcon: {
 
-                base : 'glyphicon',
+                base: 'glyphicon',
 
                 up: 'glyphicon-chevron-up',
 
@@ -82,18 +90,20 @@ export default {
 
             texts: { filter: '', limit: '' },
 
-            columnsClasses : {
+            columnsClasses: {
 
-                report_title : 'i_report_title',
+                product_title: 'license_product_title',
 
-                client_license : 'i_client_license',
+                license_code: 'license_code',
 
-                report_date : 'i_report_date',
+                account_id: 'account_id',
 
-                report_status : 'i_report_status',
+                report_date_time: 'report_date_time',
+
+                report_text:  'report_text',
             },
 
-            templates : {
+            templates: {
 
                 product_title(createElement, row) {
 
@@ -110,57 +120,89 @@ export default {
                     }
                 },
 
-                latest_report(h,row){
+                license_code(h, row) {
 
-                    return row.client_license ? row.client_license.report_date : '---';
+                    return row.license_code ? row.license_code : '---';
                 },
 
-                report_status(createElement, row) {
+                license_date(h, row) {
 
-                    let span = createElement('span', {
-
-                        attrs: {
-                            'class' : row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-                        }
-                    }, row.report_status ? 'Active' : 'Inactive');
-
-                    return createElement('a',{},[span]);
+                    return row.license_date ? row.license_date : '---'
                 },
 
-                actions : 'table-actions'
+                latest_callback_date_time(h, row) {
+
+                    return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
+                },
             },
 
-            pagination:{chunk:5,nav: 'fixed',edge:true},
+            pagination: { chunk: 5, nav: 'fixed', edge: true },
 
             headings: {
 
-                report_title : 'Report',
+                product_title: 'Product',
 
-                client_license : 'Client or License Code',
+                report_id:   'Report',
 
-                report_date : 'Date',
+                license_code: 'License Code',
 
-                report_status : 'Status',
+                report_text:  'Report',
+
+                report_date_time: 'Report Date Time',
+
             },
         }
     },
 
+    methods: {
 
+        getData() {
+
+            this.loading = true;
+
+            axios.get('/api/admin/reportCracking').then(res => {
+
+                this.loading = false;
+
+                this.data = res.data.map(data => {
+
+                    return data;
+                })
+            }).catch(err => {
+
+                this.loading = false;
+            })
+        }
+    }
 };
 </script>
 
 <style>
-
-.i_product_title,.i_license_code,.i_total_installations,.i_latest_installation,.i_installation_status{ max-width: 200px; word-break: break-all;}
-
-#my_cracking .VueTables .table-responsive {
-    overflow-x: auto;overflow-y: hidden;
+.license_product_title,
+.license_code,
+.license_install,
+.license_callbacks,
+.latest_callback_time,
+.license_date {
+    max-width: 200px;
+    word-break: break-all;
 }
 
-#my_cracking .VueTables .table-responsive > table{
-    width : max-content;
-    min-width : 100%;
-    max-width : max-content;
+#my_licenses .VueTables .table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+.VueTables .table-responsive>table th {
+    white-space: nowrap;
+    width: 200px;
+}
+
+#my_licenses .VueTables .table-responsive>table {
+    width: max-content;
+    min-width: 100%;
+    max-width: max-content;
     overflow: auto !important;
 }
 </style>
+
+

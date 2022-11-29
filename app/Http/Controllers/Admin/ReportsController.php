@@ -65,6 +65,7 @@ class ReportsController extends Controller
     public function reportArraySystem()
     {
         $rows_array = AflReports::leftJoin('afl_admins', 'afl_reports.account_id', '=', 'afl_admins.admin_id')
+                  ->leftJoin('afl_products','afl_reports.product_id','=','afl_products.product_id')
                   ->where('report_system', 1)
             ->orderBy('report_date_time', 'DESC')->orderBy('report_id', 'DESC')->get()->toArray();
         foreach ($rows_array as $row) {
@@ -85,10 +86,11 @@ class ReportsController extends Controller
     public function reportArrayCracking()
     {
         $rows_array = AflReports::leftJoin('afl_clients', 'afl_reports.account_id', '=', 'afl_clients.client_id')
-        ->where('afl_reports.account_id', 0)
-        ->where('afl_reports.product_id', 0)
-        ->orderBy('report_date_time', 'DESC')
-        ->orderBy('report_id', 'DESC')->get()->toArray();
+                        ->leftJoin('afl_products','afl_reports.product_id','=','afl_products.product_id')
+                        ->where('afl_reports.account_id', 0)
+                        ->where('afl_reports.product_id', 0)
+                        ->orderBy('report_date_time', 'DESC')
+                        ->orderBy('report_id', 'DESC')->get()->toArray();
         foreach ($rows_array as $row) {
             foreach ($row as $key => $value) {
                 $item_array[$key] = $value;
@@ -107,8 +109,6 @@ class ReportsController extends Controller
     {
         $product_id = $request->get('product_id');
         $rows_array = AflReports::leftJoin('afl_clients', 'afl_reports.account_id', '=', 'afl_clients.client_id')
-                        ->where('afl_reports.product_id', $product_id)
-                        ->where('afl_reports.report_system', 0)
                         ->orderBy('report_date_time', 'DESC')
                         ->orderBy('report_id', 'DESC')->get()->toArray();
         foreach ($rows_array as $row) {

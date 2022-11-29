@@ -415,23 +415,23 @@ class SearchControllerTest extends TestCase
         AflProducts::where('product_id', 39)->delete();
     }
 
-    public function test_search_searchUsingUpdateReportsReportText_shouldReturnResponseWithReportText()
-    {
-        $this->withoutMiddleware();
-        /*AflProducts::factory()->create(['product_id'=>91,'product_sku'=>'HDJD-JCJCC','product_key'=>'dhsdsjshfhsd']);
-        AflReports::factory()->create(['report_id'=>109,'product_id'=>91]);*/
-        $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'search_type' => 'report',
-            'search_keyword' => 'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.',
-            'isLicenseSearchApi' => 0,
+    // public function test_search_searchUsingUpdateReportsReportText_shouldReturnResponseWithReportText()
+    // {
+    //     $this->withoutMiddleware();
+    //     AflProducts::factory()->create(['product_id'=>91,'product_sku'=>'HDJD-JCJCC','product_key'=>'dhsdsjshfhsd']);
+    //     AflReports::factory()->create(['report_id'=>109,'product_id'=>91]);
+    //     $data = [
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'search_type' => 'report',
+    //         'search_keyword' => 'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.',
+    //         'isLicenseSearchApi' => 0,
 
-        ];
-        $response = $this->json('POST', url('api/admin/search'), $data);
-        $response->assertStatus(200);
-        AflReports::where('report_id', 109)->delete();
-        AflProducts::where('product_id', 91)->delete();
-    }
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/search'), $data);
+    //     $response->assertStatus(200);
+    //     AflReports::where('report_id', 109)->delete();
+    //     AflProducts::where('product_id', 91)->delete();
+    // }
 
     public function test_search_searchUsingUpdateVersionsWithProductTitle_shouldReturnResponseWithVersionDetailsWithThatProductId()
     {
