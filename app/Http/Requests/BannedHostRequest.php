@@ -30,7 +30,7 @@ class BannedHostRequest extends FormRequest
             'banned_host_ip' => 'required|string|unique:afl_banned_hosts,banned_host_ip',
             'banned_host_date' => 'date',
             'banned_host_blocks' => 'numeric',
-            'banned_host_last_block_date' => 'date'
+            'banned_host_last_block_date' => 'date',
         ];
     }
 }

@@ -2,8 +2,6 @@
 
 namespace Tests\Unit\Backend\AfuCallbacks;
 
-use App\Models\AflProducts;
-use App\Models\AfuVersions;
 use Tests\TestCase;
 
 class DownloadFileControllerTest extends TestCase
@@ -13,8 +11,8 @@ class DownloadFileControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_downloadFile_(){
-       //
+    public function test_downloadFile_()
+    {
+        //
     }
-
 }

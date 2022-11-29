@@ -1,44 +1,54 @@
 <template>
-	
+
 	<modal v-if="showModal" :showModal="showModal" :onClose="onClose" :containerStyle="containerStyle">
 
-		<div slot="title">
-			
-			<h4 class="modal-title">{{trans('delte')}}</h4>
-		</div>
+        <template v-slot:title>
 
-		<div v-if="!loading" slot="fields">
-	
-			<span>{{trans('are_you_sure')}}</span>
-		</div>
+            <div>
 
-		<div slot="alert">
-			
-			<alert componentName="delete-modal"></alert>	
-		</div>
+                <h4 class="modal-title">{{trans('delte')}}</h4>
+            </div>
+        </template>
 
-		<div v-if="loading" slot="fields" >
-			
-			<loader :animation-duration="4000" color="#1d78ff" :size="60"/>
-		</div>
+        <template v-slot:fields>
 
-		<div slot="controls">
-			
-			<button type="button" @click = "onSubmit()" class="btn btn-danger" :disabled="isDisabled">
+            <div v-if="loading" class="mt-5 mb-5">
 
-				<i class="fas fa-trash" aria-hidden="true"></i> {{trans('delte')}}
-			</button>
-		</div>
+                <loader :animation-duration="4000" color="#1d78ff" :size="60"/>
+            </div>
+
+            <div v-if="!loading">
+
+                <span>{{trans('are_you_sure')}}</span>
+            </div>
+        </template>
+
+        <template v-slot:alert>
+
+            <div>
+
+                <alert componentName="delete-modal"></alert>
+            </div>
+        </template>
+
+        <template v-slot:controls>
+
+            <div>
+
+                <button type="button" @click = "onSubmit()" class="btn btn-danger" :disabled="isDisabled">
+
+                    <i class="fas fa-trash" aria-hidden="true"></i> {{trans('delte')}}
+                </button>
+            </div>
+        </template>
 	</modal>
 </template>
 
 <script type="text/javascript">
-	
+
 	import axios from 'axios'
 
-	import {errorHandler, successHandler} from 'helpers/responseHandler'
-
-	import { mapGetters } from 'vuex';
+	import {errorHandler, successHandler} from '../../helpers/responseHandler'
 
 	export default {
 
@@ -60,7 +70,7 @@
 
 			keyVal : {type : String, default : ''},
 
-			idVal : { type : String | Number, default : '' }
+			idVal : { type : [String, Number], default : '' }
 
 		},
 
@@ -80,15 +90,10 @@
 			}
 		},
 
-		computed : {
-
-			...mapGetters(['getApiKey'])
-		},
-
-		methods:{
+        methods:{
 
 			onSubmit(){
-				
+
 				this.loading = true
 
 				this.isDisabled = true;
@@ -98,26 +103,26 @@
 				data[this.keyVal] = this.idVal;
 
 				data['api_key_secret']= this.getApiKey;
-				
+
 				axios.post(this.apiUrl,data).then(res=>{
 
 					successHandler(res,this.alertComponentName);
 
 					this.afterRespond();
-				
+
 				}).catch(err => {
 
 					errorHandler(err,'delete-modal');
 
 					this.loading = false;
 
-					this.isDisabled = false;	
+					this.isDisabled = false;
 				})
 			},
 
 			afterRespond(){
 
-				window.eventHub.$emit('refreshData');
+				this.emitter.emit('refreshData');
 
 				this.onClose();
 

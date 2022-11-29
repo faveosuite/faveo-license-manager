@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAflReportsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -18,7 +18,7 @@ class CreateAflReportsTable extends Migration
             $table->increments('report_id')->unique();
             $table->foreignId('product_id');
             $table->foreignId('account_id');
-            $table->string('license_code',125)->default('null');
+            $table->string('license_code', 125)->default('null');
             $table->dateTime('report_date_time');
             $table->longText('report_text');
             $table->tinyInteger('report_system');
@@ -36,4 +36,4 @@ class CreateAflReportsTable extends Migration
     {
         Schema::dropIfExists('afl_reports');
     }
-}
+};

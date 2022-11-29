@@ -1,20 +1,20 @@
 <template>
-   
+
     <div :class="classname">
 
         <label for="HOurs" :style="labelStyle">{{ label }}</label>
-        
+
         <tool-tip v-if="hint" :message="lang(hint)" size="small"></tool-tip>
-        
+
         <div>
             <span style="display:inline">
 
                 <span v-for="(option,index) in options">
-                
+
                     <input class="radio_align" :name="name" v-model="checked"  type="radio" :value="option.value"
-                        :disabled="disabled ? true : false"> 
+                        :disabled="disabled ? true : false">
                         {{lang(option.name)}}&nbsp;
-                
+
                     <tool-tip v-if="option.hint" :message="lang(option.hint)" size="small"></tool-tip>&nbsp;
                  </span>
             </span>
@@ -25,14 +25,14 @@
 <script>
 
     export default {
-    
+
         name : "checkbox",
 
         props : {
 
             options : {type:Array,default:()=>{}},
 
-            value : {type: Number | String, default: 0},
+            value : {type: [Number, String], default: 0},
 
             name : {type: String, default: 'radio'},
 
@@ -48,11 +48,11 @@
              *     `value` will be the updated value of the field
              *     `name` will be thw name of the state in the parent class
              *
-             * An example function :  
+             * An example function :
              *         onChange(value, name){
              *             this[name]= selectedValue
              *         }
-             *         
+             *
              * @type {Function}
              */
             onChange:{type: Function, Required: true},
@@ -72,7 +72,7 @@
                  * value of the checkbox field
                  * @type {Boolean}
                  */
-                checked: this.value 
+                checked: this.value
             }
         },
 
@@ -107,6 +107,6 @@
         vertical-align: bottom;
         position: relative;
         top: -3px;
-        *overflow: hidden;
+        overflow: hidden;
     }
 </style>
