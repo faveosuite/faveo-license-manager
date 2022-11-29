@@ -27,9 +27,7 @@ class LicenseRequest extends FormRequest
     public function rules()
     {
         return [
-
-
-            'license_code' => 'string',
+           'license_code' => 'string',
             'product_id' => 'numeric',
             'license_order_number' => 'numeric',
             'license_require_domain' => 'boolean',
