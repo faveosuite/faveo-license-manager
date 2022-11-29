@@ -18,19 +18,21 @@
             <div class="card-header">
 
                 <h3 class="card-title">{{lang('callbacks')}}</h3>
-
-                <div class="card-tools">
-
-                    <router-link to="/callbacks/create" class="btn-tool" v-tooltip="lang('create_callback')">
-
-                        <i class="fas fa-plus"></i>
-                    </router-link>
-                </div>
             </div>
 
-            <div class="card-body" id="my_installations">
+            <div class="card-body" id="callbacks">
 
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+
+                    <template v-slot:product_title="props">
+
+                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
+                    </template>
+
+                    <template v-slot:actions="props">
+
+                        <table-actions :data="props.row"></table-actions>
+                    </template>
 
                 </v-client-table>
             </div>
@@ -52,15 +54,13 @@ export default {
 
             data : '',
 
-            columns: ['product_title', 'total_callbacks', 'latest_callbacks', 'callbacks_status', 'actions'],
+            columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks', 'license_date',
+                'latest_callback_date_time', 'actions'],
+
 
             options: {},
 
             counter : 0,
-
-            installation_id : '',
-
-            loading : false
         }
     },
 
@@ -73,7 +73,7 @@ export default {
 
         const self= this;
 
-        // this.getData();
+         this.getData();
 
         this.options = {
 
@@ -90,68 +90,87 @@ export default {
 
             columnsClasses : {
 
-                product_title : 'i_product_title',
+                product_title: 'license_product_title',
 
-                total_callbacks : 'i_total_callbacks',
+                license_code: 'license_code',
 
-                latest_callback : 'i_latest_callback',
+                total_installations: 'license_install',
 
-                callback_status : 'i_callback_status',
+                total_callbacks: 'license_callbacks',
+
+                latest_callback_date_time: 'latest_callback_time',
+
+                license_date: 'license_date',
             },
 
             templates : {
+                license_code(h, row) {
 
-                product_title(createElement, row) {
-
-                    if(row.product_id) {
-
-                        return createElement('router-link', {
-                            attrs: {
-                                to: '/products/'+row.product_id+'/edit'
-                            }
-                        }, row.product_title);
-
-                    } else{
-                        return '---'
-                    }
+                    return row.license_code ? row.license_code : '---';
                 },
 
-                latest_callback(h,row){
+                license_date(h, row) {
 
-                    return row.latest_callback ? row.latest_callback.callback_date : '---';
+                    return row.license_date ? row.license_date : '---'
                 },
 
-                callback_status(createElement, row) {
+                latest_callback_date_time(h, row) {
 
-                    let span = createElement('span', {
-
-                        attrs: {
-                            'class' : row.callback_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-                        }
-                    }, row.callback_status ? 'Active' : 'Inactive');
-
-                    return createElement('a',{},[span]);
+                    return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
                 },
-
-                actions : 'table-actions'
             },
 
             pagination:{chunk:5,nav: 'fixed',edge:true},
 
             headings: {
 
-                product_title: 'Product',
+                product_id: 'Product',
 
-                total_callbacks : 'Total Callbacks',
+                license_code: 'License Code',
 
-                latest_callbacks : 'Latest Callback',
+                total_installations: 'Installations',
 
-                callbacks_status : 'Status',
+                total_callbacks: 'Callbacks',
+
+                latest_callback_date_time: 'Latest Callback',
+
+                license_date: 'Latest License',
 
                 actions: 'Actions'
             },
         }
     },
+
+    methods:{
+
+        updateData() {
+            this.getData();
+        },
+
+        getData(){
+            this.loading =true ;
+
+            axios.get('api/admin/showLicenseCallbacks').then(res=>{
+                this.loading = false;
+                console.log(res.data);
+                this.data = res.data.map(data => {
+                    console.log(data);
+
+
+                    data.callback_date_time ='2022-02-25 09:26';
+
+                    data.callback_domain ='faveo.localhost/demo/public';
+
+                    data.callback_id =11;
+
+                    data.callback_ip ='127.0.0.1';
+
+
+                    return data;
+                })
+            });
+        }
+    }
 
 };
 </script>
