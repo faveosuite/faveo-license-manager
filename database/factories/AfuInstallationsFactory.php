@@ -2,18 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\AfuInstallations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AfuInstallationsFactory extends Factory
 {
-    /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = AfuInstallations::class;
-
     /**
      * Define the model's default state.
      *
@@ -22,12 +14,12 @@ class AfuInstallationsFactory extends Factory
     public function definition()
     {
         return [
-            'product_id'=>100,
-            'version_id'=>100,
-            'installation_ip'=>'127.0.0.1',
-            'installation_path'=>'storage/public/app/index.html',
-            'installation_date'=>now(),
-            'installation_status'=>1
+            'product_id' => 100,
+            'version_id' => 100,
+            'installation_ip' => '127.0.0.1',
+            'installation_path' => 'storage/public/app/index.html',
+            'installation_date' => now(),
+            'installation_status' => 1,
         ];
     }
 }

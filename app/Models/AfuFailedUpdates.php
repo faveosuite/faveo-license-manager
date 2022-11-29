@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AfuFailedUpdates extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+
+    protected $guarded = [];
+
     protected $primaryKey = 'failed_update_id';
-
-
 }

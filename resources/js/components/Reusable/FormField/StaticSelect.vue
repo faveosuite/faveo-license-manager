@@ -1,6 +1,6 @@
 <template>
 
-	<form-field-template :label="label" :name="name" :classname="classname" :hint="hint" :required="required" 
+	<form-field-template :label="label" :name="name" :classname="classname" :hint="hint" :required="required"
 		:labelStyle="labelStyle">
 
 		<select
@@ -24,7 +24,9 @@
 
 <script type="text/javascript">
 
-import { getSubStringValue } from 'helpers/extraLogics';
+import { getSubStringValue } from '../../../helpers/extraLogics';
+
+import FormFieldTemplate from "./FormFieldTemplate.vue";
 
 export default {
 
@@ -49,14 +51,14 @@ export default {
 		 * the name of the state in parent class, for looking into the vuex store for errors
 		 * @type {String | Number}
 		 */
-		name: { type: String | Number, required: true }, //the name of the state in parent class
+		name: { type: [String, Number], required: true }, //the name of the state in parent class
 
 		/**
 		 * selected value of the field.
 		 * list of already selected element ids that has to be displayed
 		 * @type {Number|Boolean}
 		 */
-		value: { type: String | Number, required: true },
+		value: { type: [String, Number], required: true },
 
 		/**
 		 * name of the class (for css, not really required)
@@ -102,7 +104,7 @@ export default {
 		 * Id of the text field
 		 * @type {String|Number}
 		 */
-		id : {type: String|Number, default:'static-select'},
+		id : {type: [String, Number], default:'static-select'},
 
 		inputStyle : { type : Object, default : ()=>{}},
 
@@ -113,7 +115,7 @@ export default {
 		 */
 		labelStyle:{type:Object, default: function () { return { }}},
 
-		strlength : {type : String|Number, default : 100},
+		strlength : {type : [String,Number], default : 100},
 
 		disabled: {type: Boolean, required: false, default: false},
 	},
@@ -147,7 +149,7 @@ export default {
 	},
 
 	components: {
-		"form-field-template": require("./FormFieldTemplate").default
+		"form-field-template": FormFieldTemplate
 	}
 };
 </script>

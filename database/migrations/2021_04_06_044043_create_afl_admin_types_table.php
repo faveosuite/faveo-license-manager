@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAflAdminTypesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -16,8 +16,8 @@ class CreateAflAdminTypesTable extends Migration
         Schema::create('afl_admin_types', function (Blueprint $table) {
             //$table->primary('admin_type_id');
             $table->increments('admin_type_id')->unique();
-            $table->string('admin_type_name',125)->unique();
-            $table->string('admin_type_title',125)->unique();
+            $table->string('admin_type_name', 125)->unique();
+            $table->string('admin_type_title', 125)->unique();
             $table->boolean('admin_type_status');
             $table->timestamps();
         });
@@ -32,4 +32,4 @@ class CreateAflAdminTypesTable extends Migration
     {
         Schema::dropIfExists('afl_admin_types');
     }
-}
+};

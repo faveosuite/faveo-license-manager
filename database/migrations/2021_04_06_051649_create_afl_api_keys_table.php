@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAflApiKeysTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -16,8 +16,8 @@ class CreateAflApiKeysTable extends Migration
         Schema::create('afl_api_keys', function (Blueprint $table) {
             //$table->primary('api_key_id');
             $table->increments('api_key_id')->unique();
-            $table->string('api_key_secret',125);
-            $table->string('api_key_ip',125)->nullable();
+            $table->string('api_key_secret', 125);
+            $table->string('api_key_ip', 125)->nullable();
             $table->boolean('api_key_clients_add');
             $table->boolean('api_key_clients_edit');
             $table->boolean('api_key_licenses_add');
@@ -42,4 +42,4 @@ class CreateAflApiKeysTable extends Migration
     {
         Schema::dropIfExists('afl_api_keys');
     }
-}
+};

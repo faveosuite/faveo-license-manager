@@ -7,11 +7,9 @@
 </template>
 
 <script>
-    
-    import VTooltip from 'v-tooltip'
-    
+
     export default {
-        
+
         name:"tool-tip",
 
         description : "It handles tooltip message on hover",

@@ -1,27 +1,31 @@
 
 <template>
-	
-    <fulfilling-bouncing-circle-spinner :animation-duration="duration" :size="size" :color="color"/>
+
+    <spinner :width="size" :height="size" :color="color" :active="true" :opacity="opacity" :is-full-page="isFullPage"/>
 </template>
 
 <script>
 
-    import { FulfillingBouncingCircleSpinner } from 'epic-spinners';
-    
+    import Loading from 'vue-loading-overlay';
+
+    import 'vue-loading-overlay/dist/vue-loading.css';
+
     export default{
 
         props:{
 
-            duration:{type:Number, default: 4000},
-
-            size : { type : Number | String, default : 60},
+            size : { type : [Number, String], default : 60},
 
             color : { type : String , default : '#1d78ff'},
+
+            opacity : { type : Number, default : 0},
+
+            isFullPage : { type : Boolean, default : false }
         },
 
     	components: {
 
-            'fulfilling-bouncing-circle-spinner':FulfillingBouncingCircleSpinner,
+            'spinner':Loading,
         }
     };
 </script>

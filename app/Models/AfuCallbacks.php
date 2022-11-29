@@ -8,7 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class AfuCallbacks extends Model
 {
     use HasFactory;
-    protected $guarded=[];
+
+    protected $guarded = [];
+
     protected $primaryKey = 'callback_id';
+
     public $timestamps = false;
 }

@@ -2,18 +2,10 @@
 
 namespace Database\Factories;
 
-use App\Models\AflInstallations;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AflInstallationsFactory extends Factory
 {
-   /**
-     * The name of the factory's corresponding model.
-     *
-     * @var string
-     */
-    protected $model = AflInstallations::class;
-
     /**
      * Define the model's default state.
      *
@@ -29,7 +21,7 @@ class AflInstallationsFactory extends Factory
             'installation_disable_ip_verification' => 0,
             'installation_date' => now(),
             'installation_status' => 1,
-            'installation_hash' => 'd991ff928bc03e7a60fee65ea0bb135f72744fde248761f6d266a6ff9e6941ce'
+            'installation_hash' => 'd991ff928bc03e7a60fee65ea0bb135f72744fde248761f6d266a6ff9e6941ce',
         ];
     }
 }

@@ -6,105 +6,108 @@ use App\Http\Controllers\Controller;
 use App\Models\AflCallbacks;
 use App\Models\AfuCallbacks;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Lang;
-use Symfony\Component\Console\Input\Input;
 
 class CallBackController extends Controller
 {
-   public function licneseCallbacks(){
-      $callbacks = callbackArray();
-      return $callbacks;
-   }
-
-   public function updateCallbacks(){
-       $callbacks = $this->callbackUpdateArray();
-       return $callbacks;
-   }
-
-   private function callbackUpdateArray(){
-
-       $rows_array=AfuCallbacks::leftJoin('afl_products','afu_callbacks.product_id','=','afl_products.product_id')
-                               ->leftJoin('afu_versions','afu_callbacks.version_id','=','afu_versions.version_id')
-                               ->orderBy('afu_callbacks.callback_date_time','DESC')
-                                ->orderBy('afu_callbacks.callback_id','DESC')->get()->toArray();
-
-         foreach ($rows_array as $row)
-          {
-           foreach ($row as $key=>$value)
-           {
-             $item_array[$key]=$value;
-           }
-
-            $item_array['callback_date_time']=removeSeconds($item_array['callback_date_time']);
-            $item_array['callback_type_formatted']=$this->returnFormattedCallbackTypeArray($item_array['callback_type']);
-            $item_array['callback_status_formatted']=returnFormattedStatusArray($item_array['callback_status'], "Success", "Error", "Unknown");
-
-            $root_array[]=$item_array;
-          }
-         return $root_array;
-     }
-    //format and return callback type text
-     private function returnFormattedCallbackTypeArray($callback_type)
-     {
-         $callback_type_formatted="";
-
-         if ($callback_type==1) {$callback_type_formatted="Version Check";}
-         else if ($callback_type==2) {$callback_type_formatted="Installation";}
-         else if ($callback_type==3) {$callback_type_formatted="Upgrade";}
-         else {$callback_type_formatted="Unknown";}
-         return $callback_type_formatted;
-     }
-   public function callbacksDelete(Request $request){
-       $removed_records=0;
-       $error_details="";
-       $action_success=0;
-       $callback_ids_array = $request->call;
-       $isLicense = $request->get('isLicense');
-       if (!empty($callback_ids_array))
-       {
-           foreach ($callback_ids_array as $callback_id) {
-               $removed_records += $this->deleteCallback($callback_id, $isLicense);
-           }
-           if (!aflValidateIntegerValue($removed_records))
-           {
-               $error_details.="Invalid record or database error.";
-           }
-           else
-           {
-               $action_success=1;
-           }
-       }
-       else
-       {
-           $error_details.="No record selected.";
-       }
-       if ($action_success==1) //everything OK
-       {
-           $page_message="Deleted $removed_records callback(s).";
-       }
-       else //display error message
-       {
-           $page_message="Callback could not be deleted because of this reason: $error_details";
-       }
-
-       createReport(strip_tags($page_message), 1, 1, $action_success);
-       return successResponse($page_message,$removed_records,200);
-   }
-
-    //delete callback
-    private function deleteCallback($callback_id,$isLicense)
+    public function licneseCallbacks()
     {
-        $removed_records = 0;
-        if($isLicense) {
-            if (aflValidateIntegerValue($callback_id)) {
-                $removed_records += AflCallbacks::where('callback_id', $callback_id)->delete();//doMysqlQuery("DELETE FROM apl_callbacks WHERE callback_id=?", array($callback_id), array("i"));
-            }
-            return $removed_records;
-        }
-        if(aflValidateIntegerValue($callback_id)){
-            $removed_records += AfuCallbacks::where('callback_id',$callback_id)->delete();
-        }
-        return $removed_records;
+        $callbacks = callbackArray();
+
+        return $callbacks;
     }
 
+    public function updateCallbacks()
+    {
+        $callbacks = $this->callbackUpdateArray();
+
+        return $callbacks;
+    }
+
+    private function callbackUpdateArray()
+    {
+        $rows_array = AfuCallbacks::leftJoin('afl_products', 'afu_callbacks.product_id', '=', 'afl_products.product_id')
+                               ->leftJoin('afu_versions', 'afu_callbacks.version_id', '=', 'afu_versions.version_id')
+                               ->orderBy('afu_callbacks.callback_date_time', 'DESC')
+                                ->orderBy('afu_callbacks.callback_id', 'DESC')->get()->toArray();
+
+        foreach ($rows_array as $row) {
+            foreach ($row as $key => $value) {
+                $item_array[$key] = $value;
+            }
+
+            $item_array['callback_date_time'] = removeSeconds($item_array['callback_date_time']);
+            $item_array['callback_type_formatted'] = $this->returnFormattedCallbackTypeArray($item_array['callback_type']);
+            $item_array['callback_status_formatted'] = returnFormattedStatusArray($item_array['callback_status'], 'Success', 'Error', 'Unknown');
+
+            $root_array[] = $item_array;
+        }
+
+        return $root_array;
+    }
+
+    //format and return callback type text
+    private function returnFormattedCallbackTypeArray($callback_type)
+    {
+        $callback_type_formatted = '';
+
+        if ($callback_type == 1) {
+            $callback_type_formatted = 'Version Check';
+        } elseif ($callback_type == 2) {
+            $callback_type_formatted = 'Installation';
+        } elseif ($callback_type == 3) {
+            $callback_type_formatted = 'Upgrade';
+        } else {
+            $callback_type_formatted = 'Unknown';
+        }
+
+        return $callback_type_formatted;
+    }
+
+    public function callbacksDelete(Request $request)
+    {
+        $removed_records = 0;
+        $error_details = '';
+        $action_success = 0;
+        $callback_ids_array = $request->call;
+        $isLicense = $request->get('isLicense');
+        if (! empty($callback_ids_array)) {
+            foreach ($callback_ids_array as $callback_id) {
+                $removed_records += $this->deleteCallback($callback_id, $isLicense);
+            }
+            if (! aflValidateIntegerValue($removed_records)) {
+                $error_details .= 'Invalid record or database error.';
+            } else {
+                $action_success = 1;
+            }
+        } else {
+            $error_details .= 'No record selected.';
+        }
+        if ($action_success == 1) { //everything OK
+            $page_message = "Deleted $removed_records callback(s).";
+        } else { //display error message
+            $page_message = "Callback could not be deleted because of this reason: $error_details";
+        }
+
+        createReport(strip_tags($page_message), 1, 1, $action_success);
+
+        return successResponse($page_message, $removed_records, 200);
+    }
+
+    //delete callback
+    private function deleteCallback($callback_id, $isLicense)
+    {
+        $removed_records = 0;
+        if ($isLicense) {
+            if (aflValidateIntegerValue($callback_id)) {
+                $removed_records += AflCallbacks::where('callback_id', $callback_id)->delete(); //doMysqlQuery("DELETE FROM apl_callbacks WHERE callback_id=?", array($callback_id), array("i"));
+            }
+
+            return $removed_records;
+        }
+        if (aflValidateIntegerValue($callback_id)) {
+            $removed_records += AfuCallbacks::where('callback_id', $callback_id)->delete();
+        }
+
+        return $removed_records;
+    }
 }

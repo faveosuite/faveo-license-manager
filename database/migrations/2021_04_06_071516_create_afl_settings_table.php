@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAflSettingsTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -17,19 +17,19 @@ class CreateAflSettingsTable extends Migration
 
             //$table->primary('SETTING_ID');
             $table->increments('SETTING_ID')->unique();
-            $table->string('ROOT_URL',125)->nullable();
-            $table->string('CLIENT_EMAIL',125)->nullable();
-            $table->string('LICENSE_CODE',125)->nullable();
-            $table->string('INSTALLATION_HASH',125)->nullable();
-            $table->string('SYSTEM_LANGUAGE',125)->nullable();
-            $table->string('TIMEZONE',125)->nullable();
+            $table->string('ROOT_URL', 125)->nullable();
+            $table->string('CLIENT_EMAIL', 125)->nullable();
+            $table->string('LICENSE_CODE', 125)->nullable();
+            $table->string('INSTALLATION_HASH', 125)->nullable();
+            $table->string('SYSTEM_LANGUAGE', 125)->nullable();
+            $table->string('TIMEZONE', 125)->nullable();
             $table->smallInteger('RECORDS_ARCHIVE_DAYS')->nullable();
             $table->smallInteger('RECORDS_ON_ADMIN_PAGE')->nullable();
             $table->smallInteger('RECORDS_ON_INDEX_PAGE')->nullable();
             $table->smallInteger('RECORDS_ON_SEARCH_PAGE')->nullable();
             $table->boolean('API_STATUS')->nullable();
             $table->boolean('BANNED_HOSTS')->nullable();
-            $table->string('BANNED_HOST_MESSAGE',125)->nullable();
+            $table->string('BANNED_HOST_MESSAGE', 125)->nullable();
             $table->tinyInteger('FAILED_LOGINS_LIMIT')->nullable();
             $table->tinyInteger('FAILED_LICENSINGS_LIMIT')->nullable();
             $table->tinyInteger('FAILED_UPDATES_LIMIT')->nullable();
@@ -38,10 +38,10 @@ class CreateAflSettingsTable extends Migration
             $table->tinyInteger('SMART_TABLES')->nullable();
             $table->tinyInteger('MIN_PASSWORD_LENGTH')->nullable();
             $table->tinyInteger('WHITELISTED_ACCESS')->nullable();
-            $table->string('WHITELISTED_IP',250)->nullable();
+            $table->string('WHITELISTED_IP', 250)->nullable();
             $table->string('VERIFIED_UPDATES')->nullable();
-            $table->string('EMAIL_FROM_NAME',125)->nullable();
-            $table->string('EMAIL_FROM_ADDRESS',125)->nullable();
+            $table->string('EMAIL_FROM_NAME', 125)->nullable();
+            $table->string('EMAIL_FROM_ADDRESS', 125)->nullable();
             $table->tinyInteger('EMAIL_CC_ADMIN')->nullable();
             $table->smallInteger('EMAIL_EXPIRING_LICENSE_DAYS')->nullable();
             $table->smallInteger('EMAIL_EXPIRING_UPDATES_DAYS')->nullable();
@@ -57,8 +57,8 @@ class CreateAflSettingsTable extends Migration
             $table->date('DATABASE_CLEANUP_DATE')->nullable();
             $table->longText('NEWS_TEXT')->nullable();
             $table->date('NEWS_DATE')->nullable();
-            $table->string('ENVATO_API_TOKEN',125)->nullable();
-            $table->string('DATABASE_VERSION',125)->nullable();
+            $table->string('ENVATO_API_TOKEN', 125)->nullable();
+            $table->string('DATABASE_VERSION', 125)->nullable();
             $table->timestamps();
         });
     }
@@ -74,4 +74,4 @@ class CreateAflSettingsTable extends Migration
     {
         Schema::dropIfExists('afl_settings');
     }
-}
+};
