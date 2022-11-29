@@ -1,25 +1,27 @@
 <template>
 
-    <form-field-template :label="label" :labelStyle="labelStyle" :name="name"  :classname="classname" :hint="hint" 
+    <form-field-template :label="label" :labelStyle="labelStyle" :name="name"  :classname="classname" :hint="hint"
         :required="required">
-        
+
         <span class="inline" >
-                
+
             <input class="form-control" :style="formStyle"
                 :type="type"
                 id="number"
                 v-model="changedValue"
                 v-on:input="onChange(changedValue, name)"
-                @keypress="checkValue"  
+                @keypress="checkValue"
                 @paste="onPaste"
                 min="0"
                 :placeholder="placeholder"
-            /> 
+            />
         </span>
     </form-field-template>
 </template>
 
 <script>
+
+    import FormFieldTemplate from './FormFieldTemplate.vue';
 
     export default {
 
@@ -27,7 +29,7 @@
 
         props:{
 
-            label: { type: String, required: true },
+            label: { type: String, default: '' },
 
             hint: { type:String, default: '' }, //for tooltip message
 
@@ -47,7 +49,7 @@
 
             formStyle:{type:Object},
 
-            max : { type : String | Number, default :''},
+            max : { type : [String, Number], default :''},
 
             placeholder : { type : String, default : 'Enter a value'},
 
@@ -56,23 +58,23 @@
         },
 
         data(){
-        
+
             return {
-        
+
                   changedValue: this.value
             }
         },
 
         mounted(){
-        
+
             this.changedValue = this.value;
         },
 
-       
+
         watch: {
-        
+
             value(newVal) {
-        
+
                 this.changedValue = newVal;
             }
         },
@@ -82,15 +84,15 @@
             checkValue(evt) {
 
                 evt = (evt) ? evt : window.event;
-                
+
                 var charCode = (evt.which) ? evt.which : evt.keyCode;
-                
+
                 if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
-                    
+
                     evt.preventDefault();;
-                
+
                 } else {
-                
+
                     return true;
                 }
             },
@@ -98,23 +100,23 @@
             onPaste(evt) {
 
                 evt = (evt) ? evt : window.event;
-                
+
                 if (evt.clipboardData.getData('Text').match(/[^\d]/)) {
-                    
+
                     evt.preventDefault();
-                }   
+                }
             },
         },
 
         components:{
 
-            'form-field-template' : require('./FormFieldTemplate').default
+            'form-field-template' : FormFieldTemplate
         }
     };
 </script>
 
 <style scoped>
-    
+
     .inline {
         display:inline;
     }

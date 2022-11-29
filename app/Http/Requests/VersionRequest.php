@@ -2,8 +2,6 @@
 
 namespace App\Http\Requests;
 
-use App\Models\AfuVersions;
-use App\Http\Controllers\Update\AfuVersionsController;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VersionRequest extends FormRequest
@@ -28,7 +26,7 @@ class VersionRequest extends FormRequest
         return [
             'product_id' => 'numeric',
             'version_number' => 'string',
-            'version_status'=> 'boolean',
+            'version_status' => 'boolean',
         ];
     }
 }

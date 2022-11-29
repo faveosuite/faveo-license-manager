@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
-use App\Http\Controllers\Admin\ApiKeysController;
 use App\Traits\RequestJsonValidation;
+use Illuminate\Foundation\Http\FormRequest;
+
 class UpdateApiRequest extends FormRequest
 {
     use RequestJsonValidation;
@@ -27,18 +27,18 @@ class UpdateApiRequest extends FormRequest
     public function rules()
     {
         return [
-            
+
             'api_key_secret' => 'required|string',
             /*'api_key_ip'     => 'string',*/
-            'api_key_clients_add'=> 'required|boolean',
+            'api_key_clients_add' => 'required|boolean',
             'api_key_clients_edit' => 'required|boolean',
-            'api_key_licenses_add'=> 'required|boolean',
-            'api_key_licenses_edit'=> 'required|boolean',
+            'api_key_licenses_add' => 'required|boolean',
+            'api_key_licenses_edit' => 'required|boolean',
             'api_key_products_add' => 'required|boolean',
             'api_key_products_edit' => 'required|boolean',
             'api_key_installations_edit' => 'required|boolean',
             'api_key_search' => 'required|boolean',
-            'api_key_status' => 'required|boolean'
+            'api_key_status' => 'required|boolean',
         ];
     }
 }

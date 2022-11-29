@@ -1,14 +1,14 @@
-import {store} from 'store'
+import store from '../../store'
 
-import { Validator } from 'easy-validator-js';
+import { Validator } from '../easy-validator';
 
-import { lang } from 'helpers/extraLogics';
+import { lang } from '../../helpers/extraLogics';
 
 export function validateEmailSettings(data) {
 
     const { EMAIL_FROM_NAME, EMAIL_FROM_ADDRESS,EMAIL_CC_SENDER,EMAIL_EXPIRING_LICENSE_DAYS, EMAIL_EXPIRING_UPDATES_DAYS, EMAIL_EXPIRING_SUPPORT_DAYS} = data
 
-    var validatingData = {
+    let validatingData = {
 
         EMAIL_FROM_NAME: [EMAIL_FROM_NAME,'isRequired'],
 

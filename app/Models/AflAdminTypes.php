@@ -8,7 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class AflAdminTypes extends Model
 {
     use HasFactory;
-    protected $guarded =[];
-    protected $primaryKey = 'product_id';
 
+    protected $guarded = [];
+
+    protected $primaryKey = 'product_id';
 }

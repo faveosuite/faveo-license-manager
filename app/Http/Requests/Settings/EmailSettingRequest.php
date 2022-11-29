@@ -1,11 +1,9 @@
 <?php
 
 namespace App\Http\Requests\Settings;
-use App\Models\AflSettings;
-use App\Http\Controllers\Admin\SettingsController;
-use Illuminate\Foundation\Http\FormRequest;
-use App\Traits\RequestJsonValidation;
 
+use App\Traits\RequestJsonValidation;
+use Illuminate\Foundation\Http\FormRequest;
 
 class EmailSettingRequest extends FormRequest
 {
@@ -29,14 +27,15 @@ class EmailSettingRequest extends FormRequest
     public function rules()
     {
         return [
-            'EMAIL_FROM_NAME'=> 'required|string',
-            'EMAIL_FROM_ADDRESS'=>'required|string|unique:afl_settings,EMAIL_FROM_ADDRESS',
-            'EMAIL_CC_SENDER'=>'required|boolean',
-            'EMAIL_EXPIRING_LICENSE_DAYS'=>'required|numeric|min:0|max:30',
-            'EMAIL_EXPIRING_UPDATES_DAYS'=>'required|numeric|min:0|max:30',
-            'EMAIL_EXPIRING_SUPPORT_DAYS'=>'required|numeric|min:0|max:30'
+            'EMAIL_FROM_NAME' => 'required|string',
+            'EMAIL_FROM_ADDRESS' => 'required|string|unique:afl_settings,EMAIL_FROM_ADDRESS',
+            'EMAIL_CC_SENDER' => 'required|boolean',
+            'EMAIL_EXPIRING_LICENSE_DAYS' => 'required|numeric|min:0|max:30',
+            'EMAIL_EXPIRING_UPDATES_DAYS' => 'required|numeric|min:0|max:30',
+            'EMAIL_EXPIRING_SUPPORT_DAYS' => 'required|numeric|min:0|max:30',
         ];
     }
+
     public function messages()
     {
         return [
@@ -48,9 +47,6 @@ class EmailSettingRequest extends FormRequest
             'EMAIL_EXPIRING_UPDATES_DAYS.required' => 'This field is required',
             'EMAIL_EXPIRING_SUPPORT_DAYS.required' => 'This field is required',
 
-
-
         ];
     }
-
 }
