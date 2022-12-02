@@ -54,8 +54,8 @@ export default {
 
             data : '',
 
-            columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks', 'license_date',
-                'latest_callback_date_time', 'actions'],
+            columns: ['product_title', 'license_code','callback_ip','callback_domain','total_callbacks', 'license_date',
+                'callback_date_time','client_formatted'],
 
 
             options: {},
@@ -94,11 +94,15 @@ export default {
 
                 license_code: 'license_code',
 
-                total_installations: 'license_install',
+                callback_ip:         'callback_iP',
+
+                callback_domain:      'callback_domain',
 
                 total_callbacks: 'license_callbacks',
 
-                latest_callback_date_time: 'latest_callback_time',
+                callback_date_time: 'callback_date',
+
+                client_formatted:   'Client_format',
 
                 license_date: 'license_date',
             },
@@ -128,15 +132,18 @@ export default {
 
                 license_code: 'License Code',
 
-                total_installations: 'Installations',
+                callback_ip:         'Callback IP',
+
+                callback_domain:      'Callback Domain',
 
                 total_callbacks: 'Callbacks',
 
-                latest_callback_date_time: 'Latest Callback',
+                callback_date_time: 'Callback Date',
+
+                client_formatted:   'Client Format',
 
                 license_date: 'Latest License',
 
-                actions: 'Actions'
             },
         }
     },
@@ -154,17 +161,6 @@ export default {
                 this.loading = false;
                 console.log(res.data);
                 this.data = res.data.map(data => {
-                    console.log(data);
-
-
-                    data.callback_date_time ='2022-02-25 09:26';
-
-                    data.callback_domain ='faveo.localhost/demo/public';
-
-                    data.callback_id =11;
-
-                    data.callback_ip ='127.0.0.1';
-
 
                     return data;
                 })

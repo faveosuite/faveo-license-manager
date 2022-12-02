@@ -66,7 +66,7 @@ export default {
 
         const self= this;
 
-        // this.getData();
+         this.getData();
 
         this.options = {
 
@@ -146,6 +146,25 @@ export default {
         }
     },
 
+    methods:{
+
+        updateData() {
+            this.getData();
+        },
+
+        getData(){
+            this.loading =true;
+            axios.get('api/admin/reportLicense').then(res =>{
+                this.loading =false;
+
+                console.log(res.data);
+                this.data =res.data.map(data =>{
+                    console.log(data);
+
+                })
+            })
+        }
+    }
 
 };
 </script>
