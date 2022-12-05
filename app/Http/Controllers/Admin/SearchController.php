@@ -776,30 +776,38 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
     //return versions
     private function returnUpdateVersionsArray($product_id, $search_keyword = '', $results_limit = 0)
     {
-        $root_array = [];
-        if (! empty($search_keyword) && aflValidateIntegerValue($results_limit)) {
-            $search_keyword = "%$search_keyword%"; //add wildcards
 
-            $rows_array = DB::table('afu_versions')
-                           ->select('afu_versions.*', DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afu_versions.version_id=afu_callbacks.version_id) AS total_callbacks'))
-                           ->join('afl_products', 'afu_versions.product_id', '=', 'afu_products.product_id')
-                           ->orWhere('afu_products.product_title', 'like', $search_keyword)
-                           ->orWhere('afu_products.product_sku', 'like', $search_keyword)
-                           ->orWhere('afu_versions.version_number', 'like', $search_keyword)
-                           ->orWhere('afu_versions.version_comments', 'like', $search_keyword)
-                           ->orderBy('afu_versions.version_date', 'desc')
-                           ->orderBy('afu_versions.version_id', 'desc')->limit($results_limit)->get()->toArray();
-        } else {
-            $rows_array = DB::table('afu_versions')
-                ->select(DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afu_versions.version_id=afu_callbacks.version_id) AS total_callbacks'))
-                ->Join('afu_products', 'afu_versions.product_id', '=', 'afu_products.product_id')
-                ->where('afu_versions.product_id', $product_id)
-                ->orderBy('afu_versions.version_date', 'desc')
-                ->orderBy('afu_versions.version_id', 'desc')->get()->toArray();
+
+        $root_array=array();
+        if (!empty($search_keyword) && aflValidateIntegerValue($results_limit))
+        {
+            $search_keyword="%$search_keyword%"; //add wildcards
+
+            $rows_array=DB::table('afu_versions')
+                           ->select('afu_versions.*',DB::raw("(SELECT COUNT(*) FROM afu_callbacks WHERE afu_versions.version_id=afu_callbacks.version_id) AS total_callbacks"))
+                           ->join('afu_products','afu_versions.product_id','=','afu_products.product_id')
+                           ->orWhere('afu_products.product_title','like',$search_keyword)
+                           ->orWhere('afu_products.product_sku','like',$search_keyword)
+                           ->orWhere('afu_versions.version_number','like',$search_keyword)
+                           ->orWhere('afu_versions.version_comments','like',$search_keyword)
+                           ->orderBy('afu_versions.version_date','desc')
+                           ->orderBy('afu_versions.version_id','desc')->limit($results_limit)->get()->toArray();
+
         }
-        foreach ($rows_array as $row) {
-            foreach ($row as $key => $value) {
-                $item_array[$key] = $value;
+        else
+        {
+            $rows_array=DB::table('afu_versions')
+                ->select(DB::raw("(SELECT COUNT(*) FROM afu_callbacks WHERE afu_versions.version_id=afu_callbacks.version_id) AS total_callbacks"))
+                ->Join('afu_products','afu_versions.product_id','=','afu_products.product_id')
+                ->where('afu_versions.product_id',$product_id)
+                ->orderBy('afu_versions.version_date','desc')
+                ->orderBy('afu_versions.version_id','desc')->get()->toArray();
+        }
+        foreach ($rows_array as $row)
+        {
+            foreach ($row as $key=>$value)
+            {
+                $item_array[$key]=$value;
             }
 
             if (aflVerifyDateTime($item_array['version_expire_date'], 'Y-m-d') && $item_array['version_expire_date'] <= date('Y-m-d')) { //expired status will be formatted
