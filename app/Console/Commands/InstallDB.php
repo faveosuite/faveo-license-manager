@@ -7,6 +7,7 @@ use App\Http\Controllers\Installer\InstallerController;
 use App\Http\Controllers\SyncLicenseToLatestVersion;
 use DB;
 use config;
+use App\Models\AflAdmins;
 class InstallDB extends Command
 {
     /**
@@ -51,14 +52,22 @@ class InstallDB extends Command
                 $this->checkDBVersion();
                 (new SyncLicenseToLatestVersion)->sync();
 
-                $headers = ['user_name', 'email', 'password'];
+                $headers = [ 'email', 'password'];
                 $data = [
                     [
-                        'user_name' => 'demo_admin',
-                        'email' => '',
+                      
+                        'email' => 'demo@gmail.com',
                         'password' => 'demopass'
                     ],
                 ];
+                  $user = new AflAdmins(array(
+        
+                  
+                    'admin_email' => 'demo@gmail.com',
+                    'admin_password' => \Hash::make('demopass'),
+                 
+                 ));
+                 $user->save();
                 $this->install->updateInstalEnv($env);
                 $this->table($headers, $data);
                 $this->warn('Please update your email and change the password immediately');

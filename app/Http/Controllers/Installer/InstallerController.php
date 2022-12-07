@@ -11,6 +11,8 @@ use View;
 use Input;
 use Artisan;
 use App\Http\Controllers\SyncLicenseToLatestVersion;
+use DB;
+use App\Models\AflAdmins;
 class InstallerController extends Controller
 {
     
@@ -78,8 +80,7 @@ class InstallerController extends Controller
     public function account(Request $request)
     {
            try{
-            // dd($request->all());
-             return View::make('installer/view3');
+             return View::make('installer/demo');
            }
            catch(\Exception $e)
            {
@@ -284,5 +285,66 @@ class InstallerController extends Controller
         }
        
     }
+        /**
+     * Post accountcheck
+     * checking prerequisites.
+     *
+     * @param type InstallerRequest $request
+     *
+     * @return type view
+     */
+    public function accountcheck(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+                    'admin_fname' => 'required|max:20',
+                    'admin_lname' => 'required|max:20',
+                    'admin_email' => 'required|max:50|email',
+                 'admin_password' => ['required','regex:/^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,}/'],
+                    
+                   
+                ],[
+                     'admin_password.regex' => 'Password must have 8 characters and contain at least one Uppercase, one lowercase, one number and one special character',
+              
+                ]);
+      
+        if ($validator->fails()) {
+            return redirect('getting-started?timezone='.$request->input('timezone'))
+                            ->withErrors($validator)
+                            ->withInput();
+        }
+
+        
+        // Set variables fetched from input request
+        $firstname = $request->input('admin_fname');
+        $lastname = $request->input('admin_lname');
+        $email = $request->input('admin_email');
+        Session::put('admin_email', $email);
+        Session::put('cache_driver', $request->cache_driver);
+
+        $password = $request->input('admin_password');
+
+        $language = $request->input('language');
+        $timezone = $request->input('timezone');
+        $date = $request->input('date');
+        $datetime = 'F j, Y, g:i a';
+
+        // creating an user
+        // dd($request->all());
+        $user = new AflAdmins(array(
+        
+                    'admin_fname' => $firstname,
+                    'admin_lname' => $lastname,
+                    'admin_email' => $email,
+                    'admin_password' => \Hash::make($password),
+                 
+        ));
+         $user->save();
+
+            Cache::forever('getting-started', 'getting-started');
+
+          return view('installer/final');
+
+        }
+
 
 }

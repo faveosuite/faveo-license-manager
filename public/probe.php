@@ -101,13 +101,13 @@ if(isset($_POST['submit'])) {
     </body>
 <?php } else{ ?>
     <body>
-    <ol class="setup-steps">
+       
+    <ol class="setup-steps" style = "margin-left: 70px;">
         <li class="active">Server Requirements</li>
         <!--<li class="@yield('license')">License Agreement</li>-->
         <!-- <li class="@yield('environment')">Environment Test</li> -->
         <li class="@yield('database')">Database Setup</li>
         <li class="@yield('locale')">Getting Started</li>
-        <li class="@yield('license-code')">License Code</li>
         <li class="@yield('ready')">Final</li>
     </ol>
     <div class="setup-content">
