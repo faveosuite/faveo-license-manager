@@ -53,7 +53,7 @@ if(isset($_POST['submit'])) {
     <!-- links-->
     <!--<link href="<?=$ico?>"  rel="shortcut icon" />-->
     <link href='themes/default/css/bootstrap.min.css' rel="stylesheet" type="text/css"/>
-    <link href="themes/default/css/load-styles.css" rel="stylesheet" type="text/css" />
+    <link href="themes/default/css/loadstyles.css" rel="stylesheet" type="text/css" />
     <link href="themes/default/css/css.css" rel="stylesheet" type="text/css" />
     <link href="themes/default/css/setup.css" rel="stylesheet" type="text/css" />
     <link href="themes/default/css/probe-custom.css" rel="stylesheet" type="text/css" />
@@ -303,10 +303,7 @@ if(isset($_POST['submit'])) {
                         we are stuck to identify application version and support team needs to get login
                         details or ask client the app version.
                         -->
-                        <p style="font-size: .8em">
-                            <b>App Name:</b><br/>
-                            <b>App Version:</b> 
-                        </p>
+                      
                     </td>
                     <td style="border: 1px solid #ffffff;">
                    <form action="db-setup" method="post">
@@ -333,7 +330,10 @@ if(isWhiteLabelEnabled()) {
 <footer>
     <script src='themes/default/plugins/jquery/jquery-3.5.1.min.js' type="text/javascript"></script>
     <script type="text/javascript">
+$('#submitme').click(function() {
+    location.reload(true);
 
+});
     </script>
 
     </script>

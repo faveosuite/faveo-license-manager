@@ -16,5 +16,6 @@ class VerifyCsrfToken extends Middleware
         '/apl_callbacks/license_install.php',
         '/apl_callbacks/license_scheme.php',
         '/apl_callbacks/license_verify.php',
+        'db-setup',
     ];
 }

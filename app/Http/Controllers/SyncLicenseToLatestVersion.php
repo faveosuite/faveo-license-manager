@@ -18,7 +18,7 @@ class SyncLicenseToLatestVersion extends Controller
         set_time_limit(0);
 
         // in case where isInstall is false(in case of new install) version number should be zero
-        $latestVersion = $this->getPHPCompatibleVersionString(Config::get('app.version'));
+        $latestVersion = $this->getPHPCompatibleVersionString('v5.0.1');
         $olderVersion = $this->getOlderVersion();
         $this->forceInnodbOnUpdate();
 
