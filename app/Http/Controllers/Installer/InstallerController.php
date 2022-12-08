@@ -26,7 +26,7 @@ class InstallerController extends Controller
      */
     public function configuration(Request $request)
     {
-            return View('installer/view1');
+        return View('installer/view1');
       
     }
     
@@ -63,7 +63,6 @@ class InstallerController extends Controller
      */
     public function database(Request $request)
     {
-        dd("lruh");
     // checking if the installation is running for the first time or not
         if (Cache::get('config-check') == 'config-check'){
             return View::make('themes/default1/installer/helpdesk/view4');
@@ -79,13 +78,9 @@ class InstallerController extends Controller
      */
     public function account(Request $request)
     {
-           try{
+       
              return View::make('installer/demo');
-           }
-           catch(\Exception $e)
-           {
-               dd($e);
-           }
+          
         
     }
 
@@ -184,6 +179,7 @@ class InstallerController extends Controller
             }
             $this->env($default, $host, $port, $database, $dbusername, $dbpassword, null, $sslKey, $sslCert, $sslCa, $sslVerify);
         } catch (Exception $ex) {
+        
             $result = [$ex->getMessage()];
 
             return response()->json(compact('result'), 500);

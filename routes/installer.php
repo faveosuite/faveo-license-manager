@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Input;
 
 
 
- Route::group(['middleware' => ['installer']], function () {
-Route::get('db-setup', [InstallerController::class, 'configuration'])->name('db-setup');
+Route::group(['middleware' => 'installer'], function() {
+Route::post('db-setup', [InstallerController::class, 'configuration'])->name('db-setup');
 
 
 Route::post('config', [InstallerController::class, 'configurationcheck'

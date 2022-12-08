@@ -45,6 +45,10 @@ class Kernel extends HttpKernel
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
 
         ],
+        'installer' => [
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
+            ]
     ];
 
     /**
@@ -70,6 +74,7 @@ class Kernel extends HttpKernel
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'installer'=>\App\Http\Middleware\IsInstalled::class,
+       
 
     ];
 }

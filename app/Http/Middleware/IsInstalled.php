@@ -16,14 +16,13 @@ class IsInstalled
      */
     public function handle(Request $request, Closure $next)
     {
+    
          if (!$this->isInstall()) {
             return $next($request);
         } else{
                 return redirect('/');
             }
-        
-    
-    }
+     }
          
         /**
  * check installed
