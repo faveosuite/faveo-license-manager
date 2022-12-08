@@ -16,6 +16,8 @@ return [
     */
 
     'name' => env('APP_NAME', 'Laravel'),
+    
+    'version' => 'v1.5.3',
 
     /*
     |--------------------------------------------------------------------------
@@ -209,7 +211,10 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // ...
+        'Form' => Collective\Html\FormFacade::class,
+        'Html' => Collective\Html\HtmlFacade::class,
+
+
     ])->toArray(),
 
 ];

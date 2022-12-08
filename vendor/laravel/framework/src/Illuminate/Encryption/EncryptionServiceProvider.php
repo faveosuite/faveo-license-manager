@@ -15,6 +15,7 @@ class EncryptionServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        // $this->handleExceptionWhenApplicationIsNotReady();
         $this->registerEncrypter();
         $this->registerSerializableClosureSecurityKey();
     }
@@ -27,9 +28,9 @@ class EncryptionServiceProvider extends ServiceProvider
     protected function registerEncrypter()
     {
         $this->app->singleton('encrypter', function ($app) {
-            $config = $app->make('config')->get('app');
+        $config = $app->make('config')->get('app');
 
-            return new Encrypter($this->parseKey($config), $config['cipher']);
+        return new Encrypter($this->parseKey($config), $config['cipher']);
         });
     }
 
@@ -76,8 +77,16 @@ class EncryptionServiceProvider extends ServiceProvider
     {
         return tap($config['key'], function ($key) {
             if (empty($key)) {
+                
                 throw new MissingAppKeyException;
             }
         });
+    }
+        private function handleExceptionWhenApplicationIsNotReady()
+    {
+        if(!file_exists(__DIR__.'/../../.env')){
+            header("Location: probe.php");
+            exit();
+        }
     }
 }

@@ -19,7 +19,7 @@ class IsInstalled
          if (!$this->isInstall()) {
             return $next($request);
         } else{
-                return redirect('/dashboard');
+                return redirect('/');
             }
         
     
