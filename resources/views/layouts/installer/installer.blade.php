@@ -13,7 +13,7 @@
         
         
         <link href='themes/default/css/jquery.ui.latest.css' rel="stylesheet" type="text/css"/>
-        <link href='themes/default/css/load-styles.css' rel="stylesheet" type="text/css" />
+        <link href='themes/default/css/loadstyles.css' rel="stylesheet" type="text/css" />
         <link href='themes/default/css/css.css' rel="stylesheet" type="text/css" />
         <link href='themes/default/css/admin.css' rel="stylesheet" type="text/css" />
         <link href='themes/default/css/setup.css' rel="stylesheet" type="text/css" />
