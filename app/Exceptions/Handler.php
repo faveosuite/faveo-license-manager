@@ -44,7 +44,16 @@ class Handler extends ExceptionHandler
     public function register()
     {
         $this->reportable(function (Throwable $e) {
-            //
+           $this->handleExceptionWhenApplicationIsNotReady();
+
         });
+    }
+    
+     private function handleExceptionWhenApplicationIsNotReady()
+    {
+        if(!file_exists(__DIR__.'/../../.env')){
+            header("Location: probe.php");
+            exit();
+        }
     }
 }
