@@ -641,3 +641,12 @@ function bundleLink(string $url): string
 
     return $baseUrl;
 }
+
+/**
+ * Check if white label plugin is enabled
+ * @return boolean
+ */
+function isWhiteLabelEnabled()
+{
+    return is_dir(dirname(__DIR__,1) . DIRECTORY_SEPARATOR . 'Whitelabel');
+}
