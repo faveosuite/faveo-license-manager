@@ -5,6 +5,7 @@ use App\Http\Controllers\AflCallbacks\DownloadFileController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
 use App\Http\Controllers\AflCallbacks\LicenseVerifyController;
+use App\Http\Controllers\Installer\InstallerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,8 +18,17 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// Route::get('/getting-started/{timezone?}', [InstallerController::class, 'account'
+// ])->name('getting-started');
 
 // Auth::routes();
+
+Route::get('/getting-started/{timezone?}', [InstallerController::class, 'account'
+])->name('getting-started');
+Route::post('/final', [InstallerController::class, 'accountcheck'
+])->name('final');
+
+
 
 Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class, 'getLanguageFile'])->name('assets.lang');
 
@@ -33,5 +43,8 @@ Route::post('/apl_callbacks/license_verify.php', [LicenseVerifyController::class
 Route::post('/aus_callbacks/download_file.php', [DownloadFileController::class, 'downloadFile']);
 
 Route::get('/{one?}/{two?}/{three?}/{four?}/', function () {
+    
     return view('welcome');
 });
+
+
