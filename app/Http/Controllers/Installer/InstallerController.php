@@ -13,6 +13,7 @@ use Artisan;
 use App\Http\Controllers\SyncLicenseToLatestVersion;
 use DB;
 use App\Models\AflAdmins;
+use Laravel\Passport\Passport;
 class InstallerController extends Controller
 {
     
@@ -105,22 +106,40 @@ class InstallerController extends Controller
             $tableNames = array_unique(array_merge(['migrations'], $tableNames ));
             if (count($tableNames) === 1) {
                 (new SyncLicenseToLatestVersion)->sync();
+                 $this->rollBackMigration();
 
                 if (Cache::get('dummy_data_installation')) {
                     $path = base_path().DIRECTORY_SEPARATOR.'DB'.DIRECTORY_SEPARATOR.'dummy-data.sql';
                     \DB::unprepared(file_get_contents($path));
                 }
             }
+          
 
         } catch (Exception $ex) {
-            $this->rollBackMigration();
+            // $this->rollBackMigration();
             $result = ['error' => $ex->getMessage()];
             return response()->json(compact('result'), 500);
         }
 
+
         $message = 'Database has been setup successfully.';
         $result = ['success' => $message, 'next' => 'Seeding pre configurations data'];
         return response()->json(compact('result'));
+    }
+    
+       public function rollBackMigration()
+    {
+        try {
+          Artisan::call('migrate', ['--path' => 'vendor/laravel/passport/database/migrations','--force' => true]);
+          shell_exec('php ../artisan passport:install');
+        // Artisan::call('passport:install', ['--force' => true]);
+       
+
+
+        } catch (Exception $ex) {
+            $result = ['error' => $ex->getMessage()];
+            return response()->json(compact('result'), 500);
+        }
     }
     
         public function createEnv($api = true)
