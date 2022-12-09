@@ -51,6 +51,9 @@ class InstallDB extends Command
                 $this->call('key:generate', ['--force' => true]);
                 $this->checkDBVersion();
                 (new SyncLicenseToLatestVersion)->sync();
+                $this->call('passport:install', ['--force' => true]);
+                
+
 
                 $headers = [ 'email', 'password'];
                 $data = [
@@ -72,7 +75,7 @@ class InstallDB extends Command
                 $this->table($headers, $data);
                 $this->warn('Please update your email and change the password immediately');
                 $url = \Config::get('app.url');
-                $this->info("Faveo has been installed successfully. Please visit $url to login");
+                $this->info("License has been installed successfully. Please visit $url to login");
             }
         } catch (\Exception $ex) {
             $this->error($ex->getMessage());

@@ -27,7 +27,7 @@ class SyncLicenseToLatestVersion extends Controller
                 $this->updateToLatestVersion($latestVersion, $olderVersion);
                 $this->clearViewCache();
                 $this->clearConfig();
-            
+              
 
             // Setting::first()->update(['version'=> 'v'.$latestVersion]);
             // \DB::table('settings')->update(['version' => 'v'.$latestVersion]);
@@ -132,8 +132,9 @@ class SyncLicenseToLatestVersion extends Controller
                 if (version_compare($this->getPHPCompatibleVersionString($version), $formattedOlderVersion) == 1) {
                     // scan for $version directory and get file names
                     $this->log = $this->log."\n"."Running Seeder for version $version";
-
-                    Artisan::call('db:seed', ['--class' => "database\seeders", '--force' => true]);
+                    \Artisan::call('migrate', ['--path' => 'database/migrations', '--force' => true]);
+                    \Artisan::call('db:seed', ['--class' => "database\seeders", '--force' => true]);
+                    shell_exec('php ../artisan passport:install');
                     $this->handleArtisanLogs();
                 }
             }
