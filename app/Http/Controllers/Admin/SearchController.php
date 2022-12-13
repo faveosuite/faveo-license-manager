@@ -782,7 +782,7 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
 
             $rows_array = DB::table('afu_versions')
                            ->select('afu_versions.*', DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afu_versions.version_id=afu_callbacks.version_id) AS total_callbacks'))
-                           ->join('afl_products', 'afu_versions.product_id', '=', 'afu_products.product_id')
+                           ->join('afu_products', 'afu_versions.product_id', '=', 'afu_products.product_id')
                            ->orWhere('afu_products.product_title', 'like', $search_keyword)
                            ->orWhere('afu_products.product_sku', 'like', $search_keyword)
                            ->orWhere('afu_versions.version_number', 'like', $search_keyword)
