@@ -471,3 +471,8 @@ function callbackArray()
 
     return $root_array;
 }
+function upgradeScriptSignature($product_id,$product_key){
+    $ROOT_URL = url('/');
+    $root_ips_array = gethostbynamel(aflGetRawDomain($ROOT_URL));
+    return hash('sha256', gmdate('Y-m-d').$product_id.$product_key.implode('', $root_ips_array));
+}

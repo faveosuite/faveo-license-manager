@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AfuCallbacks;
 
 use App\Http\Controllers\Controller;
+use App\Models\AflLicenses;
 use App\Models\AfuProducts;
 use App\Models\AfuVersions;
 use Illuminate\Http\Request;
@@ -42,6 +43,9 @@ class DownloadFileController extends Controller
         $user_local_path = $request->get('user_local_path');
         $script_signature = $request->get('script_signature');
         $file_type = $request->get('file_type');
+
+        $license_code = $request->get('license_code');
+        $upgradeproduct = $request->get('upgradeProduct');
         foreach ($rows_array = DB::table('directory')->where('id', 1)->get()->toArray() as $row) {
             extract((array) $row);
         }
@@ -50,6 +54,12 @@ class DownloadFileController extends Controller
         define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
         define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
         //check basic data
+
+        if(!empty($license_code) && $upgradeproduct){
+            $product_id = AflLicenses::where('license_code',$license_code)->value('product_id');
+            $product_key = AfuProducts::where('product_id',$product_id)->value('product_key');
+            $script_signature = upgradeScriptSignature($product_id,$product_key);
+        }
 
         if (filter_var($this->ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($product_id) && ! empty($product_key) && ! empty($user_local_path) && ! empty($script_signature)) {
             $notification_case = '';

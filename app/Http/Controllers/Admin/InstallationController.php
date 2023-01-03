@@ -207,4 +207,9 @@ class InstallationController extends Controller
 
         return errorResponse(Lang::get('lang.invalid'), 400);
     }
+
+
+    public function removeUnwantedInstallations(Request $request){
+          return AflInstallations::where('license_code',$request->license_code)->delete();
+   }
 }

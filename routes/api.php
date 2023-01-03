@@ -58,6 +58,9 @@ use Illuminate\Support\Facades\Route;
     Route::post('/licenseInstall', [LicenseInstallController::class, 'licenseInstall']);
     Route::post('/licenseScheme', [LicenseSchemeController::class, 'licenseScheme']);
     Route::post('/licenseVerify', [LicenseVerifyController::class, 'licenseVerify']);
+
+    Route::post('/removeCancelledOrderInstallation',[InstallationController::class,'removeUnwantedInstallations']);
+
 //UPDATE MANAGER CALLBACKS
     Route::post('/getVersions', [GetVersionsController::class, 'getVersion']);
     Route::post('/getAllVersions', [GetAllVersionsController::class, 'getAllVersions']);
