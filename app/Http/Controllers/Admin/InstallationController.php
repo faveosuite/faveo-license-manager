@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InstallationRequest;
 use App\Models\AflApiKeys;
 use App\Models\AflInstallations;
+use App\Models\AflLicenses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -210,6 +211,12 @@ class InstallationController extends Controller
 
 
     public function removeUnwantedInstallations(Request $request){
-          return AflInstallations::where('license_code',$request->license_code)->delete();
+          try {
+              AflLicenses::where('license_code',$request->license_code)->update(['license_status'=>0]);
+              AflInstallations::where('license_code', $request->license_code)->delete();
+          }
+          Catch(\Exception $e){
+              return errorResponse($e->getMessage(),400);
+          }
    }
 }
