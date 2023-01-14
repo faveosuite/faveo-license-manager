@@ -239,9 +239,9 @@ class LicenseController extends Controller
                     $license_cancel_date = '0000-00-00';
                 } else {
                     $license_cancel_date = $rows_array[0]['license_cancel_date']; //use old license_cancel_date if license was deactivated previously and its status wasn't changed now
-                        if (empty($license_cancel_date) || ! aflVerifyDateTime($license_cancel_date, 'Y-m-d')) { //set cancel date to now only if no previous cancel date set
-                            $license_cancel_date = date('Y-m-d');
-                        }
+                    if (empty($license_cancel_date) || ! aflVerifyDateTime($license_cancel_date, 'Y-m-d')) { //set cancel date to now only if no previous cancel date set
+                        $license_cancel_date = date('Y-m-d');
+                    }
                 }
                 $updated_records += AflLicenses::where('license_id', $license_id)
                                      ->update([

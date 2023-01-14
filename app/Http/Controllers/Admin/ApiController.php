@@ -12,9 +12,9 @@ class ApiController extends Controller
     public function api(Request $request)
     {
         $action_success = 0; //will be changed to 1 later only if everything OK
-$error_detected = 0; //will be changed to 1 later if error occurs
-$error_details = ''; //will be filled with errors (if any)
-$added_records = 0;
+        $error_detected = 0; //will be changed to 1 later if error occurs
+        $error_details = ''; //will be filled with errors (if any)
+        $added_records = 0;
         $updated_records = 0;
         $removed_records = 0;
 
@@ -69,12 +69,12 @@ $added_records = 0;
             }
 
             if ($api_action_success == 1) { //API check OK, continue with actual request
-        $formatted_api_string .= http_build_query($_POST); //format API string using user's submitted variables
-        $formatted_api_string .= '&api_post_key='.hash('sha256', $ROOT_URL.$DATABASE_VERSION.$api_function).'&submit_ok=Submit'; //add auto-generated key and extra arguments at the end of string
+                $formatted_api_string .= http_build_query($_POST); //format API string using user's submitted variables
+                $formatted_api_string .= '&api_post_key='.hash('sha256', $ROOT_URL.$DATABASE_VERSION.$api_function).'&submit_ok=Submit'; //add auto-generated key and extra arguments at the end of string
 
-        echo aflCustomPost("$ROOT_URL/apl_api/$api_function.php", $formatted_api_string, "$ROOT_URL/apl_api/api.php"); //send formatted API request to correct file and output received (json-encoded) data right away
+                echo aflCustomPost("$ROOT_URL/apl_api/$api_function.php", $formatted_api_string, "$ROOT_URL/apl_api/api.php"); //send formatted API request to correct file and output received (json-encoded) data right away
             } else { //display error message
-        $page_message = "The action could not be completed because of this reason:<br><br>$api_error_details";
+                $page_message = "The action could not be completed because of this reason:<br><br>$api_error_details";
 
                 $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => $action_success, 'error_detected' => $error_detected, 'page_message' => $page_message]; //make array with response data
                 echo json_encode($api_response_array);

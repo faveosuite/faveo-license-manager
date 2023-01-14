@@ -21,6 +21,7 @@ trait RequestJsonValidation
      * further processing of request which avoids a redirect (which is the default implementation).
      *
      * @param  Validator  $validator
+     *
      * @throw HttpResponseException
      */
     final protected function failedValidation(Validator $validator)

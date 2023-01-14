@@ -38,7 +38,7 @@ function aflCheckSettings()
     }
 
     if (! empty(config('constants.Advanced.AFL_ROOT_IP')) && ! in_array(config('constants.Advanced.AFL_ROOT_IP'), gethostbynamel(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL'))))) { //actual IP address of Auto PHP Licenser server doesn't match specified IP address
-           //dd(gethostbynamel(aflGetRawDomain(\config('constants.Basic.AFL_ROOT_URL'))));
+        //dd(gethostbynamel(aflGetRawDomain(\config('constants.Basic.AFL_ROOT_URL'))));
         $notifications_array[] = config('constants.NFD.AFL_CORE_NOTIFICATION_INVALID_DNS');
     }
 
@@ -74,33 +74,33 @@ function aflCheckSettings()
 }
 
 //make post requests with cookies and referrers, return array with server headers, errors, and body content
-    function aflCustomPost($url, $post_info = '', $refer = '')
-    {
-        $user_agent = 'phpmillion cURL';
-        $connect_timeout = 10;
-        $server_response_array = [];
-        $formatted_headers_array = [];
+function aflCustomPost($url, $post_info = '', $refer = '')
+{
+    $user_agent = 'phpmillion cURL';
+    $connect_timeout = 10;
+    $server_response_array = [];
+    $formatted_headers_array = [];
 
-        if (filter_var($url, FILTER_VALIDATE_URL) && ! empty($post_info)) {
-            if (empty($refer) || ! filter_var($refer, FILTER_VALIDATE_URL)) { //use original URL as refer when no valid refer URL provided
-                $refer = $url;
-            }
+    if (filter_var($url, FILTER_VALIDATE_URL) && ! empty($post_info)) {
+        if (empty($refer) || ! filter_var($refer, FILTER_VALIDATE_URL)) { //use original URL as refer when no valid refer URL provided
+            $refer = $url;
+        }
 
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
-            curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connect_timeout);
-            curl_setopt($ch, CURLOPT_TIMEOUT, $connect_timeout);
-            curl_setopt($ch, CURLOPT_REFERER, $refer);
-            curl_setopt($ch, CURLOPT_POST, 1);
-            curl_setopt($ch, CURLOPT_POSTFIELDS, $post_info);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
-            //this function is called by curl for each header received - https://stackoverflow.com/questions/9183178/can-php-curl-retrieve-response-headers-and-body-in-a-single-request
-            curl_setopt($ch, CURLOPT_HEADERFUNCTION,
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_USERAGENT, $user_agent);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $connect_timeout);
+        curl_setopt($ch, CURLOPT_TIMEOUT, $connect_timeout);
+        curl_setopt($ch, CURLOPT_REFERER, $refer);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $post_info);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_MAXREDIRS, 10);
+        //this function is called by curl for each header received - https://stackoverflow.com/questions/9183178/can-php-curl-retrieve-response-headers-and-body-in-a-single-request
+        curl_setopt($ch, CURLOPT_HEADERFUNCTION,
             function ($curl, $header) use ($formatted_headers_array) {
                 $len = strlen($header);
                 $header = explode(':', $header, 2);
@@ -113,19 +113,19 @@ function aflCheckSettings()
 
                 return $len;
             }
-            );
+        );
 
-            $result = curl_exec($ch);
-            $curl_error = curl_error($ch); //returns a human readable error (if any)
-            curl_close($ch);
-            $server_response_array['headers'] = $formatted_headers_array;
-            $server_response_array['error'] = $curl_error;
-            $server_response_array['body'] = $result;
-        }
-        //dd($server_response_array);
-
-        return $server_response_array;
+        $result = curl_exec($ch);
+        $curl_error = curl_error($ch); //returns a human readable error (if any)
+        curl_close($ch);
+        $server_response_array['headers'] = $formatted_headers_array;
+        $server_response_array['error'] = $curl_error;
+        $server_response_array['body'] = $result;
     }
+    //dd($server_response_array);
+
+    return $server_response_array;
+}
 
 //process response from Auto PHP Licenser server. if response received, validate it and parse notifications and data (if any). if response not received or is invalid, return a corresponding notification
 function aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
@@ -225,20 +225,20 @@ function aflValidateRawDomain($url)
     return $result;
 }
 
-    function errorResponse($message, $statusCode = FAVEO_ERROR_CODE)
-    {
-        /**
-         * When developers simply want to send info of exceptions they are handling
-         * using errorResponse() and explicitly pass $e->getCode() as second argument
-         * then if thrown exception has code as 0 then response() will throw an error
-         * and response will be modified to new exception. We are handling this here
-         * so that developers can easily use this method and simply pass $e->getCode()
-         * to use for response HTTP code.
-         */
-        $statusCode = ($statusCode) ?: FAVEO_ERROR_CODE;
+function errorResponse($message, $statusCode = FAVEO_ERROR_CODE)
+{
+    /**
+     * When developers simply want to send info of exceptions they are handling
+     * using errorResponse() and explicitly pass $e->getCode() as second argument
+     * then if thrown exception has code as 0 then response() will throw an error
+     * and response will be modified to new exception. We are handling this here
+     * so that developers can easily use this method and simply pass $e->getCode()
+     * to use for response HTTP code.
+     */
+    $statusCode = ($statusCode) ?: FAVEO_ERROR_CODE;
 
-        return response()->json(['success' => false, 'message' => $message], $statusCode);
-    }
+    return response()->json(['success' => false, 'message' => $message], $statusCode);
+}
 
 /**
  * Format success message/data into json success response
@@ -265,28 +265,28 @@ function successResponse($message = '', $data = '', $statusCode = FAVEO_SUCCESS_
     return response()->json($response, $statusCode);
 }
 
-     /**
-      * verify date and/or time according to provided format (such as Y-m-d, Y-m-d H:i, H:i, and so on)
-      *
-      * @param $datetime
-      * @param $format
-      * @return $result
-      */
-     function aflVerifyDateTime($datetime, $format)
-     {
-         $result = false;
+/**
+ * verify date and/or time according to provided format (such as Y-m-d, Y-m-d H:i, H:i, and so on)
+ *
+ * @param $datetime
+ * @param $format
+ * @return $result
+ */
+function aflVerifyDateTime($datetime, $format)
+{
+    $result = false;
 
-         if (! empty($datetime) && ! empty($format)) {
-             $datetime = DateTime::createFromFormat($format, $datetime);
-             $errors = DateTime::getLastErrors();
+    if (! empty($datetime) && ! empty($format)) {
+        $datetime = DateTime::createFromFormat($format, $datetime);
+        $errors = DateTime::getLastErrors();
 
-             if ($datetime && empty($errors['warning_count'])) { //datetime OK
-                 $result = true;
-             }
-         }
+        if ($datetime && empty($errors['warning_count'])) { //datetime OK
+            $result = true;
+        }
+    }
 
-         return $result;
-     }
+    return $result;
+}
 
 //create report
 function createReport($report_text, $account_id, $report_system, $report_status)
@@ -435,24 +435,24 @@ function aflParseLicenseFile()
     return $license_data_array;
 }
 
-    /** generate signature to be submitted to Auto Faveo Licenser server
-     *
-     * @param $ROOT_URL
-     * @param $CLIENT_EMAIL
-     * @param $LICENSE_CODE
-     * @return Hashed $script_signature
-     */
-    function aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
-    {
-        $script_signature = '';
-        $root_ips_array = gethostbynamel(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL')));
+/** generate signature to be submitted to Auto Faveo Licenser server
+ *
+ * @param $ROOT_URL
+ * @param $CLIENT_EMAIL
+ * @param $LICENSE_CODE
+ * @return Hashed $script_signature
+ */
+function aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE)
+{
+    $script_signature = '';
+    $root_ips_array = gethostbynamel(aflGetRawDomain(config('constants.Basic.AFL_ROOT_URL')));
 
-        if (! empty($ROOT_URL) && isset($CLIENT_EMAIL) && isset($LICENSE_CODE) && ! empty($root_ips_array)) {
-            $script_signature = Hash::make(gmdate('Y-m-d').$ROOT_URL.$CLIENT_EMAIL.$LICENSE_CODE.config('constants.Basic.AFL_PRODUCT_ID').implode('', $root_ips_array));
-        }
-
-        return $script_signature;
+    if (! empty($ROOT_URL) && isset($CLIENT_EMAIL) && isset($LICENSE_CODE) && ! empty($root_ips_array)) {
+        $script_signature = Hash::make(gmdate('Y-m-d').$ROOT_URL.$CLIENT_EMAIL.$LICENSE_CODE.config('constants.Basic.AFL_PRODUCT_ID').implode('', $root_ips_array));
     }
+
+    return $script_signature;
+}
 
 //format and return nice numbers dropdown array
 function returnNumbersDropdownArray($numbers_array, $title, $disabled_title, $selected_value)
@@ -529,23 +529,23 @@ function returnTimezonesDropdownArray($TIMEZONE)
 }
 
 //validate file (check if file exists, file mime and extension meet requirements, file doesn't exceed specified size). $file_name is needed to properly validate extension during upload because temp file is stored without extension
-    function validateFile($file_path_with_name, $file_name, $allowed_mimes_array, $allowed_extensions_array, $max_size = INF)
-    {
-        $validation_ok = false;
-        if (is_file($file_path_with_name) && ! empty($file_name) && ! empty($allowed_mimes_array) && ! empty($allowed_extensions_array)) {
-            $file_info = finfo_open(FILEINFO_MIME_TYPE); //open file for validation
+function validateFile($file_path_with_name, $file_name, $allowed_mimes_array, $allowed_extensions_array, $max_size = INF)
+{
+    $validation_ok = false;
+    if (is_file($file_path_with_name) && ! empty($file_name) && ! empty($allowed_mimes_array) && ! empty($allowed_extensions_array)) {
+        $file_info = finfo_open(FILEINFO_MIME_TYPE); //open file for validation
         $file_mime = strtolower(finfo_file($file_info, $file_path_with_name)); //get mime type
         $file_extension = strtolower(pathinfo($file_name, PATHINFO_EXTENSION)); //get extension
         $file_size = filesize($file_path_with_name); //get size
         if (in_array($file_mime, arrayMapRecursive('strtolower', $allowed_mimes_array)) && in_array($file_extension, arrayMapRecursive('strtolower', $allowed_extensions_array)) && $file_size <= $max_size) {
             $validation_ok = true;
         }
-        }
-
-        return $validation_ok;
     }
 
-    //check if file with specified name exists in specified directory and generate new name (with added number) if file exists already
+    return $validation_ok;
+}
+
+//check if file with specified name exists in specified directory and generate new name (with added number) if file exists already
 function generateFileName($root_directory, $file_name)
 {
     if (! empty($root_directory) && is_dir($root_directory) && ! empty($file_name)) {
@@ -644,9 +644,10 @@ function bundleLink(string $url): string
 
 /**
  * Check if white label plugin is enabled
- * @return boolean
+ *
+ * @return bool
  */
 function isWhiteLabelEnabled()
 {
-    return is_dir(dirname(__DIR__,1) . DIRECTORY_SEPARATOR . 'Whitelabel');
+    return is_dir(dirname(__DIR__, 1).DIRECTORY_SEPARATOR.'Whitelabel');
 }

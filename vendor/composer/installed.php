@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '1d346b7be9b5cdc3a5c5f26968902526c405e1ca',
+        'reference' => '30c2578ff798d9a4baf44db31576915d5895ebb6',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -457,7 +457,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '1d346b7be9b5cdc3a5c5f26968902526c405e1ca',
+            'reference' => '30c2578ff798d9a4baf44db31576915d5895ebb6',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -471,6 +471,15 @@
             'install_path' => __DIR__ . '/../laravel/passport',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'laravel/pint' => array(
+            'pretty_version' => 'v1.4.0',
+            'version' => '1.4.0.0',
+            'reference' => '0e7ffdb0af871be10d798e234772ea5d4020ae4a',
+            'type' => 'project',
+            'install_path' => __DIR__ . '/../laravel/pint',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'laravel/sail' => array(
             'pretty_version' => 'v1.15.1',
