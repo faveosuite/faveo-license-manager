@@ -30,66 +30,66 @@ class AflInstallLicenseController extends Controller
         $LICENSE_CODE = $request->input('LICENSE_CODE');
 
         if (empty($apl_core_notifications = aflCheckSettings())) {//only continue if script is properly configured
-        if (! empty($this->aflGetLicenseData()) && is_array($this->aflGetLicenseData())) { //license already installed
-            $notifications_array['notification_case'] = 'notification_already_installed';
-            $notifications_array['notification_text'] = \config('constants.Basic.AFL_NOTIFICATION_SCRIPT_ALREADY_INSTALLED');
-        } else { //license not yet installed, do it now
-            if (empty($apl_user_input_notifications = $this->aflCheckUserInput($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE))) { //data submitted by user is valid
-                $INSTALLATION_HASH = Hash::make($ROOT_URL.$CLIENT_EMAIL.$LICENSE_CODE); //generate hash
-                $post_info = 'product_id='.rawurlencode(config('constants.Basic.AFL_PRODUCT_ID')).'&client_email='.rawurlencode($CLIENT_EMAIL).'&license_code='.rawurlencode($LICENSE_CODE).'&root_url='.rawurlencode($ROOT_URL).'&installation_hash='.rawurlencode($INSTALLATION_HASH).'&license_signature='.rawurlencode(aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE));
-                $content_array = aflCustomPost(config('constants.Basic.AFL_ROOT_URL').'/api/licenseinstall', $post_info, $ROOT_URL);
+            if (! empty($this->aflGetLicenseData()) && is_array($this->aflGetLicenseData())) { //license already installed
+                $notifications_array['notification_case'] = 'notification_already_installed';
+                $notifications_array['notification_text'] = \config('constants.Basic.AFL_NOTIFICATION_SCRIPT_ALREADY_INSTALLED');
+            } else { //license not yet installed, do it now
+                if (empty($apl_user_input_notifications = $this->aflCheckUserInput($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE))) { //data submitted by user is valid
+                    $INSTALLATION_HASH = Hash::make($ROOT_URL.$CLIENT_EMAIL.$LICENSE_CODE); //generate hash
+                    $post_info = 'product_id='.rawurlencode(config('constants.Basic.AFL_PRODUCT_ID')).'&client_email='.rawurlencode($CLIENT_EMAIL).'&license_code='.rawurlencode($LICENSE_CODE).'&root_url='.rawurlencode($ROOT_URL).'&installation_hash='.rawurlencode($INSTALLATION_HASH).'&license_signature='.rawurlencode(aflGenerateScriptSignature($ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE));
+                    $content_array = aflCustomPost(config('constants.Basic.AFL_ROOT_URL').'/api/licenseinstall', $post_info, $ROOT_URL);
 
-                $notifications_array = aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE);
+                    $notifications_array = aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE);
                 //$notifications_array['notification_case']="notification_license_ok";
-                if ($notifications_array['notification_case'] == 'notification_license_ok') { //everything OK
-                    /*password_hash(date("Y-m-d"), PASSWORD_DEFAULT)*/
-                    $INSTALLATION_KEY = aflCustomEncrypt(bcrypt(date('Y-m-d')), config('constants.Basic.AFL_SALT').$ROOT_URL); //generate $INSTALLATION_KEY first because it will be used as salt to encrypt LCD and LRD!!!
-                    $LCD = aflCustomEncrypt(date('Y-m-d', strtotime('-'.config('constants.Basic.AFL_DAYS').' days')), config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //license will need to be verified right after installation
-                    $LRD = aflCustomEncrypt(date('Y-m-d'), config('constants.Basic.AFL_DAYS').$INSTALLATION_KEY);
+                    if ($notifications_array['notification_case'] == 'notification_license_ok') { //everything OK
+                        /*password_hash(date("Y-m-d"), PASSWORD_DEFAULT)*/
+                        $INSTALLATION_KEY = aflCustomEncrypt(bcrypt(date('Y-m-d')), config('constants.Basic.AFL_SALT').$ROOT_URL); //generate $INSTALLATION_KEY first because it will be used as salt to encrypt LCD and LRD!!!
+                        $LCD = aflCustomEncrypt(date('Y-m-d', strtotime('-'.config('constants.Basic.AFL_DAYS').' days')), config('constants.Basic.AFL_SALT').$INSTALLATION_KEY); //license will need to be verified right after installation
+                        $LRD = aflCustomEncrypt(date('Y-m-d'), config('constants.Basic.AFL_DAYS').$INSTALLATION_KEY);
 
-                    if (\config('constants.Basic.AFL_STORAGE') == 'DATABASE') { //license stored in database
-                        $content_array = aflCustomPost(config('constants.Basic.AFL_ROOT_URL').'/api/licensescheme', $post_info, $ROOT_URL);
+                        if (\config('constants.Basic.AFL_STORAGE') == 'DATABASE') { //license stored in database
+                            $content_array = aflCustomPost(config('constants.Basic.AFL_ROOT_URL').'/api/licensescheme', $post_info, $ROOT_URL);
 
                         //get license scheme (use the same $post_info from license installation)
-                        $notifications_array = aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE); //process response from Auto Faveo Licenser server
-                        if (! empty($notifications_array['notification_data']) && ! empty($notifications_array['notification_data']['scheme_query'])) { //valid scheme received
-                            $mysql_bad_array = ["%config('constants.Basic.AFL_DATABASE_TABLE')%", '%ROOT_URL%', '%CLIENT_EMAIL%', '%LICENSE_CODE%', '%LCD%', '%LRD%', '%INSTALLATION_KEY%', '%INSTALLATION_HASH%'];
-                            $mysql_good_array = [config('constants.Basic.AFL_DATABASE_TABLE'), $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE, $LCD, $LRD, $INSTALLATION_KEY, $INSTALLATION_HASH];
-                            $license_scheme = str_replace($mysql_bad_array, $mysql_good_array, $notifications_array['notification_data']['scheme_query']); //replace some variables with actual values
+                            $notifications_array = aflParseServerNotifications($content_array, $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE); //process response from Auto Faveo Licenser server
+                            if (! empty($notifications_array['notification_data']) && ! empty($notifications_array['notification_data']['scheme_query'])) { //valid scheme received
+                                $mysql_bad_array = ["%config('constants.Basic.AFL_DATABASE_TABLE')%", '%ROOT_URL%', '%CLIENT_EMAIL%', '%LICENSE_CODE%', '%LCD%', '%LRD%', '%INSTALLATION_KEY%', '%INSTALLATION_HASH%'];
+                                $mysql_good_array = [config('constants.Basic.AFL_DATABASE_TABLE'), $ROOT_URL, $CLIENT_EMAIL, $LICENSE_CODE, $LCD, $LRD, $INSTALLATION_KEY, $INSTALLATION_HASH];
+                                $license_scheme = str_replace($mysql_bad_array, $mysql_good_array, $notifications_array['notification_data']['scheme_query']); //replace some variables with actual values
 
-                            //  mysqli_multi_query($MYSQLI_LINK, $license_scheme) or die(mysqli_error($MYSQLI_LINK));
-                            try {
-                                $table = config('constants.Basic.AFL_DATABASE_TABLE');
-                                DB::table($table)->insertOrIgnore([
-                                    'ROOT_URL' => $ROOT_URL,
-                                    'CLIENT_EMAIL' => $CLIENT_EMAIL,
-                                    'LICENSE_CODE' => $LICENSE_CODE,
-                                    'LCD' => $LCD,
-                                    'LRD' => $LRD,
-                                    'INSTALLATION_KEY' => $INSTALLATION_KEY,
-                                    'INSTALLATION_HASH' => $INSTALLATION_HASH,
-                                ]);
-                            } catch (Exception $e) {
-                                return $e->getMessage();
+                                //  mysqli_multi_query($MYSQLI_LINK, $license_scheme) or die(mysqli_error($MYSQLI_LINK));
+                                try {
+                                    $table = config('constants.Basic.AFL_DATABASE_TABLE');
+                                    DB::table($table)->insertOrIgnore([
+                                        'ROOT_URL' => $ROOT_URL,
+                                        'CLIENT_EMAIL' => $CLIENT_EMAIL,
+                                        'LICENSE_CODE' => $LICENSE_CODE,
+                                        'LCD' => $LCD,
+                                        'LRD' => $LRD,
+                                        'INSTALLATION_KEY' => $INSTALLATION_KEY,
+                                        'INSTALLATION_HASH' => $INSTALLATION_HASH,
+                                    ]);
+                                } catch (Exception $e) {
+                                    return $e->getMessage();
+                                }
                             }
                         }
-                    }
 
-                    if (config('constants.BASIC.AFL_STORAGE') == 'FILE') { //license stored in file
-                        $handle = @fopen(config('constants.Extra.AFL_DIRECTORY').'/'.\config('constants.Basic.AFL_LICENSE_FILE_LOCATION'), 'w+');
-                        $fwrite = @fwrite($handle, "<ROOT_URL>$ROOT_URL</ROOT_URL><CLIENT_EMAIL>$CLIENT_EMAIL</CLIENT_EMAIL><LICENSE_CODE>$LICENSE_CODE</LICENSE_CODE><LCD>$LCD</LCD><LRD>$LRD</LRD><INSTALLATION_KEY>$INSTALLATION_KEY</INSTALLATION_KEY><INSTALLATION_HASH>$INSTALLATION_HASH</INSTALLATION_HASH>");
-                        if ($fwrite === false) { //updating file failed
-                            echo config('constants.Basic.AFL_NOTIFICATION_LICENSE_FILE_WRITE_ERROR');
-                            exit();
+                        if (config('constants.BASIC.AFL_STORAGE') == 'FILE') { //license stored in file
+                            $handle = @fopen(config('constants.Extra.AFL_DIRECTORY').'/'.\config('constants.Basic.AFL_LICENSE_FILE_LOCATION'), 'w+');
+                            $fwrite = @fwrite($handle, "<ROOT_URL>$ROOT_URL</ROOT_URL><CLIENT_EMAIL>$CLIENT_EMAIL</CLIENT_EMAIL><LICENSE_CODE>$LICENSE_CODE</LICENSE_CODE><LCD>$LCD</LCD><LRD>$LRD</LRD><INSTALLATION_KEY>$INSTALLATION_KEY</INSTALLATION_KEY><INSTALLATION_HASH>$INSTALLATION_HASH</INSTALLATION_HASH>");
+                            if ($fwrite === false) { //updating file failed
+                                echo config('constants.Basic.AFL_NOTIFICATION_LICENSE_FILE_WRITE_ERROR');
+                                exit();
+                            }
+                            @fclose($handle);
                         }
-                        @fclose($handle);
                     }
+                } else { //data submitted by user is invalid
+                    $notifications_array['notification_case'] = 'notification_user_input_invalid';
+                    $notifications_array['notification_text'] = implode('; ', $apl_user_input_notifications);
                 }
-            } else { //data submitted by user is invalid
-                $notifications_array['notification_case'] = 'notification_user_input_invalid';
-                $notifications_array['notification_text'] = implode('; ', $apl_user_input_notifications);
             }
-        }
         } else { //script is not properly configured
             $notifications_array['notification_case'] = 'notification_script_corrupted';
             $notifications_array['notification_text'] = implode('; ', $apl_core_notifications);

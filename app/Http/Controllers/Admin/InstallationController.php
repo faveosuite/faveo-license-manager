@@ -35,9 +35,9 @@ class InstallationController extends Controller
     public function installationUpdate(Request $request)
     {
         $action_success = 0; //will be changed to 1 later only if everything OK
-    $error_detected = 0; //will be changed to 1 later if error occurs
-    $error_details = ''; //will be filled with errors (if any)
-    $updated_records = 0;
+        $error_detected = 0; //will be changed to 1 later if error occurs
+        $error_details = ''; //will be filled with errors (if any)
+        $updated_records = 0;
         $removed_records = 0;
         $api_error_detected = 0;
         $api_error_details = '';
@@ -55,12 +55,12 @@ class InstallationController extends Controller
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
         if ($api_action_success == 1) { //API check OK, continue with actual request
-        $optional_api_parameters_array = ['installation_disable_ip_verification']; //optional API parameters for this page
-        foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
-            if (! isset($$optional_api_parameter)) {
-                $$optional_api_parameter = '';
+            $optional_api_parameters_array = ['installation_disable_ip_verification']; //optional API parameters for this page
+            foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
+                if (! isset($$optional_api_parameter)) {
+                    $$optional_api_parameter = '';
+                }
             }
-        }
             if (! empty($delete_record) && $delete_record == 1) {
                 $removed_records += $this->deleteInstallation($installation_id);
                 if ($removed_records > 0) {
@@ -123,12 +123,11 @@ class InstallationController extends Controller
      */
     public function deleteInstallation($installation_id)
     {
-        $removed_records=0;
-        if (aflValidateIntegerValue($installation_id))
-        {
-            $removed_records+=AflInstallations::where('installation_id',$installation_id)->delete();
-
+        $removed_records = 0;
+        if (aflValidateIntegerValue($installation_id)) {
+            $removed_records += AflInstallations::where('installation_id', $installation_id)->delete();
         }
+
         return $removed_records;
     }
 

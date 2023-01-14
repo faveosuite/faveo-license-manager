@@ -114,7 +114,7 @@ class AuthController extends Controller
                 $message->to($email)->subject('Password Reset Link');
             }
 
-             );
+            );
 
             return successResponse(Lang::get('passwords.sent'), $token, 200);
         } catch (Exception $exception) {

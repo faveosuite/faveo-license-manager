@@ -43,27 +43,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 //AUTHENTICATION
-    Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/forgot', [AuthController::class, 'forgot']);
-    Route::post('/reset', [AuthController::class, 'reset']);
-    Route::get('/admin/viewApiKeys', [ApiKeysController::class, 'show']);
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/forgot', [AuthController::class, 'forgot']);
+Route::post('/reset', [AuthController::class, 'reset']);
+Route::get('/admin/viewApiKeys', [ApiKeysController::class, 'show']);
 
 /*************************************** CALLBACK FROM FAVEO TO LICENSE AND UPDATE *******************************************/
 
 //LICENSE MANAGER CALLBACKS
-    Route::post('/ConnectionTest', [ConnectionController::class, 'connection']);
-    Route::post('/licenseInstall', [LicenseInstallController::class, 'licenseInstall']);
-    Route::post('/licenseScheme', [LicenseSchemeController::class, 'licenseScheme']);
-    Route::post('/licenseVerify', [LicenseVerifyController::class, 'licenseVerify']);
+Route::post('/ConnectionTest', [ConnectionController::class, 'connection']);
+Route::post('/licenseInstall', [LicenseInstallController::class, 'licenseInstall']);
+Route::post('/licenseScheme', [LicenseSchemeController::class, 'licenseScheme']);
+Route::post('/licenseVerify', [LicenseVerifyController::class, 'licenseVerify']);
 //UPDATE MANAGER CALLBACKS
-    Route::post('/getVersions', [GetVersionsController::class, 'getVersion']);
-    Route::post('/getAllVersions', [GetAllVersionsController::class, 'getAllVersions']);
-    Route::post('/fetchQuery', [FetchQueryController::class, 'fetchQuery']);
-    Route::post('/downloadFile', [DownloadFileController::class, 'downloadFile']);
-    Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
+Route::post('/getVersions', [GetVersionsController::class, 'getVersion']);
+Route::post('/getAllVersions', [GetAllVersionsController::class, 'getAllVersions']);
+Route::post('/fetchQuery', [FetchQueryController::class, 'fetchQuery']);
+Route::post('/downloadFile', [DownloadFileController::class, 'downloadFile']);
+Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
 
 /********************************************************* CALLBACK *******************************************************************/
 

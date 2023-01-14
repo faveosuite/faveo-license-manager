@@ -14,7 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::create('afl_settings', function (Blueprint $table) {
-
             //$table->primary('SETTING_ID');
             $table->increments('SETTING_ID')->unique();
             $table->string('ROOT_URL', 125)->nullable();

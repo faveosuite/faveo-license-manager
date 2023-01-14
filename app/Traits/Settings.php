@@ -15,14 +15,14 @@ trait Settings
         error_reporting(E_ALL);
 
         //enhance security
-if (substr(php_sapi_name(), 0, 3) != 'cli') { //don't send headers when script running in cli or cli-server mode
-    header('Strict-Transport-Security:max-age=31536000; includeSubDomains'); //enable HTTP Strict Transport Security
-    header('X-Frame-Options: sameorigin'); //only allow frames from same origin
-    header('X-XSS-Protection: 1; mode=block'); //enable XSS filtering
-    header('X-Content-Type-Options: nosniff'); //opt-out of MIME type sniffing
-    header('Referrer-Policy: same-origin'); //only set referrer on requests to the same origin
-    header('Cache-Control: no-cache, no-store; must-revalidate; max-age=0'); //prevent caching
-}
+        if (substr(php_sapi_name(), 0, 3) != 'cli') { //don't send headers when script running in cli or cli-server mode
+            header('Strict-Transport-Security:max-age=31536000; includeSubDomains'); //enable HTTP Strict Transport Security
+            header('X-Frame-Options: sameorigin'); //only allow frames from same origin
+            header('X-XSS-Protection: 1; mode=block'); //enable XSS filtering
+            header('X-Content-Type-Options: nosniff'); //opt-out of MIME type sniffing
+            header('Referrer-Policy: same-origin'); //only set referrer on requests to the same origin
+            header('Cache-Control: no-cache, no-store; must-revalidate; max-age=0'); //prevent caching
+        }
 
         //set script directory
         define('SCRIPT_ROOT_DIRECTORY', __DIR__);
@@ -112,10 +112,10 @@ if (substr(php_sapi_name(), 0, 3) != 'cli') { //don't send headers when script r
         }
 
         //load auto tasks
-cleanupDatabase($DATABASE_CLEANUP_ENABLED, $DATABASE_CLEANUP_CALLBACKS, $DATABASE_CLEANUP_REPORTS_MAIN, $DATABASE_CLEANUP_REPORTS_SYSTEM, $DATABASE_CLEANUP_LICENSES, $DATABASE_CLEANUP_DATE); //cleanup database
-sendReminderEmails($PRODUCT_NAME, $EMAIL_FROM_NAME, $EMAIL_FROM_ADDRESS, $EMAIL_CC_SENDER, $EMAIL_EXPIRING_LICENSE_DAYS, $EMAIL_EXPIRING_UPDATES_DAYS, $EMAIL_EXPIRING_SUPPORT_DAYS, $EXPIRATION_CHECK_DATE); //send reminder emails
+        cleanupDatabase($DATABASE_CLEANUP_ENABLED, $DATABASE_CLEANUP_CALLBACKS, $DATABASE_CLEANUP_REPORTS_MAIN, $DATABASE_CLEANUP_REPORTS_SYSTEM, $DATABASE_CLEANUP_LICENSES, $DATABASE_CLEANUP_DATE); //cleanup database
+        sendReminderEmails($PRODUCT_NAME, $EMAIL_FROM_NAME, $EMAIL_FROM_ADDRESS, $EMAIL_CC_SENDER, $EMAIL_EXPIRING_LICENSE_DAYS, $EMAIL_EXPIRING_UPDATES_DAYS, $EMAIL_EXPIRING_SUPPORT_DAYS, $EXPIRATION_CHECK_DATE); //send reminder emails
 
-$setting = $request->post();
+        $setting = $request->post();
         if (! empty($setting)) { //filter and unset raw $_POST data if basic verification fails
             $setting = filterRawPostData($FILES_TO_EXCLUDE_REFER_CHECK_ARRAY, $ROOT_URL, $setting, $refer, basename(dirname($requested_url)).'/'.$script_name);
         }

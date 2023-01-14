@@ -16,26 +16,26 @@ class IsInstalled
      */
     public function handle(Request $request, Closure $next)
     {
-    
-         if (!$this->isInstall()) {
+        if (! $this->isInstall()) {
             return $next($request);
-        } else{
-                return redirect('/');
-            }
-     }
-         
-        /**
+        } else {
+            return redirect('/');
+        }
+    }
+
+/**
  * check installed
- * @return boolean
+ *
+ * @return bool
  */
 private function isInstall()
 {
     $check = false;
-    $env   = base_path('.env');
+    $env = base_path('.env');
     if (\Config::get('database.install') == 1) {
         $check = true;
     }
+
     return $check;
 }
-    
 }

@@ -33,7 +33,7 @@ class EmailsController extends Controller
                 'email_expiring_support_subject' => $request->get('email_expiring_support_subject'),
                 'email_expiring_support_text' => $request->get('email_expiring_support_text'),
             ]
-         );
+            );
             $email->save();
 
             return successResponse(Lang::get('lang.emails'), $email, 201);

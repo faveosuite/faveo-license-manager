@@ -19,9 +19,9 @@ class SearchController extends Controller
     {
         $api_error_detected = 0;
         $action_success = 0; //will be changed to 1 later only if everything OK
-    $error_detected = 0; //will be changed to 1 later if error occurs
-    $error_details = ''; //will be filled with errors (if any)
-    $api_error_details = '';
+        $error_detected = 0; //will be changed to 1 later if error occurs
+        $error_details = ''; //will be filled with errors (if any)
+        $api_error_details = '';
         $api_key_secret = $request->get('api_key_secret');
         $search_type = $request->get('search_type');
         $search_keyword = $request->get('search_keyword');
@@ -34,9 +34,9 @@ class SearchController extends Controller
             extract((array) $row);
         }
         //set default values for essential variables (mostly submitted to dropdown functions) when no values are set or values need to be reset
-if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from, 'Y-m-d')) { //set default start date depending on system settings if start date is not set or invalid
-    $date_from = setDefaultDateFrom($RECORDS_ARCHIVE_DAYS);
-}
+        if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from, 'Y-m-d')) { //set default start date depending on system settings if start date is not set or invalid
+            $date_from = setDefaultDateFrom($RECORDS_ARCHIVE_DAYS);
+        }
 
         if (! isset($date_to) || ! empty($date_to) && ! aflVerifyDateTime($date_to, 'Y-m-d')) { //set default end date empty (all records will be included) if end date is not set or invalid
             $date_to = '';
@@ -103,12 +103,12 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
             }
 
             if ($api_action_success == 1) { //everything OK
-            $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
-            $page_message = $rows_array;
+                $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
+                $page_message = $rows_array;
                 //return successResponse(Lang::get('lang.search_complete'),$page_message,200);
-            $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 1, 'error_detected' => 0, 'page_message' => $page_message]; //make array with response data
+                $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 1, 'error_detected' => 0, 'page_message' => $page_message]; //make array with response data
 
-            return json_encode($api_response_array);
+                return json_encode($api_response_array);
             } else { //display error message
                 $page_message = 'There was an error searching for the particular detail regarding id';
                 $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 0, 'error_detected' => 1, 'page_message' => $page_message]; //make array with response data
@@ -165,8 +165,8 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
             }
 
             if ($action_success == 1) { //everything OK
-                   $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
-                   $page_message = $rows_array;
+                $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
+                $page_message = $rows_array;
                 $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 1, 'error_detected' => 0, 'page_message' => $page_message]; //make array with response data
 
                 return json_encode($api_response_array);
@@ -297,20 +297,20 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
 
             $rows_array = DB::table('afl_clients')
                          ->select('afl_clients.*',
-                                  DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
-                                  DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
+                             DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
+                             DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
 
-                                  )->orWhere('client_fname', 'like', $search_keyword)
+                         )->orWhere('client_fname', 'like', $search_keyword)
                                    ->orWhere('client_lname', 'like', $search_keyword)
                                    ->orWhere('client_email', 'like', $search_keyword)
                                    ->orderBy('client_fname')->orderBy('client_lname')->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afl_clients')
                          ->select('afl_clients.*',
-                                  DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
-                                  DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
+                             DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
+                             DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
 
-                                  )->orWhere('client_fname', 'like', $search_keyword)
+                         )->orWhere('client_fname', 'like', $search_keyword)
                                    ->orWhere('client_lname', 'like', $search_keyword)
                                    ->orWhere('client_email', 'like', $search_keyword)
                                    ->orderBy('client_fname')->orderBy('client_lname')->get()->toArray();
@@ -394,8 +394,8 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
 
             $rows_array = DB::table('afl_licenses')
                     ->select('afl_licenses.*', 'afl_clients.client_email',
-                     DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
-                     DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'))
+                        DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
+                        DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'))
                     ->join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
                     ->leftJoin('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
                     ->orWhere('afl_licenses.license_code', 'like', $search_keyword)
@@ -407,9 +407,9 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
         } else {
             $rows_array = DB::table('afl_licenses')
                      ->select('afl_licenses.*', 'afl_clients.client_email',
-                              DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
-                              DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time')
-                        )->join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+                         DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
+                         DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time')
+                     )->join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
                         ->leftJoin('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
                         ->where('afl_licenses.product_id', $product_id)
                         ->orderBy('license_date', 'desc')
@@ -461,31 +461,31 @@ if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from
 
             $rows_array = DB::table('afl_products')
                        ->select('afl_products.*',
-                                DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id) AS total_licenses'),
-                                DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id) AS total_installations'),
-                                DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id) AS total_callbacks'),
-                                DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
-                                DB::raw('(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, afl_licenses.license_id DESC LIMIT 1) AS latest_license_date'),
-                                DB::raw('(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
-                                DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
-                                DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id) AS total_licenses'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id) AS total_installations'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id) AS total_callbacks'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
+                           DB::raw('(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, afl_licenses.license_id DESC LIMIT 1) AS latest_license_date'),
+                           DB::raw('(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
+                           DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+                           DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
 
-                                )->orWhere('product_title', 'like', $search_keyword)->orWhere('product_sku', 'like', $search_keyword)
+                       )->orWhere('product_title', 'like', $search_keyword)->orWhere('product_sku', 'like', $search_keyword)
 
                                 ->orderBy('product_title')->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afl_products')
                        ->select('afl_products.*',
-                                DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id) AS total_licenses'),
-                                DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id) AS total_installations'),
-                                DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id) AS total_callbacks'),
-                                DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
-                                DB::raw('(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, afl_licenses.license_id DESC LIMIT 1) AS latest_license_date'),
-                                DB::raw('(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
-                                DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
-                                DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id) AS total_licenses'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id) AS total_installations'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id) AS total_callbacks'),
+                           DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
+                           DB::raw('(SELECT license_date FROM afl_licenses WHERE afl_products.product_id=afl_licenses.product_id ORDER BY afl_licenses.license_date DESC, afl_licenses.license_id DESC LIMIT 1) AS latest_license_date'),
+                           DB::raw('(SELECT installation_date FROM afl_installations WHERE afl_products.product_id=afl_installations.product_id ORDER BY afl_installations.installation_date DESC, afl_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
+                           DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_products.product_id=afl_callbacks.product_id ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+                           DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
 
-                                )->orWhere('product_title', $search_keyword)->orWhere('product_sku', $search_keyword)
+                       )->orWhere('product_title', $search_keyword)->orWhere('product_sku', $search_keyword)
 
                                 ->orderBy('product_title')->get()->toArray();
         }

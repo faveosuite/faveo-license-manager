@@ -2,12 +2,12 @@
 
 namespace App\Console\Commands;
 
-use Illuminate\Console\Command;
 use App\Http\Controllers\Installer\InstallerController;
 use App\Http\Controllers\SyncLicenseToLatestVersion;
-use DB;
-use config;
 use App\Models\AflAdmins;
+use DB;
+use Illuminate\Console\Command;
+
 class InstallDB extends Command
 {
     /**
@@ -23,14 +23,16 @@ class InstallDB extends Command
      * @var string
      */
     protected $description = 'installinf database';
+
     protected $install;
-    
-       /**
+
+    /**
      * Create a new command instance.
      *
      * @return void
      */
-    public function __construct() {
+    public function __construct()
+    {
         $this->install = new InstallerController();
         parent::__construct();
     }
@@ -42,9 +44,9 @@ class InstallDB extends Command
      */
     public function handle()
     {
-           try {
-            $env = base_path() . DIRECTORY_SEPARATOR . '.env';
-            if (!is_file($env)) {
+        try {
+            $env = base_path().DIRECTORY_SEPARATOR.'.env';
+            if (! is_file($env)) {
                 throw new \Exception("Please run 'php artisan install:license'");
             }
             if ($this->confirm('Do you want to migrate tables now?')) {
@@ -52,25 +54,22 @@ class InstallDB extends Command
                 $this->checkDBVersion();
                 (new SyncLicenseToLatestVersion)->sync();
                 $this->call('passport:install', ['--force' => true]);
-                
 
-
-                $headers = [ 'email', 'password'];
+                $headers = ['email', 'password'];
                 $data = [
                     [
-                      
+
                         'email' => 'demo@gmail.com',
-                        'password' => 'demopass'
+                        'password' => 'demopass',
                     ],
                 ];
-                  $user = new AflAdmins(array(
-        
-                  
+                $user = new AflAdmins([
+
                     'admin_email' => 'demo@gmail.com',
                     'admin_password' => \Hash::make('demopass'),
-                 
-                 ));
-                 $user->save();
+
+                ]);
+                $user->save();
                 $this->install->updateInstalEnv($env);
                 $this->table($headers, $data);
                 $this->warn('Please update your email and change the password immediately');
@@ -81,20 +80,22 @@ class InstallDB extends Command
             $this->error($ex->getMessage());
         }
     }
-    
-   
-    private function checkDBVersion():void
+
+    private function checkDBVersion(): void
     {
         try {
             $pdo = DB::connection()->getPdo();
             $version = $pdo->query('select version()')->fetchColumn();
-            if(strpos($version, 'Maria') === false) {
+            if (strpos($version, 'Maria') === false) {
                 $this->checkMySQLVersion($version);
-                return ;
+
+                return;
             }
             $this->checkMariaDBVersion($version);
         } catch(\Exception $e) {
-            if($e->getCode() != 1049) throw $e;
+            if ($e->getCode() != 1049) {
+                throw $e;
+            }
             $database = config('database.connections.mysql.database');
             config(['database.connections.mysql.database' => null]);
             createDB($database);
@@ -103,23 +104,25 @@ class InstallDB extends Command
             $this->checkDBVersion();
         }
     }
-    
-     /**
+
+    /**
      * Function to check version requirement for MariaDB
+     *
      * @param  string  $version
      * @return void
      */
-    private function checkMariaDBVersion(string $version):void
+    private function checkMariaDBVersion(string $version): void
     {
-        $this->compareVersion($this->printAndFormatVersion($version, 'MariaDB'), '10.3', 'MariaDB');        
+        $this->compareVersion($this->printAndFormatVersion($version, 'MariaDB'), '10.3', 'MariaDB');
     }
 
     /**
      * Function to check version requirement for MySQL
+     *
      * @param  string  $version
      * @return void
      */
-    private function checkMySQLVersion(string $version):void
+    private function checkMySQLVersion(string $version): void
     {
         $this->compareVersion($this->printAndFormatVersion($version, 'MySQL'), '5.6', 'MySQL');
     }
@@ -127,32 +130,32 @@ class InstallDB extends Command
     /**
      * Function compares database version with minimum required version
      *
-     * @param   string    $version  unfomatted version string
-     * @param   string    $min      minimum required version for database
-     * @param   string    $db       database name
+     * @param  string  $version  unfomatted version string
+     * @param  string  $min      minimum required version for database
+     * @param  string  $db       database name
      * @return  void
+     *
      * @throws  Exception
      */
-    private function compareVersion($version, $min, $db='MySQL'):void
+    private function compareVersion($version, $min, $db = 'MySQL'): void
     {
-        if(version_compare($version, $min) < 0) {
+        if (version_compare($version, $min) < 0) {
             throw new \Exception("Please update your $db database version to $min or greater");
         }
     }
 
     /**
      * Function prints database version and returns formatted version string
-     * 
-     * @param   string  $version  unfomatted version string
-     * @param   string  $db       database name
+     *
+     * @param  string  $version  unfomatted version string
+     * @param  string  $db       database name
      * @return  string            formatted version string
      */
-    private function printAndFormatVersion(string $version, string $db = 'MySQL'):string
+    private function printAndFormatVersion(string $version, string $db = 'MySQL'): string
     {
         $this->info("You are running $db database on version $version");
         preg_match("/^[0-9\.]+/", $version, $match);
+
         return $match[0];
     }
-    
-    
 }
