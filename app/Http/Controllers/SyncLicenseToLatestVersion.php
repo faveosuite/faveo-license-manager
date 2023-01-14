@@ -1,11 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Artisan;
-use Config;
-use Exception;
 use DB;
-use Illuminate\Http\Request;
+use Exception;
 
 class SyncLicenseToLatestVersion extends Controller
 {
@@ -23,11 +22,9 @@ class SyncLicenseToLatestVersion extends Controller
         $this->forceInnodbOnUpdate();
 
         try {
-            
-                $this->updateToLatestVersion($latestVersion, $olderVersion);
-                $this->clearViewCache();
-                $this->clearConfig();
-              
+            $this->updateToLatestVersion($latestVersion, $olderVersion);
+            $this->clearViewCache();
+            $this->clearConfig();
 
             // Setting::first()->update(['version'=> 'v'.$latestVersion]);
             // \DB::table('settings')->update(['version' => 'v'.$latestVersion]);
@@ -44,50 +41,47 @@ class SyncLicenseToLatestVersion extends Controller
 
         return $this->log;
     }
-    
-      private function forceInnodbOnUpdate(){
-        try {
-            if ($this->isInstall()) {
-                $this->writeToEnvAndRunConfigClear('DB_ENGINE','InnoDB');
-                $tables = DB::select('SHOW TABLES');
-                foreach ($tables as $table) {
-                    foreach ($table as $key => $value) {
-                        DB::statement('ALTER TABLE ' . $value . ' ENGINE = InnoDB');
-                    }
-                }
 
-            }
-        }
-        catch (Exception $e){
-           
-            return errorResponse($e->getMessage());
-        }
-    }
-    
-     private function writeToEnvAndRunConfigClear($key,$value){
-        try {
-            $path = app()->environmentFilePath();
-           
-            $escaped = preg_quote('=' . env($key), '/');
-            file_put_contents($path, preg_replace(
-                "/^{$key}{$escaped}/m",
-                "{$key}={$value}",
-                file_get_contents($path)
-            ));
-            Artisan::call('config:clear');
-        }
-        catch (Exception $e){
-            
-            return errorResponse($e->getMessage());
-        }
-    }
+      private function forceInnodbOnUpdate()
+      {
+          try {
+              if ($this->isInstall()) {
+                  $this->writeToEnvAndRunConfigClear('DB_ENGINE', 'InnoDB');
+                  $tables = DB::select('SHOW TABLES');
+                  foreach ($tables as $table) {
+                      foreach ($table as $key => $value) {
+                          DB::statement('ALTER TABLE '.$value.' ENGINE = InnoDB');
+                      }
+                  }
+              }
+          } catch (Exception $e) {
+              return errorResponse($e->getMessage());
+          }
+      }
+
+     private function writeToEnvAndRunConfigClear($key, $value)
+     {
+         try {
+             $path = app()->environmentFilePath();
+
+             $escaped = preg_quote('='.env($key), '/');
+             file_put_contents($path, preg_replace(
+                 "/^{$key}{$escaped}/m",
+                 "{$key}={$value}",
+                 file_get_contents($path)
+             ));
+             Artisan::call('config:clear');
+         } catch (Exception $e) {
+             return errorResponse($e->getMessage());
+         }
+     }
 
     private function cacheDbVersion()
     {
         $filesystemVersion = \Config::get('app.version');
         \Cache::forget($filesystemVersion);
-        $dbversion = \Cache::remember($filesystemVersion, 3600, function () {//Caching version for 1 hr
-            return Setting::first()->value('version');
+        $dbversion = \Cache::remember($filesystemVersion, 3600, function () { //Caching version for 1 hr
+        return Setting::first()->value('version');
         });
     }
 
@@ -164,14 +158,15 @@ class SyncLicenseToLatestVersion extends Controller
         Artisan::call('config:clear');
         $this->handleArtisanLogs();
     }
-    private function isInstall()
-{
-    $check = false;
-    $env = base_path('.env');
-    if (\File::exists($env) && env('DB_INSTALL') == 1) {
-        $check = true;
-    }
 
-    return $check;
-}
+    private function isInstall()
+    {
+        $check = false;
+        $env = base_path('.env');
+        if (\File::exists($env) && env('DB_INSTALL') == 1) {
+            $check = true;
+        }
+
+        return $check;
+    }
 }

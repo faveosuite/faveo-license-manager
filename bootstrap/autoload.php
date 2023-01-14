@@ -27,7 +27,7 @@ require __DIR__.'/../vendor/autoload.php';
   | compiled class file which contains all of the classes commonly used
   | by a request. The Artisan "optimize" is used to create this file.
   |
- */ 
+ */
 
 if (file_exists($compiledPath = __DIR__.'/../vendor/compiled.php')) {
     require $compiledPath;

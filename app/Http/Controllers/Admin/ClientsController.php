@@ -179,9 +179,9 @@ class ClientsController extends Controller
                 $client_cancel_date = '0000-00-00';
             } else {
                 $client_cancel_date = $rows_array[0]['client_cancel_date']; //use old client_cancel_date if client was deactivated previously and its status wasn't changed now
-                        if (empty($client_cancel_date) || ! aflVerifyDateTime($client_cancel_date, 'Y-m-d')) { //set cancel date to now only if no previous cancel date set
-                            $client_cancel_date = date('Y-m-d');
-                        }
+                if (empty($client_cancel_date) || ! aflVerifyDateTime($client_cancel_date, 'Y-m-d')) { //set cancel date to now only if no previous cancel date set
+                    $client_cancel_date = date('Y-m-d');
+                }
             }
             $updated_records += DB::table('afl_clients')->where('client_id', $client_id)
                                          ->update([

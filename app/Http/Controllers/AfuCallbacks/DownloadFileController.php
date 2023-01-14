@@ -255,6 +255,7 @@ class DownloadFileController extends Controller
      * @param $product_id
      * @param $installation_ip
      * @param $installation_path
+     *
      * @returns $installation_id
      */
     private function verifyInstallation($product_id, $installation_ip, $installation_path)

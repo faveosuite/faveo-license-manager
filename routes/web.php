@@ -23,12 +23,10 @@ use Illuminate\Support\Facades\Route;
 
 // Auth::routes();
 
-Route::get('/getting-started/{timezone?}', [InstallerController::class, 'account'
+Route::get('/getting-started/{timezone?}', [InstallerController::class, 'account',
 ])->name('getting-started');
-Route::post('/final', [InstallerController::class, 'accountcheck'
+Route::post('/final', [InstallerController::class, 'accountcheck',
 ])->name('final');
-
-
 
 Route::get('/js/lang', [App\Http\Controllers\Admin\LanguageController::class, 'getLanguageFile'])->name('assets.lang');
 
@@ -43,8 +41,5 @@ Route::post('/apl_callbacks/license_verify.php', [LicenseVerifyController::class
 Route::post('/aus_callbacks/download_file.php', [DownloadFileController::class, 'downloadFile']);
 
 Route::get('/{one?}/{two?}/{three?}/{four?}/', function () {
-    
     return view('welcome');
 });
-
-

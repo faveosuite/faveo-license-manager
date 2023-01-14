@@ -75,36 +75,36 @@ class LicenseInstallController extends Controller
                 $notification_case = setValue($notification_case, 'notification_product_not_found');
 
                 $product_title = "Unknown Product (ID: $product_id)"; //make $product_title to use in reports for non-existing product
-        $product_id = 0; //set $product_id to 0 for non-existing product, so this report will be displayed in Unknown Reports section
+                $product_id = 0; //set $product_id to 0 for non-existing product, so this report will be displayed in Unknown Reports section
             } else { //product exists, do other checks
-        foreach ($product_array as $row) { //fetch product details
-            extract((array) $row);
-        }
+                foreach ($product_array as $row) { //fetch product details
+                    extract((array) $row);
+                }
 
                 if ($product_status != 1) { //product inactive
                     $error_detected = 1;
                     $error_details = setValue($error_details, 'product inactive');
                     $notification_case = setValue($notification_case, 'notification_product_inactive');
                 } else { //product active, do other checks
-            if (! empty($license_code)) { //search for code-based license
-                $license_array = AflLicenses::where('license_code', $license_code)
-                                          ->where('product_id', $product_id)->get()->toArray();
-            } else { //search for email-based license
-                $license_array = DB::table('afl_licenses')
-                                    ->join('afl_clients', ' afl_licenses.client_id', '=', 'afl_clients.client_id')
-                                    ->where('afl_clients.client_email', $client_email)
-                                    ->where('afl_clients.client_status', 1)
-                                    ->where('afl_licenses.product_id', $product_id)->get()->toArray();
-            }
+                    if (! empty($license_code)) { //search for code-based license
+                        $license_array = AflLicenses::where('license_code', $license_code)
+                                                  ->where('product_id', $product_id)->get()->toArray();
+                    } else { //search for email-based license
+                        $license_array = DB::table('afl_licenses')
+                                            ->join('afl_clients', ' afl_licenses.client_id', '=', 'afl_clients.client_id')
+                                            ->where('afl_clients.client_email', $client_email)
+                                            ->where('afl_clients.client_status', 1)
+                                            ->where('afl_licenses.product_id', $product_id)->get()->toArray();
+                    }
 
                     if (empty($license_array)) { //license doesn't exist
                         $error_detected = 1;
                         $error_details = setValue($error_details, 'license not found');
                         $notification_case = setValue($notification_case, 'notification_license_not_found');
                     } else { //license exists, do other checks
-                foreach ($license_array as $row) { //fetch license details
-                    extract((array) $row);
-                }
+                        foreach ($license_array as $row) { //fetch license details
+                            extract((array) $row);
+                        }
                         if (! verifyScriptSignature($license_signature, $product_id, $root_url, $client_email, $license_code)) { //invalid signature
                             $error_detected = 1;
                             $error_details = setValue($error_details, 'invalid license signature');
@@ -130,11 +130,11 @@ class LicenseInstallController extends Controller
 
                         if (! empty($license_ip)) {
                             $license_ips_array = explode(',', str_replace(' ', '', $license_ip)); //remove all space symbols (if any) between IPs
-                    if (! in_array($this->ip_address, $license_ips_array)) { //invalid IP
-                        $error_detected = 1;
-                        $error_details = setValue($error_details, "IP address $this->ip_address is not licensed");
-                        $notification_case = setValue($notification_case, 'notification_invalid_ip');
-                    }
+                            if (! in_array($this->ip_address, $license_ips_array)) { //invalid IP
+                                $error_detected = 1;
+                                $error_details = setValue($error_details, "IP address $this->ip_address is not licensed");
+                                $notification_case = setValue($notification_case, 'notification_invalid_ip');
+                            }
                         }
 
                         if (! empty($license_domain)) {
@@ -155,11 +155,11 @@ class LicenseInstallController extends Controller
                             }
                         }
                         if ($license_require_domain == 1) { //domain required
-                    if (! filter_var($root_url, FILTER_VALIDATE_URL) || ! filter_var(gethostbyname(aflGetRawDomain($root_url)), FILTER_VALIDATE_IP) || filter_var(aflGetRawDomain($root_url), FILTER_VALIDATE_IP)) { //script uploaded on invalid domain, domain not resolving to any IP, or local (IP-based) address
-                        $error_detected = 1;
-                        $error_details = setValue($error_details, 'a real domain is required');
-                        $notification_case = setValue($notification_case, 'notification_domain_required');
-                    }
+                            if (! filter_var($root_url, FILTER_VALIDATE_URL) || ! filter_var(gethostbyname(aflGetRawDomain($root_url)), FILTER_VALIDATE_IP) || filter_var(aflGetRawDomain($root_url), FILTER_VALIDATE_IP)) { //script uploaded on invalid domain, domain not resolving to any IP, or local (IP-based) address
+                                $error_detected = 1;
+                                $error_details = setValue($error_details, 'a real domain is required');
+                                $notification_case = setValue($notification_case, 'notification_domain_required');
+                            }
                         }
 
                         $this_installation_owner_array = AflInstallations::where('product_id', $product_id)
@@ -168,11 +168,11 @@ class LicenseInstallController extends Controller
                                                                 ->get()->toArray();
 
                         if (! empty($this_installation_owner_array)) { //installation exists, check whom it belongs to
-                    if (! empty($license_code) && $license_code != $this_installation_owner_array[0]['license_code'] || aflValidateIntegerValue($client_id) && $client_id != $this_installation_owner_array[0]['client_id']) { //this domain is used by another user
-                                                    $error_detected = 1;
-                        $error_details = setValue($error_details, "$product_title installation on $installation_domain ($this->ip_address) belongs to another user");
-                        $notification_case = setValue($notification_case, 'notification_domain_in_use');
-                    }
+                            if (! empty($license_code) && $license_code != $this_installation_owner_array[0]['license_code'] || aflValidateIntegerValue($client_id) && $client_id != $this_installation_owner_array[0]['client_id']) { //this domain is used by another user
+                                $error_detected = 1;
+                                $error_details = setValue($error_details, "$product_title installation on $installation_domain ($this->ip_address) belongs to another user");
+                                $notification_case = setValue($notification_case, 'notification_domain_in_use');
+                            }
                         }
                         if ($license_limit != 0) { //check installations limit
                             $other_installations_array = DB::table('afl_installations')->where('product_id', $product_id)
@@ -219,80 +219,80 @@ class LicenseInstallController extends Controller
                             }*/
 
                         if ($error_detected != 1) { //everything OK so far, do final checks
-                    if ($license_status == 1) { //license active, add or update installation details in database
-                        $installation_date = date('Y-m-d');
-                        $installation_status = 1;
+                            if ($license_status == 1) { //license active, add or update installation details in database
+                                $installation_date = date('Y-m-d');
+                                $installation_status = 1;
 
-                        $this_installation_array = AflInstallations::where('product_id', $product_id)
-                                                                ->where(function ($query) use ($client_id, $license_code) {
-                                                                    $query->where('client_id', $client_id)
-                                                                         ->orWhere('license_code', $license_code);
-                                                                })
-                                                               ->where('installation_ip', $this->ip_address)
-                                                               ->where('installation_domain', $installation_domain)
-                                                               ->where('installation_hash', $installation_hash)
-                                                               ->get()->toArray();
-                        //always perform verification with IP, but without status, for new installations
+                                $this_installation_array = AflInstallations::where('product_id', $product_id)
+                                                                        ->where(function ($query) use ($client_id, $license_code) {
+                                                                            $query->where('client_id', $client_id)
+                                                                                 ->orWhere('license_code', $license_code);
+                                                                        })
+                                                                       ->where('installation_ip', $this->ip_address)
+                                                                       ->where('installation_domain', $installation_domain)
+                                                                       ->where('installation_hash', $installation_hash)
+                                                                       ->get()->toArray();
+                                //always perform verification with IP, but without status, for new installations
 
-                        if (! empty($this_installation_array)) { //this is existing installation, update its details in database
-                            $action_success = 1;
-                            $notification_case = setValue($notification_case, 'notification_license_ok');
+                                if (! empty($this_installation_array)) { //this is existing installation, update its details in database
+                                    $action_success = 1;
+                                    $notification_case = setValue($notification_case, 'notification_license_ok');
 
-                            foreach ($this_installation_array as $row) {
-                                extract($row);
-                            }
+                                    foreach ($this_installation_array as $row) {
+                                        extract($row);
+                                    }
 
-                            AflInstallations::where('installation_id', $installation_id)
-                                             ->update([
-                                                 'installation_date' => $installation_date,
-                                                 'installation_status' => $installation_status,
-                                                 'installation_hash' => $installation_hash,
-                                             ]);
+                                    AflInstallations::where('installation_id', $installation_id)
+                                                     ->update([
+                                                         'installation_date' => $installation_date,
+                                                         'installation_status' => $installation_status,
+                                                         'installation_hash' => $installation_hash,
+                                                     ]);
                         //don't check if $updated_records is more than 0 because when installation_date variable is the same (script re-installed Nth time same day), $updated_records will be 0
-                        } else { //this is new installation, add its details to database
-                            try {
-                                $api = DB::table('afl_installations')->insertOrIgnore([
-                                    'client_id' => $client_id,
-                                    'license_code' => $license_code,
-                                    'product_id' => $product_id,
-                                    'installation_ip' => $this->ip_address,
-                                    'installation_domain' => $installation_domain,
-                                    'installation_date' => $installation_date,
-                                    'installation_status' => $installation_status,
-                                    'installation_hash' => $installation_hash,
-                                ]);
+                                } else { //this is new installation, add its details to database
+                                    try {
+                                        $api = DB::table('afl_installations')->insertOrIgnore([
+                                            'client_id' => $client_id,
+                                            'license_code' => $license_code,
+                                            'product_id' => $product_id,
+                                            'installation_ip' => $this->ip_address,
+                                            'installation_domain' => $installation_domain,
+                                            'installation_date' => $installation_date,
+                                            'installation_status' => $installation_status,
+                                            'installation_hash' => $installation_hash,
+                                        ]);
 
-                                $action_success = 1;
-                                $notification_case = setValue($notification_case, 'notification_license_ok');
-                            } catch (\Exception $e) {
-                                $error_detected = 1;
-                                $error_details = setValue($error_details, 'unknown error occurred');
-                                $notification_case = setValue($notification_case, 'notification_unknown_error');
+                                        $action_success = 1;
+                                        $notification_case = setValue($notification_case, 'notification_license_ok');
+                                    } catch (\Exception $e) {
+                                        $error_detected = 1;
+                                        $error_details = setValue($error_details, 'unknown error occurred');
+                                        $notification_case = setValue($notification_case, 'notification_unknown_error');
+                                    }
+                                }
                             }
-                        }
-                    }
                         }
                     }
                 }
             }
 
             $required_callback_parameters_array = ['client_id', 'client_fname', 'client_lname', 'product_id', 'product_title', 'product_description', 'product_url_homepage', 'product_url_download', 'product_version', 'license_code', 'license_expire_date', 'license_cancel_date', 'license_updates_date', 'license_support_date', 'license_limit', 'notification_case', 'notification_data']; //required callback parameters for this page4
-    foreach ($required_callback_parameters_array as $required_callback_parameter) { //in case some required parameter (used in callback and/or notification functions) was not fetched, set its value empty to prevent "undefined variable" errors
-        if (! isset($$required_callback_parameter)) {
-            $$required_callback_parameter = '';
-        }
-    }
+            foreach ($required_callback_parameters_array as $required_callback_parameter) { //in case some required parameter (used in callback and/or notification functions) was not fetched, set its value empty to prevent "undefined variable" errors
+                if (! isset($$required_callback_parameter)) {
+                    $$required_callback_parameter = '';
+                }
+            }
 
             if (! aflValidateIntegerValue($client_id)) { //empty client_id must be null, not empty string
                 $client_id = null;
             }
 
             if ($action_success == 1) { //everything OK
-        if (! empty($this_installation_array)) { //generate different report for existing installation
-            $report_text = "Existing $product_title installation at $installation_domain ($this->ip_address) updated.";
-        } else {
-            $report_text = "New $product_title installation at $installation_domain ($this->ip_address) performed.";
-        }
+                if (! empty($this_installation_array)) { //generate different report for existing installation
+                    $report_text = "Existing $product_title installation at $installation_domain ($this->ip_address) updated.";
+                } else {
+                    $report_text = "New $product_title installation at $installation_domain ($this->ip_address) performed.";
+                }
             } else {
                 $report_text = "$product_title installation at $installation_domain ($this->ip_address) could not be performed because of this reason: $error_details.";
             }
@@ -300,14 +300,14 @@ class LicenseInstallController extends Controller
             return returnServerNotification($notification_case, $root_url, $this->ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data);  //always return server notification when valid basic data was received from script
     //return successResponse(Lang::get('lang.success'),$api,201);
         } else { //possible cracking attempt, set variables required for reports function to null and generate cracking report
-    $product_id = 0;
+            $product_id = 0;
             $client_id = null;
             $license_code = null;
             $report_text = "Host $this->ip_address sent invalid data to requested_url and was rejected. Host sent this data: ".json_encode($request->all()).'.';
         }
         createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success); //always create report, no matter result
-if ($action_success != 1) { //record failed licensing attempt and ban host if needed
-    recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $this->ip_address);
-}
+        if ($action_success != 1) { //record failed licensing attempt and ban host if needed
+            recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $this->ip_address);
+        }
     }
 }

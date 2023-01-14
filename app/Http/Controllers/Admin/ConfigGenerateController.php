@@ -24,9 +24,9 @@ class ConfigGenerateController extends Controller
     {
         try {
             $action_success = 0; //will be changed to 1 later only if everything OK
-    $error_detected = 0; //will be changed to 1 later if error occurs
-    $error_details = ''; //will be filled with errors (if any)
-    $added_records = 0;
+            $error_detected = 0; //will be changed to 1 later if error occurs
+            $error_details = ''; //will be filled with errors (if any)
+            $added_records = 0;
             $updated_records = 0;
             $removed_records = 0;
             $product_id = $request->get('product_id');

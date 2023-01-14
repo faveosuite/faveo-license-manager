@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Console\Commands;
+
 use App\Http\Controllers\SyncLicenseToLatestVersion;
 use Illuminate\Console\Command;
 
@@ -27,7 +28,6 @@ class SyncDatabaseToLatestVersion extends Command
      */
     public function handle()
     {
-      echo (new SyncLicenseToLatestVersion)->sync();
-
+        echo (new SyncLicenseToLatestVersion)->sync();
     }
 }

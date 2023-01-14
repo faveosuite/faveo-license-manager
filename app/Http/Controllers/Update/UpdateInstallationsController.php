@@ -35,12 +35,12 @@ class UpdateInstallationsController extends Controller
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
         if ($api_action_success == 1) { //API check OK, continue with actual request
-                $optional_api_parameters_array = []; //optional API parameters for this page
-                foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
-                    if (! isset($$optional_api_parameter)) {
-                        $$optional_api_parameter = '';
-                    }
+            $optional_api_parameters_array = []; //optional API parameters for this page
+            foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
+                if (! isset($$optional_api_parameter)) {
+                    $$optional_api_parameter = '';
                 }
+            }
             if (! empty($delete_record) && $delete_record == 1) {
                 $removed_records += $this->deleteInstallation($installation_id);
                 if ($removed_records > 0) {
