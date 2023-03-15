@@ -4,6 +4,8 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
+use RuntimeException;
 
 class Handler extends ExceptionHandler
 {
@@ -45,6 +47,7 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             $this->handleExceptionWhenApplicationIsNotReady();
+            Bugsnag::notifyException($e);
         });
     }
 
@@ -55,4 +58,6 @@ class Handler extends ExceptionHandler
              exit();
          }
      }
+
+
 }
