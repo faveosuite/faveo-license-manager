@@ -53,6 +53,7 @@ class AfuVersionsController extends Controller
         define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
         define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
 
+
         $product_id = $request->get('product_id');
         $api_key_secret = $request->get('api_key_secret');
         $version_number = $request->get('version_number');
@@ -302,7 +303,7 @@ class AfuVersionsController extends Controller
         $path = storage_path();
         define('SCRIPT_ROOT_DIRECTORY', __DIR__);
         define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
-        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
+        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY); 
         $version_id = $request->get('version_id');
         $product_id = $request->get('product_id');
         $api_key_secret = $request->get('api_key_secret');
@@ -319,6 +320,7 @@ class AfuVersionsController extends Controller
         $version_changelog = $request->get('version_change_log');
         $version_expire_date = $request->get('version_expire_date');
         $version_comments = $request->get('version_comments');
+        $product_title = $request->get('product_title');
 
         if (empty($version_id) || ! aflValidateIntegerValue($version_id) || empty($rows_array = AfuVersions::where('version_id', $version_id)->get()->toArray())) { //invalid record
             return errorResponse(Lang::get('lang.invalid'), 404);
