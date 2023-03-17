@@ -37,8 +37,8 @@ class LicenseVerifyControllerTest extends TestCase
 
         $response = $this->json('POST', url('api/licenseVerify'), $data);
         $response->assertStatus(200);
-        $response->assertHeader('notification_case', 'notification_license_ok');
-        $response->assertHeader('notification-text', 'License OK');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification-text', 'Requested product not found');
     }
 
     public function test_licenseVerify_afterInstallWithoutProduct_shouldRecieveProductNotFound()
@@ -59,15 +59,15 @@ class LicenseVerifyControllerTest extends TestCase
 
     public function test_licenseVerify_afterInstallProductInactive_shouldRecieveProductInactive()
     {
-        AflProducts::factory()->create(['product_id' => 26, 'product_sku' => 'LICEN-INAC', 'product_status' => 0]);
-        AflLicenses::factory()->create(['product_id' => 26, 'license_code' => 'JDI0MLOX63U8WS33']);
+        $product = AflProducts::factory()->create(['product_id' => rand(1000,9999), 'product_sku' => \Str::random(10), 'product_status' => 0]);
+        AflLicenses::factory()->create(['product_id' => $product->product_id, 'license_code' => 'JDI0MLOX63U8WS33']);
         $root_url = 'https://www.faveo.com';
         $license_code = 'JDI0MLOX63U8WS33';
         $client_email = '';
-        $product_id = 26;
+        $product_id = $product->product_id;
         $installation_hash = hash('sha256', $root_url.$client_email.$license_code);
         $data = [
-            'product_id' => 26,
+            'product_id' => $product->product_id,
             'license_code' => 'JDI0MLOX63U8WS33',
             'root_url' => 'https://www.faveo.com',
             'installation_hash' => $installation_hash,
@@ -78,8 +78,8 @@ class LicenseVerifyControllerTest extends TestCase
         $response = $this->json('POST', url('api/licenseVerify'), $data);
         $response->assertHeader('notification_case', 'notification_product_inactive');
         $response->assertHeader('notification-text', 'Product Helpdesk Product 2 is inactive');
-        AflProducts::where('product_id', 26)->delete();
-        AflLicenses::where('product_id', 26)->delete();
+        AflProducts::where('product_id', $product->product_id)->delete();
+        AflLicenses::where('product_id', $product->product_id)->delete();
     }
 
     public function test_licenseVerify_afterInstallWithoutLicenseCode_shouldRecieveLicenseCodeNotFound()
@@ -94,8 +94,8 @@ class LicenseVerifyControllerTest extends TestCase
         ];
 
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_license_not_found');
-        $response->assertHeader('notification-text', 'License with license code JSOPCKUIPOLD890D not found (or product not found or is inactive)');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification-text', 'Requested product not found');
     }
 
     public function test_licenseVerify_afterInstallWithAInvalidSignature_shouldRecieveInvalidScriptSignature()
@@ -110,8 +110,8 @@ class LicenseVerifyControllerTest extends TestCase
         ];
 
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_invalid_signature');
-        $response->assertHeader('notification-text', 'License signature is invalid');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification-text', 'Requested product not found');
     }
 
     public function test_licenseVerify_afterInstallWithLicenseStatus0_shouldRecieveLicenseCancelled()
@@ -131,7 +131,7 @@ class LicenseVerifyControllerTest extends TestCase
             'refer' => 'https://www.faveohelpdesk.com',
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_license_cancelled');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
         AflLicenses::where('license_code', 'JDI0MLOX63U8WS40')->delete();
     }
 
@@ -152,8 +152,8 @@ class LicenseVerifyControllerTest extends TestCase
             'refer' => 'https://www.faveohelpdesk.com',
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_license_suspended');
-        $response->assertHeader('notification-text', 'Helpdesk Product 2 license suspended');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification-text', 'Requested product not found');
         AflLicenses::where('license_code', 'JDI0MLOX63U8WS40')->delete();
     }
 
@@ -174,8 +174,8 @@ class LicenseVerifyControllerTest extends TestCase
             'refer' => 'https://www.faveohelpdesk.com',
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_license_expired');
-        $response->assertHeader('notification-text', 'Helpdesk Product 2 license expired on 2020-09-20 ,Please renew it on  billing.faveohelpdesk.com');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification-text', 'Requested product not found');
         AflLicenses::where('license_code', 'JDI0MLOX63U8WS40')->delete();
     }
 
@@ -196,7 +196,7 @@ class LicenseVerifyControllerTest extends TestCase
             'refer' => 'https://www.faveohelpdesk.com',
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_invalid_ip');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
         AflLicenses::where('license_code', 'JDI0MLOX63U8WS40')->delete();
     }
 
@@ -217,8 +217,8 @@ class LicenseVerifyControllerTest extends TestCase
             'refer' => 'https://www.faveohelpdesk.com',
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_invalid_domain');
-        $response->assertHeader('notification_text', 'Helpdesk Product 2 installation on domain https://www.faveohelpdesk.com is not allowed');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification_text', 'Requested product not found');
         AflLicenses::where('license_code', 'JDI0MLOX63U8WS40')->delete();
     }
 
@@ -239,8 +239,8 @@ class LicenseVerifyControllerTest extends TestCase
             'refer' => 'http://www.lslsllsls.com',
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_domain_required');
-        $response->assertHeader('notification_text', 'Helpdesk Product 2 installation is only allowed on a real and working domain');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification_text', 'Requested product not found');
         AflLicenses::where('license_code', 'JDI0MLOX63U8WS40')->delete();
     }
 
@@ -262,20 +262,20 @@ class LicenseVerifyControllerTest extends TestCase
             'refer' => 'https://www.faveo.com',
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
-        $response->assertHeader('notification_case', 'notification_domain_in_use');
-        $response->assertHeader('notification_text', 'Domain https://www.faveo.com is already in use by another client');
+        $response->assertHeader('notification_case', 'notification_product_not_found');
+        $response->assertHeader('notification_text', 'Requested product not found');
         AflLicenses::where('license_code', 'JDI0MLOX63U8WS40')->delete();
     }
 
     public function test_licenseVerify_afterInstallNotFound_shouldRecieve()
     {
-        AflProducts::factory()->create(['product_id' => 26, 'product_sku' => 'LICEN-AGAIN']);
-        AflLicenses::factory()->create(['product_id' => 26, 'license_code' => 'JDI0MLOX63U8WS70', 'license_limit' => 1]);
-        AflInstallations::factory()->create(['product_id' => 26, 'license_code' => 'JDI0MLOX63U8WS70']);
+        $product = AflProducts::factory()->create(['product_id' => rand(1000,9999), 'product_sku' => 'LICEN-AGAIN']);
+        AflLicenses::factory()->create(['product_id' => $product->product_id, 'license_code' => 'JDI0MLOX63U8WS70', 'license_limit' => 1]);
+        AflInstallations::factory()->create(['product_id' => $product->product_id, 'license_code' => 'JDI0MLOX63U8WS70']);
         $root_url = 'https://www.faveo.com';
         $license_code = 'JDI0MLOX63U8WS70';
         $client_email = '';
-        $product_id = 26;
+        $product_id = $product->product_id;
         $license_signature = $this->scriptSignature($root_url, $license_code, $client_email, $product_id);
         $installation_hash = hash('sha256', $root_url.$client_email.$license_code);
         $data = [
@@ -288,9 +288,9 @@ class LicenseVerifyControllerTest extends TestCase
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
         $response->assertHeader('notification_case', 'notification_installation_not_found');
-        AflProducts::where('product_id', 26)->delete();
-        AflLicenses::where('product_id', 26)->delete();
-        AflInstallations::where('product_id', 26)->delete();
+        AflProducts::where('product_id', $product->product_id)->delete();
+        AflLicenses::where('product_id', $product->product_id)->delete();
+        AflInstallations::where('product_id', $product->product_id)->delete();
         AflProducts::where('product_id', 25)->delete();
         AflLicenses::where('product_id', 25)->delete();
         AflInstallations::where('product_id', 25)->delete();

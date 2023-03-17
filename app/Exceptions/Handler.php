@@ -14,7 +14,7 @@ class Handler extends ExceptionHandler
      *
      * @var array<class-string<\Throwable>, \Psr\Log\LogLevel::*>
      */
-    protected $levels = [
+    protected $levels = [ 
         //
     ];
 
@@ -33,7 +33,7 @@ class Handler extends ExceptionHandler
      * @var array<int, string>
      */
     protected $dontFlash = [
-        'current_password',
+        'current_password', 
         'password',
         'password_confirmation',
     ];
@@ -43,11 +43,10 @@ class Handler extends ExceptionHandler
      *
      * @return void
      */
-    public function register()
+    public function register() 
     {
         $this->reportable(function (Throwable $e) {
-            $this->handleExceptionWhenApplicationIsNotReady();
-            Bugsnag::notifyException($e);
+           $this->handleExceptionWhenApplicationIsNotReady();
         });
     }
 
