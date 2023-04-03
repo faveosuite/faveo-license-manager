@@ -33,7 +33,7 @@ class ApiKeyControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/addnewapi'), $data);
         $response->assertStatus(201);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'lang.add']);
+        $response->assertJson(['message' => 'API Key Added Successfully']);
     }
 
     public function test_apiKeyUpdate_whenApiKeyIsUpdated_shouldReturnTrue()
@@ -56,7 +56,7 @@ class ApiKeyControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/editnewapi/'.$id), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'lang.Update']);
+        $response->assertJson(['message' => 'The Current API Key Details Has Been Updated']);
         $response->assertJson(['data' => 1]);
     }
 
@@ -65,10 +65,10 @@ class ApiKeyControllerTest extends TestCase
         $this->withoutMiddleware();
         $id = AflApiKeys::where('api_key_secret', 'P5Zp2PmbOSPWOdc6666')->value('api_key_id');
         $data = ['token' => env('LICENSE_KEY')];
-        $response = $this->json('DELETE', url('api/admin/deleteapi/'.$id), $data);
+        $response = $this->json('POST', url('api/admin/deleteapi/'.$id), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'lang.Delete']);
+        $response->assertJson(['message' => 'API Key Deleted Successfully']);
         $response->assertJson(['data' => 1]);
     }
 
@@ -92,7 +92,7 @@ class ApiKeyControllerTest extends TestCase
             $response = $this->json('POST', url('api/admin/addnewapi'), $data);
             $response->assertStatus(201);
             $response->assertJson(['success' => true]);
-            $response->assertJson(['message' => 'lang.add']);
+            $response->assertJson(['message' => 'API Key Added Successfully']);
         } else {
             $this->assertTrue(true);
         }

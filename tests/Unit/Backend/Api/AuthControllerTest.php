@@ -137,7 +137,7 @@ class AuthControllerTest extends TestCase
             'admin_email' => 'sandedddddddddddsh@123gamil.com',
         ];
         $response = $this->json('POST', url('api/forgot'), $data);
-        $response->assertStatus(404);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
         $response->assertJson(['message' => 'These credentials do not match our records.']);
     }

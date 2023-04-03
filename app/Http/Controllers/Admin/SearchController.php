@@ -577,7 +577,7 @@ class SearchController extends Controller
             $search_keyword = "%$search_keyword%"; //add wildcards
 
             $rows_array = DB::table('afu_callbacks')
-                ->leftJoin('afu_products', 'afu_callbacks.product_id', '=', 'afu_products.product_id')
+                ->leftJoin('afl_products', 'afu_callbacks.product_id', '=', 'afl_products.product_id')
                 ->leftJoin('afu_versions', 'afu_callbacks.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_callbacks.callback_date_time', '>=', $date_from)
                 ->where('afu_callbacks.callback_date_time', '<=', $date_to)
@@ -587,7 +587,7 @@ class SearchController extends Controller
                 ->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afu_callbacks')
-                ->leftJoin('afu_products', 'afu_callbacks.product_id', '=', 'afu_products.product_id')
+                ->leftJoin('afl_products', 'afu_callbacks.product_id', '=', 'afl_products.product_id')
                 ->leftJoin('afu_versions', 'afu_callbacks.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_callbacks.product_id', '=', $product_id)
                 ->where('afu_callbacks.callback_date_time', '>=', $date_from)
@@ -629,18 +629,18 @@ class SearchController extends Controller
             $search_keyword = "%$search_keyword%"; //add wildcards
 
             $rows_array = DB::table('afu_installations')
-                ->leftJoin('afu_products', 'afu_installations.product_id', '=', 'afu_products.product_id')
+                ->leftJoin('afl_products', 'afu_installations.product_id', '=', 'afl_products.product_id')
                 ->leftJoin('afu_versions', 'afu_installations.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_installations.installation_date', '>=', $date_from)
                 ->where('afu_installations.installation_date', '<=', $date_to)
-                ->orWhere('afu_products.product_title', 'like', $search_keyword)
+                ->orWhere('afl_products.product_title', 'like', $search_keyword)
                 ->orWhere('afu_installations.installation_ip', 'like', $search_keyword)
                 ->orderBy('installation_date', 'desc')
                 ->orderBy('installation_id', 'desc')
                 ->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afu_installations')
-                ->leftJoin('afu_products', 'afu_installations.product_id', '=', 'afu_products.product_id')
+                ->leftJoin('afl_products', 'afu_installations.product_id', '=', 'afl_products.product_id')
                 ->leftJoin('afu_versions', 'afu_installations.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_installations.product_id', '=', $product_id)
                 ->where('afu_installations.installation_date', '>=', $date_from)
@@ -669,33 +669,33 @@ class SearchController extends Controller
         if (! empty($search_keyword) && aflValidateIntegerValue($results_limit)) {
             $search_keyword = "%$search_keyword%"; //add wildcards
 
-            $rows_array = DB::table('afu_products')
-                ->select('afu_products.*',
-                    DB::raw('(SELECT COUNT(*) FROM afu_versions WHERE afu_products.product_id=afu_versions.product_id) AS total_versions'),
-                    DB::raw('(SELECT COUNT(*) FROM afu_installations WHERE afu_products.product_id=afu_installations.product_id) AS total_installations'),
-                    DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afu_products.product_id=afu_callbacks.product_id) AS total_callbacks'),
-                    DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afu_products.product_id=afl_reports.product_id) AS total_reports'),
-                    DB::raw('(SELECT version_number FROM afu_versions WHERE afu_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_number'),
-                    DB::raw('(SELECT version_date FROM afu_versions WHERE afu_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_date'),
-                    DB::raw('(SELECT installation_date FROM afu_installations WHERE afu_products.product_id=afu_installations.product_id ORDER BY afu_installations.installation_date DESC, afu_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
-                    DB::raw('(SELECT callback_date_time FROM afu_callbacks WHERE afu_products.product_id=afu_callbacks.product_id ORDER BY afu_callbacks.callback_date_time DESC, afu_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
-                    DB::raw('(SELECT report_date_time FROM afl_reports WHERE afu_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
+            $rows_array = DB::table('afl_products')
+                ->select('afl_products.*',
+                    DB::raw('(SELECT COUNT(*) FROM afu_versions WHERE afl_products.product_id=afu_versions.product_id) AS total_versions'),
+                    DB::raw('(SELECT COUNT(*) FROM afu_installations WHERE afl_products.product_id=afu_installations.product_id) AS total_installations'),
+                    DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afl_products.product_id=afu_callbacks.product_id) AS total_callbacks'),
+                    DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
+                    DB::raw('(SELECT version_number FROM afu_versions WHERE afl_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_number'),
+                    DB::raw('(SELECT version_date FROM afu_versions WHERE afl_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_date'),
+                    DB::raw('(SELECT installation_date FROM afu_installations WHERE afl_products.product_id=afu_installations.product_id ORDER BY afu_installations.installation_date DESC, afu_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
+                    DB::raw('(SELECT callback_date_time FROM afu_callbacks WHERE afl_products.product_id=afu_callbacks.product_id ORDER BY afu_callbacks.callback_date_time DESC, afu_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+                    DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
 
                 )->orWhere('product_title', 'like', $search_keyword)->orWhere('product_sku', 'like', $search_keyword)
 
                 ->orderBy('product_title')->limit($results_limit)->get()->toArray();
         } else {
-            $rows_array = DB::table('afu_products')
-                ->select('afu_products.*',
-                    DB::raw('(SELECT COUNT(*) FROM afu_versions WHERE afu_products.product_id=afu_versions.product_id) AS total_versions'),
-                    DB::raw('(SELECT COUNT(*) FROM afu_installations WHERE afu_products.product_id=afu_installations.product_id) AS total_installations'),
-                    DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afu_products.product_id=afu_callbacks.product_id) AS total_callbacks'),
-                    DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afu_products.product_id=afl_reports.product_id) AS total_reports'),
-                    DB::raw('(SELECT version_number FROM afu_versions WHERE afu_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_number'),
-                    DB::raw('(SELECT version_date FROM afu_versions WHERE afu_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_date'),
-                    DB::raw('(SELECT installation_date FROM afu_installations WHERE afu_products.product_id=afu_installations.product_id ORDER BY afu_installations.installation_date DESC, afu_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
-                    DB::raw('(SELECT callback_date_time FROM afu_callbacks WHERE afu_products.product_id=afu_callbacks.product_id ORDER BY afu_callbacks.callback_date_time DESC, afu_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
-                    DB::raw('(SELECT report_date_time FROM afl_reports WHERE afu_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
+            $rows_array = DB::table('afl_products')
+                ->select('afl_products.*',
+                    DB::raw('(SELECT COUNT(*) FROM afu_versions WHERE afl_products.product_id=afu_versions.product_id) AS total_versions'),
+                    DB::raw('(SELECT COUNT(*) FROM afu_installations WHERE afl_products.product_id=afu_installations.product_id) AS total_installations'),
+                    DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afl_products.product_id=afu_callbacks.product_id) AS total_callbacks'),
+                    DB::raw('(SELECT COUNT(*) FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id) AS total_reports'),
+                    DB::raw('(SELECT version_number FROM afu_versions WHERE afl_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_number'),
+                    DB::raw('(SELECT version_date FROM afu_versions WHERE afl_products.product_id=afu_versions.product_id ORDER BY afu_versions.version_date DESC, afu_versions.version_id DESC LIMIT 1) AS latest_version_date'),
+                    DB::raw('(SELECT installation_date FROM afu_installations WHERE afl_products.product_id=afu_installations.product_id ORDER BY afu_installations.installation_date DESC, afu_installations.installation_id DESC LIMIT 1) AS latest_installation_date'),
+                    DB::raw('(SELECT callback_date_time FROM afu_callbacks WHERE afl_products.product_id=afu_callbacks.product_id ORDER BY afu_callbacks.callback_date_time DESC, afu_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+                    DB::raw('(SELECT report_date_time FROM afl_reports WHERE afl_products.product_id=afl_reports.product_id ORDER BY afl_reports.report_date_time DESC, afl_reports.report_id DESC LIMIT 1) AS latest_report_date_time'),
 
                 )->orderBy('product_title')->get()->toArray();
         }
@@ -736,7 +736,7 @@ class SearchController extends Controller
         if (! empty($search_keyword) && aflValidateIntegerValue($results_limit)) {
             $search_keyword = "%$search_keyword%"; //add wildcards
             $rows_array = DB::table('afl_reports')
-                         ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afu_products.product_id')
+                         ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
                          ->where('afl_reports.report_text', 'like', $search_keyword)
                          //->where('afl_reports.report_system',0)
                          ->where('afl_reports.report_date_time', '>=', $date_from)
@@ -746,7 +746,7 @@ class SearchController extends Controller
                          ->get()->toArray();
         } else {
             $rows_array = DB::table('afl_reports')
-                ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afu_products.product_id')
+                ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
                 ->where('afl_reports.product_id', $product_id)
                 ->where('afl_reports.report_system', 0)
                 ->where('afl_reports.report_date_time', '>=', $date_from)
@@ -782,9 +782,9 @@ class SearchController extends Controller
 
             $rows_array = DB::table('afu_versions')
                            ->select('afu_versions.*', DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afu_versions.version_id=afu_callbacks.version_id) AS total_callbacks'))
-                           ->join('afu_products', 'afu_versions.product_id', '=', 'afu_products.product_id')
-                           ->orWhere('afu_products.product_title', 'like', $search_keyword)
-                           ->orWhere('afu_products.product_sku', 'like', $search_keyword)
+                           ->join('afl_products', 'afu_versions.product_id', '=', 'afl_products.product_id')
+                           ->orWhere('afl_products.product_title', 'like', $search_keyword)
+                           ->orWhere('afl_products.product_sku', 'like', $search_keyword)
                            ->orWhere('afu_versions.version_number', 'like', $search_keyword)
                            ->orWhere('afu_versions.version_comments', 'like', $search_keyword)
                            ->orderBy('afu_versions.version_date', 'desc')
@@ -792,7 +792,7 @@ class SearchController extends Controller
         } else {
             $rows_array = DB::table('afu_versions')
                 ->select(DB::raw('(SELECT COUNT(*) FROM afu_callbacks WHERE afu_versions.version_id=afu_callbacks.version_id) AS total_callbacks'))
-                ->Join('afu_products', 'afu_versions.product_id', '=', 'afu_products.product_id')
+                ->Join('afl_products', 'afu_versions.product_id', '=', 'afl_products.product_id')
                 ->where('afu_versions.product_id', $product_id)
                 ->orderBy('afu_versions.version_date', 'desc')
                 ->orderBy('afu_versions.version_id', 'desc')->get()->toArray();
