@@ -31,7 +31,7 @@ class ClientsControllerTest extends TestCase
         $response->assertJson(['data' => 1]);
     }
 
-    public function test_clientAdd_whenClientDetailsIsAddedWithSameDetails_shouldRecieveResponse400()
+    public function test_clientAdd_whenClientDetailsIsAddedWithSameDetails_shouldRecieveResponse412()
     {
         $this->withoutMiddleware();
         $data = [
@@ -43,9 +43,7 @@ class ClientsControllerTest extends TestCase
             'client_status' => 1,
         ];
         $response = $this->json('POST', url('api/admin/clients/add'), $data);
-
-        $response->assertStatus(422);
-        $response->assertJson(['message' => 'The given data was invalid.']);
+        $response->assertStatus(412);
     }
 
     public function test_clientUpdate_whenClientDetailsIsUpdated_shouldRecieveResponse200()

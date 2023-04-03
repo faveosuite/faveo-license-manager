@@ -49,9 +49,10 @@ class AfuVersionsController extends Controller
             extract((array) $row);
         }
         $path = storage_path();
-        define('SCRIPT_ROOT_DIRECTORY', __DIR__);
-        define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
-        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
+        $rootDirectory = config('test.SCRIPT_ROOT_DIRECTORY');
+        $ARCHIVES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
+        $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY'); 
+
 
         $product_id = $request->get('product_id');
         $api_key_secret = $request->get('api_key_secret');
@@ -300,9 +301,9 @@ class AfuVersionsController extends Controller
             extract((array) $row);
         }
         $path = storage_path();
-        define('SCRIPT_ROOT_DIRECTORY', __DIR__);
-        define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
-        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
+        $rootDirectory = config('test.SCRIPT_ROOT_DIRECTORY');
+        $ARCHIVES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
+        $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY'); 
         $version_id = $request->get('version_id');
         $product_id = $request->get('product_id');
         $api_key_secret = $request->get('api_key_secret');
@@ -319,6 +320,7 @@ class AfuVersionsController extends Controller
         $version_changelog = $request->get('version_change_log');
         $version_expire_date = $request->get('version_expire_date');
         $version_comments = $request->get('version_comments');
+        $product_title = $request->get('product_title');
 
         if (empty($version_id) || ! aflValidateIntegerValue($version_id) || empty($rows_array = AfuVersions::where('version_id', $version_id)->get()->toArray())) { //invalid record
             return errorResponse(Lang::get('lang.invalid'), 404);
@@ -675,8 +677,8 @@ class AfuVersionsController extends Controller
 
                         return errorResponse(Lang::get('lang.invalid'), 404);
                     } else { //everything ok, delete obsolete files
-                        $this->deleteFileDirectory(ARCHIVES_DIRECTORY, [$version_install_file, $version_upgrade_file]); //remove version_install_file and version_upgrade_file (if any) from server
-                        $this->deleteFileDirectory(QUERIES_DIRECTORY, [$version_install_query, $version_upgrade_query]); //remove version_install_query and version_upgrade_query (if any) from server
+                        $this->deleteFileDirectory($ARCHIVES_DIRECTORY, [$version_install_file, $version_upgrade_file]); //remove version_install_file and version_upgrade_file (if any) from server
+                        $this->deleteFileDirectory($QUERIES_DIRECTORY, [$version_install_query, $version_upgrade_query]); //remove version_install_query and version_upgrade_query (if any) from server
 
                         return successResponse(Lang::get('lang.deleted'), $removed_records, 200);
                     }

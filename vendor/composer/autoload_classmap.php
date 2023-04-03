@@ -31,6 +31,7 @@ return array(
     'AWS\\CRT\\Options' => $vendorDir . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
     'App\\Console\\Commands\\Install' => $baseDir . '/app/Console/Commands/Install.php',
     'App\\Console\\Commands\\InstallDB' => $baseDir . '/app/Console/Commands/InstallDB.php',
+    'App\\Console\\Commands\\SetupTestEnv' => $baseDir . '/app/Console/Commands/SetupTestEnv.php',
     'App\\Console\\Commands\\SyncDatabaseToLatestVersion' => $baseDir . '/app/Console/Commands/SyncDatabaseToLatestVersion.php',
     'App\\Console\\Kernel' => $baseDir . '/app/Console/Kernel.php',
     'App\\Exceptions\\Handler' => $baseDir . '/app/Exceptions/Handler.php',

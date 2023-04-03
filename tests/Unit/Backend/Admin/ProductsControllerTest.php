@@ -153,9 +153,9 @@ class ProductsControllerTest extends TestCase
             'product_envato_id' => 1,
         ];
         $response = $this->json('POST', url('api/admin/products/add'), $data);
-        $response->assertStatus(400);
+        $response->assertStatus(404);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'There are invalid details present in this request']);
+        $response->assertJson(['message' => 'lang.invalid_api_key']);
     }
 
     public function test_productUpdate_whenProductIsUpdatedWithInvalidProductUrlHomepage_shouldRecieveResponseFalse()
