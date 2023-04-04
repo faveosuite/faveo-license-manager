@@ -252,7 +252,7 @@ class SearchController extends Controller
             $search_keyword = "%$search_keyword%"; //add wildcards
 
             $rows_array = DB::table('afl_callbacks')
-                     ->leftJoin('afl_products', 'afl_callbacks.product_id', '=', 'afl_products.product_id')
+                     ->leftJoin('afu_products', 'afl_callbacks.product_id', '=', 'afu_products.product_id')
                      ->leftJoin('afl_clients', 'afl_callbacks.client_id', '=', 'afl_clients.client_id')
                      ->where('afl_callbacks.callback_date_time', '>=', $date_from)
                      ->where('afl_callbacks.callback_date_time', '<=', $date_to)
@@ -265,7 +265,7 @@ class SearchController extends Controller
                      ->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afl_callbacks')
-                   ->leftJoin('afl_products', 'afl_callbacks.product_id', '=', 'afl_products.product_id')
+                   ->leftJoin('afu_products', 'afl_callbacks.product_id', '=', 'afu_products.product_id')
                    ->leftJoin('afl_clients', 'afl_callbacks.client_id', '=', 'afl_clients.client_id')
                    ->where('afl_callbacks.product_id', '=', $product_id)
                    ->where('afl_callbacks.callback_date_time', '>=', $date_from)
@@ -346,7 +346,7 @@ class SearchController extends Controller
             $search_keyword = "%$search_keyword%"; //add wildcards
 
             $rows_array = DB::table('afl_installations')
-                    ->leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+                    ->leftJoin('afu_products', 'afl_installations.product_id', '=', 'afu_products.product_id')
                     ->leftJoin('afl_clients', 'afl_installations.client_id', '=', 'afl_clients.client_id')
                     ->where('afl_installations.installation_date', '>=', $date_from)
                     ->where('afl_installations.installation_date', '<=', $date_to)
@@ -361,7 +361,7 @@ class SearchController extends Controller
                     ->get()->toArray(); //showing installation path details
         } else {
             $rows_array = DB::table('afl_installations')
-                     ->leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+                     ->leftJoin('afu_products', 'afl_installations.product_id', '=', 'afu_products.product_id')
                      ->leftJoin('afl_clients', 'afl_installations.client_id', '=', 'afl_clients.client_id')
                      ->where('afl_installations.product_id', '=', $product_id)
                      ->where('afl_installations.installation_date', '>=', $date_from)
