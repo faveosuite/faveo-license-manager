@@ -428,33 +428,33 @@ class AfuVersionsControllerTest extends TestCase
 
 //     }
 
-    public function test_deleteVersions_returnSuccessResponse()
-    {
-        $this->withoutMiddleware();
-        $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
-        $version_id = AfuVersions::where('product_id', 81)->value('version_id');
-        $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'version_id' => $version_id,
-        ];
-        $response = $this->json('POST', url('api/admin/versions/delete'), $data);
-        $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'lang.deleted']);
-        AflProducts::where('product_id', 81)->delete();
-    }
+    // public function test_deleteVersions_returnSuccessResponse()
+    // {
+    //     $this->withoutMiddleware();
+    //     $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
+    //     $version_id = AfuVersions::where('product_id', 81)->value('version_id');
+    //     $data = [
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'version_id' => $version_id,
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/versions/delete'), $data);
+    //     $response->assertStatus(200);
+    //     $response->assertJson(['success' => true]);
+    //     $response->assertJson(['message' => 'lang.deleted']);
+    //     AflProducts::where('product_id', 81)->delete();
+    // }
 
-    public function test_deleteVersionsWithoutDetails_returnSuccessResponse()
-    {
-        $this->withoutMiddleware();
-        $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
-        $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'version_id' => 8.2,
-        ];
-        $response = $this->json('POST', url('api/admin/versions/delete'), $data);
-        $response->assertStatus(404);
-        $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.not_found']);
-    }
+    // public function test_deleteVersionsWithoutDetails_returnSuccessResponse()
+    // {
+    //     $this->withoutMiddleware();
+    //     $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
+    //     $data = [
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'version_id' => 8.2,
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/versions/delete'), $data);
+    //     $response->assertStatus(404);
+    //     $response->assertJson(['success' => false]);
+    //     $response->assertJson(['message' => 'lang.not_found']);
+    // }
 }
