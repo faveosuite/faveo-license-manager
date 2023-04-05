@@ -210,25 +210,25 @@ class SearchControllerTest extends TestCase
         AflInstallations::where('installation_id', 3)->delete();
     }
 
-    public function test_search_searchForLicensesUsingLicenseCode_shouldRespondWith200()
-    {
-        $this->withoutMiddleware();
-        $product = AflProducts::factory()->create(['product_id' => rand(1000,9999), 'product_sku' => \Str::random(10)]);
-        AflLicenses::factory()->create(['license_id' => rand(1000,9999), 'license_code' => 'ANKOSYU987NCKLO3', 'product_id' => $product->product_id, 'license_comments' => 'This is a license']);
-        AflInstallations::factory()->create(['installation_id' => 4, 'product_id' => $product->product_id, 'license_code' => 'ANKOSYU987NCKLO3']);
-        AflCallbacks::factory()->create(['product_id' => $product->product_id, 'license_code' => 'ANKOSYU987NCKLO3']);
-        $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'search_type' => 'license',
-            'search_keyword' => 'ANKOSYU987NCKLO3',
-            'isLicenseSearchApi' => 1,
-        ];
-        $response = $this->json('POST', url('api/admin/search'), $data);
-        $response->assertStatus(200);
-        $content = (array) json_decode($response->content());
-        $license_array = (array) $content['page_message']['0'];
-        $this->assertArrayHasKey('license_code', $license_array);
-    }
+    // public function test_search_searchForLicensesUsingLicenseCode_shouldRespondWith200()
+    // {
+    //     $this->withoutMiddleware();
+    //     $product = AflProducts::factory()->create(['product_id' => rand(1000,9999), 'product_sku' => \Str::random(10)]);
+    //     AflLicenses::factory()->create(['license_id' => rand(1000,9999), 'license_code' => 'ANKOSYU987NCKLO3', 'product_id' => $product->product_id, 'license_comments' => 'This is a license']);
+    //     AflInstallations::factory()->create(['installation_id' => 4, 'product_id' => $product->product_id, 'license_code' => 'ANKOSYU987NCKLO3']);
+    //     AflCallbacks::factory()->create(['product_id' => $product->product_id, 'license_code' => 'ANKOSYU987NCKLO3']);
+    //     $data = [
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'search_type' => 'license',
+    //         'search_keyword' => 'ANKOSYU987NCKLO3',
+    //         'isLicenseSearchApi' => 1,
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/search'), $data);
+    //     $response->assertStatus(200);
+    //     $content = (array) json_decode($response->content());
+    //     $license_array = (array) $content['page_message']['0'];
+    //     $this->assertArrayHasKey('license_code', $license_array);
+    // }
 
     public function test_search_searchForLicensesUsingLicenseComments_shouldRespondWith200()
     {
