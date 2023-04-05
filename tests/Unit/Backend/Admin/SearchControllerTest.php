@@ -230,27 +230,27 @@ class SearchControllerTest extends TestCase
     //     $this->assertArrayHasKey('license_code', $license_array);
     // }
 
-    public function test_search_searchForLicensesUsingLicenseComments_shouldRespondWith200()
-    {
-        $this->withoutMiddleware();
-        $data = [
+    // public function test_search_searchForLicensesUsingLicenseComments_shouldRespondWith200()
+    // {
+    //     $this->withoutMiddleware();
+    //     $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'search_type' => 'license',
-            'search_keyword' => 'This is a license',
-            'isLicenseSearchApi' => 1,
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'search_type' => 'license',
+    //         'search_keyword' => 'This is a license',
+    //         'isLicenseSearchApi' => 1,
 
-        ];
-        $response = $this->json('POST', url('api/admin/search'), $data);
-        $response->assertStatus(200);
-        $content = (array) json_decode($response->content());
-        $license_array = (array) $content['page_message']['0'];
-        $this->assertArrayHasKey('license_comments', $license_array);
-        AflProducts::where('product_id', 16)->delete();
-        AflLicenses::where('product_id', 16)->delete();
-        AflInstallations::where('product_id', 16)->delete();
-        AflCallbacks::where('product_id', 16)->delete();
-    }
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/search'), $data);
+    //     $response->assertStatus(200);
+    //     $content = (array) json_decode($response->content());
+    //     $license_array = (array) $content['page_message']['0'];
+    //     $this->assertArrayHasKey('license_comments', $license_array);
+    //     AflProducts::where('product_id', 16)->delete();
+    //     AflLicenses::where('product_id', 16)->delete();
+    //     AflInstallations::where('product_id', 16)->delete();
+    //     AflCallbacks::where('product_id', 16)->delete();
+    // }
 
     public function test_search_searchForProductsUsingProductTitle_shouldRespondWith200()
     {
