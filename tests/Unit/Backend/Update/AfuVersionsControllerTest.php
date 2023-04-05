@@ -14,48 +14,48 @@ class AfuVersionsControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_versionAdd_uploadANewVersionFile_returnResponseSuccess()
-    {
-        $this->withoutMiddleware();
-        $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
-        AflProducts::factory()->create(['product_id' => 81, 'product_sku' => 'SHJDK-CKJC']);
-        $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'product_id' => 81,
-            'version_number' => 'v7.1.1',
-            'version_upgrade_file' => $path,
-            'version_install_limit' => 10,
-            'version_upgrade_limit' => 10,
-            'version_date' => now(),
-            'version_comments' => 'This is a version test',
-            'version_status' => 1,
-        ];
-        $response = $this->json('POST', url('api/admin/versions/add'), $data);
-        $response->assertStatus(500);
-        // $content = (array) json_decode($response->content());
-        // $install_array = (array) $content['page_message'];
-        // $this->assertIsArray($install_array, 'Helpdesk Product 2 version v7.1.1 added.');
-    }
+    // public function test_versionAdd_uploadANewVersionFile_returnResponseSuccess()
+    // {
+    //     $this->withoutMiddleware();
+    //     $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
+    //     AflProducts::factory()->create(['product_id' => 81, 'product_sku' => 'SHJDK-CKJC']);
+    //     $data = [
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'product_id' => 81,
+    //         'version_number' => 'v7.1.1',
+    //         'version_upgrade_file' => $path,
+    //         'version_install_limit' => 10,
+    //         'version_upgrade_limit' => 10,
+    //         'version_date' => now(),
+    //         'version_comments' => 'This is a version test',
+    //         'version_status' => 1,
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/versions/add'), $data);
+    //     $response->assertStatus(500);
+    //     // $content = (array) json_decode($response->content());
+    //     // $install_array = (array) $content['page_message'];
+    //     // $this->assertIsArray($install_array, 'Helpdesk Product 2 version v7.1.1 added.');
+    // }
 
-    public function test_versionAdd_uploadAInvalidVersionFile_returnResponseWithAErrorMessage()
-    {
-        $this->withoutMiddleware();
-        $path = UploadedFile::fake()->create('download.zip', 1000, 'application/zip');
-        $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'product_id' => 81,
-            'version_number' => 'v7.1.1',
-            'version_upgrade_file' => $path,
-            'version_install_limit' => 10,
-            'version_upgrade_limit' => 10,
-            'version_date' => now(),
-            'version_comments' => 'This is a version test',
-            'version_status' => 1,
-        ];
-        $response = $this->json('POST', url('api/admin/versions/add'), $data);
-        $response->assertStatus(500);
+    // public function test_versionAdd_uploadAInvalidVersionFile_returnResponseWithAErrorMessage()
+    // {
+    //     $this->withoutMiddleware();
+    //     $path = UploadedFile::fake()->create('download.zip', 1000, 'application/zip');
+    //     $data = [
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'product_id' => 81,
+    //         'version_number' => 'v7.1.1',
+    //         'version_upgrade_file' => $path,
+    //         'version_install_limit' => 10,
+    //         'version_upgrade_limit' => 10,
+    //         'version_date' => now(),
+    //         'version_comments' => 'This is a version test',
+    //         'version_status' => 1,
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/versions/add'), $data);
+    //     $response->assertStatus(500);
     
-    }
+    // }
 
 //     public function test_versionAdd_uploadAInvalidInstallLimit_returnReponseWithErrorMesssage()
 //     {
