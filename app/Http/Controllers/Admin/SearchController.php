@@ -633,7 +633,7 @@ class SearchController extends Controller
                 ->leftJoin('afu_versions', 'afu_installations.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_installations.installation_date', '>=', $date_from)
                 ->where('afu_installations.installation_date', '<=', $date_to)
-                ->orWhere('afl_products.product_title', 'like', $search_keyword)
+                ->orWhere('afu_products.product_title', 'like', $search_keyword)
                 ->orWhere('afu_installations.installation_ip', 'like', $search_keyword)
                 ->orderBy('installation_date', 'desc')
                 ->orderBy('installation_id', 'desc')
