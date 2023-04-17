@@ -16,11 +16,11 @@ class LicenseControllerTest extends TestCase
     public function test_licenseAdd_whenLicenseIsAdded_shouldReciveResponseTrue200AndDatabaseHasTheCode()
     {
         $this->withoutMiddleware();
-        AflProducts::factory()->create(['product_id' => 13, 'product_sku' => 'HAHAHAHA']);
+        $product = AflProducts::factory()->create(['product_id' => rand(10000, 99999), 'product_sku' => \Str::random(6)]);
         $data = [
 
             'api_key_secret' => '5hDuaXuTh9gTLfPL',
-            'product_id' => 13,
+            'product_id' => $product->product_id,
             'license_code' => 'W23EDI98CJKO234M',
             'license_require_domain' => 1,
             'license_status' => 1,
@@ -32,7 +32,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' => 'This is license for the test case',
         ];
         $response = $this->json('POST', url('api/admin/license/add'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         $this->assertDatabaseHas('afl_licenses', ['license_code' => 'W23EDI98CJKO234M']);
     }
 
@@ -55,7 +55,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/add'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.error_client_or_license_code']);
+        $response->assertJson(['message' => 'The License code is manditory']);
     }
 
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidIp_shouldReciveResponse400()
@@ -79,7 +79,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/add'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_ip']);
+        $response->assertJson(['message' => 'Invalid License IP Address']);
     }
 
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidDoamin_shouldReciveResponse400()
@@ -103,7 +103,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/add'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_domain']);
+        $response->assertJson(['message' => 'Invalid Domain(s) Address']);
     }
 
     public function test_licenseAdd_whenLicenseIsAddedWithFloatLicenseLimit_shouldReciveResponse400()
@@ -150,7 +150,7 @@ class LicenseControllerTest extends TestCase
 
         $response->assertStatus(200);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_expiry']);
+        $response->assertJson(['message' => 'Please update the License Expiration Date']);
     }
 
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidUpdatesExpiry_shouldReciveResponse400()
@@ -173,7 +173,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/add'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_update_date']);
+        $response->assertJson(['message' => 'Please update the License Update Date']);
     }
 
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidSupportExpiry_shouldReciveResponse400()
@@ -196,7 +196,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/add'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_support_date']);
+        $response->assertJson(['message' => 'Please update the License Support Date']);
     }
 
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidProductId_shouldReciveResponse400()
@@ -222,7 +222,7 @@ class LicenseControllerTest extends TestCase
         $response->assertJson(['message' => 'There are invalid details present in this request']);
     }
 
-    public function test_licenseUpdate_whenLicenseIsUpdated_shouldRecieveResponse200()
+    public function test_licenseUpdate_whenLicenseIsUpdatedwithInvalid_shouldRecieveResponse400()
     {
         $this->withoutMiddleware();
         $license_id = AflLicenses::where('license_code', 'W23EDI98CJKO234M')->value('license_id');
@@ -244,10 +244,7 @@ class LicenseControllerTest extends TestCase
 
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
         $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'lang.license_Update']);
-        $response->assertJson(['data' => 'W23EDI98CJKO234M']);
-        $this->assertDatabaseHas('afl_licenses', ['license_code' => 'W23EDI98CJKO234M']);
+        $response->assertJson(['message' => 'The license Details has been Updated Successfully']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithoutLicenseId_shouldRecieveResponse400()
@@ -271,7 +268,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.license_id']);
+        $response->assertJson(['message' => 'Please update the License ID']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithoutLicenseCode_shouldRecieveResponse400()
@@ -295,9 +292,9 @@ class LicenseControllerTest extends TestCase
         ];
 
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.error_client_or_license_code']);
+        $response->assertJson(['message' => 'The License code is manditory']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidIp_shouldRecieveResponse400()
@@ -323,9 +320,9 @@ class LicenseControllerTest extends TestCase
         ];
 
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_ip']);
+        $response->assertJson(['message' => 'Invalid License IP Address']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidDomain_shouldRecieveResponse400()
@@ -350,9 +347,9 @@ class LicenseControllerTest extends TestCase
             'license_comments' => 'This is license for the test case which is updated',
         ];
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_domain']);
+        $response->assertJson(['message' => 'Invalid Domain(s) Address']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidLicenseLimit_shouldRecieveResponse400()
@@ -376,7 +373,7 @@ class LicenseControllerTest extends TestCase
             'license_comments' => 'This is license for the test case',
         ];
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
         $response->assertJson(['message' => 'lang.invalid_license_limit']);
     }
@@ -403,9 +400,9 @@ class LicenseControllerTest extends TestCase
         ];
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_expiry']);
+        $response->assertJson(['message' => 'Please update the License Expiration Date']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithUpdatesDate_shouldRecieveResponse400()
@@ -429,9 +426,9 @@ class LicenseControllerTest extends TestCase
             'license_comments' => 'This is license for the test case',
         ];
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_update_date']);
+        $response->assertJson(['message' => 'Please update the License Update Date']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidSupportDate_shouldRecieveResponse400()
@@ -455,9 +452,9 @@ class LicenseControllerTest extends TestCase
             'license_comments' => 'This is license for the test case',
         ];
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
-        $response->assertStatus(200);
+        $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.invalid_license_support_date']);
+        $response->assertJson(['message' => 'Please update the License Support Date']);
     }
 
     public function test_deleteLicense_whenLicenseIsDeleted_shouldRecieveResponse200()

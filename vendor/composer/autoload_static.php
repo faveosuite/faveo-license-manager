@@ -698,6 +698,7 @@ class ComposerStaticInit665e58ec24b08bc6ec1e13efdbf01307
         'AWS\\CRT\\Options' => __DIR__ . '/..' . '/aws/aws-crt-php/src/AWS/CRT/Options.php',
         'App\\Console\\Commands\\Install' => __DIR__ . '/../..' . '/app/Console/Commands/Install.php',
         'App\\Console\\Commands\\InstallDB' => __DIR__ . '/../..' . '/app/Console/Commands/InstallDB.php',
+        'App\\Console\\Commands\\SetupTestEnv' => __DIR__ . '/../..' . '/app/Console/Commands/SetupTestEnv.php',
         'App\\Console\\Commands\\SyncDatabaseToLatestVersion' => __DIR__ . '/../..' . '/app/Console/Commands/SyncDatabaseToLatestVersion.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
