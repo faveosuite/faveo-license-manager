@@ -1,13 +1,17 @@
 <?php
 
 namespace App\Console;
-
+use App\Console\Commands\SetupTestEnv;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
 
 class Kernel extends ConsoleKernel
 {
+
+     protected $commands = [
+        SetupTestEnv::class,
+    ];
     /**
      * Define the application's command schedule.
      *
