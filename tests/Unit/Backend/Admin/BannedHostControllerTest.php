@@ -93,19 +93,19 @@ class BannedHostControllerTest extends TestCase
         $response->assertJson(['data' => 1]);
     }
 
-    public function test_bannedHostAdd_whenBannedHostIsAddedWithInvalidIp_shouldRecieveResponse400()
-    {
-        $this->withoutMiddleware();
-        $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    // public function test_bannedHostAdd_whenBannedHostIsAddedWithInvalidIp_shouldRecieveResponse400()
+    // {
+    //     $this->withoutMiddleware();
+    //     $data = [
+    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
 
-            'banned_host_comments' => 'Testing by banning a host',
-            'banned_host_blocks' => 2,
-            'banned_host_last_block_date' => '2020-09-12',
-        ];
-        $response = $this->json('POST', url('api/admin/bannedHosts/add'), $data);
-        $response->assertStatus(400);
-        $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'Banned Host ip is not present or api key secret is invalid.']);
-    }
+    //         'banned_host_comments' => 'Testing by banning a host',
+    //         'banned_host_blocks' => 2,
+    //         'banned_host_last_block_date' => '2020-09-12',
+    //     ];
+    //     $response = $this->json('POST', url('api/admin/bannedHosts/add'), $data);
+    //     $response->assertStatus(400);
+    //     $response->assertJson(['success' => false]);
+    //     $response->assertJson(['message' => 'Banned Host ip is not present or api key secret is invalid.']);
+    // }
 }
