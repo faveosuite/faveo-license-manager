@@ -577,7 +577,7 @@ class SearchController extends Controller
             $search_keyword = "%$search_keyword%"; //add wildcards
 
             $rows_array = DB::table('afu_callbacks')
-                ->leftJoin('afl_products', 'afu_callbacks.product_id', '=', 'afl_products.product_id')
+                ->leftJoin('afu_products', 'afu_callbacks.product_id', '=', 'afu_products.product_id')
                 ->leftJoin('afu_versions', 'afu_callbacks.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_callbacks.callback_date_time', '>=', $date_from)
                 ->where('afu_callbacks.callback_date_time', '<=', $date_to)
@@ -587,7 +587,7 @@ class SearchController extends Controller
                 ->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afu_callbacks')
-                ->leftJoin('afl_products', 'afu_callbacks.product_id', '=', 'afl_products.product_id')
+                ->leftJoin('afu_products', 'afu_callbacks.product_id', '=', 'afu_products.product_id')
                 ->leftJoin('afu_versions', 'afu_callbacks.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_callbacks.product_id', '=', $product_id)
                 ->where('afu_callbacks.callback_date_time', '>=', $date_from)
@@ -629,7 +629,7 @@ class SearchController extends Controller
             $search_keyword = "%$search_keyword%"; //add wildcards
 
             $rows_array = DB::table('afu_installations')
-                ->leftJoin('afl_products', 'afu_installations.product_id', '=', 'afl_products.product_id')
+                ->leftJoin('afu_products', 'afu_installations.product_id', '=', 'afu_products.product_id')
                 ->leftJoin('afu_versions', 'afu_installations.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_installations.installation_date', '>=', $date_from)
                 ->where('afu_installations.installation_date', '<=', $date_to)
@@ -640,7 +640,7 @@ class SearchController extends Controller
                 ->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afu_installations')
-                ->leftJoin('afl_products', 'afu_installations.product_id', '=', 'afl_products.product_id')
+                ->leftJoin('afu_products', 'afu_installations.product_id', '=', 'afu_products.product_id')
                 ->leftJoin('afu_versions', 'afu_installations.version_id', '=', 'afu_versions.version_id')
                 ->where('afu_installations.product_id', '=', $product_id)
                 ->where('afu_installations.installation_date', '>=', $date_from)
