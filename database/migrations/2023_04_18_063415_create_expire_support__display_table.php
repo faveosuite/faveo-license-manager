@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('expire_support__display', function (Blueprint $table) {
+        Schema::create('expire_support_display', function (Blueprint $table) {
             $table->id();
             $table->string('license_id');
             $table->timestamps();
