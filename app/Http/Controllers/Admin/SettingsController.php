@@ -9,9 +9,11 @@ use App\Http\Requests\Settings\EmailSettingRequest;
 use App\Http\Requests\Settings\GeneralSettingsRequest;
 use App\Http\Requests\Settings\SecuritySettingRequest;
 use App\Models\AflSettings;
+use App\Models\Logos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * Consist of functionalities for the Settings page in Auto Faveo licenser
@@ -216,9 +218,11 @@ class SettingsController extends Controller
         $failed_licensings_limit_array = returnNumbersDropdownArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'Attempts', 'Disabled', $FAILED_LICENSINGS_LIMIT);
         $failed_hosts_forget_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $FAILED_HOSTS_FORGET);
 
-        return response()->json(['failed logins limit' => $failed_logins_limit_array,
+        return response()->json([
+            'failed logins limit' => $failed_logins_limit_array,
             'failed licensings limit' => $failed_licensings_limit_array,
-            'failed hosts forget' => $failed_hosts_forget_array, ]);
+            'failed hosts forget' => $failed_hosts_forget_array,
+        ]);
     }
 
     protected function dropDownForGeneralSettings()
@@ -234,11 +238,13 @@ class SettingsController extends Controller
         $records_on_search_page_array = returnNumbersDropdownArray([10, 25, 50, 100, 200, 500], 'Records', 'Disabled', $RECORDS_ON_SEARCH_PAGE);
         $records_archive_days_array = returnNumbersDropdownArray([0, 7, 14, 30, 60, 90, 180, 365, 730], 'Days', 'Disabled', $RECORDS_ARCHIVE_DAYS);
 
-        return response()->json(['Timezon' => $timezones_array,
+        return response()->json([
+            'Timezon' => $timezones_array,
             'records on admin page' => $records_on_admin_page_array,
             'records on index page' => $records_on_index_page_array,
             'records on search page' => $records_on_search_page_array,
-            'records on archieve days' => $records_archive_days_array, ]);
+            'records on archieve days' => $records_archive_days_array,
+        ]);
     }
 
     protected function dropDownForEmailSettings()
@@ -255,7 +261,8 @@ class SettingsController extends Controller
         return response()->json([
             'email expiring license days' => $email_expiring_license_days_array,
             'email expiring updates days' => $email_expiring_updates_days_array,
-            'email expiring support days' => $email_expiring_support_days_array, ]);
+            'email expiring support days' => $email_expiring_support_days_array,
+        ]);
     }
 
     protected function dropDownForCleanUpSettings()
@@ -274,6 +281,37 @@ class SettingsController extends Controller
             'database cleanup callbacks' => $database_cleanup_callbacks_array,
             'database cleanup reports main' => $database_cleanup_reports_main_array,
             'database cleanup reports system' => $database_cleanup_reports_system_array,
-            'database cleanup licenses' => $database_cleanup_licenses_array, ]);
+            'database cleanup licenses' => $database_cleanup_licenses_array,
+        ]);
+    }
+    public function storelogosettings(request $request)
+    {
+        $logo = new Logos();
+        $logo->logo_title = $request->logo_title;
+        if ($request->hasFile('login_image')) {
+            $logo->logo_type = 'login';
+            $file = $request->file('login_image');
+            $filename = $file->getClientOriginalName() . time();
+            $logo->logo_path = $file->storeAs('public', $filename);
+            $url = env('APP_URL') . '/storage/' . $filename;
+        }
+
+        if ($request->hasFile('sidebar_image')) {
+            $logo->logo_type = 'sidebar';
+            $file = $request->file('sidebar_image');
+            $filename = $file->getClientOriginalName() . time();
+            $logo->logo_path = $file->storeAs('public', $filename);
+            $url = env('APP_URL') . '/storage/' . $filename;
+        }
+        $logo->save();
+        return response()->json([
+            'logo' => $logo, 'image_url' => $url
+        ]);
+    }
+    public function getlogos()
+    {
+        $loginlogo = logos::where('logo_type', 'login')->get();
+        $sidebarlogo = logos::where('logo_type', 'sidebar')->get();
+        return response()->json(['login_logo' => $loginlogo, 'sidebar_logo' => $sidebarlogo]);
     }
 }
