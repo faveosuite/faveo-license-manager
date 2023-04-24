@@ -122,12 +122,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
     Route::get('emailsDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
-    // Route::get('licenseexpireview', [SettingsController::class, 'licenseexpireview']);
-    Route::post('save-license-expire-range', [SettingsController::class, 'save_update_expire_range']);
-    Route::get('get-updates-expirings', [SettingsController::class, 'getupdatesexpirings']);
-    // Route::get('licensesupportview', [SettingsController::class, 'licensesupportview']);
-    Route::post('save-support-expire-range', [SettingsController::class, 'save_support_expire_range']);
-    Route::get('get-support-expirings', [SettingsController::class, 'getsupportexpirings']);
+    Route::post('saveLicenseExpireRange', [SettingsController::class, 'saveUpdateExpireRange']);
+    Route::get('getUpdatesExpirings', [SettingsController::class, 'getUpdatesExpirings']);
+    Route::post('saveSupportExpireRange', [SettingsController::class, 'saveSupportExpireRange']);
+    Route::get('getSupportExpirings', [SettingsController::class, 'getSupportExpirings']);
 
     //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);

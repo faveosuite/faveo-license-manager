@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Carbon;
 
+
 /**
  * Consist of functionalities for the Settings page in Auto Faveo licenser
  * Class  SettingsController
@@ -286,17 +287,8 @@ class SettingsController extends Controller
             'database cleanup licenses' => $database_cleanup_licenses_array,
         ]);
     }
-    //license Expire
-    //if needed it  can be used
-    // protected function licenseexpireview()
-    // {
-    //     $expiring_licenses = AflLicenses::where('license_expire_date', '>',now())->get();
-    //     return response()->json([
-    //         'expiring_licenses' => $expiring_licenses,
-    //     ]);
-    // }  
-    public function save_update_expire_range(Request $request)
-    {
+    public function saveUpdateExpireRange(Request $request)
+    { 
         $update_startDate = Carbon\Carbon::today();
         $update_endDate = Carbon\Carbon::today()->addDays($request->count);
         $expire_update = AflLicenses::where('license_expire_date', '>=', $update_startDate,)
@@ -306,23 +298,16 @@ class SettingsController extends Controller
             $expire_update = new ExpireUpdatesDisplay();
             $expire_update->license_id = $e->license_id;
             $expire_update->save();
-        }       
+        }
         return response()->json(['expire_update' => $expire_update]);
     }
-    protected function getupdatesexpirings()
+    protected function getUpdatesExpirings()
     {
         $expiring_update = ExpireUpdatesDisplay::join('afl_licenses as a', 'a.license_id', '=', 'expire_updates_display.license_id')->get();
         return response()->json(['expiring_update' => $expiring_update]);
     }
 
-    //license support
-    //  if required it can be used
-    // public function licensesupportview()
-    // {
-    //     $support_expiring = AflLicenses::where('license_support_date', '>',now())->get();
-    //     return response()->json(['support_expiring' => $support_expiring,]);
-    // }
-    protected function save_support_expire_range(Request $request)
+    protected function saveSupportExpireRange(Request $request)
     {
         $support_startDate = Carbon\Carbon::today();
         $support_endDate = Carbon\Carbon::today()->addDays($request->count);
@@ -336,7 +321,7 @@ class SettingsController extends Controller
         }
         return response()->json(['expire_support' => $expire_support,]);
     }
-    protected function getsupportexpirings()
+    protected function getSupportExpirings()
     {
         $expiring_support = ExpireSupportDisplay::join('afl_licenses as a', 'a.license_id', '=', 'expire_support_display.license_id')->get();
         return response()->json(['expiring_support' => $expiring_support]);
