@@ -133,8 +133,8 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
     Route::get('emailsDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
-    Route::post('storelogosettings', [SettingsController::class, 'storelogosettings']);
-    Route::get('getlogos', [SettingsController::class, 'getlogos']);
+    Route::post('storeLogoSettings', [SettingsController::class, 'storelogosettings']);
+    Route::get('getLogos', [SettingsController::class, 'getlogos']);
 
     //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);

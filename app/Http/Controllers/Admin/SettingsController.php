@@ -284,8 +284,8 @@ class SettingsController extends Controller
             'database cleanup licenses' => $database_cleanup_licenses_array,
         ]);
     }
-    public function storelogosettings(request $request)
-    {
+    public function storelogosettings(Request $request)
+    { try{
         $logo = new Logos();
         $logo->logo_title = $request->logo_title;
         if ($request->hasFile('login_image')) {
@@ -307,6 +307,12 @@ class SettingsController extends Controller
         return response()->json([
             'logo' => $logo, 'image_url' => $url
         ]);
+    } catch (\Exception $e) {
+            \Log::error('Error storing logo settings: ' . $e->getMessage());
+    return response()->json([
+        'message' => 'An error occurred while storing logo settings. Please check the if you are uploading correct files and information and try again.',
+    ], 500);
+    }
     }
     public function getlogos()
     {
