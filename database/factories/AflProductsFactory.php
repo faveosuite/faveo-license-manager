@@ -3,7 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-
+use Illuminate\Support\Str;
 class AflProductsFactory extends Factory
 {
     /**
@@ -23,5 +23,16 @@ class AflProductsFactory extends Factory
             'product_version' => '4.6.2',
             'product_envato_id' => 1,
         ];
+        // return [
+        //     // 'name' => fake()->name(),
+        //     'product_title' => fake()->name(),
+        //     'product_sku' => str::random(5),
+        //     'product_status' => '1',
+        //     'product_description' => 'esdrfgvhbjnmnbvcfdretyuijk',
+        //     'product_url_homepage' => 'www.faveo.com',
+        //     'product_url_download' => 'www.download.com',
+        //     'product_version' => '4.6.2',
+        //     'product_envato_id' =>fake()->phoneNumber(),
+        // ];
     }
 }

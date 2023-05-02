@@ -25,6 +25,7 @@ class AfuVersionsFactory extends Factory
             'version_date' => now(),
             'version_comments' => 'This is a version comment',
             'version_status' => 1,
+            'expired' => 1,
         ];
     }
 }

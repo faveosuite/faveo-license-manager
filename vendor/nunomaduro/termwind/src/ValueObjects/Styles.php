@@ -25,7 +25,7 @@ final class Styles
     /**
      * Finds all the styling on a string.
      */
-    public const STYLING_REGEX = "/\<[\w=#\/\;,:.&,%?]+\>|\\e\[\d+m/";
+    public const STYLING_REGEX = "/\<[\w=#\/\;,:.&,%?-]+\>|\\e\[\d+m/";
 
     /** @var array<int, string> */
     private array $styles = [];
@@ -415,7 +415,20 @@ final class Styles
     final public function truncate(int $limit = 0, string $end = '…'): self
     {
         $this->textModifiers[__METHOD__] = function ($text, $styles) use ($limit, $end): string {
-            $limit = $limit > 0 ? $limit : ($styles['width'] ?? 0);
+            $width = $styles['width'] ?? 0;
+
+            if (is_string($width)) {
+                $width = self::calcWidthFromFraction(
+                    $width,
+                    $styles,
+                    $this->properties['parentStyles'] ?? []
+                );
+            }
+
+            [, $paddingRight, , $paddingLeft] = $this->getPaddings();
+            $width -= $paddingRight + $paddingLeft;
+
+            $limit = $limit > 0 ? $limit : $width;
             if ($limit === 0) {
                 return $text;
             }
@@ -448,6 +461,16 @@ final class Styles
     final public function wFull(): static
     {
         return $this->w('1/1');
+    }
+
+    /**
+     * Removes the width set on the element.
+     */
+    final public function wAuto(): static
+    {
+        return $this->with(['styles' => [
+            'width' => null,
+        ]]);
     }
 
     /**
@@ -869,7 +892,7 @@ final class Styles
                 str_repeat(' ', $marginRight + $paddingRight)
                 ."\n".
                 str_repeat(' ', $marginLeft + $paddingLeft),
-            $content)
+                $content)
         );
 
         $formatted = sprintf(
@@ -975,6 +998,7 @@ final class Styles
             throw new InvalidStyle(sprintf('Style [%s] is invalid.', "w-$fraction"));
         }
 
+        /** @@phpstan-ignore-next-line  */
         $width = (int) floor($width * $matches[1] / $matches[2]);
         $width -= ($styles['ml'] ?? 0) + ($styles['mr'] ?? 0);
 
@@ -1006,7 +1030,7 @@ final class Styles
 
             $width = count($matches) !== 3
                 ? (int) $parentWidth
-                : (int) floor($width * $matches[1] / $matches[2]);
+                : (int) floor($width * $matches[1] / $matches[2]); //@phpstan-ignore-line
 
             if ($maxWidth > 0) {
                 $width = min($maxWidth, $width);

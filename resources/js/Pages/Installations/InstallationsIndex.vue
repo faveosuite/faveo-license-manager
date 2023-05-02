@@ -113,7 +113,7 @@
 
 					latest_installation(h, row) {
 
-						return row.latest_installation ? row.latest_installation.installation_date : '---';
+						return row.latest_installation ? row.latest_installation : '---';
 					}
 				},
 

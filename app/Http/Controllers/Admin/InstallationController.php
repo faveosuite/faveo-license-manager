@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InstallationRequest;
 use App\Models\AflApiKeys;
 use App\Models\AflInstallations;
+use App\Models\AflProducts;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -130,16 +131,178 @@ class InstallationController extends Controller
 
         return $removed_records;
     }
+    public function show()
+    
+    {
+        $items = [];
+    
+        $rows_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+            ->orderByDesc('installation_date')
+            ->orderByDesc('installation_id')
+            ->select('installation_id', 'afl_products.product_title', 'license_code', 'installation_status')
+            ->paginate(10);
+            // ->toArray();
+    
+        foreach ($rows_array as $row) {
+            $total_installations = AflInstallations::where('license_code', $row['license_code'])->count();
+            $latest_installation = AflInstallations::where('license_code', $row['license_code'])->orderByDesc('installation_date')->value('installation_date');
+    
+            $item_array = [
+                'installation_id' => $row['installation_id'],
+                'product_title' => $row['product_title'],
+                'license_code' => $row['license_code'],
+                'installation_status' => $row['installation_status'],
+                'total_installations' => $total_installations,
+                'latest_installation' => $latest_installation,
+                'installation_status_formatted' => returnFormattedStatusArray($row['installation_status'], 'Active', 'Inactive', 'Unknown')
+            ];
+            $items[] = $item_array;
+        }
+    
+        $pagination = [
+            'current_page' => $rows_array->currentPage(),
+            'last_page' => $rows_array->lastPage(),
+            'per_page' => $rows_array->perPage(),
+            'total' => $rows_array->total(),
+            'next_page_url' => $rows_array->nextPageUrl(),
+            'prev_page_url' => $rows_array->previousPageUrl(),
+        ];
+    
+        return successResponse(Lang::get('lang.License_show'), [
+            'items' => $items,
+            'pagination' => $pagination,
+        ], 200);
+    }
+    
 
     /**
      * Returns the list of all the instalaltions using license manager
      */
-    public function show()
-    {
-        $Install = installArray();
+    public function showreal()
+    
+{
+    $root_array = [];
 
-        return successResponse(Lang::get('lang.Install_show'), $Install, 200);
+    $rows_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+        ->orderByDesc('installation_date')
+        ->orderByDesc('installation_id')
+        ->select('installation_id', 'afl_products.product_title', 'license_code', 'installation_status')
+        ->cursor()
+        ->toArray();
+
+    foreach ($rows_array as $row) {
+        $total_installations = AflInstallations::where('license_code', $row['license_code'])->count();
+        $latest_installation = AflInstallations::where('license_code', $row['license_code'])->orderByDesc('installation_date')->value('installation_date');
+
+        $item_array = [
+            'installation_id' => $row['installation_id'],
+            'product_title' => $row['product_title'],
+            'license_code' => $row['license_code'],
+            'installation_status' => $row['installation_status'],
+            'total_installations' => $total_installations,
+            'latest_installation' => $latest_installation,
+            'installation_status_formatted' => returnFormattedStatusArray($row['installation_status'], 'Active', 'Inactive', 'Unknown')
+        ];
+
+        $root_array[] = $item_array;
     }
+
+    return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
+}
+
+    //     $root_array = [];
+    //     $rows_array = DB::table('afl_installations')
+    //         ->leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+    //         ->orderBy('installation_date', 'desc')
+    //         ->orderBy('installation_id', 'desc')
+    //         ->select(['installation_id','afl_products.product_title','license_code','installation_status'])
+    //         ->get()
+    //         ->toArray();
+    //     foreach ($rows_array  as $row) {
+    //         foreach ($row as $key => $value) {
+    //             $item_array[$key] = $value;
+    //         }
+    //         $total_installations = DB::table('afl_installations')->where('license_code', $item_array['license_code'])->get('license_code')->count();
+    //         $item_array['total_installations'] = $total_installations;
+    //         $latest_installation = DB::table('afl_installations')->where('license_code', $item_array['license_code'])->orderBy('installation_date', 'desc')->get('installation_date');
+    //         $item_array['latest_installation'] = $latest_installation[0];
+    //         // $item_array['client_formatted'] = formatClient($item_array['license_code'], $item_array['client_email']);
+    //         $item_array['installation_status_formatted'] = returnFormattedStatusArray($item_array['installation_status'], 'Active', 'Inactive', 'Unknown');
+    
+    //         $root_array[] = $item_array;
+    //     }
+    //     return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
+    
+    //     // return $root_array;
+    // }
+    
+    
+
+
+        // $installations = AflInstallations::with('product')
+        // ->selectRaw('product_id, COUNT(*) as count, MAX(installation_date) as latest_installation')
+        // ->groupBy('product_id')
+        // ->orderByDesc('latest_installation')
+        // ->orderByDesc('installation_id')
+        // ->pluck('product_title','','','','')
+        // ->get()
+        // ->map(function ($installation) {
+        //     $product = $installation->first()->product;
+        //     return [
+        //         'installations' => $installation->all(),
+        //         'product' => $installation->product,
+        //                     'count' => $installation->count,
+        //                     'latest_installation' => $installation->latest_installation,
+        //     ];
+        // })
+        // ->values();
+    // return $installations;
+
+
+
+    //     ->map(function ($installation) {
+    //         return [
+    //             'product' => $installation->product,
+    //             'count' => $installation->count,
+    //             'latest_installation' => $installation->latest_installation,
+    //         ];
+    //     })
+    //     ->values();
+    
+    // return $installations;
+        
+//         $installations = AflInstallations::with('product')
+//     ->orderByDesc('installation_date')
+//     ->orderByDesc('installation_id')
+//     ->get()
+//     ->groupBy('product.id')
+//     ->map(function ($group) {
+//         $product = $group->first()->product;
+//         return [
+//             'installations' => $group->all(),
+//         ];
+//     })
+//     ->values();
+// return $installations;
+// 
+// 
+// 
+        // $root_array = [];
+        // $Install = installArray();
+        // $installtions = AflInstallations::with('product')->get();
+        // $installations = AflInstallations::with('product')->get();
+    //     $installations = AflInstallations::with('product')
+    //     ->orderByDesc('installation_date')
+    //     ->orderByDesc('installation_id')->get();
+    //     $total_installlationsa = $installations->product()->select('product.*', 'count(product.product_id.id) AS product_count')
+    // ->groupBy('iproduct.product_id')
+    // ->get()
+    // ->toArray();
+   
+        // return $total_installlationsa;
+
+        // return successResponse(Lang::get('lang.Install_show'), $installations, 200);
+    // }
 
     //for localized license only
     public function installationAdd(Request $request)

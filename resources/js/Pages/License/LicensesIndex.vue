@@ -66,7 +66,7 @@
 				data: '',
 
 				columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks', 'license_date',
-					'latest_callback_date_time', 'actions'],
+					'latest_callback_date_time', 'actions','latest_license'],
 
 				options: {},
 
@@ -110,7 +110,8 @@
 
 					latest_callback_date_time: 'latest_callback_time',
 
-					license_date: 'license_date',
+					// license_date: 'license_date',
+					latest_license: 'latest_license',
 				},
 
 				templates: {
@@ -131,7 +132,7 @@
 
 					license_date(h, row) {
 
-						return row.license_date ? row.license_date : '---'
+						return row.latest_license ? row.latest_license : '---'
 					},
 
 					latest_callback_date_time(h, row) {
@@ -168,7 +169,7 @@
 
 					latest_callback_date_time: 'Latest Callback',
 
-					license_date: 'Latest License',
+					latest_license: 'Latest License',
 
 					actions: 'Actions'
 				},

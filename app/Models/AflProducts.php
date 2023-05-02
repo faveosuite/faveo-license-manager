@@ -20,8 +20,17 @@ class AflProducts extends Model
         return $this->belongTo(AflLicenses::class);
     }
 
-    public function installation()
+    // public function installation()
+    // {
+    //     return $this->belongsTo(AflInstallations::class);
+        
+    // }
+//change
+    public function installations()
     {
-        return $this->belongsTo(AflInstallations::class);
+        return $this->hasMany(AflInstallations::class);
+        // return $this->belongsTo(AflInstallations::class);
+        
     }
+   
 }

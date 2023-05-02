@@ -4,11 +4,16 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LicenseRequest;
+use App\Models\AflCallbacks;
 use App\Models\AflClients;
 use App\Models\AflLicenses;
+use App\Models\AflInstallations;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+
+
 
 /**
  * Consist of functionalities for the License page in Auto Faveo licenser
@@ -305,13 +310,269 @@ class LicenseController extends Controller
 
         return successResponse(Lang::get('lang.delete'), $removed_records, 200);
     }
+    public function licenseArray()
+{
+    $licenses = License::with(['client', 'product'])
+        ->selectRaw('*, COUNT(installations.id) as total_installations, MAX(callbacks.callback_date_time) as latest_callback_date_time, COUNT(callbacks.id) as total_callbacks')
+        ->leftJoin('installations', function ($join) {
+            $join->on('licenses.product_id', '=', 'installations.product_id')
+                ->where(function ($query) {
+                    $query->whereNotNull('licenses.client_id')
+                          ->whereColumn('licenses.client_id', '=', 'installations.client_id')
+                          ->orWhere(function ($query) {
+                              $query->whereNull('licenses.client_id')
+                                    ->whereNotNull('licenses.license_code')
+                                    ->whereColumn('licenses.license_code', '=', 'installations.license_code');
+                          });
+                });
+        })
+        ->leftJoin('callbacks', function ($join) {
+            $join->on('licenses.product_id', '=', 'callbacks.product_id')
+                ->where(function ($query) {
+                    $query->whereNotNull('licenses.client_id')
+                          ->whereColumn('licenses.client_id', '=', 'callbacks.client_id')
+                          ->orWhere(function ($query) {
+                              $query->whereNull('licenses.client_id')
+                                    ->whereNotNull('licenses.license_code')
+                                    ->whereColumn('licenses.license_code', '=', 'callbacks.license_code');
+                          });
+                })
+                ->orderBy('callbacks.callback_date_time', 'desc')
+                ->orderBy('callbacks.callback_id', 'desc')
+                ->limit(1);
+        })
+        ->groupBy('licenses.id')
+        ->orderBy('license_date', 'desc')
+        ->orderBy('license_id', 'desc')
+        ->get();
 
-    public function show()
-    {
-        $Licenses = licenseArray();
+    $root_array = [];
 
-        return successResponse(Lang::get('lang.License_show'), $Licenses, 200);
+    foreach ($licenses as $license) {
+        $item_array = $license->toArray();
+
+        $item_array['total_license'] = License::where('license_code', $license->license_code)->count();
+        $item_array['latest_license'] = License::where('license_code', $license->license_code)->orderBy('license_date', 'desc')->value('license_date');
+        $item_array['client_formatted'] = formatClient($license->license_code, optional($license->client)->client_email);
+        $item_array['license_status_formatted'] = returnFormattedStatusArray($license->license_status, 'Active', 'Inactive', 'Unknown');
+
+        $root_array[] = $item_array;
     }
+
+    return $root_array;
+}
+     
+
+
+public function shows($cursor = null)
+{
+    $root_array = [];
+
+    $licenses = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+    ->select('license_code',  'license_status', 'license_date', 'afl_products.product_title')
+        ->withCount(['totalInstallations', 'totalCallbacks'])
+        // ->with('callbacks:callback_date_time')
+        // ->with('products:product_title')
+        // ->orderByDesc('license_date')
+        // ->orderByDesc('>license_id')
+        ->cursorPaginate(50000)
+        ->toArray();
+
+    
+    foreach ($licenses['data'] as $license) { 
+        $latest_callbacks = AflCallbacks::where('license_code', $license['license_code'])->
+        orderByDesc('callback_date_time')
+        ->value('callback_date_time');
+        // dd($latest_callbacks);
+        $item_array = [
+            'license_code' => $license['license_code'],
+            'product_title' => $license['product_title'],
+            'license_status' => $license['license_status'],
+             'total_installations' => $license['total_installations_count'],
+            'latest_callbacks' => $latest_callbacks, 
+            'latest_callback_date_time' => empty($license['callbacks']) ? null : array_first($license['callbacks']),
+            'total_callbacks' => $license['total_callbacks_count'],
+            //  'total_license' => $license['total_licenses'],
+            // 'latest_license' => $license->license_date,
+            'license_status_formatted' => returnFormattedStatusArray($license['license_status'], 'Active', 'Inactive', 'Unknown')
+        ];
+
+        $root_array[] = $item_array;
+    }
+
+    return successResponse(Lang::get('lang.License_show'), $root_array, 200);
+
+}
+public function show($page = 1)
+{
+    $licenses = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+        ->select('license_code', 'license_status', 'license_date', 'afl_products.product_title')
+        ->withCount(['totalInstallations', 'totalCallbacks'])
+        ->with(['callbacks' => function ($query) {
+            $query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
+                ->groupBy('license_code');
+        }])
+        ->orderByDesc('license_date')
+        // ->paginate(100, ['*'], 'page', $page);
+        ->paginate(100);
+
+    $items = [];
+
+    foreach ($licenses as $license) {
+        $item_array = [
+            'license_code' => $license->license_code,
+            'product_title' => $license->product_title,
+            'license_status' => $license->license_status,
+            'total_installations' => $license->total_installations_count,
+            'latest_callbacks' => $license->callbacks[0]['latest_callback_date_time'] ?? null,
+            'latest_license' => $license->license_date,
+            'total_callbacks' => $license->total_callbacks_count,
+            'license_status_formatted' => returnFormattedStatusArray($license->license_status, 'Active', 'Inactive', 'Unknown')
+        ];
+
+        $items[] = $item_array;
+    }
+
+    $pagination = [
+        'current_page' => $licenses->currentPage(),
+        'last_page' => $licenses->lastPage(),
+        'per_page' => $licenses->perPage(),
+        'total' => $licenses->total(),
+        'next_page_url' => $licenses->nextPageUrl(),
+        'prev_page_url' => $licenses->previousPageUrl(),
+    ];
+
+    return successResponse(Lang::get('lang.License_show'), [
+        'items' => $items,
+        'pagination' => $pagination,
+    ], 200);
+}
+
+
+public function showreal($cursor = null)
+{
+    $licenses = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+    ->select('license_code', 'license_status', 'license_date', 'afl_products.product_title')
+    ->withCount(['totalInstallations', 'totalCallbacks'])
+    ->with(['callbacks' => function ($query) {
+    $query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
+        ->groupBy('license_code');
+}])
+    ->cursorPaginate(50000)
+    // ->cursorPaginate(50000, ['10'], 'page', $cursor)
+    ->toArray();
+$root_array = [];
+
+foreach ($licenses['data'] as $license) {
+    $latest_license= AflLicenses::where('license_code', $license['license_code'])->
+    orderByDesc('license_date')
+    ->value('license_date');
+    $item_array = [
+        'license_code' => $license['license_code'],
+        'product_title' => $license['product_title'],
+        'license_status' => $license['license_status'],
+        'total_installations' => $license['total_installations_count'],
+        'latest_callbacks' => $license['callbacks'][0]['latest_callback_date_time'] ?? null,
+        'latest_license' => $latest_license,
+        'total_callbacks' => $license['total_callbacks_count'],
+        'license_status_formatted' => returnFormattedStatusArray($license['license_status'], 'Active', 'Inactive', 'Unknown')
+    ];
+
+    
+    $root_array[] = $item_array;
+}
+
+// $root_array = Paginator::make($root_array)->count(5);
+
+return successResponse(Lang::get('lang.License_show'), $root_array, 200);
+
+}
+public function show2($cursor = null)
+{
+    // $Licenses = licenseArray();
+ 
+    //     return successResponse(Lang::get('lang.License_show'), $Licenses, 200);
+    $root_array = [];
+
+    $rows_query = AflLicenses::select('license_code', 'product_title', 'license_status',
+        DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
+        DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+        DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_callbacks.license_code = afl_licenses.license_code) AS total_callbacks')
+    )
+    ->leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+    ->orderBy('license_date', 'desc')
+    ->orderBy('license_id', 'desc');
+    $rows = $rows_query->cursorPaginate(100000);
+
+    foreach ($rows as $row) {
+        $item_array = $row->toArray();
+
+        $total_license = AflLicenses::where('license_code', $item_array['license_code'])->count();
+        $item_array['total_license'] = $total_license;
+
+        $latest_license = AflLicenses::where('license_code', $item_array['license_code'])->orderBy('license_date', 'desc')->first();
+        $item_array['latest_license'] = $latest_license->license_date;
+
+        $item_array['license_status_formatted'] = returnFormattedStatusArray($item_array['license_status'], 'Active', 'Inactive', 'Unknown');
+
+        $root_array[] = $item_array;
+    }
+
+    return successResponse(Lang::get('lang.License_show'), $root_array, 200);
+}
+
+    // return successResponse(Lang::get('lang.License_show'), $item_array, 200);
+    // $root_array[] = $item_array;
+// }
+
+
+    // $root_array[] = $item_array;
+    
+
+
+
+    // }9090
+    // {
+    //     $root_array = [];
+    
+  
+    //     $rows_array = AflLicenses::select('license_code', 'product_title', 'license_status',
+    //     DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
+    //     DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
+    //     DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_callbacks.license_code = afl_licenses.license_code) AS total_callbacks')
+    // )
+    // ->leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+    // ->orderBy('license_date', 'desc')
+    // ->orderBy('license_id', 'desc')
+    // ->get()
+    // ->toArray();
+
+    
+    //     foreach ($rows_array as $row) {
+    //         foreach ($row as $key => $value) {
+    //             $item_array[$key] = $value;
+    //         }
+    //         $total_license = DB::table('afl_licenses')->where('license_code', $item_array['license_code'])->get('license_code')->count();
+    //         $item_array['total_license'] = $total_license;
+    //         $latest_license = DB::table('afl_licenses')->where('license_code', $item_array['license_code'])->orderBy('license_date', 'desc')->get('license_date');
+    //         $item_array['latest_license'] = $latest_license[0];
+           
+    //         $item_array['license_status_formatted'] = returnFormattedStatusArray($item_array['license_status'], 'Active', 'Inactive', 'Unknown');
+    
+    //         $root_array[] = $item_array;
+    //     }
+    //     return successResponse(Lang::get('lang.License_show'), $root_array, 200);
+
+    
+    //     // return $root_array;
+    // }
+    
+//     {
+        
+//         // $Licenses = licenseArray();
+ 
+    //     return successResponse(Lang::get('lang.License_show'), $Licenses, 200);
+    // }
 
     public function edit($license_id)
     {

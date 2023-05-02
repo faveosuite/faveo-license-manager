@@ -20,8 +20,45 @@ class AflLicenses extends Model
         return $this->belongsToMany(AflClients::class);
     }
 
+
     public function product()
     {
         return $this->hasMany(AflProducts::class);
+    }
+    //add
+    public function products()
+    {
+        return $this->belongsTo(AflProducts::class, 'product_id', 'product_id');
+        // ->select('product_title')
+        // ->where('product_id', $this->prouct_id);
+        // dd($this->products);
+    }
+
+//add
+    public function installations()
+    {
+        return $this->hasMany(AflInstallations::class, 'license_code', 'license_code');
+    }
+    public function totalInstallations()
+    {
+        return $this->hasMany(AflInstallations::class, 'license_code', 'license_code')
+        ->select('license_code')
+        ->where('license_code', $this->license_code);
+    }
+
+    public function totalInstallationsOrder()
+    {
+        return $this->hasMany(AflInstallations::class, 'license_code', 'license_code')->where('license_code', $this->license_code);
+    }
+
+    public function callbacks()
+    {
+        return $this->hasMany(AflCallbacks::class, 'license_code', 'license_code')->select('callback_date_time')->latest('callback_date_time');
+    }
+
+    public function totalCallbacks()
+    {
+        return $this->hasMany(AflCallbacks::class, 'license_code', 'license_code')->select('license_code')
+        ->where('license_code', $this->license_code);
     }
 }

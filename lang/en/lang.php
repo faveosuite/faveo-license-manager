@@ -120,6 +120,9 @@ return [
 
     'licenser' => 'Licenser',
     'auto' => 'Auto',
+    'agora' => 'Agora',
+    'license' => 'License',
+    'manager' => 'Manager',
     'register_new_membership' => 'Register a new membership',
     'firstname' => 'First Name',
     'lastname' => 'Last Name',

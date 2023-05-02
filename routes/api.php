@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\AFL\ConnectionController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
@@ -87,6 +88,13 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('clients/delete', [ClientsController::class, 'deleteClient']);
     Route::post('clients/edit', [ClientsController::class, 'clientUpdate']);
     Route::get('client/{client_id}', [ClientsController::class, 'edit']);
+
+    //USERS
+    Route::post('users/add', [UsersController::class, 'saveUsers']);
+    Route::get('view/users', [UsersController::class, 'getUsers']);
+    Route::post('users/delete', [UsersController::class, 'deleteUsers']);
+    Route::post('users/edit/{id}', [UsersController::class, 'UpdateUsers']);
+    // Route::get('client/{client_id}', [UsersController::class, 'edit']);
 
     //LICENSES
     Route::post('license/add', [LicenseController::class, 'licenseAdd']);
