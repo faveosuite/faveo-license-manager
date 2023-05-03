@@ -4,6 +4,8 @@ namespace Tests\Unit\Backend\Admin;
 
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
 use Tests\TestCase;
 
 class LicenseControllerTest extends TestCase
@@ -472,5 +474,16 @@ class LicenseControllerTest extends TestCase
         $response->assertJson(['message' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database']);
         $response->assertJson(['data' => 1]);
         AflProducts::where('product_id', 13)->delete();
+    }
+    public function test_show_performance_time()
+    {
+        $this->withoutMiddleware();
+        AflLicenses::factory()->count(10000)->create();
+        $start = microtime(true);
+        $response = $this->json('GET', url('api/admin/viewLicenses'));
+        $end = microtime(true);
+        $response->assertStatus(200);
+        $timeTaken = $end - $start;
+        $this->assertLessThan(10000, $timeTaken);
     }
 }

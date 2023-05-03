@@ -50,7 +50,7 @@ class InstallationController extends Controller
         $installation_disable_ip = $request->get('installation_disable_ip');
         $delete_record = $request->get('delete_record');
 
-        if (empty($installation_id) || ! aflValidateIntegerValue($installation_id) || empty($rows_array = AflInstallations::where('installation_id', $installation_id)->get())) { //invalid record
+        if (empty($installation_id) || !aflValidateIntegerValue($installation_id) || empty($rows_array = AflInstallations::where('installation_id', $installation_id)->get())) { //invalid record
             return errorResponse(Lang::get('lang.invalid'), 400);
         }
         $api_key = new ApiKeysController();
@@ -58,11 +58,11 @@ class InstallationController extends Controller
         if ($api_action_success == 1) { //API check OK, continue with actual request
             $optional_api_parameters_array = ['installation_disable_ip_verification']; //optional API parameters for this page
             foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
-                if (! isset($$optional_api_parameter)) {
+                if (!isset($$optional_api_parameter)) {
                     $$optional_api_parameter = '';
                 }
             }
-            if (! empty($delete_record) && $delete_record == 1) {
+            if (!empty($delete_record) && $delete_record == 1) {
                 $removed_records += $this->deleteInstallation($installation_id);
                 if ($removed_records > 0) {
                     $action_success = 1;
@@ -78,19 +78,19 @@ class InstallationController extends Controller
             if (filter_var($installation_ip, FILTER_VALIDATE_IP) && aflValidateIntegerValue($installation_status, 0, 2)) {
                 if ($error_detected != 1) {
                     $updated_records += AflInstallations::where('installation_id', $installation_id)
-                                     ->update([
-                                         'installation_ip' => $installation_ip,
-                                         'installation_disable_ip_verification' => $installation_disable_ip,
-                                         'installation_status' => $installation_status,
-                                     ]);
-                    if (! aflValidateIntegerValue($updated_records)) {
+                        ->update([
+                            'installation_ip' => $installation_ip,
+                            'installation_disable_ip_verification' => $installation_disable_ip,
+                            'installation_status' => $installation_status,
+                        ]);
+                    if (!aflValidateIntegerValue($updated_records)) {
                         $error_detected = 1;
                         $error_details .= 'Invalid record details, duplicated data, or database error.';
                     } else {
                         $action_success = 1;
                         $rows_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-                                              ->where('afl_installations.installation_id', $installation_id)
-                                              ->get()->toArray();
+                            ->where('afl_installations.installation_id', $installation_id)
+                            ->get()->toArray();
                         foreach ($rows_array as $row) { //fetch product details to use in reports
                             extract($row);
                         }
@@ -131,22 +131,24 @@ class InstallationController extends Controller
 
         return $removed_records;
     }
+  
+    /**
+     * Returns the list of all the instalaltions using license manager
+     */
     public function show()
-    
     {
-        $items = [];
-    
+        $root_array = [];
         $rows_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
             ->orderByDesc('installation_date')
             ->orderByDesc('installation_id')
             ->select('installation_id', 'afl_products.product_title', 'license_code', 'installation_status')
-            ->paginate(10);
-            // ->toArray();
-    
+            ->cursor()
+            ->toArray();
+
         foreach ($rows_array as $row) {
             $total_installations = AflInstallations::where('license_code', $row['license_code'])->count();
             $latest_installation = AflInstallations::where('license_code', $row['license_code'])->orderByDesc('installation_date')->value('installation_date');
-    
+
             $item_array = [
                 'installation_id' => $row['installation_id'],
                 'product_title' => $row['product_title'],
@@ -156,153 +158,10 @@ class InstallationController extends Controller
                 'latest_installation' => $latest_installation,
                 'installation_status_formatted' => returnFormattedStatusArray($row['installation_status'], 'Active', 'Inactive', 'Unknown')
             ];
-            $items[] = $item_array;
+            $root_array[] = $item_array;
         }
-    
-        $pagination = [
-            'current_page' => $rows_array->currentPage(),
-            'last_page' => $rows_array->lastPage(),
-            'per_page' => $rows_array->perPage(),
-            'total' => $rows_array->total(),
-            'next_page_url' => $rows_array->nextPageUrl(),
-            'prev_page_url' => $rows_array->previousPageUrl(),
-        ];
-    
-        return successResponse(Lang::get('lang.License_show'), [
-            'items' => $items,
-            'pagination' => $pagination,
-        ], 200);
+        return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
     }
-    
-
-    /**
-     * Returns the list of all the instalaltions using license manager
-     */
-    public function showreal()
-    
-{
-    $root_array = [];
-
-    $rows_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-        ->orderByDesc('installation_date')
-        ->orderByDesc('installation_id')
-        ->select('installation_id', 'afl_products.product_title', 'license_code', 'installation_status')
-        ->cursor()
-        ->toArray();
-
-    foreach ($rows_array as $row) {
-        $total_installations = AflInstallations::where('license_code', $row['license_code'])->count();
-        $latest_installation = AflInstallations::where('license_code', $row['license_code'])->orderByDesc('installation_date')->value('installation_date');
-
-        $item_array = [
-            'installation_id' => $row['installation_id'],
-            'product_title' => $row['product_title'],
-            'license_code' => $row['license_code'],
-            'installation_status' => $row['installation_status'],
-            'total_installations' => $total_installations,
-            'latest_installation' => $latest_installation,
-            'installation_status_formatted' => returnFormattedStatusArray($row['installation_status'], 'Active', 'Inactive', 'Unknown')
-        ];
-
-        $root_array[] = $item_array;
-    }
-
-    return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
-}
-
-    //     $root_array = [];
-    //     $rows_array = DB::table('afl_installations')
-    //         ->leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-    //         ->orderBy('installation_date', 'desc')
-    //         ->orderBy('installation_id', 'desc')
-    //         ->select(['installation_id','afl_products.product_title','license_code','installation_status'])
-    //         ->get()
-    //         ->toArray();
-    //     foreach ($rows_array  as $row) {
-    //         foreach ($row as $key => $value) {
-    //             $item_array[$key] = $value;
-    //         }
-    //         $total_installations = DB::table('afl_installations')->where('license_code', $item_array['license_code'])->get('license_code')->count();
-    //         $item_array['total_installations'] = $total_installations;
-    //         $latest_installation = DB::table('afl_installations')->where('license_code', $item_array['license_code'])->orderBy('installation_date', 'desc')->get('installation_date');
-    //         $item_array['latest_installation'] = $latest_installation[0];
-    //         // $item_array['client_formatted'] = formatClient($item_array['license_code'], $item_array['client_email']);
-    //         $item_array['installation_status_formatted'] = returnFormattedStatusArray($item_array['installation_status'], 'Active', 'Inactive', 'Unknown');
-    
-    //         $root_array[] = $item_array;
-    //     }
-    //     return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
-    
-    //     // return $root_array;
-    // }
-    
-    
-
-
-        // $installations = AflInstallations::with('product')
-        // ->selectRaw('product_id, COUNT(*) as count, MAX(installation_date) as latest_installation')
-        // ->groupBy('product_id')
-        // ->orderByDesc('latest_installation')
-        // ->orderByDesc('installation_id')
-        // ->pluck('product_title','','','','')
-        // ->get()
-        // ->map(function ($installation) {
-        //     $product = $installation->first()->product;
-        //     return [
-        //         'installations' => $installation->all(),
-        //         'product' => $installation->product,
-        //                     'count' => $installation->count,
-        //                     'latest_installation' => $installation->latest_installation,
-        //     ];
-        // })
-        // ->values();
-    // return $installations;
-
-
-
-    //     ->map(function ($installation) {
-    //         return [
-    //             'product' => $installation->product,
-    //             'count' => $installation->count,
-    //             'latest_installation' => $installation->latest_installation,
-    //         ];
-    //     })
-    //     ->values();
-    
-    // return $installations;
-        
-//         $installations = AflInstallations::with('product')
-//     ->orderByDesc('installation_date')
-//     ->orderByDesc('installation_id')
-//     ->get()
-//     ->groupBy('product.id')
-//     ->map(function ($group) {
-//         $product = $group->first()->product;
-//         return [
-//             'installations' => $group->all(),
-//         ];
-//     })
-//     ->values();
-// return $installations;
-// 
-// 
-// 
-        // $root_array = [];
-        // $Install = installArray();
-        // $installtions = AflInstallations::with('product')->get();
-        // $installations = AflInstallations::with('product')->get();
-    //     $installations = AflInstallations::with('product')
-    //     ->orderByDesc('installation_date')
-    //     ->orderByDesc('installation_id')->get();
-    //     $total_installlationsa = $installations->product()->select('product.*', 'count(product.product_id.id) AS product_count')
-    // ->groupBy('iproduct.product_id')
-    // ->get()
-    // ->toArray();
-   
-        // return $total_installlationsa;
-
-        // return successResponse(Lang::get('lang.Install_show'), $installations, 200);
-    // }
 
     //for localized license only
     public function installationAdd(Request $request)
@@ -323,7 +182,7 @@ class InstallationController extends Controller
             $ip_address = $request->ip();
         }
 
-        if (! empty($api_key_secret)) {
+        if (!empty($api_key_secret)) {
             $api = AflApiKeys::where('api_key_secret', $api_key_secret)->where('api_key_status', 1)->get();
             if (empty($api)) {
                 return errorResponse(Lang::get('lang.invalid_api_key'), 404);
@@ -331,8 +190,8 @@ class InstallationController extends Controller
                 $api_ip = new AflApiKeys();
                 $api_ips = $api_ip->value('api_key_ip');
 
-                if (! empty($api_ips)) {
-                    if (! $api_ips->contains($ip_address)) {
+                if (!empty($api_ips)) {
+                    if (!$api_ips->contains($ip_address)) {
                         $api_error_detected = 1;
 
                         return errorResponse(Lang::get('lang.Api_Acess_not_allowed'), 400);
@@ -363,7 +222,7 @@ class InstallationController extends Controller
     {
         $installation = AflInstallations::where('installation_id', $installation_id)->firstOrFail();
 
-        if (! empty($installation)) {
+        if (!empty($installation)) {
             return successResponse('', ['installation' => $installation], 200);
         }
 
