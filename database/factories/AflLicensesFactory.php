@@ -17,7 +17,7 @@ class AflLicensesFactory extends Factory
         return [
             'product_id' => 1,
             'client_id' => 1,
-            'license_code' => Str::random(10),
+            'license_code' => 'Str::random(10)',
             'license_require_domain' => 0,
             'license_limit' => 2,
             'license_date' => now(),
