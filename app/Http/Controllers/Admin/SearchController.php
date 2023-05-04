@@ -736,7 +736,7 @@ class SearchController extends Controller
         if (! empty($search_keyword) && aflValidateIntegerValue($results_limit)) {
             $search_keyword = "%$search_keyword%"; //add wildcards
             $rows_array = DB::table('afl_reports')
-                         ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afu_products.product_id')
+                         ->leftJoin('afu_products', 'afl_reports.product_id', '=', 'afu_products.product_id')
                          ->where('afl_reports.report_text', 'like', $search_keyword)
                          //->where('afl_reports.report_system',0)
                          ->where('afl_reports.report_date_time', '>=', $date_from)
@@ -746,7 +746,7 @@ class SearchController extends Controller
                          ->get()->toArray();
         } else {
             $rows_array = DB::table('afl_reports')
-                ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afu_products.product_id')
+                ->leftJoin('afu_products', 'afl_reports.product_id', '=', 'afu_products.product_id')
                 ->where('afl_reports.product_id', $product_id)
                 ->where('afl_reports.report_system', 0)
                 ->where('afl_reports.report_date_time', '>=', $date_from)
