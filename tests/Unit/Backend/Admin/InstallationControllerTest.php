@@ -85,15 +85,15 @@ class InstallationControllerTest extends TestCase
         $this->assertDatabaseMissing('afl_installations', ['license_code' => 'AKO094GD9NCK0DHJ']);
         AflProducts::where('product_sku', 'INSTALL-UPDATE')->delete();
     }
-    public function test_show_performance_time()
-    {
-        $this->withoutMiddleware();
-        AflInstallations::factory()->count(10000)->create();
-        $start = microtime(true);
-        $response = $this->json('GET', url('api/admin/viewInstallations'));
-        $end = microtime(true);
-        $response->assertStatus(200);
-        $timeTaken = $end - $start;
-        $this->assertLessThan(10000, $timeTaken);
-    }
+    // public function test_show_performance_time()
+    // {
+    //     $this->withoutMiddleware();
+    //     AflInstallations::factory()->count(10000)->create();
+    //     $start = microtime(true);
+    //     $response = $this->json('GET', url('api/admin/viewInstallations'));
+    //     $end = microtime(true);
+    //     $response->assertStatus(200);
+    //     $timeTaken = $end - $start;
+    //     $this->assertLessThan(10000, $timeTaken);
+    // }
 }

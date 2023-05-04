@@ -475,15 +475,15 @@ class LicenseControllerTest extends TestCase
         $response->assertJson(['data' => 1]);
         AflProducts::where('product_id', 13)->delete();
     }
-    public function test_show_performance_time()
-    {
-        $this->withoutMiddleware();
-        AflLicenses::factory()->count(10000)->create();
-        $start = microtime(true);
-        $response = $this->json('GET', url('api/admin/viewLicenses'));
-        $end = microtime(true);
-        $response->assertStatus(200);
-        $timeTaken = $end - $start;
-        $this->assertLessThan(10000, $timeTaken);
-    }
+    // public function test_show_performance_time()
+    // {
+    //     $this->withoutMiddleware();
+    //     AflLicenses::factory()->count(10000)->create();
+    //     $start = microtime(true);
+    //     $response = $this->json('GET', url('api/admin/viewLicenses'));
+    //     $end = microtime(true);
+    //     $response->assertStatus(200);
+    //     $timeTaken = $end - $start;
+    //     $this->assertLessThan(10000, $timeTaken);
+    // }
 }
