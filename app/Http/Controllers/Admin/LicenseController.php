@@ -307,11 +307,34 @@ class LicenseController extends Controller
     }
 
     public function show()
-    {
-        $Licenses = licenseArray();
+{
+$licenses = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+->select('license_code', 'license_status', 'license_date', 'afl_products.product_title')
+->withCount(['installations', 'callbacks'])
+->with(['callbacks' => function ($query) {
+$query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
+->groupBy('license_code');
+}])->cursorPaginate(50000)->toArray();
 
-        return successResponse(Lang::get('lang.License_show'), $Licenses, 200);
-    }
+$root_array = [];
+
+foreach ($licenses['data'] as $license) {
+$latest_license = AflLicenses::where('license_code', $license['license_code'])->orderByDesc('license_date')
+->value('license_date');
+$item_array = [
+'license_code' => $license['license_code'],
+'product_title' => $license['product_title'],
+'license_status' => $license['license_status'],
+'total_installations' => $license['installations_count'],
+'latest_callbacks' => $license['callbacks'][0]['latest_callback_date_time'] ?? null,
+'latest_license' => $latest_license,
+'total_callbacks' => $license['callbacks_count'],
+'license_status_formatted' => returnFormattedStatusArray($license['license_status'], 'Active', 'Inactive', 'Unknown')
+];
+$root_array[] = $item_array;
+}
+return successResponse(Lang::get('lang.License_show'), $root_array, 200);
+}
 
     public function edit($license_id)
     {
