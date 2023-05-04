@@ -11,10 +11,12 @@ use App\Models\AflReports;
 use App\Models\AfuCallbacks;
 use App\Models\AfuInstallations;
 use App\Models\AfuVersions;
+// use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class SearchControllerTest extends TestCase
 {
+    // use RefreshDatabase;
     /**
      * A basic unit test example.
      *
