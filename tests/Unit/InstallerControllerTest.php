@@ -4,8 +4,10 @@ namespace Tests\Unit;
 
 use Tests\TestCase;
 use App\Models\AflAdmins;
+use Illuminate\Support\Str;
 class InstallerControllerTest extends TestCase
 {
+    
     /**
      * A basic unit test example.
      *
@@ -34,9 +36,9 @@ class InstallerControllerTest extends TestCase
          AflAdmins::factory()->create(['admin_id' => rand(1000,9999)]);
 
          $response = $this->call('POST', url('final'), [
-             'admin_fname' => 'sowmi',
+             'admin_fname' => 'sftgowmi',
              'admin_lname' => 's',
-             'admin_email' => 'sowmi@gmail.com',
+             'admin_email' => Str::random().'@gmail.com',
              'admin_password' => 'Sowmi@123',
 
          ]);
