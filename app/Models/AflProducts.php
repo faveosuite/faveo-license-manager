@@ -24,4 +24,8 @@ class AflProducts extends Model
     {
         return $this->belongsTo(AflInstallations::class);
     }
+    public function installations()
+{
+return $this->hasMany(AflInstallations::class);
+}
 }

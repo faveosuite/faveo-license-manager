@@ -24,4 +24,19 @@ class AflLicenses extends Model
     {
         return $this->hasMany(AflProducts::class);
     }
+    public function products()
+{
+return $this->belongsTo(AflProducts::class, 'product_id', 'product_id');
+}
+
+public function installations()
+{
+return $this->hasMany(AflInstallations::class, 'license_code', 'license_code');
+}
+
+public function callbacks()
+{
+return $this->hasMany(AflCallbacks::class, 'license_code', 'license_code')->select('callback_date_time')->latest('callback_date_time');
+}
+
 }

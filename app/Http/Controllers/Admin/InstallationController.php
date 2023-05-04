@@ -136,9 +136,30 @@ class InstallationController extends Controller
      */
     public function show()
     {
-        $Install = installArray();
-
-        return successResponse(Lang::get('lang.Install_show'), $Install, 200);
+    $root_array = [];
+    $rows_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+    ->orderByDesc('installation_date')
+    ->orderByDesc('installation_id')
+    ->select('installation_id', 'afl_products.product_title', 'license_code', 'installation_status')
+    ->cursor()
+    ->toArray();
+    
+    foreach ($rows_array as $row) {
+    $total_installations = AflInstallations::where('license_code', $row['license_code'])->count();
+    $latest_installation = AflInstallations::where('license_code', $row['license_code'])->orderByDesc('installation_date')->value('installation_date');
+    
+    $item_array = [
+    'installation_id' => $row['installation_id'],
+    'product_title' => $row['product_title'],
+    'license_code' => $row['license_code'],
+    'installation_status' => $row['installation_status'],
+    'total_installations' => $total_installations,
+    'latest_installation' => $latest_installation,
+    'installation_status_formatted' => returnFormattedStatusArray($row['installation_status'], 'Active', 'Inactive', 'Unknown')
+    ];
+    $root_array[] = $item_array;
+    }
+    return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
     }
 
     //for localized license only
