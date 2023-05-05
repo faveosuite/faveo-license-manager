@@ -284,36 +284,37 @@ class SettingsController extends Controller
             'database cleanup licenses' => $database_cleanup_licenses_array,
         ]);
     }
-    public function storelogosettings(Request $request)
-    { try{
-        $logo = new Logos();
-        $logo->logo_title = $request->logo_title;
-        if ($request->hasFile('login_image')) {
-            $logo->logo_type = 'login';
-            $file = $request->file('login_image');
-            $filename = $file->getClientOriginalName() . time();
-            $logo->logo_path = $file->storeAs('public', $filename);
-            $url = env('APP_URL') . '/storage/' . $filename;
-        }
 
-        if ($request->hasFile('sidebar_image')) {
-            $logo->logo_type = 'sidebar';
-            $file = $request->file('sidebar_image');
-            $filename = $file->getClientOriginalName() . time();
-            $logo->logo_path = $file->storeAs('public', $filename);
-            $url = env('APP_URL') . '/storage/' . $filename;
+
+    public function storelogosettings(Request $request)
+    {
+        try {
+            $logo = new Logos();
+            $logo->logo_title = $request->logo_title;
+            $result = $request->hasFile('login_image') ? $this->storeLogo($logo, 'login', $request->file('login_image')) : $this->storeLogo($logo, 'sidebar', $request->file('sidebar_image'));
+
+            return response()->json($result);
+        } catch (\Exception $e) {
+            // \Log::error('Error storing logo settings: ' . $e->getMessage());
+            $this->error($e->getMessage());
+            return response()->json([
+                'message' => 'An error occurred while storing logo settings. Please check the if you are uploading correct files and information and try again.',
+            ], 500);
         }
+    }
+
+    private function storeLogo($logo, $fileType, $file)
+    {
+
+        $logo->logo_type = $fileType;
+        $filename = $file->getClientOriginalName() . '.' . now();
+        $path = $file->storeAs('logos', $filename, 'public');
+        $url = env('APP_URL') . '/storage/' . $path;
+        $logo->logo_path = $path;
         $logo->save();
-        return response()->json([
-            'logo' => $logo, 'image_url' => $url
-        ]);
-    } catch (\Exception $e) {
-            \Log::error('Error storing logo settings: ' . $e->getMessage());
-    return response()->json([
-        'message' => 'An error occurred while storing logo settings. Please check the if you are uploading correct files and information and try again.',
-    ], 500);
+        return ['logo' => $logo, 'image_url' => $url];
     }
-    }
+
     public function getlogos()
     {
         $loginlogo = logos::where('logo_type', 'login')->get();
