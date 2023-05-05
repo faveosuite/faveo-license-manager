@@ -65,8 +65,8 @@
 
 				data: '',
 
-				columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks', 'license_date',
-					'latest_callback_date_time', 'actions'],
+				columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks',
+					'latest_callback', 'latest_license'],
 
 				options: {},
 
@@ -108,21 +108,19 @@
 
 					total_callbacks: 'license_callbacks',
 
-					latest_callback_date_time: 'latest_callback_time',
+					latest_callback: 'latest_callback',
 
-					license_date: 'license_date',
+                    latest_license: 'latest_license',
 				},
 
 				templates: {
+                    latest_license(h,row){
+                        return row.latest_license ? row.latest_license : '---';
+                    },
 
-					// product_title(createElement, row) {
-                    //
-					// 	return createElement('router-link', {
-					// 		attrs: {
-					// 			to: '/products/' + row.product_id + '/edit'
-					// 		}
-					// 	}, row.product_title);
-					// },
+                    latest_callback(h,row){
+                        return row.latest_callback ? row.latest_callback : '---';
+                    },
 
 					license_code(h, row) {
 
@@ -139,19 +137,6 @@
 						return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
 					},
 
-					// license_status(createElement, row) {
-                    //
-					// 	let span = createElement('span', {
-                    //
-					// 		attrs: {
-					// 			'class': row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-					// 		}
-					// 	}, row.license_status ? 'Active' : 'Inactive');
-                    //
-					// 	return createElement('a', {}, [span]);
-					// },
-                    //
-					// actions: 'table-actions'
 				},
 
 				pagination: { chunk: 5, nav: 'fixed', edge: true },
