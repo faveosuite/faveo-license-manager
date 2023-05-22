@@ -403,6 +403,8 @@ import EmailSettings from '../Pages/Settings/EmailSettings.vue';
 
 import SystemCleanupSettings from '../Pages/Settings/SystemCleanupSettings.vue';
 
+import UploadLogo from "../Pages/Settings/UploadLogo.vue";
+
 let settingsMenu = {
 
 	path: '/settings',
@@ -427,6 +429,18 @@ let settingsMenu = {
 
 			meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'general_settings' } }
 		},
+
+        {
+
+            path: 'logo',
+
+            name: 'Upload Logo',
+
+            component: UploadLogo,
+
+            meta: {title: 'logo', crumb :{ link: { name : 'dashboard', to:'/'},active:'upload_logo'}}
+
+        },
 
         {
 

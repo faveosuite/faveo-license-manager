@@ -1,5 +1,5 @@
 {
-"navigations" : [		
+"navigations" : [
 {
 "name": "Dashboard",
 "key": null,
@@ -267,6 +267,17 @@
 "hasChildren": false,
 "children": []
 },
+    {
+        "name": "Logo Settings",
+        "key": null,
+        "count": 0,
+        "hasCount": false,
+        "iconClass": "far fa-circle",
+        "order": 0,
+        "routeString": "/settings/logo",
+        "hasChildren": false,
+        "children": []
+    },
 {
 "name": "Advanced Settings",
 "key": null,
@@ -406,6 +417,6 @@
 "children": []
 }
 ]
-}		
-] 
+}
+]
 }
