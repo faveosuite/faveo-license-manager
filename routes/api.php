@@ -42,6 +42,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//CLOUD ROUTES
+/*
+ * These routes are secure any way because it's called internally from the cloud app
+ * */
+Route::post('/LicenseReissue', [LicenseController::class, 'reissueLicenseCloud']);
+
+//Only reserved for cloud routes//
+//-------------------------------------------------------------------------------------------//
+
+
 
 //AUTHENTICATION
 Route::post('/register', [AuthController::class, 'register']);
