@@ -36,7 +36,7 @@ return new class extends Migration
             $table->date('version_expire_date')->nullable();
             $table->string('version_comments', 250)->nullable();
             $table->boolean('version_status');
-            $table->boolean('expires_at');
+            // $table->boolean('expires_at');
         });
     }
 
