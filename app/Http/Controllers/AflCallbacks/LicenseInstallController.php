@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
+
 class LicenseInstallController extends Controller
 {
     public function __construct()
@@ -309,5 +310,9 @@ class LicenseInstallController extends Controller
         if ($action_success != 1) { //record failed licensing attempt and ban host if needed
             recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $this->ip_address);
         }
+    }
+
+    public function reissueLicenseCloud(Request $request){
+        AflInstallations::where('license_code',$request->get('license_code'))->delete();
     }
 }
