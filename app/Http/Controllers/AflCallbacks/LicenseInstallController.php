@@ -311,8 +311,4 @@ class LicenseInstallController extends Controller
             recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $this->ip_address);
         }
     }
-
-    public function reissueLicenseCloud(Request $request){
-        AflInstallations::where('license_code',$request->get('license_code'))->delete();
-    }
 }

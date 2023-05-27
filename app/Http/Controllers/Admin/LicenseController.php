@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LicenseRequest;
 use App\Models\AflClients;
+use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -438,5 +439,13 @@ return successResponse(Lang::get('lang.License_show'), $root_array, 200);
 
             return errorResponse(Lang::get('lang.invalid_license_support_date'), 400);
         }
+    }
+
+    public function reissueLicenseCloud(Request $request){
+        AflInstallations::where('license_code',$request->get('license_code'))->delete();
+    }
+
+    public function licenseDeactivate(Request $request){
+        AflLicenses::where('license_code',$request->get('license_code'))->update(['license_status'=>0]);
     }
 }

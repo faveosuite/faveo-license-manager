@@ -143,11 +143,11 @@ class InstallationController extends Controller
     ->select('installation_id', 'afl_products.product_title', 'license_code', 'installation_status')
     ->cursor()
     ->toArray();
-    
+
     foreach ($rows_array as $row) {
     $total_installations = AflInstallations::where('license_code', $row['license_code'])->count();
     $latest_installation = AflInstallations::where('license_code', $row['license_code'])->orderByDesc('installation_date')->value('installation_date');
-    
+
     $item_array = [
     'installation_id' => $row['installation_id'],
     'product_title' => $row['product_title'],
@@ -226,5 +226,11 @@ class InstallationController extends Controller
         }
 
         return errorResponse(Lang::get('lang.invalid'), 400);
+    }
+
+
+    public function removeUnwantedInstallations(Request $request){
+
+        return AflInstallations::where('installation_domain',$request->installation_path)->delete();
     }
 }

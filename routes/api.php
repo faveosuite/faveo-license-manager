@@ -104,6 +104,8 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('license/delete', [LicenseController::class, 'deleteLicense']);
     Route::post('license/edit', [LicenseController::class, 'licenseUpdate']);
     Route::get('license/{license_id}', [LicenseController::class, 'edit']);
+    Route::post('license/deactivate', [LicenseController::class, 'licenseDeactivate']);
+
 
     //INSTALLATIONS
     Route::post('installations/delete', [InstallationController::class, 'deleteInstallation']);
@@ -111,6 +113,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('viewInstallations', [InstallationController::class, 'show']);
     Route::post('addInstallation', [InstallationController::class, 'installationAdd']);
     Route::get('installation/{installation_id}', [InstallationController::class, 'edit']);
+    Route::post('installation/reissue', [InstallationController::class, 'removeUnwantedInstallations']);
 
     //BANNED HOSTS
     Route::post('bannedHosts/add', [BannedHostController::class, 'bannedHostAdd']);
