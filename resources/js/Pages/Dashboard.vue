@@ -86,6 +86,27 @@
 
         </div>
 
+
+      <div class ="row" >
+
+          <installations-list></installations-list>
+          <div v-if="widgetKeys.includes('products')" class="col-md-6">
+              <products-list></products-list>
+          </div>
+
+          <div v-if="widgetKeys.includes('installations')" class="col-md-6">
+              <installations-list></installations-list>
+          </div>
+
+          <div v-if="widgetKeys.includes('clients')" class="col-md-6">
+              <clients-list></clients-list>
+          </div>
+
+          <div v-if="widgetKeys.includes('callbacks')" class="col-md-6">
+             <callbacks-index></callbacks-index>
+          </div>
+
+      </div>
     </div>
 
 </template>
@@ -94,14 +115,24 @@
 
 import axios  from 'axios';
 import {errorHandler} from "../helpers/responseHandler";
-import {item} from "../../../public/js/app";
+import ProductsIndex from "./Product/ProductsIndex.vue";
+import InstallationsIndex from "./Installations/InstallationsIndex.vue";
+import CallbacksIndex from "./Callbacks/CallbacksIndex.vue";
+import ClientsIndex from "./Client/ClientsIndex.vue";
+import ProductsList from "./Product/ProductsIndex.vue";
+import ClientsList from "./Client/ClientsIndex.vue";
+import InstallationsList from "./Installations/InstallationsIndex.vue";
+
 
 export default {
     name: 'dashboard',
+    components: {InstallationsList, ClientsList, ProductsList},
     data() {
         return {
             hasDataFetched: false,
             items: [], // Array to hold the values from the API response
+            widgetKeys : [],
+
         };
     },
 
@@ -127,7 +158,15 @@ export default {
                 });
         },
 
-    }
+        components: {
+            ProductsIndex,
+            InstallationsIndex,
+            CallbacksIndex,
+            ClientsIndex,
+        }
+
+    },
+
 }
 </script>
 
