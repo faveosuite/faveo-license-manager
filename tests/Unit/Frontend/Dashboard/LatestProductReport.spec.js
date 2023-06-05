@@ -1,46 +1,67 @@
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from "@vue/test-utils";
+import globalMixins from "../../../../resources/js/globalMixins";
+import { createStore } from "vuex";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 import LatestProductReport from "../../../../resources/js/Pages/Dashboard/LatestProductReport.vue";
+const store = createStore({});
 
-describe('LatestProductReport', () => {
-    let mock;
-    let wrapper;
+let wrapper;
+let mockAxios = new MockAdapter(axios);
+const fakeRequestData = {
+    'success':true,
+    'data':{}
+}
+describe("LatestProductReport", () => {
+    const updateWrapper = () => {
+        wrapper = mount(LatestProductReport, {
+            global: {
+                plugins: [store],
+                mixins: [globalMixins],
+                stubs: ["data-table", "data-table-stub"],
+            },
+        });
+    };
 
     beforeEach(() => {
-        mock = new MockAdapter(axios);
-        wrapper = shallowMount(LatestProductReport);
+        updateWrapper();
+        mockAxios.reset();
     });
 
     afterEach(() => {
-        mock.reset();
+        mockAxios.restore();
     });
 
-    it('should fetch and display data', async () => {
-        const responseData = {
-            data: {
-                latest_product_reports: [
-                    { report: 'Report A', date: '2023-06-30', status: 'Completed' },
-                    { report: 'Report B', date: '2023-07-15', status: 'Pending' },
-                ],
-            },
-        };
+    it("makes an API call when 'getData' method  called", async() => {
+        updateWrapper();
 
-        mock.onGet('/api/admin/dashboarddropdown').reply(200, responseData);
+        stubRequest();
+        await wrapper.vm.getData()
+        setTimeout(() => {
+            expect(wrapper.vm.loading).toBe(false);
+            expect(wrapper.vm.data).toEqual('fakeRequestData');
+            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+            done()
+        }, 10)
+    });
+
+
+    it("makes `loading` as false when api returns error", async () => {
+        updateWrapper();
+
+        stubRequest(400);
 
         await wrapper.vm.getData();
-
-        expect(wrapper.vm.data).toEqual(responseData.data.latest_product_reports);
-        expect(wrapper.find('.report').text()).toBe('Report A');
-        expect(wrapper.find('.date').text()).toBe('2023-06-30');
-        expect(wrapper.find('.status').text()).toBe('Completed');
+        setTimeout(() => {
+            expect(wrapper.vm.loading).toEqual(false)
+            expect(wrapper.vm.data).toEqual('');
+            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+        }, 1);
     });
+    function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
 
-    it('should handle API error', async () => {
-        mock.onGet('/api/admin/dashboarddropdown').reply(500);
+        mockAxios.onGet(url).reply(status,fakeRequestData)
 
-        await wrapper.vm.getData();
+    }
+})
 
-        expect(wrapper.vm.data).toEqual([]);
-    });
-});

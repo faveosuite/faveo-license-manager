@@ -3,7 +3,7 @@
     <div class="col-sm-6 col-md-12 col-12">
         <div class="card card-light">
             <div class="card-header">
-                <h3 class="card-title">{{lang('Latest Callbacks')}}</h3>
+                <h3 class="card-title">{{('Latest Callbacks')}}</h3>
 </div>
                 <div class="card-body" id="afl_products">
                     <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter"></v-client-table>
@@ -14,6 +14,7 @@
 
 <script>
 import axios from "axios";
+import {errorHandler} from "../../helpers/responseHandler";
 
 export default {
     name :'latest-callbacks',
@@ -30,11 +31,6 @@ export default {
 
             counter: 0,
         }
-    },
-
-    created() {
-
-        this.emitter.on('refreshData', this.updateData);
     },
 
     beforeMount(){
@@ -97,11 +93,12 @@ export default {
                 .get('/api/admin/dashboarddropdown')
                 .then((res) => {
                     this.data = res.data.data.afu_latest_callbacks; // Assign the fetched data to the data property
-                    console.log(this.data)
                     this.loading = false;
                 })
                 .catch((error) => {
-                    console.error(error);
+                    this.loading = false
+
+                    errorHandler(err, 'latest-callbacks')
                 });
         },
     },
