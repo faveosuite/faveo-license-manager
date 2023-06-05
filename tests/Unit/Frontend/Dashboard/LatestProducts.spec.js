@@ -1,46 +1,67 @@
-import axios from 'axios';
-import MockAdapter from 'axios-mock-adapter';
-import { shallowMount } from '@vue/test-utils';
+import { mount } from "@vue/test-utils";
+import globalMixins from "../../../../resources/js/globalMixins";
+import { createStore } from "vuex";
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 import LatestProducts from "../../../../resources/js/Pages/Dashboard/LatestProducts.vue";
+const store = createStore({});
 
-describe('LatestProducts', () => {
-    let mock;
-    let wrapper;
+let wrapper;
+let mockAxios = new MockAdapter(axios);
+const fakeRequestData = {
+    'success':true,
+    'data':{}
+}
+describe("LatestProducts", () => {
+    const updateWrapper = () => {
+        wrapper = mount(LatestProducts, {
+            global: {
+                plugins: [store],
+                mixins: [globalMixins],
+                stubs: ["data-table", "data-table-stub"],
+            },
+        });
+    };
 
     beforeEach(() => {
-        mock = new MockAdapter(axios);
-        wrapper = shallowMount(LatestProducts);
+        updateWrapper();
+        mockAxios.reset();
     });
 
     afterEach(() => {
-        mock.reset();
+        mockAxios.restore();
     });
 
-    it('should fetch and display data', async () => {
-        const responseData = {
-            data: {
-                latest_products: [
-                    { product_id: '123', product_title: 'Product 1', product_description: 'Description 1' },
-                    { product_id: '456', product_title: 'Product 2', product_description: 'Description 2' },
-                ],
-            },
-        };
+    it("makes an API call when 'getData' method  called", async() => {
+        updateWrapper();
 
-        mock.onGet('/api/admin/dashboarddropdown').reply(200, responseData);
+        stubRequest();
+        await wrapper.vm.getData()
+        setTimeout(() => {
+            expect(wrapper.vm.loading).toBe(false);
+            expect(wrapper.vm.data).toEqual('fakeRequestData');
+            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+            done()
+        }, 10)
+    });
+
+
+    it("makes `loading` as false when api returns error", async () => {
+        updateWrapper();
+
+        stubRequest(400);
 
         await wrapper.vm.getData();
-
-        expect(wrapper.vm.data).toEqual(responseData.data.latest_products);
-        expect(wrapper.find('.product_id').text()).toBe('123');
-        expect(wrapper.find('.product_title').text()).toBe('Product 1');
-        expect(wrapper.find('.product_description').text()).toBe('Description 1');
+        setTimeout(() => {
+            expect(wrapper.vm.loading).toEqual(false)
+            expect(wrapper.vm.data).toEqual('');
+            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+        }, 1);
     });
+    function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
 
-    it('should handle API error', async () => {
-        mock.onGet('/api/admin/dashboarddropdown').reply(500);
+        mockAxios.onGet(url).reply(status,fakeRequestData)
 
-        await wrapper.vm.getData();
+    }
+})
 
-        expect(wrapper.vm.data).toEqual([]);
-    });
-});
