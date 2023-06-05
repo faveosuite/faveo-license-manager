@@ -15,6 +15,7 @@
 
 <script>
 import axios from "axios";
+import {errorHandler} from "../../helpers/responseHandler";
 
 export default {
      name :'latest-product',
@@ -31,11 +32,6 @@ export default {
 
              counter: 0,
          };
-    },
-
-    created() {
-
-        this.emitter.on('refreshData', this.updateData);
     },
 
     beforeMount(){
@@ -96,7 +92,9 @@ export default {
                     this.loading = false;
                 })
                 .catch((error) => {
-                    console.error(error);
+                    this.loading = false
+
+                    errorHandler(err, 'latest-products')
                 });
         },
     },
