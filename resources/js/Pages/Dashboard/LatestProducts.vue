@@ -91,7 +91,7 @@ export default {
                     this.data = res.data.data.latest_products; // Assign the fetched data to the data property
                     this.loading = false;
                 })
-                .catch((error) => {
+                .catch((err) => {
                     this.loading = false
 
                     errorHandler(err, 'latest-products')
