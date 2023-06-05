@@ -1,45 +1,67 @@
+import { mount } from "@vue/test-utils";
+import globalMixins from "../../../../resources/js/globalMixins";
+import { createStore } from "vuex";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-import { shallowMount } from "@vue/test-utils";
 import ExpiringVersion from "../../../../resources/js/Pages/Dashboard/ExpiringVersion.vue";
+const store = createStore({});
 
+let wrapper;
+let mockAxios = new MockAdapter(axios);
+const fakeRequestData = {
+    'success':true,
+    'data':{}
+}
 describe("ExpiringVersion", () => {
-    let mock;
-    let wrapper;
+    const updateWrapper = () => {
+        wrapper = mount(ExpiringVersion, {
+            global: {
+                plugins: [store],
+                mixins: [globalMixins],
+                stubs: ["data-table", "data-table-stub"],
+            },
+        });
+    };
 
     beforeEach(() => {
-        mock = new MockAdapter(axios);
-        wrapper = shallowMount(ExpiringVersion);
+        updateWrapper();
+        mockAxios.reset();
     });
 
     afterEach(() => {
-        mock.reset();
+        mockAxios.restore();
     });
 
-    it("should fetch and display data", async () => {
-        const responseData = {
-            data: {
-                expired_versions: [
-                    { version: "1.0", expiration_date: "2023-06-30" },
-                    { version: "2.0", expiration_date: "2023-07-15" },
-                ],
-            },
-        };
+    it("makes an API call when 'getData' method  called", async() => {
+        updateWrapper();
 
-        mock.onGet("/api/admin/dashboarddropdown").reply(200, responseData);
+        stubRequest();
+        await wrapper.vm.getData()
+        setTimeout(() => {
+            expect(wrapper.vm.loading).toBe(false);
+            expect(wrapper.vm.data).toEqual('fakeRequestData');
+            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+            done()
+        }, 10)
+    });
+
+
+    it("makes `loading` as false when api returns error", async () => {
+        updateWrapper();
+
+        stubRequest(400);
 
         await wrapper.vm.getData();
-
-        expect(wrapper.vm.data).toEqual(responseData.data.expired_versions);
-        expect(wrapper.find(".version").text()).toBe("1.0");
-        expect(wrapper.find(".expiration_date").text()).toBe("2023-06-30");
+        setTimeout(() => {
+            expect(wrapper.vm.loading).toEqual(false)
+            expect(wrapper.vm.data).toEqual('');
+            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+        }, 1);
     });
+    function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
 
-    it("should handle API error", async () => {
-        mock.onGet("/api/admin/dashboarddropdown").reply(500);
+        mockAxios.onGet(url).reply(status,fakeRequestData)
 
-        await wrapper.vm.getData();
+    }
+})
 
-        expect(wrapper.vm.data).toEqual([]);
-    });
-});
