@@ -15,6 +15,7 @@
 
 <script>
 import axios from 'axios';
+import {errorHandler} from "../../helpers/responseHandler";
 
 export default {
     name: 'latest-installations',
@@ -26,11 +27,6 @@ export default {
             options: {},
             counter: 0,
         };
-    },
-
-    created() {
-
-        this.emitter.on('refreshData', this.updateData);
     },
 
     beforeMount() {
@@ -72,8 +68,10 @@ export default {
                     this.data = res.data.data.afl_latest_installation; // Assign the fetched data to the data property
                     this.loading = false;
                 })
-                .catch((error) => {
-                    console.error(error);
+                .catch((err) => {
+                    this.loading = false
+
+                    errorHandler(err, 'latest-installations')
                 });
         },
     },

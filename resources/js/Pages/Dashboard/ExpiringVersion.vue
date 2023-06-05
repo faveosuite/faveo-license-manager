@@ -84,7 +84,7 @@ export default {
                     this.data = res.data.data.expired_versions; // Assign the fetched data to the data property
                     this.loading = false;
                 })
-                .catch((error) => {
+                .catch((err) => {
                     this.loading = false
 
                     errorHandler(err, 'expiring-version')
