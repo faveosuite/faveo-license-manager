@@ -95,7 +95,7 @@ export default {
                     this.data = res.data.data.afu_latest_callbacks; // Assign the fetched data to the data property
                     this.loading = false;
                 })
-                .catch((error) => {
+                .catch((err) => {
                     this.loading = false
 
                     errorHandler(err, 'latest-callbacks')
