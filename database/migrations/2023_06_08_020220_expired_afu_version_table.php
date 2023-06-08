@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('afu_versions', function (Blueprint $table) {
-            $table->boolean('expired')->nullable();
+            $table->boolean('expired');
 
         });
     }
