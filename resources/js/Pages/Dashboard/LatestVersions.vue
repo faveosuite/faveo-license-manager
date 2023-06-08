@@ -24,7 +24,7 @@ export default {
 
             data: [],
 
-            columns:['version','date','expiration','status'],
+            columns:['version_id','version_date','version_expire_date','status'],
 
             // options : {},
 
@@ -42,28 +42,28 @@ export default {
 
             columnsClasses:{
 
-                version: 'version',
+                version_id: 'version_id',
 
-                date: 'date',
+                version_date: 'version_date',
 
-                expiration: 'expiration',
+                version_expire_date: 'version_expire_date',
 
                 status:   'status',
             },
 
             templates: {
 
-                version(h,row){
-                    return row.version ?row.version : '----';
+                version_id(h,row){
+                    return row.version_id ?row.version_id : '----';
                 },
 
-                date(h,row){
-                    return row.date ?row.date : '----';
+                version_date(h,row){
+                    return row.version_date ?row.version_date : '----';
 
                 },
 
-                expiration(h,row){
-                    return row.expiration ?row.expiration : '----';
+                version_expire_date(h,row){
+                    return row.version_expire_date ?row.version_expire_date : '----';
 
                 },
 
@@ -71,11 +71,11 @@ export default {
 
             headings: {
 
-                version: 'Version',
+                version_id: 'Version',
 
-                date: 'Date',
+                version_date: 'Date',
 
-                expiration: 'Expiration',
+                version_expire_date: 'Expiration',
 
             },
         }

@@ -25,7 +25,7 @@ export default {
 
             data: [],
 
-            columns:['version','type','ip','date','status'],
+            columns:['callback_id','license_code','callback_ip','callback_date_time','callback_domain'],
 
             options : {},
 
@@ -43,44 +43,54 @@ export default {
 
             columnsClasses:{
 
-                version: 'version',
+                callback_id: 'callback_id',
 
-                date: 'date',
+                callback_date_time: 'callback_date_time',
 
-                type: 'type',
+                callback_ip: 'callback_ip',
 
-                ip: 'ip',
+                license_code:   'license_code',
 
-                status:   'status',
+                callback_domain: 'callback_domain',
             },
 
             templates: {
 
-                version(h,row){
-                    return row.version ?row.version : '----';
+                callback_id(h,row){
+                    return row.callback_id ?row.callback_id : '----';
                 },
 
-                date(h,row){
-                    return row.date ?row.date : '----';
-
-                },
-
-                ip(h,row){
-                    return row.ip ?row.ip : '----';
+                callback_date_time(h,row){
+                    return row.callback_date_time ?row.callback_date_time : '----';
 
                 },
 
+                callback_ip(h,row){
+                    return row.callback_ip ?row.callback_ip : '----';
+
+                },
+
+                license_code(h,row){
+                    return row.license_code ?row.license_code : '----';
+
+                },
+
+                callback_domain(h,row){
+                    return row.callback_domain ?row.callback_domain : '----';
+
+                },
             },
 
             headings: {
+                callback_domain: 'Domain',
 
-                version: 'Version',
+                callback_id: 'Callback Id',
 
-                date: 'Date',
+                callback_date_time: 'Date',
 
-                type: 'Type',
+                license_code: 'License',
 
-                ip: 'IP'
+                callback_ip: 'IP'
 
             },
         }

@@ -27,7 +27,7 @@ export default {
 
             data: [],
 
-            columns:['version','expiration_date'],
+            columns:['version_id','version_date','version_expire_date','version_number'],
 
             options : {},
 
@@ -45,31 +45,45 @@ export default {
 
             columnsClasses:{
 
-                version: 'version',
+                version_id: 'version',
 
-                expiration_date: 'expiration_date',
+                version_date: 'version_date',
 
+                version_expire_date: 'version_expire_date',
+
+                version_number: 'version_number'
             },
 
             templates: {
 
-                version(h,row){
-                    return row.version ?row.version : '----';
+                version_id(h,row){
+                    return row.version_id ?row.version_id : '----';
                 },
 
-                expiration_date(h,row){
-                    return row.expiration_date ?row.expiration_date : '----';
+                version_date(h,row){
+                    return row.version_date ?row.version_date : '----';
 
                 },
 
+                version_expire_date(h,row){
+                    return row.version_expire_date ?row.version_expire_date : '----';
+
+                },
+                version_number(h,row){
+                    return row.version_number ?row.version_number : '----';
+
+                },
             },
 
             headings: {
 
-                version: 'Version',
+                version_id: 'Version',
 
-                expiration_date: 'Expiration Date',
+                version_date: 'Version Date',
 
+                version_expire_date: 'Version Expire date',
+
+                version_number: "Version No."
             },
         }
     },
