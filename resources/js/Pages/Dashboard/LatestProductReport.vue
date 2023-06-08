@@ -27,7 +27,7 @@ export default {
 
             data: [],
 
-            columns:['report','date','status'],
+            columns:['report_id','report_date_time','status'],
 
             options : {},
 
@@ -45,21 +45,21 @@ export default {
 
             columnsClasses:{
 
-                report: 'report',
+                report_id: 'report_id',
 
-                date: 'date',
+                report_date_time: 'report_date_time',
 
-                status:   'status',
+                report_status:   'report_status',
             },
 
             templates: {
 
-                report(h,row){
-                    return row.report ?row.report : '----';
+                report_id(h,row){
+                    return row.report_id ?row.report_id : '----';
                 },
 
-                date(h,row){
-                    return row.date ?row.date : '----';
+                report_date_time(h,row){
+                    return row.report_date_time ?row.report_date_time : '----';
 
                 },
 
@@ -67,11 +67,11 @@ export default {
 
             headings: {
 
-                report: 'Report',
+                report_id: 'Report',
 
-                date: 'Date',
+                report_date_time: 'Date',
 
-              status: 'Status',
+                report_status: 'Status',
 
             },
         }

@@ -23,7 +23,7 @@ export default {
     data() {
         return {
             data: [], // Initialize as an empty array to hold the fetched data
-            columns: ['version', 'ip', 'date', 'status'],
+            columns: ['installation_id', 'product_id','license_code', 'installation_date','installation_ip', 'installation_domain'],
             options: {},
             counter: 0,
         };
@@ -34,27 +34,35 @@ export default {
         this.getData();
         this.options = {
             columnsClasses: {
-                version: 'version',
-                ip: 'ip',
-                date: 'date',
-                status: 'status',
+                installation_id: 'installation_id',
+                product_id:'product_id',
+                installation_ip: 'installation_ip',
+                installation_date: 'installation_date',
+                installation_domain: 'installation_domain',
             },
             templates: {
-                version(h, row) {
-                    return row.version ? row.version : '----';
+                installation_id(h, row) {
+                    return row.installation_id ? row.installation_id : '----';
                 },
-                date(h, row) {
-                    return row.date ? row.date : '----';
+                product_id(h, row) {
+                    return row.product_id ? row.product_id : '----';
                 },
-                ip(h, row) {
-                    return row.ip ? row.ip : '----';
+                installation_ip(h, row) {
+                    return row.installation_ip ? row.installation_ip : '----';
+                },
+                installation_date(h, row) {
+                    return row.installation_date ? row.installation_date : '----';
+                },
+                installation_domain(h, row) {
+                    return row.installation_domain ? row.installation_domain : '----';
                 },
             },
             headings: {
-                version: 'Version',
-                date: 'Date',
-                ip: 'IP',
-                status: 'Status',
+                installation_id: 'Id',
+                product_id:'Product Id',
+                installation_date: 'Date',
+                installation_ip: 'IP',
+                installation_domain: 'Domain',
             },
         };
     },
