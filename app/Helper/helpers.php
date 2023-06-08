@@ -248,7 +248,7 @@ function errorResponse($message, $statusCode = FAVEO_ERROR_CODE)
  * @param  int  $statusCode
  * @return \Illuminate\Http\JsonResponse json response
  */
-function successResponse($message = '', $data = '', $statusCode = FAVEO_SUCCESS_CODE)
+function successResponse($message = '', $data = '', $statusCode = 200)
 {
     $response = ['success' => true];
 
