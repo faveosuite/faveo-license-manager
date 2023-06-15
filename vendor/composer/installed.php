@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => 'c320e3e2d231e541851ac50f9fbb26fa13b4d850',
+        'reference' => '3794d510208b617bd26a27eca7f1a6a88ed1c4bd',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -27,6 +27,24 @@
             'install_path' => __DIR__ . '/../aws/aws-sdk-php',
             'aliases' => array(),
             'dev_requirement' => false,
+        ),
+        'barryvdh/laravel-debugbar' => array(
+            'pretty_version' => 'v3.8.1',
+            'version' => '3.8.1.0',
+            'reference' => 'aff3235fecb4104203b1e62c32239c56530eee32',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../barryvdh/laravel-debugbar',
+            'aliases' => array(),
+            'dev_requirement' => true,
+        ),
+        'beyondcode/laravel-query-detector' => array(
+            'pretty_version' => '1.7.0',
+            'version' => '1.7.0.0',
+            'reference' => '40c7e168fcf7eeb80d8e96f7922e05ab194269c8',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../beyondcode/laravel-query-detector',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'brick/math' => array(
             'pretty_version' => '0.9.3',
@@ -466,6 +484,17 @@
                 0 => 'v9.22.1',
             ),
         ),
+        'itsgoingd/clockwork' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'e29be8125ce999947d60986dcd8e606c04c012ab',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../itsgoingd/clockwork',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'dev_requirement' => false,
+        ),
         'kodova/hamcrest-php' => array(
             'dev_requirement' => true,
             'replaced' => array(
@@ -493,7 +522,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => 'c320e3e2d231e541851ac50f9fbb26fa13b4d850',
+            'reference' => '3794d510208b617bd26a27eca7f1a6a88ed1c4bd',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -672,6 +701,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'maximebf/debugbar' => array(
+            'pretty_version' => 'v1.18.2',
+            'version' => '1.18.2.0',
+            'reference' => '17dcf3f6ed112bb85a37cf13538fd8de49f5c274',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../maximebf/debugbar',
+            'aliases' => array(),
+            'dev_requirement' => true,
         ),
         'mockery/mockery' => array(
             'pretty_version' => '1.5.0',
@@ -860,9 +898,9 @@
             'dev_requirement' => false,
         ),
         'phpseclib/phpseclib' => array(
-            'pretty_version' => '3.0.14',
-            'version' => '3.0.14.0',
-            'reference' => '2f0b7af658cbea265cbb4a791d6c29a6613f98ef',
+            'pretty_version' => '3.0.19',
+            'version' => '3.0.19.0',
+            'reference' => 'cc181005cf548bfd8a4896383bb825d859259f95',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),

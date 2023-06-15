@@ -9,9 +9,13 @@ use App\Http\Requests\Settings\EmailSettingRequest;
 use App\Http\Requests\Settings\GeneralSettingsRequest;
 use App\Http\Requests\Settings\SecuritySettingRequest;
 use App\Models\AflSettings;
+use Dotenv\Dotenv;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Config;
+
 
 /**
  * Consist of functionalities for the Settings page in Auto Faveo licenser
@@ -276,4 +280,37 @@ class SettingsController extends Controller
             'database cleanup reports system' => $database_cleanup_reports_system_array,
             'database cleanup licenses' => $database_cleanup_licenses_array, ]);
     }
+    protected function debuggerSettings(Request $request)
+    {
+        Config::set('app.debug', (bool) ($request->debug ?? false));
+
+        Artisan::call('config:clear');
+
+        dd(Config::get('app.debug'));
+ 
+    }
+    protected function debuggerSettings1(Request $request)
+{
+    $debug = $request->input('debug') ? true : false;
+
+    $envFile = base_path('.env');
+    $envContents = file_get_contents($envFile);
+
+    $updatedEnvContents = preg_replace('/^APP_DEBUG=.*$/m', "APP_DEBUG={$debug}", $envContents);
+    file_put_contents($envFile, $updatedEnvContents);
+    $this->clearConfigurationCache();
+
+    config(['app.debug' => $request->input('debug')]);
+    dd(env('APP_DEBUG'));
+}
+
+protected function clearConfigurationCache()
+{
+    $cachePath = base_path('bootstrap/cache/config.php');
+
+    if (file_exists($cachePath)) {
+        unlink($cachePath);
+    }
+}
+
 }

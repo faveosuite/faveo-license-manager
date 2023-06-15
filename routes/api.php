@@ -120,6 +120,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
     Route::get('emailsDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
+    Route::post('debugger', [SettingsController::class, 'debuggerSettings']);
 
     //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);
