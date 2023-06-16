@@ -403,6 +403,8 @@ import EmailSettings from '../Pages/Settings/EmailSettings.vue';
 
 import SystemCleanupSettings from '../Pages/Settings/SystemCleanupSettings.vue';
 
+import DebugSettings from '../Pages/Settings/DebugSettings.vue';
+
 let settingsMenu = {
 
 	path: '/settings',
@@ -470,6 +472,16 @@ let settingsMenu = {
             component: SystemCleanupSettings,
 
             meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'system_cleanup_settings' } }
+        },
+		{
+
+            path: 'debug',
+
+            name: 'Debug Settings',
+
+            component: DebugSettings,
+
+            meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'debug_settings' } }
         }
 	]
 }
