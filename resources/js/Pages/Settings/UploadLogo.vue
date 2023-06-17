@@ -2,19 +2,15 @@
     <div class="col-sm-12">
 
         <div class="alert alert-info">
-            <span>Add new logo</span>
+            <span>{{lang('add_new_logo')}}</span>
         </div>
-
-<!--        <div class="row" v-if="!hasDataPopulated || loading">-->
-
-<!--            <custom-loader :duration="4000"></custom-loader>-->
-<!--        </div>-->
 
         <div class="card card-light">
 
             <div class="card-header">
 
                 <h3 class="card-title">{{title}}</h3>
+                <alert componentName="upload"></alert>
             </div>
 
             <div class="card-body">
@@ -71,6 +67,7 @@
 
 import axios from "axios";
 import TextField from "../../components/Reusable/FormField/TextField.vue";
+import {errorHandler, successHandler} from "../../helpers/responseHandler";
 
 export default{
 
@@ -95,9 +92,12 @@ export default{
                 'logo_title' : this.logo_name,
                 'login_image' : this.logo,
             }).then( res => {
-                alert('sent')
+                  this.loading =false;
+                successHandler(res, 'upload');
             }).catch(err => {
-                alert('errror')
+                this.loading =false;
+                errorHandler(err, 'upload');
+
             })
         },
 
@@ -106,7 +106,6 @@ export default{
         },
 
         lang(key) {
-            // You can customize this mock implementation based on your localization needs
             return `Mock translated value for ${key}`;
         },
     },
