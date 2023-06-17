@@ -83,6 +83,8 @@ export default{
 
             btnName: 'save',
 
+            logo: "",
+
         }
     },
 
@@ -101,8 +103,10 @@ export default{
             })
         },
 
-        onImageChange(){
-            this.logo = event.target.value;
+
+        onImageChange(event) {
+            const file = event.target.files[0];
+            this.logo = file;
         },
 
         lang(key) {
