@@ -2,7 +2,7 @@
     <div class="col-md-12 col-sm-12 col-12">
         <div class="card card-light">
             <div class="card-header">
-                <h3 class="card-title">{{lang('Latest Version')}}</h3>
+                <h3 class="card-title">Latest Version</h3>
                </div>
                 <div class="card-body" id="afl_products">
                     <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter"></v-client-table>
@@ -82,7 +82,6 @@ export default {
     },
 
     methods:{
-
         getData() {
             this.loading = true;
             axios

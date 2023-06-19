@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import axios from "axios";
 import {errorHandler} from "../../helpers/responseHandler";
+import axios from 'axios'
 
 export default {
     name :'latest-callbacks',

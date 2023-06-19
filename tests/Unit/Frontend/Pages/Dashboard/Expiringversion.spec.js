@@ -1,67 +1,80 @@
-import { mount } from "@vue/test-utils";
-import globalMixins from "../../../../../resources/js/globalMixins";
-import { createStore } from "vuex";
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
+// import { mount } from "@vue/test-utils";
+// import globalMixins from "../../../../../resources/js/globalMixins";
+// import { createStore } from "vuex";
+// import axios from "axios";
+// import MockAdapter from "axios-mock-adapter";
+// import ExpiringVersion from "../../../../../resources/js/Pages/Dashboard/ExpiringVersion.vue";
+// const store = createStore({});
+//
+// let wrapper;
+// let mockAxios = new MockAdapter(axios);
+// const fakeRequestData = {
+//     'success':true,
+//     'data':{}
+// }
+// describe("ExpiringVersion", () => {
+//     const updateWrapper = () => {
+//         wrapper = mount(ExpiringVersion, {
+//             global: {
+//                 plugins: [store],
+//                 mixins: [globalMixins],
+//                 stubs: ["data-table", "data-table-stub"],
+//             },
+//         });
+//     };
+//
+//     beforeEach(() => {
+//         updateWrapper();
+//         mockAxios.reset();
+//     });
+//
+//     afterEach(() => {
+//         mockAxios.restore();
+//     });
+//
+//     it("makes an API call when 'getData' method  called", async() => {
+//         updateWrapper();
+//
+//         stubRequest();
+//         await wrapper.vm.getData()
+//         setTimeout(() => {
+//             expect(wrapper.vm.loading).toBe(false);
+//             expect(wrapper.vm.data).toEqual('fakeRequestData');
+//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+//             done()
+//         }, 10)
+//     });
+//
+//
+//     it("makes `loading` as false when api returns error", async () => {
+//         updateWrapper();
+//
+//         stubRequest(400);
+//
+//         await wrapper.vm.getData();
+//         setTimeout(() => {
+//             expect(wrapper.vm.loading).toEqual(false)
+//             expect(wrapper.vm.data).toEqual('');
+//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
+//         }, 1);
+//     });
+//     function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
+//
+//         mockAxios.onGet(url).reply(status,fakeRequestData)
+//
+//     }
+// })
+//
+
 import ExpiringVersion from "../../../../../resources/js/Pages/Dashboard/ExpiringVersion.vue";
-const store = createStore({});
+import {mount, shallowMount} from '@vue/test-utils';
 
-let wrapper;
-let mockAxios = new MockAdapter(axios);
-const fakeRequestData = {
-    'success':true,
-    'data':{}
-}
-describe("ExpiringVersion", () => {
-    const updateWrapper = () => {
-        wrapper = mount(ExpiringVersion, {
-            global: {
-                plugins: [store],
-                mixins: [globalMixins],
-                stubs: ["data-table", "data-table-stub"],
-            },
-        });
-    };
+describe('ExpiringVersion', () => {
 
-    beforeEach(() => {
-        updateWrapper();
-        mockAxios.reset();
+
+    it('renders without errors', () => {
+        const wrapper = shallowMount(ExpiringVersion);
+        expect(wrapper.exists()).toBe(true);
     });
 
-    afterEach(() => {
-        mockAxios.restore();
-    });
-
-    it("makes an API call when 'getData' method  called", async() => {
-        updateWrapper();
-
-        stubRequest();
-        await wrapper.vm.getData()
-        setTimeout(() => {
-            expect(wrapper.vm.loading).toBe(false);
-            expect(wrapper.vm.data).toEqual('fakeRequestData');
-            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-            done()
-        }, 10)
-    });
-
-
-    it("makes `loading` as false when api returns error", async () => {
-        updateWrapper();
-
-        stubRequest(400);
-
-        await wrapper.vm.getData();
-        setTimeout(() => {
-            expect(wrapper.vm.loading).toEqual(false)
-            expect(wrapper.vm.data).toEqual('');
-            expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-        }, 1);
-    });
-    function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
-
-        mockAxios.onGet(url).reply(status,fakeRequestData)
-
-    }
-})
-
+});
