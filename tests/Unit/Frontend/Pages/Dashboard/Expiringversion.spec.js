@@ -1,73 +1,7 @@
-// import { mount } from "@vue/test-utils";
-// import globalMixins from "../../../../../resources/js/globalMixins";
-// import { createStore } from "vuex";
-// import axios from "axios";
-// import MockAdapter from "axios-mock-adapter";
-// import ExpiringVersion from "../../../../../resources/js/Pages/Dashboard/ExpiringVersion.vue";
-// const store = createStore({});
-//
-// let wrapper;
-// let mockAxios = new MockAdapter(axios);
-// const fakeRequestData = {
-//     'success':true,
-//     'data':{}
-// }
-// describe("ExpiringVersion", () => {
-//     const updateWrapper = () => {
-//         wrapper = mount(ExpiringVersion, {
-//             global: {
-//                 plugins: [store],
-//                 mixins: [globalMixins],
-//                 stubs: ["data-table", "data-table-stub"],
-//             },
-//         });
-//     };
-//
-//     beforeEach(() => {
-//         updateWrapper();
-//         mockAxios.reset();
-//     });
-//
-//     afterEach(() => {
-//         mockAxios.restore();
-//     });
-//
-//     it("makes an API call when 'getData' method  called", async() => {
-//         updateWrapper();
-//
-//         stubRequest();
-//         await wrapper.vm.getData()
-//         setTimeout(() => {
-//             expect(wrapper.vm.loading).toBe(false);
-//             expect(wrapper.vm.data).toEqual('fakeRequestData');
-//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-//             done()
-//         }, 10)
-//     });
-//
-//
-//     it("makes `loading` as false when api returns error", async () => {
-//         updateWrapper();
-//
-//         stubRequest(400);
-//
-//         await wrapper.vm.getData();
-//         setTimeout(() => {
-//             expect(wrapper.vm.loading).toEqual(false)
-//             expect(wrapper.vm.data).toEqual('');
-//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-//         }, 1);
-//     });
-//     function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
-//
-//         mockAxios.onGet(url).reply(status,fakeRequestData)
-//
-//     }
-// })
-//
-
 import ExpiringVersion from "../../../../../resources/js/Pages/Dashboard/ExpiringVersion.vue";
 import {mount, shallowMount} from '@vue/test-utils';
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 
 describe('ExpiringVersion', () => {
 
@@ -76,5 +10,52 @@ describe('ExpiringVersion', () => {
         const wrapper = shallowMount(ExpiringVersion);
         expect(wrapper.exists()).toBe(true);
     });
+    it('renders the correct card title', () => {
+        const wrapper = mount(ExpiringVersion);
+
+        const cardTitle = wrapper.find('.card-title');
+
+        expect(cardTitle.text()).toBe('Expiring Version');
+    });
+    it('renders the correct card title', () => {
+        const wrapper = mount(ExpiringVersion);
+
+        const cardTitle = wrapper.find('.card-title');
+
+        expect(cardTitle.text()).toBe('Expiring Version');
+    });
+    it('fetches data from the API correctly', async () => {
+        // Create a new instance of the Axios mock adapter
+        const mock = new MockAdapter(axios);
+
+        // Mock the API response
+        const responseData = {
+            data: {
+                expired_versions: [
+                    {
+                        version_id: 1,
+                        version_date: '2023-06-01',
+                        version_expire_date: '2023-06-15',
+                        version_number: '1.0',
+                    },
+                    // Add more sample data if needed
+                ],
+            },
+        };
+        mock.onGet('/api/admin/dashboarddropdown').reply(200, responseData);
+
+        // Mount the component
+        const wrapper = mount(ExpiringVersion);
+
+        // Wait for the API request to complete
+        await wrapper.vm.$nextTick();
+
+        // Check if the data is fetched and assigned correctly
+        expect(wrapper.vm.data).toEqual(responseData.data.expired_versions);
+
+        // Optionally, you can also check if the loading state is updated
+        expect(wrapper.vm.loading).toBe(false);
+    });
+
 
 });
