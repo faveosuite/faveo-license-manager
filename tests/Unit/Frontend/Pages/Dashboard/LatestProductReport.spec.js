@@ -1,77 +1,42 @@
-// import { mount } from "@vue/test-utils";
-// import globalMixins from "../../../../../resources/js/globalMixins";
-// import { createStore } from "vuex";
-// import axios from "axios";
-// import MockAdapter from "axios-mock-adapter";
-// import LatestProductReport from "../../../../../resources/js/Pages/Dashboard/LatestProductReport.vue";
-// const store = createStore({});
-//
-// let wrapper;
-// let mockAxios = new MockAdapter(axios);
-// const fakeRequestData = {
-//     'success':true,
-//     'data':{}
-// }
-// describe("LatestProductReport", () => {
-//     const updateWrapper = () => {
-//         wrapper = mount(LatestProductReport, {
-//             global: {
-//                 plugins: [store],
-//                 mixins: [globalMixins],
-//                 stubs: ["data-table", "data-table-stub"],
-//             },
-//         });
-//     };
-//
-//     beforeEach(() => {
-//         updateWrapper();
-//         mockAxios.reset();
-//     });
-//
-//     afterEach(() => {
-//         mockAxios.restore();
-//     });
-//
-//     it("makes an API call when 'getData' method  called", async() => {
-//         updateWrapper();
-//
-//         stubRequest();
-//         await wrapper.vm.getData()
-//         setTimeout(() => {
-//             expect(wrapper.vm.loading).toBe(false);
-//             expect(wrapper.vm.data).toEqual('fakeRequestData');
-//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-//             done()
-//         }, 10)
-//     });
-//
-//
-//     it("makes `loading` as false when api returns error", async () => {
-//         updateWrapper();
-//
-//         stubRequest(400);
-//
-//         await wrapper.vm.getData();
-//         setTimeout(() => {
-//             expect(wrapper.vm.loading).toEqual(false)
-//             expect(wrapper.vm.data).toEqual('');
-//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-//         }, 1);
-//     });
-//     function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
-//
-//         mockAxios.onGet(url).reply(status,fakeRequestData)
-//
-//     }
-// })
-//
-
 import { shallowMount } from '@vue/test-utils';
 import latestProductReport from "../../../../../resources/js/Pages/Dashboard/LatestProductReport.vue";
+import MockAdapter from "axios-mock-adapter";
+import axios from "axios";
+
+let wrapper;
 describe('LatestProductReport', () => {
     it('renders without errors', () => {
         const wrapper = shallowMount(latestProductReport);
         expect(wrapper.exists()).toBe(true);
+    });
+    it('fetches data from API', async () => {
+        // Create a new instance of the Axios mock adapter
+        const mockAxios = new MockAdapter(axios);
+
+        // Mock the API response
+        const responseData = {
+            data: {
+                latest_product_reports: [
+                    // Mocked data objects
+                    { report_id: 1, report_date_time: '2023-06-18', status: 'Pending' },
+                    { report_id: 2, report_date_time: '2023-06-19', status: 'Completed' },
+                ],
+            },
+        };
+        mockAxios.onGet('/api/admin/dashboarddropdown').reply(200, responseData);
+        const wrapper = shallowMount(latestProductReport);
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.data).toEqual(responseData.data.latest_product_reports);
+        expect(mockAxios.history.get[0].url).toBe('/api/admin/dashboarddropdown');
+        expect(mockAxios.history.get.length).toBe(1);
+        mockAxios.restore();
+    });
+    it('displays the correct card title', () => {
+        const wrapper = shallowMount(latestProductReport);
+
+        const cardTitle = wrapper.find('.card-title');
+
+        expect(cardTitle.text()).toBe('Latest Product Report');
     });
 
 });
