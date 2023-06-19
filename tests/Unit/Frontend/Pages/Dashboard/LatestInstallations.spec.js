@@ -1,79 +1,41 @@
-// import { mount } from "@vue/test-utils";
-// import globalMixins from "../../../../../resources/js/globalMixins";
-// import { createStore } from "vuex";
-// import axios from "axios";
-// import MockAdapter from "axios-mock-adapter";
-// import latestInstallations from "../../../../../resources/js/Pages/Dashboard/LatestInstallations.vue";
-// const store = createStore({});
-//
-// let wrapper;
-// let mockAxios = new MockAdapter(axios);
-// const fakeRequestData = {
-//     'success':true,
-//     'data':{}
-// }
-// describe("latestInstallations", () => {
-//     const updateWrapper = () => {
-//         wrapper = mount(latestInstallations, {
-//             global: {
-//                 plugins: [store],
-//                 mixins: [globalMixins],
-//                 stubs: ["data-table", "data-table-stub"],
-//             },
-//         });
-//     };
-//
-//     beforeEach(() => {
-//         updateWrapper();
-//         mockAxios.reset();
-//     });
-//
-//     afterEach(() => {
-//         mockAxios.restore();
-//     });
-//
-//     it("makes an API call when 'getData' method  called", async() => {
-//         updateWrapper();
-//
-//         stubRequest();
-//         await wrapper.vm.getData()
-//         setTimeout(() => {
-//             expect(wrapper.vm.loading).toBe(false);
-//             expect(wrapper.vm.data).toEqual('fakeRequestData');
-//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-//             done()
-//         }, 10)
-//     });
-//
-//
-//     it("makes `loading` as false when api returns error", async () => {
-//         updateWrapper();
-//
-//         stubRequest(400);
-//
-//         await wrapper.vm.getData();
-//         setTimeout(() => {
-//             expect(wrapper.vm.loading).toEqual(false)
-//             expect(wrapper.vm.data).toEqual('');
-//             expect(mockAxios.history.get[0].url).toBe("/api/admin/dashboarddropdown");
-//         }, 1);
-//     });
-//     function stubRequest(status = 200,url = '/api/admin/dashboarddropdown'){
-//
-//         mockAxios.onGet(url).reply(status,fakeRequestData)
-//
-//     }
-// })
-//
+import axios from 'axios';
 import { shallowMount } from '@vue/test-utils';
 import LatestInstallations from "../../../../../resources/js/Pages/Dashboard/LatestInstallations.vue";
-import axios from "axios";
-import latestInstallations from "../../../../../resources/js/Pages/Dashboard/LatestInstallations.vue";
+
+jest.mock('axios');
 
 describe('LatestInstallations', () => {
 
-    it('renders without errors', () => {
-        const wrapper = shallowMount(latestInstallations);
-        expect(wrapper.exists()).toBe(true);
+    it('should set columns and headings correctly', () => {
+        const wrapper = shallowMount(LatestInstallations);
+        const expectedColumns = ['installation_id', 'product_id', 'license_code', 'installation_date', 'installation_ip', 'installation_domain'];
+        const expectedHeadings = {
+            installation_id: 'Id',
+            product_id: 'Product Id',
+            installation_date: 'Date',
+            installation_ip: 'IP',
+            installation_domain: 'Domain',
+        };
+
+        expect(wrapper.vm.columns).toEqual(expectedColumns);
+        expect(wrapper.vm.options.headings).toEqual(expectedHeadings);
+    });
+
+    it('should fetch data and update the data property', async () => {
+        const mockData = [
+            { installation_id: 1, product_id: 123, installation_ip: '127.0.0.1', installation_date: '2023-06-18', installation_domain: 'example.com' },
+            // Add more sample data if needed
+        ];
+
+        axios.get.mockResolvedValue({ data: { data: { afl_latest_installation: mockData } } });
+
+        const wrapper = shallowMount(LatestInstallations);
+        await wrapper.vm.getData();
+
+        expect(wrapper.vm.data).toEqual(mockData);
+        expect(wrapper.vm.loading).toBe(false);
+        expect(axios.get).toHaveBeenCalledWith('/api/admin/dashboarddropdown');
     });
 });
+
+
