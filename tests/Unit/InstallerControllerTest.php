@@ -39,7 +39,7 @@ class InstallerControllerTest extends TestCase
              'admin_fname' => 'sftgowmi',
              'admin_lname' => 's',
              'admin_email' => Str::random().'@gmail.com',
-             'admin_password' => 'Sowmi@123',
+             'admin_password' =>'',
 
          ]);
          $response->assertStatus(200);
