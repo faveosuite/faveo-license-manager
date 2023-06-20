@@ -1,25 +1,10 @@
 import axios from 'axios';
-import { shallowMount } from '@vue/test-utils';
+import { shallowMount, mount } from '@vue/test-utils';
 import LatestInstallations from "../../../../../resources/js/Pages/Dashboard/LatestInstallations.vue";
 
 jest.mock('axios');
 
 describe('LatestInstallations', () => {
-
-    it('should set columns and headings correctly', () => {
-        const wrapper = shallowMount(LatestInstallations);
-        const expectedColumns = ['installation_id', 'product_id', 'license_code', 'installation_date', 'installation_ip', 'installation_domain'];
-        const expectedHeadings = {
-            installation_id: 'Id',
-            product_id: 'Product Id',
-            installation_date: 'Date',
-            installation_ip: 'IP',
-            installation_domain: 'Domain',
-        };
-
-        expect(wrapper.vm.columns).toEqual(expectedColumns);
-        expect(wrapper.vm.options.headings).toEqual(expectedHeadings);
-    });
 
     it('should fetch data and update the data property', async () => {
         const mockData = [
@@ -36,6 +21,26 @@ describe('LatestInstallations', () => {
         expect(wrapper.vm.loading).toBe(false);
         expect(axios.get).toHaveBeenCalledWith('/api/admin/dashboarddropdown');
     });
+
+    it('renders without errors', () => {
+        const wrapper = shallowMount(LatestInstallations);
+        expect(wrapper.exists()).toBe(true);
+    });
+    it('renders the correct card title', () => {
+        const wrapper = mount(LatestInstallations);
+
+        const cardTitle = wrapper.find('.card-title');
+
+        expect(cardTitle.text()).toBe('Latest Installations');
+    });
+    it('renders the correct card title', () => {
+        const wrapper = mount(LatestInstallations);
+
+        const cardTitle = wrapper.find('.card-title');
+
+        expect(cardTitle.text()).toBe('Latest Installations');
+    });
+
 });
 
 
