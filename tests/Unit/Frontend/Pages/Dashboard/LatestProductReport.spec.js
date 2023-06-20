@@ -10,14 +10,11 @@ describe('LatestProductReport', () => {
         expect(wrapper.exists()).toBe(true);
     });
     it('fetches data from API', async () => {
-        // Create a new instance of the Axios mock adapter
         const mockAxios = new MockAdapter(axios);
 
-        // Mock the API response
         const responseData = {
             data: {
                 latest_product_reports: [
-                    // Mocked data objects
                     { report_id: 1, report_date_time: '2023-06-18', status: 'Pending' },
                     { report_id: 2, report_date_time: '2023-06-19', status: 'Completed' },
                 ],
