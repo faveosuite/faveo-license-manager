@@ -10,13 +10,7 @@ describe('ExpiringVersion', () => {
         const wrapper = shallowMount(ExpiringVersion);
         expect(wrapper.exists()).toBe(true);
     });
-    it('renders the correct card title', () => {
-        const wrapper = mount(ExpiringVersion);
 
-        const cardTitle = wrapper.find('.card-title');
-
-        expect(cardTitle.text()).toBe('Expiring Version');
-    });
     it('renders the correct card title', () => {
         const wrapper = mount(ExpiringVersion);
 
@@ -25,10 +19,8 @@ describe('ExpiringVersion', () => {
         expect(cardTitle.text()).toBe('Expiring Version');
     });
     it('fetches data from the API correctly', async () => {
-        // Create a new instance of the Axios mock adapter
         const mock = new MockAdapter(axios);
 
-        // Mock the API response
         const responseData = {
             data: {
                 expired_versions: [
