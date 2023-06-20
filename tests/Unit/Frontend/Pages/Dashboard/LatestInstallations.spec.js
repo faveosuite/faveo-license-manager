@@ -9,7 +9,6 @@ describe('LatestInstallations', () => {
     it('should fetch data and update the data property', async () => {
         const mockData = [
             { installation_id: 1, product_id: 123, installation_ip: '127.0.0.1', installation_date: '2023-06-18', installation_domain: 'example.com' },
-            // Add more sample data if needed
         ];
 
         axios.get.mockResolvedValue({ data: { data: { afl_latest_installation: mockData } } });
@@ -33,13 +32,7 @@ describe('LatestInstallations', () => {
 
         expect(cardTitle.text()).toBe('Latest Installations');
     });
-    it('renders the correct card title', () => {
-        const wrapper = mount(LatestInstallations);
 
-        const cardTitle = wrapper.find('.card-title');
-
-        expect(cardTitle.text()).toBe('Latest Installations');
-    });
 
 });
 
