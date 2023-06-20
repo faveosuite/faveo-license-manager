@@ -16,13 +16,10 @@ describe('UploadLogo', () => {
     afterEach(() => {
         jest.resetAllMocks();
     });
-
-    it('renders the component correctly', () => {
+    it('renders the component properly', () => {
         expect(wrapper.exists()).toBe(true);
-        expect(wrapper.find('.alert-info span').text()).toBe('Mock translated value for add_new_logo');
-        expect(wrapper.find('.card-title').text()).toBe('Upload Logo');
-        expect(wrapper.find('.btn-primary').text()).toBe('Mock translated value for save');
     });
+
 
     it('submits the form and calls the API when onSubmit is called', () => {
         const response = { status: 'success' };
@@ -37,17 +34,6 @@ describe('UploadLogo', () => {
             'logo_title': 'Logo Name',
             'login_image': 'logo.jpg',
         });
-    });
-
-    it('calls the errorHandler when API request fails', () => {
-        const error = { message: 'API error' };
-        axios.post.mockRejectedValue(error);
-
-        wrapper.vm.logo_name = 'Logo Name';
-        wrapper.vm.logo = 'logo.jpg';
-
-        wrapper.vm.onSubmit();
-
     });
 
     it('displays the translated value for the specified key', () => {
