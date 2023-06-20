@@ -87,7 +87,7 @@ export default {
             axios
                 .get('/api/admin/dashboarddropdown')
                 .then((res) => {
-                    this.data = res.data.latest_versions; // Assign the fetched data to the data property
+                    this.data = res.data.data.latest_versions; // Assign the fetched data to the data property
                     this.loading = false;
                 })
                 .catch((err) => {
