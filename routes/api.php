@@ -109,6 +109,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('license/edit', [LicenseController::class, 'licenseUpdate']);
     Route::get('license/{license_id}', [LicenseController::class, 'edit']);
     Route::post('license/deactivate', [LicenseController::class, 'licenseDeactivate']);
+    Route::post('license/updateLicenseCode', [LicenseController::class, 'updateTheLicenseCode']);
 
 
     //INSTALLATIONS
@@ -118,6 +119,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('addInstallation', [InstallationController::class, 'installationAdd']);
     Route::get('installation/{installation_id}', [InstallationController::class, 'edit']);
     Route::post('installation/reissue', [InstallationController::class, 'removeUnwantedInstallations']);
+    Route::post('installation/updateLicenseCode', [InstallationController::class, 'updateTheLicenseCode']);
 
     //BANNED HOSTS
     Route::post('bannedHosts/add', [BannedHostController::class, 'bannedHostAdd']);
