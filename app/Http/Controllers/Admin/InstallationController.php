@@ -230,7 +230,11 @@ class InstallationController extends Controller
 
 
     public function removeUnwantedInstallations(Request $request){
-
         return AflInstallations::where('installation_domain',$request->installation_path)->delete();
+    }
+
+    public function updateTheLicenseCode(Request $request){
+        return AflInstallations::where('license_code',$request->old_license_code)
+            ->delete();
     }
 }

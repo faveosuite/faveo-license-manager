@@ -448,4 +448,9 @@ return successResponse(Lang::get('lang.License_show'), $root_array, 200);
     public function licenseDeactivate(Request $request){
         AflLicenses::where('license_code',$request->get('license_code'))->update(['license_status'=>0]);
     }
+
+        public function updateTheLicenseCode(Request $request){
+        return AflLicenses::where('license_code',$request->old_license_code)
+            ->update(['licnese_code'=> $request->license_code]);
+    }
 }
