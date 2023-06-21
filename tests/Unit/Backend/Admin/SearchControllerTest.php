@@ -22,7 +22,7 @@ class SearchControllerTest extends TestCase
      *
      * @return void
      */
-    public function test_search_searchForBannedHostsUsingIp_shouldRespondWith200()
+    public function test_search_searchForBanpnedHostsUsingIp_shouldRespondWith200()
     {
         $this->withoutMiddleware();
         AflBannedHosts::factory()->create(['banned_host_id' => 1]);
