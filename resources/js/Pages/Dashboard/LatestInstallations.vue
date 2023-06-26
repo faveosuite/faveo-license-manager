@@ -6,7 +6,15 @@
                 <h3 class="card-title">{{('Latest Installations')}}</h3>
             </div>
             <div class="card-body" id="afl_products">
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter"></v-client-table>
+                <div class="datatable-container">
+                    <v-client-table
+                        v-if="data"
+                        :columns="columns"
+                        :data="data"
+                        :options="options"
+                        :key="counter"
+                    ></v-client-table>
+                </div>
             </div>
         </div>
 
@@ -23,7 +31,7 @@ export default {
     data() {
         return {
             data: [], // Initialize as an empty array to hold the fetched data
-            columns: ['installation_id', 'product_id','license_code', 'installation_date','installation_ip', 'installation_domain'],
+            columns: ['installation_id','license_code', 'installation_date','installation_ip', 'installation_domain'],
             options: {},
             counter: 0,
         };
@@ -85,3 +93,10 @@ export default {
     },
 };
 </script>
+<style>
+.datatable-container {
+    max-height: 300px; /* Adjust the maximum height as per your needs */
+    overflow-y: auto;
+}
+</style>
+
