@@ -5,7 +5,15 @@
                 <h3 class="card-title">{{ 'Latest Product Report' }}</h3>
             </div>
             <div class="card-body" id="afl_products">
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter"></v-client-table>
+                <div class="datatable-container">
+                    <v-client-table
+                        v-if="data"
+                        :columns="columns"
+                        :data="data"
+                        :options="options"
+                        :key="counter"
+                    ></v-client-table>
+                </div>
             </div>
         </div>
     </div>
@@ -66,3 +74,9 @@ export default {
     },
 };
 </script>
+<style>
+.datatable-container {
+    max-height: 300px; /* Adjust the maximum height as per your needs */
+    overflow-y: auto;
+}
+</style>

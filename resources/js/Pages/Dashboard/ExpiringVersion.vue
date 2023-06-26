@@ -1,18 +1,24 @@
 <template>
-
     <div class="col-md-12 col-sm-12 col-12">
         <div class="card card-light">
             <div class="card-header">
-                <h3 class="card-title">{{('Expiring Version')}}</h3>
-               </div>
-                <div class="card-body" id="afl_products">
-
-                    <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter"></v-client-table>
+                <h3 class="card-title">{{ 'Expiring Version' }}</h3>
+            </div>
+            <div class="card-body" id="afl_products">
+                <div class="datatable-container">
+                    <v-client-table
+                        v-if="data"
+                        :columns="columns"
+                        :data="data"
+                        :options="options"
+                        :key="counter"
+                    ></v-client-table>
                 </div>
             </div>
         </div>
-
+    </div>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -108,3 +114,10 @@ export default {
 };
 
 </script>
+<style>
+.datatable-container {
+    max-height: 300px; /* Adjust the maximum height as per your needs */
+    overflow-y: auto;
+}
+</style>
+
