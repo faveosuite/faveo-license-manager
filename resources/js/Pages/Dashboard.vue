@@ -46,7 +46,7 @@
 
                     <div class="info-box-content">
 
-                        <span class="info-box-text">Version</span>
+                        <span class="info-box-text">Installations</span>
 
                         <span class="info-box-number">{{ installations }}</span>
 
@@ -62,7 +62,7 @@
 
                     <div class="info-box-content">
 
-                        <span class="info-box-text">Clients</span>
+                        <span class="info-box-text">Versions</span>
 
                         <span class="info-box-number">{{ versions }}</span>
 
@@ -188,9 +188,7 @@ export default {
                         // this.version = data.data.version; // Check if data exists before assigning to the variable
                         this.product= data.products_count;
                         this.installations =data.installlation_count;
-                        this.clients = data.clients;
                         this.versions =data.version_count
-                        this.licenses = data.licenses;
                         this.callbacks = data.callback_count;
                     }
                 })
