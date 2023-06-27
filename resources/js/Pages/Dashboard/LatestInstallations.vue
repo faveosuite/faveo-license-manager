@@ -31,7 +31,7 @@ export default {
     data() {
         return {
             data: [], // Initialize as an empty array to hold the fetched data
-            columns: ['installation_id','license_code', 'installation_date','installation_ip', 'installation_domain'],
+            columns: ['installation_id','license_code','installation_ip', 'installation_domain'],
             options: {},
             counter: 0,
         };
@@ -66,8 +66,7 @@ export default {
                 },
             },
             headings: {
-                installation_id: 'Id',
-                product_id:'Product Id',
+                installation_id: 'Installation Id',
                 installation_date: 'Date',
                 installation_ip: 'IP',
                 installation_domain: 'Domain',
@@ -97,7 +96,14 @@ export default {
 .my-table-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
     overflow-y: auto !important;
-    overflow-x: hidden;
+}
+.VueTables .table-responsive>table th {
+    white-space: nowrap;
+    width: 100px;
+}
+.glyphicon-sort {
+    margin-left: 100px;
+    margin-top: -19px;
 }
 </style>
 
