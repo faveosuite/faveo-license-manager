@@ -32,7 +32,7 @@ export default {
 
             data: [],
 
-            columns:['version_id','version_date','version_expire_date','status'],
+            columns:['version_id','product_id','version_date'],
 
             // options : {},
 
@@ -52,11 +52,9 @@ export default {
 
                 version_id: 'version_id',
 
+                product_id:  'product_id',
+
                 version_date: 'version_date',
-
-                version_expire_date: 'version_expire_date',
-
-                status:   'status',
             },
 
             templates: {
@@ -79,11 +77,11 @@ export default {
 
             headings: {
 
-                version_id: 'Version',
+                version_id: 'Version Id',
+
+                product_id:  'Product Id',
 
                 version_date: 'Date',
-
-                version_expire_date: 'Expiration',
 
             },
         }
@@ -111,13 +109,18 @@ export default {
 .VueTables__search-field{
     display : none;
 }
-.VuePagination{
-    display : none;
-}
+
  .datatable-container {
-     max-height: 300px; /* Adjust the maximum height as per your needs */
+     max-height: 250px; /* Adjust the maximum height as per your needs */
      overflow-y: auto;
  }
+.VueTables .table-responsive {
+    display: block;
+    width: 100%;
+    position: inherit;
+    overflow-x :hidden;
+
+}
 
 </style>
 

@@ -32,7 +32,7 @@ export default {
 
             data: [],
 
-            columns:['callback_id','license_code','callback_ip','callback_date_time','callback_domain'],
+            columns:['callback_id','product_id','callback_ip','callback_date_time'],
 
             options : {},
 
@@ -89,7 +89,7 @@ export default {
             },
 
             headings: {
-                callback_domain: 'Domain',
+                product_id: 'PRoduct Id',
 
                 callback_id: 'Callback Id',
 
