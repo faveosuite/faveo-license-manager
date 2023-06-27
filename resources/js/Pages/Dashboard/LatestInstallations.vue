@@ -6,7 +6,7 @@
                 <h3 class="card-title">{{('Latest Installations')}}</h3>
             </div>
             <div class="card-body" id="afl_products">
-                <div class="datatable-container">
+                <div class="datatable-container my-table-container">
                     <v-client-table
                         v-if="data"
                         :columns="columns"
@@ -94,9 +94,10 @@ export default {
 };
 </script>
 <style>
-.datatable-container {
+.my-table-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
+    overflow-y: auto !important;
+    overflow-x: hidden;
 }
 </style>
 
