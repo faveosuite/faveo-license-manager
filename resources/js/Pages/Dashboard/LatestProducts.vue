@@ -33,7 +33,7 @@ export default {
 
              data: [],
 
-             columns:['product_id','product_title','product_description'],
+             columns:['product_id','product_title','product_sku'],
 
              options : {},
 
@@ -55,7 +55,7 @@ export default {
 
                  product_title: 'product_title',
 
-                 product_description: 'product_description',
+                 product_sku:   'product_sku',
              },
 
              templates: {
@@ -78,11 +78,11 @@ export default {
 
              headings: {
 
-                 product_id: 'Product',
+                 product_id: 'Product ID',
 
-                 product_title: 'Title',
+                 product_title: 'Product',
 
-                 product_description: 'Description',
+                 product_sku: 'Product SKU',
 
              },
          }
