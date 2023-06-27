@@ -88,6 +88,10 @@ export default{
         }
     },
 
+    beforeMount() {
+        this.getValues();
+    },
+
     methods : {
         onSubmit(){
             axios.post('api/admin/store-logo-settings', {
@@ -101,6 +105,14 @@ export default{
                 errorHandler(err, 'upload');
 
             })
+        },
+
+        getValues(){
+           axios.get('api/admin/getlogos').then(res =>{
+               let data =res.data.data;
+
+           })
+
         },
 
 
