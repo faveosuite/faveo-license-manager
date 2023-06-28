@@ -13,7 +13,15 @@
                           :data="data"
                           :options="options"
                           :key="counter"
-                      ></v-client-table>
+                      >
+                          <template v-slot:product_status="props">
+
+                        <span :class="props.row.product_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+
+                            {{ props.row.product_status ? 'Active' : 'Inactive'}}
+                        </span>
+                          </template>
+                      </v-client-table>
                   </div>
               </div>
           </div>
@@ -33,7 +41,7 @@ export default {
 
              data: [],
 
-             columns:['product_id','product_title','product_sku'],
+             columns:['product_title','product_sku','product_date','product_status'],
 
              options : {},
 
@@ -51,39 +59,32 @@ export default {
 
              columnsClasses:{
 
-                 product_id: 'product_id',
-
                  product_title: 'product_title',
 
                  product_sku:   'product_sku',
+
+                 product_date: 'product_date',
+
+                 product_status: 'product_status',
              },
 
              templates: {
 
-                 product_id(h,row){
-                     return row.product_id ?row.product_id : '----';
-                 },
-
                  product_title(h,row){
                      return row.product_title ?row.product_title : '----';
-
-                 },
-
-                 product_description(h,row){
-                     return row.product_description ?row.product_description : '----';
-
                  },
 
              },
 
              headings: {
 
-                 product_id: 'Product ID',
-
                  product_title: 'Product',
 
-                 product_sku: 'Product SKU',
+                 product_sku: 'SKU',
 
+                 product_date: 'Date',
+
+                 product_status: 'Status'
              },
          }
     },
@@ -112,5 +113,16 @@ export default {
 .datatable-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
     overflow-y: auto;
+}
+#afl_products  .glyphicon-sort {
+    margin-left: 100px;
+    visibility: hidden;
+    margin-top: -19px;
+}
+#afl_products .VueTables .table-responsive {
+    display: block;
+    width: 100%;
+    position: inherit;
+    overflow-x: visible;
 }
 </style>

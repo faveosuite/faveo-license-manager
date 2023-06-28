@@ -2,6 +2,11 @@
 
     <div class="col-sm-12">
 
+        <div class="row" v-if="loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
+
         <h5 class="mb-2">Info Box</h5>
 
 
@@ -176,9 +181,11 @@ export default {
 
     methods: {
         getData() {
+            this.loading = true;
             axios
                 .get('/api/admin/dashboarddropdown')
                 .then((res) => {
+                    this.loading = false;
                     const { data } = res.data;
 
                     // console.log('test',res.data.products_count)
@@ -193,7 +200,7 @@ export default {
                     }
                 })
                 .catch((error) => {
-                    console.error(error);
+                    this.loading = false;
                 });
         },
     },

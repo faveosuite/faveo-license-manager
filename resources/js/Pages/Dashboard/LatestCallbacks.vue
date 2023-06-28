@@ -12,7 +12,15 @@
                         :data="data"
                         :options="options"
                         :key="counter"
-                    ></v-client-table>
+                    >
+                        <template v-slot:callback_status="props">
+
+                        <span :class="props.row.callback_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+
+                            {{ props.row.callback_status ? 'Active' : 'Inactive'}}
+                        </span>
+                        </template>
+                    </v-client-table>
                 </div>
             </div>
         </div>
@@ -32,7 +40,7 @@ export default {
 
             data: [],
 
-            columns:['callback_id','product_id','callback_ip','callback_date_time'],
+            columns:['callback_domain','callback_ip','callback_date_time','callback_status'],
 
             options : {},
 
@@ -50,21 +58,20 @@ export default {
 
             columnsClasses:{
 
-                callback_id: 'callback_id',
+                callback_domain: 'callback_domain',
 
                 callback_date_time: 'callback_date_time',
 
                 callback_ip: 'callback_ip',
 
-                license_code:   'license_code',
+                callback_status:   'callback_status',
 
-                callback_domain: 'callback_domain',
             },
 
             templates: {
 
-                callback_id(h,row){
-                    return row.callback_id ?row.callback_id : '----';
+                callback_domain(h,row){
+                    return row.callback_domain ?row.callback_domain : '----';
                 },
 
                 callback_date_time(h,row){
@@ -76,28 +83,16 @@ export default {
                     return row.callback_ip ?row.callback_ip : '----';
 
                 },
-
-                license_code(h,row){
-                    return row.license_code ?row.license_code : '----';
-
-                },
-
-                callback_domain(h,row){
-                    return row.callback_domain ?row.callback_domain : '----';
-
-                },
             },
 
             headings: {
-                product_id: 'PRoduct Id',
-
-                callback_id: 'Callback Id',
+                callback_domain: 'Domain',
 
                 callback_date_time: 'Date',
 
-                license_code: 'License',
+                callback_ip: 'IP',
 
-                callback_ip: 'IP'
+                callback_status: 'Status'
 
             },
         }
