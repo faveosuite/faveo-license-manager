@@ -12,7 +12,15 @@
                         :data="data"
                         :options="options"
                         :key="counter"
-                    ></v-client-table>
+                    >
+                        <template v-slot:report_status="props">
+
+                        <span :class="props.row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+
+                            {{ props.row.report_status ? 'Active' : 'Inactive'}}
+                        </span>
+                        </template>
+                    </v-client-table>
                 </div>
             </div>
         </div>
@@ -28,7 +36,7 @@ export default {
     data() {
         return {
             data: [],
-            columns: ['report_id', 'report_date_time', 'report_text'],
+            columns: ['report_text', 'report_date_time','license_code', 'report_status'],
             options: {},
             counter: 0
         }
@@ -38,22 +46,30 @@ export default {
 
         this.options = {
             columnsClasses: {
-                report_id: 'report_id',
-                report_date_time: 'report_date_time',
                 report_text: 'report_status',
+
+                report_date_time: 'report_date_time',
+
+                license_code: 'license_code',
+
+                report_status: 'report_status'
             },
             templates: {
-                report_id(h, row) {
-                    return row.report_id ? row.report_id : '----';
+                license_code(h, row) {
+                    return row.license_code ? row.license_code : '----';
                 },
                 report_date_time(h, row) {
                     return row.report_date_time ? row.report_date_time : '----';
                 },
             },
             headings: {
-                report_id: 'Report ID',
-                report_date_time: 'Date',
                 report_text: 'Report',
+
+                report_date_time: 'Date',
+
+                license_code:  'License Code',
+
+                report_status:  'Status'
             },
         }
     },
