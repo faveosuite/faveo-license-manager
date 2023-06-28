@@ -12,7 +12,15 @@
                         :data="data"
                         :options="options"
                         :key="counter"
-                    ></v-client-table>
+                    >
+                        <template v-slot:version_status="props">
+
+                        <span :class="props.row.version_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+
+                            {{ props.row.version_status ? 'Active' : 'Inactive'}}
+                        </span>
+                        </template>
+                    </v-client-table>
                 </div>
             </div>
         </div>
@@ -33,7 +41,7 @@ export default {
 
             data: [],
 
-            columns:['version_id','version_date','version_expire_date','version_number'],
+            columns:['version_number','version_date','version_expire_date','version_status'],
 
             options : {},
 
@@ -51,20 +59,16 @@ export default {
 
             columnsClasses:{
 
-                version_id: 'version',
+                version_number: 'version_number',
 
                 version_date: 'version_date',
 
                 version_expire_date: 'version_expire_date',
 
-                version_number: 'version_number'
+                version_status: 'version_status'
             },
 
             templates: {
-
-                version_id(h,row){
-                    return row.version_id ?row.version_id : '----';
-                },
 
                 version_date(h,row){
                     return row.version_date ?row.version_date : '----';
@@ -83,13 +87,13 @@ export default {
 
             headings: {
 
-                version_id: 'Version',
+                version_number: 'Version',
 
                 version_date: 'Version Date',
 
                 version_expire_date: 'Version Expire date',
 
-                version_number: "Version No."
+                version_status: "Status"
             },
         }
     },

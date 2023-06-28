@@ -13,7 +13,15 @@
                         :data="data"
                         :options="options"
                         :key="counter"
-                    ></v-client-table>
+                    >
+                        <template v-slot:product_status="props">
+
+                        <span :class="props.row.product_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+
+                            {{ props.row.product_status ? 'Active' : 'Inactive'}}
+                        </span>
+                        </template>
+                    </v-client-table>
                 </div>
             </div>
         </div>
@@ -31,7 +39,7 @@ export default {
     data() {
         return {
             data: [], // Initialize as an empty array to hold the fetched data
-            columns: ['installation_id','license_code','installation_ip', 'installation_domain'],
+            columns: ['license_code','installation_ip','installation_date','installation_domain'],
             options: {},
             counter: 0,
         };
@@ -42,31 +50,34 @@ export default {
         this.getData();
         this.options = {
             columnsClasses: {
-                installation_id: 'installation_id',
-                product_id:'product_id',
+                license_code: 'license_code',
+
                 installation_ip: 'installation_ip',
+
                 installation_date: 'installation_date',
+
                 installation_domain: 'installation_domain',
             },
             templates: {
-                installation_id(h, row) {
-                    return row.installation_id ? row.installation_id : '----';
+                license_code(h, row) {
+                    return row.license_code ? row.license_code : '----';
                 },
-                product_id(h, row) {
-                    return row.product_id ? row.product_id : '----';
-                },
+
+
                 installation_ip(h, row) {
                     return row.installation_ip ? row.installation_ip : '----';
                 },
+
                 installation_date(h, row) {
                     return row.installation_date ? row.installation_date : '----';
                 },
+
                 installation_domain(h, row) {
                     return row.installation_domain ? row.installation_domain : '----';
                 },
             },
             headings: {
-                installation_id: 'Installation Id',
+                license_code: 'License Code',
                 installation_date: 'Date',
                 installation_ip: 'IP',
                 installation_domain: 'Domain',
