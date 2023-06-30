@@ -4,11 +4,8 @@
 
         <div class="row" v-if="loading">
 
-            <custom-loader :duration="4000"></custom-loader>
+            <custom-loader :duration="5000"></custom-loader>
         </div>
-
-        <h5 class="mb-2">Info Box</h5>
-
 
         <div class="row">
 
@@ -197,6 +194,7 @@ export default {
                         this.installations =data.installlation_count;
                         this.versions =data.version_count
                         this.callbacks = data.callback_count;
+
                     }
                 })
                 .catch((error) => {
