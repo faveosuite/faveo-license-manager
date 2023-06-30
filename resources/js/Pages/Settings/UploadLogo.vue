@@ -17,11 +17,11 @@
 
                 <div class="row">
 
-                    <text-field :label="lang('logo_name')" :value="logo_name" classname="col-sm-6">
-                    </text-field>
+                    <text-field :label="lang('logo_name')" :value="logo_name" :onChange="onTextFieldChange" classname="col-sm-6"></text-field>
 
                     <label for="logo_image">Logo Image:</label>
-                    <input type="file" id="logo_image" @change="onImageChange" accept="image/*">
+                    <input type="file" id="sidebar_logo_image" @change="onImageChange" accept="image/*">
+
 
                 </div>
             </div>
@@ -46,12 +46,13 @@
 
                 <div class="row">
 
-                    <text-field :label="lang('sidebar_name')" :value="logo_name" classname="col-sm-6">
+                    <text-field :label="lang('sidebar_name')" :onChange="onTextFieldChangee" :value="logo_namee" classname="col-sm-6">
 
                     </text-field>
 
                     <label for="sidebar_logo_image">Sidebar Logo Image:</label>
                     <input type="file" id="sidebar_logo_image" @change="onImageChange" accept="image/*">
+
                 </div>
             </div>
 
@@ -64,71 +65,77 @@
     </div>
 </template>
 <script>
-
 import axios from "axios";
 import TextField from "../../components/Reusable/FormField/TextField.vue";
-import {errorHandler, successHandler} from "../../helpers/responseHandler";
+import { errorHandler, successHandler } from "../../helpers/responseHandler";
 
-export default{
-
+export default {
     name: 'Upload-logo',
 
     data() {
-
-        return{
-
-            title:'Upload Logo',
-
+        return {
+            title: 'Upload Logo',
             iconClass: 'fas fa-save',
-
             btnName: 'save',
-
-            logo: "",
-
-        }
+            logo_name: "", // Updated to include logo_name property
+            logo_namee: "",
+            logo: null, // Updated to initialize logo as null
+        };
     },
 
     beforeMount() {
-        this.getValues();
+        // this.getValues();
     },
 
-    methods : {
-        onSubmit(){
-            axios.post('api/admin/store-logo-settings', {
-                'logo_title' : this.logo_name,
-                'login_image' : this.logo,
-            }).then( res => {
-                  this.loading =false;
-                successHandler(res, 'upload');
-            }).catch(err => {
-                this.loading =false;
-                errorHandler(err, 'upload');
-
-            })
+    methods: {
+        onTextFieldChange(newValue) {
+            // Handle the new value here
+            this.logo_name = newValue;
         },
 
-        getValues(){
-           axios.get('api/admin/getlogos').then(res =>{
-               let data =res.data.data;
-
-           })
-
+        onTextFieldChangee(newValue){
+            // Handle the new value here
+            this.logo_name = newValue;
         },
 
+        onSubmit() {
+            const formData = new FormData(); // Create a new FormData object
+            formData.append("logo_title", this.logo_name); // Append the logo_title field
+
+            formData.append("logo_image", this.logo); // Append the logo_image field
+
+            axios.post('api/admin/store-logo-settings', formData)
+                .then(res => {
+                    this.loading = false;
+                    alert(res);
+                    successHandler(res, 'upload');
+                })
+                .catch(err => {
+                    this.loading = false;
+                    alert(err);
+                    errorHandler(err, 'upload');
+                });
+        },
+        //
+        // getValues() {
+        //     axios.get('api/admin/getlogos').then(res => {
+        //         let data = res.data.data;
+        //         alert(res.data.data);
+        //     });
+        // },
 
         onImageChange(event) {
-            const file = event.target.files[0];
-            this.logo = file;
+            this.logo = event.target.files[0];
         },
+
 
         lang(key) {
             return `Mock translated value for ${key}`;
         },
     },
 
-    components:{
-
-        TextField
-    }
-}
+    components: {
+        TextField,
+    },
+};
 </script>
