@@ -29,7 +29,6 @@ class Manager
             $tokens = new OauthAccessToken();
             $token = json_decode($tokens->where('id', $tokenId)->first()); //gets that particluar token details
 
-
             if ((! empty($token->revoked) && $token->revoked != '1') || $token->expires_at >= date('Y-m-d H:i:s')) {
                 return $next($request);
             } else {
