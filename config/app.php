@@ -171,6 +171,7 @@ return [
 
     'providers' => [
 
+        
         /*
          * Laravel Framework Service Providers...
          */
@@ -197,6 +198,7 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Bugsnag\BugsnagLaravel\BugsnagServiceProvider::class,
+        
 
 
         /*

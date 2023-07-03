@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Termwind\Helpers;
 
 use Symfony\Component\Console\Formatter\OutputFormatter;
-use Symfony\Component\Console\Helper\QuestionHelper as SymfonyQuestionHelper;
+use Symfony\Component\Console\Helper\SymfonyQuestionHelper;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\Question;
 
@@ -15,7 +15,7 @@ use Symfony\Component\Console\Question\Question;
 final class QuestionHelper extends SymfonyQuestionHelper
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     protected function writePrompt(OutputInterface $output, Question $question): void
     {

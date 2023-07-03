@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Consist of functionalities for Authentication in Auto Faveo licenser
@@ -30,6 +34,7 @@ class AuthController extends Controller
      * @param  RegisterRequest  $request
      * @return response you have registered successfuly along with a unique access token
      */
+    public $sharedVariable; 
     public function register(RegisterRequest $request)
     {
         $date = Carbon::now();
@@ -75,6 +80,20 @@ class AuthController extends Controller
 
         $tokenobj = $admin->createToken('AFL');
         $token = $tokenobj->accessToken;
+        // $baseUrl = Config::get('app.url'); 
+        // $config = config('clockwork');
+
+        // // Set the Authorization header value
+        // $config['headers']['Authorization'] = $token;
+
+        // // Update the configuration array
+        // Config::set('clockwork', $config);
+        // dd($token );
+        // Session::put('sharedVariable', $token);
+        // Cache::put('sharedVariable', 'Value from function 1', 60); 
+        // Cache::put('sharedVariable', $token, null); // Store the value in the cache without an expiration time
+
+        
 
         $response = [
             'message' => 'logged in',
@@ -177,7 +196,22 @@ class AuthController extends Controller
                    ->update([
                        'revoked' => true,
                    ]);
+                //    Cache::forget('sharedVariable'); 
+                 
 
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }
+    public function clockwork()
+    {
+        // dd('fghj');
+        // $value = Session::get('sharedVariable');
+        if (Cache::has('sharedVariable')) {
+            // Cache still exists
+            dd('Cache exists');
+        } else {
+            // Cache is cleared
+            dd('Cache cleared');
+        }
+}
+
 }

@@ -301,4 +301,18 @@ class SettingsController extends Controller
         'debug' => config('app.debug'),
     ]);
 }
+public function getRoutes()
+{
+    $routesJsonPath = public_path('routes.json');
+    
+    if (file_exists($routesJsonPath)) {
+        $routesData = file_get_contents($routesJsonPath);
+        $routes = json_decode($routesData, true);
+        
+        return response()->json($routes);
+    } else {
+        return response()->json(['error' => 'routes.json file not found'], 404);
+    }
+}
+
 }

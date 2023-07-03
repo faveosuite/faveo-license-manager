@@ -14,7 +14,8 @@ class ClockworkController extends Controller
 {
 	public function __construct()
 	{
-		$this->middleware(config('clockwork.middlewares'));
+		// $this->middleware(config('clockwork.middlewares'));
+		// $this->middleware('auth');
 	}
 
 	// Authantication endpoint

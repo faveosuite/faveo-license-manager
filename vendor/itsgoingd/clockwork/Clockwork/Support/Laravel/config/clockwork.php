@@ -152,7 +152,7 @@ return [
 	| Clockwork collects data about HTTP requests to your app. Here you can choose which requests should be collected.
 	|
 	*/
-
+	'middlewares' => ['auth'],
 	'requests' => [
 		// With on-demand mode enabled, Clockwork will only profile requests when the browser extension is open or you
 		// manually pass a "clockwork-profile" cookie or get/post data key.

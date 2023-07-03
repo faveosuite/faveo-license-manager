@@ -6,6 +6,7 @@ use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
 use App\Http\Controllers\AflCallbacks\LicenseVerifyController;
 use App\Http\Controllers\Installer\InstallerController;
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -39,6 +40,7 @@ Route::post('/apl_callbacks/license_install.php', [LicenseInstallController::cla
 Route::post('/apl_callbacks/license_scheme.php', [LicenseSchemeController::class, 'licenseScheme']);
 Route::post('/apl_callbacks/license_verify.php', [LicenseVerifyController::class, 'licenseVerify']);
 Route::post('/aus_callbacks/download_file.php', [DownloadFileController::class, 'downloadFile']);
+Route::get('/clockwork', [AuthController::class, 'clockwork'])->name('clockwork');
 
 Route::get('/{one?}/{two?}/{three?}/{four?}/', function () {
     return view('welcome');

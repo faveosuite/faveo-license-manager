@@ -250,22 +250,33 @@ class ClockworkServiceProvider extends ServiceProvider
 	protected function registerRoutes()
 	{
 		$this->app['router']->get('/__clockwork/{id}/extended', 'Clockwork\Support\Laravel\ClockworkController@getExtendedData')
-			->where('id', '([0-9-]+|latest)');
+			->where('id', '([0-9-]+|latest)')->middleware('clockworkredirection');
 		$this->app['router']->get('/__clockwork/{id}/{direction?}/{count?}', 'Clockwork\Support\Laravel\ClockworkController@getData')
-			->where('id', '([0-9-]+|latest)')->where('direction', '(next|previous)')->where('count', '\d+');
-		$this->app['router']->put('/__clockwork/{id}', 'Clockwork\Support\Laravel\ClockworkController@updateData');
-		$this->app['router']->post('/__clockwork/auth', 'Clockwork\Support\Laravel\ClockworkController@authenticate');
+			->where('id', '([0-9-]+|latest)')->where('direction', '(next|previous)')->where('count', '\d+')->middleware('clockworkredirection');
+		$this->app['router']->put('/__clockwork/{id}', 'Clockwork\Support\Laravel\ClockworkController@updateData')->middleware('clockworkredirection');
+		$this->app['router']->post('/__clockwork/auth', 'Clockwork\Support\Laravel\ClockworkController@authenticate')->middleware('clockworkredirection');
 	}
 
+	// protected function registerWebRoutes()
+	// {
+	// 	$this->app['clockwork.support']->webPaths()->each(function ($path) {
+	// 		$this->app['router']->get("{$path}", 'Clockwork\Support\Laravel\ClockworkController@webRedirect')->middleware('auth:api');
+	// 		$this->app['router']->get("{$path}/app", 'Clockwork\Support\Laravel\ClockworkController@webIndex')->middleware('auth:api');
+	// 		$this->app['router']->get("{$path}/{path}", 'Clockwork\Support\Laravel\ClockworkController@webAsset')
+	// 			->where('path', '.+')->middleware('auth:api');
+	// 	});
+	// }
 	protected function registerWebRoutes()
-	{
-		$this->app['clockwork.support']->webPaths()->each(function ($path) {
-			$this->app['router']->get("{$path}", 'Clockwork\Support\Laravel\ClockworkController@webRedirect');
-			$this->app['router']->get("{$path}/app", 'Clockwork\Support\Laravel\ClockworkController@webIndex');
-			$this->app['router']->get("{$path}/{path}", 'Clockwork\Support\Laravel\ClockworkController@webAsset')
-				->where('path', '.+');
-		});
-	}
+{
+    $this->app['clockwork.support']->webPaths()->each(function ($path) {
+        $this->app['router']->get("{$path}", 'Clockwork\Support\Laravel\ClockworkController@webRedirect')->middleware('clockworkredirection');
+        $this->app['router']->get("{$path}/app", 'Clockwork\Support\Laravel\ClockworkController@webIndex')->middleware('clockworkredirection');
+        $this->app['router']->get("{$path}/{path}", 'Clockwork\Support\Laravel\ClockworkController@webAsset')
+            ->where('path', '.+')->middleware('clockworkredirection');
+            // ->where('path', '.+')->middleware('web', 'auth');
+    });
+}
+
 
 	public function provides()
 	{

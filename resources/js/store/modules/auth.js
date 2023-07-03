@@ -39,11 +39,13 @@ const state = {
  const actions = {
 
     setLoggedInUserToken({commit},payload) {
-
+        console.log(payload); 
         commit('updateUserToken',payload)
     },
 
     setUserInfo({commit},payload) {
+        console.log(payload); 
+
         commit('updateUserInfo',payload)
     },
 

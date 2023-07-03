@@ -37,12 +37,14 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
         ],
 
         'api' => [
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
             \Laravel\Passport\Http\Middleware\CreateFreshApiToken::class,
+            // \App\Http\Middleware\Authenticate::class,
 
         ],
         'installer' => [
@@ -74,6 +76,10 @@ class Kernel extends HttpKernel
         'scopes' => \Laravel\Passport\Http\Middleware\CheckScopes::class,
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'installer' => \App\Http\Middleware\IsInstalled::class,
+        'clockworkredirection'=>  \App\Http\Middleware\clockworkredirection::class,
+        'auth.api' => \App\Http\Middleware\Authenticate::class,
+
+
 
     ];
 }

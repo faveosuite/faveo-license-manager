@@ -28,12 +28,14 @@ class Manager
             //$tokenId = (new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];//(new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];
             $tokens = new OauthAccessToken();
             $token = json_decode($tokens->where('id', $tokenId)->first()); //gets that particluar token details
-
-            if ((! empty($token->revoked) && $token->revoked != '1') || ! empty($token->revoked) && $token->expires_at >= date('Y-m-d H:i:s')) {
+            if (($token->revoked !== null && $token->revoked != '1') || $token->revoked !== null && $token->expires_at >= date('Y-m-d H:i:s')) {
                 return $next($request);
             } else {
                 return errorResponse(Lang::get('lang.invalid_token'), 401);
             }
+        }
+        else{
+            return redirect('admin/logout');
         }
     }
 }
