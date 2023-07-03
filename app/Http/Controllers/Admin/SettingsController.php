@@ -291,11 +291,10 @@ class SettingsController extends Controller
         try {
             $logo = new Logos();
             $logo->logo_title = $request->logo_title;
-            $result = $request->hasFile('login_image') ? $this->storeLogo($logo, 'login', $request->file('login_image')) : $this->storeLogo($logo, 'sidebar', $request->file('sidebar_image'));
-
+            $result = $request->file('login_image') ? $this->storeLogo($logo, 'login', $request->file('login_image')) : $this->storeLogo($logo, 'sidebar', $request->file('sidebar_image'));
             return response()->json($result);
         } catch (\Exception $e) {
-            // \Log::error('Error storing logo settings: ' . $e->getMessage());
+             \Log::error('Error storing logo settings: ' . $e->getMessage());
             $this->error($e->getMessage());
             return response()->json([
                 'message' => 'An error occurred while storing logo settings. Please check the if you are uploading correct files and information and try again.',
@@ -305,7 +304,9 @@ class SettingsController extends Controller
 
     private function storeLogo($logo, $fileType, $file)
     {
-
+        $loginlogo = Logos::where('logo_type', 'login')->first();
+        $sidebarlogo = Logos::where('logo_type', 'sidebar')->get();
+        return response()->json(['login_logo' => $loginlogo, 'sidebar_logo' => $sidebarlogo]);
         $logo->logo_type = $fileType;
         $filename = $file->getClientOriginalName() . '.' . now();
         $path = $file->storeAs('logos', $filename, 'public');
@@ -317,8 +318,8 @@ class SettingsController extends Controller
 
     public function getlogos()
     {
-        $loginlogo = logos::where('logo_type', 'login')->get();
-        $sidebarlogo = logos::where('logo_type', 'sidebar')->get();
+        $loginlogo = Logos::where('logo_type', 'login')->get();
+        $sidebarlogo = Logos::where('logo_type', 'sidebar')->get();
         return response()->json(['login_logo' => $loginlogo, 'sidebar_logo' => $sidebarlogo]);
     }
 }

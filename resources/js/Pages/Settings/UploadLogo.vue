@@ -20,9 +20,7 @@
                     <text-field :label="lang('logo_name')" :value="logo_name" :onChange="onTextFieldChange" classname="col-sm-6"></text-field>
 
                     <label for="logo_image">Logo Image:</label>
-                    <input type="file" id="sidebar_logo_image" @change="onImageChange" accept="image/*">
-
-
+                    <input type="file" name="login_image" id="logo_image" @change="onImageChange" accept="image/*">
                 </div>
             </div>
 
@@ -50,8 +48,8 @@
 
                     </text-field>
 
-                    <label for="sidebar_logo_image">Sidebar Logo Image:</label>
-                    <input type="file" id="sidebar_logo_image" @change="onImageChange" accept="image/*">
+                    <input type="file" name="login_image" id="logo_image" @change="onImageChange" accept="image/*">
+
 
                 </div>
             </div>
@@ -80,11 +78,12 @@ export default {
             logo_name: "", // Updated to include logo_name property
             logo_namee: "",
             logo: null, // Updated to initialize logo as null
+            logos: [],
         };
     },
 
     beforeMount() {
-        // this.getValues();
+        this.getValues();
     },
 
     methods: {
@@ -100,9 +99,8 @@ export default {
 
         onSubmit() {
             const formData = new FormData(); // Create a new FormData object
-            formData.append("logo_title", this.logo_name); // Append the logo_title field
-
-            formData.append("logo_image", this.logo); // Append the logo_image field
+            formData.append("logo_title", this.logo_name);// Append the logo_title fieldE
+            formData.append('login_image', this.logo);
 
             axios.post('api/admin/store-logo-settings', formData)
                 .then(res => {
@@ -116,14 +114,20 @@ export default {
                     errorHandler(err, 'upload');
                 });
         },
-        //
-        // getValues() {
-        //     axios.get('api/admin/getlogos').then(res => {
-        //         let data = res.data.data;
-        //         alert(res.data.data);
-        //     });
-        // },
 
+        getValues() {
+            axios.get('api/admin/getlogos')
+                .then(res => {
+                    this.login_logo  = res.data.data;
+                    this.sidebarlogo =res.data.data;
+
+                    alert(res.data.data)
+                    successHandler(res, 'getlogos');
+                })
+                .catch(err => {
+                    errorHandler(err, 'getlogos');
+                });
+        },
         onImageChange(event) {
             this.logo = event.target.files[0];
         },
