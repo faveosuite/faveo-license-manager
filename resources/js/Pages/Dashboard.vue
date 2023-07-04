@@ -1,11 +1,6 @@
 <template>
-
-    <div class="col-sm-12">
-
-        <div class="row" v-if="loading">
-
-            <custom-loader :duration="5000"></custom-loader>
-        </div>
+<div class="container">
+    <div class="col-sm-12" >
 
         <div class="row">
 
@@ -24,51 +19,43 @@
             </div>
 
 
-            <div class="col-md-3 col-sm-6 col-12">
-
-                <div class="info-box shadow-sm">
-
-                    <span class="info-box-icon bg-success"><i class="fa fa-check" aria-hidden="true"></i></span>
-
-                    <div class="info-box-content">
-
-                        <span class="info-box-text">Products</span>
-
-                        <span class="info-box-number">{{ product }}</span>
-
+            <div class="col-lg-3 col-xs-6" style ="margin:-6px">
+                <div class="small-box bg-light-blue">
+                    <div class="inner" ><h3 class="word_wrap" style="font-size: 1.8rem;">Products: {{products}}</h3>
                     </div>
+                    <div class="icon"><i class="fas fa-cart-arrow-down"></i>
+                    </div>
+                    <router-link class="small-box-footer"  to="/products/list">
+                        ViewAll
+                        <i class="far fa-arrow-alt-circle-right"></i>
+                    </router-link>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-12">
-
-                <div class="info-box shadow-sm">
-
-                    <span class="info-box-icon bg-success"><i class="fa fa-check" aria-hidden="true"></i></span>
-
-                    <div class="info-box-content">
-
-                        <span class="info-box-text">Installations</span>
-
-                        <span class="info-box-number">{{ installations }}</span>
-
+            <div class="col-lg-3 col-xs-6" style ="margin:-6px">
+                <div class="small-box bg-green">
+                    <div class="inner">
+                        <h3 class="word_wrap" style="font-size: 1.8rem;">Versions: {{versions}}</h3>
                     </div>
+                    <div class="icon"><i class="fas fa-users"></i>
+                    </div>
+                    <router-link class="small-box-footer"  to="/versions/list">
+                        ViewAll
+                        <i class="far fa-arrow-alt-circle-right"></i>
+                    </router-link>
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-12">
-
-                <div class="info-box shadow">
-
-                    <span class="info-box-icon bg-warning"><i class="fa fa-user-circle" aria-hidden="true"></i></span>
-
-                    <div class="info-box-content">
-
-                        <span class="info-box-text">Versions</span>
-
-                        <span class="info-box-number">{{ versions }}</span>
-
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-yellow" style ="margin:-6px">
+                    <div class="inner"><h3 class="word_wrap" style="font-size: 1.8rem;">licenses: {{installations}}</h3>
                     </div>
+                    <div class="icon"><i class="fas fa-id-card" ></i>
+                    </div>
+                    <router-link class="small-box-footer"  to="/licenses/list">
+                        ViewAll
+                        <i class="far fa-arrow-alt-circle-right"></i>
+                    </router-link>
                 </div>
             </div>
 
@@ -89,25 +76,23 @@
                 </div>
             </div>
 
-            <div class="col-md-3 col-sm-6 col-12">
-
-                <div class="info-box shadow-lg">
-
-                    <span class="info-box-icon bg-danger"><i class="fa fa-phone" aria-hidden="true"></i></span>
-
-                    <div class="info-box-content">
-
-                        <span class="info-box-text">Callbacks</span>
-
-                        <span class="info-box-number">{{ callbacks }}</span>
-
+            <div class="col-lg-3 col-xs-6">
+                <div class="small-box bg-red" style ="margin:-6px">
+                    <div class="inner"><h3 class="word_wrap" style="font-size: 1.8rem;">Callbacks: {{callbacks}}</h3>
                     </div>
+                    <div class="icon"><i class="fas fa-phone"></i>
+                    </div>
+                    <router-link class="small-box-footer"  to="/callbacks/list">
+                        ViewAll
+                        <i class="far fa-arrow-alt-circle-right"></i>
+                    </router-link>
                 </div>
             </div>
 
 
         </div>
-    </div>
+        </div>
+
         <div class="col-md-12 col-12">
             <div class="row justify-content-around">
                 <div class="info-box shadow-none body-scrollable col-md-6 justify-content-around">
@@ -136,6 +121,8 @@
                 </div>
             </div>
         </div>
+    </div>
+
 </template>
 
 <script>
@@ -161,12 +148,11 @@ export default {
     },
     data() {
         return {
-            version: '', // Initialize with a default value
+            versions: '', // Initialize with a default value
             clients: '',
-            product:'',
+            products:'',
             licenses: '',
             callbacks: '',
-            hasDataFetched: false,
             items: [], // Array to hold the values from the API response
             widgetKeys: [],
         };
@@ -190,10 +176,12 @@ export default {
                         // alert(data)
 
                         // this.version = data.data.version; // Check if data exists before assigning to the variable
-                        this.product= data.products_count;
+                        this.products= data.products_count;
                         this.installations =data.installlation_count;
                         this.versions =data.version_count
                         this.callbacks = data.callback_count;
+
+
 
                     }
                 })
@@ -206,14 +194,8 @@ export default {
 </script>
 
 <style>
-.VueTables__search-field{
-    display : none;
-}
-.VuePagination{
-    display : none;
-}
-.VueTables__limit{
-    display : none;
-}
-</style>
+
+.word_wrap{
+    font-size: 1.9rem;
+}</style>
 
