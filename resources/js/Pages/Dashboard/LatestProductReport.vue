@@ -56,7 +56,8 @@ export default {
             },
             templates: {
                 license_code(h, row) {
-                    return row.license_code ? row.license_code : '----';
+                    const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
+                    return formattedLicenseCode;
                 },
                 report_date_time(h, row) {
                     return row.report_date_time ? row.report_date_time : '----';
