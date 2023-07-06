@@ -8,7 +8,7 @@
         <div class="card-header">
           <h3 class="card-title">Debugger Settings</h3>
         </div>
-  
+
         <div class="card-body">
           <div class="row">
             <div class="col-6">
@@ -25,11 +25,11 @@
               <div v-if="showLink">
                 <a href="/lakshya/public/clockwork/app" style="margin-left: 5px">Clockwork</a><br>
               </div>
-              
+
             </div>
           </div>
         </div>
-  
+
         <div class="card-footer">
           <button type="submit" class="btn btn-primary" @click="saveValue">
             <i :class="iconClass"></i>&nbsp;&nbsp;{{ lang(btnName) }}
@@ -38,10 +38,10 @@
       </div>
     </div>
   </template>
-  
+
   <script>
   import axios from "axios";
-  
+
   export default {
     data() {
       return {
@@ -49,11 +49,11 @@
         debugValue: "",
         iconClass: "fas fa-save",
         btnName: "save",
-        isLoggedIn: true, 
-        showLink: false, 
+        isLoggedIn: true,
+        showLink: false,
       };
     },
-  
+
     created() {
     // Check if the user is logged in
     // if (!this.isLoggedIn) {
@@ -61,29 +61,35 @@
     //   window.location.href = '/login'; // Replace '/login' with the desired URL
     //   return; // Stop further execution of the code
     // }
-  
+
     this.debugValue = localStorage.getItem('debug') || '';
     this.selectedValue = this.debugValue;
     this.showLink = localStorage.getItem('showLink') === 'true' || false;
   },
-  
+
     mounted() {
       window.addEventListener("beforeunload", this.saveToLocalStorage);
     },
-  
+
     methods: {
+
+        lang(text) {
+
+            return text;
+        },
+
       setFormData() {
-  
+
   const emailSettings = this.$store.getters['getEmailSettings']
-  
+
   if (emailSettings) {
-  
+
       this.settingId = emailSettings.SETTING_ID ?? 'new'
-  
+
       this.debugValue = emailSettings.EMAIL_FROM_NAME ?? false
   }
   },
-  
+
       saveToLocalStorage() {
         localStorage.setItem("debug", this.selectedValue);
       },
