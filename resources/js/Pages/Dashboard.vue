@@ -32,19 +32,22 @@
                 </div>
             </div>
 
-            <div class="col-lg-3 col-xs-6" style ="margin:-6px">
+            <div class="col-lg-3 col-xs-6" style="margin: -6px">
                 <div class="small-box bg-green">
                     <div class="inner">
                         <h3 class="word_wrap" style="font-size: 1.8rem;">Versions: {{versions}}</h3>
                     </div>
-                    <div class="icon"><i class="fas fa-users"></i>
+                    <div class="icon">
+                        <i class="fas fa-users"></i>
                     </div>
-                    <router-link class="small-box-footer"  to="/versions/list">
-                        ViewAll
+                    <router-link class="small-box-footer disabled-link" to="/versions/list">
+                        View All
                         <i class="far fa-arrow-alt-circle-right"></i>
                     </router-link>
                 </div>
             </div>
+
+
 
             <div class="col-lg-3 col-xs-6">
                 <div class="small-box bg-yellow" style ="margin:-6px">
@@ -194,7 +197,6 @@ export default {
 </script>
 
 <style>
-
 .word_wrap{
     font-size: 1.9rem;
 }</style>
