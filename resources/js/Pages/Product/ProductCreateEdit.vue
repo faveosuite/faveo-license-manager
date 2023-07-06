@@ -20,12 +20,12 @@
 
 				<div class="row">
 
-					<text-field :label="lang('name')" :value="product_title" type="text" name="product_title"
+					<text-field :label="lang('product_name')" :value="product_title" type="text" name="product_title"
 						:onChange="onChange" classname="col-sm-6" :required="true">
 
 					</text-field>
 
-					<radio-button :options="radioOptions" :label="lang('status')" name="product_status"
+					<radio-button :options="radioOptions" :label="lang('product_status')" name="product_status"
 						:value="product_status" :onChange="onChange" classname="form-group col-sm-6">
 
 					</radio-button>
@@ -33,12 +33,12 @@
 
 				<div class="row">
 
-					<text-field :label="lang('sku')" :value="product_sku" type="text" name="product_sku"
+					<text-field :label="lang('product_sku')" :value="product_sku" type="text" name="product_sku"
 						:onChange="onChange" classname="col-sm-6" :required="true">
 
 					</text-field>
 
-					<text-field :label="lang('homepage_url')" :value="product_url_homepage" type="text"
+					<text-field :label="lang('product_homepage_url')" :value="product_url_homepage" type="text"
 						name="product_url_homepage" :onChange="onChange" classname="col-sm-6">
 
 					</text-field>
@@ -46,12 +46,12 @@
 
 				<div class="row">
 
-					<text-field :label="lang('download_url')" :value="product_url_download" type="text"
+					<text-field :label="lang('product_download_url')" :value="product_url_download" type="text"
 						name="product_url_download" :onChange="onChange" classname="col-sm-6">
 
 					</text-field>
 
-					<text-field :label="lang('version')" :value="product_version" type="text" name="product_version"
+					<text-field :label="lang('product_version')" :value="product_version" type="text" name="product_version"
 						:onChange="onChange" classname="col-sm-6">
 
 					</text-field>
@@ -59,12 +59,12 @@
 
 				<div class="row">
 
-					<text-field :label="lang('description')" :value="product_description" type="textarea"
+					<text-field :label="lang('product_description')" :value="product_description" type="textarea"
 						name="product_description" :onChange="onChange" classname="col-sm-6">
 
 					</text-field>
 
-					<number-field :label="lang('envato_id')" :value="product_envato_id" name="product_envato_id"
+					<number-field :label="lang('product_envato_id')" :value="product_envato_id" name="product_envato_id"
 						:onChange="onChange" classname="col-sm-6">
 
 					</number-field>
