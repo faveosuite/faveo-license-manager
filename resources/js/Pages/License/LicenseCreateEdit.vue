@@ -1,500 +1,506 @@
 <template>
 
-	<div class="col-sm-12">
+    <div class="col-sm-12">
 
-		<div class="alert alert-info">
-			<p>Add new license to be used. It's possible to add licenses with and without client's profile.<br><br>With
-				client's profile (when client's name and email address are known): select client and product from the
-				list, and click the 'Submit'
-				button. Client will need to enter his email address during script installation to verify his
-				license.<br><br>Without client's profile (when anonymous license needs to be issued): select product
-				from the list and enter unique license
-				code (entering <b>random</b> will automatically generate a random code). Client will need to enter this
-				code during script installation to verify his license.<br><br>If IP address and/or domain is set,
-				product will only work on
-				specified IP and/or domain. If licensed domain is entered as clientdomain.com, product will work on
-				clientdomain.com and clientdomain.com/any/directory. If licensed domain is entered as
-				clientdomain.com/path, product will only
-				work on clientdomain.com/path. It's possible to add multiple licensed IPs and/or domains by separating
-				them with comma (,) symbol. If installations limit is set, client will not be able to run more copies of
-				licensed product than
-				specified number.<br><br>If expiration date is set, application will stop working after this date
-				(expiration date can be updated at any time).</p>
-		</div>
+        <div class="alert alert-info">
+            <p>Add new license to be used. It's possible to add licenses with and without client's profile.<br><br>With
+                client's profile (when client's name and email address are known): select client and product from the
+                list, and click the 'Submit'
+                button. Client will need to enter his email address during script installation to verify his
+                license.<br><br>Without client's profile (when anonymous license needs to be issued): select product
+                from the list and enter unique license
+                code (entering <b>random</b> will automatically generate a random code). Client will need to enter this
+                code during script installation to verify his license.<br><br>If IP address and/or domain is set,
+                product will only work on
+                specified IP and/or domain. If licensed domain is entered as clientdomain.com, product will work on
+                clientdomain.com and clientdomain.com/any/directory. If licensed domain is entered as
+                clientdomain.com/path, product will only
+                work on clientdomain.com/path. It's possible to add multiple licensed IPs and/or domains by separating
+                them with comma (,) symbol. If installations limit is set, client will not be able to run more copies of
+                licensed product than
+                specified number.<br><br>If expiration date is set, application will stop working after this date
+                (expiration date can be updated at any time).</p>
+        </div>
 
-		<div class="row" v-if="!hasDataPopulated || loading">
+        <div class="row" v-if="!hasDataPopulated || loading">
 
-			<custom-loader :duration="4000"></custom-loader>
-		</div>
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
 
-		<alert componentName="license" />
+        <alert componentName="license" />
 
-		<div class="card card-light" v-if="hasDataPopulated">
+        <div class="card card-light" v-if="hasDataPopulated">
 
-			<div class="card-header">
+            <div class="card-header">
 
-				<h3 class="card-title">{{trans(title)}}</h3>
-			</div>
+                <h3 class="card-title">{{trans(title)}}</h3>
+            </div>
 
-			<div class="card-body">
+            <div class="card-body">
 
-				<div class="row">
+                <div class="row">
 
-					<dynamic-select :label="trans('product')" :multiple="false" :elements="productOptions"
-						name="product_id" classname="col-sm-6" :value="product_id" :onChange="onChange" :strlength="35"
-						:required="true">
-					</dynamic-select>
+                    <dynamic-select :label="trans('product')" :multiple="false" :elements="productOptions"
+                                    name="product_id" classname="col-sm-6" :value="product_id" :onChange="onChange" :strlength="35"
+                                    :required="true">
+                    </dynamic-select>
 
                     <text-field :label="trans('license_code')" :value="license_code" type="text" name="license_code"
                                 :onChange="onChange" classname="col-sm-6" :required="true"
                                 :showNewButton="true" newBtnName="generate" :onNewButtonClick="generateCode">
 
                     </text-field>
-				</div>
+                </div>
 
-				<div class="row">
+                <div class="row">
 
                     <number-field :label="trans('order_number')" :value="license_order_number"
-                                  name="license_order_number" :onChange="onChange" classname="col-sm-4">
+                                  name="license_order_number" :onChange="onChange" classname="col-sm-6">
 
                     </number-field>
 
-					<text-field :label="trans('licensed_ip')" :value="license_ip" type="text" name="license_ip"
-						:onChange="onChange" classname="col-sm-4">
+                    <text-field :label="trans('licensed_ip')" :value="license_ip" type="text" name="license_ip"
+                                :onChange="onChange" classname="col-sm-6">
 
-					</text-field>
+                    </text-field>
 
-					<text-field :label="trans('licensed_domain')" :multiple="true" :elements="[]"
-						name="license_domain" classname="col-sm-4" :value="license_domain" :onChange="onChange"
-						:strlength="35" :required="false" :taggable="true" :hint="trans('domain_tip')">
-					</text-field>
-				</div>
+                </div>
 
-				<div class="row">
+                <div class="row">
 
-					<date-picker :label="trans('license_expire_date')" :value="license_expire_date" type="date"
-						name="license_expire_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
-						classname="col-sm-4" :clearable="true" :disabled="false" :confirm="false">
+                    <text-field :label="trans('licensed_domain')" :multiple="true" :elements="[]"
+                                name="license_domain" classname="col-sm-6" :value="license_domain" :onChange="onChange"
+                                :strlength="35" :required="false" :taggable="true" :hint="trans('domain_tip')">
+                    </text-field>
 
-					</date-picker>
 
-					<date-picker :label="trans('license_updates_date')" :value="license_updates_date" type="date"
-						name="license_updates_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
-						classname="col-sm-4" :clearable="true" :disabled="false" :confirm="false">
+                    <date-picker :label="trans('license_expire_date')" :value="license_expire_date" type="date"
+                                 name="license_expire_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
+                                 classname="col-sm-6" :clearable="true" :disabled="false" :confirm="false">
 
-					</date-picker>
+                    </date-picker>
 
-					<date-picker :label="trans('license_support_date')" :value="license_support_date" type="date"
-						name="license_support_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
-						classname="col-sm-4" :clearable="true" :disabled="false" :confirm="false">
+                </div>
 
-					</date-picker>
-				</div>
+                <div class="row">
 
-				<div class="row">
+                    <date-picker :label="trans('license_updates_date')" :value="license_updates_date" type="date"
+                                 name="license_updates_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
+                                 classname="col-sm-6" :clearable="true" :disabled="false" :confirm="false">
 
-					<radio-button :options="domainOptions" :label="trans('license_require_domain')"
-						name="license_require_domain" :value="license_require_domain ? license_require_domain : 0" :onChange="onChange"
-						classname="form-group col-sm-4">
+                    </date-picker>
 
-					</radio-button>
+                    <date-picker :label="trans('license_support_date')" :value="license_support_date" type="date"
+                                 name="license_support_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
+                                 classname="col-sm-6" :clearable="true" :disabled="false" :confirm="false">
 
-					<radio-button :options="radioOptions" :label="trans('status')" name="license_status"
-						:value="license_status ? license_status : 0" :onChange="onChange" classname="form-group col-sm-4">
+                    </date-picker>
 
-					</radio-button>
+                </div>
 
-					<number-field :label="trans('installations_limit')" :value="license_limit" name="license_limit"
-						:onChange="onChange" classname="col-sm-4">
+                <div class="row">
+                    <radio-button :options="domainOptions" :label="trans('license_require_domain')"
+                                  name="license_require_domain" :value="license_require_domain ? license_require_domain : 0" :onChange="onChange"
+                                  classname="form-group col-sm-6">
 
-					</number-field>
-				</div>
+                    </radio-button>
 
-				<div class="row">
+                    <radio-button :options="radioOptions" :label="lang('license_status')" name="license_status"
+                                  :value="license_status ? license_status : 0" :onChange="onChange" classname="form-group col-sm-6">
 
-					<text-field :label="trans('comments')" :value="license_comments" type="textarea"
-						name="license_comments" :onChange="onChange" classname="col-sm-12">
+                    </radio-button>
 
-					</text-field>
-				</div>
-			</div>
+                </div>
 
-			<div class="card-footer">
+                <div class="row">
+                    <number-field :label="trans('installations_limit')" :value="license_limit" name="license_limit"
+                                  :onChange="onChange" classname="col-sm-6">
 
-				<button class="btn btn-primary" @click="onSubmit()"><i
-						:class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
-			</div>
-		</div>
-	</div>
+                    </number-field>
+
+                    <text-field :label="trans('comments')" :value="license_comments" type="textarea"
+                                name="license_comments" :onChange="onChange" classname="col-sm-6">
+
+                    </text-field>
+                </div>
+            </div>
+
+            <div class="card-footer">
+
+                <button class="btn btn-primary" @click="onSubmit()"><i
+                    :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 
-	import axios from 'axios'
+import axios from 'axios'
 
-	import { successHandler, errorHandler } from '../../helpers/responseHandler';
+import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
-	import { getIdFromUrl, generateRandomString } from '../../helpers/extraLogics';
+import { getIdFromUrl, generateRandomString } from '../../helpers/extraLogics';
 
-	import { validateLicenseSettings } from "../../helpers/validator/validateLicenseSettings.js";
+import { validateLicenseSettings } from "../../helpers/validator/validateLicenseSettings.js";
 
-	import moment from 'moment'
+import moment from 'moment'
 
-    import TextField from "../../components/Reusable/FormField/TextField.vue";
+import TextField from "../../components/Reusable/FormField/TextField.vue";
 
-    import NumberField from "../../components/Reusable/FormField/NumberField.vue";
+import NumberField from "../../components/Reusable/FormField/NumberField.vue";
 
-    import StaticSelect from "../../components/Reusable/FormField/StaticSelect.vue";
+import StaticSelect from "../../components/Reusable/FormField/StaticSelect.vue";
 
-    import DynamicSelect from "../../components/Reusable/FormField/DynamicSelect.vue";
+import DynamicSelect from "../../components/Reusable/FormField/DynamicSelect.vue";
 
-    import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
+import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
 
-    import DateTimePicker from "../../components/Reusable/FormField/DateTimePicker.vue";
+import DateTimePicker from "../../components/Reusable/FormField/DateTimePicker.vue";
 
-	export default {
+export default {
 
-		name: 'license-create-edit',
+    name: 'license-create-edit',
 
-		data() {
+    data() {
 
-			return {
+        return {
 
-				title: 'create_new_license',
+            title: 'create_new_license',
 
-				iconClass: 'fas fa-save',
+            iconClass: 'fas fa-save',
 
-				btnName: 'save',
+            btnName: 'save',
 
-				hasDataPopulated: false,
+            hasDataPopulated: false,
 
-				loading: false,
+            loading: false,
 
-				license_status: 1,
+            license_status: 1,
 
-				radioOptions: [{ name: 'active', value: 1 }, { name: 'inactive', value: 0 }],
-				license_require_domain: 1,
+            radioOptions: [{ name: 'active', value: 1 }, { name: 'inactive', value: 0 }],
+            license_require_domain: 1,
 
-				domainOptions: [{ name: 'yes', value: 1 }, { name: 'no', value: 0 }],
+            domainOptions: [{ name: 'yes', value: 1 }, { name: 'no', value: 0 }],
 
-				apiEndpoint: '',
+            apiEndpoint: '',
 
-				license_id: '',
+            license_id: '',
 
-				product_id: '',
+            product_id: '',
 
-                product_name: '',
+            product_name: '',
 
-				productOptions: [],
+            productOptions: [],
 
-				client_id: '',
+            client_id: '',
 
-                client_name: '',
+            client_name: '',
 
-                full_name: '',
+            full_name: '',
 
-				clientOptions: [],
+            clientOptions: [],
 
-				license_code: '',
+            license_code: '',
 
-				license_order_number: '',
+            license_order_number: '',
 
-                api_key_secret : '',
+            api_key_secret : '',
 
-				license_ip: '',
+            license_ip: '',
 
-				license_domain: '',
+            license_domain: '',
 
-				license_limit: '',
+            license_limit: '',
 
-				license_expire_date: '',
+            license_expire_date: '',
 
-				license_updates_date: '',
+            license_updates_date: '',
 
-				license_support_date: '',
+            license_support_date: '',
 
-				license_comments: '',
+            license_comments: '',
 
-				moment: moment
-			}
-		},
+            moment: moment
+        }
+    },
 
-		beforeMount() {
+    beforeMount() {
 
-			const path = window.location.pathname
+        const path = window.location.pathname
 
-			this.getValues(path);
+        this.getValues(path);
 
-			this.loadData();
-		},
+        this.loadData();
+    },
 
-		methods: {
+    methods: {
 
-			loadData() {
+        loadData() {
 
-				this.loading = true;
+            this.loading = true;
 
-				this.hasDataPopulated = false;
+            this.hasDataPopulated = false;
 
-				Promise.all([this.getProducts(), this.getClients()]).then((values) => {
+            Promise.all([this.getProducts(), this.getClients()]).then((values) => {
 
-					[this.productOptions, this.clientOptions] = values;
+                [this.productOptions, this.clientOptions] = values;
 
-					this.loading = false;
+                this.loading = false;
 
-					this.hasDataPopulated = true;
+                this.hasDataPopulated = true;
 
-				}).catch(function (error) {
+            }).catch(function (error) {
 
-					this.loading = false;
+                this.loading = false;
 
-					this.hasDataPopulated = true;
-				});
-			},
+                this.hasDataPopulated = true;
+            });
+        },
 
-			getProducts() {
+        getProducts() {
 
-				axios.get('/api/admin/viewproducts').then(res => {
+            axios.get('/api/admin/viewproducts').then(res => {
 
-					this.productOptions = res.data.data.map(data => {
+                this.productOptions = res.data.data.map(data => {
 
-						data.name = data.product_title;
+                    data.name = data.product_title;
 
-						data.id = data.product_id;
+                    data.id = data.product_id;
 
-						return data;
-					})
-				}).catch(err=>{});
+                    return data;
+                })
+            }).catch(err=>{});
 
-				return this.productOptions
-			},
+            return this.productOptions
+        },
 
-			getClients() {
+        getClients() {
 
-				axios.get('/api/admin/viewClients').then(res => {
+            axios.get('/api/admin/viewClients').then(res => {
 
-					this.clientOptions = res.data.data.map(data => {
+                this.clientOptions = res.data.data.map(data => {
 
-						data.name = data.full_name;
+                    data.name = data.full_name;
 
-						data.id = data.client_id;
+                    data.id = data.client_id;
 
-						return data;
-					})
-				}).catch(err=>{});
+                    return data;
+                })
+            }).catch(err=>{});
 
-				return this.clientOptions
-			},
+            return this.clientOptions
+        },
 
-			getValues(path) {
+        getValues(path) {
 
-				const licenseId = getIdFromUrl(path)
+            const licenseId = getIdFromUrl(path)
 
-				if (path.indexOf('edit') >= 0) {
+            if (path.indexOf('edit') >= 0) {
 
-					this.title = 'edit_license'
+                this.title = 'edit_license'
 
-					this.iconClass = 'fas fa-sync'
+                this.iconClass = 'fas fa-sync'
 
-					this.btnName = 'update'
+                this.btnName = 'update'
 
-					this.hasDataPopulated = false
+                this.hasDataPopulated = false
 
-					this.getInitialValues(licenseId);
+                this.getInitialValues(licenseId);
 
-					this.license_id = licenseId;
+                this.license_id = licenseId;
 
-					this.apiEndpoint = '/api/admin/license/edit';
+                this.apiEndpoint = '/api/admin/license/edit';
 
-				} else {
+            } else {
 
-					this.loading = false;
+                this.loading = false;
 
-					this.hasDataPopulated = true;
+                this.hasDataPopulated = true;
 
-					this.apiEndpoint = '/api/admin/license/add';
-				}
-			},
+                this.apiEndpoint = '/api/admin/license/add';
+            }
+        },
 
-			getInitialValues(id) {
+        getInitialValues(id) {
 
-				this.loading = true
+            this.loading = true
 
-				axios.get('/api/admin/license/' + id).then(res => {
+            axios.get('/api/admin/license/' + id).then(res => {
 
-					this.loading = false;
+                this.loading = false;
 
-					this.hasDataPopulated = true;
+                this.hasDataPopulated = true;
 
-					let resData = res.data.data;
+                let resData = res.data.data;
 
-                    let licenseData = res.data.data.license;
+                let licenseData = res.data.data.license;
 
-                    licenseData['api_key_secret'] = licenseData.api_key_secret ? licenseData.api_key_secret.split(','): '';
+                licenseData['api_key_secret'] = licenseData.api_key_secret ? licenseData.api_key_secret.split(','): '';
 
-                    // licenseData['license_domain'] = licenseData.license_domain ? licenseData.license_domain.split(',') : '';
+                // licenseData['license_domain'] = licenseData.license_domain ? licenseData.license_domain.split(',') : '';
 
-                    licenseData['license_expire_date'] = licenseData.license_expire_date ? new Date(moment(licenseData.license_expire_date).format("MM-DD-YYYY")) : '';
+                licenseData['license_expire_date'] = licenseData.license_expire_date ? new Date(moment(licenseData.license_expire_date).format("MM-DD-YYYY")) : '';
 
-                    licenseData['license_updates_date'] = licenseData.license_updates_date ? new Date(moment(licenseData.license_updates_date).format("MM-DD-YYYY")) : '';
+                licenseData['license_updates_date'] = licenseData.license_updates_date ? new Date(moment(licenseData.license_updates_date).format("MM-DD-YYYY")) : '';
 
-                    licenseData['license_support_date'] = licenseData.license_support_date ? new Date(moment(licenseData.license_support_date).format("MM-DD-YYYY")) : '';
+                licenseData['license_support_date'] = licenseData.license_support_date ? new Date(moment(licenseData.license_support_date).format("MM-DD-YYYY")) : '';
 
-					this.updateStatesWithData(resData);
+                this.updateStatesWithData(resData);
 
-				}).catch(error => {
+            }).catch(error => {
 
-					this.loading = false;
-				});
-			},
+                this.loading = false;
+            });
+        },
 
-			updateStatesWithData(data) {
+        updateStatesWithData(data) {
 
-				const self = this;
+            const self = this;
 
-				const stateData = this.$data;
+            const stateData = this.$data;
 
-				Object.keys(data.license).map(key => {
+            Object.keys(data.license).map(key => {
 
-					if (stateData.hasOwnProperty(key)) {
+                if (stateData.hasOwnProperty(key)) {
 
-						self[key] = data[key];
-					}
-				});
+                    self[key] = data[key];
+                }
+            });
 
-                this.product_id = { id : data.product_name[0].product_id , name : data.product_name[0].product_title }
+            this.product_id = { id : data.product_name[0].product_id , name : data.product_name[0].product_title }
 
-                this.license_id = data.license.license_id;
+            this.license_id = data.license.license_id;
 
-                this.api_key_secret = data.license.api_key_secret;
+            this.api_key_secret = data.license.api_key_secret;
 
-                this.license_code = data.license.license_code;
+            this.license_code = data.license.license_code;
 
-                this.license_order_number = data.license.license_order_number;
+            this.license_order_number = data.license.license_order_number;
 
-                this.license_limit = data.license.license_limit;
+            this.license_limit = data.license.license_limit;
 
-                this.license_ip = data.license.license_ip;
+            this.license_ip = data.license.license_ip;
 
-                this.license_comments = data.license.license_comments;
+            this.license_comments = data.license.license_comments;
 
-                this.license_require_domain = data.license.license_require_domain;
+            this.license_require_domain = data.license.license_require_domain;
 
-                this.license_status = data.license.license_status ;
+            this.license_status = data.license.license_status ;
 
-                this.license_domain = data.license.license_domain;
+            this.license_domain = data.license.license_domain;
 
-                this.license_expire_date = data.license.license_expire_date;
+            this.license_expire_date = data.license.license_expire_date;
 
-                this.license_updates_date = data.license.license_updates_date;
+            this.license_updates_date = data.license.license_updates_date;
 
-                this.license_support_date = data.license.license_support_date;
+            this.license_support_date = data.license.license_support_date;
 
-                },
+        },
 
-			isValid() {
+        isValid() {
 
-				const { errors, isValid } = validateLicenseSettings(this.$data);
+            const { errors, isValid } = validateLicenseSettings(this.$data);
 
-				return isValid;
-			},
+            return isValid;
+        },
 
-			onChange(value, name) {
+        onChange(value, name) {
 
-				this[name] = value ? value : '';
-			},
+            this[name] = value ? value : '';
+        },
 
-			generateCode() {
-				this.license_code = generateRandomString(16);
-			},
+        generateCode() {
+            this.license_code = generateRandomString(16);
+        },
 
-			onSubmit() {
+        onSubmit() {
 
-				if (this.isValid()) {
+            if (this.isValid()) {
 
-					this.loading = true
+                this.loading = true
 
-					const data = {};
+                const data = {};
 
-					if (this.license_id) {
+                if (this.license_id) {
 
-						data['license_id'] = this.license_id;
-					}
+                    data['license_id'] = this.license_id;
+                }
 
-					data['api_key_secret'] = this.getApiKey;
+                data['api_key_secret'] = this.getApiKey;
 
-					data['product_id'] = this.product_id ? this.product_id.id : '';
+                data['product_id'] = this.product_id ? this.product_id.id : '';
 
-					data['license_status'] = this.license_status ? 1 : 0;
+                data['license_status'] = this.license_status ? 1 : 0;
 
-					data['license_require_domain'] = this.license_require_domain ? 1 : 0;
+                data['license_require_domain'] = this.license_require_domain ? 1 : 0;
 
-					if (this.license_order_number) { data['license_order_number'] = this.license_order_number; }
+                if (this.license_order_number) { data['license_order_number'] = this.license_order_number; }
 
-					data['license_ip'] = this.license_ip;
+                data['license_ip'] = this.license_ip;
 
-					data['license_domain'] = this.license_domain;
+                data['license_domain'] = this.license_domain;
 
-					if (this.license_limit) { data['license_limit'] = this.license_limit; }
+                if (this.license_limit) { data['license_limit'] = this.license_limit; }
 
-					data['license_comments'] = this.license_comments;
+                data['license_comments'] = this.license_comments;
 
-					if (this.license_expire_date) {
-						data['license_expire_date'] = moment(this.license_expire_date).format("YYYY-MM-DD");
-					}
+                if (this.license_expire_date) {
+                    data['license_expire_date'] = moment(this.license_expire_date).format("YYYY-MM-DD");
+                }
 
-					if (this.license_updates_date) {
-						data['license_updates_date'] = moment(this.license_updates_date).format("YYYY-MM-DD");
-					}
+                if (this.license_updates_date) {
+                    data['license_updates_date'] = moment(this.license_updates_date).format("YYYY-MM-DD");
+                }
 
-					if (this.license_support_date) {
-						data['license_support_date'] = moment(this.license_support_date).format("YYYY-MM-DD");
-					}
+                if (this.license_support_date) {
+                    data['license_support_date'] = moment(this.license_support_date).format("YYYY-MM-DD");
+                }
 
-					data['license_code'] = this.license_code;
+                data['license_code'] = this.license_code;
 
-					axios.post(this.apiEndpoint, data).then(res => {
+                axios.post(this.apiEndpoint, data).then(res => {
 
-						this.loading = false
+                    this.loading = false
 
-						successHandler(res, 'license')
+                    successHandler(res, 'license')
 
-						if (!this.license_id) {
+                    if (!this.license_id) {
 
-							setTimeout(() => {
+                        setTimeout(() => {
 
-								this.$router.push('/licenses')
+                            this.$router.push('/licenses')
 
-							}, 2000)
+                        }, 2000)
 
-						} else {
+                    } else {
 
-							this.getInitialValues(this.license_id)
-						}
+                        this.getInitialValues(this.license_id)
+                    }
 
-					}).catch(err => {
+                }).catch(err => {
 
-						this.loading = false
+                    this.loading = false
 
-						errorHandler(err, 'license')
-					});
-				}
-			}
-		},
+                    errorHandler(err, 'license')
+                });
+            }
+        }
+    },
 
-		components: {
+    components: {
 
-			"text-field": TextField,
+        "text-field": TextField,
 
-			"number-field": NumberField,
+        "number-field": NumberField,
 
-			"static-select": StaticSelect,
+        "static-select": StaticSelect,
 
-			"dynamic-select": DynamicSelect,
+        "dynamic-select": DynamicSelect,
 
-			"radio-button": RadioButton,
+        "radio-button": RadioButton,
 
-            "date-picker": DateTimePicker
-		}
-	}
+        "date-picker": DateTimePicker
+    }
+}
 </script>

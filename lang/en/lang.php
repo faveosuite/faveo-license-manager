@@ -291,6 +291,21 @@ return [
     'cracking_reports'            =>    'Cracking Reports',
     'view_cracking_reports'       =>     'View Cracking Reports',
 
+    //PRODUCTS
 
+    'product_name'     => 'Product Name',
+    'product_sku'     => 'Product SKU',
+    'product_download_url'     => 'Product Download Url',
+    'product_description'     => 'Product Description',
+    'product_envato_id' =>   'Product Envato Id',
+    'product_version'   =>   'Product Version',
+    'product_homepage_url'  => 'Product Homepage Url',
+    'product_status'     =>  'Product Status',
 
+//CLIENTS
+
+'cliennt'   =>  'Client Status',
+
+    //LICENSE
+    'license_status'  =>  'Licence Status'
 ];
