@@ -119,6 +119,10 @@ export default {
 
 </script>
 <style>
+#afl_products .VueTables__limit {
+display :none;
+}
+
 .datatable-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
     overflow-y: auto;

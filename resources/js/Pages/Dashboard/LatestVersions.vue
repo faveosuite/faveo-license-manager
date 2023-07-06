@@ -118,9 +118,6 @@ export default {
 
 </script>
 <style>
-.VueTables__search-field{
-    display : none;
-}
 
  .datatable-container {
      max-height: 250px; /* Adjust the maximum height as per your needs */
