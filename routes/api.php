@@ -31,6 +31,8 @@ use App\Http\Controllers\Update\UpdateNotificationsController;
 use App\Http\Middleware\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -52,13 +54,16 @@ Route::post('/LicenseReissue', [LicenseController::class, 'reissueLicenseCloud']
 //-------------------------------------------------------------------------------------------//
 
 
-
+Auth::routes();
 //AUTHENTICATION
 Route::post('/register', [AuthController::class, 'register']);
-Route::post('/login', [AuthController::class, 'login']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+// Route::get('/logins', [AuthController::class, 'login']);
 Route::post('/forgot', [AuthController::class, 'forgot']);
-Route::post('/reset', [AuthController::class, 'reset']);
+Route::post('/reset', [AuthController::class, 'reset'])->name('reset')->middleware('api');
+Route::post('/save-debug-value', [SettingsController::class, 'debuggerSettings']);
 Route::get('/admin/viewApiKeys', [ApiKeysController::class, 'show']);
+Route::post('/routes', [SettingsController::class, 'getRoutes']);
 
 /*************************************** CALLBACK FROM FAVEO TO LICENSE AND UPDATE *******************************************/
 
@@ -133,7 +138,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
     Route::get('emailsDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
-
+    Route::post('debug', [SettingsController::class, 'debuggerSettings']);
+   
+    
     //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);
     Route::post('emails', [EmailsController::class, 'emails']);
@@ -194,6 +201,6 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 /*Route::middleware('auth:api')->group(function (){
 
 });*/
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/
+// Route::middleware('auth:api')->get('/users', function (Request $request) {
+//     return $request->all();
+// });

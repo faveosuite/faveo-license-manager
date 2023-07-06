@@ -11,7 +11,12 @@ use App\Http\Requests\Settings\SecuritySettingRequest;
 use App\Models\AflSettings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
+use Dotenv\Dotenv;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Consist of functionalities for the Settings page in Auto Faveo licenser
@@ -275,5 +280,33 @@ class SettingsController extends Controller
             'database cleanup reports main' => $database_cleanup_reports_main_array,
             'database cleanup reports system' => $database_cleanup_reports_system_array,
             'database cleanup licenses' => $database_cleanup_licenses_array, ]);
+    }
+    protected function debuggerSettings(Request $request)
+    {
+        $debug = (bool) ($request->debug ?? false);
+        Config::set('app.debug', $debug);
+        // if($debug == 1)
+        // {
+        //     Cache::forever('user_id', $request->headers->get('X-XSRF-TOKEN'));
+        // }
+        // if($debug == 0)
+        // {
+        //     Cache::forget('user_id');
+        // }
+        $envFilePath = base_path('.env');
+        if (File::exists($envFilePath)) {
+            $envFileContents = File::get($envFilePath);
+            $envFileContents = preg_replace('/^APP_DEBUG=.*$/m', 'APP_DEBUG=' . ($debug ? 'true' : 'false'), $envFileContents);
+            File::put($envFilePath, $envFileContents);
+            Artisan::call('config:clear');
+            $dotenv = Dotenv::createImmutable(base_path());
+            $dotenv->load();
+        }
+        
+    
+        return response()->json([
+            'status' => true,
+            'debug' => config('app.debug'),
+        ]);
     }
 }

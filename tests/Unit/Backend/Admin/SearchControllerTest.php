@@ -491,4 +491,12 @@ class SearchControllerTest extends TestCase
         AfuVersions::where('version_id', 11)->delete();
         AfuCallbacks::where('callback_id', 12)->delete();
     }
+    public function debugger(){
+       $debug = true; 
+       $request = $this->post('/save-debug-value', ['debug' => $debug]);
+       $request->assertStatus(200);
+       $request->assertJson([
+           'debug' => $debug,
+       ]);
+    }
 }

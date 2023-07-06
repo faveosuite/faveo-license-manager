@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 /**
  * Consist of functionalities for Authentication in Auto Faveo licenser
@@ -75,7 +76,7 @@ class AuthController extends Controller
 
         $tokenobj = $admin->createToken('AFL');
         $token = $tokenobj->accessToken;
-
+        Cache::forever('user_id', $token);
         $response = [
             'message' => 'logged in',
             'user' => $admin,
@@ -177,6 +178,7 @@ class AuthController extends Controller
                    ->update([
                        'revoked' => true,
                    ]);
+                   Cache::forget('user_id'); 
 
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }

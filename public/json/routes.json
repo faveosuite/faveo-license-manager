@@ -310,7 +310,20 @@
 "routeString": "/settings/cleanup",
 "hasChildren": false,
 "children": []
-}
+},
+{
+    "name": "Debug Settings",
+    "key": null,
+    "count": 0,
+    "hasCount": false,
+    "iconClass": "far fa-circle",
+    "order": 0,
+    "routeString": "/settings/debug",
+    "hasChildren": false,
+    "children": []
+    }
+
+
 ]
 },
 {
