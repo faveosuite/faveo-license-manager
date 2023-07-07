@@ -10,12 +10,9 @@
             </div>
             <div class="card-body" id="my_licenses">
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
-                    <template v-slot:product_title="props">
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{ props.row.product_title }}</router-link>
-                    </template>
-                    <template v-slot:license_status="props">
-            <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
-              {{ props.row.license_status ? 'Active' : 'Inactive' }}
+                    <template v-slot:report_status="props">
+            <span :class="props.row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+              {{ props.row.report_status ? 'Active' : 'Inactive' }}
             </span>
                     </template>
                     <template v-slot:actions="props">

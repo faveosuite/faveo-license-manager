@@ -26,11 +26,11 @@
                         <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
                     </template>
 
-                    <template v-slot:license_status="props">
+                    <template v-slot:report_status="props">
 
-                        <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :class="props.row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
 
-                            {{ props.row.license_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.report_status ? 'Active' : 'Inactive'}}
                         </span>
                     </template>
 
