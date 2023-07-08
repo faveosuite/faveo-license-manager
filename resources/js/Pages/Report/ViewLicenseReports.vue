@@ -111,8 +111,4 @@ export default {
     width: 200px;
 }
 
-.glyphicon-sort {
-    margin-left: 178px;
-    margin-top: -19px;
-}
 </style>
