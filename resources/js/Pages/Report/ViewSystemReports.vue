@@ -9,7 +9,7 @@
 
         <alert componentName="dataTableModal" />
 
-        <div class="card card-light ">
+        <div class="card card-light " id="my_systemreports">
 
             <div class="card-header">
 
@@ -210,6 +210,10 @@ export default {
     min-width: 100%;
     max-width: max-content;
     overflow: auto !important;
+}
+#my_systemreports .glyphicon-sort {
+    margin-left: 0px;
+    margin-top: 0px;
 }
 </style>
 

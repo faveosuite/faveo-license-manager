@@ -4,7 +4,7 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
         <alert componentName="dataTableModal" />
-        <div class="card card-light">
+        <div class="card card-light" id="my_licencereports">
             <div class="card-header">
                 <h3 class="card-title">{{ lang('view_license_reports') }}</h3>
             </div>
@@ -110,5 +110,8 @@ export default {
     white-space: nowrap;
     width: 200px;
 }
-
+#my_licencereports .glyphicon-sort {
+    margin-left: 0px;
+    margin-top: 0px;
+}
 </style>
