@@ -1,99 +1,79 @@
 <template>
-<div class="container">
-    <div class="col-sm-12" >
+    <div class="container">
+        <div class="col-sm-12" >
 
-        <div class="row">
+            <div class="row">
 
-            <div class="col-md-3 col-sm-6 col-12" v-for="(item, index) in items" :key="index">
-                <div class="info-box shadow-none">
+                <div class="col-md-3 col-sm-6 col-12" v-for="(item, index) in items" :key="index">
+                    <div class="info-box shadow-none">
+                        <span class="info-box-icon bg-info"><i class="fa fa-address-card" aria-hidden="true"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-text">{{ subString(item.key, item.icon_class ? 20 : 40) }}</span>
+                            <span class="info-box-number">{{ item.value }}</span>
+                            <span class="info-box-text">Products</span>
+                            <span class="info-box-number"></span>
+                        </div>
+                    </div>
+                </div>
 
-                    <span class="info-box-icon bg-info"><i class="fa fa-address-card" aria-hidden="true"></i></span>
-                    <div class="info-box-content">
-                        <span class="info-box-text">{{ subString(item.key, item.icon_class ? 20 : 40) }}</span>
-                        <span class="info-box-number">{{ item.value }}</span>
-                        <span class="info-box-text">Products</span>
-                        <span class="info-box-number"></span>
 
+                <div class="col-lg-3 col-xs-6" style ="margin:-6px">
+                    <div class="small-box bg-light-blue">
+                        <div class="inner" ><h3 class="word_wrap" style="font-size: 1.8rem;">Products: {{products}}</h3>
+                        </div>
+                        <div class="icon"><i class="fas fa-cart-arrow-down"></i>
+                        </div>
+                        <router-link class="small-box-footer"  to="/products/list">
+                            ViewAll
+                            <i class="far fa-arrow-alt-circle-right"></i>
+                        </router-link>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-xs-6" style="margin: -6px">
+                    <div class="small-box bg-green">
+                        <div class="inner">
+                            <h3 class="word_wrap" style="font-size: 1.8rem;">Versions: {{versions}}</h3>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <router-link class="small-box-footer disabled-link" to="/versions/list">
+                            View All
+                            <i class="far fa-arrow-alt-circle-right"></i>
+                        </router-link>
+                    </div>
+                </div>
+
+
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow" style ="margin:-6px">
+                        <div class="inner"><h3 class="word_wrap" style="font-size: 1.8rem;">licenses: {{installations}}</h3>
+                        </div>
+                        <div class="icon"><i class="fas fa-id-card" ></i>
+                        </div>
+                        <router-link class="small-box-footer"  to="/licenses/list">
+                            ViewAll
+                            <i class="far fa-arrow-alt-circle-right"></i>
+                        </router-link>
+                    </div>
+                </div>
+
+
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-red" style ="margin:-6px">
+                        <div class="inner"><h3 class="word_wrap" style="font-size: 1.8rem;">Callbacks: {{callbacks}}</h3>
+                        </div>
+                        <div class="icon"><i class="fas fa-phone"></i>
+                        </div>
+                        <router-link class="small-box-footer"  to="/callbacks/list">
+                            ViewAll
+                            <i class="far fa-arrow-alt-circle-right"></i>
+                        </router-link>
                     </div>
                 </div>
             </div>
-
-
-            <div class="col-lg-3 col-xs-6" style ="margin:-6px">
-                <div class="small-box bg-light-blue">
-                    <div class="inner" ><h3 class="word_wrap" style="font-size: 1.8rem;">Products: {{products}}</h3>
-                    </div>
-                    <div class="icon"><i class="fas fa-cart-arrow-down"></i>
-                    </div>
-                    <router-link class="small-box-footer"  to="/products/list">
-                        ViewAll
-                        <i class="far fa-arrow-alt-circle-right"></i>
-                    </router-link>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6" style="margin: -6px">
-                <div class="small-box bg-green">
-                    <div class="inner">
-                        <h3 class="word_wrap" style="font-size: 1.8rem;">Versions: {{versions}}</h3>
-                    </div>
-                    <div class="icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <router-link class="small-box-footer disabled-link" to="/versions/list">
-                        View All
-                        <i class="far fa-arrow-alt-circle-right"></i>
-                    </router-link>
-                </div>
-            </div>
-
-
-
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-yellow" style ="margin:-6px">
-                    <div class="inner"><h3 class="word_wrap" style="font-size: 1.8rem;">licenses: {{installations}}</h3>
-                    </div>
-                    <div class="icon"><i class="fas fa-id-card" ></i>
-                    </div>
-                    <router-link class="small-box-footer"  to="/licenses/list">
-                        ViewAll
-                        <i class="far fa-arrow-alt-circle-right"></i>
-                    </router-link>
-                </div>
-            </div>
-
-            <div class="col-md-3 col-sm-6 col-12">
-
-                <div class="info-box shadow-lg">
-
-                    <span class="info-box-icon bg-danger"><i class="fa fa-cog" aria-hidden="true"></i></span>
-
-                    <div class="info-box-content">
-
-
-                        <span class="info-box-text">Licenses</span>
-
-                        <span class="info-box-number">{{ licenses }}</span>
-
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-lg-3 col-xs-6">
-                <div class="small-box bg-red" style ="margin:-6px">
-                    <div class="inner"><h3 class="word_wrap" style="font-size: 1.8rem;">Callbacks: {{callbacks}}</h3>
-                    </div>
-                    <div class="icon"><i class="fas fa-phone"></i>
-                    </div>
-                    <router-link class="small-box-footer"  to="/callbacks/list">
-                        ViewAll
-                        <i class="far fa-arrow-alt-circle-right"></i>
-                    </router-link>
-                </div>
-            </div>
-
-
-        </div>
         </div>
 
         <div class="col-md-12 col-12">
@@ -125,9 +105,7 @@
             </div>
         </div>
     </div>
-
 </template>
-
 <script>
 import axios from 'axios';
 import { errorHandler } from '../helpers/responseHandler';
@@ -195,9 +173,14 @@ export default {
     },
 };
 </script>
-
 <style>
+.disabled-link {
+    pointer-events: none;
+    cursor: default;
+    color: #999999;
+    text-decoration: none;
+    opacity: 0.6;
+}
 .word_wrap{
     font-size: 1.9rem;
 }</style>
-
