@@ -64,10 +64,6 @@
 
 					</text-field>
 
-					<number-field :label="lang('product_envato_id')" :value="product_envato_id" name="product_envato_id"
-						:onChange="onChange" classname="col-sm-6">
-
-					</number-field>
 				</div>
 			</div>
 
