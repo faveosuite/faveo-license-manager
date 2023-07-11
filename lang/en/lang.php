@@ -304,7 +304,7 @@ return [
 
 //CLIENTS
 
-'cliennt'   =>  'Client Status',
+'status'   =>  'Client Status',
 
     //LICENSE
     'license_status'  =>  'Licence Status'
