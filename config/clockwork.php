@@ -23,6 +23,9 @@ return [
 	| threshold for database queries).
 	|
 	*/
+    'middlewares' => [
+        'manager',
+    ],
 
 	'features' => [
 
