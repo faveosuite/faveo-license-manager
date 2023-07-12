@@ -60,6 +60,8 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot', [AuthController::class, 'forgot']);
 Route::post('/reset', [AuthController::class, 'reset']);
 Route::get('/admin/viewApiKeys', [ApiKeysController::class, 'show']);
+Route::post('/save-debug-value', [SettingsController::class, 'debuggerSettings'])->name('save-debug-value');
+Route::post('/saveTokenForDebugger', [SettingsController::class, 'SaveTokenForDebugger']);
 
 /*************************************** CALLBACK FROM FAVEO TO LICENSE AND UPDATE *******************************************/
 

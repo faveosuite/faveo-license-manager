@@ -9,13 +9,15 @@ use App\Http\Requests\Settings\EmailSettingRequest;
 use App\Http\Requests\Settings\GeneralSettingsRequest;
 use App\Http\Requests\Settings\SecuritySettingRequest;
 use App\Models\AflSettings;
-use App\Models\AflLicenses;
-use App\Models\ExpireSupportDisplay;
-use App\Models\ExpireUpdatesDisplay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
-use Carbon;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
+use Dotenv\Dotenv;
+use Illuminate\Support\Facades\Cache;
+
 
 
 /**
@@ -288,7 +290,7 @@ class SettingsController extends Controller
         ]);
     }
     public function saveUpdateExpireRange(Request $request)
-    { 
+    {
         $update_startDate = Carbon\Carbon::today();
         $update_endDate = Carbon\Carbon::today()->addDays($request->count);
         $expire_update = AflLicenses::where('license_expire_date', '>=', $update_startDate,)
@@ -325,5 +327,39 @@ class SettingsController extends Controller
     {
         $expiring_support = ExpireSupportDisplay::join('afl_licenses as a', 'a.license_id', '=', 'expire_support_display.license_id')->get();
         return response()->json(['expiring_support' => $expiring_support]);
+    }
+    protected function debuggerSettings(Request $request)
+    {
+        $debug = (bool) ($request->debug ?? false);
+        Config::set('app.debug', $debug);
+        $authorizationHeader = $request->headers->get('Authorization') ? str_replace('Bearer ', '', $request->headers->get('Authorization')) : null;
+        $user_id =  $request->user_id;
+        $debug ? Cache::forever($user_id, $authorizationHeader) : Cache::forget($user_id);
+        $envFilePath = base_path('.env');
+        if (File::exists($envFilePath)) {
+            $envFileContents = File::get($envFilePath);
+            $envFileContents = preg_replace('/^APP_DEBUG=.*$/m', 'APP_DEBUG=' . ($debug ? 'true' : 'false'), $envFileContents);
+            File::put($envFilePath, $envFileContents);
+            Artisan::call('config:clear');
+            $dotenv = Dotenv::createImmutable(base_path());
+            $dotenv->load();
+        }
+        return response()->json([
+            'status' => true,
+            'debug' => config('app.debug'),
+        ]);
+    }
+    protected function SaveTokenForDebugger(Request $request)
+    {
+        $activateUserId = Cache::get('activateUserId');
+        $acticateUserId= $activateUserId->admin_id;
+        $admin = DB::table('afl_admins')->where('admin_id', $acticateUserId)->first('admin_id');
+        $debug = Config::get('app.debug');
+        $authorizationHeader = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authorizationHeader);
+        $user_id =  DB::table('afl_admins')->where('admin_id',$admin->admin_id)->value('admin_id');
+        if($debug === true && $request->getdebug == "true" && $authorizationHeader ){
+            Cache::forever($user_id, $token);
+        }
     }
 }
