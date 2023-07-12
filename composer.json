@@ -7,6 +7,16 @@
         "laravel"
     ],
     "license": "MIT",
+
+    "repositories": [
+        {
+            "type": "vcs",
+
+            "url": "https://github.com/ladybirdweb/clockwork.git"
+        }
+
+    ],
+
     "require": {
         "php": "^8.0",
         "ext-curl": "*",
@@ -15,6 +25,7 @@
         "bugsnag/bugsnag-laravel": "^2.0",
         "doctrine/dbal": "^3.5",
         "guzzlehttp/guzzle": "^7.2",
+        "itsgoingd/clockwork": "dev-master",
         "laravel/framework": "^9.21",
         "laravel/helpers": "^1.5",
         "laravel/passport": "^10.4",
@@ -25,6 +36,8 @@
         "league/flysystem-aws-s3-v3": "^3.0"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.8",
+        "beyondcode/laravel-query-detector": "^1.7",
         "fakerphp/faker": "^1.9.1",
         "laravel/pint": "^1.4",
         "laravel/sail": "^1.15",
