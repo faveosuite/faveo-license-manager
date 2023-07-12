@@ -76,7 +76,6 @@ class AuthController extends Controller
 
         $tokenobj = $admin->createToken('AFL');
         $token = $tokenobj->accessToken;
-        Cache::forever('user_id', $token);
         $response = [
             'message' => 'logged in',
             'user' => $admin,
@@ -178,7 +177,7 @@ class AuthController extends Controller
                    ->update([
                        'revoked' => true,
                    ]);
-                   Cache::forget('user_id'); 
+                   Cache::forget($user_id);
 
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }

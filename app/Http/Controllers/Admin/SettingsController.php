@@ -285,14 +285,9 @@ class SettingsController extends Controller
     {
         $debug = (bool) ($request->debug ?? false);
         Config::set('app.debug', $debug);
-        // if($debug == 1)
-        // {
-        //     Cache::forever('user_id', $request->headers->get('X-XSRF-TOKEN'));
-        // }
-        // if($debug == 0)
-        // {
-        //     Cache::forget('user_id');
-        // }
+        $authorizationHeader = $request->headers->get('Authorization') ? str_replace('Bearer ', '', $request->headers->get('Authorization')) : null;
+        $user_id =  $request->user_id;
+        $debug ? Cache::forever($user_id, $authorizationHeader) : Cache::forget($user_id);
         $envFilePath = base_path('.env');
         if (File::exists($envFilePath)) {
             $envFileContents = File::get($envFilePath);
@@ -302,11 +297,22 @@ class SettingsController extends Controller
             $dotenv = Dotenv::createImmutable(base_path());
             $dotenv->load();
         }
-        
-    
         return response()->json([
             'status' => true,
             'debug' => config('app.debug'),
         ]);
+    }
+    protected function SaveTokenForDebugger(Request $request)
+    {   
+        $activateUserId = Cache::get('activateUserId');
+        $acticateUserId= $activateUserId->admin_id;
+        $admin = DB::table('afl_admins')->where('admin_id', $acticateUserId)->first('admin_id');
+        $debug = Config::get('app.debug');
+        $authorizationHeader = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authorizationHeader);
+        $user_id =  DB::table('afl_admins')->where('admin_id',$admin->admin_id)->value('admin_id');
+        if($debug === true && $request->getdebug == "true" && $authorizationHeader ){
+            Cache::forever($user_id, $token);
+        }
     }
 }
