@@ -30,6 +30,7 @@ class Manager
        $admin = DB::table('afl_admins')->where('admin_id', $randomId)->select('admin_id')->first();
        $user_id = $admin->admin_id;
        $tokenRecieved = ($request->bearerToken())?? Cache::get($user_id);
+    //    dd($tokenRecieved);
 
        if (! empty($tokenRecieved)) {
            $jwtConfig = Configuration::forUnsecuredSigner();
