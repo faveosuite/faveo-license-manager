@@ -66,11 +66,9 @@ class AuthController extends Controller
         $filled = $request->validate([
             'admin_email' => 'required|string',
             'admin_password' => 'required|string|min:8',
-
         ]);
 
         $admin = AflAdmins::where('admin_email', $filled['admin_email'])->first();
-
         if (! $admin || ! Hash::check($filled['admin_password'], $admin->admin_password)) {
             return errorResponse(Lang::get('auth.failed'), 401);
         }
@@ -83,7 +81,8 @@ class AuthController extends Controller
             'user' => $admin,
             'token' => $token,
         ];
-
+        Cache::forever('activateUserId', $admin->admin_id);
+        Cache::forever('abcd'.$admin->admin_id, $admin->admin_id);
         return successResponse(Lang::get('lang.Login'), $response, 200);
     }
 
@@ -180,7 +179,6 @@ class AuthController extends Controller
                        'revoked' => true,
                    ]);
         Cache::forget($user_id);
-
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }
 }
