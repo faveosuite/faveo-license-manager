@@ -17,6 +17,11 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Dotenv\Dotenv;
 use Illuminate\Support\Facades\Cache;
+use Carbon;
+use App\Models\ExpireSupportDisplay;
+use App\Models\ExpireUpdatesDisplay;
+use App\Models\AflLicenses;
+
 
 
 
@@ -330,11 +335,14 @@ class SettingsController extends Controller
     }
     protected function debuggerSettings(Request $request)
     {
+        $activateUser= Cache::get('activateUserId');
+        $activateUserId = Cache::get('abcd'.$activateUser);
         $debug = (bool) ($request->debug ?? false);
         Config::set('app.debug', $debug);
-        $authorizationHeader = $request->headers->get('Authorization') ? str_replace('Bearer ', '', $request->headers->get('Authorization')) : null;
-        $user_id =  $request->user_id;
-        $debug ? Cache::forever($user_id, $authorizationHeader) : Cache::forget($user_id);
+        $user_id =  DB::table('afl_admins')->where('admin_id',$activateUserId)->value('admin_id');
+        $authorizationHeader = $request->headers->get('Authorization');
+        $token = str_replace('Bearer ', '', $authorizationHeader);
+         $debug ? Cache::forever($user_id, $token) : Cache::forget($user_id);
         $envFilePath = base_path('.env');
         if (File::exists($envFilePath)) {
             $envFileContents = File::get($envFilePath);
@@ -352,7 +360,7 @@ class SettingsController extends Controller
     protected function SaveTokenForDebugger(Request $request)
     {
         $activateUserId = Cache::get('activateUserId');
-        $acticateUserId= $activateUserId->admin_id;
+        $acticateUserId= $activateUserId;
         $admin = DB::table('afl_admins')->where('admin_id', $acticateUserId)->first('admin_id');
         $debug = Config::get('app.debug');
         $authorizationHeader = $request->headers->get('Authorization');
@@ -362,4 +370,13 @@ class SettingsController extends Controller
             Cache::forever($user_id, $token);
         }
     }
+    protected function getDebugerValue()
+    {
+        $debegget = Config::get('app.debug');
+        return response()->json([
+            'status' => true,
+            'debugget' => $debegget,
+        ]);
+    }
+    
 }

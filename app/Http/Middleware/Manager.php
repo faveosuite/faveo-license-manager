@@ -24,9 +24,10 @@ class Manager
    public function handle(Request $request, Closure $next)
    {
        $activateUserId = Cache::get('activateUserId');
-       $acticateUserId= $activateUserId->admin_id;
-
-       $admin = DB::table('afl_admins')->where('admin_id', $acticateUserId)->first('admin_id');
+       $randomId = Cache::get('abcd'.$activateUserId);
+    //    $randomId = Cache::get('abcd'.$activateUserId);
+    // Cache::rememberForever(Crypt::encryptString($admin->admin_id));
+       $admin = DB::table('afl_admins')->where('admin_id', $randomId)->select('admin_id')->first();
        $user_id = $admin->admin_id;
        $tokenRecieved = ($request->bearerToken())?? Cache::get($user_id);
 
@@ -42,6 +43,6 @@ class Manager
            } else {
                return errorResponse(Lang::get('lang.invalid_token'), 401);
            }
-       }
+        }
    }
 }
