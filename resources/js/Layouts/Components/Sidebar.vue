@@ -4,7 +4,8 @@
 
     	<a href="javascript:;" class="brand-link text-center">
 
-    		<img :src="basePath()+'/themes/default/img/logo.png'" alt="Faveo Logo" class="brand-image ml-0 float-none">
+            <a>Agora License Manager</a>
+
     	</a>
 
     	<div class="sidebar" :key="counter">
