@@ -21,6 +21,7 @@ use Carbon;
 use App\Models\ExpireSupportDisplay;
 use App\Models\ExpireUpdatesDisplay;
 use App\Models\AflLicenses;
+use Illuminate\Support\Facades\Redirect;
 
 
 
@@ -335,14 +336,11 @@ class SettingsController extends Controller
     }
     protected function debuggerSettings(Request $request)
     {
-        $activateUser= Cache::get('activateUserId');
-        $activateUserId = Cache::get('abcd'.$activateUser);
         $debug = (bool) ($request->debug ?? false);
         Config::set('app.debug', $debug);
-        $user_id =  DB::table('afl_admins')->where('admin_id',$activateUserId)->value('admin_id');
         $authorizationHeader = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authorizationHeader);
-         $debug ? Cache::forever($user_id, $token) : Cache::forget($user_id);
+         $debug ? Cache::forever($request->user_id, $token) : Cache::forget($request->user_id);
         $envFilePath = base_path('.env');
         if (File::exists($envFilePath)) {
             $envFileContents = File::get($envFilePath);
@@ -355,28 +353,18 @@ class SettingsController extends Controller
         return response()->json([
             'status' => true,
             'debug' => config('app.debug'),
+            'app_url' => env('APP_URL'),
         ]);
     }
-    protected function SaveTokenForDebugger(Request $request)
+    protected function clockwork(Request $request)
     {
-        $activateUserId = Cache::get('activateUserId');
-        $acticateUserId= $activateUserId;
-        $admin = DB::table('afl_admins')->where('admin_id', $acticateUserId)->first('admin_id');
-        $debug = Config::get('app.debug');
-        $authorizationHeader = $request->headers->get('Authorization');
-        $token = str_replace('Bearer ', '', $authorizationHeader);
-        $user_id =  DB::table('afl_admins')->where('admin_id',$admin->admin_id)->value('admin_id');
-        if($debug === true && $request->getdebug == "true" && $authorizationHeader ){
-            Cache::forever($user_id, $token);
+        
+        $userId = $request->query('user_id');
+        if($userId){
+            return redirect('/__clockwork/app');
         }
-    }
-    protected function getDebugerValue()
-    {
-        $debegget = Config::get('app.debug');
-        return response()->json([
-            'status' => true,
-            'debugget' => $debegget,
-        ]);
-    }
-    
+        else{
+            return redirect('/login');
+        }
+    }  
 }
