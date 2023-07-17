@@ -23,10 +23,6 @@ return [
 	| threshold for database queries).
 	|
 	*/
-    'middlewares' => [
-        'manager',
-    ],
-
 	'features' => [
 
 		// Cache usage stats and cache queries including results

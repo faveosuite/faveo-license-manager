@@ -80,15 +80,7 @@ class AuthController extends Controller
             'message' => 'logged in',
             'user' => $admin,
             'token' => $token,
-        ];
-        // dd($token);
-        Cache::forever('activateUserId', $admin->admin_id);
-        Cache::forever('abcd'.$admin->admin_id, $admin->admin_id);
-        //    Cache::forever($token, $admin->admin_id);
-        //   dd(Cache::get($token, $admin->admin_id));
-        //   Cache::forever("Id",$CurrentId);
-          
-        // dd(Cache::get("Id"));
+        ];        
         return successResponse(Lang::get('lang.Login'), $response, 200);
     }
 
@@ -179,13 +171,11 @@ class AuthController extends Controller
      */
     public function logout(Request $request, $user_id)
     {
-        dd("esdrftygh");
         $logout = DB::table('oauth_access_tokens')
                    ->where('user_id', $user_id)
                    ->update([
                        'revoked' => true,
                    ]);
-        Cache::forget($user_id);
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }
 }
