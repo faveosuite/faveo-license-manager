@@ -23,15 +23,7 @@ class Manager
      */
    public function handle(Request $request, Closure $next)
    {
-       $activateUserId = Cache::get('activateUserId');
-       $randomId = Cache::get('abcd'.$activateUserId);
-    //    $randomId = Cache::get('abcd'.$activateUserId);
-    // Cache::rememberForever(Crypt::encryptString($admin->admin_id));
-       $admin = DB::table('afl_admins')->where('admin_id', $randomId)->select('admin_id')->first();
-       $user_id = $admin->admin_id;
-       $tokenRecieved = ($request->bearerToken())?? Cache::get($user_id);
-    //    dd($tokenRecieved);
-
+       $tokenRecieved = ($request->bearerToken());
        if (! empty($tokenRecieved)) {
            $jwtConfig = Configuration::forUnsecuredSigner();
            $tokenId = $jwtConfig->parser()->parse($tokenRecieved)->claims()->get('jti'); //retrieves the id of the token from license manager
