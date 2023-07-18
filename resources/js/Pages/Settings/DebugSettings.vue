@@ -1,8 +1,5 @@
 <template>
     <div class="col-sm-12">
-        <div class="alert alert-info">
-            <p>Configure Debugger settings, enable and disable individual options.</p>
-        </div>
         <alert componentName="DebugSettings" />
         <div class="card card-light">
             <div class="card-header">
