@@ -40,13 +40,7 @@ Route::post('/apl_callbacks/license_install.php', [LicenseInstallController::cla
 Route::post('/apl_callbacks/license_scheme.php', [LicenseSchemeController::class, 'licenseScheme']);
 Route::post('/apl_callbacks/license_verify.php', [LicenseVerifyController::class, 'licenseVerify']);
 Route::post('/aus_callbacks/download_file.php', [DownloadFileController::class, 'downloadFile']);
-// Route::get('/clockworksss/{id}', [SettingsController::class, 'clockwork']);
-Route::get('/clockworksss', [SettingsController::class, 'clockwork']);
-// Route::get('/clockworksss', function () {
-//     // Your route logic here
-//     dd('Hdedrtfygh');
-// });
-
+Route::get('/clockwork/app', [SettingsController::class, 'clockwork']);
 Route::get('/{one?}/{two?}/{three?}/{four?}/', function () {
     return view('welcome');
 });
