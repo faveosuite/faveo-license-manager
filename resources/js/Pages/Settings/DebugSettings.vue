@@ -124,16 +124,6 @@ export default {
                     .querySelector('meta[name="csrf-token"]')
                     .getAttribute("content"),
             };
-
-            axios
-                .post("/api/saveTokenForDebugger", data)
-                .then((response) => {
-                    this.selectedValue = this.debugValue;
-                    localStorage.setItem("debug", this.selectedValue);
-                                        successHandler(response, 'DebugSettings')
-
-                })
-                .catch((error) => { });
         },
     },
 };
