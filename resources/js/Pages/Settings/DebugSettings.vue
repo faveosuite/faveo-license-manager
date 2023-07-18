@@ -128,3 +128,9 @@ export default {
     },
 };
 </script>
+<style>
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 500;
+    line-height: -1rem;
+    font-size: 17px;
+}</style>
