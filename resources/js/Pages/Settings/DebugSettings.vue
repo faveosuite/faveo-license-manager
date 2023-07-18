@@ -15,7 +15,7 @@
                         </label>
                         <label>
                             <input type="radio" value="0" v-model="selectedValue" />
-                            &nbsp; Disable
+                            Disable
                             <input type="hidden" name="user_id" v-model="user_id" />
                         </label>
                     </div>
