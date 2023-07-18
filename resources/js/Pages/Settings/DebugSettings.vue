@@ -39,8 +39,8 @@
         </div>
     </div>
 </template>
- 
- 
+
+
 <script>
 import axios from "axios";
 import { useStore } from "vuex";
@@ -70,11 +70,12 @@ export default {
 
     created() {
         this.debugValue = localStorage.getItem("debug") || "";
-        this.selectedValue = this.debugValue;
+        this.selectedValue = this.debugValue || "0"; // Set the default value to "0" (Disable) if debugValue is empty
         this.showLink = localStorage.getItem("showLink") === "true" || false;
         this.user_id = this.getUserId.admin_id || 0;
         this.saveTokenForDebugger();
     },
+
 
     mounted() {
         window.addEventListener("beforeunload", this.saveToLocalStorage);
@@ -140,4 +141,3 @@ export default {
     },
 };
 </script>
- 
