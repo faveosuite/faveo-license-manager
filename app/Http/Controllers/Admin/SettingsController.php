@@ -334,7 +334,7 @@ class SettingsController extends Controller
         $expiring_support = ExpireSupportDisplay::join('afl_licenses as a', 'a.license_id', '=', 'expire_support_display.license_id')->get();
         return response()->json(['expiring_support' => $expiring_support]);
     }
-    protected function debuggerSettings(Request $request)
+    public function debuggerSettings(Request $request)
     {
         $debug = (bool) ($request->debug ?? false);
         Config::set('app.debug', $debug);
@@ -350,15 +350,12 @@ class SettingsController extends Controller
             $dotenv = Dotenv::createImmutable(base_path());
             $dotenv->load();
         }
-        return response()->json([
-            'status' => true,
-            'debug' => config('app.debug'),
-            'app_url' => env('APP_URL'),
-        ]);
+        $debug = config('app.debug');
+        $app_url = env('APP_URL');
+        return successResponse(trans('lang.updated'),['debug' => $debug , 'app_url' => $app_url ]);
     }
     protected function clockwork(Request $request)
     {
-        
         $userId = $request->query('user_id');
         if($userId){
             return redirect('/__clockwork/app');

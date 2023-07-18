@@ -38,6 +38,7 @@ return [
     'invalid_product' => 'This is an invalid product.',
 
     'Exit' => 'You are now exited from the page',
+    'updated'       =>     'Value has been updated successfully',
     'Connection_OK' => 'The connection to the Auto Faveo license manager has been established successfully',
 
     'Login' => 'You have logged in successfully to Auto Faveo Licenser',
@@ -301,6 +302,7 @@ return [
     'product_version'   =>   'Product Version',
     'product_homepage_url'  => 'Product Homepage Url',
     'product_status'     =>  'Product Status',
+   
 
 //CLIENTS
 
