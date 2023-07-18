@@ -9,6 +9,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-6">
+<<<<<<< HEAD
                         <label>
                             <input type="radio" value="1" v-model="selectedValue" />
                             Enable &nbsp;&nbsp;&nbsp;
@@ -18,6 +19,15 @@
                             Disable
                             <input type="hidden" name="user_id" v-model="user_id" />
                         </label>
+=======
+                        <input type="radio" value="1" v-model="selectedValue" />
+              &nbsp;<label> Enable </label> &emsp;
+            
+              <input type="radio" value="0" v-model="selectedValue" />
+            &nbsp;<label>
+              Disable
+            </label>
+>>>>>>> d9a3f2563 (alignment)
                     </div>
                     <div class="col-6">
                         <div v-if="showLink">
