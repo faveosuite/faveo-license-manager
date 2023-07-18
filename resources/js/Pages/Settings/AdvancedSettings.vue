@@ -29,10 +29,6 @@
                         :value="autoPhpLicenserType" :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="lang('evanto_api_token')" :value="evantoApiToken" :onChange="onChange"
-                        name="ENVATO_API_TOKEN" type="text" classname="col-sm-6">
-
-                    </text-field>
                 </div>
             </div>
 
