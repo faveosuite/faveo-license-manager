@@ -225,7 +225,7 @@ return [
     'search_result_limit' => 'Search Results Limit',
     'archive_older_records' => 'Archive Records Older Than...',
     'timezone' => 'Timezone',
-    'auto_php_licenser' => 'Auto PHP Licenser API',
+    'auto_php_licenser' => 'Agora License Manager API',
     'evanto_api_token' => 'Evanto API Token',
     'whitelisted_access' => 'Whitelisted Access Only',
     'whitelisted_ip' => 'Whitelisted IP(s)',
