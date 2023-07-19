@@ -4,7 +4,7 @@
 
     	<a href="javascript:;" class="brand-link text-center">
 
-            <a>Agora License Manager</a>
+            <a>{{ lang('agora_license_manager') }}</a>
 
     	</a>
 
