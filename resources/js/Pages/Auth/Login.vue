@@ -4,7 +4,7 @@
 
         <div class="login-logo">
 
-            {{lang('Agora')}}&nbsp;<b>License</b>&nbsp;{{lang('Manager')}}</div>
+          <h2>{{lang('agora_license_manager')}}</h2></div>
 
         <div class="login-box">
 
