@@ -2,8 +2,8 @@
     <div class="col-sm-6 col-md-12 col-12">
         <div class="card card-light">
 
-            <div class="card-header">
-                <h3 class="card-title">{{('Latest Installations')}}</h3>
+            <div class="card-header licences">
+                <h3 class="card-title">{{lang('latest_installations')}}</h3>
             </div>
             <div class="card-body" id="afl_products">
                 <div class="datatable-container my-table-container">
@@ -87,6 +87,9 @@ export default {
     },
 
     methods: {
+        lang(key) {
+            return `Mock translated value for ${key}`;
+        },
         getData() {
             this.loading = true;
             axios
@@ -102,6 +105,9 @@ export default {
                 });
         },
     },
+    lang(key) {
+        return `Mock translated value for ${key}`;
+    },
 };
 </script>
 <style>
@@ -116,6 +122,16 @@ export default {
 .glyphicon-sort {
     margin-left: 100px;
     margin-top: -19px;
+}
+.licences{
+background-color: transparent;
+border-bottom: 1px solid rgba(0,0,0,.125);
+padding: 0.75rem 1.25rem;
+position: relative;
+border-top-left-radius: 0.25rem;
+border-top: 3px solid rgba(0,0,0,.125);
+border-top-right-radius: 0.25rem;
+border-top-color: #ffc107;
 }
 </style>
 

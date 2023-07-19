@@ -30,7 +30,7 @@ describe('LatestInstallations', () => {
 
         const cardTitle = wrapper.find('.card-title');
 
-        expect(cardTitle.text()).toBe('Latest Installations');
+        expect(cardTitle.text()).toBe('Mock translated value for latest_installations');
     });
 
 

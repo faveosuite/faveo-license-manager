@@ -2,6 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import latestProductReport from "../../../../../resources/js/Pages/Dashboard/LatestProductReport.vue";
 import MockAdapter from "axios-mock-adapter";
 import axios from "axios";
+import LatestProducts from "../../../../../resources/js/Pages/Dashboard/LatestProducts.vue";
 
 let wrapper;
 describe('LatestProductReport', () => {
@@ -33,7 +34,8 @@ describe('LatestProductReport', () => {
 
         const cardTitle = wrapper.find('.card-title');
 
-        expect(cardTitle.text()).toBe('Latest Product Report');
+        expect(cardTitle.text()).toBe('Mock translated value for latest_product_report');
     });
+
 
 });

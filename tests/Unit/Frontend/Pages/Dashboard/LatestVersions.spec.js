@@ -14,7 +14,7 @@ describe('LatestVersion', () => {
         const wrapper = shallowMount(latestVersions);
         const cardTitle = wrapper.find('.card-title');
 
-        expect(cardTitle.text()).toBe('Latest Version');
+        expect(cardTitle.text()).toBe('Mock translated value for latest_version');
     });
     it('fetches data from the API correctly', async () => {
         const mock = new MockAdapter(axios);
