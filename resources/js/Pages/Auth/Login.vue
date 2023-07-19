@@ -4,9 +4,11 @@
 
         <div class="login-logo">
 
-            {{lang('agora')}}&nbsp;<b>License</b>&nbsp;{{lang('manager')}}</div>
+            {{lang('agora')}}&nbsp;<b>{{lang('license')}}</b>&nbsp;{{lang('manager')}}
+        </div>
 
-        <div class="login-box">
+
+            <div class="login-box">
 
             <div class="card">
 
