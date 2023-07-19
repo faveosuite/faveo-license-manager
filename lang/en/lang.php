@@ -311,7 +311,15 @@ return [
     //LICENSE
     'license_status'  =>  'Licence Status',
 
+
     //DEBUG SETTINGS
 
-    'debug_settings'  =>   'Debug Settings'
-];
+    'debug_settings'  =>   'Debug Settings',
+
+    //Logo
+
+    'agora'    =>  'Agora',
+    'manager'  =>  'Manager',
+    'agora_license_manager'  => 'Agora License Manager',
+ ];
+
