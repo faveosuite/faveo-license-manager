@@ -302,12 +302,16 @@ return [
     'product_version'   =>   'Product Version',
     'product_homepage_url'  => 'Product Homepage Url',
     'product_status'     =>  'Product Status',
-   
+
 
 //CLIENTS
 
 'status'   =>  'Client Status',
 
     //LICENSE
-    'license_status'  =>  'Licence Status'
+    'license_status'  =>  'Licence Status',
+
+    //DEBUG SETTINGS
+
+    'debug_settings'  =>   'Debug Settings'
 ];
