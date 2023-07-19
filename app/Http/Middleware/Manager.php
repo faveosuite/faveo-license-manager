@@ -21,7 +21,7 @@ class Manager
      */
    public function handle(Request $request, Closure $next)
    {
-       $tokenRecieved = ($request->bearerToken());
+       $tokenRecieved = $request->bearerToken();
        if (! empty($tokenRecieved)) {
            $jwtConfig = Configuration::forUnsecuredSigner();
            $tokenId = $jwtConfig->parser()->parse($tokenRecieved)->claims()->get('jti'); //retrieves the id of the token from license manager
