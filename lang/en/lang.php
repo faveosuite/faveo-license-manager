@@ -321,5 +321,27 @@ return [
     'agora'    =>  'Agora',
     'manager'  =>  'Manager',
     'agora_license_manager'  => 'Agora License Manager',
- ];
+
+    //DASHBOARD
+    'license'   =>   'License',
+
+    'versions'     =>   'Versions',
+
+    'view_all'     =>   'ViewAll',
+
+    'latest_callbacks'  =>  'Latest Callbacks',
+
+    'latest_installations' =>  'Latest Installations',
+
+    'latest_version'      =>     'Latest Version',
+
+    'expiring_version'  => 'Expiring Version',
+
+    'latest_product_report'  =>   'Latest Product Report',
+
+    'latest_product'      =>    'Latest Product',
+
+
+
+];
 

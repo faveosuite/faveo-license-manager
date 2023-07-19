@@ -122,10 +122,10 @@
                         return row.latest_callback ? row.latest_callback : '---';
                     },
 
-					license_code(h, row) {
-
-						return row.license_code ? row.license_code : '---';
-					},
+                    license_code(h, row) {
+                        const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
+                        return formattedLicenseCode;
+                    },
 
 					license_date(h, row) {
 
