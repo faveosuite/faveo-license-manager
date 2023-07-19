@@ -16,7 +16,7 @@ describe('ExpiringVersion', () => {
 
         const cardTitle = wrapper.find('.card-title');
 
-        expect(cardTitle.text()).toBe('Expiring Version');
+        expect(cardTitle.text()).toBe('Mock translated value for expiring_version');
     });
     it('fetches data from the API correctly', async () => {
         const mock = new MockAdapter(axios);

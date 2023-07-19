@@ -1,8 +1,8 @@
 <template>
     <div class="col-md-12 col-sm-12 col-12">
         <div class="card card-light">
-            <div class="card-header">
-                <h3 class="card-title">{{ 'Expiring Version' }}</h3>
+            <div class="card-header versions">
+                <h3 class="card-title">{{lang('expiring_version')}}</h3>
             </div>
             <div class="card-body" id="afl_products">
                 <div class="datatable-container">
@@ -99,6 +99,9 @@ export default {
     },
 
     methods:{
+        lang(key) {
+            return `Mock translated value for ${key}`;
+        },
 
         getData() {
             this.loading = true;
@@ -115,6 +118,9 @@ export default {
                 });
         },
     },
+    lang(key) {
+        return `Mock translated value for ${key}`;
+    },
 };
 
 </script>
@@ -126,6 +132,16 @@ display :none;
 .datatable-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
     overflow-y: auto;
+}
+.versions {
+    background-color: transparent;
+    border-bottom: 1px solid rgba(0,0,0,.125);
+    padding: 0.75rem 1.25rem;
+    position: relative;
+    border-top-left-radius: 0.25rem;
+    border-top: 3px solid rgba(0,0,0,.125);
+    border-top-right-radius: 0.25rem;
+    border-top-color: #28a745;
 }
 </style>
 

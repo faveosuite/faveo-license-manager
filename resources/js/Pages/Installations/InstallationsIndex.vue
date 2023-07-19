@@ -106,10 +106,10 @@
 
 				templates: {
 
-					license_code(h, row) {
-
-						return row.license_code ? row.license_code : '---';
-					},
+                    license_code(h, row) {
+                        const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
+                        return formattedLicenseCode;
+                    },
 
 					latest_installation(h, row) {
 
