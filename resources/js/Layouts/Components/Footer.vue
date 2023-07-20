@@ -4,7 +4,7 @@
 
 		<div class="d-none d-sm-inline float-right">
 
-			<strong>{{trans('version')}}&nbsp;</strong> 2.1.0
+			<strong>{{trans('version')}}&nbsp;</strong> 2.1.1
 		</div>
 
 		<strong> {{trans('copyright')}} &copy; {{new Date().getFullYear()}}
