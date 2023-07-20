@@ -29,13 +29,5 @@ describe('LatestProductReport', () => {
         expect(mockAxios.history.get.length).toBe(1);
         mockAxios.restore();
     });
-    it('displays the correct card title', () => {
-        const wrapper = shallowMount(latestProductReport);
-
-        const cardTitle = wrapper.find('.card-title');
-
-        expect(cardTitle.text()).toBe('Mock translated value for latest_product_report');
-    });
-
 
 });

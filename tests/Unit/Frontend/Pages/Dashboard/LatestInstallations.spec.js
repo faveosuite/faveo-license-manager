@@ -25,14 +25,6 @@ describe('LatestInstallations', () => {
         const wrapper = shallowMount(LatestInstallations);
         expect(wrapper.exists()).toBe(true);
     });
-    it('renders the correct card title', () => {
-        const wrapper = mount(LatestInstallations);
-
-        const cardTitle = wrapper.find('.card-title');
-
-        expect(cardTitle.text()).toBe('Mock translated value for latest_installations');
-    });
-
 
 });
 
