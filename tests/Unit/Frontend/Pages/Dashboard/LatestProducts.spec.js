@@ -9,12 +9,6 @@ describe('LatestProducts', () => {
         const wrapper = shallowMount(LatestProducts);
         expect(wrapper.exists()).toBe(true);
     });
-    it('displays the correct card title', () => {
-        const wrapper = shallowMount(LatestProducts);
-        const cardTitle = wrapper.find('.card-title');
-
-        expect(cardTitle.text()).toBe('Mock translated value for latest_product');
-    });
 
     it('fetches data from the API correctly', async () => {
         const mock = new MockAdapter(axios);

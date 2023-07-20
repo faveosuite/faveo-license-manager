@@ -3,7 +3,7 @@
         <div class="card card-light">
 
             <div class="card-header licences">
-                <h3 class="card-title">{{lang('latest_installations')}}</h3>
+                <h3 class="card-title">{{'Latest Installations'}}</h3>
             </div>
             <div class="card-body" id="afl_products">
                 <div class="datatable-container my-table-container">
@@ -87,9 +87,7 @@ export default {
     },
 
     methods: {
-        lang(key) {
-            return `Mock translated value for ${key}`;
-        },
+
         getData() {
             this.loading = true;
             axios
