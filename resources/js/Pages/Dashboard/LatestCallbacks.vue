@@ -115,9 +115,7 @@ export default {
                 });
         },
     },
-    lang(key) {
-        return `Mock translated value for ${key}`;
-    },
+
 };
 
 </script>
@@ -125,17 +123,5 @@ export default {
 .datatable-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
     overflow-y: auto;
-}
-
-.callbacks{
-
-    background-color: transparent;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    padding: 0.75rem 1.25rem;
-    position: relative;
-    border-top-left-radius: 0.25rem;
-    border-top: 3px solid rgba(0,0,0,.125);
-    border-top-right-radius: 0.25rem;
-    border-top-color: #fb5858;
 }
 </style>
