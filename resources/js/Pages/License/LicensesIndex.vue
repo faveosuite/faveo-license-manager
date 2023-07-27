@@ -66,7 +66,7 @@
 				data: '',
 
 				columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks',
-					'latest_callback', 'latest_license'],
+					'latest_callback', 'latest_license','actions'],
 
 				options: {},
 
@@ -111,6 +111,8 @@
 					latest_callback: 'latest_callback',
 
                     latest_license: 'latest_license',
+
+                    actions:      'actions',
 				},
 
 				templates: {

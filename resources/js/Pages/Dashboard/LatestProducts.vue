@@ -1,31 +1,31 @@
 <template>
 
-  <div class="col-md-12 col-sm-12 col-12">
-      <div class="card card-light">
-          <div class="card-header products">
-              <h3 class="card-title">{{'Latest Products'}}</h3>
-             </div>
-              <div class="card-body" id="afl_products">
-                  <div class="datatable-container">
-                      <v-client-table
-                          v-if="data"
-                          :columns="columns"
-                          :data="data"
-                          :options="options"
-                          :key="counter"
-                      >
-                          <template v-slot:product_status="props">
+    <div class="col-md-12 col-sm-12 col-12">
+        <div class="card card-light">
+            <div class="card-header">
+                <h3 class="card-title">{{ 'Latest Products' }}</h3>
+            </div>
+            <div class="card-body" id="afl_products">
+                <div class="datatable-container">
+                    <v-client-table
+                        v-if="data"
+                        :columns="columns"
+                        :data="data"
+                        :options="options"
+                        :key="counter"
+                    >
+                        <template v-slot:product_status="props">
 
                         <span :class="props.row.product_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
 
                             {{ props.row.product_status ? 'Active' : 'Inactive'}}
                         </span>
-                          </template>
-                      </v-client-table>
-                  </div>
-              </div>
-          </div>
-      </div>
+                        </template>
+                    </v-client-table>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -33,60 +33,60 @@ import axios from "axios";
 import {errorHandler} from "../../helpers/responseHandler";
 
 export default {
-     name :'latest-product',
+    name :'latest-product',
 
     data(){
 
-         return {
+        return {
 
-             data: [],
+            data: [],
 
-             columns:['product_title','product_sku','product_date','product_status'],
+            columns:['product_title','product_sku','product_date','product_status'],
 
-             options : {},
+            options : {},
 
-             counter: 0,
-         };
+            counter: 0,
+        };
     },
 
     beforeMount(){
 
-         const self =this;
+        const self =this;
 
-         this.getData();
+        this.getData();
 
-         this.options ={
+        this.options ={
 
-             columnsClasses:{
+            columnsClasses:{
 
-                 product_title: 'product_title',
+                product_title: 'product_title',
 
-                 product_sku:   'product_sku',
+                product_sku:   'product_sku',
 
-                 product_date: 'product_date',
+                product_date: 'product_date',
 
-                 product_status: 'product_status',
-             },
+                product_status: 'product_status',
+            },
 
-             templates: {
+            templates: {
 
-                 product_title(h,row){
-                     return row.product_title ?row.product_title : '----';
-                 },
+                product_title(h,row){
+                    return row.product_title ?row.product_title : '----';
+                },
 
-             },
+            },
 
-             headings: {
+            headings: {
 
-                 product_title: 'Product',
+                product_title: 'Product',
 
-                 product_sku: 'SKU',
+                product_sku: 'SKU',
 
-                 product_date: 'Date',
+                product_date: 'Date',
 
-                 product_status: 'Status'
-             },
-         }
+                product_status: 'Status'
+            },
+        }
     },
 
     methods:{
@@ -118,9 +118,12 @@ export default {
 #afl_products .VuePagination .text-center {
     display : none;
 }
-.datatable-container {
+#afl_products .datatable-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
     overflow-y: auto;
+    overflow-x: scroll; /* Allow horizontal scrolling */
+    scrollbar-width: thin; /* Width of the scrollbar */
+    scrollbar-color: transparent transparent;
 }
 #afl_products  .glyphicon-sort {
     margin-left: 100px;
@@ -133,14 +136,15 @@ export default {
     position: inherit;
     overflow-x: visible;
 }
-.products {
+/* Style the scrollbar track and thumb */
+.datatable-container::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.datatable-container::-webkit-scrollbar-thumb {
     background-color: transparent;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    padding: 0.75rem 1.25rem;
-    position: relative;
-    border-top-left-radius: 0.25rem;
-    border-top: 3px solid rgba(0,0,0,.125);
-    border-top-right-radius: 0.25rem;
-    border-top-color: #28a745;
+}
+.datatable-container::-webkit-scrollbar-track {
+    background-color: transparent;
 }
 </style>

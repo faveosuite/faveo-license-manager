@@ -103,9 +103,6 @@ export default {
                 });
         },
     },
-    lang(key) {
-        return `Mock translated value for ${key}`;
-    },
 };
 </script>
 <style>
@@ -121,15 +118,6 @@ export default {
     margin-left: 100px;
     margin-top: -19px;
 }
-.licences{
-background-color: transparent;
-border-bottom: 1px solid rgba(0,0,0,.125);
-padding: 0.75rem 1.25rem;
-position: relative;
-border-top-left-radius: 0.25rem;
-border-top: 3px solid rgba(0,0,0,.125);
-border-top-right-radius: 0.25rem;
-border-top-color: #ffc107;
-}
+
 </style>
 
