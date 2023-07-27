@@ -121,7 +121,7 @@
                 data: '',
 
                 columns: ['api_key_secret', 'api_key_ip', 'api_key_products_add_edit', 'api_key_clients_edit', 'api_key_licenses_add',
-                    'api_key_installations_edit', 'api_key_search', 'api_key_status' ,'actions'],
+                    'api_key_installations_edit', 'api_key_search', 'api_key_status' ,'api_key_description','actions'],
 
                 options: {},
 
@@ -177,7 +177,9 @@
 
                     api_key_search: 'api_key_search',
 
-                    api_key_status: 'api_key_status'
+                    api_key_status: 'api_key_status',
+
+                    api_key_description :    'api_key_description',
                 },
 
                 templates: {
@@ -190,6 +192,10 @@
                     api_key_ip(h, row) {
 
                         return row.api_key_ip ? row.api_key_ip : '---';
+                    },
+
+                    api_key_description(h,row) {
+                       return row.api_key_description ? row.api_key_description :  '---';
                     }
                 },
 
@@ -212,6 +218,8 @@
                     api_key_search: 'Search',
 
                     api_key_status: 'Status',
+
+                    api_key_description:  'Description',
 
                     actions: 'Actions'
                 },

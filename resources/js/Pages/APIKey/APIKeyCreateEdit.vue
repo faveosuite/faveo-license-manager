@@ -98,6 +98,11 @@
                         :value="api_key_status" :onChange="onChange">
                     </dynamic-select>
 
+
+                    <text-field :label="lang('api_key_description')" :value="api_key_description" type="textarea"
+                                name="api_key_description" :onChange="onChange" classname="col-sm-6">
+                    </text-field>
+
                 </div>
             </div>
 
@@ -213,6 +218,8 @@
                 ],
 
                 api_key_search: '',
+
+                api_key_description: '',
 
                 apiKeyStatus: [
                     { name: 'Active', value: 1 },
@@ -375,6 +382,7 @@
                     this.loading = true
 
                     const formData = {
+                        api_key_description: this.api_key_description,
 
                         api_key_secret: this.api_key_secret,
 
@@ -405,7 +413,10 @@
 
                         this.loading = false;
 
-                        successHandler(res, 'api_keys');
+                        console.log('this',this.api_key_description),
+
+
+                            successHandler(res, 'api_keys');
 
                         if (!this.api_key_id) {
 

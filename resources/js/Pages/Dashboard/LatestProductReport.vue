@@ -90,24 +90,11 @@ export default {
                 });
         },
     },
-    lang(key) {
-        return `Mock translated value for ${key}`;
-    },
 };
 </script>
 <style>
 .datatable-container {
     max-height: 300px; /* Adjust the maximum height as per your needs */
     overflow-y: auto;
-}
-.products {
-    background-color: transparent;
-    border-bottom: 1px solid rgba(0,0,0,.125);
-    padding: 0.75rem 1.25rem;
-    position: relative;
-    border-top-left-radius: 0.25rem;
-    border-top: 3px solid rgba(0,0,0,.125);
-    border-top-right-radius: 0.25rem;
-    border-top-color: #5897fb;
 }
 </style>
