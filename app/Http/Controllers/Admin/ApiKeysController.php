@@ -38,6 +38,7 @@ class ApiKeysController extends Controller
                 'api_key_installations_edit' => $request->get('api_key_installations_edit'),
                 'api_key_search' => $request->get('api_key_search'),
                 'api_key_status' => $request->get('api_key_status'),
+                'api_key_description' => $request->get('api_key_description'),
             ]);
             if (! empty($request->get('api_key_ip'))) {
                 $api_key_ips_array = explode('.', str_replace(' ', '', $request->get('api_key_ip'))); //remove all space symbols (if any) between IPs
@@ -89,8 +90,8 @@ class ApiKeysController extends Controller
                        'api_key_products_edit' => $request->get('api_key_products_edit'),
                        'api_key_installations_edit' => $request->get('api_key_installations_edit'),
                        'api_key_search' => $request->get('api_key_search'),
-                       'api_key_status' => $request->get('api_key_status'),
-                   ]);
+                       'api_key_description' => $request->get('api_key_description'),
+            ]);
 
         if (! aflValidateIntegerValue($updateapi)) {
             return errorResponse(Lang::get('lang.invalid'), 400);
