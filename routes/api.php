@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ReportsController;
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\AFL\ConnectionController;
@@ -86,6 +87,14 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
     Route::get('dashboarddropdown', [DashboardController::class, 'dashboard']);
+
+    //Users 
+    Route::get('users', [UsersController::class, 'getUsers']);
+    Route::post('users', [UsersController::class, 'addUsers']);
+    Route::get('users/{id}', [UsersController::class, 'editUsers']);
+    Route::post('users/{id}', [UsersController::class, 'updateUsers']);
+    Route::get('users/{id}', [UsersController::class, 'deleteUsers']);
+
     //PRODUCTS
 
     Route::post('products/add', [ProductsController::class, 'productAdd']);
