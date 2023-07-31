@@ -124,6 +124,61 @@ let clientsMenu = {
 	]
 }
 
+//=========================USERS==================================
+
+import UserCreateEdit from '../Pages/Users/UserCreateEdit.vue';
+
+import UsersIndex from  '../Pages/Users/UsersIndex.vue';
+
+let usersMenu = {
+
+    path: '/users',
+
+    component: LicenseLayout,
+
+    name: 'Users',
+
+    redirect: '/users/list',
+
+    beforeEnter: requireAuth,
+
+    children: [
+
+        {
+
+            path: 'list',
+
+            name: 'Users Index',
+
+            component: UsersIndex,
+
+            meta: { title : 'users', crumb : { link: { name : 'dashboard', to : '/' }, active : 'users' } }
+        },
+
+        {
+
+            path: 'create',
+
+            name: 'User Create',
+
+            component: UserCreateEdit,
+
+            meta: { title : 'users', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'users', to : '/users' }, active : 'create' } }
+        },
+
+        {
+
+            path: ':id/edit',
+
+            name: 'User Edit',
+
+            component: ClientCreateEdit,
+
+            meta: { title : 'users', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'users', to : '/users' }, active : 'edit' } }
+        },
+    ]
+}
+
 //=================================================================
 
 //===========================LICENSES MENU=========================
@@ -257,17 +312,6 @@ let callbacksMenu = {
 
 			meta: { title : 'callbacks', crumb : { link: { name : 'dashboard', to : '/' }, active : 'callbacks' } }
 		},
-        //
-        // {
-        //
-        //     path: ':id/edit',
-        //
-        //     name: 'Callback Edit',
-        //
-        //     component: CallbackCreateEdit,
-        //
-        //     meta: { title : 'callbacks', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'callbacks', to : '/callbacks' }, active : 'edit' } }
-        // },
 	]
 }
 
@@ -668,6 +712,8 @@ const routes = [
     bannedMenu,
 
     extraMenu,
+
+    usersMenu,
 
     {
         path: '/login',

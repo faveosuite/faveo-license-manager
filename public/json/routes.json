@@ -81,6 +81,41 @@
 }
 ]
 },
+    {
+        "name": "Users",
+        "key": null,
+        "count": 0,
+        "hasCount": false,
+        "iconClass": "fas fa-users",
+        "order": 0,
+        "redirectUrl": null,
+        "routeString": "",
+        "hasChildren": true,
+        "children": [
+            {
+                "name": "New Users",
+                "key": null,
+                "count": 0,
+                "hasCount": false,
+                "iconClass": "far fa-circle",
+                "order": 0,
+                "routeString": "/users/create",
+                "hasChildren": false,
+                "children": []
+            },
+            {
+                "name": "All Users",
+                "key": null,
+                "count": 0,
+                "hasCount": false,
+                "iconClass": "far fa-circle",
+                "order": 0,
+                "routeString": "/users/list",
+                "hasChildren": false,
+                "children": []
+            }
+        ]
+    },
 {
 "name": "Licenses",
 "key": null,

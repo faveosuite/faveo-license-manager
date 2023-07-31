@@ -341,7 +341,9 @@ return [
 
     'latest_product'      =>    'Latest Product',
 
+    //  USERS
 
+    'create_new_user'   =>    'Create New User',
 
 ];
 
