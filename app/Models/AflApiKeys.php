@@ -24,7 +24,9 @@ class AflApiKeys extends Model
         'api_key_versions_add',
         'api_key_verisons_edit',
         'api_key_search',
-        'api_key_status', ];
+        'api_key_status',
+        'api_key_description'
+    ];
 
     protected $primaryKey = 'api_key_id';
 
