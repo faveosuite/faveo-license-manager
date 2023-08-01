@@ -345,5 +345,7 @@ return [
 
     'create_new_user'   =>    'Create New User',
 
+    'create_user'      =>     'Create User',
+
 ];
 

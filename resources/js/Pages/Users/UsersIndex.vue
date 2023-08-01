@@ -23,11 +23,11 @@
 
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
 
-                    <template v-slot:client_status="props">
+                    <template v-slot:admin_status="props">
 
-                        <span :class="props.row.client_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :class="props.row.admin_status_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
 
-                            {{ props.row.client_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.admin_status_status ? 'Active' : 'Inactive'}}
                         </span>
                     </template>
 
@@ -55,7 +55,7 @@ export default {
 
             data: '',
 
-            columns: ['full_name', 'user_email', 'user_active_date', 'user_status', 'actions'],
+            columns: ['admin_fname', 'admin_email', 'admin_date', 'admin_status', 'actions'],
 
             options: {},
 
@@ -89,11 +89,11 @@ export default {
 
             columnsClasses: {
 
-                full_name: 'full_name',
+                admin_fname: 'admin_fname',
 
                 admin_email: 'admin_email',
 
-                admin_active_date: 'admin_date',
+                admin_date: 'admin_date',
 
                 admin_status: 'admin_status'
             },
@@ -104,11 +104,11 @@ export default {
 
             headings: {
 
-                full_name: 'Full Name',
+                admin_fname: 'Name',
 
                 user_email: 'Email',
 
-                user_active_date: 'Active Date',
+                admin_date: 'Date',
 
                 user_status: 'Status',
 
