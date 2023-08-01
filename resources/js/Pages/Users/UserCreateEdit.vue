@@ -15,12 +15,12 @@
 
                 <div class="row">
 
-                    <text-field :label="lang('first_name')" :value="user_fname" type="text" name="user_fname"
+                    <text-field :label="lang('first_name')" :value="admin_fname" type="text" name="admin_fname"
                                 :onChange="onChange" classname="col-sm-6" :required="true">
 
                     </text-field>
 
-                    <text-field :label="lang('last_name')" :value="user_lname" type="text" name="user_lname"
+                    <text-field :label="lang('last_name')" :value="admin_lname" type="text" name="admin_lname"
                                 :onChange="onChange" classname="col-sm-6" :required="true">
 
                     </text-field>
@@ -28,13 +28,13 @@
 
                 <div class="row">
 
-                    <text-field :label="lang('email_address')" :value="user_email" type="text" name="user_email"
+                    <text-field :label="lang('email_address')" :value="admin_email" type="text" name="admin_email"
                                 :onChange="onChange" classname="col-sm-6" :required="true">
 
                     </text-field>
 
-                    <radio-button :options="radioOptions" :label="lang('status')" name="user_status"
-                                  :value="user_status" :onChange="onChange" classname="form-group col-sm-6">
+                    <radio-button :options="radioOptions" :label="lang('status')" name="admin_status"
+                                  :value="admin_status" :onChange="onChange" classname="form-group col-sm-6">
 
                     </radio-button>
                 </div>
@@ -57,12 +57,11 @@ import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
 import { getIdFromUrl } from '../../helpers/extraLogics';
 
-import { validateClientSettings } from "../../helpers/validator/clientValidation";
+import { validateUserSettings } from "../../helpers/validator/userSettings";
 
 import TextField from "../../components/Reusable/FormField/TextField.vue";
 
 import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
-
 export default {
 
     name: 'user-create-edit',
@@ -83,13 +82,13 @@ export default {
 
             radioOptions: [{ name: 'active', value: 1 }, { name: 'inactive', value: 0 }],
 
-            user_fname: '',
+            admin_fname: '',
 
-            user_lname: '',
+            admin_lname: '',
 
-            user_status: 1,
+            admin_status: 1,
 
-            user_email: '',
+            admin_email: '',
 
             apiEndpoint: '',
 
@@ -124,7 +123,7 @@ export default {
 
                 this.user_id = userId;
 
-                this.apiEndpoint = '/editusers';
+                this.apiEndpoint = '/api/admin/editusers';
 
             } else {
 
@@ -132,7 +131,7 @@ export default {
 
                 this.hasDataPopulated = true;
 
-                this.apiEndpoint = '/addusers';
+                this.apiEndpoint = '/api/admin/addusers';
             }
         },
 
@@ -140,8 +139,7 @@ export default {
 
             this.loading=true
 
-            axios.get('addusers' +id).then(res =>{
-
+            axios.get('/api/admin/getusers/' + id).then(res => {
                 this.loading =false;
 
                 this.hasDataPopulated =true
@@ -169,6 +167,13 @@ export default {
             });
         },
 
+        isValid() {
+
+            const { errors, isValid } = validateUserSettings(this.$data);
+
+            return isValid;
+        },
+
         onChange(value, name) {
 
             if(name == 'status') {
@@ -182,48 +187,53 @@ export default {
         },
 
         onSubmit() {
-            console.log('hello')
-            this.loading =true
+            console.log('Form is submitted.');
 
-            const data={};
 
-            if (this.user_id){
-                console.log(test)
+            if(this.isValid()){
+                console.log('hello')
+                this.loading =true
 
-                data['user_id']  =this.user_id;
+                const data={};
 
-                data['user_fname'] =this.user_fname;
+                if (this.user_id){
+                    console.log(test)
 
-                data['user_lname'] =this.user_lname;
+                    data['user_id']  =this.user_id;
 
-                data['user_email'] =this.user_email;
+                    data['admin_fname'] =this.admin_fname;
 
-                data['user_status'] =this.user_status;
+                    data['admin_lname'] =this.admin_lname;
 
-                axios.post(this.apiEndpoint,data).then(res =>{
-console.log('test',this.res)
-                    this.loading =false
+                    data['admin_email'] =this.admin_email;
 
-                    successHandler(res, 'user')
+                    data['admin_status'] =this.admin_status;
 
-                    if (!this.user_id) {
+                    axios.post(this.apiEndpoint,data).then(res =>{
+                        console.log('test',this.res)
+                        this.loading =false
 
-                        setTimeout(() => {
+                        successHandler(res, 'user')
 
-                            this.$router.push('/users')
+                        if (!this.user_id) {
 
-                        }, 2000)
+                            setTimeout(() => {
 
-                    } else {
+                                this.$router.push('/users')
 
-                        this.getInitialValues(this.user_id)
-                    }
-                }).catch(err => {
+                            }, 2000)
 
-                    this.loading = false
+                        } else {
 
-                    errorHandler(err, 'user')
-                });
+                            this.getInitialValues(this.user_id)
+                        }
+                    }).catch(err => {
+
+                        this.loading = false
+
+                        errorHandler(err, 'user')
+                    });
+                }
             }
 
         }
@@ -234,6 +244,7 @@ console.log('test',this.res)
         "text-field": TextField,
 
         "radio-button": RadioButton
+
     }
 }
 </script>

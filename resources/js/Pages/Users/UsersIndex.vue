@@ -2,8 +2,6 @@
 
     <div class="col-sm-12">
 
-
-
         <alert componentName="dataTableModal" />
 
         <div class="card card-light ">
@@ -49,7 +47,7 @@ import axios from 'axios';
 
 export default {
 
-    name: 'clients-list',
+    name: 'admin-list',
 
     data() {
 
@@ -93,11 +91,11 @@ export default {
 
                 full_name: 'full_name',
 
-                user_email: 'user_email',
+                admin_email: 'admin_email',
 
-                user_active_date: 'user_date',
+                admin_active_date: 'admin_date',
 
-                user_status: 'user_status'
+                admin_status: 'admin_status'
             },
 
             templates: {},
@@ -130,7 +128,7 @@ export default {
 
             this.loading = true;
 
-            axios.get('users').then(res => {
+            axios.get('/api/admin/users').then(res => {
 
                 this.loading = false;
 
