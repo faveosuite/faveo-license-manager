@@ -143,24 +143,3 @@ export default {
 };
 </script>
 
-<style>
-.client_name,
-.client_email,
-.client_date,
-.client_status {
-    max-width: 200px;
-    word-break: break-all;
-}
-
-#my_clients .VueTables .table-responsive {
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-#my_clients .VueTables .table-responsive>table {
-    width: max-content;
-    min-width: 100%;
-    max-width: max-content;
-    overflow: auto !important;
-}
-</style>
