@@ -19,7 +19,7 @@
                 </div>
             </div>
 
-            <div class="card-body" id="my_clients">
+            <div class="card-body" id="my_users">
 
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
 
@@ -152,24 +152,4 @@ export default {
 };
 </script>
 
-<style>
-.client_name,
-.client_email,
-.client_date,
-.client_status {
-    max-width: 200px;
-    word-break: break-all;
-}
 
-#my_clients .VueTables .table-responsive {
-    overflow-x: auto;
-    overflow-y: hidden;
-}
-
-#my_clients .VueTables .table-responsive>table {
-    width: max-content;
-    min-width: 100%;
-    max-width: max-content;
-    overflow: auto !important;
-}
-</style>

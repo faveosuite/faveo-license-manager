@@ -1,10 +1,14 @@
 <template>
 
     <div class="col-sm-12">
+        <div class="row" v-if="!hasDataPopulated || loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
 
         <alert componentName="user" />
 
-        <div class="card card-light">
+        <div class="card card-light" v-if="hasDataPopulated">
 
             <div class="card-header">
 
@@ -32,16 +36,14 @@
                                 :onChange="onChange" classname="col-sm-6" :required="true">
 
                     </text-field>
-                    <date-time-picker :label="lang('date')" :value="admin_date" name="admin_date"  type="date" onChange="onChange" classname="col-sm-6" :required="true" ></date-time-picker>
 
-                </div>
-                <div class="row">
 
                     <radio-button :options="radioOptions" :label="lang('admin_status')" name="admin_status"
                                   :value="admin_status" :onChange="onChange" classname="form-group col-sm-6">
 
                     </radio-button>
-                </div>
+                    </div>
+
             </div>
 
             <div class="card-footer">
@@ -98,6 +100,8 @@ export default {
             admin_date:'',
 
             apiEndpoint: '',
+
+            admin_id: ''
         }
     },
 
@@ -141,10 +145,9 @@ export default {
         },
 
         getInitialValues(id) {
-
             this.loading=true
 
-            axios.get('/api/admin/getusers/' + id).then(res => {
+            axios.get('/api/editusers/' + id).then(res => {
                 this.loading =false;
 
                 this.hasDataPopulated =true
@@ -198,8 +201,6 @@ export default {
                 const data={};
 
                     data['admin_fname'] =this.admin_fname;
-
-                    data['admin_date']  =this.admin_date;
 
                     data['admin_lname'] =this.admin_lname;
 

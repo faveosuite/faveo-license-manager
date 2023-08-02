@@ -172,7 +172,7 @@ let usersMenu = {
 
             name: 'User Edit',
 
-            component: ClientCreateEdit,
+            component: UserCreateEdit,
 
             meta: { title : 'users', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'users', to : '/users' }, active : 'edit' } }
         },
