@@ -134,13 +134,13 @@ export default {
 
                 this.data = res.data.data.map(data => {
 
-                    data.edit_url = '/users/' + data.user_id + '/edit';
+                    data.edit_url = '/users/' + data.admin_id + '/edit';
 
-                    data.delete_url = '/deleteusers';
+                    data.delete_url = '/api/admin/deleteusers';
 
-                    data.keyVal ='user_id';
+                    data.keyVal ='admin_id';
 
-                    data.idVal =data.user_id;
+                    data.idVal =data.admin_id;
                     return data;
                 })
             }).catch(err => {

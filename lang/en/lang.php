@@ -347,5 +347,9 @@ return [
 
     'create_user'      =>     'Create User',
 
+    'date'             =>     'Date',
+
+   'admin_status'      =>     'Status'
+
 ];
 

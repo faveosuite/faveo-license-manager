@@ -32,14 +32,12 @@
                                 :onChange="onChange" classname="col-sm-6" :required="true">
 
                     </text-field>
-                    
-                    <date-picker :label="trans('license_expire_date')" :value="license_expire_date" type="date"
-                                 name="license_expire_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
-                                 classname="col-sm-6" :clearable="true" :disabled="false" :confirm="false">
+                    <date-time-picker :label="lang('date')" :value="admin_date" name="admin_date"  type="date" onChange="onChange" classname="col-sm-6" :required="true" ></date-time-picker>
 
-                    </date-picker>
+                </div>
+                <div class="row">
 
-                    <radio-button :options="radioOptions" :label="lang('status')" name="admin_status"
+                    <radio-button :options="radioOptions" :label="lang('admin_status')" name="admin_status"
                                   :value="admin_status" :onChange="onChange" classname="form-group col-sm-6">
 
                     </radio-button>
@@ -68,6 +66,7 @@ import { validateUserSettings } from "../../helpers/validator/userSettings";
 import TextField from "../../components/Reusable/FormField/TextField.vue";
 
 import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
+import DateTimePicker from "../../components/Reusable/FormField/DateTimePicker.vue";
 export default {
 
     name: 'user-create-edit',
@@ -96,6 +95,8 @@ export default {
 
             admin_email: '',
 
+            admin_date:'',
+
             apiEndpoint: '',
         }
     },
@@ -111,7 +112,7 @@ export default {
 
         getValues(path) {
 
-            const userId = getIdFromUrl(path)
+            const adminId = getIdFromUrl(path)
 
             if (path.indexOf('edit') >= 0) {
 
@@ -123,9 +124,9 @@ export default {
 
                 this.hasDataPopulated = false
 
-                this.getInitialValues(userId);
+                this.getInitialValues(adminId);
 
-                this.user_id = userId;
+                this.admin_id = adminId;
 
                 this.apiEndpoint = '/api/admin/editusers';
 
@@ -191,18 +192,14 @@ export default {
         },
 
         onSubmit() {
-            console.log('Form is submitted.');
 
-
-           
-                console.log('hello')
                 this.loading =true
 
                 const data={};
 
-               
-                    console.log('test')
                     data['admin_fname'] =this.admin_fname;
+
+                    data['admin_date']  =this.admin_date;
 
                     data['admin_lname'] =this.admin_lname;
 
@@ -211,7 +208,7 @@ export default {
                     data['admin_status'] =this.admin_status;
 
                     axios.post(this.apiEndpoint,data).then(res =>{
-                        console.log('test',this.res)
+
                         this.loading =false
 
                         successHandler(res, 'user')
@@ -226,7 +223,7 @@ export default {
 
                         } else {
 
-                            this.getInitialValues(this.user_id)
+                            this.getInitialValues(this.admin_id)
                         }
                     }).catch(err => {
 
@@ -234,7 +231,7 @@ export default {
 
                         errorHandler(err, 'user')
                     });
-          
+
 
         }
     },
@@ -243,7 +240,9 @@ export default {
 
         "text-field": TextField,
 
-        "radio-button": RadioButton
+        "radio-button": RadioButton,
+
+        DateTimePicker
 
     }
 }
