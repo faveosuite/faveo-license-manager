@@ -130,8 +130,6 @@ export default {
 
             axios.get('/api/admin/users').then(res => {
 
-                this.loading = false;
-
                 this.data = res.data.data.map(data => {
 
                     data.edit_url = '/users/' + data.admin_id + '/edit';
