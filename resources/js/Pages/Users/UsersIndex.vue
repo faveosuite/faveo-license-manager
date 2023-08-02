@@ -123,31 +123,44 @@ export default {
 
             this.getData();
         },
-
-        getData() {
-
+        async getData() {
             this.loading = true;
-
-            axios.get('/api/admin/users').then(res => {
-
-                this.data = res.data.data.map(data => {
-
+            try {
+                const response = await axios.get('/api/admin/users');
+                this.data = response.data.data.map(data => {
                     data.edit_url = '/users/' + data.admin_id + '/edit';
-
                     data.delete_url = '/api/admin/deleteusers';
-
-                    data.keyVal ='admin_id';
-
-                    data.idVal =data.admin_id;
+                    data.keyVal = 'admin_id';
+                    data.idVal = data.admin_id;
                     return data;
-                })
-            }).catch(err => {
-
-                this.loading = false;
-            })
+                });
+            } catch (err) {
+                console.error('API Error:', err);
+            }
+            this.loading = false;
         }
     }
 };
 </script>
 
+<style>
+.client_name,
+.client_email,
+.client_date,
+.client_status {
+    max-width: 200px;
+    word-break: break-all;
+}
 
+#my_clients .VueTables .table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#my_clients .VueTables .table-responsive>table {
+    width: max-content;
+    min-width: 100%;
+    max-width: max-content;
+    overflow: auto !important;
+}
+</style>

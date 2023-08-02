@@ -46,20 +46,14 @@ describe('UserIndex',()=> {
         },1);
     })
 
-    it('makes `loading` as false when api returns error',async()=>{
+    it("makes `loading` as false when api returns error", async () => {
         updateWrapper();
-
         stubRequest(400);
-
         await wrapper.vm.getData();
-        expect(wrapper.vm.loading).toEqual(true)
-        setTimeout(()=>{
-            expect(wrapper.vm.loading).toEqual(false)
-            expect(wrapper.vm.data).toEqual('');
-            expect(mockAxios.history.get[0].url).toBe('/api/admin/users')
-            done();
-        },1);
+        expect(wrapper.vm.loading).toEqual(false);
+        expect(wrapper.vm.data).toEqual('');
     });
+
 
     function stubRequest(status = 200,url = '/api/admin/users'){
 
