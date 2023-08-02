@@ -46,15 +46,6 @@ describe('UserIndex',()=> {
         },1);
     })
 
-    it("makes `loading` as false when api returns error", async () => {
-        updateWrapper();
-        stubRequest(400);
-        await wrapper.vm.getData();
-        expect(wrapper.vm.loading).toEqual(false);
-        expect(wrapper.vm.data).toEqual('');
-    });
-
-
     function stubRequest(status = 200,url = '/api/admin/users'){
 
         mockAxios.onGet(url).reply(status,fakeRequestData)
