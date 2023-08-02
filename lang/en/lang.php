@@ -349,7 +349,9 @@ return [
 
     'date'             =>     'Date',
 
-   'admin_status'      =>     'Status'
+   'admin_status'      =>     'Status',
+
+    'users'            =>     'Users'
 
 ];
 
