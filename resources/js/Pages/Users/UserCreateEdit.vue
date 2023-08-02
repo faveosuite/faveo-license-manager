@@ -32,6 +32,12 @@
                                 :onChange="onChange" classname="col-sm-6" :required="true">
 
                     </text-field>
+                    
+                    <date-picker :label="trans('license_expire_date')" :value="license_expire_date" type="date"
+                                 name="license_expire_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
+                                 classname="col-sm-6" :clearable="true" :disabled="false" :confirm="false">
+
+                    </date-picker>
 
                     <radio-button :options="radioOptions" :label="lang('status')" name="admin_status"
                                   :value="admin_status" :onChange="onChange" classname="form-group col-sm-6">
@@ -91,8 +97,6 @@ export default {
             admin_email: '',
 
             apiEndpoint: '',
-
-            user_id: ''
         }
     },
 
@@ -190,17 +194,14 @@ export default {
             console.log('Form is submitted.');
 
 
-            if(this.isValid()){
+           
                 console.log('hello')
                 this.loading =true
 
                 const data={};
 
-                if (this.user_id){
-                    console.log(test)
-
-                    data['user_id']  =this.user_id;
-
+               
+                    console.log('test')
                     data['admin_fname'] =this.admin_fname;
 
                     data['admin_lname'] =this.admin_lname;
@@ -233,8 +234,7 @@ export default {
 
                         errorHandler(err, 'user')
                     });
-                }
-            }
+          
 
         }
     },
