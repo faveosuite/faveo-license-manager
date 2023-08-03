@@ -35,15 +35,16 @@
 
                     <template v-slot:api_key_installations_edit="props">
 
-                        <span :class="props.row.api_key_installations_edit ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :style="{ color: props.row.api_key_installations_edit ? 'green' : 'red' }">
 
                             {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}
+
                         </span>
                     </template>
 
                     <template v-slot:api_key_status="props">
 
-                        <span :class="props.row.api_key_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :style="{ color: props.row.api_key_status ? 'green' : 'red' }">
 
                             {{ props.row.api_key_status ? 'Active' : 'Inactive'}}
                         </span>
@@ -51,20 +52,22 @@
 
                     <template v-slot:api_key_search="props">
 
-                        <span :class="props.row.api_key_search ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :style="{ color: props.row.api_key_search ? 'green' : 'red' }">
 
                             {{ props.row.api_key_search ? 'Active' : 'Inactive'}}
+
                         </span>
                     </template>
 
                     <template v-slot:api_key_products_add_edit="props">
 
-                        <span :class="props.row.api_key_products_add ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :style="{ color: props.row.api_key_products_add ? 'green' : 'red' }">
 
                             {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}
+
                         </span> /
 
-                        <span :class="props.row.api_key_products_edit ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :style="{ color: props.row.api_key_products_add ? 'green' : 'red' }">
 
                             {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}
                         </span>
@@ -72,12 +75,13 @@
 
                     <template v-slot:api_key_clients_edit="props">
 
-                        <span :class="props.row.api_key_clients_add ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                     <span :style="{ color: props.row.api_key_clients_add ? 'green' : 'red' }">
 
                             {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
+
                         </span> /
 
-                        <span :class="props.row.api_key_clients_edit ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :style="{ color: props.row.api_key_clients_add ? 'green' : 'red' }">
 
                             {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}
                         </span>
@@ -85,15 +89,18 @@
 
                     <template v-slot:api_key_licenses_add="props">
 
-                        <span :class="props.row.api_key_licenses_add ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                  <span :style="{ color: props.row.api_key_licenses_add ? 'green' : 'red' }">
 
-                            {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
-                        </span> /
+                    {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
 
-                        <span :class="props.row.api_key_licenses_edit ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                      </span> /
 
-                            {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
+                        <span :style="{ color: props.row.api_key_licenses_edit ? 'green' : 'red' }">
+
+                          {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
+
                         </span>
+
                     </template>
 
                     <template v-slot:actions="props">
@@ -120,8 +127,8 @@
 
                 data: '',
 
-                columns: ['api_key_secret', 'api_key_ip', 'api_key_products_add_edit', 'api_key_clients_edit', 'api_key_licenses_add',
-                    'api_key_installations_edit', 'api_key_search', 'api_key_status' ,'api_key_description','actions'],
+                columns: ['api_key_secret','api_key_description', 'api_key_ip', 'api_key_products_add_edit', 'api_key_clients_edit', 'api_key_licenses_add',
+                    'api_key_installations_edit', 'api_key_search', 'api_key_status','actions'],
 
                 options: {},
 
