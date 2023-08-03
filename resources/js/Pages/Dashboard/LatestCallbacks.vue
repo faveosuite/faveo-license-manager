@@ -15,7 +15,7 @@
                     >
                         <template v-slot:callback_status="props">
 
-                        <span :class="props.row.callback_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                            <span :style="{ color: props.row.callback_status ? 'green' : 'red' }">
 
                             {{ props.row.callback_status ? 'Active' : 'Inactive'}}
                         </span>
