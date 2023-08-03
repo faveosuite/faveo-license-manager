@@ -24,11 +24,9 @@
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
 
                     <template v-slot:admin_status="props">
-
-               <span :style="{ color: props.admin_status_status ? 'green' : 'red' }">
-
-                             {{ props.row.admin_status_status ? 'Active' : 'Inactive'}}
-                        </span>
+  <span :style="{ color: props.row.admin_status ? 'green' : 'red' }">
+    {{ props.row.admin_status ? 'Active' : 'Inactive' }}
+  </span>
                     </template>
 
                     <template v-slot:actions="props">
