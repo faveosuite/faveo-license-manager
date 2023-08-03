@@ -123,22 +123,30 @@ export default {
 
             this.getData();
         },
-        async getData() {
-            this.loading = true;
-            try {
-                const response = await axios.get('/api/admin/users');
-                this.data = response.data.data.map(data => {
+
+     getData() {
+
+            this.loading =true;
+            axios.get('/api/admin/users').then(res => {
+                this.loading = false;
+                this.data = res.data.data.map(data => {
+
                     data.edit_url = '/users/' + data.admin_id + '/edit';
-                    data.delete_url = '/api/admin/deleteusers';
+
+                    data.delete_url = '/api/admin/deleteusers/'+data.admin_id;
+
+
                     data.keyVal = 'admin_id';
+
                     data.idVal = data.admin_id;
+
                     return data;
-                });
-            } catch (err) {
-                console.error('API Error:', err);
-            }
-            this.loading = false;
-        }
+                })
+            }).catch(err => {
+                this.loading =false;
+            })
+}
+
     }
 };
 </script>

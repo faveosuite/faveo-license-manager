@@ -77,6 +77,8 @@ export default {
 
         return {
 
+            isUpdating : false,
+
             title: 'create_new_user',
 
             iconClass: 'fas fa-save',
@@ -152,6 +154,8 @@ export default {
 
                 this.hasDataPopulated =true
 
+                this.isUpdating = true;
+
                 this.updateStatesWithData(res.data.data);
 
             }).catch(error => {
@@ -207,7 +211,10 @@ export default {
                     data['admin_email'] =this.admin_email;
 
                     data['admin_status'] =this.admin_status;
-            data['id'] =this.admin_id;
+
+                    if(this.isUpdating){
+                        data['id'] = this.admin_id;
+                    }
 
                     axios.post('/api/admin/updateusers/'+this.admin_id,data).then(res =>{
 
