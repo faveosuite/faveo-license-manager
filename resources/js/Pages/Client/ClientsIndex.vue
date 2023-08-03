@@ -35,7 +35,7 @@
 
                     <template v-slot:client_status="props">
 
-                        <span :class="props.row.client_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                        <span :style="{ color: props.row.client_status ? 'green' : 'red' }">
 
                             {{ props.row.client_status ? 'Active' : 'Inactive'}}
                         </span>
