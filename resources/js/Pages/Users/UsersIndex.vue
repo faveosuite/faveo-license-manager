@@ -25,9 +25,9 @@
 
                     <template v-slot:admin_status="props">
 
-                        <span :class="props.row.admin_status_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+               <span :style="{ color: props.admin_status_status ? 'green' : 'red' }">
 
-                            {{ props.row.admin_status_status ? 'Active' : 'Inactive'}}
+                             {{ props.row.admin_status_status ? 'Active' : 'Inactive'}}
                         </span>
                     </template>
 
@@ -127,14 +127,16 @@ export default {
      getData() {
 
             this.loading =true;
+
             axios.get('/api/admin/users').then(res => {
+
                 this.loading = false;
+
                 this.data = res.data.data.map(data => {
 
                     data.edit_url = '/users/' + data.admin_id + '/edit';
 
                     data.delete_url = '/api/admin/deleteusers/'+data.admin_id;
-
 
                     data.keyVal = 'admin_id';
 
@@ -150,4 +152,18 @@ export default {
     }
 };
 </script>
+<style>
+
+#my_users .VueTables .table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
+
+#my_users .VueTables .table-responsive>table {
+    width: max-content;
+    min-width: 100%;
+    max-width: max-content;
+    overflow: auto !important;
+}
+</style>
 

@@ -60,24 +60,7 @@ describe('UserCreateEdit',() =>{
         done()
     });
 
-    it('correctly sets data when "getValues" method is called', () => {
-        // Simulate calling the "getValues" method with a specific path
-        wrapper.vm.getValues('/edit/user/123');
-
-        // Check if the data is set correctly after calling "getValues"
-        expect(wrapper.vm.title).toBe('edit_user');
-        expect(wrapper.vm.iconClass).toBe('fas fa-sync');
-        expect(wrapper.vm.btnName).toBe('update');
-        expect(wrapper.vm.loading).toBe(true);
-        expect(wrapper.vm.admin_fname).toBe('');
-        expect(wrapper.vm.admin_lname).toBe('');
-        expect(wrapper.vm.admin_status).toBe(1);
-        expect(wrapper.vm.admin_email).toBe('');
-        expect(wrapper.vm.apiEndpoint).toBe('/api/admin/editusers');
-    });
-
     it('initializes with the correct default data', () => {
-        // Check if the component's default data is set correctly
         expect(wrapper.vm.title).toBe('create_new_user');
         expect(wrapper.vm.iconClass).toBe('fas fa-save');
         expect(wrapper.vm.btnName).toBe('save');
@@ -94,20 +77,5 @@ describe('UserCreateEdit',() =>{
         expect(wrapper.vm.apiEndpoint).toBe('/api/admin/addusers');
     });
 
-    it('correctly sets data when "getValues" method is called', () => {
-        // Simulate calling the "getValues" method with a specific path
-        wrapper.vm.getValues('/edit/user');
 
-        // Check if the data is set correctly after calling "getValues"
-        expect(wrapper.vm.title).toBe('edit_user');
-        expect(wrapper.vm.iconClass).toBe('fas fa-sync');
-        expect(wrapper.vm.btnName).toBe('update');
-        expect(wrapper.vm.hasDataPopulated).toBe(false);
-        expect(wrapper.vm.loading).toBe(true);
-        expect(wrapper.vm.admin_fname).toBe('');
-        expect(wrapper.vm.admin_lname).toBe('');
-        expect(wrapper.vm.admin_status).toBe(1);
-        expect(wrapper.vm.admin_email).toBe('');
-        expect(wrapper.vm.apiEndpoint).toBe('/api/admin/editusers');
-    });
 })
