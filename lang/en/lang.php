@@ -351,7 +351,9 @@ return [
 
    'admin_status'      =>     'Status',
 
-    'users'            =>     'Users'
+    'users'            =>     'Users',
+
+    'updated_successfully' => 'Updated Succesfully'
 
 ];
 

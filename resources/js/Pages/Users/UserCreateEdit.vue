@@ -132,7 +132,7 @@ export default {
 
                 this.admin_id = adminId;
 
-                this.apiEndpoint = '/api/admin/editusers';
+                this.apiEndpoint = '';
 
             } else {
 
@@ -147,12 +147,12 @@ export default {
         getInitialValues(id) {
             this.loading=true
 
-            axios.get('/api/editusers/' + id).then(res => {
+            axios.get('/api/admin/editusers/' + id).then(res => {
                 this.loading =false;
 
                 this.hasDataPopulated =true
 
-                this.updateStatesWithData(res.data.data.user);
+                this.updateStatesWithData(res.data.data);
 
             }).catch(error => {
 
@@ -207,8 +207,9 @@ export default {
                     data['admin_email'] =this.admin_email;
 
                     data['admin_status'] =this.admin_status;
+            data['id'] =this.admin_id;
 
-                    axios.post(this.apiEndpoint,data).then(res =>{
+                    axios.post('/api/admin/updateusers/'+this.admin_id,data).then(res =>{
 
                         this.loading =false
 
