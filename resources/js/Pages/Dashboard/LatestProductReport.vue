@@ -15,7 +15,7 @@
                     >
                         <template v-slot:report_status="props">
 
-                        <span :class="props.row.report_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+                            <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
 
                             {{ props.row.report_status ? 'Active' : 'Inactive'}}
                         </span>
