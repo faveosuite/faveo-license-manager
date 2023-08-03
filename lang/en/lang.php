@@ -342,6 +342,11 @@ return [
     'latest_product'      =>    'Latest Product',
 
 
+    //API KEY
+
+    'api_key_description'  =>   'Description',
+
+
 
 ];
 
