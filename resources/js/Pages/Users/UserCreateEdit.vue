@@ -187,13 +187,9 @@ export default {
         },
 
         onChange(value, name) {
-
-            if(name == 'status') {
-
+            if (name === 'admin_status') { // Update the name to 'admin_status'
                 this[name] = value;
-
             } else {
-
                 this[name] = value ? value : '';
             }
         },

@@ -23,7 +23,7 @@ class UserTest extends TestCase
         $user_name = AflAdmins::factory()->create()->user_name;
         $first_name = AflAdmins::factory()->create()->first_name;
         $email = AflAdmins::factory()->create()->email;
-    
+
         $result = $this->assertDatabaseHas('user_name', ['user_name' => $user_name]);
         $this->assertDatabaseHas('first_name', ['first_name' => $first_name]);
         $this->assertDatabaseHas('email', ['email' => $email]);
@@ -37,17 +37,24 @@ class UserTest extends TestCase
         $this->withoutMiddleware();
         $data = [
             'admin_fname' => 'Gurmeen',
-        'admin_lname ' => 'Kour',
-        'admin_email' => 'gurmeen@gmail.com',
-        'admin_date' => '28-08-2022',
-        'admin_status' => '1',
+            'admin_lname ' => 'Kour',
+            'admin_email' => 'gurmeen@gmail.com',
+            'admin_date' => '28-08-2022',
+            'admin_status' => '1',
         ];
         $response = $this->json('POST', url('api/admin/addusers'), $data);
 
         $response->assertStatus(201);
         $response->assertJson(['success' => true]);
         $response->assertJson(['message' => 'Users details has been added']);
-        $response->assertJson(['data' => 1]); 
+        $response->assertJson(['data' => 1]);
+    }
+    public function test_whenUsersEditfetchData_shouldRecieveResponse200()
+    {
+        $this->withoutMiddleware();
+        $response = $this->json('GET', url('api/admin/editusers/1'));
+        $response->assertStatus(200);
+        $response->assertJson(['success' => true]);
     }
 
     public function test_usersAdd_whenClientDetailsIsAddedWithSameDetails()
@@ -61,6 +68,7 @@ class UserTest extends TestCase
             'admin_status' => '1',
         ];
         $response = $this->json('POST', url('api/admin/addusers'), $data);
-        $response->assertStatus(500);
+        $response->assertStatus(422);
     }
+
 }

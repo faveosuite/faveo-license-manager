@@ -134,7 +134,7 @@ export default {
 
                     data.edit_url = '/users/' + data.admin_id + '/edit';
 
-                    data.delete_url = '/api/admin/deleteusers/'+data.admin_id;
+                    data.delete_url = '/api/admin/deleteusers/'+ data.admin_id;
 
                     data.keyVal = 'admin_id';
 
@@ -146,7 +146,6 @@ export default {
                 this.loading =false;
             })
 }
-
     }
 };
 </script>
