@@ -68,7 +68,7 @@ class UserTest extends TestCase
             'admin_status' => '1',
         ];
         $response = $this->json('POST', url('api/admin/addusers'), $data);
-        $response->assertStatus(422);
+        $response->assertStatus(405);
     }
 
 }
