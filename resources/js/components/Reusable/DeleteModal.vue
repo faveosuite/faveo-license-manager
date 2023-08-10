@@ -6,7 +6,7 @@
 
             <div>
 
-                <h4 class="modal-title">{{trans('delte')}}</h4>
+                <h4 class="modal-title">{{trans('delete')}}</h4>
             </div>
         </template>
 
@@ -19,7 +19,7 @@
 
             <div v-if="!loading">
 
-                <span>{{trans('are_you_sure')}}</span>
+                <span>{{trans('are_you_sure_you_want_to_delete')}}</span>
             </div>
         </template>
 
