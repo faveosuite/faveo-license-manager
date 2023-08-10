@@ -90,7 +90,6 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 
     //Users
     Route::get('users', [UsersController::class, 'getUsers']);
-   // Route::post('addusers', [UsersController::class, 'addUsers']);
     Route::get('editusers/{id}', [UsersController::class, 'editUser']);
     Route::post('updateuser/{id?}', [UsersController::class, 'updateUser']);
     Route::post('deleteusers/{id}', [UsersController::class, 'deleteUser']);
