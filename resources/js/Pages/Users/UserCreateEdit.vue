@@ -161,6 +161,8 @@ export default {
             }).catch(error => {
 
                 this.loading = false;
+
+                errorHandler(err, 'user')
             });
         },
 
@@ -212,7 +214,7 @@ export default {
                         data['id'] = this.admin_id;
                     }
 
-                    axios.post('/api/admin/updateusers/'+this.admin_id,data).then(res =>{
+                    axios.post('/api/admin/updateuser/'+this.admin_id,data).then(res =>{
 
                         this.loading =false
 
