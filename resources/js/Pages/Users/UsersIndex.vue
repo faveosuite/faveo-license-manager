@@ -11,6 +11,7 @@
                 <h3 class="card-title">{{lang('users')}}</h3>
 
                 <div class="card-tools">
+                    <!-- Navigate to the user creation route -->
 
                     <router-link to="/users/create" class="btn-tool" v-tooltip="lang('create_user')">
 
@@ -28,6 +29,7 @@
            {{ props.row.admin_status ? 'Active' : 'Inactive' }}
 
                     </template>
+                    <!-- Template for displaying action buttons -->
 
                     <template v-slot:actions="props">
 
@@ -46,6 +48,7 @@ import axios from 'axios';
 export default {
 
     name: 'admin-list',
+    // Data properties of the component
 
     data() {
 
@@ -69,8 +72,10 @@ export default {
     beforeMount() {
 
         const self = this;
+        // Fetch initial data
 
         this.getData();
+        // Configure options for v-client-table
 
         this.options = {
 
@@ -125,10 +130,12 @@ export default {
      getData() {
 
             this.loading =true;
+         // Fetch user data from the API
 
-            axios.get('/api/admin/users').then(res => {
+         axios.get('/api/admin/users').then(res => {
 
                 this.loading = false;
+             // Map and manipulate fetched data
 
                 this.data = res.data.data.map(data => {
 

@@ -74,6 +74,7 @@ export default {
     name: 'user-create-edit',
 
     data() {
+        // Component data properties
 
         return {
 
@@ -106,6 +107,7 @@ export default {
             admin_id: ''
         }
     },
+    // Fetch data before mounting the component
 
     beforeMount() {
 
@@ -115,12 +117,14 @@ export default {
     },
 
     methods: {
+        // Method to get values and populate data
 
         getValues(path) {
 
             const adminId = getIdFromUrl(path)
 
             if (path.indexOf('edit') >= 0) {
+                // Editing existing user
 
                 this.title = 'edit_user'
 
@@ -137,6 +141,7 @@ export default {
                 this.apiEndpoint = '';
 
             } else {
+                // Creating a new user
 
                 this.loading = false;
 
@@ -145,6 +150,7 @@ export default {
                 this.apiEndpoint = '/api/admin/addusers';
             }
         },
+        // Method to fetch initial values for editing
 
         getInitialValues(id) {
             this.loading=true
@@ -187,7 +193,7 @@ export default {
 
             return isValid;
         },
-
+        // To handle form input changes
         onChange(value, name) {
             if (name === 'admin_status') { // Update the name to 'admin_status'
                 this[name] = value;
