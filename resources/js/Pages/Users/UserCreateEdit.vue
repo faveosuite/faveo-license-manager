@@ -123,7 +123,7 @@ export default {
 
             const adminId = getIdFromUrl(path)
 
-            if (path.indexOf('edit') >= 0) {
+            if (path.includes('edit')) {
                 // Editing existing user
 
                 this.title = 'edit_user'
@@ -173,18 +173,12 @@ export default {
         },
 
         updateStatesWithData(data) {
-
-            const self = this;
-
             const stateData = this.$data;
-
-            Object.keys(data).map(key => {
-
-                if (stateData.hasOwnProperty(key)) {
-
-                    self[key] = data[key];
+            for (const key in data) {
+                if (data.hasOwnProperty(key) && stateData.hasOwnProperty(key)) {
+                    this[key] = data[key];
                 }
-            });
+            }
         },
 
         isValid() {
@@ -195,10 +189,10 @@ export default {
         },
         // To handle form input changes
         onChange(value, name) {
-            if (name === 'admin_status') { // Update the name to 'admin_status'
+            if (name === 'admin_status') {
                 this[name] = value;
             } else {
-                this[name] = value ? value : '';
+                this[name] = value || '';
             }
         },
 
