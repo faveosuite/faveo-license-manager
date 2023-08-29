@@ -167,9 +167,11 @@ export default {
 
                 this.limit = res.data.data.data.per_page;
 
-                this.next_page_url = res.data.data.data.next_page_url;
+                this.next_page_url = res.data.data.next_page_url;
+                console.log(this.next_page_url,'url')
 
-                this.prev_page_url = res.data.data.data.prev_page_url;
+                this.prev_page_url = res.data.data.prev_page_url;
+                console.log(this.prev_page_url,'prev')
 
             }).catch(err => {
                 this.loading =false;
