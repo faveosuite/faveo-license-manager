@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
+
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateOrCreateUser;
@@ -8,14 +10,17 @@ use App\Models\AflAdmins;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
+
 
 class UsersController extends Controller
 {
-    public function getUsers()
+    public function getUsers(Request $request)
     {
-        $users = AflAdmins::all();
-        return successResponse(Lang::get('lang.get_record'), $users, 200);
+        return successResponse('',AflAdmins::select('admin_id', 'admin_fname', 'admin_lname', 'admin_email', 'admin_ip', 'admin_date', 'admin_status', 'created_at', 'updated_at')
+            ->paginate($request->limit ?? 10));
     }
+
 
     public function editUser($id)
     {
@@ -23,24 +28,25 @@ class UsersController extends Controller
         return successResponse(Lang::get('lang.get_record'), $user, 200);
     }
 
+
     public function updateUser(UpdateOrCreateUser $request, $id = null)
     {
+        $defaultValues = [
+            'admin_type_id' => 1,
+            'admin_hash' => Str::random(37),
+            'admin_date' => $request->input('admin_date') ?? now(),
+        ];
         try{
             $user = $id ? AflAdmins::where('admin_id',$id)->first() : new AflAdmins();
-
-            $user->admin_fname = $request->input('admin_fname');
-            $user->admin_lname = $request->input('admin_lname');
-            $user->admin_email = $request->input('admin_email');
-            $user->admin_date = $request->input('admin_date') ?? now();
-            $user->admin_status = $request->input('admin_status');
-            $user->admin_hash = Str::random(37);
-            $user->admin_type_id = 1;
+            $user->fill(array_merge($defaultValues, $request->toArray()));
             $user->save();
-            return successResponse(Lang::get('lang.updated_successfully'), $user, 200);
+            return successResponse(Lang::get('lang.user_updated_successfully'), $user, 200);
         }catch(\Exception $exception){
+            Log::error('Exception occurred: ' . $exception->getMessage());
             return errorResponse($exception->getMessage(), 412);
         }
     }
+
 
     public function deleteUser($id)
     {
@@ -49,10 +55,17 @@ class UsersController extends Controller
                 return errorResponse(Lang::get('lang.user_not_found'), null, 200);
             }
             $user->delete();
-            return successResponse(Lang::get('lang.deleted_record'), null, 200);
+            return successResponse(Lang::get('lang.user_deleted'), null, 200);
         }catch( \Exception $exception) {
+            Log::error('Exception occurred: ' . $exception->getMessage());
             return errorResponse($exception->getMessage());
         }
     }
-
 }
+
+
+
+
+
+
+

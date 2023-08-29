@@ -22,7 +22,7 @@
 
             <div class="card-body" id="my_users">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter"  :show_pagination="showPagination">
 
                     <template v-slot:admin_status="props">
 
@@ -36,6 +36,8 @@
                         <table-actions :data="props.row"></table-actions>
                     </template>
                 </v-client-table>
+
+                <pagination v-if="showPagination" :prev_page_url="prev_page_url" :next_page="next_page_url" :on-pagination="onPagination"></pagination>
             </div>
         </div>
     </div>
@@ -44,6 +46,7 @@
 <script>
 
 import axios from 'axios';
+import pagination from "../../components/Reusable/Pagination.vue";
 
 export default {
 
@@ -60,7 +63,15 @@ export default {
 
             options: {},
 
-            counter: 0
+            counter: 0,
+
+            next_page_url : '',
+
+            prev_page_url : '',
+
+            limit : '',
+
+            showPagination: true,
         }
     },
 
@@ -127,17 +138,21 @@ export default {
             this.getData();
         },
 
-     getData() {
+        onPagination() {
+           this.getData(this.next_page_url, { limit : this.per_page })
+        },
+
+     getData(endpoint = '/api/admin/users', params = {}) {
 
             this.loading =true;
          // Fetch user data from the API
 
-         axios.get('/api/admin/users').then(res => {
+         axios.get(endpoint, params).then(res => {
 
                 this.loading = false;
              // Map and manipulate fetched data
 
-                this.data = res.data.data.map(data => {
+                this.data = res.data.data.data.map(data => {
 
                     data.edit_url = '/users/' + data.admin_id + '/edit';
 
@@ -149,10 +164,21 @@ export default {
 
                     return data;
                 })
+
+                this.limit = res.data.data.data.per_page;
+
+                this.next_page_url = res.data.data.data.next_page_url;
+
+                this.prev_page_url = res.data.data.data.prev_page_url;
+
             }).catch(err => {
                 this.loading =false;
             })
 }
+    },
+
+    components : {
+        pagination,
     }
 };
 </script>
