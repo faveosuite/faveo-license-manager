@@ -35,71 +35,42 @@
 
                     <template v-slot:api_key_installations_edit="props">
 
-                        <span :style="{ color: props.row.api_key_installations_edit ? 'green' : 'red' }">
+                        {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}
 
-                            {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}
-
-                        </span>
                     </template>
 
                     <template v-slot:api_key_status="props">
 
-                        <span :style="{ color: props.row.api_key_status ? 'green' : 'red' }">
+                        {{ props.row.api_key_status ? 'Active' : 'Inactive'}}
 
-                            {{ props.row.api_key_status ? 'Active' : 'Inactive'}}
-                        </span>
                     </template>
 
                     <template v-slot:api_key_search="props">
 
-                        <span :style="{ color: props.row.api_key_search ? 'green' : 'red' }">
+                        {{ props.row.api_key_search ? 'Active' : 'Inactive'}}
 
-                            {{ props.row.api_key_search ? 'Active' : 'Inactive'}}
-
-                        </span>
                     </template>
 
                     <template v-slot:api_key_products_add_edit="props">
 
-                        <span :style="{ color: props.row.api_key_products_add ? 'green' : 'red' }">
+                        {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}
+                        /
+                        {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}
 
-                            {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}
-
-                        </span> /
-
-                        <span :style="{ color: props.row.api_key_products_add ? 'green' : 'red' }">
-
-                            {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}
-                        </span>
                     </template>
 
                     <template v-slot:api_key_clients_edit="props">
 
-                     <span :style="{ color: props.row.api_key_clients_add ? 'green' : 'red' }">
-
-                            {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
-
-                        </span> /
-
-                        <span :style="{ color: props.row.api_key_clients_add ? 'green' : 'red' }">
-
-                            {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}
-                        </span>
+                        {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
+                        /
+                        {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}
                     </template>
 
                     <template v-slot:api_key_licenses_add="props">
 
-                  <span :style="{ color: props.row.api_key_licenses_add ? 'green' : 'red' }">
-
-                    {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
-
-                      </span> /
-
-                        <span :style="{ color: props.row.api_key_licenses_edit ? 'green' : 'red' }">
-
-                          {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
-
-                        </span>
+                        {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
+                        /
+                        {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
 
                     </template>
 
@@ -115,166 +86,166 @@
 
 <script>
 
-    import axios from 'axios';
+import axios from 'axios';
 
-    export default {
+export default {
 
-        name: 'api-keys',
+    name: 'api-keys',
 
-        data() {
+    data() {
 
-            return {
+        return {
 
-                data: '',
+            data: '',
 
-                columns: ['api_key_secret','api_key_description', 'api_key_ip', 'api_key_products_add_edit', 'api_key_clients_edit', 'api_key_licenses_add',
-                    'api_key_installations_edit', 'api_key_search', 'api_key_status','actions'],
+            columns: ['api_key_secret','api_key_description', 'api_key_ip', 'api_key_products_add_edit', 'api_key_clients_edit', 'api_key_licenses_add',
+                'api_key_installations_edit', 'api_key_search', 'api_key_status','actions'],
 
-                options: {},
+            options: {},
 
-                counter: 0
-            }
-        },
+            counter: 0
+        }
+    },
 
-        created() {
+    created() {
 
-            this.emitter.on('refreshData', this.updateData);
-        },
+        this.emitter.on('refreshData', this.updateData);
+    },
 
-        beforeMount() {
+    beforeMount() {
 
-            const self = this;
+        const self = this;
 
-            this.getData();
+        this.getData();
 
-            function createPermissionStatusLabel(h, hasPrmission) {
-                return h('span', {
-                    attrs: {
-                        'class': hasPrmission ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
-                    }
-                }, hasPrmission ? 'Active' : 'Inactive')
-            }
+        function createPermissionStatusLabel(h, hasPrmission) {
+            return h('span', {
+                attrs: {
+                    'class': hasPrmission ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                }
+            }, hasPrmission ? 'Active' : 'Inactive')
+        }
 
-            this.options = {
+        this.options = {
 
-                sortIcon: {
+            sortIcon: {
 
-                    base: 'glyphicon',
+                base: 'glyphicon',
 
-                    up: 'glyphicon-chevron-up',
+                up: 'glyphicon-chevron-up',
 
-                    down: 'glyphicon-chevron-down'
-                },
-
-                texts: { filter: '', limit: '' },
-
-                columnsClasses: {
-
-                    api_key_secret: 'api_key_secret',
-
-                    api_key_ip: 'api_key_ip',
-
-                    api_key_products_add_edit: 'api_key_products_add_edit',
-
-                    api_key_clients_edit: 'api_key_clients_edit',
-
-                    api_key_licenses_add: 'api_key_licenses_add',
-
-                    api_key_installations_edit: 'api_key_installations_edit',
-
-                    api_key_search: 'api_key_search',
-
-                    api_key_status: 'api_key_status',
-
-                    api_key_description :    'api_key_description',
-                },
-
-                templates: {
-
-                    api_key_secret(createElement, row) {
-
-                        return row.api_key_secret ? row.api_key_secret : '---';
-                    },
-
-                    api_key_ip(h, row) {
-
-                        return row.api_key_ip ? row.api_key_ip : '---';
-                    },
-
-                    api_key_description(h,row) {
-                       return row.api_key_description ? row.api_key_description :  '---';
-                    }
-                },
-
-                pagination: { chunk: 5, nav: 'fixed', edge: true },
-
-                headings: {
-
-                    api_key_secret: 'API Secret',
-
-                    api_key_ip: 'IP Address',
-
-                    api_key_products_add_edit: 'Add/Edit Products',
-
-                    api_key_clients_edit: 'Add/Edit Clients',
-
-                    api_key_licenses_add: 'Add/Edit Licenses',
-
-                    api_key_installations_edit: 'Edit Installations',
-
-                    api_key_search: 'Search',
-
-                    api_key_status: 'Status',
-
-                    api_key_description:  'Description',
-
-                    actions: 'Actions'
-                },
-            }
-        },
-
-        methods: {
-
-            updateData() {
-
-                this.getData();
+                down: 'glyphicon-chevron-down'
             },
 
-            getData() {
+            texts: { filter: '', limit: '' },
 
-                this.loading = true;
+            columnsClasses: {
 
-                axios.get('/api/admin/viewApiKeys').then(res => {
+                api_key_secret: 'api_key_secret',
 
-                    this.loading = false;
+                api_key_ip: 'api_key_ip',
 
-                    this.data = res.data.data.map(data => {
+                api_key_products_add_edit: 'api_key_products_add_edit',
 
-                        data.edit_url = '/apikeys/' + data.api_key_id + '/edit';
+                api_key_clients_edit: 'api_key_clients_edit',
 
-                        data.delete_url = `/api/admin/deleteapi/${data.api_key_id}`;
+                api_key_licenses_add: 'api_key_licenses_add',
 
-                        return data;
-                    })
-                }).catch(err => {
+                api_key_installations_edit: 'api_key_installations_edit',
 
-                    this.loading = false;
-                })
-            }
+                api_key_search: 'api_key_search',
+
+                api_key_status: 'api_key_status',
+
+                api_key_description :    'api_key_description',
+            },
+
+            templates: {
+
+                api_key_secret(createElement, row) {
+
+                    return row.api_key_secret ? row.api_key_secret : '---';
+                },
+
+                api_key_ip(h, row) {
+
+                    return row.api_key_ip ? row.api_key_ip : '---';
+                },
+
+                api_key_description(h,row) {
+                    return row.api_key_description ? row.api_key_description :  '---';
+                }
+            },
+
+            pagination: { chunk: 5, nav: 'fixed', edge: true },
+
+            headings: {
+
+                api_key_secret: 'API Secret',
+
+                api_key_ip: 'IP Address',
+
+                api_key_products_add_edit: 'Add/Edit Products',
+
+                api_key_clients_edit: 'Add/Edit Clients',
+
+                api_key_licenses_add: 'Add/Edit Licenses',
+
+                api_key_installations_edit: 'Edit Installations',
+
+                api_key_search: 'Search',
+
+                api_key_status: 'Status',
+
+                api_key_description:  'Description',
+
+                actions: 'Actions'
+            },
         }
-    };
+    },
+
+    methods: {
+
+        updateData() {
+
+            this.getData();
+        },
+
+        getData() {
+
+            this.loading = true;
+
+            axios.get('/api/admin/viewApiKeys').then(res => {
+
+                this.loading = false;
+
+                this.data = res.data.data.map(data => {
+
+                    data.edit_url = '/apikeys/' + data.api_key_id + '/edit';
+
+                    data.delete_url = `/api/admin/deleteapi/${data.api_key_id}`;
+
+                    return data;
+                })
+            }).catch(err => {
+
+                this.loading = false;
+            })
+        }
+    }
+};
 </script>
 
 <style>
-    #api_key_index .VueTables .table-responsive {
-        overflow-x: auto;
-        overflow-y: hidden;
-    }
+#api_key_index .VueTables .table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 
-    #api_key_index .VueTables .table-responsive>table {
-        width: max-content;
-        min-width: 100%;
-        max-width: max-content;
-        overflow: auto !important;
-    }
+#api_key_index .VueTables .table-responsive>table {
+    width: max-content;
+    min-width: 100%;
+    max-width: max-content;
+    overflow: auto !important;
+}
 </style>
