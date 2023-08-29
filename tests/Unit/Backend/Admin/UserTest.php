@@ -5,6 +5,7 @@ namespace Tests\Unit\Backend\Admin;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\AflAdmins;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Lang;
 
 
 
@@ -49,7 +50,7 @@ class UserTest extends TestCase
         $response->assertJson(['message' => 'Users details has been added']);
         $response->assertJson(['data' => 1]);
     }
-    public function test_whenUsersEditfetchData_shouldRecieveResponse200()
+    public function EditUserTest()
     {
         $this->withoutMiddleware();
         $response = $this->json('GET', url('api/admin/editusers/1'));
@@ -57,7 +58,7 @@ class UserTest extends TestCase
         $response->assertJson(['success' => true]);
     }
 
-    public function test_usersAdd_whenClientDetailsIsAddedWithSameDetails()
+    public function UpdateUserTest()
     {
         $this->withoutMiddleware();
         $data = [
@@ -70,5 +71,19 @@ class UserTest extends TestCase
         $response = $this->json('POST', url('api/admin/addusers'), $data);
         $response->assertStatus(405);
     }
+  
+    public function DeleteUserTest()
+    {
+        $this->withoutMiddleware();
+        $id = AflAdmins::factory()->create()->id;
+        $data = [
+            'admin_id' => $id,
+        ];
+        $response = $this->json('POST', url('api/admin/deleteusers/$id'), $data);
+        $response->assertStatus(200);
+        $response->assertJson(['success' => true]);
+        $response->assertJson(['message' => Lang::get('lang.user_deleted')]);
+    }
+ 
 
 }
