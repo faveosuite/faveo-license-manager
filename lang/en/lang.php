@@ -353,9 +353,16 @@ return [
 
     'users'            =>     'Users',
 
-    'updated_successfully' => 'Updated Succesfully',
+    'are_you_sure_you_want_to_delete' =>  'Do you want to delete user Permanently',
 
-    'are_you_sure_you_want_to_delete' =>  'Are you sure you want to delete?'
+    'user_deleted' => 'User has been Deleted Successfully',
+
+    'user_not_found' => 'The User does not exists in our Records',
+
+    'user_updated_successfully' => 'User has been Updated Successfully',
+
+    'fetch_user' => 'Users data has been fetched Successfully',
+
 
 ];
 
