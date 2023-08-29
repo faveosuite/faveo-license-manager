@@ -17,7 +17,7 @@ class UsersController extends Controller
 {
     public function getUsers(Request $request)
     {
-        return successResponse('',AflAdmins::select('admin_id', 'admin_fname', 'admin_lname', 'admin_email', 'admin_ip', 'admin_date', 'admin_status', 'created_at', 'updated_at')
+        return successResponse(Lang::get('lang.fetch_user'),AflAdmins::select('admin_id', 'admin_fname', 'admin_lname', 'admin_email', 'admin_ip', 'admin_date', 'admin_status', 'created_at', 'updated_at')
             ->paginate($request->limit ?? 10));
     }
 
@@ -25,7 +25,7 @@ class UsersController extends Controller
     public function editUser($id)
     {
         $user = AflAdmins::where('admin_id',$id)->first();
-        return successResponse(Lang::get('lang.get_record'), $user, 200);
+        return successResponse(Lang::get('lang.fetch_user'), $user, 200);
     }
 
 
