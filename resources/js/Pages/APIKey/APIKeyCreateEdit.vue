@@ -170,6 +170,7 @@ export default {
             api_key_id: '',
 
             editProductPermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -177,6 +178,7 @@ export default {
             api_key_products_edit: '',
 
             addProductPermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -184,6 +186,7 @@ export default {
             api_key_products_add: '',
 
             addClientPermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -191,6 +194,7 @@ export default {
             api_key_clients_add: '',
 
             editClientPermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -198,6 +202,7 @@ export default {
             api_key_clients_edit: '',
 
             addLicensePermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -205,6 +210,7 @@ export default {
             api_key_licenses_add: '',
 
             editLicensePermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -212,6 +218,7 @@ export default {
             api_key_licenses_edit: '',
 
             addInstallationsPermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -219,6 +226,7 @@ export default {
             api_key_installations_edit: '',
 
             useSearchPermission: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
@@ -228,6 +236,7 @@ export default {
             api_key_description: '',
 
             apiKeyStatus: [
+                {name:'Select' },
                 { name: 'Active', value: 1 },
                 { name: 'Inactive', value: 0 }
             ],
