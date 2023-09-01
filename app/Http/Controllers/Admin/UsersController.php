@@ -18,7 +18,7 @@ class UsersController extends Controller
     public function getUsers(Request $request)
     {
         return successResponse(Lang::get('lang.fetch_user'),AflAdmins::select('admin_id', 'admin_fname', 'admin_lname', 'admin_email', 'admin_ip', 'admin_date', 'admin_status', 'created_at', 'updated_at')
-            ->cursor($request->limit ?? 10));
+            ->cursorpaginate($request->limit ?? 10));
     }
 
 
