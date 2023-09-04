@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('api_keys', function (Blueprint $table) {
+        Schema::table('afl_api_keys', function (Blueprint $table) {
             $table->longText('api_key_description')->nullable();
         });
     }
