@@ -17,6 +17,13 @@ use Carbon;
 
 class DashboardController extends Controller
 {
+    public function orderslink()
+    {
+        $number = "10000005";
+        $data = ['message' => 'Hello from the Laravel API!'];
+        return response()->json($number);
+
+    }
     public function dashboard()
     {
         $productscount = AflProducts::where('product_status', '1')->count();
