@@ -77,6 +77,7 @@ Route::post('/fetchQuery', [FetchQueryController::class, 'fetchQuery']);
 Route::post('/downloadFile', [DownloadFileController::class, 'downloadFile']);
 Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
 
+Route::get('order/{number}', [DashboardController::class, 'orderslink']);
 /********************************************************* CALLBACK *******************************************************************/
 
 //API CALLS FOR UI OF LICENSE AND UPDATE MANAGER AND BILLING
@@ -86,6 +87,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
     Route::get('dashboarddropdown', [DashboardController::class, 'dashboard']);
+   // Route::get('order/10000005', [DashboardController::class, 'dashboard']);
     //PRODUCTS
 
     Route::post('products/add', [ProductsController::class, 'productAdd']);
