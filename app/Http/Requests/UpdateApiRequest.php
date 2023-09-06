@@ -39,6 +39,7 @@ class UpdateApiRequest extends FormRequest
             'api_key_installations_edit' => 'required|boolean',
             'api_key_search' => 'required|boolean',
             'api_key_status' => 'required|boolean',
+            'api_key_description' => 'required|max:250',
         ];
     }
 }
