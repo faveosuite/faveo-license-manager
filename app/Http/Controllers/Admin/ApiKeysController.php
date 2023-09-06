@@ -67,6 +67,9 @@ class ApiKeysController extends Controller
      */
     public function apiKeyUpdate(UpdateApiRequest $request, $api_key_id)
     {
+        //dd($request);
+       //dd(! empty($request->get('api_key_ip')));
+
         if (! empty($request->get('api_key_ip'))) {
             $api_key_ips_array = explode('.', str_replace(' ', '', $request->get('api_key_ip'))); //remove all space symbols (if any) between IPs
             foreach ($api_key_ips_array as $ip_to_validate) {
@@ -77,6 +80,8 @@ class ApiKeysController extends Controller
                 }
             }
         }
+
+
         $updateapi = DB::table('afl_api_keys')
                    ->where('api_key_id', $api_key_id)
                    ->update([
@@ -90,9 +95,9 @@ class ApiKeysController extends Controller
                        'api_key_products_edit' => $request->get('api_key_products_edit'),
                        'api_key_installations_edit' => $request->get('api_key_installations_edit'),
                        'api_key_search' => $request->get('api_key_search'),
+                       'api_key_status' => $request->get('api_key_status'),
                        'api_key_description' => $request->get('api_key_description'),
             ]);
-
         if (! aflValidateIntegerValue($updateapi)) {
             return errorResponse(Lang::get('lang.invalid'), 400);
         } else {
