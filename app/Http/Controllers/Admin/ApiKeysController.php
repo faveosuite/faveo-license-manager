@@ -117,7 +117,7 @@ class ApiKeysController extends Controller
 
     public function show()
     {
-        $apis = AflApiKeys::all();
+        $apis = AflApiKeys::latest()->get();
 
         return successResponse(Lang::get('lang.Api_show'), $apis, 200);
     }
@@ -153,6 +153,7 @@ class ApiKeysController extends Controller
 
     public function view($api_key_id)
     {
+        dd("jhgvc vbn");
         $api_key = AflApiKeys::where('api_key_id', $api_key_id)->firstOrFail();
 
         if (! empty($api_key)) {
