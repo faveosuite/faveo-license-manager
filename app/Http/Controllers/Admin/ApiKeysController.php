@@ -153,7 +153,6 @@ class ApiKeysController extends Controller
 
     public function view($api_key_id)
     {
-        dd("jhgvc vbn");
         $api_key = AflApiKeys::where('api_key_id', $api_key_id)->firstOrFail();
 
         if (! empty($api_key)) {
