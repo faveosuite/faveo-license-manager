@@ -1,13 +1,13 @@
 <template>
 
-    <div class="simple-pagination">
+    <div class="simple-pagination d-flex float-right">
 
-        <button class="btn btn-primary" @click="onPagination('previous')" :disabled="true">
+        <button class="btn btn-primary m-2" @click="onPagination('previous')" :disabled="true">
 
             <i class="fas fa-arrow-left"></i> &nbsp; {{ trans('previous') }}
         </button>
 
-        <button class="btn btn-primary" @click="onPagination('next')" :disabled="false">
+        <button class="btn btn-primary m-2" @click="onPagination('next')" :disabled="false">
 
             {{ trans('next') }} &nbsp;<i class="fas fa-arrow-right"></i>
         </button>
