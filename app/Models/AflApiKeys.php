@@ -29,6 +29,4 @@ class AflApiKeys extends Model
     ];
 
     protected $primaryKey = 'api_key_id';
-
-    public $timestamps = false;
 }
