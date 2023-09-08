@@ -74,9 +74,9 @@
 
                     </template>
 
-                    <template v-slot:actions="props">
+                    <template v-slot:actions="props" >
 
-                        <table-actions :data="props.row"></table-actions>
+                        <table-actions :data="props.row" ></table-actions>
                     </template>
                 </v-client-table>
             </div>
@@ -183,7 +183,7 @@ export default {
 
                 api_key_secret: 'API Secret',
 
-                api_key_ip: 'IP Address',
+                api_key_ip: 'API IP',
 
                 api_key_products_add_edit: 'Add/Edit Products',
 
