@@ -45,7 +45,7 @@ class ClientsController extends Controller
      */
     public function clientAdd(ClientRequest $request)
     {
-        $client_role = $request->get('client_role');
+        $client_role = $request->get('client_role') ?? 'client';
 
         if($client_role == "admin"){
             try{
@@ -66,8 +66,6 @@ class ClientsController extends Controller
                 return errorResponse($exception->getMessage(), 412);
             }
         }
-
-
         else{
             $added_records = 0;
             $api_key_secret = $request->get('api_key_secret');
@@ -107,15 +105,10 @@ class ClientsController extends Controller
                 if (! aflValidateIntegerValue($added_records)) {
                     $api_error_detected = 1;
 
-
                     return errorResponse(Lang::get('lang.no_client'), 400);
                 }
-
-
                 return successResponse(Lang::get('lang.Client_Add'), $add, 201);
             }
-
-
             return errorResponse(Lang::get('lang.invalid'), 400);
         }
     }
@@ -130,15 +123,24 @@ class ClientsController extends Controller
     public function show()
     {
         $users = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_status', 'client_active_date')
-            ->get();
-        $admins = AflAdmins::select(DB::raw('CONCAT(admin_fname, " ", admin_lname) As full_name'), 'admin_id', 'admin_email', 'admin_status', 'admin_date')
-            ->get();
-            $clients = $users->concat($admins);
+        ->get()
+        ->map(function ($client) {
+            $client['client_role'] = 'client';
+            return $client;
+        });
+    
+    $admins = AflAdmins::select(DB::raw('CONCAT(admin_fname, " ", admin_lname) As full_name'), 'admin_id', 'admin_email', 'admin_status', 'admin_date')
+        ->get()
+        ->map(function ($admin) {
+            $admin['client_role'] = 'admin';
+            return $admin;
+        });
+    
+    $clients = $users->concat($admins);
+    
 
         return successResponse(Lang::get('lang.Client_Show'), $clients,  200);
     }
-
-
     /**
      * Deletes the clients from the database based on the id
      *
@@ -148,8 +150,7 @@ class ClientsController extends Controller
     public function deleteClient(Request $request)
     {
         $client_id = $request->get('client_id');
-        $client_role = $request->get('client_role');
-    
+        $client_role = $request->get('client_role') ?? 'client';
 
      if($client_role == 'admin') {
         try{
@@ -170,15 +171,12 @@ class ClientsController extends Controller
             $removed_records = 0;
             $api_key_secret = $request->get('api_key_secret');
 
-
             $api_key = new ApiKeysController();
             $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-
 
             if (! aflValidateIntegerValue($client_id) && $api_action_success != 1) {
                 return errorResponse(Lang::get('lang.Not_found_client'), 404);
             }
-
 
             DB::beginTransaction(); //mysqli_begin_transaction($GLOBALS["mysqli"]);
             $transaction_errors_array = [];
@@ -196,17 +194,15 @@ class ClientsController extends Controller
                 DB::rollBack();
                 $removed_records = 0;
 
-
                 return errorResponse(Lang::get('lang.invalid'), 400);
             }
-
 
             return $removed_records;
         }
     }
 
 
-    public function edit($client_id,$client_role)
+    public function edit($client_id,$client_role = 'client')
     {
         if($client_role == "admin"){
             $admin = AflAdmins::where('admin_id', $client_id)->firstOrFail();
@@ -240,7 +236,8 @@ class ClientsController extends Controller
      */
     public function clientUpdate(Request $request)
     {
-        if($request->client_role == "admin"){
+        $client_role = $request->get('client_role') ?? 'client';
+        if($client_role =="admin"){
             try{
                 $user = new AflAdmins();
                 $user-> admin_fname= $request->get('client_fname');
