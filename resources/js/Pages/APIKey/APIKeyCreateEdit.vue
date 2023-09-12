@@ -105,7 +105,9 @@
                         type="textarea"
                         name="api_key_description"
                         :onChange="onChange"
-                        classname="col-sm-6">
+                        classname="col-sm-6"
+                        :required="true">
+
                     </text-field>
 
 
