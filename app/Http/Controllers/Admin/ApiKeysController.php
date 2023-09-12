@@ -67,38 +67,49 @@ class ApiKeysController extends Controller
      */
     public function apiKeyUpdate(UpdateApiRequest $request, $api_key_id)
     {
-        //dd($request);
-       //dd(! empty($request->get('api_key_ip')));
-
-        if (! empty($request->get('api_key_ip'))) {
-            $api_key_ips_array = explode('.', str_replace(' ', '', $request->get('api_key_ip'))); //remove all space symbols (if any) between IPs
-            foreach ($api_key_ips_array as $ip_to_validate) {
-                if (! filter_var($ip_to_validate, FILTER_VALIDATE_IP)) {
-                    $error_detected = 1;
-                    errorResponse(Lang::get('lang.invalid'), 400);
-                    break;
-                }
-            }
+        $existingApiKey = DB::table('afl_api_keys')
+            ->where('api_key_id', $api_key_id)
+            ->first();
+    
+        if (!$existingApiKey) {
+            return errorResponse(Lang::get('lang.apiNotFound'), 404);
         }
-
-
+    
+        $updateData = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'api_key_ip' => $request->get('api_key_ip'),
+            'api_key_clients_add' => $request->get('api_key_clients_add'),
+            'api_key_clients_edit' => $request->get('api_key_clients_edit'),
+            'api_key_licenses_add' => $request->get('api_key_licenses_add'),
+            'api_key_licenses_edit' => $request->get('api_key_licenses_edit'),
+            'api_key_products_add' => $request->get('api_key_products_add'),
+            'api_key_products_edit' => $request->get('api_key_products_edit'),
+            'api_key_installations_edit' => $request->get('api_key_installations_edit'),
+            'api_key_search' => $request->get('api_key_search'),
+            'api_key_status' => $request->get('api_key_status'),
+            'api_key_description' => $request->get('api_key_description'),
+        ];
+    
+        if ($existingApiKey->api_key_secret === $updateData['api_key_secret'] &&
+            $existingApiKey->api_key_ip === $updateData['api_key_ip'] &&
+            $existingApiKey->api_key_clients_add === $updateData['api_key_clients_add'] &&
+            $existingApiKey->api_key_clients_edit === $updateData['api_key_clients_edit'] &&
+            $existingApiKey->api_key_licenses_add === $updateData['api_key_licenses_add'] &&
+            $existingApiKey->api_key_licenses_edit === $updateData['api_key_licenses_edit'] &&
+            $existingApiKey->api_key_products_add === $updateData['api_key_products_add'] &&
+            $existingApiKey->api_key_products_edit === $updateData['api_key_products_edit'] &&
+            $existingApiKey->api_key_installations_edit === $updateData['api_key_installations_edit'] &&
+            $existingApiKey->api_key_search === $updateData['api_key_search'] &&
+            $existingApiKey->api_key_status === $updateData['api_key_status'] &&
+            $existingApiKey->api_key_description === $updateData['api_key_description']) {
+            return successResponse("Nothing to Update", null, 200);
+        }
+    
         $updateapi = DB::table('afl_api_keys')
-                   ->where('api_key_id', $api_key_id)
-                   ->update([
-                       'api_key_secret' => $request->get('api_key_secret'),
-                       'api_key_ip' => $request->get('api_key_ip'),
-                       'api_key_clients_add' => $request->get('api_key_clients_add'),
-                       'api_key_clients_edit' => $request->get('api_key_clients_edit'),
-                       'api_key_licenses_add' => $request->get('api_key_licenses_add'),
-                       'api_key_licenses_edit' => $request->get('api_key_licenses_edit'),
-                       'api_key_products_add' => $request->get('api_key_products_add'),
-                       'api_key_products_edit' => $request->get('api_key_products_edit'),
-                       'api_key_installations_edit' => $request->get('api_key_installations_edit'),
-                       'api_key_search' => $request->get('api_key_search'),
-                       'api_key_status' => $request->get('api_key_status'),
-                       'api_key_description' => $request->get('api_key_description'),
-            ]);
-        if (! aflValidateIntegerValue($updateapi)) {
+            ->where('api_key_id', $api_key_id)
+            ->update($updateData);
+    
+        if (!aflValidateIntegerValue($updateapi)) {
             return errorResponse(Lang::get('lang.invalid'), 400);
         } else {
             return successResponse(Lang::get('lang.apiUpdate'), $updateapi, 200);
