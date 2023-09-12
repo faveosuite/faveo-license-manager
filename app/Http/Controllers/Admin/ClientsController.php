@@ -148,9 +148,12 @@ class ClientsController extends Controller
     public function deleteClient(Request $request)
     {
         $client_id = $request->get('client_id');
-        $user = AflAdmins::findOrFail($client_id);
-        if($user) {
-            try{
+        $client_role = $request->get('client_role');
+    
+
+     if($client_role == 'admin') {
+        try{
+                $user = AflAdmins::findOrFail($client_id);
                 if(!$user) {
                     return errorResponse(Lang::get('lang.user_not_found'), null, 200);
                 }
