@@ -248,7 +248,7 @@ return [
     'remove_licenses_cancelled' => 'Remove Licenses Cancelled Older Than...',
     'add_new_api_key' => 'Add New API Key',
     'api_secret' => 'API Secret',
-    'api_ip' => 'IP Address',
+    'api_ip' => 'API IP',
     'permissions_to_add_products' => 'Permissions To Add Products',
     'permissions_to_edit_products' => 'Permissions To Edit Products',
     'permissions_to_add_clients' => 'Permissions To Add Clients',
