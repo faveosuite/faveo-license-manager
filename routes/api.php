@@ -88,12 +88,6 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     //Dashboiard
     Route::get('dashboarddropdown', [DashboardController::class, 'dashboard']);
 
-    //Users
-    Route::get('users', [UsersController::class, 'getUsers']);
-    Route::get('editusers/{id}', [UsersController::class, 'editUser']);
-    Route::post('updateuser/{id?}', [UsersController::class, 'updateUser']);
-    Route::post('deleteusers/{id}', [UsersController::class, 'deleteUser']);
-
     //PRODUCTS
 
     Route::post('products/add', [ProductsController::class, 'productAdd']);
