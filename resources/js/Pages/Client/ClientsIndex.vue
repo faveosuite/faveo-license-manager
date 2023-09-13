@@ -65,7 +65,7 @@
 
 				data: '',
 
-				columns: ['full_name', 'client_email', 'client_active_date', 'client_status', 'actions'],
+				columns: ['full_name', 'client_email', 'client_active_date', 'client_role','client_status', 'actions'],
 
 				options: {},
 
@@ -105,7 +105,9 @@
 
 					client_active_date: 'client_date',
 
-					client_status: 'client_status'
+					client_status: 'client_status',
+
+                    client_role:'client_role'
 				},
 
 				templates: {},
@@ -121,6 +123,8 @@
 					client_active_date: 'Active Date',
 
 					client_status: 'Status',
+
+                    client_role: 'Role',
 
 					actions: 'Actions'
 				},
@@ -143,8 +147,9 @@
                     this.loading = false;
 
 					this.data = res.data.data.map(data => {
+                        let id = data.hasOwnProperty('client_id') ? data.client_id : data.admin_id;
 
-						data.edit_url = '/clients/' + data.client_id + '/edit';
+						data.edit_url = '/clients/' + id + '/edit';
 
 						data.delete_url = '/api/admin/clients/delete';
 

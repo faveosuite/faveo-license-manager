@@ -1,255 +1,268 @@
 <template>
 
-	<div class="col-sm-12">
+    <div class="col-sm-12">
 
-		<div class="row" v-if="!hasDataPopulated || loading">
+        <div class="row" v-if="!hasDataPopulated || loading">
 
-			<custom-loader :duration="4000"></custom-loader>
-		</div>
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
 
-		<alert componentName="client" />
+        <alert componentName="client" />
 
-		<div class="card card-light" v-if="hasDataPopulated">
+        <div class="card card-light" v-if="hasDataPopulated">
 
-			<div class="card-header">
+            <div class="card-header">
 
-				<h3 class="card-title">{{lang(title)}}</h3>
-			</div>
+                <h3 class="card-title">{{lang(title)}}</h3>
+            </div>
 
-			<div class="card-body">
+            <div class="card-body">
 
-				<div class="row">
+                <div class="row">
 
-					<text-field :label="lang('first_name')" :value="client_fname" type="text" name="client_fname"
-						:onChange="onChange" classname="col-sm-6" :required="true">
+                    <text-field :label="lang('first_name')" :value="client_fname" type="text" name="client_fname"
+                                :onChange="onChange" classname="col-sm-6" :required="true">
 
-					</text-field>
+                    </text-field>
 
-					<text-field :label="lang('last_name')" :value="client_lname" type="text" name="client_lname"
-						:onChange="onChange" classname="col-sm-6" :required="true">
+                    <text-field :label="lang('last_name')" :value="client_lname" type="text" name="client_lname"
+                                :onChange="onChange" classname="col-sm-6" :required="true">
 
-					</text-field>
-				</div>
+                    </text-field>
+                </div>
 
-				<div class="row">
+                <div class="row">
 
-					<text-field :label="lang('email_address')" :value="client_email" type="text" name="client_email"
-						:onChange="onChange" classname="col-sm-6" :required="true">
+                    <text-field :label="lang('email_address')" :value="client_email" type="text" name="client_email"
+                                :onChange="onChange" classname="col-sm-6" :required="true">
 
-					</text-field>
+                    </text-field>
 
-					<radio-button :options="radioOptions" :label="lang('status')" name="client_status"
-						:value="client_status" :onChange="onChange" classname="form-group col-sm-6">
+                    <radio-button :options="radioOptions" :label="lang('status')" name="client_status"
+                                  :value="client_status" :onChange="onChange" classname="form-group col-sm-6">
 
-					</radio-button>
-				</div>
-			</div>
+                    </radio-button>
+                </div>
 
-			<div class="card-footer">
+                <div class="row">
+                    <radio-button :options="radioOption" :label="lang('role')" name="client_role"
+                                  :value="client_role" :onChange="onChange" classname="form-group col-sm-6">
 
-				<button class="btn btn-primary" @click="onSubmit()"><i
-						:class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
-			</div>
-		</div>
-	</div>
+                    </radio-button>
+                </div>
+            </div>
+
+            <div class="card-footer">
+
+                <button class="btn btn-primary" @click="onSubmit()"><i
+                    :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 
-	import axios from 'axios'
+import axios from 'axios'
 
-	import { successHandler, errorHandler } from '../../helpers/responseHandler';
+import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
-	import { getIdFromUrl } from '../../helpers/extraLogics';
+import { getIdFromUrl } from '../../helpers/extraLogics';
 
-	import { validateClientSettings } from "../../helpers/validator/clientValidation";
+import { validateClientSettings } from "../../helpers/validator/clientValidation";
 
-    import TextField from "../../components/Reusable/FormField/TextField.vue";
+import TextField from "../../components/Reusable/FormField/TextField.vue";
 
-    import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
+import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
 
-	export default {
+export default {
 
-		name: 'client-create-edit',
+    name: 'client-create-edit',
 
-		data() {
+    data() {
 
-			return {
+        return {
 
-				title: 'create_new_client',
+            title: 'create_new_client',
 
-				iconClass: 'fas fa-save',
+            iconClass: 'fas fa-save',
 
-				btnName: 'save',
+            btnName: 'save',
 
-				hasDataPopulated: false,
+            hasDataPopulated: false,
 
-				loading: false,
+            loading: false,
 
-				radioOptions: [{ name: 'active', value: 1 }, { name: 'inactive', value: 0 }],
+            radioOptions: [{ name: 'active', value: 1 }, { name: 'inactive', value: 0 }],
 
-				client_fname: '',
+            radioOption:[{ name: 'Client', value: 1}, {name:  'Admin',  value:0}],
 
-				client_lname: '',
+            client_fname: '',
 
-				client_status: 1,
+            client_lname: '',
 
-				client_email: '',
+            client_status: 1,
 
-				apiEndpoint: '',
+            client_role: 1,
 
-				client_id: ''
-			}
-		},
+            client_email: '',
 
-		beforeMount() {
+            apiEndpoint: '',
 
-			const path = window.location.pathname
+            client_id: ''
+        }
+    },
 
-			this.getValues(path);
-		},
+    beforeMount() {
 
-		methods: {
+        const path = window.location.pathname
 
-			getValues(path) {
+        this.getValues(path);
+    },
 
-				const clientId = getIdFromUrl(path)
+    methods: {
 
-				if (path.indexOf('edit') >= 0) {
+        getValues(path) {
 
-					this.title = 'edit_client'
+            const clientId = getIdFromUrl(path)
 
-					this.iconClass = 'fas fa-sync'
+            if (path.indexOf('edit') >= 0) {
 
-					this.btnName = 'update'
+                this.title = 'edit_client'
 
-					this.hasDataPopulated = false
+                this.iconClass = 'fas fa-sync'
 
-					this.getInitialValues(clientId);
+                this.btnName = 'update'
 
-					this.client_id = clientId;
+                this.hasDataPopulated = false
 
-					this.apiEndpoint = '/api/admin/clients/edit';
+                this.getInitialValues(clientId);
 
-				} else {
+                this.client_id = clientId;
 
-					this.loading = false;
+                this.apiEndpoint = '/api/admin/clients/edit';
 
-					this.hasDataPopulated = true;
+            } else {
 
-					this.apiEndpoint = '/api/admin/clients/add';
-				}
-			},
+                this.loading = false;
 
-			getInitialValues(id) {
+                this.hasDataPopulated = true;
 
-				this.loading = true
+                this.apiEndpoint = '/api/admin/clients/add';
+            }
+        },
 
-				axios.get('/api/admin/client/' + id).then(res => {
+        getInitialValues(id) {
 
-					this.loading = false;
+            this.loading = true
 
-					this.hasDataPopulated = true
+            axios.get('/api/admin/client/' + id).then(res => {
 
-					this.updateStatesWithData(res.data.data.client);
+                this.loading = false;
 
-				}).catch(error => {
+                this.hasDataPopulated = true
 
-					this.loading = false;
-				});
-			},
+                this.updateStatesWithData(res.data.data.client);
 
-			updateStatesWithData(data) {
+            }).catch(error => {
 
-				const self = this;
+                this.loading = false;
+            });
+        },
 
-				const stateData = this.$data;
+        updateStatesWithData(data) {
 
-				Object.keys(data).map(key => {
+            const self = this;
 
-					if (stateData.hasOwnProperty(key)) {
+            const stateData = this.$data;
 
-						self[key] = data[key];
-					}
-				});
-			},
+            Object.keys(data).map(key => {
 
-			isValid() {
+                if (stateData.hasOwnProperty(key)) {
 
-				const { errors, isValid } = validateClientSettings(this.$data);
-
-				return isValid;
-			},
-
-			onChange(value, name) {
-
-                if(name == 'client_status') {
-
-                    this[name] = value;
-
-                } else {
-
-                    this[name] = value ? value : '';
+                    self[key] = data[key];
                 }
-			},
+            });
+        },
 
-			onSubmit() {
+        isValid() {
 
-				if (this.isValid()) {
+            const { errors, isValid } = validateClientSettings(this.$data);
 
-					this.loading = true
+            return isValid;
+        },
 
-					const data = {};
+        onChange(value, name) {
 
-					if (this.client_id) {
+            if(name == 'client_status') {
 
-						data['client_id'] = this.client_id;
-					}
+                this[name] = value;
 
-					data['api_key_secret'] = this.getApiKey;
+            } else {
 
-					data['client_fname'] = this.client_fname;
+                this[name] = value ? value : '';
+            }
+        },
 
-					data['client_lname'] = this.client_lname;
+        onSubmit() {
 
-					data['client_email'] = this.client_email;
+            if (this.isValid()) {
 
-					data['client_status'] = this.client_status ? 1 : 0;
+                this.loading = true
 
-					axios.post(this.apiEndpoint, data).then(res => {
+                const data = {};
 
-						this.loading = false
+                if (this.client_id) {
 
-						successHandler(res, 'client')
+                    data['client_id'] = this.client_id;
+                }
 
-						if (!this.client_id) {
+                data['api_key_secret'] = this.getApiKey;
 
-							setTimeout(() => {
+                data['client_fname'] = this.client_fname;
 
-								this.$router.push('/clients')
+                data['client_lname'] = this.client_lname;
 
-							}, 2000)
+                data['client_email'] = this.client_email;
 
-						} else {
+                data['client_status'] = this.client_status ? 1 : 0;
 
-							this.getInitialValues(this.client_id)
-						}
+                data['role']    =this.role ? 1:0;
 
-					}).catch(err => {
+                axios.post(this.apiEndpoint, data).then(res => {
 
-						this.loading = false
+                    this.loading = false
 
-						errorHandler(err, 'client')
-					});
-				}
-			}
-		},
+                    successHandler(res, 'client')
 
-		components: {
+                    if (!this.client_id) {
 
-			"text-field": TextField,
+                        setTimeout(() => {
 
-			"radio-button": RadioButton
-		}
-	}
+                            this.$router.push('/clients')
+
+                        }, 2000)
+
+                    } else {
+
+                        this.getInitialValues(this.client_id)
+                    }
+
+                }).catch(err => {
+
+                    this.loading = false
+
+                    errorHandler(err, 'client')
+                });
+            }
+        }
+    },
+
+    components: {
+
+        "text-field": TextField,
+
+        "radio-button": RadioButton
+    }
+}
 </script>

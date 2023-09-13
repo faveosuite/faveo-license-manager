@@ -1,6 +1,8 @@
 <?php
 
+
 namespace App\Http\Controllers\Admin;
+
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiRequest;
@@ -9,6 +11,7 @@ use App\Models\AflApiKeys;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+
 
 /**
  * Consist of functionalities for the Api keys Generation page in Auto Faveo licenser
@@ -19,7 +22,7 @@ class ApiKeysController extends Controller
     /**
      * To Add Api keys to the license manager
      *
-     * @param  ApiRequest  $request
+     * @param ApiRequest $request
      * @return success response if added successfuly
      */
     public function apiKeyAdd(ApiRequest $request)
@@ -38,6 +41,8 @@ class ApiKeysController extends Controller
                 'api_key_installations_edit' => $request->get('api_key_installations_edit'),
                 'api_key_search' => $request->get('api_key_search'),
                 'api_key_status' => $request->get('api_key_status'),
+                'api_key_status' => $request->get('api_key_status'),
+                'api_key_description' => $request->get('api_key_description'),
             ]);
             if (! empty($request->get('api_key_ip'))) {
                 $api_key_ips_array = explode('.', str_replace(' ', '', $request->get('api_key_ip'))); //remove all space symbols (if any) between IPs
@@ -51,16 +56,18 @@ class ApiKeysController extends Controller
             }
             $api->save();
 
+
             return successResponse(Lang::get('lang.add'), $api, 201);
         } catch (Exception $e) {
             return $e->getMessage();
         }
     }
 
+
     /**
      * To Update Api keys to the license manager
      *
-     * @param  ApiRequest  $request
+     * @param ApiRequest $request
      * @param $api_key_id
      * @return success response if Updated successfuly
      */
@@ -76,21 +83,47 @@ class ApiKeysController extends Controller
                 }
             }
         }
+        $existingApiKey = DB::table('afl_api_keys')
+            ->where('api_key_id', $api_key_id)
+            ->first();
+
+
+        if (!$existingApiKey) {
+            return errorResponse(Lang::get('lang.apiNotFound'), 404);
+        }
         $updateapi = DB::table('afl_api_keys')
-                   ->where('api_key_id', $api_key_id)
-                   ->update([
-                       'api_key_secret' => $request->get('api_key_secret'),
-                       'api_key_ip' => $request->get('api_key_ip'),
-                       'api_key_clients_add' => $request->get('api_key_clients_add'),
-                       'api_key_clients_edit' => $request->get('api_key_clients_edit'),
-                       'api_key_licenses_add' => $request->get('api_key_licenses_add'),
-                       'api_key_licenses_edit' => $request->get('api_key_licenses_edit'),
-                       'api_key_products_add' => $request->get('api_key_products_add'),
-                       'api_key_products_edit' => $request->get('api_key_products_edit'),
-                       'api_key_installations_edit' => $request->get('api_key_installations_edit'),
-                       'api_key_search' => $request->get('api_key_search'),
-                       'api_key_status' => $request->get('api_key_status'),
-                   ]);
+            ->where('api_key_id', $api_key_id)
+            ->update([
+                'api_key_secret' => $request->get('api_key_secret'),
+                'api_key_ip' => $request->get('api_key_ip'),
+                'api_key_clients_add' => $request->get('api_key_clients_add'),
+                'api_key_clients_edit' => $request->get('api_key_clients_edit'),
+                'api_key_licenses_add' => $request->get('api_key_licenses_add'),
+                'api_key_licenses_edit' => $request->get('api_key_licenses_edit'),
+                'api_key_products_add' => $request->get('api_key_products_add'),
+                'api_key_products_edit' => $request->get('api_key_products_edit'),
+                'api_key_installations_edit' => $request->get('api_key_installations_edit'),
+                'api_key_search' => $request->get('api_key_search'),
+                'api_key_status' => $request->get('api_key_status'),
+                'api_key_description' => $request->get('api_key_description'),
+            ]);
+
+
+        if ($existingApiKey->api_key_secret === $updateapi['api_key_secret'] &&
+            $existingApiKey->api_key_ip === $updateapi['api_key_ip'] &&
+            $existingApiKey->api_key_clients_add === $updateapi['api_key_clients_add'] &&
+            $existingApiKey->api_key_clients_edit === $updateapi['api_key_clients_edit'] &&
+            $existingApiKey->api_key_licenses_add === $updateapi['api_key_licenses_add'] &&
+            $existingApiKey->api_key_licenses_edit === $updateapi['api_key_licenses_edit'] &&
+            $existingApiKey->api_key_products_add === $updateapi['api_key_products_add'] &&
+            $existingApiKey->api_key_products_edit === $updateapi['api_key_products_edit'] &&
+            $existingApiKey->api_key_installations_edit === $updateapi['api_key_installations_edit'] &&
+            $existingApiKey->api_key_search === $updateapi['api_key_search'] &&
+            $existingApiKey->api_key_status === $updateapi['api_key_status'] &&
+            $existingApiKey->api_key_description === $updateapi['api_key_description']) {
+            return successResponse("Nothing to Update", null, 200);
+        }
+
 
         if (! aflValidateIntegerValue($updateapi)) {
             return errorResponse(Lang::get('lang.invalid'), 400);
@@ -98,6 +131,7 @@ class ApiKeysController extends Controller
             return successResponse(Lang::get('lang.apiUpdate'), $updateapi, 200);
         }
     }
+
 
     /**
      * To Delete Api keys to the license manager
@@ -111,15 +145,19 @@ class ApiKeysController extends Controller
             $removed_records = AflApiKeys::where('api_key_id', $api_key_id)->delete(); //doMysqlQuery("DELETE FROM apl_api_keys WHERE api_key_id=?", array($api_key_id), array("i"));
         }
 
+
         return successResponse(Lang::get('lang.Delete'), $removed_records, 200);
     }
+
 
     public function show()
     {
         $apis = AflApiKeys::all();
 
+
         return successResponse(Lang::get('lang.Api_show'), $apis, 200);
     }
+
 
     /**
      * This method is used to check if the api key sent in every request is valid
@@ -137,8 +175,11 @@ class ApiKeysController extends Controller
             } else {
                 $api_ip = new AflApiKeys();
                 $api_ips = $api_ip->value('api_key_ip');
+                if (!is_array($api_ips)) {
+                    $api_ips = array();
+                }
                 if (! empty($api_ips)) {
-                    if (! $api_ips->contains($ip_address)) {
+                    if (!in_array($ip_address, $api_ips)) {
                         return 0;
                     } else {
                         return 1;
@@ -150,14 +191,20 @@ class ApiKeysController extends Controller
         }
     }
 
+
     public function view($api_key_id)
     {
         $api_key = AflApiKeys::where('api_key_id', $api_key_id)->firstOrFail();
+
 
         if (! empty($api_key)) {
             return successResponse('', ['api_key' => $api_key], 200);
         }
 
+
         return errorResponse(Lang::get('lang.invalid'), 400);
     }
 }
+
+
+
