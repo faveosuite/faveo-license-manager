@@ -18,7 +18,9 @@ return new class extends Migration
             $table->increments('client_id')->unique();
             $table->string('client_fname', 125);
             $table->string('client_lname', 125);
-            $table->string('client_email', 125);
+            $table->string('client_email', 125)->unique();
+            $table->string('client_password', 125)->nullable();
+            $table->string('client_role', 125)->default('client');
             $table->date('client_active_date')->nullable();
             $table->date('client_cancel_date')->nullable();
             $table->boolean('client_status')->default('1');
