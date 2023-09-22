@@ -142,9 +142,9 @@ export default {
 
                 let data = {}
 
-                data['admin_email'] = this.user_name
+                data['client_email'] = this.user_name
 
-                data['admin_password'] = this.password
+                data['client_password'] = this.password
 
                 axios.post("/api/login", data).then((res) => {
 

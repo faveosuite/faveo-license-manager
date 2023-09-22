@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\AflAdmins;
+use App\Models\AflClients;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -17,6 +18,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+
 
 
 /**
@@ -31,28 +33,28 @@ class AuthController extends Controller
      * @param  RegisterRequest  $request
      * @return response you have registered successfuly along with a unique access token
      */
-    public function register(RegisterRequest $request)
-    {
-        $date = Carbon::now();
-        $hash = generateRandomString(64);
-        $admin = AflAdmins::create([
-            'admin_fname' => $request->get('admin_fname'),
-            'admin_lname' => $request->get('admin_lname'),
-            'admin_email' => $request->get('admin_email'),
-            'admin_password' => bcrypt($request->get('admin_password')),
-            'admin_ip' => $request->ip(),
-            'admin_date' => $date->toDateString(),
-            'admin_hash' => $hash,
-        ]);
+    //public function register(RegisterRequest $request)
+    //{
+       // $date = Carbon::now();
+        //$hash = generateRandomString(64);
+       // $admin = AflAdmins::create([
+            //'admin_fname' => $request->get('admin_fname'),
+            //'admin_lname' => $request->get('admin_lname'),
+            //'admin_email' => $request->get('admin_email'),
+            //'admin_password' => bcrypt($request->get('admin_password')),
+            //'admin_ip' => $request->ip(),
+            //'admin_date' => $date->toDateString(),
+            //'admin_hash' => $hash,
+       // ]);
 
-        //$token = $admin->createToken('AFL')->accessToken;
+        //previous comment//$token = $admin->createToken('AFL')->accessToken;
 
-        $response = [
-            'user' => $admin,
-        ];
+       // $response = [
+           // 'user' => $admin,
+       // ];
 
-        return successResponse(Lang::get('lang.registered'), $response, 201);
-    }
+       // return successResponse(Lang::get('lang.registered'), $response, 201);
+   // }
 
     /**
      * To Login an user to Auto faveo licenser
@@ -63,17 +65,19 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $filled = $request->validate([
-            'admin_email' => 'required|string',
-            'admin_password' => 'required|string|min:8',
+            'client_email' => 'required|string',
+            'client_password' => 'required|string|min:8',
         ]);
 
-        $admin = AflAdmins::where('admin_email', $filled['admin_email'])->first();
-        if (! $admin || ! Hash::check($filled['admin_password'], $admin->admin_password)) {
+        $admin = AflClients::where('client_email', $filled['client_email'])
+        ->where('client_role','admin')->first();
+        if($admin){
+        if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
             return errorResponse(Lang::get('auth.failed'), 401);
         }
 
-        $tokenobj = $admin->createToken('AFL');
-        $token = $tokenobj->accessToken;
+       $tokenobj = $admin->createToken('AFL');
+      $token = $tokenobj->accessToken;
 
         $response = [
             'message' => 'logged in',
@@ -82,6 +86,10 @@ class AuthController extends Controller
         ];        
         return successResponse(Lang::get('lang.Login'), $response, 200);
     }
+    else{
+        return errorResponse(Lang::get('auth.failed'), 401);
+    }
+}
 
     /**
      * To Send a reset link as email to users who have forgotten the password
@@ -93,7 +101,7 @@ class AuthController extends Controller
     {
         $email = $request->input('admin_email');
 
-        if (AflAdmins::where('admin_email', $email)->doesntExist()) {
+        if (AflClients::where('client_email', $email)->doesntExist()) {
             return errorResponse(Lang::get('auth.failed'), 400);
         }
         $tokens = Str::random(10);
@@ -128,7 +136,6 @@ class AuthController extends Controller
      */
     public function reset(Request $request)
     {
-        //dd($request->all());
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|confirmed',
@@ -146,17 +153,19 @@ class AuthController extends Controller
             return errorResponse(Lang::get('passwords.token'), 401);
         }
 
-        $admin = AflAdmins::where('admin_email', $tokenData->email)->first();
+        $admin = AflClients::where('client_email', $tokenData->email)
+        ->where('client_role','admin')
+        ->first();
 
         if (! $admin) {
             return errorResponse(Lang::get('passwords.user'), 401);
         }
 
-        $admin->admin_password = \Hash::make($password);
+        $admin->client_password = \Hash::make($password);
         $admin->update(); //or $admin->save();
 
         // Auth::login($admin);
-        $details = DB::table('password_resets')->where('email', $admin->admin_email)->delete();
+        $details = DB::table('password_resets')->where('email', $admin->client_email)->delete();
 
         return successResponse(Lang::get('passwords.reset'), $details, 201);
     }
