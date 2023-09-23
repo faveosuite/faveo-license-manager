@@ -25,7 +25,7 @@
           			<img :src="basePath()+'/themes/default/img/avatar5.png'" class="user-image img-circle elevation-2"
           				alt="User Image">
 
-          			<span class="d-none d-md-inline">{{user.admin_fname + ' ' + user.admin_lname}}</span>
+          			<span class="d-none d-md-inline">{{user.client_fname + ' ' + user.client_lname}}</span>
         		</a>
       		</li>
 
