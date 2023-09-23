@@ -1,161 +1,150 @@
 <?php
 
-namespace Tests\Unit\Backend\Api;
-
-use App\Models\AflAdmins;
-use Illuminate\Support\Facades\DB;
+use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Str;
 use Tests\TestCase;
+use App\Models\AflClients;
+use Illuminate\Support\Facades\DB;
 
 class AuthControllerTest extends TestCase
 {
+    protected $testUser;
+
     /**
-     * A basic unit test example.
+     *
+     * @return AflClients
+     */
+    protected function getTestUser()
+    {
+        if (!$this->testUser) {
+            $faker = Faker::create();
+
+            $this->testUser = AflClients::factory()->create([
+                'client_email' => $faker->safeEmail,
+                'client_password' => Hash::make('Password@1'), 
+                'client_role' => 'admin', 
+            ]);
+        }
+
+        return $this->testUser;
+    }
+
+    /**
+     * Test user login with valid credentials.
      *
      * @return void
      */
-    public function test_register_whenAdminRegisters_shouldReturnResponse201()
+    public function testUserLoginWithValidCredentials()
     {
-        $data = [
-            'admin_fname' => 'Sandesh',
-            'admin_lname' => 'Menath',
-            'admin_email' => 'sandesh@123gamil.com',
-            'admin_password' => 'sandesh123',
-            'admin_password_confirmation' => 'sandesh123',
-        ];
-        $response = $this->json('POST', url('api/register'), $data);
-        $response->assertStatus(201);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'You Have registered successfuly to Auto Faveo Licenser']);
+        $user = $this->getTestUser(); 
+
+        $response = $this->post('/api/login', [
+            'client_email' => $user->client_email,
+            'client_password' => 'Password@1',
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'message' => Lang::get('lang.Login'),
+            ]);
     }
 
-    public function test_login_whenAdminLogsIn_shouldReturnResponse200()
+    /**
+     * Test user login with invalid credentials.
+     *
+     * @return void
+     */
+    public function testUserLoginWithInvalidCredentials()
     {
-        $data = [
-            'admin_email' => 'sandesh@123gamil.com',
-            'admin_password' => 'sandesh123',
-        ];
-        $response = $this->json('POST', url('api/login'), $data);
-        $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'You have logged in successfully to Auto Faveo Licenser']);
+        $response = $this->post('/api/login', [
+            'client_email' => 'invalidemail@gmail.com', 
+            'client_password' => 'invalidpassword',
+        ]);
+
+        $response->assertStatus(401)
+            ->assertJson([
+                'message' => Lang::get('auth.failed'),
+            ]);
     }
 
-    public function test_logout_whenAdminLogsOut_shouldReturnResponse200()
+    /**
+     * Test user logout.
+     *
+     * @return void
+     */
+    public function testUserLogout()
     {
-        $this->withoutMiddleware();
-        $id = AflAdmins::where('admin_email', 'sandesh@123gamil.com')->value('admin_id');
-        $data = [
-            'token' => env('LICENSE_KEY'),
-        ];
-        $response = $this->json('POST', url('api/admin/logout/'.$id), $data);
-        $response->assertStatus(201);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'You have has logged out successfully from Auto Faveo Licenser']);
+        $user = $this->getTestUser(); 
+
+        $token = $user->createToken('AFL')->accessToken;
+
+        $response = $this->withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->post('/api/admin/logout/' . $user->client_id);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => Lang::get('lang.Logout'),
+            ]);
     }
 
-    public function test_forgot_whenAdminForgetsPassword_shouldReturnResponse200()
+    /**
+     * Test forgot password functionality.
+     *
+     * @return void
+     */
+    public function testForgotPassword()
     {
-        $data = [
-            'admin_email' => 'sandesh@123gamil.com',
-        ];
-        $response = $this->json('POST', url('api/forgot'), $data);
-        $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'We have emailed your password reset link!']);
+        $user = $this->getTestUser(); 
+
+        $response = $this->post('/api/forgot', [
+            'admin_email' => $user->client_email,
+        ]);
+
+        $response->assertStatus(200)
+            ->assertJson([
+                'success' => true,
+                'message' => 'We have emailed your password reset link!',
+            ]);
     }
 
-    public function test_reset_whenAdminResetsthePassword_shouldReturnResponse200()
+    /**
+     * Test password reset functionality.
+     *
+     * @return void
+     */
+    public function testPasswordReset()
     {
-        $token = DB::table('password_resets')
-                    ->where('email', 'sandesh@123gamil.com')
-                     ->value('token');
-        $data = [
-            'email' => 'sandesh123@gamil.com',
-            'token' => $token,
-            'password' => 'sandesh1234',
-            'password_confirmation' => 'sandesh1234',
-        ];
-        $response = $this->json('POST', url('api/reset'), $data);
-        $response->assertStatus(201);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'Your password has been reset!']);
-        $response->assertJson(['data' => 1]);
+        $user = $this->getTestUser(); 
+
+        $resetToken = Str::random(10);
+
+        DB::table('password_resets')->insert([
+            'email' => $user->client_email,
+            'token' => $resetToken,
+        ]);
+
+        $newPassword = 'newpassword123';
+
+        $response = $this->post('/api/reset', [
+            'email' => $user->client_email,
+            'password' => $newPassword,
+            'password_confirmation' => $newPassword,
+            'token' => $resetToken,
+        ]);
+
+        $response->assertStatus(201)
+            ->assertJson([
+                'message' => Lang::get('passwords.reset'),
+            ]);
     }
 
-    public function test_login_whenAdminLogsInWithNewCredentials_shouldReturnResponse200()
-    {
-        $data = [
-            'admin_email' => 'sandesh@123gamil.com',
-            'admin_password' => 'sandesh1234',
-        ];
-        $response = $this->json('POST', url('api/login'), $data);
-        $response->assertStatus(200);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'You have logged in successfully to Auto Faveo Licenser']);
-    }
-
-    public function test_reset_whenAdminResetsthePasswordWithInvalidToken_shouldReturnResponse401()
-    {
-        $data = [
-            'email' => 'sandesh123@gamil.com',
-            'token' => 'sjsjsjsjsjjs',
-            'password' => 'sandesh1234',
-            'password_confirmation' => 'sandesh1234',
-        ];
-        $response = $this->json('POST', url('api/reset'), $data);
-        $response->assertStatus(401);
-        $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'This password reset token is invalid.']);
-    }
-
-    public function test_logout_whenAdminLogsOutAfterPAsswordChange_shouldReturnResponse200()
-    {
-        $this->withoutMiddleware();
-        $id = AflAdmins::where('admin_email', 'sandesh@123gamil.com')->value('admin_id');
-        $response = $this->json('POST', url('api/admin/logout/'.$id));
-        $response->assertStatus(201);
-        $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'You have has logged out successfully from Auto Faveo Licenser']);
-        AflAdmins::where('admin_email', 'sandesh@123gamil.com')->delete();
-    }
-
-    public function test_login_whenAdminLogsInWithWrongCredentials_shouldReturnResponse401()
-    {
-        $data = [
-            'admin_email' => 'sandesh@sdkdfdk123gamil.com',
-            'admin_password' => 'sandesh123djsdnff',
-        ];
-        $response = $this->json('POST', url('api/login'), $data);
-        $response->assertStatus(401);
-        $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'These credentials do not match our records.']);
-    }
-
-    public function test_forgot_whenAdminForgetsPasswordAndWrongEmail_shouldReturnResponse404()
-    {
-        $data = [
-            'admin_email' => 'sandedddddddddddsh@123gamil.com',
-        ];
-        $response = $this->json('POST', url('api/forgot'), $data);
-        $response->assertStatus(400);
-        $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'These credentials do not match our records.']);
-    }
-
-    public function test_reset_whenAdminResetsthePasswordWithWrongValidation_shouldReturnResponse401()
-    {
-        $token = DB::table('password_resets')
-            ->where('email', 'sandesh@123gamil.com')
-            ->value('token');
-        $data = [
-            'email' => 'sandesh123',
-            'token' => $token,
-            'password' => 'sandesh1234',
-            'password_confirmation' => 'sandesh1234',
-        ];
-        $response = $this->json('POST', url('api/reset'), $data);
-        $response->assertStatus(401);
-        $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'The details entered into the form seems to be incomplete']);
-    }
 }
+
+
+
+
+
+

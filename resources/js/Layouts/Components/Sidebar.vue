@@ -19,8 +19,8 @@
 
         		<div class="info">
 
-          			<a href="javascript:;" class="d-block" v-tooltip="user.admin_fname + ' ' + user.admin_lname">
-          				{{subString(user.admin_fname + ' ' + user.admin_lname)}}
+          			<a href="javascript:;" class="d-block" v-tooltip="user.client_fname + ' ' + user.client_lname">
+          				{{subString(user.client_fname + ' ' + user.client_lname)}}
           			</a>
         		</div>
       		</div>
