@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Http\Controllers\Installer\InstallerController;
 use App\Http\Controllers\SyncLicenseToLatestVersion;
-use App\Models\AflAdmins;
+use App\Models\AflClients;
 use DB;
 use Illuminate\Console\Command;
 
@@ -63,10 +63,10 @@ class InstallDB extends Command
                         'password' => 'demopass',
                     ],
                 ];
-                $user = new AflAdmins([
+                $user = new AflClients([
 
-                    'admin_email' => 'demo@gmail.com',
-                    'admin_password' => \Hash::make('demopass'),
+                    'client_email' => 'demo@gmail.com',
+                    'client_password' => \Hash::make('demopass'),
 
                 ]);
                 $user->save();

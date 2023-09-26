@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Installer;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\SyncLicenseToLatestVersion;
-use App\Models\AflAdmins;
+use App\Models\AflClients;
 use Artisan;
 use Cache;
 use DB;
@@ -332,12 +332,12 @@ class InstallerController extends Controller
 
         // creating an user
         // dd($request->all());
-        $user = new AflAdmins([
+        $user = new AflClients([
 
-            'admin_fname' => $firstname,
-            'admin_lname' => $lastname,
-            'admin_email' => $email,
-            'admin_password' => \Hash::make($password),
+            'client_fname' => $firstname,
+            'client_lname' => $lastname,
+            'client_email' => $email,
+            'client_password' => \Hash::make($password),
 
         ]);
         $user->save();
