@@ -3,7 +3,7 @@
 namespace Tests\Unit;
 
 use Tests\TestCase;
-use App\Models\AflAdmins;
+use App\Models\AflClients;
 use Illuminate\Support\Str;
 class InstallerControllerTest extends TestCase
 {
@@ -33,7 +33,7 @@ class InstallerControllerTest extends TestCase
      {
          $this->withoutMiddleware();
          $this->post(route('final'));
-         AflAdmins::factory()->create(['admin_id' => rand(1000,9999)]);
+         AflClients::factory()->create(['client_id' => rand(1000,9999)]);
 
          $response = $this->call('POST', url('final'), [
              'admin_fname' => 'sftgowmi',
