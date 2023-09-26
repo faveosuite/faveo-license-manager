@@ -26,10 +26,8 @@ class EditProfilesRequest extends FormRequest
         return [
             'admin_fname' => 'string',
             'admin_lname' => 'string',
-            'admin_email' => 'required|string|confirmed|',
-            'admin_password' => 'required|string|min:8|confirmed',
-            'admin_ip' => 'string',
-            'admin_data_authenticity' => 'required|boolean',
+           'admin_email' => 'required|string|confirmed',
+           'admin_password' => 'required|string|min:8|confirmed',
         ];
     }
 }
