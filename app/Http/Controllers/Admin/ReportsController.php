@@ -64,16 +64,19 @@ class ReportsController extends Controller
 
     public function reportArraySystem()
     {
-        $rows_array = AflReports::leftJoin('afl_admins', 'afl_reports.account_id', '=', 'afl_admins.admin_id')
+        $rows_array = AflReports::leftJoin('afl_clients', 'afl_reports.account_id', '=', 'afl_clients.client_id')
                   ->leftJoin('afl_products','afl_reports.product_id','=','afl_products.product_id')
                   ->where('report_system', 1)
+                  ->where(function ($query) {
+                    $query->where('afl_clients.client_role', '=', 'admin');
+                })
             ->orderBy('report_date_time', 'DESC')->orderBy('report_id', 'DESC')->get()->toArray();
         foreach ($rows_array as $row) {
             foreach ($row as $key => $value) {
                 $item_array[$key] = $value;
             }
 
-            $item_array['user_formatted'] = $this->formatSystemReportUser($item_array['admin_fname'], $item_array['admin_lname'], $item_array['admin_email']);
+            $item_array['user_formatted'] = $this->formatSystemReportUser($item_array['client_fname'], $item_array['client_lname'], $item_array['client_email']);
             $item_array['report_date_time'] = removeSeconds($item_array['report_date_time']);
             $item_array['report_status_formatted'] = returnFormattedReportStatusArray($item_array['report_status']);
 
