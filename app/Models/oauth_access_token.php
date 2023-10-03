@@ -11,6 +11,6 @@ class OauthAccessToken extends Model
 
     public function afl_admin()
     {
-        return belongsTo('afl_admins');
+        return belongsTo('afl_clients');
     }
 }
