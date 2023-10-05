@@ -30,7 +30,7 @@
 
                         <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
 
-                            {{ props.row.report_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.report_status ? 'Success' : 'Error'}}
                         </span>
                     </template>
 
@@ -58,7 +58,7 @@ export default {
 
             data: '',
 
-            columns: ['product_title', 'license_code','report_date_time','report_text' ,'report_status','user_formatted'],
+            columns: ['report_text' ,'user_formatted','report_date_time','report_status'],
 
             options: {},
 
@@ -155,7 +155,7 @@ export default {
 
                 report_status:  'Status',
 
-                user_formatted:  'Format',
+                user_formatted:  'User',
 
             },
         }

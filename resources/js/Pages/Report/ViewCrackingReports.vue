@@ -33,7 +33,13 @@
                             {{ props.row.license_status ? 'Active' : 'Inactive'}}
                         </span>
                     </template>
+                    <template v-slot:report_status="props">
 
+<span :style="{ color: props.row.report_status ? 'green' : 'red' }">
+
+    {{ props.row.report_status ? 'Success' : 'Error'}}
+</span>
+</template>
                     <template v-slot:actions="props">
 
                         <table-actions :data="props.row"></table-actions>
@@ -58,7 +64,7 @@ export default {
 
             data: '',
 
-            columns: ['product_title','license_code','report_date_time','report_text'],
+            columns: ['report_text','license_code','report_date_time','report_status'],
 
             options: {},
 
