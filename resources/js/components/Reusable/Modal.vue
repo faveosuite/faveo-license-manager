@@ -28,12 +28,7 @@
 
           </div>
 
-          <div class="modal-footer" :class="[showCloseBtn ? 'justify-content-between' : '']">
-
-            <button v-if="showCloseBtn" type="button" id="clos" class="btn btn-default btn-light" @click="onClose()">
-
-              <i class="fas fa-times">&nbsp;&nbsp;</i>{{lang('close') }}
-            </button>
+          <div class="modal-footer" :class="[showCloseBtn]">
 
             <slot name="controls"></slot>
 
