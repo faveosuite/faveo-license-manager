@@ -13,7 +13,7 @@
                     <template v-slot:report_status="props">
                         <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
 
-              {{ props.row.report_status ? 'Active' : 'Inactive' }}
+              {{ props.row.report_status ? 'Success' : 'Error' }}
             </span>
                     </template>
                     <template v-slot:actions="props">
@@ -33,7 +33,7 @@ export default {
     data() {
         return {
             data: '',
-            columns: ['report_id', 'license_code', 'report_date_time', 'report_status', 'report_text'],
+            columns: ['report_text', 'license_code', 'products','report_date_time', 'report_status'],
             options: {},
             counter: 0,
             loading: false, // Add the 'loading' property
@@ -61,7 +61,7 @@ export default {
             // Remove the 'templates' property for now
             pagination: { chunk: 5, nav: 'fixed', edge: true },
             headings: {
-                product_title: 'Product',
+                products: 'Product',
                 license_code: 'License Code',
                 report_text: 'Report',
                 report_date_time: 'Report Date Time',
@@ -73,6 +73,11 @@ export default {
 
                     return row.license_code ? row.license_code : '---';
                 },
+                products(h, row) {
+
+return row.products ? row.products : '---'
+}
+
             }
         };
     },
