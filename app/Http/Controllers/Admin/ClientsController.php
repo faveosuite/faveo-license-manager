@@ -11,6 +11,8 @@ use App\Models\AflLicenses;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 /**
  * Consist of functionalities for the client page in Auto Faveo licenser
@@ -36,12 +38,18 @@ class ClientsController extends Controller
      */
     public function clientAdd(ClientRequest $request)
     {
+        
         $added_records = 0;
         $api_key_secret = $request->get('api_key_secret');
         $client_fname = $request->get('client_fname');
         $client_lname = $request->get('client_lname');
         $client_email = $request->get('client_email');
         $client_status = $request->get('client_status');
+        $client_status = $request->get('client_status');
+        $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
+        if($client_role == 'admin'){
+            $client_password = Hash::make(Str::random(8));
+        }
 
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
@@ -57,14 +65,22 @@ class ClientsController extends Controller
                 }
             }
             try {
-                $add = DB::table('afl_clients')->insertOrIgnore([
+                $dataToInsert = [
                     'client_fname' => $client_fname,
                     'client_lname' => $client_lname,
                     'client_email' => $client_email,
                     'client_active_date' => $client_active_date,
                     'client_cancel_date' => $client_cancel_date,
                     'client_status' => $client_status,
-                ]);
+                    'client_role' => $client_role,
+                ];
+                
+                if ($client_role == 'admin') {
+                    $dataToInsert['client_password'] = $client_password;
+                }
+                
+                $add = DB::table('afl_clients')->insertOrIgnore($dataToInsert);
+                
                 $added_records += 1;
             } catch (Exception $e) {
                 $added_records += 0;
@@ -89,7 +105,8 @@ class ClientsController extends Controller
      */
     public function show()
     {
-        $clients = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_status', 'client_cancel_date', 'client_active_date')
+        
+        $clients = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
         ->get();
 
         return successResponse(Lang::get('lang.Client_Show'), $clients, 200);
@@ -140,6 +157,8 @@ class ClientsController extends Controller
         $client = AflClients::where('client_id', $client_id)->firstOrFail();
 
         if (! empty($client)) {
+            $client->client_role = ($client->client_role == 'admin') ? 0 : 1;
+
             return successResponse('', ['client' => $client], 200);
         }
 
@@ -167,6 +186,8 @@ class ClientsController extends Controller
         $client_lname = $request->get('client_lname');
         $client_email = $request->get('client_email');
         $client_status = $request->get('client_status');
+        $client_status = $request->get('client_status');
+        $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
 
         if (empty($client_id) || ! aflValidateIntegerValue($client_id) ||
     empty($rows_array = AflClients::where('client_id', $client_id)->get())) { //invalid record
@@ -190,6 +211,7 @@ class ClientsController extends Controller
                                              'client_email' => $client_email,
                                              'client_cancel_date' => $client_cancel_date,
                                              'client_status' => $client_status,
+                                             'client_role' => $client_role ,
                                          ]);
 
             if (! aflValidateIntegerValue($updated_records)) {

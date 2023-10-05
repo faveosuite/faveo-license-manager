@@ -13,10 +13,10 @@ return [
     |
      */
 
-    'Client_Add' => 'Client and the Client\'s details has been added',
+    'Client_Add' => 'Client has been Added Successfully',
     'Client_Show' => 'All the Details of the client\'s registered so far are displayed',
-    'Client_Destroy' => 'The Choosen Client has been deleted from the database',
-    'Client_Update' => 'The Current Client Deatils has been updated',
+    'Client_Destroy' => 'Client has been deleted Successfully',
+    'Client_Update' => 'Client Deatils has been updated Successfully',
     'no_client' => 'No client was added to license manager',
     'not_found_client' => 'The client you\'re looking for is not found',
     'no_client_update' => 'Client details were not updated',
@@ -147,7 +147,7 @@ return [
     'status' => 'Status',
     'active' => 'Active',
     'inactive' => 'Inactive',
-    'are_you_sure' => 'Are you sure?',
+    'are_you_sure' => 'Do you want to Delete this record permanently?',
     'delte' => 'Delete',
     'nothing_updated' => 'Nothing was updated.',
     'create_new_client' => 'Create New Client',
@@ -306,7 +306,9 @@ return [
 
 //CLIENTS
 
-'status'   =>  'Client Status',
+'status'   =>  'Status',
+'role'   =>  'Role',
+'close'   =>  'Close',
 
     //LICENSE
     'license_status'  =>  'Licence Status',
@@ -345,7 +347,6 @@ return [
     //API KEY
 
     'api_key_description'  =>   'Description',
-
 
 
 ];
