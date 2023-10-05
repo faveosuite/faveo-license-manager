@@ -32,6 +32,10 @@
 
                         <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{props.row.full_name}}</router-link>
                     </template>
+					<template v-slot:client_email="props">
+
+<router-link :to="'/clients/' + props.row.client_id + '/edit'">{{props.row.client_email}}</router-link>
+</template>
 
                     <template v-slot:client_status="props">
 
@@ -65,7 +69,7 @@
 
 				data: '',
 
-				columns: ['full_name', 'client_email', 'client_active_date', 'client_status', 'actions'],
+				columns: ['full_name', 'client_email', 'client_role' , 'client_active_date', 'client_status', 'actions'],
 
 				options: {},
 
@@ -105,7 +109,9 @@
 
 					client_active_date: 'client_date',
 
-					client_status: 'client_status'
+					client_status: 'client_status',
+
+					client_role: 'client_role'
 				},
 
 				templates: {},
@@ -114,13 +120,15 @@
 
 				headings: {
 
-					full_name: 'Full Name',
+					full_name: 'Name',
 
 					client_email: 'Email',
 
 					client_active_date: 'Active Date',
 
 					client_status: 'Status',
+
+					client_role: 'Role',
 
 					actions: 'Actions'
 				},
@@ -171,6 +179,9 @@
 		max-width: 200px;
 		word-break: break-all;
 	}
+	.client_role{
+		text-transform: capitalize;
+	}
 
 	#my_clients .VueTables .table-responsive {
 		overflow-x: auto;
@@ -183,4 +194,5 @@
 		max-width: max-content;
 		overflow: auto !important;
 	}
+
 </style>
