@@ -84,6 +84,8 @@ class AuthController extends Controller
             'user' => $admin,
             'token' => $token,
         ];        
+       
+      
         return successResponse(Lang::get('lang.Login'), $response, 200);
     }
     else{
@@ -100,7 +102,9 @@ class AuthController extends Controller
     public function forgot(Request $request)
     {
         $email = $request->input('admin_email');
-
+       $admin= AflClients::where('client_email', $email)
+        ->where('client_role','admin')->first();
+if($admin){
         if (AflClients::where('client_email', $email)->doesntExist()) {
             return errorResponse(Lang::get('auth.failed'), 400);
         }
@@ -125,6 +129,9 @@ class AuthController extends Controller
             return successResponse(Lang::get('passwords.sent'), $token, 200);
         } catch (Exception $exception) {
             return  errorResponse($exception->getMessage(), 400);
+        }}
+        else{
+            return errorResponse(Lang::get('lang.not_found_client'), 400);
         }
     }
 
@@ -160,7 +167,6 @@ class AuthController extends Controller
         if (! $admin) {
             return errorResponse(Lang::get('passwords.user'), 401);
         }
-
         $admin->client_password = \Hash::make($password);
         $admin->update(); //or $admin->save();
 
