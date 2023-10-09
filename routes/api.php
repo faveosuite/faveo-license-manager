@@ -77,11 +77,14 @@ Route::post('/fetchQuery', [FetchQueryController::class, 'fetchQuery']);
 Route::post('/downloadFile', [DownloadFileController::class, 'downloadFile']);
 Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
 
+Route::post('/logout/{user_id}', [ClientsController::class, 'logout'])->middleware('manager');
 /********************************************************* CALLBACK *******************************************************************/
 
 //API CALLS FOR UI OF LICENSE AND UPDATE MANAGER AND BILLING
 Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(function () {
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
+   // Route::post('/logout1/{user_id}', [AuthController::class, 'logout']);
+
 
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
@@ -97,7 +100,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     //CLIENTS
 
     Route::post('clients/add', [ClientsController::class, 'clientAdd']);
-    Route::get('viewClients', [ClientsController::class, 'show']);
+    Route::get('viewClients/{client_id}', [ClientsController::class, 'show']);
     Route::post('clients/delete', [ClientsController::class, 'deleteClient']);
     Route::post('clients/edit', [ClientsController::class, 'clientUpdate']);
     Route::get('client/{client_id}', [ClientsController::class, 'edit']);

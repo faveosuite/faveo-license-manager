@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ClientRequest;
 use App\Models\AflCallbacks;
@@ -116,10 +117,9 @@ class ClientsController extends Controller
      *
      * @return response that a client is deleted
      */
-    public function show()
+    public function show($client_id)
     {
-        
-        $clients = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
+        $clients = AflClients::where('client_id', '!=',$client_id)->select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
         ->get();
 
         return successResponse(Lang::get('lang.Client_Show'), $clients, 200);
@@ -226,6 +226,11 @@ class ClientsController extends Controller
                                              'client_status' => $client_status,
                                              'client_role' => $client_role ,
                                          ]);
+                                         if($client_role == "client"){
+                                            (new AuthController())->logout(new Request,$client_id);
+                                            $logout = DB::table('oauth_access_tokens')
+                                            ->where('user_id', $client_id)->delete();                                          
+                                         }
 
             if (! aflValidateIntegerValue($updated_records)) {
                 $error_detected = 1;
