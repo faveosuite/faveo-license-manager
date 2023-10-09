@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 /**
@@ -38,7 +39,6 @@ class ClientsController extends Controller
      */
     public function clientAdd(ClientRequest $request)
     {
-        
         $added_records = 0;
         $api_key_secret = $request->get('api_key_secret');
         $client_fname = $request->get('client_fname');
@@ -48,7 +48,8 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
         if($client_role == 'admin'){
-            $client_password = Hash::make(Str::random(8));
+            $password =Str::random(8);
+            $client_password = Hash::make($password);
         }
 
         $api_key = new ApiKeysController();
@@ -80,8 +81,21 @@ class ClientsController extends Controller
                 }
                 
                 $add = DB::table('afl_clients')->insertOrIgnore($dataToInsert);
-                
+                $client_name = $client_fname . ' ' . $client_lname;
                 $added_records += 1;
+                if($client_role =='admin'){
+                $data = [
+                    'client_name' => $client_name,
+                    'client_email' => $client_email,
+                    'password' => $password,
+                    'appUrl' => env('APP_URL'),
+
+                ];
+                Mail::send('emails.welcomeEmail', $data,function ($message) use ($client_email) {
+                    $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
+                    $message->to($client_email)->subject('Agora License Manager Login Credentials');
+                });
+            }
             } catch (Exception $e) {
                 $added_records += 0;
             }
@@ -90,7 +104,6 @@ class ClientsController extends Controller
 
                 return errorResponse(Lang::get('lang.no_client'), 400);
             }
-
             return successResponse(Lang::get('lang.Client_Add'), $add, 201);
         }
 
