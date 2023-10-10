@@ -97,7 +97,7 @@ let clientsMenu = {
 
 			component: ClientsIndex,
 
-			meta: { title : 'clients', crumb : { link: { name : 'dashboard', to : '/' }, active : 'clients' } }
+			meta: { title : 'Contacts', crumb : { link: { name : 'dashboard', to : '/' }, active : 'Contacts' } }
 		},
 
 		{
@@ -108,7 +108,7 @@ let clientsMenu = {
 
 			component: ClientCreateEdit,
 
-			meta: { title : 'clients', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'clients', to : '/clients' }, active : 'create' } }
+			meta: { title : 'Contacts', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'Contacts', to : '/clients' }, active : 'create' } }
 		},
 
 		{
@@ -119,7 +119,7 @@ let clientsMenu = {
 
 			component: ClientCreateEdit,
 
-			meta: { title : 'clients', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'clients', to : '/clients' }, active : 'edit' } }
+			meta: { title : 'Contacts', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'Contacts', to : '/clients' }, active : 'edit' } }
 		},
 	]
 }

@@ -84,7 +84,7 @@ export default {
 
         return {
 
-            title: 'create_new_client',
+            title: 'create_new_contact',
 
             iconClass: 'fas fa-save',
 
