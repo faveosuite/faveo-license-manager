@@ -47,7 +47,7 @@
 ]
 },
 {
-"name": "Clients",
+"name": "Contacts",
 "key": null,
 "count": 0,
 "hasCount": false,
@@ -58,7 +58,7 @@
 "hasChildren": true,
 "children": [
 {
-"name": "New Client",
+"name": "New Contact",
 "key": null,
 "count": 0,
 "hasCount": false,
@@ -69,7 +69,7 @@
 "children": []
 },
 {
-"name": "All Clients",
+"name": "All Contacts",
 "key": null,
 "count": 0,
 "hasCount": false,

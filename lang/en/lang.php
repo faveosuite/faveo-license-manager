@@ -150,7 +150,7 @@ return [
     'are_you_sure' => 'Do you want to Delete this record permanently?',
     'delte' => 'Delete',
     'nothing_updated' => 'Nothing was updated.',
-    'create_new_client' => 'Create New Client',
+    'create_new_contact' => 'Create New Contact',
     'edit_client' => 'Edit Client',
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
