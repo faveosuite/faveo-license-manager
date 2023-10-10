@@ -87,6 +87,7 @@ $rows_array = AflReports::leftJoin('afl_clients', 'afl_reports.account_id', '=',
 ->orderBy('report_date_time', 'DESC')->orderBy('report_id', 'DESC')->get()
 ->toArray();
 //dd($rows_array[0]);
+$root_array = [];
 foreach ($rows_array as $row) {
 foreach ($row as $key => $value) {
 $item_array[$key] = $value;

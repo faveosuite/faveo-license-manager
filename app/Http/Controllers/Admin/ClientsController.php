@@ -201,7 +201,11 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-
+        if($client_role == 'admin'){
+            $password =Str::random(8);
+            $client_password = Hash::make($password);
+        }
+       
         if (empty($client_id) || ! aflValidateIntegerValue($client_id) ||
     empty($rows_array = AflClients::where('client_id', $client_id)->get())) { //invalid record
             return errorResponse(Lang::get('lang.not_found_client'), 404);
@@ -217,16 +221,37 @@ class ClientsController extends Controller
                     $client_cancel_date = date('Y-m-d');
                 }
             }
-            $updated_records += DB::table('afl_clients')->where('client_id', $client_id)
-                                         ->update([
+            $role= DB::table('afl_clients')->where('client_id', $client_id)->value('client_role');
+
+                            $dataToUpdate= [
                                              'client_fname' => $client_fname,
                                              'client_lname' => $client_lname,
                                              'client_email' => $client_email,
                                              'client_cancel_date' => $client_cancel_date,
                                              'client_status' => $client_status,
                                              'client_role' => $client_role ,
-                                         ]);
-                                         if($client_role == "client"){
+                                         ];   
+                                         if ($client_role == 'admin'&& $role == "client") {
+                                            $dataToUpdate['client_password'] = $client_password;
+                                        }
+                                        $updated_records = DB::table('afl_clients')->where('client_id', $client_id)
+                                        ->update($dataToUpdate );
+                                       
+                                         $client_name = $client_fname . ' ' . $client_lname;
+                                         if($client_role =='admin' && $role == "client"){
+                                            $data = [
+                                                'client_name' => $client_name,
+                                                'client_email' => $client_email,
+                                                'password' => $password,
+                                                'appUrl' => env('APP_URL'),
+                            
+                                            ];
+                                            Mail::send('emails.adminRoleMail', $data,function ($message) use ($client_email) {
+                                                $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
+                                                $message->to($client_email)->subject('Admin Privileges Granted');
+                                            });
+                                        }
+                                         if($client_role == "client" || $client_status == 0){
                                             (new AuthController())->logout(new Request,$client_id);
                                             $logout = DB::table('oauth_access_tokens')
                                             ->where('user_id', $client_id)->delete();                                          
