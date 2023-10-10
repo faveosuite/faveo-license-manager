@@ -337,6 +337,7 @@ class InstallerController extends Controller
             'client_fname' => $firstname,
             'client_lname' => $lastname,
             'client_email' => $email,
+            'client_role' => 'admin',
             'client_password' => \Hash::make($password),
 
         ]);
