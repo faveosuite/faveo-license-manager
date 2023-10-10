@@ -82,9 +82,9 @@ class LicenseSchemeController extends Controller
                         $license_array = AflLicenses::where('license_code', $license_code)
                                     ->where('product_id', $product_id)->get()->toArray();
                     } else { //search for email-based license
-                        $license_array = AflLicenses::join('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
-                                    ->where('afl_clients.client_email', $client_email)
-                                    ->where('afl_clients.client_status', 1)
+                        $license_array = AflLicenses::join('users', 'afl_licenses.client_id', '=', 'users.client_id')
+                                    ->where('users.client_email', $client_email)
+                                    ->where('users.client_status', 1)
                                     ->where('afl_licenses.product_id', $product_id)
                                     ->get()->toArray();
                     }

@@ -81,7 +81,7 @@ class ClientsController extends Controller
                     $dataToInsert['client_password'] = $client_password;
                 }
                 
-                $add = DB::table('afl_clients')->insertOrIgnore($dataToInsert);
+                $add = DB::table('users')->insertOrIgnore($dataToInsert);
                 $client_name = $client_fname . ' ' . $client_lname;
                 $added_records += 1;
                 if($client_role =='admin'){
@@ -221,7 +221,7 @@ class ClientsController extends Controller
                     $client_cancel_date = date('Y-m-d');
                 }
             }
-            $role= DB::table('afl_clients')->where('client_id', $client_id)->value('client_role');
+            $role= DB::table('users')->where('client_id', $client_id)->value('client_role');
 
                             $dataToUpdate= [
                                              'client_fname' => $client_fname,
@@ -234,7 +234,7 @@ class ClientsController extends Controller
                                          if ($client_role == 'admin'&& $role == "client") {
                                             $dataToUpdate['client_password'] = $client_password;
                                         }
-                                        $updated_records = DB::table('afl_clients')->where('client_id', $client_id)
+                                        $updated_records = DB::table('users')->where('client_id', $client_id)
                                         ->update($dataToUpdate );
                                        
                                          $client_name = $client_fname . ' ' . $client_lname;

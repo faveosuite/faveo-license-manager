@@ -240,13 +240,13 @@ function licenseArray()
 {
     $root_array = [];
     $rows_array = DB::table('afl_licenses')
-      ->select('afl_licenses.*', 'afl_clients.client_email', 'afl_products.product_title',
+      ->select('afl_licenses.*', 'users.client_email', 'afl_products.product_title',
           DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
           DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'),
           DB::raw('(SELECT COUNT(*) FROM afl_callbacks WHERE afl_callbacks.license_code = afl_licenses.license_code) AS total_callbacks')
       )
     ->leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-    ->leftJoin('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
+    ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
     ->orderBy('license_date', 'desc')
     ->orderBy('license_id', 'desc')->get()->toArray();
 
@@ -272,7 +272,7 @@ function installArray()
     $root_array = [];
     $rows_array = DB::table('afl_installations')
         ->leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-        ->leftJoin('afl_clients', 'afl_installations.client_id', '=', 'afl_clients.client_id')
+        ->leftJoin('users', 'afl_installations.client_id', '=', 'users.client_id')
         ->orderBy('installation_date', 'desc')
         ->orderBy('installation_id', 'desc')->get()->toArray();
 
@@ -456,7 +456,7 @@ function callbackArray()
 
     $rows_array = DB::table('afl_callbacks')
         ->leftJoin('afl_products', 'afl_callbacks.product_id', '=', 'afl_products.product_id')
-        ->leftJoin('afl_clients', 'afl_callbacks.client_id', '=', 'afl_clients.client_id')
+        ->leftJoin('users', 'afl_callbacks.client_id', '=', 'users.client_id')
         ->orderBy('afl_callbacks.callback_date_time', 'desc')
         ->orderBy('afl_callbacks.callback_id', 'desc')->get()->toArray();
     

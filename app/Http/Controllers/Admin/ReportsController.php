@@ -78,11 +78,11 @@ return $removed_records;
 //system1
 public function reportArraySystem()
 {
-$rows_array = AflReports::leftJoin('afl_clients', 'afl_reports.account_id', '=', 'afl_clients.client_id')
+$rows_array = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
 ->leftJoin('afl_products','afl_reports.product_id','=','afl_products.product_id')
 ->where('report_system', 1)
 ->where(function ($query) {
-    $query->where('afl_clients.client_role', '=', 'admin');
+    $query->where('users.client_role', '=', 'admin');
 })
 ->orderBy('report_date_time', 'DESC')->orderBy('report_id', 'DESC')->get()
 ->toArray();
@@ -110,7 +110,7 @@ return $root_array;
 //cracking1
 public function reportArrayCracking()
 {
-$rows_array = AflReports::leftJoin('afl_clients', 'afl_reports.account_id', '=', 'afl_clients.client_id')
+$rows_array = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
 ->leftJoin('afl_products','afl_reports.product_id','=','afl_products.product_id')
 ->where('afl_reports.account_id', 0)
 ->where('afl_reports.product_id', 0)
@@ -138,7 +138,7 @@ return $root_array;
 //licenses1
 public function reportArrayLicense()
 {
-$rows_array = AflReports::leftJoin('afl_clients', 'afl_reports.account_id', '=', 'afl_clients.client_id')
+$rows_array = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
 ->where('afl_reports.license_code', '!=', '')
 ->orderBy('report_date_time', 'DESC')
 ->orderBy('report_id', 'DESC')->get()
