@@ -70,9 +70,11 @@ class AuthController extends Controller
         ]);
 
         $admin = AflClients::where('client_email', $filled['client_email'])
-        ->where('client_role','admin')->first();
+        ->where('client_role','admin')
+        ->where('client_status',1)
+        ->first();
         if($admin){
-        if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
+            if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
             return errorResponse(Lang::get('auth.failed'), 401);
         }
 
