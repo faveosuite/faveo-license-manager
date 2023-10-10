@@ -29,7 +29,7 @@ class ClientRequest extends FormRequest
         return [
             'client_fname' => 'string',
             'client_lname' => 'string',
-            'client_email' => 'string|unique:afl_clients,client_email',
+            'client_email' => 'string|unique:users,client_email',
             'client_active_date' => 'date',
             'client_cancel_date' => 'date',
             'client_status' => 'boolean',

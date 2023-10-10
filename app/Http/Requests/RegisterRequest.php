@@ -27,7 +27,7 @@ class RegisterRequest extends FormRequest
 
             'admin_fname' => 'required|string',
             'admin_lname' => 'required|string',
-            'admin_email' => 'required|string|unique:afl_clients,client_email',
+            'admin_email' => 'required|string|unique:users,client_email',
             'admin_password' => 'required|string|min:8|confirmed',
 
         ];

@@ -15,7 +15,7 @@ return [
 
     'defaults' => [
         'guard' => 'web',
-        'passwords' => 'afl_clients',
+        'passwords' => 'users',
     ],
 
     /*

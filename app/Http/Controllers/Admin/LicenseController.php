@@ -132,7 +132,7 @@ class LicenseController extends Controller
                     $license_id = DB::getpdo()->lastInsertId();
                     if (aflValidateIntegerValue($license_id)) {
                         foreach ($rows_array = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-                                              ->leftJoin('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
+                                              ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
                                               ->where('afl_licenses.license_id', $license_id)
                                               ->get()->toArray() as $row) {
                             //fetchRow("SELECT * FROM apl_licenses LEFT JOIN apl_products ON apl_licenses.product_id=apl_products.product_id LEFT JOIN apl_clients ON apl_licenses.client_id=apl_clients.client_id WHERE apl_licenses.license_id=?", array($license_id), array("i")) as $row) //fetch product and client details to use in reports
@@ -271,7 +271,7 @@ class LicenseController extends Controller
                 } else {
                     $api_action_success = 1;
                     foreach ($rows_array = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-                                              ->leftJoin('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
+                                              ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
                                               ->where('afl_licenses.license_id', $license_id)
                                               ->get()->toArray() as $row) { //fetch product and client details to use in reports
                         extract((array) $row);
@@ -343,9 +343,9 @@ return successResponse(Lang::get('lang.License_show'), $root_array, 200);
         $product_name = AflLicenses::join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')->where('afl_licenses.license_id', $license_id)
             ->get(['afl_products.product_title', 'afl_licenses.product_id']);
 
-        $client_name = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname,"<",client_email,">") AS full_name'), 'afl_clients.client_id')
-            ->join('afl_licenses', 'afl_licenses.client_id', '=', 'afl_clients.client_id')->where('afl_licenses.license_id', $license_id)
-            ->get('full_name', 'afl_clients.client_id');
+        $client_name = AflClients::select(DB::raw('CONCAT(client_fname, " ", client_lname,"<",client_email,">") AS full_name'), 'users.client_id')
+            ->join('afl_licenses', 'afl_licenses.client_id', '=', 'users.client_id')->where('afl_licenses.license_id', $license_id)
+            ->get('full_name', 'users.client_id');
 
         if (! empty($license)) {
             return successResponse('', ['license' => $license, 'product_name' => $product_name, 'client_name' => $client_name], 200);

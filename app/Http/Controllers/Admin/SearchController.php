@@ -253,10 +253,10 @@ class SearchController extends Controller
 
             $rows_array = DB::table('afl_callbacks')
                      ->leftJoin('afl_products', 'afl_callbacks.product_id', '=', 'afl_products.product_id')
-                     ->leftJoin('afl_clients', 'afl_callbacks.client_id', '=', 'afl_clients.client_id')
+                     ->leftJoin('users', 'afl_callbacks.client_id', '=', 'users.client_id')
                      ->where('afl_callbacks.callback_date_time', '>=', $date_from)
                      ->where('afl_callbacks.callback_date_time', '<=', $date_to)
-                     ->orWhere('afl_clients.client_email', 'like', $search_keyword)
+                     ->orWhere('users.client_email', 'like', $search_keyword)
                      ->orWhere('afl_callbacks.license_code', 'like', $search_keyword)
                      ->orWhere('afl_callbacks.callback_domain', 'like', $search_keyword)
                      ->orWhere('afl_callbacks.callback_ip', 'like', $search_keyword)
@@ -266,7 +266,7 @@ class SearchController extends Controller
         } else {
             $rows_array = DB::table('afl_callbacks')
                    ->leftJoin('afl_products', 'afl_callbacks.product_id', '=', 'afl_products.product_id')
-                   ->leftJoin('afl_clients', 'afl_callbacks.client_id', '=', 'afl_clients.client_id')
+                   ->leftJoin('users', 'afl_callbacks.client_id', '=', 'users.client_id')
                    ->where('afl_callbacks.product_id', '=', $product_id)
                    ->where('afl_callbacks.callback_date_time', '>=', $date_from)
                    ->where('afl_callbacks.callback_date_time', '<=', $date_to)
@@ -295,20 +295,20 @@ class SearchController extends Controller
         if (! empty($search_keyword) && aflValidateIntegerValue($results_limit)) {
             $search_keyword = "%$search_keyword%"; //add wildcards
 
-            $rows_array = DB::table('afl_clients')
-                         ->select('afl_clients.*',
-                             DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
-                             DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
+            $rows_array = DB::table('users')
+                         ->select('users.*',
+                             DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE users.client_id=afl_licenses.client_id) AS total_licenses'),
+                             DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE users.client_id=afl_installations.client_id) AS total_installations'),
 
                          )->orWhere('client_fname', 'like', $search_keyword)
                                    ->orWhere('client_lname', 'like', $search_keyword)
                                    ->orWhere('client_email', 'like', $search_keyword)
                                    ->orderBy('client_fname')->orderBy('client_lname')->limit($results_limit)->get()->toArray();
         } else {
-            $rows_array = DB::table('afl_clients')
-                         ->select('afl_clients.*',
-                             DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE afl_clients.client_id=afl_licenses.client_id) AS total_licenses'),
-                             DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_clients.client_id=afl_installations.client_id) AS total_installations'),
+            $rows_array = DB::table('users')
+                         ->select('users.*',
+                             DB::raw('(SELECT COUNT(*) FROM afl_licenses WHERE users.client_id=afl_licenses.client_id) AS total_licenses'),
+                             DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE users.client_id=afl_installations.client_id) AS total_installations'),
 
                          )->orWhere('client_fname', 'like', $search_keyword)
                                    ->orWhere('client_lname', 'like', $search_keyword)
@@ -347,11 +347,11 @@ class SearchController extends Controller
 
             $rows_array = DB::table('afl_installations')
                     ->leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-                    ->leftJoin('afl_clients', 'afl_installations.client_id', '=', 'afl_clients.client_id')
+                    ->leftJoin('users', 'afl_installations.client_id', '=', 'users.client_id')
                     ->where('afl_installations.installation_date', '>=', $date_from)
                     ->where('afl_installations.installation_date', '<=', $date_to)
                     ->where(function ($query) use ($search_keyword) {
-                        $query->where('afl_clients.client_email', 'like', $search_keyword)
+                        $query->where('users.client_email', 'like', $search_keyword)
                             ->orWhere('afl_installations.license_code', 'like', $search_keyword)
                             ->orWhere('afl_installations.installation_domain', 'like', $search_keyword)
                             ->orWhere('afl_installations.installation_ip', 'like', $search_keyword);
@@ -362,7 +362,7 @@ class SearchController extends Controller
         } else {
             $rows_array = DB::table('afl_installations')
                      ->leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-                     ->leftJoin('afl_clients', 'afl_installations.client_id', '=', 'afl_clients.client_id')
+                     ->leftJoin('users', 'afl_installations.client_id', '=', 'users.client_id')
                      ->where('afl_installations.product_id', '=', $product_id)
                      ->where('afl_installations.installation_date', '>=', $date_from)
                      ->where('afl_installations.installations_date', '<=', $date_to)
@@ -393,24 +393,24 @@ class SearchController extends Controller
             $search_keyword = "%$search_keyword%"; //add wildcards
 
             $rows_array = DB::table('afl_licenses')
-                    ->select('afl_licenses.*', 'afl_clients.client_email',
+                    ->select('afl_licenses.*', 'users.client_email',
                         DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
                         DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time'))
                     ->join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-                    ->leftJoin('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
+                    ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
                     ->orWhere('afl_licenses.license_code', 'like', $search_keyword)
-                    ->orWhere('afl_clients.client_email', 'like', $search_keyword)
+                    ->orWhere('users.client_email', 'like', $search_keyword)
                     ->orWhere('afl_licenses.license_comments', 'like', $search_keyword)
                     ->orderBy('license_date', 'desc')
                     ->orderBy('license_id', 'desc')
                     ->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afl_licenses')
-                     ->select('afl_licenses.*', 'afl_clients.client_email',
+                     ->select('afl_licenses.*', 'users.client_email',
                          DB::raw('(SELECT COUNT(*) FROM afl_installations WHERE afl_licenses.product_id=afl_installations.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_installations.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_installations.license_code)) AS total_installations'),
                          DB::raw('(SELECT callback_date_time FROM afl_callbacks WHERE afl_licenses.product_id=afl_callbacks.product_id AND (afl_licenses.client_id IS NOT NULL AND afl_licenses.client_id=afl_callbacks.client_id OR afl_licenses.client_id IS NULL AND afl_licenses.license_code IS NOT NULL AND afl_licenses.license_code=afl_callbacks.license_code) ORDER BY afl_callbacks.callback_date_time DESC, afl_callbacks.callback_id DESC LIMIT 1) AS latest_callback_date_time')
                      )->join('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-                        ->leftJoin('afl_clients', 'afl_licenses.client_id', '=', 'afl_clients.client_id')
+                        ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
                         ->where('afl_licenses.product_id', $product_id)
                         ->orderBy('license_date', 'desc')
                         ->orderBy('license_id', 'desc')
@@ -521,10 +521,10 @@ class SearchController extends Controller
         if (! empty($search_keyword) && aflValidateIntegerValue($results_limit)) {
             $search_keyword = "%$search_keyword%"; //add wildcards
             $rows_array = DB::table('afl_reports')
-                     ->leftJoin('afl_clients', 'afl_reports.account_id', '=', 'afl_clients.client_id')
+                     ->leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
                      ->orWhere('afl_reports.report_text', 'like', $search_keyword)
                      ->orWhere('afl_reports.license_code', 'like', $search_keyword)
-                     ->orWhere('afl_clients.client_email', 'like', $search_keyword)
+                     ->orWhere('users.client_email', 'like', $search_keyword)
                      ->where('afl_reports.report_system', '=', 0)
                      ->where('afl_reports.report_date_time', '>=', $date_from)
                      ->where('afl_reports.report_date_time', '<=', $date_to)
@@ -533,7 +533,7 @@ class SearchController extends Controller
                      ->limit($results_limit)->get()->toArray();
         } else {
             $rows_array = DB::table('afl_reports')
-                   ->leftJoin('afl_clients', ' afl_reports.account_id', '=', 'afl_clients.client_id')
+                   ->leftJoin('users', ' afl_reports.account_id', '=', 'users.client_id')
                    ->where('afl_reports.product_id', '=', $product_id)
                    ->where('afl_reports.report_system', '=', 0)
                    ->where('afl_reports.report_date_time', '>=', $date_from)
