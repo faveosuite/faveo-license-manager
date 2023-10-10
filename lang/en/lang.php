@@ -151,7 +151,7 @@ return [
     'delte' => 'Delete',
     'nothing_updated' => 'Nothing was updated.',
     'create_new_contact' => 'Create New Contact',
-    'edit_client' => 'Edit Client',
+    'edit_contact' => 'Edit Contact',
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'email_address' => 'Email Address',
