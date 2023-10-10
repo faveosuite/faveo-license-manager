@@ -73,6 +73,7 @@ class AuthController extends Controller
         ->where('client_role','admin')
         ->where('client_status',1)
         ->first();
+       
         if($admin){
             if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
             return errorResponse(Lang::get('auth.failed'), 401);

@@ -22,7 +22,7 @@ return new class extends Migration
                 ->onDelete('cascade');
 
             $table->integer('client_id')->nullable()
-                ->constrained('afl_clients', 'client_id')
+                ->constrained('users', 'client_id')
                 ->onDelete('cascade');
 
             $table->string('license_code', 125)->nullable();
