@@ -195,4 +195,11 @@ if($admin){
                    ]);
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }
+    public function liveapi($client_id)
+    {
+        $revoked =DB::table('oauth_access_tokens')
+                   ->where('user_id', $client_id)->value('revoked');
+                   $loginstatus = ($revoked == 0) ? "login" : "logout";
+
+    }
 }
