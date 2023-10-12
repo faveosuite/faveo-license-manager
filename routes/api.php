@@ -89,6 +89,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
     Route::get('dashboarddropdown', [DashboardController::class, 'dashboard']);
+    Route::get('liveapi', [AuthController::class, 'liveapi']);
     //PRODUCTS
 
     Route::post('products/add', [ProductsController::class, 'productAdd']);
