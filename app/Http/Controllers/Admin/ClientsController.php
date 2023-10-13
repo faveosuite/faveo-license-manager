@@ -252,9 +252,7 @@ class ClientsController extends Controller
                                             });
                                         }
                                          if($client_role == "client" || $client_status == 0){
-                                            (new AuthController())->logout(new Request,$client_id);
-                                            $logout = DB::table('oauth_access_tokens')
-                                            ->where('user_id', $client_id)->delete();                                          
+                                           (new AuthController())->logout(new Request, $client_id);                                        
                                          }
 
             if (! aflValidateIntegerValue($updated_records)) {
@@ -268,4 +266,7 @@ class ClientsController extends Controller
 
         return errorResponse(Lang::get('lang.invalid_client'), 400);
     }
+
+    
+ 
 }
