@@ -197,9 +197,10 @@ if($admin){
     }
     public function liveapi($client_id)
     {
-        $revoked =DB::table('oauth_access_tokens')
-                   ->where('user_id', $client_id)->value('revoked');
-                   $loginstatus = ($revoked == 0) ? "login" : "logout";
-
+        //dd($client_id);
+     $revoked = DB::table('oauth_access_tokens')
+     ->where('user_id', $client_id)->value('revoked');
+    
+     return successResponse('',['logout' => ($revoked === 0) ? false : true]);
     }
 }

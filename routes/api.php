@@ -81,6 +81,10 @@ Route::post('/logout/{user_id}', [ClientsController::class, 'logout'])->middlewa
 /********************************************************* CALLBACK *******************************************************************/
 
 //API CALLS FOR UI OF LICENSE AND UPDATE MANAGER AND BILLING
+Route::get('admin/liveapi/{client_id}', [AuthController::class, 'liveapi']);
+Route::get('admin/ghgliveapi/{client_id}', function(){
+    dd('ooo');
+});
 Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(function () {
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
    // Route::post('/logout1/{user_id}', [AuthController::class, 'logout']);
@@ -89,7 +93,6 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
     Route::get('dashboarddropdown', [DashboardController::class, 'dashboard']);
-    Route::get('liveapi', [AuthController::class, 'liveapi']);
     //PRODUCTS
 
     Route::post('products/add', [ProductsController::class, 'productAdd']);
