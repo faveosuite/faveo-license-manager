@@ -192,12 +192,12 @@ if($admin){
                    ->where('user_id', $user_id)
                    ->update([
                        'revoked' => true,
+                       'expires_at' => Carbon::now(),
                    ]);
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }
     public function liveapi($client_id)
     {
-        //dd($client_id);
      $revoked = DB::table('oauth_access_tokens')
      ->where('user_id', $client_id)->value('revoked');
     
