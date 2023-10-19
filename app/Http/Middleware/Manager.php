@@ -21,19 +21,29 @@ class Manager
      */
    public function handle(Request $request, Closure $next)
    {
-       $tokenRecieved = $request->bearerToken();
-       if (! empty($tokenRecieved)) {
-           $jwtConfig = Configuration::forUnsecuredSigner();
-           $tokenId = $jwtConfig->parser()->parse($tokenRecieved)->claims()->get('jti'); //retrieves the id of the token from license manager
-           //$tokenId = (new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];//(new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];
-           $tokens = new OauthAccessToken();
-           $token = json_decode($tokens->where('id', $tokenId)->first()); //gets that particluar token details
+       try{
+           $tokenRecieved = $request->bearerToken();
+          // dd($tokenRecieved);
 
-           if ((! empty($token->revoked) && $token->revoked != '1') || $token->expires_at >= date('Y-m-d H:i:s')) {
-               return $next($request);
-           } else {
-               return errorResponse(Lang::get('lang.invalid_token'), 401);
-           }
-        }
+        if (! empty($tokenRecieved)) {
+            $jwtConfig = Configuration::forUnsecuredSigner();
+            $tokenId = $jwtConfig->parser()->parse($tokenRecieved)->claims()->get('jti'); //retrieves the id of the token from license manager
+            //$tokenId = (new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];//(new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];
+            $tokens = new OauthAccessToken();
+            $token = json_decode($tokens->where('id', $tokenId)->first()); //gets that particluar token details
+            if ((! empty($token->revoked) && $token->revoked != '1') || $token->expires_at > date('Y-m-d H:i:s')) {
+                return $next($request);
+            } else {
+                return errorResponse(Lang::get('lang.invalid_token'), 401);
+            }
+         }
+
+    }
+    catch (\Exception $e) {
+        return errorResponse(Lang::get('lang.invalid_token'),401);
+    }
+
+
    }
+
 }
