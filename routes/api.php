@@ -84,8 +84,6 @@ Route::post('/logout/{user_id}', [ClientsController::class, 'logout'])->middlewa
 
 Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(function () {
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
-   // Route::post('/logout1/{user_id}', [AuthController::class, 'logout']);
-
 
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
