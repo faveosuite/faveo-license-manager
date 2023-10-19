@@ -171,9 +171,8 @@ if($admin){
             return errorResponse(Lang::get('passwords.user'), 401);
         }
         $admin->client_password = \Hash::make($password);
-        $admin->update(); //or $admin->save();
-
-        // Auth::login($admin);
+        $admin->update(); 
+        
         $details = DB::table('password_resets')->where('email', $admin->client_email)->delete();
 
         return successResponse(Lang::get('passwords.reset'), $details, 201);
@@ -195,12 +194,5 @@ if($admin){
                        'expires_at' => Carbon::now(),
                    ]);
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
-    }
-    public function liveapi($client_id)
-    {
-     $revoked = DB::table('oauth_access_tokens')
-     ->where('user_id', $client_id)->value('revoked');
-    
-     return successResponse('',['logout' => ($revoked === 0) ? false : true]);
     }
 }
