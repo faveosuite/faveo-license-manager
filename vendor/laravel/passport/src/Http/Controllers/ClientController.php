@@ -84,8 +84,13 @@ class ClientController
         ])->validate();
 
         $client = $this->clients->create(
-            $request->user()->getAuthIdentifier(), $request->name, $request->redirect,
-            null, false, false, (bool) $request->input('confidential', true)
+            $request->user()->getAuthIdentifier(),
+            $request->name,
+            $request->redirect,
+            null,
+            false,
+            false,
+            (bool) $request->input('confidential', true)
         );
 
         if (Passport::$hashesClientSecrets) {
@@ -106,7 +111,7 @@ class ClientController
     {
         $client = $this->clients->findForUser($clientId, $request->user()->getAuthIdentifier());
 
-        if (! $client) {
+        if (!$client) {
             return new Response('', 404);
         }
 
@@ -116,7 +121,9 @@ class ClientController
         ])->validate();
 
         return $this->clients->update(
-            $client, $request->name, $request->redirect
+            $client,
+            $request->name,
+            $request->redirect
         );
     }
 
@@ -131,7 +138,7 @@ class ClientController
     {
         $client = $this->clients->findForUser($clientId, $request->user()->getAuthIdentifier());
 
-        if (! $client) {
+        if (!$client) {
             return new Response('', 404);
         }
 
