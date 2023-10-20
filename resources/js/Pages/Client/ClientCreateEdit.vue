@@ -75,10 +75,20 @@ import { validateClientSettings } from "../../helpers/validator/clientValidation
 import TextField from "../../components/Reusable/FormField/TextField.vue";
 
 import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
+import { computed }  from 'vue';
+import { useStore } from 'vuex';
 
 export default {
 
     name: 'client-create-edit',
+    setup() {
+
+const store = useStore();
+
+return {
+    getApiKey: computed(() => store.getters.getApiKey)
+};
+},
 
     data() {
 
