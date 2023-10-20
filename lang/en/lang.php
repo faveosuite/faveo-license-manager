@@ -82,6 +82,7 @@ return [
     'create' => 'Create',
     'edit' => 'Edit',
     'clients' => 'Clients',
+    'contacts' => 'Contacts',
     'licenses' => 'Licenses',
     'installations' => 'Installations',
     'callbacks' => 'Callbacks',
