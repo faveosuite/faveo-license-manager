@@ -77,7 +77,6 @@ Route::post('/fetchQuery', [FetchQueryController::class, 'fetchQuery']);
 Route::post('/downloadFile', [DownloadFileController::class, 'downloadFile']);
 Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
 
-Route::post('/logout/{user_id}', [ClientsController::class, 'logout'])->middleware('manager');
 /********************************************************* CALLBACK *******************************************************************/
 
 //API CALLS FOR UI OF LICENSE AND UPDATE MANAGER AND BILLING

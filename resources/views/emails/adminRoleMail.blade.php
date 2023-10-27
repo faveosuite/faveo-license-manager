@@ -15,13 +15,13 @@
 </head>
 <body>
     <p>Hi {{$client_name}},</p>
-    <p> Congratulations! You are now an Administrator with access to Agora License Manager's admin privileges.</p>
-    <p>Log in to your account using the updated credentials:</p>
+    <p> @lang('lang.login_credentials"')</p>
+    
     <p class="bottom"> <strong>Email:</strong> {{$client_email}}</p>
     <p class="top"><strong>Password:</strong>{{$password }}</p>
     <p class="bottom">Login Link:</p>
     <p class="top"><a href="{{$appUrl}}">{{$appUrl}}</a></p>
-    <p >If you have any questions or need assistance, please contact our support <a href="mailto:support@faveohelpdesk.com">support@faveohelpdesk.com</a></p>
+    <p >@lang('lang.support_contact')<a href="mailto:support@faveohelpdesk.com">support@faveohelpdesk.com</a></p>
     <p class="bottom">Best Regards,</p>
     <p class="top">Agora Support Center</p>
   

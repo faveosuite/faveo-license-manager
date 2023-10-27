@@ -102,41 +102,46 @@ class AuthController extends Controller
      * @param  Request  $request
      * @return response With a check your email and mail to the registered email address
      */
-    public function forgot(Request $request)
-    {
-        $email = $request->input('admin_email');
-       $admin= AflClients::where('client_email', $email)
-        ->where('client_role','admin')->first();
-if($admin){
-        if (AflClients::where('client_email', $email)->doesntExist()) {
-            return errorResponse(Lang::get('auth.failed'), 400);
-        }
-        $tokens = Str::random(10);
-        try {
-            DB::table('password_resets')->insert([
 
-                'email' => $email,
-                'token' => $tokens,
-            ]);
-            $token = [
-                'token' => $tokens,
-            ];
-            // $from = Config::get('constants.Mail.From');
-            Mail::send('emails.myTestMail', $token, function ($message) use ($email) {
-                $message->from(config('constants.Mail.From'), 'Forgot Password');
-                $message->to($email)->subject('Password Reset Link');
-            }
+     public function forgot(Request $request)
+{
+$email = $request->input('admin_email');
 
-            );
+// Check if an admin with the provided email exists
+$admin = AflClients::where('client_email', $email)
+    ->where('client_role', 'admin')
+    ->first();
 
-            return successResponse(Lang::get('passwords.sent'), $token, 200);
-        } catch (Exception $exception) {
-            return  errorResponse($exception->getMessage(), 400);
-        }}
-        else{
-            return errorResponse(Lang::get('lang.not_found_client'), 400);
-        }
+if (!$admin) {
+    return errorResponse(Lang::get('lang.not_found_client'), 400);
+}
+
+$token = Str::random(10);
+
+try {
+    DB::table('password_resets')->insert([
+
+        'email' => $email,
+        'token' => $token,
+    ]);
+    $token = [
+        'token' => $token,
+    ];
+    // $from = Config::get('constants.Mail.From');
+    Mail::send('emails.myTestMail', $token, function ($message) use ($email) {
+        $message->from(config('constants.Mail.From'), 'Forgot Password');
+        $message->to($email)->subject('Password Reset Link');
     }
+
+    );
+
+    return successResponse(Lang::get('passwords.sent'), $token, 200);
+} 
+catch (Exception $exception) {
+    return  errorResponse($exception->getMessage(), 400);
+}
+}
+  
 
     /**
      * Used to reset the password after validating email,password and token
