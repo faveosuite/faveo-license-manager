@@ -48,10 +48,9 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-        if($client_role == 'admin'){
-            $password =Str::random(8);
-            $client_password = Hash::make($password);
-        }
+        $password =Str::random(8);
+        $client_password = $client_role == 'admin' ? $password : null;
+
 
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
@@ -79,28 +78,28 @@ class ClientsController extends Controller
                 
                 if ($client_role == 'admin') {
                     $dataToInsert['client_password'] = $client_password;
-                }
-                
-                $add = DB::table('users')->insertOrIgnore($dataToInsert);
-                $client_name = $client_fname . ' ' . $client_lname;
-                $added_records += 1;
-                if($client_role =='admin'){
-                $data = [
-                    'client_name' => $client_name,
-                    'client_email' => $client_email,
-                    'password' => $password,
-                    'appUrl' => env('APP_URL'),
-
-                ];
-                Mail::send('emails.welcomeEmail', $data,function ($message) use ($client_email) {
-                    $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
-                    $message->to($client_email)->subject('Agora License Manager Login Credentials');
-                });
-            }
+                    $add = DB::table('users')->insertOrIgnore($dataToInsert);
+                    $added_records += 1;
+                    $client_name = $client_fname . ' ' . $client_lname;
+                    $data = [
+                        'client_name' => $client_name,
+                        'client_email' => $client_email,
+                        'password' => $password,
+                        'appUrl' => env('APP_URL'),
+    
+                    ];
+                    Mail::send('emails.welcomeEmail', $data,function ($message) use ($client_email) {
+                        $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
+                        $message->to($client_email)->subject('Agora License Manager Login Credentials');
+                    });
+                }  
+                else {
+                    $add = DB::table('users')->insertOrIgnore($dataToInsert);
+                    }   
             } catch (Exception $e) {
                 $added_records += 0;
             }
-            if (! aflValidateIntegerValue($added_records)) {
+            if (!$added_records === 0) {
                 $api_error_detected = 1;
 
                 return errorResponse(Lang::get('lang.no_client'), 400);
@@ -201,10 +200,10 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-        if($client_role == 'admin'){
-            $password =Str::random(8);
-            $client_password = Hash::make($password);
-        }
+        $password =Str::random(8);
+        $client_password = $client_role == 'admin' ? $password : null;
+
+     
        
         if (empty($client_id) || ! aflValidateIntegerValue($client_id) ||
     empty($rows_array = AflClients::where('client_id', $client_id)->get())) { //invalid record
@@ -233,24 +232,28 @@ class ClientsController extends Controller
                                          ];   
                                          if ($client_role == 'admin'&& $role == "client") {
                                             $dataToUpdate['client_password'] = $client_password;
+                                            $updated_records = DB::table('users')->where('client_id', $client_id)
+                                            ->update($dataToUpdate );
+                                            $client_name = $client_fname . ' ' . $client_lname;
+                                            if($client_role =='admin' && $role == "client"){
+                                               $data = [
+                                                   'client_name' => $client_name,
+                                                   'client_email' => $client_email,
+                                                   'password' => $password,
+                                                   'appUrl' => env('APP_URL'),
+                               
+                                               ];
+                                               Mail::send('emails.adminRoleMail', $data,function ($message) use ($client_email) {
+                                                   $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
+                                                   $message->to($client_email)->subject('Admin Privileges Granted');
+                                               });
+                                           }
                                         }
-                                        $updated_records = DB::table('users')->where('client_id', $client_id)
-                                        ->update($dataToUpdate );
+                                        else{
+                                            $updated_records = DB::table('users')->where('client_id', $client_id)
+                                            ->update($dataToUpdate );
+                                        }
                                        
-                                         $client_name = $client_fname . ' ' . $client_lname;
-                                         if($client_role =='admin' && $role == "client"){
-                                            $data = [
-                                                'client_name' => $client_name,
-                                                'client_email' => $client_email,
-                                                'password' => $password,
-                                                'appUrl' => env('APP_URL'),
-                            
-                                            ];
-                                            Mail::send('emails.adminRoleMail', $data,function ($message) use ($client_email) {
-                                                $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
-                                                $message->to($client_email)->subject('Admin Privileges Granted');
-                                            });
-                                        }
                                          if($client_role == "client" || $client_status == 0){
                                               (new AuthController())->logout(new Request,$client_id);
                                          $logout = DB::table('oauth_access_tokens')

@@ -74,8 +74,8 @@ export default {
                     return row.license_code ? row.license_code : '---';
                 },
                 products(h, row) {
-
-return row.products ? row.products : '---'
+                
+                    return row.products ?? '---';
 }
 
             }
