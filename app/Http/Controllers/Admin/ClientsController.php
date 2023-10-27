@@ -48,10 +48,10 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-        $password =Str::random(8);
-        $client_password = $client_role == 'admin' ? $password : null;
-
-
+        if($client_role == 'admin'){
+            $password =Str::random(8);
+            $client_password = Hash::make($password);
+        }
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
 
@@ -78,7 +78,7 @@ class ClientsController extends Controller
                 
                 if ($client_role == 'admin') {
                     $dataToInsert['client_password'] = $client_password;
-                    $add = DB::table('users')->insertOrIgnore($dataToInsert);
+                    $add = AflClients::insertOrIgnore($dataToInsert);
                     $added_records += 1;
                     $client_name = $client_fname . ' ' . $client_lname;
                     $data = [
@@ -94,7 +94,7 @@ class ClientsController extends Controller
                     });
                 }  
                 else {
-                    $add = DB::table('users')->insertOrIgnore($dataToInsert);
+                    $add = AflClients::insertOrIgnore($dataToInsert);
                     }   
             } catch (Exception $e) {
                 $added_records += 0;
@@ -200,8 +200,10 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-        $password =Str::random(8);
-        $client_password = $client_role == 'admin' ? $password : null;
+        if($client_role == 'admin'){
+            $password =Str::random(8);
+            $client_password = Hash::make($password);
+        }
 
      
        
@@ -220,7 +222,7 @@ class ClientsController extends Controller
                     $client_cancel_date = date('Y-m-d');
                 }
             }
-            $role= DB::table('users')->where('client_id', $client_id)->value('client_role');
+            $role= AflClients::where('client_id', $client_id)->value('client_role');
 
                             $dataToUpdate= [
                                              'client_fname' => $client_fname,
@@ -232,7 +234,7 @@ class ClientsController extends Controller
                                          ];   
                                          if ($client_role == 'admin'&& $role == "client") {
                                             $dataToUpdate['client_password'] = $client_password;
-                                            $updated_records = DB::table('users')->where('client_id', $client_id)
+                                            $updated_records = AflClients::where('client_id', $client_id)
                                             ->update($dataToUpdate );
                                             $client_name = $client_fname . ' ' . $client_lname;
                                             if($client_role =='admin' && $role == "client"){
@@ -250,7 +252,7 @@ class ClientsController extends Controller
                                            }
                                         }
                                         else{
-                                            $updated_records = DB::table('users')->where('client_id', $client_id)
+                                            $updated_records = AflClients::where('client_id', $client_id)
                                             ->update($dataToUpdate );
                                         }
                                        
