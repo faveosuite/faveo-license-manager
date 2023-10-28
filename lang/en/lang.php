@@ -12,7 +12,10 @@ return [
     | these language lines according to your application's requirements.
     |
      */
-
+    "support_contact" =>"If you have any questions or need assistance, please contact our support ",
+    'Congo' => "Congratulations! You are now an Administrator with access to Agora License Manager's admin privileges.",
+    "login_credentials" => "Log in to your account using the updated credentials:",
+   
     'Client_Add' => 'Client has been Added Successfully',
     'Client_Show' => 'All the Details of the client\'s registered so far are displayed',
     'Client_Destroy' => 'Client has been deleted Successfully',
@@ -349,6 +352,10 @@ return [
 
     'api_key_description'  =>   'Description',
 
+    //EMAIL
+ 
+  
+  
 
 ];
 
