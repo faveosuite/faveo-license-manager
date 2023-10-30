@@ -45,12 +45,7 @@
 	</span>
 	</template>
    
-	<template v-slot:actions="props" v-if="getUserData">
-   
-	<table-actions :data="props.row" :disabled="true"></table-actions>
-	</template>
-   
-	<template v-slot:actions="props" v-else>
+	<template v-slot:actions="props">
 		<table-actions :data="props.row" :disabled="getUserData"></table-actions>
 	</template>
 	</v-client-table>
