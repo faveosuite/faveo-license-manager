@@ -48,10 +48,9 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-        if($client_role == 'admin'){
-            $password =Str::random(8);
-            $client_password = Hash::make($password);
-        }
+        $password =Str::random(8);
+        $client_password = $client_role == 'admin' ? Hash::make(Str::random(8)) : null;
+      
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
 
@@ -85,7 +84,7 @@ class ClientsController extends Controller
                         'client_name' => $client_name,
                         'client_email' => $client_email,
                         'password' => $password,
-                        'appUrl' => env('APP_URL'),
+                        'appUrl' => config('app.url'),
     
                     ];
                     Mail::send('emails.welcomeEmail', $data,function ($message) use ($client_email) {
@@ -94,12 +93,14 @@ class ClientsController extends Controller
                     });
                 }  
                 else {
+                    $added_records += 1;
                     $add = AflClients::insertOrIgnore($dataToInsert);
                     }   
             } catch (Exception $e) {
                 $added_records += 0;
             }
-            if (!$added_records === 0) {
+            
+            if (! aflValidateIntegerValue($added_records)) {
                 $api_error_detected = 1;
 
                 return errorResponse(Lang::get('lang.no_client'), 400);
@@ -200,13 +201,9 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-        if($client_role == 'admin'){
-            $password =Str::random(8);
-            $client_password = Hash::make($password);
-        }
-
-     
-       
+        $password =Str::random(8);
+        $client_password = $client_role == 'admin' ? Hash::make(Str::random(8)) : null;
+      
         if (empty($client_id) || ! aflValidateIntegerValue($client_id) ||
     empty($rows_array = AflClients::where('client_id', $client_id)->get())) { //invalid record
             return errorResponse(Lang::get('lang.not_found_client'), 404);
@@ -242,7 +239,7 @@ class ClientsController extends Controller
                                                    'client_name' => $client_name,
                                                    'client_email' => $client_email,
                                                    'password' => $password,
-                                                   'appUrl' => env('APP_URL'),
+                                                   'appUrl' => config('app.url'),
                                
                                                ];
                                                Mail::send('emails.adminRoleMail', $data,function ($message) use ($client_email) {
