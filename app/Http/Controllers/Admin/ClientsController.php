@@ -52,7 +52,7 @@ class ClientsController extends Controller
         $client_password = $client_role == 'admin' ? Hash::make($password) : null;
     
         $api_key = new ApiKeysController();
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
+        $api_action_success =  $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
 
         if (! empty($client_fname) && ! empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL)
               && aflValidateIntegerValue($client_status, 0, 2) && $api_action_success == 1) {
