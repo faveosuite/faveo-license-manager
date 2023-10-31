@@ -46,11 +46,37 @@ describe('ClientCreateEdit', () => {
         updateWrapper();
     });
 
+     it('renders the component', () => {
+        expect(wrapper.exists()).toBe(true);
+      });
+
+      it('initializes with the correct data', () => {
+
+        expect(wrapper.vm.title).toBe('create_new_contact');
+
+        expect(wrapper.vm.iconClass).toBe('fas fa-save');
+
+        expect(wrapper.vm.btnName).toBe('save');
+
+        expect(wrapper.vm.hasDataPopulated).toBe(true);
+      })
     it('`onChange` - method should update correct value to data',()=>{
 
         wrapper.vm.onChange('name','client_fname');
 
         expect(wrapper.vm.client_fname).toEqual('name');
+    });
+
+    it('`onChange` - method should update correct value for role', () => {
+
+        wrapper.vm.onChange(0, 'client_role');     
+        expect(wrapper.vm.client_role).toBe('');
+    });
+
+    it('`onChange` - method should set client_role to 1', () => {
+        
+        wrapper.vm.onChange(1, 'client_role'); 
+        expect(wrapper.vm.client_role).toBe(1);
     });
 
     it('isValid - should return false ', done => {
@@ -70,4 +96,17 @@ describe('ClientCreateEdit', () => {
 
         done()
     });
+
+    it('calls onSubmit method when the save button is clicked', () => {
+
+        const onSubmitSpy = jest.spyOn(wrapper.vm, 'onSubmit');
+        
+        const saveButton = wrapper.find('.btn-primary');
+        
+        saveButton.trigger('click');
+        
+        expect(onSubmitSpy).toHaveBeenCalled();
+
+      });
+    
 })

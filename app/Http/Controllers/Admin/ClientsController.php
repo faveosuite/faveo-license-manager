@@ -49,8 +49,8 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
         $password =Str::random(8);
-        $client_password = $client_role == 'admin' ? Hash::make(Str::random($password)) : null;
-      
+        $client_password = $client_role == 'admin' ? Hash::make($password) : null;
+    
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
 
@@ -202,8 +202,8 @@ class ClientsController extends Controller
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
         $password =Str::random(8);
-        $client_password = $client_role == 'admin' ? Hash::make(Str::random($password)) : null;
-      
+        $client_password = $client_role == 'admin' ? Hash::make($password) : null;
+    
         if (empty($client_id) || ! aflValidateIntegerValue($client_id) ||
     empty($rows_array = AflClients::where('client_id', $client_id)->get())) { //invalid record
             return errorResponse(Lang::get('lang.not_found_client'), 404);
