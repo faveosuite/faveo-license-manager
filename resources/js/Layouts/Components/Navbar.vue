@@ -69,7 +69,7 @@
 
 				this.loading = true;
 
-				axios.post('/api/admin/logout/'+this.user.admin_id).then(res=>{
+				axios.post('/api/admin/logout/'+this.user.client_id).then(res=>{
 
 					this.$store.dispatch('setLoggedInUserToken','');
 
