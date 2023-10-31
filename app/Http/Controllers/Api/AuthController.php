@@ -74,21 +74,17 @@ class AuthController extends Controller
         ->where('client_status',1)
         ->first();
        
-            if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
+        if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
             return errorResponse(Lang::get('auth.failed'), 401);
-        
-       $tokenobj = $admin->createToken('AFL');
-      $token = $tokenobj->accessToken;
-
+            }
+      $token = $admin->createToken('AFL')->accessToken;
         $response = [
             'message' => 'logged in',
             'user' => $admin,
             'token' => $token,
-        ];        
-       
-      
+        ];         
         return successResponse(Lang::get('lang.Login'), $response, 200);
-    }
+    
 }
 
     /**
@@ -100,10 +96,8 @@ class AuthController extends Controller
 
      public function forgot(Request $request)
 {
-$email = $request->input('admin_email');
-
-// Check if an admin with the provided email exists
-$admin = AflClients::where('client_email', $email)
+  $email = $request->input('admin_email');
+  $admin = AflClients::where('client_email', $email)
     ->where('client_role', 'admin')
     ->first();
 
