@@ -15,7 +15,8 @@ return [
     "support_contact" =>"If you have any questions or need assistance, please contact our support ",
     'Congo' => "Congratulations! You are now an Administrator with access to Agora License Manager's admin privileges.",
     "login_credentials" => "Log in to your account using the updated credentials:",
-   
+    "welcome" =>"Welcome to Agora License Manager",
+    "informclient"=> "We are happy to inform you that your account has been successfully created",
     'Client_Add' => 'Client has been Added Successfully',
     'Client_Show' => 'All the Details of the client\'s registered so far are displayed',
     'Client_Destroy' => 'Client has been deleted Successfully',
