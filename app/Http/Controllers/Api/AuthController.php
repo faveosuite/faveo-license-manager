@@ -74,11 +74,9 @@ class AuthController extends Controller
         ->where('client_status',1)
         ->first();
        
-        if($admin){
             if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
             return errorResponse(Lang::get('auth.failed'), 401);
-        }
-
+        
        $tokenobj = $admin->createToken('AFL');
       $token = $tokenobj->accessToken;
 
@@ -90,9 +88,6 @@ class AuthController extends Controller
        
       
         return successResponse(Lang::get('lang.Login'), $response, 200);
-    }
-    else{
-        return errorResponse(Lang::get('auth.failed'), 401);
     }
 }
 
