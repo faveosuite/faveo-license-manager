@@ -11,18 +11,18 @@
          padding-top:0px  
     }
 </style>
-    <title>Welcome to Agora License Manager: Your Account is Ready!</title>
+    <title>@lang('lang.login_credentials'): Your Account is Ready!</title>
 </head>
 <body>
     <p>Hi {{$client_name}},</p>
-    <p>Welcome to Agora License Manager.</p>
-    <p>We are happy to inform you that your account has been successfully created.</p>
-    <p>Log in to your account using the below credentials:</p>
+    <p>@lang('lang.login_credentials').</p>
+    <p>@lang('lang.informclient')</p>
+    <p> @lang('lang.login_credentials')</p>
     <p class="bottom"> <strong>Email:</strong> {{$client_email}}</p>
     <p class="top"><strong>Password:</strong> {{$password }}</p>
     <p class="bottom">Login Link:</p>
     <p class="top"><a href="{{$appUrl}}">{{$appUrl}}</a></p>
-    <p >If you have any questions or need assistance, please contact our support <a href="mailto:support@faveohelpdesk.com">support@faveohelpdesk.com</a></p>
+    <p >@lang('lang.support_contact')<a href="mailto:support@faveohelpdesk.com" style="text-decoration: none;">support@faveohelpdesk.com</a></p>
     <p class="bottom">Best Regards,</p>
     <p class="top">Agora Support Center</p>
   
