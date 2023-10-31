@@ -8,7 +8,6 @@ use App\Http\Controllers\Controller;
 use App\Models\AflReports;
 use App\Models\AflProducts;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 
 class ReportsController extends Controller
@@ -67,7 +66,7 @@ return $page_message;
 private function deleteReport($report_id, $removed_records)
 {
 if (aflValidateIntegerValue($report_id)) {
-$removed_records += DB::table('afl_reports')->where('report_id', $report_id)->delete();
+$removed_records += AflReports::where('report_id', $report_id)->delete();
 }
 
 
