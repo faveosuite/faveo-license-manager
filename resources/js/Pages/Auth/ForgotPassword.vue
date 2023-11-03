@@ -148,7 +148,7 @@
 
               this.$router.push('/login')
 
-            }, 6000);
+            }, 4000);
 
           }).catch((err) => {
 
