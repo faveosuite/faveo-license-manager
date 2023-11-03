@@ -12,4 +12,10 @@ class AflReports extends Model
     protected $guarded = [];
 
     protected $primaryKey = 'report_id';
+    public function user() {
+        return $this->belongsTo(AflClients::class, 'account_id', 'client_id');
+    }
+    public function product() {
+        return $this->belongsTo(AflProducts::class, 'product_id');
+    }
 }

@@ -14,7 +14,7 @@ return [
      */
     "support_contact" =>"If you have any questions or need assistance, please contact our support ",
     'Congo' => "Congratulations! You are now an Administrator with access to Agora License Manager's admin privileges.",
-    "login_credentials" => "Log in to your account using the updated credentials:",
+    "login_credentials" => "Log in to your account using below credentials:",
     "welcome" =>"Welcome to Agora License Manager",
     "informclient"=> "We are happy to inform you that your account has been successfully created",
     'Client_Add' => 'Client has been Added Successfully',
@@ -22,9 +22,9 @@ return [
     'Client_Destroy' => 'Client has been deleted Successfully',
     'Client_Update' => 'Client Deatils has been updated Successfully',
     'no_client' => 'No client was added to license manager',
-    'not_found_client' => 'The client you\'re looking for is not found',
+    'not_found_client' => 'Client does not exist',
     'no_client_update' => 'Client details were not updated',
-    'Destroy' => 'The record you have selected has been deleted from the Database',
+    'Destroy' => 'Record has been Deleted Successfully',
     'invalid_license_expiry' => 'Please update the License Expiration Date',
     'invalid_license_update_date' => 'Please update the License Update Date',
     'invalid_license_support_date' => 'Please update the License Support Date',
@@ -36,8 +36,8 @@ return [
 
     'Product_Add' => 'Product and the Product\'s details has been added',
     'Product_Show' => 'All the Details of the Product\'s registered so far are displayed',
-    'Product_Destroy' => 'The Choosen Product has been deleted from the database',
-    'Product_Update' => 'The Current Product Deatils has been updated',
+    'Product_Destroy' => 'Product Deleted Successfully',
+    'Product_Update' => 'Product Deatils updated Successfully',
     'no_product' => 'No product was added.',
     'invalid_product' => 'This is an invalid product.',
 

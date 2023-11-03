@@ -103,7 +103,7 @@ class ClientsController extends Controller
             if (! aflValidateIntegerValue($added_records)) {
                 $api_error_detected = 1;
 
-                return errorResponse(Lang::get('lang.no_client'), 400);
+                return errorResponse(Lang::get('lang.'), 400);
             }
             return successResponse(Lang::get('lang.Client_Add'), $add, 201);
         }
