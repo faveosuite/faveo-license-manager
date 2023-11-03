@@ -109,7 +109,7 @@ describe('ForgotPassword', () => {
                 expect(mockRouter.push).toHaveBeenCalledWith('/login');
 
                 done();
-            },2001);
+            },4001);
         },1);
     });
 
