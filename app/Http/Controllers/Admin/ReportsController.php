@@ -137,30 +137,32 @@ return $root_array;
 //licenses1
 public function reportArrayLicense()
 {
-$rows_array = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
-->where('afl_reports.license_code', '!=', '')
-->orderBy('report_date_time', 'DESC')
-->orderBy('report_id', 'DESC')->get()
-->toArray();
- $root_array = [];
-foreach ($rows_array as $row) {
-foreach ($row as $key => $value) {
-$item_array[$key] = $value;
-    $productIds = $row['product_id'];
-    $products = AflProducts::where('product_id', $productIds)->value('product_title');
-    $item_array['products'] = $products;
-}
+    $rows = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
+        ->where('afl_reports.license_code', '!=', '')
+        ->orderBy('report_date_time', 'DESC')
+        ->orderBy('report_id', 'DESC')
+        ->get();
 
-$item_array['client_formatted'] = formatClient($item_array['license_code'], $item_array['client_email']);
-$item_array['report_date_time'] = removeSeconds($item_array['report_date_time']);
-$item_array['report_status_formatted'] = returnFormattedReportStatusArray($item_array['report_status']);
+    $rootArray = [];
 
+    foreach ($rows as $row) {
+        $itemArray = $row->toArray();
+        $product = $row->product;
 
-$root_array[] = $item_array;
-}
+        if ($product) {
+            $itemArray['products'] = $product->product_title;
+        } else {
+            $itemArray['products'] = '---'; 
+        }
 
+        $itemArray['client_formatted'] = formatClient($itemArray['license_code'], $itemArray['client_email']);
+        $itemArray['report_date_time'] = removeSeconds($itemArray['report_date_time']);
+        $itemArray['report_status_formatted'] = returnFormattedReportStatusArray($itemArray['report_status']);
 
-return $root_array;
+        $rootArray[] = $itemArray;
+    }
+
+    return $rootArray;
 }
 
 
