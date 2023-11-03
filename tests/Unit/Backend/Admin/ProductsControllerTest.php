@@ -57,7 +57,7 @@ class ProductsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/products/edit'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'The Current Product Deatils has been updated']);
+        $response->assertJson(['message' => 'Product Deatils updated Successfully']);
         $response->assertJson(['data' => 1]);
     }
 
