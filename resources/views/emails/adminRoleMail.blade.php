@@ -27,7 +27,7 @@
   
     <hr style=" margin-top:3rem; border: none;
             border-top: 1px solid #ccc;">
-   <p style=" color: #999;"> This email has been sent by <b>Agora Support Center.</b> powered by <a href="https://faveohelpdesk.com/" style="text-decoration: none;">Faveo</a></p>
+   <p style=" color: #999;"> This email has been sent by <b>Agora Support Center.</b> Powered by <a href="https://faveohelpdesk.com/" style="text-decoration: none;">Faveo</a></p>
 
 </body>
 </html>
