@@ -106,7 +106,7 @@ class AuthControllerTest extends TestCase
         $response->assertStatus(200)
             ->assertJson([
                 'success' => true,
-                'message' => 'We have emailed your password reset link!',
+                'message' => 'Password reset link has been sent to this email',
             ]);
     }
 
