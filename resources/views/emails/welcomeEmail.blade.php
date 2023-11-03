@@ -15,7 +15,7 @@
 </head>
 <body>
     <p>Hi {{$client_name}},</p>
-    <p>@lang('lang.login_credentials').</p>
+    <p>@lang('lang.welcome').</p>
     <p>@lang('lang.informclient')</p>
     <p> @lang('lang.login_credentials')</p>
     <p class="bottom"> <strong>Email:</strong> {{$client_email}}</p>
@@ -28,7 +28,7 @@
   
     <hr style=" margin-top:3rem; border: none;
             border-top: 1px solid #ccc;">
-   <p style=" color: #999;"> This email has been sent by <b>Agora Support Center.</b> powered by <a style="text-decoration: none;" href="https://faveohelpdesk.com/">Faveo</a></p>
+   <p style=" color: #999;"> This email has been sent by <b>Agora Support Center.</b> Powered by <a style="text-decoration: none;" href="https://faveohelpdesk.com/">Faveo</a></p>
 
 </body>
 </html>
