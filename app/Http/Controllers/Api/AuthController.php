@@ -104,7 +104,9 @@ class AuthController extends Controller
     ->first();
 
 if (!$admin) {
-    return errorResponse(Lang::get('lang.not_found_client'), 400);
+    return errorResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 400);
+
+    //return errorResponse(Lang::get('lang.recieve_forgot'), 400);
 }
 
 $token = Str::random(10);

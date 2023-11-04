@@ -23,6 +23,8 @@ return [
     'Client_Update' => 'Client Deatils has been updated Successfully',
     'no_client' => 'No client was added to license manager',
     'not_found_client' => 'Client does not exist',
+    'recieve_forgot' => 'Reset instructions have been mailed to ',
+    'junk' =>' Be sure to check your Junk folder if you do not see an email from us in your Inbox within a few minutes.',
     'no_client_update' => 'Client details were not updated',
     'Destroy' => 'Record has been Deleted Successfully',
     'invalid_license_expiry' => 'Please update the License Expiration Date',
