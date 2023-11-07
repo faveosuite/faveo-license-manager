@@ -52,7 +52,7 @@ protected function whichReportDeleted($whichReport, $action_success, $removed_re
 {
 if (! empty($whichReport)) {
     if ($action_success == 1) { // everything OK
-        $page_message = trans('lang.deleted_report', ['removed' => $removed_records, 'which' => $whichReport]);
+        $page_message = trans('lang.Deleted', ['removed' => $removed_records, 'which' => $whichReport]);
     } else { // display error message
         $page_message = trans('lang.report_not_deleted', ['which' => $whichReport, 'error_details' => $error_details]);
     }

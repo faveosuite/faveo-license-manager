@@ -298,7 +298,11 @@ return [
     'callbacks'                   =>   'CallBacks',
     'cracking_reports'            =>    'Cracking Reports',
     'view_cracking_reports'       =>     'View Cracking Reports',
-
+    'inavalid_records'=> 'Invalid record or database error.',
+    'no_record_selected'=> 'No record selected.',
+    'Deleted' => 'Deleted :removed :which report(s).',
+    'report_not_deleted' => ':which report(s) could not be deleted because of this reason: :error_details',
+    // ...
     //PRODUCTS
 
     'product_name'     => 'Product Name',
