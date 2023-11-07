@@ -8,8 +8,8 @@ use Laravel\Passport\HasApiTokens;
 
 class AflClients extends Model
 {
-    protected $table ="users";
     use HasFactory,HasApiTokens;
+    protected $table ="users";
 
     protected $guarded = [];
 
