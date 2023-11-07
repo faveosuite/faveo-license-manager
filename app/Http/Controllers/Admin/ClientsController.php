@@ -46,7 +46,6 @@ class ClientsController extends Controller
         $client_lname = $request->get('client_lname');
         $client_email = $request->get('client_email');
         $client_status = $request->get('client_status');
-        $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
         $password =Str::random(8);
         $client_password = $client_role == 'admin' ? Hash::make($password) : null;
@@ -198,7 +197,6 @@ class ClientsController extends Controller
         $client_fname = $request->get('client_fname');
         $client_lname = $request->get('client_lname');
         $client_email = $request->get('client_email');
-        $client_status = $request->get('client_status');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
         $password =Str::random(8);
