@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AflReports;
 use App\Models\AflProducts;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 
 class ReportsController extends Controller
@@ -31,13 +32,13 @@ $this->removed_records += $this->deleteReport($report_id, $this->removed_records
 }
 if (! aflValidateIntegerValue($this->removed_records)) {
 $this->action_success = 0;
-$this->error_details .= 'Invalid record or database error.';
+$this->error_details .=  Lang::get('lang.inavalid_records');
 } else {
 $this->action_success = 1;
 }
 } else {
 $this->action_success = 0;
-$this->error_details .= 'No record selected.';
+$this->error_details .= Lang::get('lang.no_record_selected');
 }
 $page_message = $this->whichReportDeleted($whichReport, $this->action_success, $this->removed_records, $this->error_details);
 createReport(strip_tags($page_message), 1, 1, $this->action_success);
@@ -50,11 +51,11 @@ return response(['message' => $page_message]);
 protected function whichReportDeleted($whichReport, $action_success, $removed_records, $error_details = '')
 {
 if (! empty($whichReport)) {
-if ($action_success == 1) { //everything OK
-$page_message = "Deleted $removed_records $whichReport report(s).";
-} else { //display error message
-$page_message = "$whichReport report(s) could not be deleted because of this reason: $error_details";
-}
+    if ($action_success == 1) { // everything OK
+        $page_message = trans('lang.deleted_report', ['removed' => $removed_records, 'which' => $whichReport]);
+    } else { // display error message
+        $page_message = trans('lang.report_not_deleted', ['which' => $whichReport, 'error_details' => $error_details]);
+    }
 }
 
 
@@ -83,7 +84,7 @@ $rows_array = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'user
 ->where(function ($query) {
     $query->where('users.client_role', '=', 'admin');
 })
-->orderBy('report_date_time', 'DESC')->orderBy('report_id', 'DESC')->get()
+->orderBy('report_date_time', 'DESC')->orderBy('report_id', 'DESC')->cursor()
 ->toArray();
 $root_array = [];
 foreach ($rows_array as $row) {
@@ -114,7 +115,7 @@ $rows_array = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'user
 ->where('afl_reports.product_id', 0)
 ->where('report_system', 0)
 ->orderBy('report_date_time', 'DESC')
-->orderBy('report_id', 'DESC')->get()
+->orderBy('report_id', 'DESC')->cursor()
 ->toArray();
 $root_array = [];
 foreach ($rows_array as $row) {
@@ -141,7 +142,7 @@ public function reportArrayLicense()
         ->where('afl_reports.license_code', '!=', '')
         ->orderBy('report_date_time', 'DESC')
         ->orderBy('report_id', 'DESC')
-        ->get();
+        ->cursor();
 
     $rootArray = [];
 
@@ -170,7 +171,7 @@ public function reportArrayUpdate()
 {
 $rows_array = AflReports::leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
 ->orderBy('report_date_time', 'DESC')
-->orderBy('report_id', 'DESC')->get()->toArray();
+->orderBy('report_id', 'DESC')->cursor()->toArray();
 foreach ($rows_array as $row) {
 foreach ($row as $key => $value) {
 $item_array[$key] = $value;
