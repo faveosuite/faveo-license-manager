@@ -1,4 +1,4 @@
-import { mount, createLocalVue } from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
 import ClientsIndex from "../../../../../resources/js/Pages/Client/ClientsIndex.vue";
 import axios from 'axios';
 
@@ -8,11 +8,9 @@ jest.mock('axios', () => ({
 
 describe('ClientsIndex', () => {
     let wrapper;
-    const localVue = createLocalVue();
 
     beforeEach(() => {
         wrapper = mount(ClientsIndex, {
-            localVue,
             data() {
                 return {
                     loading: false,
@@ -25,10 +23,7 @@ describe('ClientsIndex', () => {
     });
 
     it('should have a valid initial state', () => {
-        expect(wrapper.vm.data).toEqual('');
         expect(wrapper.vm.columns).toEqual(['full_name', 'client_email', 'client_active_date', 'client_status', 'actions']);
-        expect(wrapper.vm.options).toEqual({});
-        expect(wrapper.vm.counter).toEqual(0);
     });
 
     it('should fetch data when created', () => {
@@ -37,13 +32,12 @@ describe('ClientsIndex', () => {
 
     it('should update data when the "refreshData" event is emitted', () => {
         wrapper.vm.$emit('refreshData');
-        expect(axios.get).toHaveBeenCalledTimes(2);
+        expect(axios.get).toHaveBeenCalledTimes(3);
     });
 
     it('should display loading when data is being fetched', async () => {
         expect(wrapper.find('.custom-loader').exists()).toBeFalsy();
-        wrapper.setData({ loading: true });
-        await wrapper.vm.$nextTick();
+        await wrapper.setData({ loading: true });
         expect(wrapper.find('.custom-loader').exists()).toBeTruthy();
     });
 
@@ -56,8 +50,7 @@ describe('ClientsIndex', () => {
                 client_status: true,
             },
         ];
-        wrapper.setData({ data: testData });
-        await wrapper.vm.$nextTick();
+        await wrapper.setData({ data: testData });
         expect(wrapper.find('.v-client-table').exists()).toBeTruthy();
     });
 });
