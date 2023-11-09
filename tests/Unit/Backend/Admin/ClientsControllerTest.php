@@ -27,7 +27,7 @@ class ClientsControllerTest extends TestCase
 
         $response->assertStatus(201);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'Client has been Added Successfully']);
+        $response->assertJson(['message' => 'Contact has been Added Successfully']);
         $response->assertJson(['data' => 1]);
     }
 
@@ -62,7 +62,7 @@ class ClientsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/clients/edit'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'Client Deatils has been updated Successfully']);
+        $response->assertJson(['message' => 'Contact Deatils has been updated Successfully']);
         $response->assertJson(['data' => 1]);
     }
 
@@ -78,7 +78,7 @@ class ClientsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/clients/delete'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'Client has been deleted Successfully']);
+        $response->assertJson(['message' => 'Contact has been deleted Successfully']);
     }
 
     public function test_clientAdd_whenClientDetailsIsAddedWithInvalidDetails_shouldRecieveResponse400()
