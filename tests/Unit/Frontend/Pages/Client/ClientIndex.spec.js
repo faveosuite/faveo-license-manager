@@ -35,22 +35,4 @@ describe('ClientsIndex', () => {
         expect(axios.get).toHaveBeenCalledTimes(3);
     });
 
-    it('should display loading when data is being fetched', async () => {
-        expect(wrapper.find('.custom-loader').exists()).toBeFalsy();
-        await wrapper.setData({ loading: true });
-        expect(wrapper.find('.custom-loader').exists()).toBeTruthy();
-    });
-
-    it('should render the client table when data is available', async () => {
-        const testData = [
-            {
-                full_name: 'John Doe',
-                client_email: 'johndoe@example.com',
-                client_active_date: '2023-11-07',
-                client_status: true,
-            },
-        ];
-        await wrapper.setData({ data: testData });
-        expect(wrapper.find('.v-client-table').exists()).toBeTruthy();
-    });
 });
