@@ -213,6 +213,7 @@ return {
 
                 this[name] = value ? value : '';
             }
+            this.client_role = value;
         },
 
         onSubmit() {
