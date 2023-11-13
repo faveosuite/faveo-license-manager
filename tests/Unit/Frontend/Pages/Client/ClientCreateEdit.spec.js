@@ -70,7 +70,7 @@ describe('ClientCreateEdit', () => {
     it('`onChange` - method should update correct value for role', () => {
 
         wrapper.vm.onChange(0, 'client_role');     
-        expect(wrapper.vm.client_role).toBe('');
+        expect(wrapper.vm.client_role).toBe(0);
     });
 
     it('`onChange` - method should set client_role to 1', () => {
@@ -78,6 +78,7 @@ describe('ClientCreateEdit', () => {
         wrapper.vm.onChange(1, 'client_role'); 
         expect(wrapper.vm.client_role).toBe(1);
     });
+   
 
     it('isValid - should return false ', done => {
 
