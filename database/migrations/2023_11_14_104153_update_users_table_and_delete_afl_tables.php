@@ -13,29 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->increments('client_id')->unique();
-            $table->string('client_fname', 125);
-            $table->string('client_lname', 125);
-            $table->string('client_email', 125)->unique();
-            $table->string('client_password', 125)->nullable();
-            $table->string('client_role', 125)->default('client');
-            $table->date('client_active_date')->nullable();
-            $table->date('client_cancel_date')->nullable();
-            $table->boolean('client_status')->default('1');
-            $table->dropColumn(['id','name','email','email_verified_at','password','remember_token']); 
-            $table->dropColumn('client_fname'); 
-            $table->dropColumn('client_lname'); 
-            $table->dropColumn('client_email'); 
-            $table->dropColumn('client_password'); 
-            $table->dropColumn('client_active_date'); 
-            $table->dropColumn('client_cancel_date'); 
-            $table->dropColumn('client_status'); 
-            $table->timestamps();
-        });
-
-       // Schema::dropIfExists('afl_clients');
-        //Schema::dropIfExists('afl_admins');
+     Schema::rename('users', 'user');
+     // Schema::dropIfExists('users');
+     Schema::rename('afl_clients', 'users');
+     // Schema::dropIfExists('afl_admins');
     }
 
     /**
@@ -45,28 +26,17 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-            $table->dropColumn(['client_id','client_fname','client_lname','client_email','client_password','client_active_date','client_cancel_date','client_cancel_date','client_status']); 
-        });
-
-       // Schema::create('afl_clients', function (Blueprint $table) {
-            //$table->increments('client_id')->unique();
-            //$table->string('client_fname', 125);
-           // $table->string('client_lname', 125);
-           // $table->string('client_email', 125);
-            //$table->date('client_active_date')->nullable();
-            //$table->date('client_cancel_date')->nullable();
-            //$table->boolean('client_status')->default('1');
-            //$table->timestamps();
-        //});
-
+      Schema::rename('users', 'afl_clients');
+     Schema::rename('user', 'users');
+ // Schema::create('users', function (Blueprint $table) {
+       // $table->id();
+     //  $table->string('name');
+      // $table->string('email')->unique();
+      // $table->timestamp('email_verified_at')->nullable();
+      // $table->string('password');
+      // $table->rememberToken();
+      // $table->timestamps();
+       //  });
     // Schema::create('afl_admins', function (Blueprint $table) {
        //     $table->increments('admin_id')->unique();
          //   $table->string('admin_fname', 125);
