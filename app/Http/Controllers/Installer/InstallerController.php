@@ -224,6 +224,7 @@ class InstallerController extends Controller
         $ENV['MAIL_PASSWORD'] = 'null';
         $ENV['MAIL_ENCRYPTION'] = 'SSL';
         $ENV['MAIL_FROM_ADDRESS'] = 'null';
+        $ENV['MAIL_FROM_NAME'] = 'Agora License Manager';
         $ENV['CACHE_DRIVER'] = 'file';
         $ENV['SESSION_DRIVER'] = 'file';
         $ENV['SESSION_COOKIE_NAME'] = 'faveo_'.rand(0, 10000);
