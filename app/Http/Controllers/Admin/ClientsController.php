@@ -73,29 +73,40 @@ class ClientsController extends Controller
                     'client_status' => $client_status,
                     'client_role' => $client_role,
                 ];
+                try {
+                    // Your existing code here...
                 
-                if ($client_role == 'admin') {
-                    $dataToInsert['client_password'] = $client_password;
-                    $add = AflClients::insertOrIgnore($dataToInsert);
-                    $added_records += 1;
-                    $client_name = $client_fname . ' ' . $client_lname;
-                    $data = [
-                        'client_name' => $client_name,
-                        'client_email' => $client_email,
-                        'password' => $password,
-                        'appUrl' => config('app.url'),
-    
-                    ];
-                    Mail::send('emails.welcomeEmail', $data, function ($message) use ($client_email) {
-                        $message->to($client_email)->subject('Agora License Manager Login Credentials');
-                    });
-                    
-                }  
-                else {
-                    $added_records += 1;
-                    $add = AflClients::insertOrIgnore($dataToInsert);
-                    }   
-            } catch (Exception $e) {
+                    if ($client_role == 'admin') {
+                        $dataToInsert['client_password'] = $client_password;
+                        $add = AflClients::insertOrIgnore($dataToInsert);
+                        $added_records += 1;
+                        $client_name = $client_fname . ' ' . $client_lname;
+                        $data = [
+                            'client_name' => $client_name,
+                            'client_email' => $client_email,
+                            'password' => $password,
+                            'appUrl' => config('app.url'),
+                        ];
+                
+                        Mail::send('emails.welcomeEmail', $data, function ($message) use ($client_email) {
+                            $message->to($client_email)->subject('Agora License Manager Login Credentials');
+                        });
+                    } else {
+                        $added_records += 1;
+                        $add = AflClients::insertOrIgnore($dataToInsert);
+                    }
+                } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                    // Handle TransportException
+                    return errorResponse('An error occurred while sending the email.', 500);
+                } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
+                    // Handle LogicException (e.g., missing "From" or "Sender" header)
+                    return errorResponse('Error: ' . $e->getMessage(), 400);
+                } catch (\Exception $e) {
+                    // Handle other exceptions if needed
+                    return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
+                } 
+                
+            } catch (\Exception $e) {
                 $added_records += 0;
             }
             
@@ -227,7 +238,9 @@ class ClientsController extends Controller
                                              'client_status' => $client_status,
                                              'client_role' => $client_role ,
                                          ];   
+                                       
                                          if ($client_role == 'admin'&& $role == "client") {
+                                            try{
                                             $dataToUpdate['client_password'] = $client_password;
                                             $updated_records = AflClients::where('client_id', $client_id)
                                             ->update($dataToUpdate );
@@ -244,12 +257,23 @@ class ClientsController extends Controller
                                                 $message->to($client_email)->subject('Admin Privileges Granted');
                                             });
                                             
-                                           }
+                                           }}
+                                           catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+                                            // Handle TransportException
+                                            return errorResponse('An error occurred while sending the email.', 500);
+                                        } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
+                                            // Handle LogicException (e.g., missing "From" or "Sender" header)
+                                            return errorResponse('Error: ' . $e->getMessage(), 400);
+                                        } catch (\Exception $e) {
+                                            // Handle other exceptions if needed
+                                            return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
+                                        } 
                                         }
                                         else{
                                             $updated_records = AflClients::where('client_id', $client_id)
                                             ->update($dataToUpdate );
                                         }
+                                    
                                        
                                          if($client_role == "client" || $client_status == 0){
                                               (new AuthController())->logout(new Request,$client_id);
