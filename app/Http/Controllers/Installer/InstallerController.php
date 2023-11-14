@@ -7,6 +7,7 @@ use App\Http\Controllers\SyncLicenseToLatestVersion;
 use App\Models\AflClients;
 use Artisan;
 use Cache;
+use Carbon\Carbon;
 use DB;
 use Illuminate\Http\Request;
 use Input;
@@ -323,6 +324,7 @@ class InstallerController extends Controller
         $firstname = $request->input('admin_fname');
         $lastname = $request->input('admin_lname');
         $email = $request->input('admin_email');
+
         Session::put('admin_email', $email);
         Session::put('cache_driver', $request->cache_driver);
 
@@ -342,6 +344,7 @@ class InstallerController extends Controller
             'client_email' => $email,
             'client_role' => 'admin',
             'client_password' => \Hash::make($password),
+            'client_active_date' => Carbon::now(),
 
         ]);
         $user->save();
