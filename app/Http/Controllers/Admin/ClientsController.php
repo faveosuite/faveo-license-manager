@@ -86,10 +86,10 @@ class ClientsController extends Controller
                         'appUrl' => config('app.url'),
     
                     ];
-                    Mail::send('emails.welcomeEmail', $data,function ($message) use ($client_email) {
-                        $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
+                    Mail::send('emails.welcomeEmail', $data, function ($message) use ($client_email) {
                         $message->to($client_email)->subject('Agora License Manager Login Credentials');
                     });
+                    
                 }  
                 else {
                     $added_records += 1;
@@ -240,10 +240,10 @@ class ClientsController extends Controller
                                                    'appUrl' => config('app.url'),
                                
                                                ];
-                                               Mail::send('emails.adminRoleMail', $data,function ($message) use ($client_email) {
-                                                   $message->from(config('constants.Mail.From'), config('constants.Mail.From'),);
-                                                   $message->to($client_email)->subject('Admin Privileges Granted');
-                                               });
+                                               Mail::send('emails.adminRoleMail', $data, function ($message) use ($client_email) {
+                                                $message->to($client_email)->subject('Admin Privileges Granted');
+                                            });
+                                            
                                            }
                                         }
                                         else{

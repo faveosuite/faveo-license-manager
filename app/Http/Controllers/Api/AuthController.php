@@ -122,12 +122,8 @@ try {
     ];
     // $from = Config::get('constants.Mail.From');
     Mail::send('emails.myTestMail', $token, function ($message) use ($email) {
-        $message->from(config('constants.Mail.From'), 'Forgot Password');
         $message->to($email)->subject('Password Reset Link');
-    }
-
-    );
-
+    });
     return successResponse(Lang::get('passwords.sent'), $token, 200);
 } 
 catch (Exception $exception) {
