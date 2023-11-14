@@ -132,7 +132,7 @@
 
  client_email: 'Email',
 
- client_active_date: 'Active Date',
+ client_active_date: 'Activation Date',
 
  client_status: 'Status',
 
