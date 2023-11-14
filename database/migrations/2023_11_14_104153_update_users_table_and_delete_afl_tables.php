@@ -15,7 +15,11 @@ return new class extends Migration
     {
      Schema::rename('users', 'user');
      // Schema::dropIfExists('users');
-     Schema::rename('afl_clients', 'users');
+     Schema::table('afl_clients', function (Blueprint $table) {
+       $table->string('client_password', 20)->default('client')->after('client_email');
+      $table->string('client_role', 20)->default('client')->after('client_status');
+      });
+      Schema::rename('afl_clients', 'users');
      // Schema::dropIfExists('afl_admins');
     }
 
@@ -27,6 +31,10 @@ return new class extends Migration
     public function down()
     {
       Schema::rename('users', 'afl_clients');
+      Schema::table('afl_clients', function (Blueprint $table) {
+        $table->dropColumn('client_password');
+        $table->dropColumn('client_role');
+    });
      Schema::rename('user', 'users');
  // Schema::create('users', function (Blueprint $table) {
        // $table->id();
