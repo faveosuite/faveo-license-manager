@@ -68,13 +68,14 @@ class ClientsController extends Controller
                     'client_fname' => $client_fname,
                     'client_lname' => $client_lname,
                     'client_email' => $client_email,
-                    'client_active_date' => $client_active_date,
                     'client_cancel_date' => $client_cancel_date,
                     'client_status' => $client_status,
                     'client_role' => $client_role,
                 ];
+                if($client_status == '1'){
+                    $dataToInsert['client_active_date'] = $client_active_date;
+                }
                 try {
-                    // Your existing code here...
                 
                     if ($client_role == 'admin') {
                         $dataToInsert['client_password'] = $client_password;
@@ -96,13 +97,10 @@ class ClientsController extends Controller
                         $add = AflClients::insertOrIgnore($dataToInsert);
                     }
                 } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-                    // Handle TransportException
                     return errorResponse('An error occurred while sending the email.', 500);
                 } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
-                    // Handle LogicException (e.g., missing "From" or "Sender" header)
                     return errorResponse('Error: ' . $e->getMessage(), 400);
                 } catch (\Exception $e) {
-                    // Handle other exceptions if needed
                     return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
                 } 
                 
@@ -229,6 +227,7 @@ class ClientsController extends Controller
                 }
             }
             $role= AflClients::where('client_id', $client_id)->value('client_role');
+            $active_date= AflClients::where('client_id', $client_id)->value('client_active_date');
 
                             $dataToUpdate= [
                                              'client_fname' => $client_fname,
@@ -238,7 +237,9 @@ class ClientsController extends Controller
                                              'client_status' => $client_status,
                                              'client_role' => $client_role ,
                                          ];   
-                                       
+                                         if ($client_status == 1 && $active_date == NULL && $active_date == "") {
+                                            $dataToUpdate['client_active_date'] = date('Y-m-d');
+                                        }
                                          if ($client_role == 'admin'&& $role == "client") {
                                             try{
                                             $dataToUpdate['client_password'] = $client_password;
@@ -259,13 +260,10 @@ class ClientsController extends Controller
                                             
                                            }}
                                            catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-                                            // Handle TransportException
                                             return errorResponse('An error occurred while sending the email.', 500);
                                         } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
-                                            // Handle LogicException (e.g., missing "From" or "Sender" header)
                                             return errorResponse('Error: ' . $e->getMessage(), 400);
                                         } catch (\Exception $e) {
-                                            // Handle other exceptions if needed
                                             return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
                                         } 
                                         }
