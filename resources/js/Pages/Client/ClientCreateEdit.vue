@@ -213,7 +213,7 @@ return {
 
                 this[name] = value ? value : '';
             }
-            this.client_role = value;
+            this.client_role = value ? 1 : 0;
         },
 
         onSubmit() {
