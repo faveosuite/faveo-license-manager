@@ -70,7 +70,10 @@ class AuthController extends Controller
             'client_password' => 'required|string|min:8',
         ]);
 
-        $admin = AflClients::where('client_email', $filled['client_email'])
+        $admin = AflClients::where(function($query) use ($filled) {
+            $query->where('client_email', $filled['client_email'])
+                ->orWhere('client_username', $filled['client_email']);
+        })
         ->where('client_role','admin')
         ->where('client_status',1)
         ->first();
