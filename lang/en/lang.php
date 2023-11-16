@@ -18,6 +18,8 @@ return [
     "welcome" =>"Welcome to Agora License Manager",
     "informclient"=> "We are happy to inform you that your account has been successfully created",
     'Client_Add' => 'Contact has been Added Successfully',
+    'Client_Add_Failed' => 'Failed to add client. Please try again.',
+    'Email_Error' => 'An error occurred while sending the email.',
     'Client_Show' => 'All the Details of the contact\'s registered so far are displayed',
     'Client_Destroy' => 'Contact has been deleted Successfully',
     'Client_Update' => 'Contact Deatils has been updated Successfully',

@@ -16,8 +16,9 @@ return new class extends Migration
      Schema::rename('users', 'user');
      // Schema::dropIfExists('users');
      Schema::table('afl_clients', function (Blueprint $table) {
-       $table->string('client_password', 255)->default('client')->after('client_email');
+       $table->string('client_password', 255)->nullable()->after('client_email');
       $table->string('client_role', 20)->default('client')->after('client_status');
+      $table->string('client_username', 20)->nullable()->after('client_lname');
       });
       Schema::rename('afl_clients', 'users');
      // Schema::dropIfExists('afl_admins');
