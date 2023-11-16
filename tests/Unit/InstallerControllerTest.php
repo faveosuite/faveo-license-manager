@@ -38,6 +38,7 @@ class InstallerControllerTest extends TestCase
          $response = $this->call('POST', url('final'), [
              'admin_fname' => 'sftgowmi',
              'admin_lname' => 's',
+             'admin_username' => 'Gurmeen',
              'admin_email' => Str::random().'@gmail.com',
              'admin_password' => 'Sowmi@123',
 
