@@ -306,6 +306,7 @@ class InstallerController extends Controller
         $validator = \Validator::make($request->all(), [
             'admin_fname' => 'required|max:20',
             'admin_lname' => 'required|max:20',
+            'admin_username' => 'required|max:30',
             'admin_email' => 'required|max:50|email',
             'admin_password' => ['required', 'regex:/^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,}/'],
 
@@ -323,6 +324,7 @@ class InstallerController extends Controller
         // Set variables fetched from input request
         $firstname = $request->input('admin_fname');
         $lastname = $request->input('admin_lname');
+        $username = $request->input('admin_username');
         $email = $request->input('admin_email');
 
         Session::put('admin_email', $email);
@@ -341,6 +343,7 @@ class InstallerController extends Controller
 
             'client_fname' => $firstname,
             'client_lname' => $lastname,
+            'client_username' => $username,
             'client_email' => $email,
             'client_role' => 'admin',
             'client_password' => \Hash::make($password),
