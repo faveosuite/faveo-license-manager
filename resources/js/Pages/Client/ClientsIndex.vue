@@ -122,7 +122,11 @@
  client_role: 'client_role'
  },
 
- templates: {},
+ templates: {
+	client_active_date(h,row){
+    return row.client_active_date ? row.client_active_date : '---';
+},
+ },
 
  pagination: { chunk: 5, nav: 'fixed', edge: true },
 
