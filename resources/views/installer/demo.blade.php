@@ -92,6 +92,19 @@ active
                     </tr>
                     <tr>
                         <td>
+                            <label for="box2">Username<span style="color
+                                : red;font-size:12px;">*</span></label>
+                        </td>
+                        <td>
+                            {!! Form::text('admin_username',null,['style' =>'margin-left:250px', 'required' => true]) !!}
+                        </td>
+                        <td>
+                            <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Lasttitle}}" data-content="@{{Lastcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;">
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
                             <label for="box2">Email<span style="color
                                 : red;font-size:12px;">*</span></label>
                         </td>
@@ -198,6 +211,9 @@ active
             @if($errors->has('admin_lname'))
                 addErrorClass('admin_lname');
             @endif
+            @if($errors->has('admin_username'))
+                addErrorClass('admin_username');
+            @endif
             @if($errors->has('admin_email'))
                 addErrorClass('admin_email');
             @endif
@@ -214,6 +230,7 @@ active
             $("#postaccount input").each(function() {
                 if($(this).attr('name') == 'admin_fname' ||
                    $(this).attr('name') == 'admin_lname' ||
+                   $(this).attr('name') == 'admin_username' ||
                    $(this).attr('name') == 'admin_email' ||
                    $(this).attr('name') == 'admin_password' ||
                    $(this).attr('timezone') == 'admin_password' ||
