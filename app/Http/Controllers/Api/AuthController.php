@@ -70,6 +70,7 @@ class AuthController extends Controller
             'client_password' => 'required|string|min:8',
         ]);
 
+        //$admin = AflClients::where('client_email', $filled['client_email'])
         $admin = AflClients::where(function($query) use ($filled) {
             $query->where('client_email', $filled['client_email'])
                 ->orWhere('client_username', $filled['client_email']);
@@ -129,9 +130,14 @@ try {
     });
     return successResponse(Lang::get('passwords.sent'), $token, 200);
 } 
-catch (Exception $exception) {
-    return  errorResponse($exception->getMessage(), 400);
+catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
+    return errorResponse(Lang::get('lang.Email_Error'), 500);
+} catch (\Symfony\Component\Mime\Exception\LogicException $e) {
+    return errorResponse('Error: ' . $e->getMessage(), 400);
+} catch (\Exception $e) {
+    return  errorResponse($e->getMessage(), 400);
 }
+
 }
   
 
