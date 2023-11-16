@@ -51,13 +51,13 @@
 
    
     @if(file_exists(app_path('/Whitelabel/WhitelabelServiceProvider.php')))
-        <p style="text-align: center;"> Copyright &copy; 2015 - <?php echo date('Y')?>  <img src="{{ asset('storage/LWS-Icon-01.png') }}" alt="Your Alt Text" style="vertical-align: middle; width: 2.2em; height: 1.2em;">
+        <p style="text-align: center;"> Copyright &copy; 2015 - <?php echo date('Y')?>  <img src="{{'storage/LWS-Icon-01.png'}}" alt="Your Alt Text" style="vertical-align: middle; width: 2.2em; height: 1.2em;">
       {!! Lang::get('lang.all_rights_reserved') !!}
 
     @else
     <p style="text-align: center;">
     Copyright &copy; 2015 - <?php echo date('Y')?> 
-    <img src="{{ asset('storage/LWS-Icon-01.png') }}" alt="Your Alt Text" style="vertical-align: middle; width: 2.2em; height: 1.2em;">
+    <img src="{{ 'storage/LWS-Icon-01.png' }}" alt="Your Alt Text" style="vertical-align: middle; width: 2.2em; height: 1.2em;">
     Ladybird Web Solution Pvt Ltd.
     {!! Lang::get('lang.all_rights_reserved') !!}. {!! Lang::get('lang.powered_by') !!}
     <a target="_blank" href="http://www.faveohelpdesk.com">Faveo </a>
