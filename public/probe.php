@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <?php
-    $appName = 'Agora License Manager';
+    $appName = 'License Manager';
 // $logo = 'themes/default/common/images/installer/faveo.png';
 // $ico = 'themes/default/common/images/favicon.ico';
 if (isWhiteLabelEnabled()) {
