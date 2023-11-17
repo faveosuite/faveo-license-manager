@@ -204,17 +204,14 @@ return {
         },
 
         onChange(value, name) {
-
-            if(name == 'client_status') {
-
-                this[name] = value;
-
-            } else {
-
-                this[name] = value ? value : '';
-            }
-            this.client_role = value ? 1 : 0;
-        },
+    if (name == 'client_status') {
+        this[name] = value;
+    } else if (name == 'client_role') {
+        this[name] = value ? 1 : 0;
+    } else {
+        this[name] = value ? value : '';
+    }
+},
 
         onSubmit() {
 

@@ -72,14 +72,13 @@ class AuthController extends Controller
 
         //$admin = AflClients::where('client_email', $filled['client_email'])
         $admin = AflClients::where(function($query) use ($filled) {
-            $query->where('client_email', $filled['client_email'])
-                ->orWhere('client_username', $filled['client_email']);
+            $query->whereRaw('BINARY client_email = ?', [$filled['client_email']])
+                ->orWhereRaw('BINARY client_username = ?', [$filled['client_email']]);
         })
-        ->where('client_role','admin')
-        ->where('client_status',1)
+        ->where('client_role', 'admin')
+        ->where('client_status', 1)
         ->first();
-        
-       
+    
         if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
             return errorResponse(Lang::get('auth.failed'), 401);
             }
@@ -129,12 +128,7 @@ try {
         $message->to($email)->subject('Password Reset Link');
     });
     return successResponse(Lang::get('passwords.sent'), $token, 200);
-} 
-catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-    return errorResponse(Lang::get('lang.Email_Error'), 500);
-} catch (\Symfony\Component\Mime\Exception\LogicException $e) {
-    return errorResponse('Error: ' . $e->getMessage(), 400);
-} catch (\Exception $e) {
+}  catch (\Exception $e) {
     return  errorResponse($e->getMessage(), 400);
 }
 

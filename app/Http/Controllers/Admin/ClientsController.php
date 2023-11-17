@@ -38,6 +38,7 @@ class ClientsController extends Controller
      * @param $client_status
      * @return  response that a new client is added with array of details
      */
+    
     public function clientAdd(ClientRequest $request)
     {
         $added_records = 0;
@@ -88,19 +89,19 @@ class ClientsController extends Controller
                             'password' => $password,
                             'appUrl' => config('app.url'),
                         ];
-                
-                        Mail::send('emails.welcomeEmail', $data, function ($message) use ($client_email) {
-                            $message->to($client_email)->subject('Agora License Manager Login Credentials');
-                        });
+                        try {
+                            Mail::send('emails.welcomeEmail', $data, function ($message) use ($client_email) {
+                                $message->to($client_email)->subject('Agora License Manager Login Credentials');
+                            });
+                        } catch (\Exception $e) {
+                            return errorResponse($e);
+                        }
+                       
                     } else {
                         $added_records += 1;
                         $add = AflClients::insertOrIgnore($dataToInsert);
                     }
-                } catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-                    return errorResponse('An error occurred while sending the email.', 500);
-                } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
-                    return errorResponse('Error: ' . $e->getMessage(), 400);
-                } catch (\Exception $e) {
+                }  catch (\Exception $e) {
                     return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
                 } 
                 
@@ -111,7 +112,7 @@ class ClientsController extends Controller
             if (! aflValidateIntegerValue($added_records)) {
                 $api_error_detected = 1;
 
-                return errorResponse(Lang::get('lang.'), 400);
+                return errorResponse(Lang::get('lang.invalid'), 400);
             }
             return successResponse(Lang::get('lang.Client_Add'), $add, 201);
         }
@@ -254,16 +255,15 @@ class ClientsController extends Controller
                                                    'appUrl' => config('app.url'),
                                
                                                ];
+                                               try{
                                                Mail::send('emails.adminRoleMail', $data, function ($message) use ($client_email) {
                                                 $message->to($client_email)->subject('Admin Privileges Granted');
                                             });
+                                        }
+                                        catch(\Exception $e){}
                                             
                                            }}
-                                           catch (\Symfony\Component\Mailer\Exception\TransportException $e) {
-                                            return errorResponse('An error occurred while sending the email.', 500);
-                                        } catch (\Symfony\Component\Mime\Exception\LogicException $e) {
-                                            return errorResponse('Error: ' . $e->getMessage(), 400);
-                                        } catch (\Exception $e) {
+                                         catch (\Exception $e) {
                                             return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
                                         } 
                                         }
