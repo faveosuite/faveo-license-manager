@@ -94,8 +94,8 @@ class ClientsController extends Controller
                                 $message->to($client_email)->subject('Agora License Manager Login Credentials');
                             });
                         } catch (\Exception $e) {
-                            return errorResponse($e);
                         }
+                    
                        
                     } else {
                         $added_records += 1;
@@ -260,8 +260,7 @@ class ClientsController extends Controller
                                                 $message->to($client_email)->subject('Admin Privileges Granted');
                                             });
                                         }
-                                        catch(\Exception $e){}
-                                            
+                                        catch(\Exception $e){}  
                                            }}
                                          catch (\Exception $e) {
                                             return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
