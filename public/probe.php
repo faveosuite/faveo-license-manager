@@ -322,7 +322,7 @@ if (isWhiteLabelEnabled()) {
     </body>
 <?php } ?>
 <?php
-$footerString = 'Copyright &copy; 2015 - '.date('Y').". Ladybird Web Solution Pvt Ltd. All rights reserved. Powered by <a target='_blank' href='https://www.faveohelpdesk.com/'>Faveo </a>";
+$footerString = 'Copyright &copy; 2015 - '.date('Y')." . Ladybird Web Solution Pvt Ltd. All rights reserved. Powered by <a target='_blank' href='https://www.faveohelpdesk.com/'>Faveo </a>";
 
 if (isWhiteLabelEnabled()) {
     $footerString = 'Copyright &copy; 2015 - '.date('Y').'. All rights reserved ';
