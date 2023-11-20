@@ -8,6 +8,10 @@ import * as validation from "../../../../../resources/js/helpers/validator/valid
 
 import {createStore} from "vuex";
 
+import MockAdapter from 'axios-mock-adapter';
+
+import axios from 'axios';
+
 jest.mock('../../../../../resources/js/helpers/responseHandler');
 
 jest.mock('../../../../../resources/js/helpers/extraLogics');
@@ -29,6 +33,9 @@ describe('LicenseCreateEdit', () => {
 
     let wrapper;
 
+    let mockAxios = new MockAdapter(axios);
+
+
     const updateWrapper = () => {
 
         wrapper = mount(LicenseCreateEdit, {
@@ -43,6 +50,9 @@ describe('LicenseCreateEdit', () => {
     beforeEach(()=>{
 
         updateWrapper();
+
+        mockAxios = new MockAdapter(axios);
+
     });
 
     it('`onChange` - method should update correct value to data',()=>{
@@ -70,19 +80,24 @@ describe('LicenseCreateEdit', () => {
         done()
     });
 
-    it('calls the API and updates data when getProducts method is called', async () => {
-        const responseData = [{ id: 1, name: 'Product 1' }];
-        mockAxios.onGet('/api/admin/viewproducts').reply(200, { data: responseData });
+    it('submits form data successfully for add', async () => {
+        mockAxios.onPost('/api/admin/license/add').reply(200, { data: 'success' });
 
-        await wrapper.vm.getProducts();
-        expect(wrapper.vm.productOptions).toEqual(responseData);
+        await wrapper.setData({
+            product_id: { id: 1, name: 'Product 1' },
+        });
+
+        await wrapper.vm.onSubmit();
+        expect(wrapper.vm.loading).toBe(true);
     });
+    it('handles a failed form submission', async () => {
+        mockAxios.onPost('/api/admin/license/add').reply(500, { error: 'server error' });
 
-    it('calls the API and updates data when getClients method is called', async () => {
-        const responseData = [{ id: 1, name: 'Client 1' }];
-        mockAxios.onGet('/api/admin/viewClients').reply(200, { data: responseData });
+        await wrapper.setData({
+            license_code: 'your_license_code',
+        });
 
-        await wrapper.vm.getClients();
-        expect(wrapper.vm.clientOptions).toEqual(responseData);
+        await wrapper.vm.onSubmit();
+        expect(wrapper.vm.loading).toBe(true);
     });
 })

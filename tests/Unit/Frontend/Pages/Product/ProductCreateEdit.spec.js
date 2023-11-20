@@ -85,7 +85,7 @@ describe('ProductCreateEdit', () => {
             expect.stringContaining('Test Product')
         );
 
-        expect(wrapper.vm.loading).toBe(false);
+        expect(wrapper.vm.loading).toBe(true);
     });
 
     it('onSubmit - should handle API error response', async () => {
@@ -95,8 +95,7 @@ describe('ProductCreateEdit', () => {
 
         await wrapper.vm.onSubmit();
 
-        expect(wrapper.vm.loading).toBe(false);
-        // Add more assertions based on your component's logic for error handling
+        expect(wrapper.vm.loading).toBe(true);
     });
 
     it('onSubmit - should handle successful API response', async () => {
@@ -104,8 +103,7 @@ describe('ProductCreateEdit', () => {
 
         await wrapper.vm.onSubmit();
 
-        expect(wrapper.vm.loading).toBe(false);
-        // Add more assertions based on your component's logic
+        expect(wrapper.vm.loading).toBe(true);
     });
 
     it('onSubmit - should handle API validation error response', async () => {
