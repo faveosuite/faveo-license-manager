@@ -71,8 +71,9 @@
 		data() {
 
 			return {
+        loading: false,
 
-				data: '',
+        data: '',
 
 				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations', 'product_status', 'actions'],
 
