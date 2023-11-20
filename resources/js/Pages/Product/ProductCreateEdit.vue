@@ -264,7 +264,7 @@
 
 				if (this.isValid() && this.validUrl('product_url_homepage') && this.validUrl('product_url_download')) {
 
-					this.loading = false
+					this.loading = true
 
 					const data = {};
 

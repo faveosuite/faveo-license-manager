@@ -106,7 +106,15 @@ describe('ClientCreateEdit', () => {
     });
 
 
-    it('calls onSubmit method when the save button is clicked', () => {
+    it('submits the form successfully', async () => {
+        mockAxios.onPost('/api/admin/clients/add').reply(200, { data: {} });
+
+        await wrapper.setData({
+            client_fname: 'John',
+            client_lname: 'Doe',
+            client_email: 'john.doe@example.com',
+            client_status: 1,
+        });
 
         const onSubmitSpy = jest.spyOn(wrapper.vm, 'onSubmit');
 
@@ -114,8 +122,7 @@ describe('ClientCreateEdit', () => {
 
         saveButton.trigger('click');
 
-        expect(onSubmitSpy).toHaveBeenCalled();
-
-      });
+        expect(wrapper.vm.loading).toBe(true);
+    });
 
 })
