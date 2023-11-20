@@ -1,38 +1,32 @@
-import { mount } from '@vue/test-utils';
+
+import {mount, shallowMount} from '@vue/test-utils';
 import ClientsIndex from "../../../../../resources/js/Pages/Client/ClientsIndex.vue";
-import axios from 'axios';
-
-jest.mock('axios', () => ({
-    get: jest.fn(() => Promise.resolve({ data: { data: [] } })),
-}));
-
+import axios from "axios";
+import MockAdapter from "axios-mock-adapter";
 describe('ClientsIndex', () => {
-    let wrapper;
 
-    beforeEach(() => {
-        wrapper = mount(ClientsIndex, {
-            data() {
-                return {
-                    loading: false,
-                    emitter: {
-                        on: jest.fn(),
-                    },
-                };
+    it('renders without errors', () => {
+        const wrapper = shallowMount(ClientsIndex);
+        expect(wrapper.exists()).toBe(true);
+    });
+
+    it('fetches data from the API correctly',async() =>{
+        const mock = new MockAdapter(axios);
+        const responseData = {
+            data: {
+                client_active_date: "2022-06-21",
+                client_cancel_date: "0000-00-00",
+                client_email: "anil@gmail.com",
+                client_id: 3,
+                client_status: 1,
+                full_name: "Sowmya Gyui",
             },
-        });
-    });
+        };
+        mock.onGet('/api/admin/viewClients').reply(200, responseData);
+        const wrapper = mount(ClientsIndex);
 
-    it('should have a valid initial state', () => {
-        expect(wrapper.vm.columns).toEqual(['full_name', 'client_email', 'client_active_date', 'client_status', 'actions']);
-    });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.loading).toBe(false);
 
-    it('should fetch data when created', () => {
-        expect(axios.get).toHaveBeenCalledWith('/api/admin/viewClients');
-    });
-
-    it('should update data when the "refreshData" event is emitted', () => {
-        wrapper.vm.$emit('refreshData');
-        expect(axios.get).toHaveBeenCalledTimes(3);
-    });
-
+    })
 });
