@@ -7,7 +7,10 @@ import globalMixins from "../../../../../resources/js/globalMixins";
 import * as validation from "../../../../../resources/js/helpers/validator/clientValidation";
 
 import {createStore} from "vuex";
+
+import MockAdapter from 'axios-mock-adapter';
 import {validateClientSettings} from "../../../../../resources/js/helpers/validator/clientValidation";
+import axios from "axios";
 
 jest.mock('../../../../../resources/js/helpers/responseHandler');
 
@@ -29,6 +32,8 @@ const store = createStore({
 describe('ClientCreateEdit', () => {
 
     let wrapper;
+    let mockAxios = new MockAdapter(axios); // Use mockAxios instead of mock
+
 
     const updateWrapper = () => {
 
@@ -44,6 +49,8 @@ describe('ClientCreateEdit', () => {
     beforeEach(()=>{
 
         updateWrapper();
+        mockAxios = new MockAdapter(axios);
+
     });
 
      it('renders the component', () => {
@@ -69,16 +76,16 @@ describe('ClientCreateEdit', () => {
 
     it('`onChange` - method should update correct value for role', () => {
 
-        wrapper.vm.onChange(0, 'client_role');     
+        wrapper.vm.onChange(0, 'client_role');
         expect(wrapper.vm.client_role).toBe(0);
     });
 
     it('`onChange` - method should set client_role to 1', () => {
-        
-        wrapper.vm.onChange(1, 'client_role'); 
+
+        wrapper.vm.onChange(1, 'client_role');
         expect(wrapper.vm.client_role).toBe(1);
     });
-   
+
 
     it('isValid - should return false ', done => {
 
@@ -98,16 +105,17 @@ describe('ClientCreateEdit', () => {
         done()
     });
 
+
     it('calls onSubmit method when the save button is clicked', () => {
 
         const onSubmitSpy = jest.spyOn(wrapper.vm, 'onSubmit');
-        
+
         const saveButton = wrapper.find('.btn-primary');
-        
+
         saveButton.trigger('click');
-        
+
         expect(onSubmitSpy).toHaveBeenCalled();
 
       });
-    
+
 })

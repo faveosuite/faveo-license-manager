@@ -1,72 +1,125 @@
-import { mount, shallowMount } from '@vue/test-utils'
-
-import ProductCreateEdit from '../../../../../resources/js/Pages/Product/ProductCreateEdit'
-
-import globalMixins from "../../../../../resources/js/globalMixins";
-
-import * as validation from "../../../../../resources/js/helpers/validator/productValidation";
-
-import {createStore} from "vuex";
+import { mount, shallowMount } from '@vue/test-utils';
+import ProductCreateEdit from '../../../../../resources/js/Pages/Product/ProductCreateEdit';
+import globalMixins from '../../../../../resources/js/globalMixins';
+import * as validation from '../../../../../resources/js/helpers/validator/productValidation';
+import { createStore } from 'vuex';
+import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
 
 jest.mock('../../../../../resources/js/helpers/responseHandler');
-
 jest.mock('../../../../../resources/js/helpers/extraLogics');
 
 const store = createStore({
-
     getters() {
-
         return {
-
-            getApiKey: () => { return '' },
-
-            getUserToken: () => { return '' }
-        }
+            getApiKey: () => '',
+            getUserToken: () => '',
+        };
     },
-})
+});
 
 describe('ProductCreateEdit', () => {
-
     let wrapper;
+    let mockAxios = new MockAdapter(axios); // Use mockAxios instead of mock
 
     const updateWrapper = () => {
-
         wrapper = mount(ProductCreateEdit, {
             global: {
                 plugins: [store],
                 mixins: [globalMixins],
-                stubs : ['loader','custom-loader','alert','router-link','text-field','radio-button','number-field']
-            }
-        })
-    }
+                stubs: [
+                    'loader',
+                    'custom-loader',
+                    'alert',
+                    'router-link',
+                    'text-field',
+                    'radio-button',
+                    'number-field',
+                ],
+            },
+        });
+    };
 
-    beforeEach(()=>{
-
+    beforeEach(() => {
         updateWrapper();
+        mockAxios = new MockAdapter(axios);
     });
 
-    it('`onChange` - method should update correct value to data',()=>{
-
-        wrapper.vm.onChange('title','product_title');
-
+    it('`onChange` - method should update the correct value to data', () => {
+        wrapper.vm.onChange('title', 'product_title');
         expect(wrapper.vm.product_title).toEqual('title');
     });
 
-    it('isValid - should return false ', done => {
+    it('isValid - should return false', (done) => {
+        validation.validateProductSettings = () => {
+            return { errors: [], isValid: false };
+        };
 
-        validation.validateProductSettings = () =>{return {errors : [], isValid : false}}
-
-        expect(wrapper.vm.isValid()).toBe(false)
-
-        done()
+        expect(wrapper.vm.isValid()).toBe(false);
+        done();
     });
 
-    it('isValid - should return true ', done => {
+    it('isValid - should return true', (done) => {
+        validation.validateProductSettings = () => {
+            return { errors: [], isValid: true };
+        };
 
-        validation.validateProductSettings = () =>{return {errors : [], isValid : true}}
-
-        expect(wrapper.vm.isValid()).toBe(true)
-
-        done()
+        expect(wrapper.vm.isValid()).toBe(true);
+        done();
     });
-})
+
+    it('submits the form successfully', async () => {
+        // Mock a successful API response
+        mockAxios.onPost('/api/admin/products/add').reply(200, { data: {} });
+
+        // Set some data in the component
+        await wrapper.setData({
+            product_title: 'Test Product',
+            product_sku: '12345',
+        });
+
+        await wrapper.vm.onSubmit();
+
+        expect(mockAxios.history.post.length).toBe(1);
+        expect(mockAxios.history.post[0].data).toEqual(
+            expect.stringContaining('Test Product')
+        );
+
+        expect(wrapper.vm.loading).toBe(false);
+    });
+
+    it('onSubmit - should handle API error response', async () => {
+        mockAxios.onPost('/api/admin/products/add').reply(500, {
+            error: 'Internal Server Error',
+        });
+
+        await wrapper.vm.onSubmit();
+
+        expect(wrapper.vm.loading).toBe(false);
+        // Add more assertions based on your component's logic for error handling
+    });
+
+    it('onSubmit - should handle successful API response', async () => {
+        mockAxios.onPost('/api/admin/products/add').reply(200, { data: {} });
+
+        await wrapper.vm.onSubmit();
+
+        expect(wrapper.vm.loading).toBe(false);
+        // Add more assertions based on your component's logic
+    });
+
+    it('onSubmit - should handle API validation error response', async () => {
+        validation.validateProductSettings = jest.fn(() => ({
+            errors: ['Validation error'],
+            isValid: false,
+        }));
+        mockAxios.onPost('/api/admin/products/add').reply(422, {
+            errors: ['Validation error'],
+        });
+
+        await wrapper.vm.onSubmit();
+
+        expect(wrapper.vm.loading).toBe(false);
+        // Add more assertions based on your component's logic for validation errors
+    });
+});
