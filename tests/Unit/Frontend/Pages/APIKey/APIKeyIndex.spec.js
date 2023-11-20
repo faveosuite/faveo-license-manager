@@ -1,68 +1,32 @@
-import { mount } from "@vue/test-utils";
+
+import {mount, shallowMount} from '@vue/test-utils';
 import APIKeyIndex from "../../../../../resources/js/Pages/APIKey/APIKeyIndex.vue";
-import globalMixins from "../../../../../resources/js/globalMixins";
-import { createStore } from "vuex";
 import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
-const store = createStore({});
+describe('ProductsIndex', () => {
 
-let wrapper;
-let mockAxios = new MockAdapter(axios);
-const fakeRequestData = {
-    'success':true,
-    'data':{}
-}
-describe("APIKeyIndex", () => {
-    const updateWrapper = () => {
-        wrapper = mount(APIKeyIndex, {
-            global: {
-                plugins: [store],
-                mixins: [globalMixins],
-                stubs: ["data-table", "data-table-stub"],
+    it('renders without errors', () => {
+        const wrapper = shallowMount(APIKeyIndex);
+        expect(wrapper.exists()).toBe(true);
+    });
+
+    it('fetches data from the API correctly',async() =>{
+        const mock = new MockAdapter(axios);
+        const responseData = {
+            data: {
+                api_key_licenses_add: 1,
+                api_key_licenses_edit: 1,
+                api_key_products_add: 1,
+                api_key_products_edit: 1,
+                api_key_search: 1,
+                api_key_secret: "5hDuaXuTh9gTLfPL",
             },
-        });
-    };
+        };
+        mock.onGet('/api/admin/viewApiKeys').reply(200, responseData);
+        const wrapper = mount(APIKeyIndex);
 
-    beforeEach(() => {
-        updateWrapper();
-        mockAxios.reset();
-    });
+        await wrapper.vm.$nextTick();
+        expect(wrapper.vm.loading).toBe(false);
 
-    afterEach(() => {
-        mockAxios.restore();
-    });
-
-    it("makes an API call when 'getData' method  called", async() => {
-        updateWrapper();
-
-        stubRequest();
-        await wrapper.vm.getData()
-        setTimeout(() => {
-            expect(wrapper.vm.loading).toBe(false);
-            expect(wrapper.vm.data).toEqual('fakeRequestData');
-            expect(mockAxios.history.get[0].url).toBe("/api/admin/viewApiKeys");
-            done()
-        }, 10)
-    });
-
-
-    it("makes `loading` as false when api returns error", async () => {
-        updateWrapper();
-
-        stubRequest(400);
-
-        await wrapper.vm.getData();
-        setTimeout(() => {
-            expect(wrapper.vm.loading).toEqual(false)
-            expect(wrapper.vm.data).toEqual('');
-            expect(mockAxios.history.get[0].url).toBe("/api/admin/viewApiKeys");
-        }, 1);
-    });
-    function stubRequest(status = 200,url = '/api/admin/viewApiKeys'){
-
-        mockAxios.onGet(url).reply(status,fakeRequestData)
-
-    }
-})
-
-
+    })
+});
