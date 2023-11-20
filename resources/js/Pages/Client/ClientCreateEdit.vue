@@ -197,7 +197,7 @@
 
 				if (this.isValid()) {
 
-					this.loading = false
+					this.loading = true
 
 					const data = {};
 

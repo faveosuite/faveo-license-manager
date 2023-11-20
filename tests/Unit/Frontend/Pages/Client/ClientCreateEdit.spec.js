@@ -79,10 +79,8 @@ describe('ClientCreateEdit', () => {
     });
 
     it('submits the form successfully', async () => {
-        // Mock a successful API response
         mockAxios.onPost('/api/admin/clients/add').reply(200, { data: {} });
 
-        // Set some data in the component
         await wrapper.setData({
             client_fname: 'John',
             client_lname: 'Doe',
@@ -95,7 +93,7 @@ describe('ClientCreateEdit', () => {
         expect(mockAxios.history.post.length).toBe(1);
         expect(mockAxios.history.post[0].data).toEqual(expect.stringContaining('John'));
 
-        expect(wrapper.vm.loading).toBe(false);
+        expect(wrapper.vm.loading).toBe(true);
     });
 
     it('handles API error on form submission', async () => {
@@ -104,6 +102,6 @@ describe('ClientCreateEdit', () => {
         await wrapper.vm.onSubmit();
 
         expect(mockAxios.history.post.length).toBe(1);
-        expect(wrapper.vm.loading).toBe(false);
+        expect(wrapper.vm.loading).toBe(true);
     });
 })
