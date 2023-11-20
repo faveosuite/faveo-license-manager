@@ -63,8 +63,9 @@
 		data() {
 
 			return {
+        loading: false,
 
-				data: '',
+        data: '',
 
 				columns: ['product_title', 'license_code', 'installations_count', 'callbacks_count',
 					'latest_callback_date', 'latest_license_date','actions'],
