@@ -69,4 +69,20 @@ describe('LicenseCreateEdit', () => {
 
         done()
     });
+
+    it('calls the API and updates data when getProducts method is called', async () => {
+        const responseData = [{ id: 1, name: 'Product 1' }];
+        mockAxios.onGet('/api/admin/viewproducts').reply(200, { data: responseData });
+
+        await wrapper.vm.getProducts();
+        expect(wrapper.vm.productOptions).toEqual(responseData);
+    });
+
+    it('calls the API and updates data when getClients method is called', async () => {
+        const responseData = [{ id: 1, name: 'Client 1' }];
+        mockAxios.onGet('/api/admin/viewClients').reply(200, { data: responseData });
+
+        await wrapper.vm.getClients();
+        expect(wrapper.vm.clientOptions).toEqual(responseData);
+    });
 })

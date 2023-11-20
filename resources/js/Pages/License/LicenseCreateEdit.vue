@@ -324,7 +324,7 @@ export default {
 
         getInitialValues(id) {
 
-            this.loading = true
+            this.loading = false
 
             axios.get('/api/admin/license/' + id).then(res => {
 
