@@ -62,6 +62,8 @@
 
 	import axios from 'axios';
 
+  import {lang} from "../../helpers/extraLogics";
+
 	export default {
 
 		name: 'products-list',
@@ -78,11 +80,6 @@
 
 				counter: 0
 			}
-		},
-
-		created() {
-
-			this.emitter.on('refreshData', this.updateData);
 		},
 
 		beforeMount() {
@@ -154,6 +151,7 @@
 
 		methods: {
 
+     lang: lang,
 			updateData() {
 
 				this.counter++;

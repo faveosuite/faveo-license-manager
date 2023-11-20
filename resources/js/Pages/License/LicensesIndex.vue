@@ -54,6 +54,7 @@
 <script>
 
 	import axios from 'axios';
+  import {lang} from "../../helpers/extraLogics";
 
 	export default {
 
@@ -74,10 +75,6 @@
 			}
 		},
 
-		created() {
-
-			this.emitter.on('refreshData', this.updateData);
-		},
 
 		beforeMount() {
 
@@ -164,7 +161,7 @@
 		},
 
 		methods: {
-
+      lang: lang,
 			updateData() {
 
 				this.getData();
