@@ -63,8 +63,9 @@
 		data() {
 
 			return {
+        loading: false,
 
-				data: '',
+        data: '',
 
 				columns: ['full_name', 'client_email', 'client_active_date', 'client_status', 'actions'],
 
