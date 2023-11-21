@@ -21,7 +21,7 @@ class TransferClientsAndAdminsDataSeeder extends Seeder
             'admin_email as client_email',
             'admin_password as client_password',
             'admin_status as client_status',
-            //'created_at as client_active_date',
+            'created_at as client_active_date',
         ])->get();
 
         foreach ($adminsData as $admin) {
@@ -31,7 +31,7 @@ class TransferClientsAndAdminsDataSeeder extends Seeder
                 'client_email' => $admin->client_email,
                 'client_password' => $admin->client_password,
                 'client_status' => $admin->client_status,
-               // 'client_active_date' => $admin->client_active_date,
+                'client_active_date' => $admin->client_active_date,
                 'client_role'=> 'admin',
             ]);
         }
