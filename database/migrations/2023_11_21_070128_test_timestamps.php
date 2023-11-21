@@ -18,6 +18,11 @@ return new class extends Migration
                 $table->timestamps();
             });
         }
+        if (!Schema::hasColumn('afl_api_keys', 'created_at')) {
+            Schema::table('afl_api_keys', function (Blueprint $table) {
+                $table->timestamps();
+            });
+        }
     }
 
     /**
