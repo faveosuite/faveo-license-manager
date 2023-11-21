@@ -6,7 +6,7 @@ import { lang } from '../../helpers/extraLogics';
 
 export function ApiKeysValidation(data) {
 
-    const {api_key_secret, api_key_products_add, api_key_products_edit, api_key_clients_add, api_key_clients_edit, api_key_licenses_add, api_key_licenses_edit, api_key_installations_edit, api_key_search, api_key_status} = data
+    const {api_key_secret, api_key_products_add, api_key_products_edit, api_key_clients_add, api_key_clients_edit, api_key_licenses_add, api_key_licenses_edit, api_key_installations_edit, api_key_search, api_key_status,api_key_description} = data
 
     var validatingData = {
 
@@ -29,6 +29,8 @@ export function ApiKeysValidation(data) {
         api_key_search: [api_key_search, 'isRequired'],
 
         api_key_status: [api_key_status, 'isRequired'],
+
+        api_key_description:[api_key_description, 'isRequired'],
 
     };
 
