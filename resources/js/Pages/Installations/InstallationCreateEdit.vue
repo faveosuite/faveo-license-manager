@@ -149,10 +149,18 @@
 				return isValid;
 			},
 
-			onChange(value, name) {
-
-				this[name] = value ? value : '';
-			},
+            onChange(value, name) {
+                if (name == 'installation_disable_ip_verification') {
+                    this[name] = value;
+                }else if (name == 'installation_status') {
+                    this[name] = value ? 1 : 0;
+                }
+                else if (name == 'delete_record') {
+                    this[name] = value ? 1 : 0;
+                } else {
+                    this[name] = value ? value : '';
+                }
+            },
 
 			onSubmit() {
 
