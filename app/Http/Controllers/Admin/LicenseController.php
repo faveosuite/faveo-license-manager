@@ -310,7 +310,7 @@ class LicenseController extends Controller
     public function show()
 {
 $licenses = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-->select('license_code', 'license_status', 'license_date', 'afl_products.product_title')
+->select('license_id','license_code', 'license_status', 'license_date', 'afl_products.product_title')
 ->withCount(['installations', 'callbacks'])
 ->with(['callbacks' => function ($query) {
 $query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
@@ -323,7 +323,7 @@ foreach ($licenses['data'] as $license) {
 $latest_license = AflLicenses::where('license_code', $license['license_code'])->orderByDesc('license_date')
 ->value('license_date');
 $item_array = [
-'license_code' => $license['license_code'],
+    'license_id' => $license['license_id'],
 'product_title' => $license['product_title'],
 'license_status' => $license['license_status'],
 'total_installations' => $license['installations_count'],
