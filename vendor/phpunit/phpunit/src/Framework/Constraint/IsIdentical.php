@@ -9,17 +9,12 @@
  */
 namespace PHPUnit\Framework\Constraint;
 
-use const PHP_FLOAT_EPSILON;
-use function abs;
-use function get_class;
 use function is_array;
-use function is_float;
-use function is_infinite;
-use function is_nan;
 use function is_object;
 use function is_string;
 use function sprintf;
 use PHPUnit\Framework\ExpectationFailedException;
+use PHPUnit\Util\Exporter;
 use SebastianBergmann\Comparator\ComparisonFailure;
 
 /**
@@ -27,12 +22,9 @@ use SebastianBergmann\Comparator\ComparisonFailure;
  */
 final class IsIdentical extends Constraint
 {
-    /**
-     * @var mixed
-     */
-    private $value;
+    private readonly mixed $value;
 
-    public function __construct($value)
+    public function __construct(mixed $value)
     {
         $this->value = $value;
     }
@@ -47,18 +39,11 @@ final class IsIdentical extends Constraint
      * a boolean value instead: true in case of success, false in case of a
      * failure.
      *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      * @throws ExpectationFailedException
      */
-    public function evaluate($other, string $description = '', bool $returnResult = false): ?bool
+    public function evaluate(mixed $other, string $description = '', bool $returnResult = false): ?bool
     {
-        if (is_float($this->value) && is_float($other) &&
-            !is_infinite($this->value) && !is_infinite($other) &&
-            !is_nan($this->value) && !is_nan($other)) {
-            $success = abs($this->value - $other) < PHP_FLOAT_EPSILON;
-        } else {
-            $success = $this->value === $other;
-        }
+        $success = $this->value === $other;
 
         if ($returnResult) {
             return $success;
@@ -73,7 +58,7 @@ final class IsIdentical extends Constraint
                     $this->value,
                     $other,
                     sprintf("'%s'", $this->value),
-                    sprintf("'%s'", $other)
+                    sprintf("'%s'", $other),
                 );
             }
 
@@ -82,8 +67,8 @@ final class IsIdentical extends Constraint
                 $f = new ComparisonFailure(
                     $this->value,
                     $other,
-                    $this->exporter()->export($this->value),
-                    $this->exporter()->export($other)
+                    Exporter::export($this->value, true),
+                    Exporter::export($other, true),
                 );
             }
 
@@ -95,17 +80,15 @@ final class IsIdentical extends Constraint
 
     /**
      * Returns a string representation of the constraint.
-     *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    public function toString(): string
+    public function toString(bool $exportObjects = false): string
     {
         if (is_object($this->value)) {
             return 'is identical to an object of class "' .
-                get_class($this->value) . '"';
+                $this->value::class . '"';
         }
 
-        return 'is identical to ' . $this->exporter()->export($this->value);
+        return 'is identical to ' . Exporter::export($this->value, $exportObjects);
     }
 
     /**
@@ -113,12 +96,8 @@ final class IsIdentical extends Constraint
      *
      * The beginning of failure messages is "Failed asserting that" in most
      * cases. This method should return the second part of that sentence.
-     *
-     * @param mixed $other evaluated value or object
-     *
-     * @throws \SebastianBergmann\RecursionContext\InvalidArgumentException
      */
-    protected function failureDescription($other): string
+    protected function failureDescription(mixed $other): string
     {
         if (is_object($this->value) && is_object($other)) {
             return 'two variables reference the same object';

@@ -7,6 +7,8 @@ use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Database\Eloquent\MassPrunable;
 use Illuminate\Database\Eloquent\Prunable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Events\ModelPruningFinished;
+use Illuminate\Database\Events\ModelPruningStarting;
 use Illuminate\Database\Events\ModelsPruned;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -70,23 +72,38 @@ class PruneCommand extends Command
             $this->components->twoColumnDetail($event->model, "{$event->count} records");
         });
 
+        $events->dispatch(new ModelPruningStarting($models->all()));
+
         $models->each(function ($model) {
-            $instance = new $model;
-
-            $chunkSize = property_exists($instance, 'prunableChunkSize')
-                            ? $instance->prunableChunkSize
-                            : $this->option('chunk');
-
-            $total = $this->isPrunable($model)
-                        ? $instance->pruneAll($chunkSize)
-                        : 0;
-
-            if ($total == 0) {
-                $this->components->info("No prunable [$model] records found.");
-            }
+            $this->pruneModel($model);
         });
 
+        $events->dispatch(new ModelPruningFinished($models->all()));
+
         $events->forget(ModelsPruned::class);
+    }
+
+    /**
+     * Prune the given model.
+     *
+     * @param  string  $model
+     * @return void
+     */
+    protected function pruneModel(string $model)
+    {
+        $instance = new $model;
+
+        $chunkSize = property_exists($instance, 'prunableChunkSize')
+            ? $instance->prunableChunkSize
+            : $this->option('chunk');
+
+        $total = $this->isPrunable($model)
+            ? $instance->pruneAll($chunkSize)
+            : 0;
+
+        if ($total == 0) {
+            $this->components->info("No prunable [$model] records found.");
+        }
     }
 
     /**
@@ -122,16 +139,16 @@ class PruneCommand extends Command
                     return in_array($model, $except);
                 });
             })->filter(function ($model) {
-                return $this->isPrunable($model);
-            })->filter(function ($model) {
                 return class_exists($model);
+            })->filter(function ($model) {
+                return $this->isPrunable($model);
             })->values();
     }
 
     /**
      * Get the default path where models are located.
      *
-     * @return string
+     * @return string|string[]
      */
     protected function getDefaultPath()
     {

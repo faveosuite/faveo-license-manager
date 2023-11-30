@@ -17,17 +17,6 @@ class CastMakeCommand extends GeneratorCommand
     protected $name = 'make:cast';
 
     /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'make:cast';
-
-    /**
      * The console command description.
      *
      * @var string
@@ -85,7 +74,8 @@ class CastMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
-            ['inbound', null, InputOption::VALUE_OPTIONAL, 'Generate an inbound cast class'],
+            ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the cast already exists'],
+            ['inbound', null, InputOption::VALUE_NONE, 'Generate an inbound cast class'],
         ];
     }
 }

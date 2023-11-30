@@ -34,7 +34,7 @@ class VerifyCsrfToken
     /**
      * The URIs that should be excluded from CSRF verification.
      *
-     * @var array
+     * @var array<int, string>
      */
     protected $except = [];
 
@@ -146,7 +146,7 @@ class VerifyCsrfToken
      * Get the CSRF token from the request.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return string
+     * @return string|null
      */
     protected function getTokenFromRequest($request)
     {
@@ -155,7 +155,7 @@ class VerifyCsrfToken
         if (! $token && $header = $request->header('X-XSRF-TOKEN')) {
             try {
                 $token = CookieValuePrefix::remove($this->encrypter->decrypt($header, static::serialized()));
-            } catch (DecryptException $e) {
+            } catch (DecryptException) {
                 $token = '';
             }
         }

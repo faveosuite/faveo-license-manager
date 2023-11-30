@@ -17,17 +17,6 @@ class ResourceMakeCommand extends GeneratorCommand
     protected $name = 'make:resource';
 
     /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'make:resource';
-
-    /**
      * The console command description.
      *
      * @var string
@@ -110,6 +99,7 @@ class ResourceMakeCommand extends GeneratorCommand
     protected function getOptions()
     {
         return [
+            ['force', 'f', InputOption::VALUE_NONE, 'Create the class even if the resource already exists'],
             ['collection', 'c', InputOption::VALUE_NONE, 'Create a resource collection'],
         ];
     }

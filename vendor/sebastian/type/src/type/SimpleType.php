@@ -13,22 +13,11 @@ use function strtolower;
 
 final class SimpleType extends Type
 {
-    /**
-     * @var string
-     */
-    private $name;
+    private string $name;
+    private bool $allowsNull;
+    private mixed $value;
 
-    /**
-     * @var bool
-     */
-    private $allowsNull;
-
-    /**
-     * @var mixed
-     */
-    private $value;
-
-    public function __construct(string $name, bool $nullable, $value = null)
+    public function __construct(string $name, bool $nullable, mixed $value = null)
     {
         $this->name       = $this->normalize($name);
         $this->allowsNull = $nullable;
@@ -38,6 +27,10 @@ final class SimpleType extends Type
     public function isAssignable(Type $other): bool
     {
         if ($this->allowsNull && $other instanceof NullType) {
+            return true;
+        }
+
+        if ($this->name === 'bool' && $other->name() === 'true') {
             return true;
         }
 
@@ -62,11 +55,14 @@ final class SimpleType extends Type
         return $this->allowsNull;
     }
 
-    public function value()
+    public function value(): mixed
     {
         return $this->value;
     }
 
+    /**
+     * @psalm-assert-if-true SimpleType $this
+     */
     public function isSimple(): bool
     {
         return true;
@@ -76,22 +72,12 @@ final class SimpleType extends Type
     {
         $name = strtolower($name);
 
-        switch ($name) {
-            case 'boolean':
-                return 'bool';
-
-            case 'real':
-            case 'double':
-                return 'float';
-
-            case 'integer':
-                return 'int';
-
-            case '[]':
-                return 'array';
-
-            default:
-                return $name;
-        }
+        return match ($name) {
+            'boolean' => 'bool',
+            'real', 'double' => 'float',
+            'integer' => 'int',
+            '[]'      => 'array',
+            default   => $name,
+        };
     }
 }

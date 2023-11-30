@@ -41,15 +41,7 @@ class RefreshToken extends Model
      */
     protected $casts = [
         'revoked' => 'bool',
-    ];
-
-    /**
-     * The attributes that should be mutated to dates.
-     *
-     * @var array
-     */
-    protected $dates = [
-        'expires_at',
+        'expires_at' => 'datetime',
     ];
 
     /**
@@ -87,15 +79,5 @@ class RefreshToken extends Model
     public function transient()
     {
         return false;
-    }
-
-    /**
-     * Get the current connection name for the model.
-     *
-     * @return string|null
-     */
-    public function getConnectionName()
-    {
-        return config('passport.storage.database.connection') ?? $this->connection;
     }
 }
