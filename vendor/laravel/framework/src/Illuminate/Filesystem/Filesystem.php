@@ -6,6 +6,7 @@ use ErrorException;
 use FilesystemIterator;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\LazyCollection;
+use Illuminate\Support\Traits\Conditionable;
 use Illuminate\Support\Traits\Macroable;
 use RuntimeException;
 use SplFileObject;
@@ -15,6 +16,7 @@ use Symfony\Component\Mime\MimeTypes;
 
 class Filesystem
 {
+    use Conditionable;
     use Macroable;
 
     /**
@@ -55,6 +57,21 @@ class Filesystem
         }
 
         throw new FileNotFoundException("File does not exist at path {$path}.");
+    }
+
+    /**
+     * Get the contents of a file as decoded JSON.
+     *
+     * @param  string  $path
+     * @param  int  $flags
+     * @param  bool  $lock
+     * @return array
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function json($path, $flags = 0, $lock = false)
+    {
+        return json_decode($this->get($path, $lock), true, 512, $flags);
     }
 
     /**
@@ -193,9 +210,10 @@ class Filesystem
      *
      * @param  string  $path
      * @param  string  $content
+     * @param  int|null  $mode
      * @return void
      */
-    public function replace($path, $content)
+    public function replace($path, $content, $mode = null)
     {
         // If the path already exists and is a symlink, get the real path...
         clearstatcache(true, $path);
@@ -205,7 +223,11 @@ class Filesystem
         $tempPath = tempnam(dirname($path), basename($path));
 
         // Fix permissions of tempPath because `tempnam()` creates it with permissions set to 0600...
-        chmod($tempPath, 0777 - umask());
+        if (! is_null($mode)) {
+            chmod($tempPath, $mode);
+        } else {
+            chmod($tempPath, 0777 - umask());
+        }
 
         file_put_contents($tempPath, $content);
 
@@ -288,7 +310,7 @@ class Filesystem
                 } else {
                     $success = false;
                 }
-            } catch (ErrorException $e) {
+            } catch (ErrorException) {
                 $success = false;
             }
         }
@@ -357,7 +379,7 @@ class Filesystem
 
         $relativeTarget = (new SymfonyFilesystem)->makePathRelative($target, dirname($link));
 
-        $this->link($relativeTarget, $link);
+        $this->link($this->isFile($target) ? rtrim($relativeTarget, '/') : $relativeTarget, $link);
     }
 
     /**
@@ -726,6 +748,8 @@ class Filesystem
                 $this->delete($item->getPathname());
             }
         }
+
+        unset($items);
 
         if (! $preserve) {
             @rmdir($directory);

@@ -43,14 +43,20 @@ trait ManagesTransactions
 
             try {
                 if ($this->transactions == 1) {
+                    $this->fireConnectionEvent('committing');
                     $this->getPdo()->commit();
                 }
 
-                $this->transactions = max(0, $this->transactions - 1);
+                [$levelBeingCommitted, $this->transactions] = [
+                    $this->transactions,
+                    max(0, $this->transactions - 1),
+                ];
 
-                if ($this->afterCommitCallbacksShouldBeExecuted()) {
-                    $this->transactionsManager?->commit($this->getName());
-                }
+                $this->transactionsManager?->commit(
+                    $this->getName(),
+                    $levelBeingCommitted,
+                    $this->transactions
+                );
             } catch (Throwable $e) {
                 $this->handleCommitTransactionException(
                     $e, $currentAttempt, $attempts
@@ -188,29 +194,21 @@ trait ManagesTransactions
      */
     public function commit()
     {
-        if ($this->transactions == 1) {
+        if ($this->transactionLevel() == 1) {
+            $this->fireConnectionEvent('committing');
             $this->getPdo()->commit();
         }
 
-        $this->transactions = max(0, $this->transactions - 1);
+        [$levelBeingCommitted, $this->transactions] = [
+            $this->transactions,
+            max(0, $this->transactions - 1),
+        ];
 
-        if ($this->afterCommitCallbacksShouldBeExecuted()) {
-            $this->transactionsManager?->commit($this->getName());
-        }
+        $this->transactionsManager?->commit(
+            $this->getName(), $levelBeingCommitted, $this->transactions
+        );
 
         $this->fireConnectionEvent('committed');
-    }
-
-    /**
-     * Determine if after commit callbacks should be executed.
-     *
-     * @return bool
-     */
-    protected function afterCommitCallbacksShouldBeExecuted()
-    {
-        return $this->transactions == 0 ||
-            ($this->transactionsManager &&
-             $this->transactionsManager->callbackApplicableTransactions()->count() === 1);
     }
 
     /**
@@ -288,7 +286,11 @@ trait ManagesTransactions
     protected function performRollBack($toLevel)
     {
         if ($toLevel == 0) {
-            $this->getPdo()->rollBack();
+            $pdo = $this->getPdo();
+
+            if ($pdo->inTransaction()) {
+                $pdo->rollBack();
+            }
         } elseif ($this->queryGrammar->supportsSavepoints()) {
             $this->getPdo()->exec(
                 $this->queryGrammar->compileSavepointRollBack('trans'.($toLevel + 1))

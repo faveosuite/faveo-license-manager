@@ -2,10 +2,14 @@
 
 namespace Illuminate\Queue\Jobs;
 
+use Illuminate\Bus\Batchable;
+use Illuminate\Bus\BatchRepository;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Queue\Events\JobFailed;
 use Illuminate\Queue\ManuallyFailedException;
+use Illuminate\Queue\TimeoutExceededException;
 use Illuminate\Support\InteractsWithTime;
+use Throwable;
 
 abstract class Job
 {
@@ -183,6 +187,25 @@ abstract class Job
             return;
         }
 
+        $commandName = $this->payload()['data']['commandName'] ?? false;
+
+        // If the exception is due to a job timing out, we need to rollback the current
+        // database transaction so that the failed job count can be incremented with
+        // the proper value. Otherwise, the current transaction will never commit.
+        if ($e instanceof TimeoutExceededException &&
+            $commandName &&
+            in_array(Batchable::class, class_uses_recursive($commandName))) {
+            $batchRepository = $this->resolve(BatchRepository::class);
+
+            if (method_exists($batchRepository, 'rollBack')) {
+                try {
+                    $batchRepository->rollBack();
+                } catch (Throwable $e) {
+                    // ...
+                }
+            }
+        }
+
         try {
             // If the job has failed, we will delete it, call the "failed" method and then call
             // an event indicating the job has failed so it can be logged if needed. This is
@@ -302,7 +325,7 @@ abstract class Job
      */
     public function retryUntil()
     {
-        return $this->payload()['retryUntil'] ?? $this->payload()['timeoutAt'] ?? null;
+        return $this->payload()['retryUntil'] ?? null;
     }
 
     /**
