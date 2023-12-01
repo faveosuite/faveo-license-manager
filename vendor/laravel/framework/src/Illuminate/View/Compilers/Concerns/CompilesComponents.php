@@ -4,6 +4,7 @@ namespace Illuminate\View\Compilers\Concerns;
 
 use Illuminate\Contracts\Support\CanBeEscapedWhenCastToString;
 use Illuminate\Support\Str;
+use Illuminate\View\AnonymousComponent;
 use Illuminate\View\ComponentAttributeBag;
 
 trait CompilesComponents
@@ -29,7 +30,9 @@ trait CompilesComponents
 
         $component = trim($component, '\'"');
 
-        $hash = static::newComponentHash($component);
+        $hash = static::newComponentHash(
+            $component === AnonymousComponent::class ? $component.':'.trim($alias, '\'"') : $component
+        );
 
         if (Str::contains($component, ['::class', '\\'])) {
             return static::compileClassComponentOpening($component, $alias, $data, $hash);
@@ -46,7 +49,7 @@ trait CompilesComponents
      */
     public static function newComponentHash(string $component)
     {
-        static::$componentHashStack[] = $hash = sha1($component);
+        static::$componentHashStack[] = $hash = hash('xxh128', $component);
 
         return $hash;
     }
@@ -64,7 +67,7 @@ trait CompilesComponents
     {
         return implode("\n", [
             '<?php if (isset($component)) { $__componentOriginal'.$hash.' = $component; } ?>',
-            '<?php $component = $__env->getContainer()->make('.Str::finish($component, '::class').', '.($data ?: '[]').' + (isset($attributes) ? (array) $attributes->getIterator() : [])); ?>',
+            '<?php $component = '.$component.'::resolve('.($data ?: '[]').' + (isset($attributes) && $attributes instanceof Illuminate\View\ComponentAttributeBag ? (array) $attributes->getIterator() : [])); ?>',
             '<?php $component->withName('.$alias.'); ?>',
             '<?php if ($component->shouldRender()): ?>',
             '<?php $__env->startComponent($component->resolveView(), $component->data()); ?>',
@@ -149,7 +152,8 @@ trait CompilesComponents
      */
     protected function compileProps($expression)
     {
-        return "<?php foreach(\$attributes->onlyProps{$expression} as \$__key => \$__value) {
+        return "<?php \$attributes ??= new \\Illuminate\\View\\ComponentAttributeBag; ?>
+<?php foreach(\$attributes->onlyProps{$expression} as \$__key => \$__value) {
     \$\$__key = \$\$__key ?? \$__value;
 } ?>
 <?php \$attributes = \$attributes->exceptProps{$expression}; ?>

@@ -243,7 +243,7 @@ class MailMessage extends SimpleMessage implements Renderable
     /**
      * Attach a file to the message.
      *
-     * @param  string|\Illuminate\Contracts\Mail\Attachable  $file
+     * @param  string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment  $file
      * @param  array  $options
      * @return $this
      */
@@ -258,6 +258,25 @@ class MailMessage extends SimpleMessage implements Renderable
         }
 
         $this->attachments[] = compact('file', 'options');
+
+        return $this;
+    }
+
+    /**
+     * Attach multiple files to the message.
+     *
+     * @param  array<string|\Illuminate\Contracts\Mail\Attachable|\Illuminate\Mail\Attachment|array>  $files
+     * @return $this
+     */
+    public function attachMany($files)
+    {
+        foreach ($files as $file => $options) {
+            if (is_int($file)) {
+                $this->attach($options);
+            } else {
+                $this->attach($file, $options);
+            }
+        }
 
         return $this;
     }
@@ -356,7 +375,7 @@ class MailMessage extends SimpleMessage implements Renderable
     /**
      * Render the mail notification message into an HTML string.
      *
-     * @return string
+     * @return \Illuminate\Support\HtmlString
      */
     public function render()
     {

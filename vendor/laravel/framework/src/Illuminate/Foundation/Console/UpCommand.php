@@ -18,17 +18,6 @@ class UpCommand extends Command
     protected $name = 'up';
 
     /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'up';
-
-    /**
      * The console command description.
      *
      * @var string
@@ -55,7 +44,7 @@ class UpCommand extends Command
                 unlink(storage_path('framework/maintenance.php'));
             }
 
-            $this->laravel->get('events')->dispatch(MaintenanceModeDisabled::class);
+            $this->laravel->get('events')->dispatch(new MaintenanceModeDisabled());
 
             $this->components->info('Application is now live.');
         } catch (Exception $e) {
@@ -66,5 +55,7 @@ class UpCommand extends Command
 
             return 1;
         }
+
+        return 0;
     }
 }

@@ -60,16 +60,24 @@ class StatusCommand extends BaseCommand
 
             $batches = $this->migrator->getRepository()->getMigrationBatches();
 
-            if (count($migrations = $this->getStatusFor($ran, $batches)) > 0) {
+            $migrations = $this->getStatusFor($ran, $batches)
+                ->when($this->option('pending'), fn ($collection) => $collection->filter(function ($migration) {
+                    return str($migration[1])->contains('Pending');
+                }));
+
+            if (count($migrations) > 0) {
                 $this->newLine();
 
                 $this->components->twoColumnDetail('<fg=gray>Migration name</>', '<fg=gray>Batch / Status</>');
 
-                $migrations->each(
-                    fn ($migration) => $this->components->twoColumnDetail($migration[0], $migration[1])
-                );
+                $migrations
+                    ->each(
+                        fn ($migration) => $this->components->twoColumnDetail($migration[0], $migration[1])
+                    );
 
                 $this->newLine();
+            } elseif ($this->option('pending')) {
+                $this->components->info('No pending migrations');
             } else {
                 $this->components->info('No migrations found');
             }
@@ -120,9 +128,8 @@ class StatusCommand extends BaseCommand
     {
         return [
             ['database', null, InputOption::VALUE_OPTIONAL, 'The database connection to use'],
-
+            ['pending', null, InputOption::VALUE_NONE, 'Only list pending migrations'],
             ['path', null, InputOption::VALUE_OPTIONAL | InputOption::VALUE_IS_ARRAY, 'The path(s) to the migrations files to use'],
-
             ['realpath', null, InputOption::VALUE_NONE, 'Indicate any provided migration file paths are pre-resolved absolute paths'],
         ];
     }
