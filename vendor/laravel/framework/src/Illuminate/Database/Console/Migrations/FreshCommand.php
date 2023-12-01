@@ -61,7 +61,7 @@ class FreshCommand extends Command
 
         if ($this->laravel->bound(Dispatcher::class)) {
             $this->laravel[Dispatcher::class]->dispatch(
-                new DatabaseRefreshed
+                new DatabaseRefreshed($database, $this->needsSeeding())
             );
         }
 
@@ -90,8 +90,6 @@ class FreshCommand extends Command
      */
     protected function runSeeder($database)
     {
-        $this->newLine();
-
         $this->call('db:seed', array_filter([
             '--database' => $database,
             '--class' => $this->option('seeder') ?: 'Database\\Seeders\\DatabaseSeeder',

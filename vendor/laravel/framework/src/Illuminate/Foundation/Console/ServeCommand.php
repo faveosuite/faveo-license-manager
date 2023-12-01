@@ -9,6 +9,7 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Process\PhpExecutableFinder;
 use Symfony\Component\Process\Process;
+
 use function Termwind\terminal;
 
 #[AsCommand(name: 'serve')]
@@ -20,17 +21,6 @@ class ServeCommand extends Command
      * @var string
      */
     protected $name = 'serve';
-
-    /**
-     * The name of the console command.
-     *
-     * This name is used to identify the command during lazy loading.
-     *
-     * @var string|null
-     *
-     * @deprecated
-     */
-    protected static $defaultName = 'serve';
 
     /**
      * The console command description.
@@ -54,13 +44,22 @@ class ServeCommand extends Command
     protected $requestsPool;
 
     /**
+     * Indicates if the "Server running on..." output message has been displayed.
+     *
+     * @var bool
+     */
+    protected $serverRunningHasBeenDisplayed = false;
+
+    /**
      * The environment variables that should be passed from host machine to the PHP server process.
      *
      * @var string[]
      */
     public static $passthroughVariables = [
         'APP_ENV',
+        'IGNITION_LOCAL_SITES_PATH',
         'LARAVEL_SAIL',
+        'PATH',
         'PHP_CLI_SERVER_WORKERS',
         'PHP_IDE_CONFIG',
         'SYSTEMROOT',
@@ -105,6 +104,8 @@ class ServeCommand extends Command
                 $this->components->info('Environment modified. Restarting server...');
 
                 $process->stop(5);
+
+                $this->serverRunningHasBeenDisplayed = false;
 
                 $process = $this->startProcess($hasEnvironment);
             }
@@ -170,7 +171,7 @@ class ServeCommand extends Command
      */
     protected function host()
     {
-        [$host, ] = $this->getHostAndPort();
+        [$host] = $this->getHostAndPort();
 
         return $host;
     }
@@ -200,6 +201,13 @@ class ServeCommand extends Command
      */
     protected function getHostAndPort()
     {
+        if (preg_match('/(\[.*\]):?([0-9]+)?/', $this->input->getOption('host'), $matches) !== false) {
+            return [
+                $matches[1] ?? $this->input->getOption('host'),
+                $matches[2] ?? null,
+            ];
+        }
+
         $hostParts = explode(':', $this->input->getOption('host'));
 
         return [
@@ -227,39 +235,46 @@ class ServeCommand extends Command
     protected function handleProcessOutput()
     {
         return fn ($type, $buffer) => str($buffer)->explode("\n")->each(function ($line) {
-            $parts = explode(']', $line);
-
             if (str($line)->contains('Development Server (http')) {
+                if ($this->serverRunningHasBeenDisplayed) {
+                    return;
+                }
+
                 $this->components->info("Server running on [http://{$this->host()}:{$this->port()}].");
                 $this->comment('  <fg=yellow;options=bold>Press Ctrl+C to stop the server</>');
 
                 $this->newLine();
+
+                $this->serverRunningHasBeenDisplayed = true;
             } elseif (str($line)->contains(' Accepted')) {
-                $startDate = Carbon::createFromFormat('D M d H:i:s Y', ltrim($parts[0], '['));
+                $requestPort = $this->getRequestPortFromLine($line);
 
-                preg_match('/\:(\d+)/', $parts[1], $matches);
-
-                $this->requestsPool[$matches[1]] = [$startDate, false];
+                $this->requestsPool[$requestPort] = [
+                    $this->getDateFromLine($line),
+                    false,
+                ];
             } elseif (str($line)->contains([' [200]: GET '])) {
-                preg_match('/\:(\d+)/', $parts[1], $matches);
+                $requestPort = $this->getRequestPortFromLine($line);
 
-                $this->requestsPool[$matches[1]][1] = trim(explode('[200]: GET', $line)[1]);
+                $this->requestsPool[$requestPort][1] = trim(explode('[200]: GET', $line)[1]);
             } elseif (str($line)->contains(' Closing')) {
-                preg_match('/\:(\d+)/', $parts[1], $matches);
+                $requestPort = $this->getRequestPortFromLine($line);
 
-                $request = $this->requestsPool[$matches[1]];
+                if (empty($this->requestsPool[$requestPort])) {
+                    return;
+                }
 
-                [$startDate, $file] = $request;
+                [$startDate, $file] = $this->requestsPool[$requestPort];
+
                 $formattedStartedAt = $startDate->format('Y-m-d H:i:s');
 
-                unset($this->requestsPool[$matches[1]]);
+                unset($this->requestsPool[$requestPort]);
 
                 [$date, $time] = explode(' ', $formattedStartedAt);
 
                 $this->output->write("  <fg=gray>$date</> $time");
 
-                $runTime = Carbon::createFromFormat('D M d H:i:s Y', ltrim($parts[0], '['))
-                                ->diffInSeconds($startDate);
+                $runTime = $this->getDateFromLine($line)->diffInSeconds($startDate);
 
                 if ($file) {
                     $this->output->write($file = " $file");
@@ -269,14 +284,50 @@ class ServeCommand extends Command
 
                 $this->output->write(' '.str_repeat('<fg=gray>.</>', $dots));
                 $this->output->writeln(" <fg=gray>~ {$runTime}s</>");
-            } elseif (str($line)->contains(['Closed without sending a request', ']: '])) {
+            } elseif (str($line)->contains(['Closed without sending a request'])) {
                 // ...
-            } elseif (isset($parts[1])) {
-                $this->components->warn($parts[1]);
             } elseif (! empty($line)) {
+                $position = strpos($line, '] ');
+
+                if ($position !== false) {
+                    $line = substr($line, $position + 1);
+                }
+
                 $this->components->warn($line);
             }
         });
+    }
+
+    /**
+     * Get the date from the given PHP server output.
+     *
+     * @param  string  $line
+     * @return \Illuminate\Support\Carbon
+     */
+    protected function getDateFromLine($line)
+    {
+        $regex = env('PHP_CLI_SERVER_WORKERS', 1) > 1
+            ? '/^\[\d+]\s\[([a-zA-Z0-9: ]+)\]/'
+            : '/^\[([^\]]+)\]/';
+
+        $line = str_replace('  ', ' ', $line);
+
+        preg_match($regex, $line, $matches);
+
+        return Carbon::createFromFormat('D M d H:i:s Y', $matches[1]);
+    }
+
+    /**
+     * Get the request port from the given PHP server output.
+     *
+     * @param  string  $line
+     * @return int
+     */
+    protected function getRequestPortFromLine($line)
+    {
+        preg_match('/:(\d+)\s(?:(?:\w+$)|(?:\[.*))/', $line, $matches);
+
+        return (int) $matches[1];
     }
 
     /**

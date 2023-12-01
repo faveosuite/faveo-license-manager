@@ -71,6 +71,26 @@ trait ReplacesAttributes
     }
 
     /**
+     * Replace all place-holders for the decimal rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,int>  $parameters
+     * @return string
+     */
+    protected function replaceDecimal($message, $attribute, $rule, $parameters)
+    {
+        return str_replace(
+            ':decimal',
+            isset($parameters[1])
+                ? $parameters[0].'-'.$parameters[1]
+                : $parameters[0],
+            $message
+        );
+    }
+
+    /**
      * Replace all place-holders for the different rule.
      *
      * @param  string  $message
@@ -113,6 +133,20 @@ trait ReplacesAttributes
     }
 
     /**
+     * Replace all place-holders for the extensions rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceExtensions($message, $attribute, $rule, $parameters)
+    {
+        return str_replace(':values', implode(', ', $parameters), $message);
+    }
+
+    /**
      * Replace all place-holders for the min rule.
      *
      * @param  string  $message
@@ -122,6 +156,20 @@ trait ReplacesAttributes
      * @return string
      */
     protected function replaceMin($message, $attribute, $rule, $parameters)
+    {
+        return str_replace(':min', $parameters[0], $message);
+    }
+
+    /**
+     * Replace all place-holders for the min digits rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceMinDigits($message, $attribute, $rule, $parameters)
     {
         return str_replace(':min', $parameters[0], $message);
     }
@@ -138,6 +186,83 @@ trait ReplacesAttributes
     protected function replaceMax($message, $attribute, $rule, $parameters)
     {
         return str_replace(':max', $parameters[0], $message);
+    }
+
+    /**
+     * Replace all place-holders for the max digits rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceMaxDigits($message, $attribute, $rule, $parameters)
+    {
+        return str_replace(':max', $parameters[0], $message);
+    }
+
+    /**
+     * Replace all place-holders for the missing_if rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceMissingIf($message, $attribute, $rule, $parameters)
+    {
+        $parameters[1] = $this->getDisplayableValue($parameters[0], Arr::get($this->data, $parameters[0]));
+
+        $parameters[0] = $this->getDisplayableAttribute($parameters[0]);
+
+        return str_replace([':other', ':value'], $parameters, $message);
+    }
+
+    /**
+     * Replace all place-holders for the missing_unless rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceMissingUnless($message, $attribute, $rule, $parameters)
+    {
+        return str_replace([':other', ':value'], [
+            $this->getDisplayableAttribute($parameters[0]),
+            $this->getDisplayableValue($parameters[0], $parameters[1]),
+        ], $message);
+    }
+
+    /**
+     * Replace all place-holders for the missing_with rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceMissingWith($message, $attribute, $rule, $parameters)
+    {
+        return str_replace(':values', implode(' / ', $this->getAttributeList($parameters)), $message);
+    }
+
+    /**
+     * Replace all place-holders for the missing_with_all rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceMissingWithAll($message, $attribute, $rule, $parameters)
+    {
+        return $this->replaceMissingWith($message, $attribute, $rule, $parameters);
     }
 
     /**
@@ -244,6 +369,68 @@ trait ReplacesAttributes
     protected function replaceMimes($message, $attribute, $rule, $parameters)
     {
         return str_replace(':values', implode(', ', $parameters), $message);
+    }
+
+    /**
+     * Replace all place-holders for the present_if rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replacePresentIf($message, $attribute, $rule, $parameters)
+    {
+        $parameters[1] = $this->getDisplayableValue($parameters[0], Arr::get($this->data, $parameters[0]));
+        $parameters[0] = $this->getDisplayableAttribute($parameters[0]);
+
+        return str_replace([':other', ':value'], $parameters, $message);
+    }
+
+    /**
+     * Replace all place-holders for the present_unless rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replacePresentUnless($message, $attribute, $rule, $parameters)
+    {
+        return str_replace([':other', ':value'], [
+            $this->getDisplayableAttribute($parameters[0]),
+            $this->getDisplayableValue($parameters[0], $parameters[1]),
+        ], $message);
+    }
+
+    /**
+     * Replace all place-holders for the present_with rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replacePresentWith($message, $attribute, $rule, $parameters)
+    {
+        return str_replace(':values', implode(' / ', $this->getAttributeList($parameters)), $message);
+    }
+
+    /**
+     * Replace all place-holders for the present_with_all rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replacePresentWithAll($message, $attribute, $rule, $parameters)
+    {
+        return $this->replacePresentWith($message, $attribute, $rule, $parameters);
     }
 
     /**
@@ -404,6 +591,22 @@ trait ReplacesAttributes
         $parameters[0] = $this->getDisplayableAttribute($parameters[0]);
 
         return str_replace([':other', ':value'], $parameters, $message);
+    }
+
+    /**
+     * Replace all place-holders for the required_if_accepted rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceRequiredIfAccepted($message, $attribute, $rule, $parameters)
+    {
+        $parameters[0] = $this->getDisplayableAttribute($parameters[0]);
+
+        return str_replace([':other'], $parameters, $message);
     }
 
     /**
@@ -602,6 +805,24 @@ trait ReplacesAttributes
      * @return string
      */
     protected function replaceEndsWith($message, $attribute, $rule, $parameters)
+    {
+        foreach ($parameters as &$parameter) {
+            $parameter = $this->getDisplayableValue($attribute, $parameter);
+        }
+
+        return str_replace(':values', implode(', ', $parameters), $message);
+    }
+
+    /**
+     * Replace all place-holders for the doesnt_end_with rule.
+     *
+     * @param  string  $message
+     * @param  string  $attribute
+     * @param  string  $rule
+     * @param  array<int,string>  $parameters
+     * @return string
+     */
+    protected function replaceDoesntEndWith($message, $attribute, $rule, $parameters)
     {
         foreach ($parameters as &$parameter) {
             $parameter = $this->getDisplayableValue($attribute, $parameter);

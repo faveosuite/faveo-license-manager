@@ -10,6 +10,7 @@ use Laravel\Passport\Database\Factories\ClientFactory;
 class Client extends Model
 {
     use HasFactory;
+    use ResolvesInheritedScopes;
 
     /**
      * The database table used by the model.
@@ -41,6 +42,7 @@ class Client extends Model
      */
     protected $casts = [
         'grant_types' => 'array',
+        'scopes' => 'array',
         'personal_access_client' => 'bool',
         'password_client' => 'bool',
         'revoked' => 'bool',
@@ -155,6 +157,31 @@ class Client extends Model
     }
 
     /**
+     * Determine whether the client has the given scope.
+     *
+     * @param  string  $scope
+     * @return bool
+     */
+    public function hasScope($scope)
+    {
+        if (! is_array($this->scopes)) {
+            return true;
+        }
+
+        $scopes = Passport::$withInheritedScopes
+            ? $this->resolveInheritedScopes($scope)
+            : [$scope];
+
+        foreach ($scopes as $scope) {
+            if (in_array($scope, $this->scopes)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Determine if the client is a confidential client.
      *
      * @return bool
@@ -182,16 +209,6 @@ class Client extends Model
     public function getIncrementing()
     {
         return Passport::clientUuids() ? false : $this->incrementing;
-    }
-
-    /**
-     * Get the current connection name for the model.
-     *
-     * @return string|null
-     */
-    public function getConnectionName()
-    {
-        return config('passport.storage.database.connection') ?? $this->connection;
     }
 
     /**
