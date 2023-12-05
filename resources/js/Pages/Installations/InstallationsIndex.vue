@@ -57,7 +57,7 @@
 
 				data: '',
 
-				columns: ['product_title', 'license_code', 'total_installations', 'latest_installation', 'installation_status', 'actions'],
+				columns: ['product_title', 'license_code', 'total_installations', 'latest_installation_date', 'installation_status', 'actions'],
 
 				options: {},
 
@@ -99,7 +99,7 @@
 
 					total_installations: 'i_total_installations',
 
-					latest_installation: 'i_latest_installation',
+					latest_installation_date: 'i_latest_installation',
 
 					installation_status: 'i_installation_status',
 				},
@@ -111,9 +111,9 @@
                         return formattedLicenseCode;
                     },
 
-					latest_installation(h, row) {
+					latest_installation_date(h, row) {
 
-						return row.latest_installation ? row.latest_installation : '---';
+						return row.latest_installation_date ? row.latest_installation_date : '---';
 					}
 				},
 
@@ -127,7 +127,7 @@
 
 					total_installations: 'Total Installations',
 
-					latest_installation: 'Latest Installation',
+					latest_installation_date: 'Latest Installation',
 
 					installation_status: 'Status',
 
