@@ -65,8 +65,8 @@
 
 				data: '',
 
-				columns: ['product_title', 'license_code', 'total_installations', 'total_callbacks',
-					'latest_callback', 'latest_license','actions'],
+				columns: ['product_title', 'license_code', 'installations_count', 'callbacks_count',
+					'latest_callback_date', 'latest_license_date','actions'],
 
 				options: {},
 
@@ -104,13 +104,13 @@
 
 					license_code: 'license_code',
 
-					total_installations: 'license_install',
+					installations_count: 'license_install',
 
-					total_callbacks: 'license_callbacks',
+					callbacks_count: 'license_callbacks',
 
-					latest_callback: 'latest_callback',
+					latest_callback_date: 'latest_callback_date',
 
-                    latest_license: 'latest_license',
+                    latest_license_date: 'latest_license',
 
                     actions:      'actions',
 				},
@@ -129,14 +129,14 @@
                         return formattedLicenseCode;
                     },
 
-					license_date(h, row) {
+					latest_license_date(h, row) {
 
-						return row.license_date ? row.license_date : '---'
+						return row.latest_license_date ? row.latest_license_date : '---'
 					},
 
-					latest_callback_date_time(h, row) {
+					latest_callback_date(h, row) {
 
-						return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
+						return row.latest_callback_date ? row.latest_callback_date : '---';
 					},
 
 				},
@@ -149,13 +149,14 @@
 
 					license_code: 'License Code',
 
-					total_installations: 'Installations',
+					installations_count: 'Installations',
 
-					total_callbacks: 'Callbacks',
+					callbacks_count: 'Callbacks',
 
-					latest_callback_date_time: 'Latest Callback',
+					latest_callback_date: 'Latest Callback',
 
-					license_date: 'Latest License',
+					latest_license_date: 'Latest License',
+					
 
 					actions: 'Actions'
 				},
@@ -177,7 +178,7 @@
 
                     this.loading = false;
 
-					this.data = res.data.data.map(data => {
+					this.data = res.data.data.data.map(data => {
 
 						data.edit_url = '/licenses/' + data.license_id + '/edit';
 
