@@ -13,10 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('afl_api_keys', function (Blueprint $table) {
-            $table->longText('api_key_description')->nullable();
-        });
+        if (!Schema::hasColumn('afl_api_keys', 'api_key_description')) {
+            Schema::table('afl_api_keys', function (Blueprint $table) {
+                $table->longText('api_key_description')->nullable();
+            });
     }
+}
 
     /**
      * Reverse the migrations.
