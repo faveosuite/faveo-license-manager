@@ -3,7 +3,7 @@
     "scripts": {
         "test": "jest",
         "dev": "vite",
-        "build": "vite build",
+        "build": "vite build && mv public/build/.vite/manifest.json public/build/",
         "watch-test": "jest -- --watch --notify"
     },
     "devDependencies": {
