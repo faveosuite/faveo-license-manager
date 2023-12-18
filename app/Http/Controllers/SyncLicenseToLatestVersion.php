@@ -2,8 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use Artisan;
-use DB;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use App\Models\AflSettings;
+use Illuminate\Support\Facades\File;
+
+
+
 use Exception;
 
 class SyncLicenseToLatestVersion extends Controller
@@ -17,19 +24,18 @@ class SyncLicenseToLatestVersion extends Controller
         set_time_limit(0);
 
         // in case where isInstall is false(in case of new install) version number should be zero
-        $latestVersion = $this->getPHPCompatibleVersionString('v5.0.1');
+        $latestVersion = $this->getPHPCompatibleVersionString(config('app.version'));
         $olderVersion = $this->getOlderVersion();
-        $this->forceInnodbOnUpdate();
 
         try {
             $this->updateToLatestVersion($latestVersion, $olderVersion);
+            $this->cacheDbVersion();
             $this->clearViewCache();
             $this->clearConfig();
+            $this->setDBInstall(1);
+            AflSettings::first()->update(['DATABASE_VERSION'=> 'v'.$latestVersion]);
 
-            // Setting::first()->update(['version'=> 'v'.$latestVersion]);
-            // \DB::table('settings')->update(['version' => 'v'.$latestVersion]);
-
-            // $this->cacheDbVersion();
+             $this->cacheDbVersion();
         } catch (Exception $ex) {
             if (! $this->isInstall()) {
                 //if system is not installed chances are logs tables are not present
@@ -41,23 +47,6 @@ class SyncLicenseToLatestVersion extends Controller
 
         return $this->log;
     }
-
-      private function forceInnodbOnUpdate()
-      {
-          try {
-              if ($this->isInstall()) {
-                  $this->writeToEnvAndRunConfigClear('DB_ENGINE', 'InnoDB');
-                  $tables = DB::select('SHOW TABLES');
-                  foreach ($tables as $table) {
-                      foreach ($table as $key => $value) {
-                          DB::statement('ALTER TABLE '.$value.' ENGINE = InnoDB');
-                      }
-                  }
-              }
-          } catch (Exception $e) {
-              return errorResponse($e->getMessage());
-          }
-      }
 
      private function writeToEnvAndRunConfigClear($key, $value)
      {
@@ -78,10 +67,10 @@ class SyncLicenseToLatestVersion extends Controller
 
     private function cacheDbVersion()
     {
-        $filesystemVersion = \Config::get('app.version');
-        \Cache::forget($filesystemVersion);
-        $dbversion = \Cache::remember($filesystemVersion, 3600, function () { //Caching version for 1 hr
-        return Setting::first()->value('version');
+        $filesystemVersion = Config::get('app.version');
+        Cache::forget($filesystemVersion);
+        $dbversion = Cache::remember($filesystemVersion, 3600, function () { //Caching version for 1 hr
+        return AflSettings::first()->value('DATABASE_VERSION');
         });
     }
 
@@ -92,11 +81,10 @@ class SyncLicenseToLatestVersion extends Controller
 
     private function getOlderVersion(): string
     {
-        if (! $this->isInstall()) {
-            return $this->getPHPCompatibleVersionString('v0.0.0');
+      if (! $this->isInstall()) {
+          return $this->getPHPCompatibleVersionString('v0.0.0');
         }
-
-        $olderVersion = 'v0.0.0';
+        $olderVersion = DB::table('afl_settings')->value('DATABASE_VERSION');
         $olderVersion = $olderVersion ? $olderVersion : 'v0.0.0';
 
         return $this->getPHPCompatibleVersionString($olderVersion);
@@ -118,27 +106,29 @@ class SyncLicenseToLatestVersion extends Controller
         // sort versions from oldest to latest
         if (file_exists($seederBasePath)) {
             $seederVersions = scandir($seederBasePath);
-
             natsort($seederVersions);
             // convert older and newer version into underscore format
             $formattedOlderVersion = $olderVersion;
             foreach ($seederVersions as $version) {
-                if (version_compare($this->getPHPCompatibleVersionString($version), $formattedOlderVersion) == 1) {
-                    // scan for $version directory and get file names
-                    $this->log = $this->log."\n"."Running Seeder for version $version";
-                    \Artisan::call('migrate', ['--path' => 'database/migrations', '--force' => true]);
-                    \Artisan::call('db:seed', ['--class' => "database\seeders", '--force' => true]);
-                    shell_exec('php ../artisan passport:install');
-                    $this->handleArtisanLogs();
-                }
-            }
+    // Compare versions using a PHP-compatible version string
+    if (version_compare($this->getPHPCompatibleVersionString($version), $formattedOlderVersion) == 1) {
+        // Dynamically construct the seeder class name based on the version
+        $seederClassName = "Database\\Seeders\\$version\\DatabaseSeeder";
+
+        // Run migration and seeding for the version
+        $this->log = $this->log . "\n" . "Running Seeder for version $version";
+        Artisan::call('migrate', ['--path' => 'database/migrations', '--force' => true]);
+        Artisan::call('db:seed', ['--class' => $seederClassName, '--force' => true]);
+        $this->handleArtisanLogs();
+    }
+}
         }
     }
 
     private function updateMigrationTable(string $olderVersion)
     {
         if ($olderVersion != '0.0.0') {
-            \Artisan::call('migrate', ['--path' => 'database/migrations', '--force' => true]);
+            Artisan::call('migrate', ['--path' => 'database/migrations', '--force' => true]);
         }
     }
 
@@ -163,10 +153,19 @@ class SyncLicenseToLatestVersion extends Controller
     {
         $check = false;
         $env = base_path('.env');
-        if (\File::exists($env) && env('DB_INSTALL') == 1) {
+        if (File::exists($env) && env('DB_INSTALL') == 1) {
             $check = true;
         }
-
         return $check;
+    }
+    private function setDBInstall($value)
+    {
+        try {
+            $this->writeToEnvAndRunConfigClear('DB_INSTALL', $value);
+           
+        } catch (Exception $e) {
+        
+            return errorResponse($e->getMessage());
+        }
     }
 }

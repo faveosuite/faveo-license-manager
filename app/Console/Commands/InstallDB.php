@@ -52,8 +52,8 @@ class InstallDB extends Command
             if ($this->confirm('Do you want to migrate tables now?')) {
                 $this->call('key:generate', ['--force' => true]);
                 $this->checkDBVersion();
-                (new SyncLicenseToLatestVersion)->sync();
                 $this->call('passport:install', ['--force' => true]);
+                (new SyncLicenseToLatestVersion)->sync();
 
                 $headers = ['email', 'password'];
                 $data = [
