@@ -153,9 +153,7 @@ export default {
                     this.$store.dispatch('setLoggedInUserToken', res.data.data.token);
 
                     this.$store.dispatch('setUserInfo', res.data.data.user);
-
-                    this.$router.push('/dashboard').catch(err => { })
-
+                    this.$router.push(this.getUserToken ? '/dashboard' : '/login')
                 }).catch((err) => {
 
                     this.loading = false;

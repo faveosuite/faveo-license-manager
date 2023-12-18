@@ -1,12 +1,12 @@
 <?php
+namespace Database\Seeders\v2_1_2;
 
-namespace Database\Seeders;
-
+use App\Models\AflClients;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class TransferClientsAndAdminsDataSeeder extends Seeder
-{
+class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
+
     /**
      * Run the database seeds.
      *
@@ -25,7 +25,7 @@ class TransferClientsAndAdminsDataSeeder extends Seeder
         ])->get();
 
         foreach ($adminsData as $admin) {
-            DB::table('users')->insert([
+            AflClients::updateOrCreate([
                 'client_fname' => $admin->client_fname,
                 'client_lname' => $admin->client_lname,
                 'client_email' => $admin->client_email,

@@ -12,14 +12,13 @@ class SyncDatabaseToLatestVersion extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'database:sync';
 
     /**
      * The console command description.
      *
      * @var string
-     */
-    protected $description = 'Command description';
+     */ protected $description = 'Update License database to latest version';
 
     /**
      * Execute the console command.
