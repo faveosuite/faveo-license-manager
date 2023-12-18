@@ -102,8 +102,8 @@ class InstallerController extends Controller
                 //allowing migrations table in db as it does not get removed on "migrate:reset"
                 $tableNames = array_unique(array_merge(['migrations'], $tableNames));
                 if (count($tableNames) === 1) {
-                    (new SyncLicenseToLatestVersion)->sync();
                     $this->rollBackMigration();
+                    (new SyncLicenseToLatestVersion)->sync();
 
                     if (Cache::get('dummy_data_installation')) {
                         $path = base_path().DIRECTORY_SEPARATOR.'DB'.DIRECTORY_SEPARATOR.'dummy-data.sql';
@@ -126,7 +126,7 @@ class InstallerController extends Controller
        public function rollBackMigration()
        {
            try {
-               Artisan::call('migrate', ['--path' => 'vendor/laravel/passport/database/migrations', '--force' => true]);
+            Artisan::call('migrate', ['--path' => 'vendor/laravel/passport/database/migrations', '--force' => true]);
                shell_exec('php ../artisan passport:install');
                // Artisan::call('passport:install', ['--force' => true]);
            } catch (Exception $ex) {
@@ -214,6 +214,7 @@ class InstallerController extends Controller
         $ENV['DB_TYPE'] = $default;
         $ENV['DB_HOST'] = '"'.$host.'"';
         $ENV['DB_PORT'] = '"'.$port.'"';
+        $ENV['DB_INSTALL'] = 0;
         $ENV['DB_DATABASE'] = '"'.$database.'"';
         $ENV['DB_USERNAME'] = '"'.$dbusername.'"';
         $ENV['DB_PASSWORD'] = '"'.str_replace('"', '\"', $dbpassword).'"';
