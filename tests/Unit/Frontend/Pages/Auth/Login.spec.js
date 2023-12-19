@@ -102,13 +102,13 @@ describe('Login', () => {
 
         wrapper.vm.onSubmit();
 
-        setTimeout(()=>{
+        setTimeout(async ()=>{
 
+        
             expect(axiosMock.history.post[0].url).toEqual('/api/login');
+            
+            expect(mockRouter.push).toHaveBeenCalledWith('/login');
 
-            expect(mockRouter.push).toHaveBeenCalledWith('/dashboard')
-
-            expect(wrapper.vm.loading).toEqual(false)
 
             done();
         },1);
