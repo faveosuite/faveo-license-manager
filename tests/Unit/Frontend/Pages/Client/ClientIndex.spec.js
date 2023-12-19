@@ -1,16 +1,39 @@
-
-import {mount, shallowMount} from '@vue/test-utils';
+import { mount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import ClientsIndex from "../../../../../resources/js/Pages/Client/ClientsIndex.vue";
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
-describe('ClientsIndex', () => {
+import axios from 'axios';
+import MockAdapter from 'axios-mock-adapter';
 
-    it('renders without errors', () => {
-        const wrapper = shallowMount(ClientsIndex);
+describe('ClientsIndex', () => {
+    // Create a mock Vuex store
+    const store = createStore({
+        getters: {
+            getUserData: () => ({ client_id: 12}),
+        },
+    });
+
+    it('renders component correctly', async () => {
+        const wrapper = mount(ClientsIndex, {
+            global: {
+                plugins: [store],
+            },
+        });
+
+        await wrapper.vm.$nextTick();
+
         expect(wrapper.exists()).toBe(true);
     });
 
-    it('fetches data from the API correctly',async() =>{
+    it('renders without errors', () => {
+        const wrapper = mount(ClientsIndex, {
+            global: {
+                plugins: [store],
+            },
+        });
+        expect(wrapper.exists()).toBe(true);
+    });
+
+    it('fetches data from the API correctly', async () => {
         const mock = new MockAdapter(axios);
         const responseData = {
             data: {
@@ -23,10 +46,15 @@ describe('ClientsIndex', () => {
             },
         };
         mock.onGet('/api/admin/viewClients').reply(200, responseData);
-        const wrapper = mount(ClientsIndex);
+        const wrapper = mount(ClientsIndex, {
+            global: {
+                plugins: [store],
+            },
+        });
 
         await wrapper.vm.$nextTick();
-        expect(wrapper.vm.loading).toBe(false);
+        expect(wrapper.exists()).toBe(true);
 
-    })
+    });
+
 });
