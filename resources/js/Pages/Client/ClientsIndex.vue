@@ -59,6 +59,7 @@
 	import axios from 'axios';
 	import {useStore} from "vuex";
 	import {computed} from "vue";
+    import {lang} from "../../helpers/extraLogics";
 
 	export default {
 	setup() {
@@ -86,10 +87,6 @@
 	}
 	},
 
-	created() {
-
-	this.emitter.on('refreshData', this.updateData);
-	},
 	beforeMount() {
 
  const self = this;
@@ -148,6 +145,8 @@
  },
 
  methods: {
+
+     lang: lang,
 
  updateData() {
 
