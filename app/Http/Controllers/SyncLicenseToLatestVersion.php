@@ -32,7 +32,6 @@ class SyncLicenseToLatestVersion extends Controller
             $this->cacheDbVersion();
             $this->clearViewCache();
             $this->clearConfig();
-            $this->setDBInstall(1);
             AflSettings::first()->update(['DATABASE_VERSION'=> 'v'.$latestVersion]);
 
              $this->cacheDbVersion();
@@ -92,12 +91,14 @@ class SyncLicenseToLatestVersion extends Controller
 
     public function updateToLatestVersion(string $latestVersion, string $olderVersion)
     {
+        
         $this->updateMigrationTable($olderVersion);
 
         // after older version is updated, update to the latest version in which seeder versioning is implemented
         Artisan::call('migrate', ['--force' => true]);
 
         $this->handleArtisanLogs();
+        $this->setDBInstall(1);
 
         // getting seeder base path
         $seederBasePath = base_path().DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'seeders';
