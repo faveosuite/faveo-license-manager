@@ -2,10 +2,11 @@
 
 namespace App\Console\Commands;
 
-use Artisan;
-use Config;
-use DB;
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Cache;
 
 class SetupTestEnv extends Command
 {
@@ -37,11 +38,9 @@ class SetupTestEnv extends Command
         $dbPassword = ! $dbPassword ? '' : $dbPassword;
         $this->setupConfig($dbUsername, $dbPassword, '', 'Innodb');
 
-        echo "\nCreating database...\n";
-
+        $this->info("\nCreating database...");
         $this->createDB($dbName);
-
-        echo "\nDatabase Created Successfully!\n";
+        $this->info("\nDatabase Created Successfully!\n");
 
         //setting up new database name
         Config::set('database.connections.mysql.database', $dbName);
@@ -52,28 +51,15 @@ class SetupTestEnv extends Command
         //opening a database connection
         DB::purge('mysql');
 
-        echo "\nRunning migrations!\n";
-
         Artisan::call('migrate', ['--force'=>true]);
-
-        echo Artisan::output();
-
-        echo "\nMigrations completed!\n";
-
-        echo "\nRunning seeders!\n";
-
         Artisan::call('db:seed', ['--force'=>true]);
+        $this->handleDatabaseOperations();
 
-        echo Artisan::output();
-
-        echo "\nSeeders ran successfully!\n";
-
-        //closing the database connection
         DB::disconnect('mysql');
 
         $this->createEnv($dbUsername, $dbPassword, $dbName);
 
-        echo "\nTesting Database setup Successfully\n";
+        $this->info("\nTesting Database setup Successfully\n");
     }
 
     /**
@@ -83,6 +69,17 @@ class SetupTestEnv extends Command
      * @param  string  $dbPassword
      * @return null
      */
+    private function handleDatabaseOperations()
+    {
+        try {
+            $this->info("\nMigrating and seeding core faveo tables...\n");
+            Artisan::call("database:sync");
+            $this->info("\nMigrated and Seeded core faveo tables Successfully!\n");
+        } catch(\Exception $e) {
+            echo "\n".$e->getMessage()."\n";
+            throw $e;
+        }
+    }
     private function createEnv(string $dbUsername, string $dbPassword, string $dbName)
     {
         $env['DB_USERNAME'] = $dbUsername;
