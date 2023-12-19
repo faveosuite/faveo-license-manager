@@ -161,7 +161,7 @@ class SyncLicenseToLatestVersion extends Controller
     }
     private function setDBInstall($value)
     {
-         
+       
         try {
             if(!env('DB_INSTALL')){
                 $path = app()->environmentFilePath();
