@@ -161,8 +161,19 @@ class SyncLicenseToLatestVersion extends Controller
     }
     private function setDBInstall($value)
     {
+         
         try {
-            $this->writeToEnvAndRunConfigClear('DB_INSTALL', $value);
+            if(!env('DB_INSTALL')){
+                $path = app()->environmentFilePath();
+                $fp = fopen($path, 'a+');
+                fwrite($fp, PHP_EOL.'DB_INSTALL=1');
+                fclose($fp);
+                Artisan::call('config:clear');
+            }
+            else{
+
+                $this->writeToEnvAndRunConfigClear('DB_INSTALL', $value);
+            }
            
         } catch (Exception $e) {
         
