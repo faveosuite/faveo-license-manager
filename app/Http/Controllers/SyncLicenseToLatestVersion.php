@@ -23,6 +23,7 @@ class SyncLicenseToLatestVersion extends Controller
         ini_set('max_execution_time', '-1');
         set_time_limit(0);
 
+
         // in case where isInstall is false(in case of new install) version number should be zero
         $latestVersion = $this->getPHPCompatibleVersionString(config('app.version'));
         $olderVersion = $this->getOlderVersion();
@@ -32,6 +33,7 @@ class SyncLicenseToLatestVersion extends Controller
             $this->cacheDbVersion();
             $this->clearViewCache();
             $this->clearConfig();
+            $this->setDBInstall(1);
             AflSettings::first()->update(['DATABASE_VERSION'=> 'v'.$latestVersion]);
 
              $this->cacheDbVersion();
@@ -91,14 +93,11 @@ class SyncLicenseToLatestVersion extends Controller
 
     public function updateToLatestVersion(string $latestVersion, string $olderVersion)
     {
-        
         $this->updateMigrationTable($olderVersion);
 
         // after older version is updated, update to the latest version in which seeder versioning is implemented
         Artisan::call('migrate', ['--force' => true]);
-
         $this->handleArtisanLogs();
-        $this->setDBInstall(1);
 
         // getting seeder base path
         $seederBasePath = base_path().DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR.'seeders';
@@ -161,19 +160,9 @@ class SyncLicenseToLatestVersion extends Controller
     }
     private function setDBInstall($value)
     {
-       
         try {
-            if(!env('DB_INSTALL')){
-                $path = app()->environmentFilePath();
-                $fp = fopen($path, 'a+');
-                fwrite($fp, PHP_EOL.'DB_INSTALL=1');
-                fclose($fp);
-                Artisan::call('config:clear');
-            }
-            else{
-
-                $this->writeToEnvAndRunConfigClear('DB_INSTALL', $value);
-            }
+            
+            $this->writeToEnvAndRunConfigClear('DB_INSTALL', $value);
            
         } catch (Exception $e) {
         

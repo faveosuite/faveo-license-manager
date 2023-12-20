@@ -4,6 +4,7 @@ namespace Database\Seeders\v2_1_2;
 use App\Models\AflClients;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
+use App\Models\AflSettings;
 
 class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
 
@@ -35,5 +36,12 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
                 'client_role'=> 'admin',
             ]);
         }
+        $this->settings();
+    }
+    public function settings()
+    {
+        AflSettings::where('SETTING_ID', 1)->update([
+            'NEWS_TEXT' => '[{"title":"license manager Scripts Receive New Features and Core Updates","full_url":"https:\/\/www.license manager.com\/blog\/license manager-scripts-receive-new-features-and-core-updates\/","date":"2019-08-19"},{"title":"Force User Input Validation with Auto PHP Licenser 2.5","full_url":"https:\/\/www.license manager.com\/blog\/force-user-input-validation-with-auto-php-licenser-2-5\/","date":"2019-04-18"},{"title":"Dead Man Switch 1.4 Gets Visual Emails Composer","full_url":"https:\/\/www.license manager.com\/blog\/dead-man-switch-1-4-gets-visual-emails-composer\/","date":"2019-01-28"}]',
+        ]);
     }
 }
