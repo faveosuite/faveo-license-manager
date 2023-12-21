@@ -11,7 +11,7 @@
                     <div class="col-6">
                         <input type="radio" value="1" v-model="selectedValue" />
               &nbsp;<label> Enable </label> &emsp;
-            
+
               <input type="radio" value="0" v-model="selectedValue" />
             &nbsp;<label>
               Disable
@@ -67,7 +67,7 @@ export default {
         this.debugValue = localStorage.getItem("debug") || "";
         this.selectedValue = this.debugValue || "0"; // Set the default value to "0" (Disable) if debugValue is empty
         this.showLink = localStorage.getItem("showLink") === "true" || false;
-        this.user_id = this.getUserId.admin_id || 0;
+        this.user_id = this.getUserId.client_id || 0;
         this.saveTokenForDebugger();
     },
 
