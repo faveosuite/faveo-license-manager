@@ -361,10 +361,12 @@ return [
 
     'api_key_description'  =>   'Description',
 
+    'installation_delete'  => 'Installation Deleted successfully!'
+
     //EMAIL
- 
-  
-  
+
+
+
 
 ];
 

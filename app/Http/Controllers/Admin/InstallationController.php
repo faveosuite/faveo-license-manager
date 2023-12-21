@@ -233,6 +233,6 @@ class InstallationController extends Controller
             $removed_records += AflInstallations::where('installation_id', $installation_id)->delete();
         }
 
-        return $removed_records;
+        return successResponse(Lang::get('lang.installation_delete'), $removed_records);
     }
 }
