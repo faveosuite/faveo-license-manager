@@ -91,12 +91,12 @@
 
   <body class="sidebar-mini layout-fixed layout-navbar-fixed text-sm layout-footer-fixed">
 
-  <?php $version = config('app.version');?>
+  <?php $versioning = config('app.version');?>
 
     <div id="app">
 
         <license-manager-renderer
-            :version="{{ json_encode($version) }}">
+            :versioning="{{ json_encode($versioning) }}">
         </license-manager-renderer>
     </div>
 

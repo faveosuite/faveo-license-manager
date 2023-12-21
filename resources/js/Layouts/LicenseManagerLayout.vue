@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <license-footer :version="version"></license-footer>
+        <license-footer :versioning="versioning"></license-footer>
     </div>
 </template>
 
@@ -50,7 +50,7 @@ export default {
     name : 'license-manager-layout',
 
     props:{
-        version : { type : String , default : ''},
+        versioning : { type : String , default : ''},
     },
 
     setup() {
