@@ -1,6 +1,6 @@
 <template>
 
-    <router-view :version="version"></router-view>
+    <router-view :versioning="versioning"></router-view>
    </template>
 
    <script>
@@ -8,7 +8,7 @@
    export default {
 
     props:{
-        version : { type : String , default : ''},
+        versioning : { type : String , default : ''},
     },
 
     watch : {
