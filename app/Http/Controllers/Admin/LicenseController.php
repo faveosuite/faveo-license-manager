@@ -310,7 +310,7 @@ class LicenseController extends Controller
     public function show()
 {
 $root_array = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-->select('license_id','license_code', 'license_status', 'license_date', 'afl_products.product_title',
+->select('license_id','license_code', 'license_status', 'license_date','afl_products.product_id', 'afl_products.product_title',
 DB::raw('(SELECT MAX(license_date) FROM afl_licenses AS sub_licenses WHERE sub_licenses.license_code = afl_licenses.license_code) as latest_license_date'),
 DB::raw('(SELECT MAX(callback_date_time) FROM afl_callbacks AS sub_callbacks WHERE sub_callbacks.license_code = afl_licenses.license_code) as latest_callback_date')
 )
