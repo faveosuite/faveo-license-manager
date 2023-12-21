@@ -139,13 +139,13 @@ class InstallationController extends Controller
     $root_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
     ->orderByDesc('installation_date')
     ->orderByDesc('installation_id')
-    ->select('installation_id', 'afl_products.product_title', 'license_code', 'installation_status',
+    ->select('installation_id','afl_products.product_id', 'afl_products.product_title', 'license_code', 'installation_status',
     DB::raw('(SELECT COUNT(*) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as total_installations'),
     DB::raw('(SELECT MAX(installation_date) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as latest_installation_date')
 )
     ->cursor()
     ->toArray();
-  
+
     return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
     }
 
