@@ -121,7 +121,7 @@ class InstallationController extends Controller
      * @param $installation_id
      * @return success response if the record was found and deleted
      */
-    public function deleteInstallation($installation_id)
+    private function deleteInstallation($installation_id=null, Request $request=null)
     {
         $removed_records = 0;
         if (aflValidateIntegerValue($installation_id)) {
@@ -223,5 +223,16 @@ class InstallationController extends Controller
     public function updateTheLicenseCode(Request $request){
         return AflInstallations::where('license_code',$request->old_license_code)
             ->delete();
+    }
+
+    public function deleteInstallations(Request $request)
+    {
+        $removed_records = 0;
+        $installation_id = $request->input('installation_id');
+        if (aflValidateIntegerValue($installation_id)) {
+            $removed_records += AflInstallations::where('installation_id', $installation_id)->delete();
+        }
+
+        return $removed_records;
     }
 }

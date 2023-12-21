@@ -114,7 +114,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 
 
     //INSTALLATIONS
-    Route::post('installations/delete', [InstallationController::class, 'deleteInstallation']);
+    Route::post('installations/delete', [InstallationController::class, 'deleteInstallations']);
     Route::post('installations/edit', [InstallationController::class, 'installationUpdate']);
     Route::get('viewInstallations', [InstallationController::class, 'show']);
     Route::post('addInstallation', [InstallationController::class, 'installationAdd']);
