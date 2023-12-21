@@ -4,7 +4,7 @@
 
 		<div class="d-none d-sm-inline float-right">
 
-			<strong>{{trans('version')}}&nbsp;</strong> 2.1.1
+			<strong>{{trans('version')}}&nbsp;</strong> {{version}}
 		</div>
 
 		<strong> {{trans('copyright')}} &copy; {{new Date().getFullYear()}}
@@ -23,6 +23,10 @@
 
 	export default {
 
-		name : 'license-footer'
+		name : 'license-footer',
+
+        props:{
+            version : { type : String , default : ''},
+        },
 	};
 </script>

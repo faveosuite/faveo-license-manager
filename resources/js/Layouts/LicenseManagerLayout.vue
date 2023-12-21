@@ -28,7 +28,7 @@
             </div>
         </div>
 
-        <license-footer></license-footer>
+        <license-footer :version="version"></license-footer>
     </div>
 </template>
 
@@ -48,6 +48,10 @@ import Footer from "./Components/Footer.vue";
 export default {
 
     name : 'license-manager-layout',
+
+    props:{
+        version : { type : String , default : ''},
+    },
 
     setup() {
 

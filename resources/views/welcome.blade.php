@@ -91,9 +91,13 @@
 
   <body class="sidebar-mini layout-fixed layout-navbar-fixed text-sm layout-footer-fixed">
 
+  <?php $version = config('app.version');?>
+
     <div id="app">
 
-        <license-manager-renderer></license-manager-renderer>
+        <license-manager-renderer
+            :version="{{ json_encode($version) }}">
+        </license-manager-renderer>
     </div>
 
     <script type="text/javascript" src="{{ bundleLink('js/lang' ) }}"></script>
