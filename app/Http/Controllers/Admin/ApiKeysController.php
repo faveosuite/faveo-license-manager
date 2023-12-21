@@ -70,11 +70,11 @@ class ApiKeysController extends Controller
         $existingApiKey = DB::table('afl_api_keys')
             ->where('api_key_id', $api_key_id)
             ->first();
-    
+
         if (!$existingApiKey) {
             return errorResponse(Lang::get('lang.apiNotFound'), 404);
         }
-    
+
         $updateData = [
             'api_key_secret' => $request->get('api_key_secret'),
             'api_key_ip' => $request->get('api_key_ip'),
@@ -89,7 +89,7 @@ class ApiKeysController extends Controller
             'api_key_status' => $request->get('api_key_status'),
             'api_key_description' => $request->get('api_key_description'),
         ];
-    
+
         if ($existingApiKey->api_key_secret === $updateData['api_key_secret'] &&
             $existingApiKey->api_key_ip === $updateData['api_key_ip'] &&
             $existingApiKey->api_key_clients_add === $updateData['api_key_clients_add'] &&
@@ -104,11 +104,11 @@ class ApiKeysController extends Controller
             $existingApiKey->api_key_description === $updateData['api_key_description']) {
             return successResponse("Nothing to Update", null, 200);
         }
-    
+
         $updateapi = DB::table('afl_api_keys')
             ->where('api_key_id', $api_key_id)
             ->update($updateData);
-    
+
         if (!aflValidateIntegerValue($updateapi)) {
             return errorResponse(Lang::get('lang.invalid'), 400);
         } else {
@@ -133,9 +133,7 @@ class ApiKeysController extends Controller
 
     public function show()
     {
-        $apis = AflApiKeys::latest()->get();
-
-        return successResponse(Lang::get('lang.Api_show'), $apis, 200);
+        return successResponse(Lang::get('lang.Api_show'), AflApiKeys::latest()->get());
     }
 
     /**

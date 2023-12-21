@@ -59,7 +59,6 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgot', [AuthController::class, 'forgot']);
 Route::post('/reset', [AuthController::class, 'reset']);
-Route::get('/admin/viewApiKeys', [ApiKeysController::class, 'show']);
 Route::post('/save-debug-value', [SettingsController::class, 'debuggerSettings'])->name('save-debug-value');
 Route::post('/saveTokenForDebugger', [SettingsController::class, 'SaveTokenForDebugger']);
 
@@ -94,6 +93,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('products/delete', [ProductsController::class, 'deleteProduct']);
     Route::post('products/edit', [ProductsController::class, 'productUpdate']);
     Route::get('product/{product_id}', [ProductsController::class, 'edit']);
+
 
     //CLIENTS
 
@@ -202,6 +202,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('updatedInstallation/edit', [UpdateInstallationsController::class, 'updateInstallationEdit']);
     Route::get('showUpdateInstall', [UpdateInstallationsController::class, 'show']);
 });
+
+Route::get('admin/viewApiKeys',[ApiKeysController::class, 'show'])->middleware('manager');
+
 /*Route::middleware('auth:api')->group(function (){
 
 });*/
