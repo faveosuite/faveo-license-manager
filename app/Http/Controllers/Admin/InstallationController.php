@@ -121,7 +121,7 @@ class InstallationController extends Controller
      * @param $installation_id
      * @return success response if the record was found and deleted
      */
-    private function deleteInstallation($installation_id=null, Request $request=null)
+    private function deleteInstallation($installation_id)
     {
         $removed_records = 0;
         if (aflValidateIntegerValue($installation_id)) {
