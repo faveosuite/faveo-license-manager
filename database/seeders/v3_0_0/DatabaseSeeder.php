@@ -1,5 +1,5 @@
 <?php
-namespace Database\Seeders\v2_1_2;
+namespace Database\Seeders\v3_0_0;
 
 use App\Models\AflClients;
 use Illuminate\Database\Seeder;
