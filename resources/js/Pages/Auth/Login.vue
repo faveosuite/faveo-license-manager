@@ -146,20 +146,21 @@ export default {
 
                 data['client_password'] = this.password
 
-                axios.post("/api/login", data).then((res) => {
+                axios.post("/api/login", data)
+                    .then((res) => {
+                        this.loading = false;
+                        // Set the authentication token in the default headers
+                        const authToken = res.data.data.token;
+                        axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+                        this.$store.dispatch('setLoggedInUserToken', authToken);
+                        this.$store.dispatch('setUserInfo', res.data.data.user);
+                        this.$router.push(this.getUserToken ? '/dashboard' : '/login');
+                    })
+                    .catch((err) => {
+                        this.loading = false;
+                        errorHandler(err, 'login');
+                    });
 
-                    this.loading = false;
-
-                    this.$store.dispatch('setLoggedInUserToken', res.data.data.token);
-
-                    this.$store.dispatch('setUserInfo', res.data.data.user);
-                    this.$router.push(this.getUserToken ? '/dashboard' : '/login')
-                }).catch((err) => {
-
-                    this.loading = false;
-
-                    errorHandler(err, 'login');
-                });
             }
         }
     },
