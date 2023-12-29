@@ -149,93 +149,42 @@ export default {
 
     data() {
 
+        const permissionItems = [
+            { name: 'Active', value: 1 },
+            { name: 'Inactive', value: 0 }
+        ];
+
         return {
-
             title: 'add_new_api_key',
-
             iconClass: 'fas fa-save',
-
             btnName: 'save',
-
             hasDataPopulated: false,
-
             loading: false,
-
             apiEndpoint: '',
-
             moment: moment,
-
             api_key_ip: null,
-
             api_key_secret: '',
-
             api_key_id: '',
-
-            editProductPermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
+            i: permissionItems,
             api_key_products_edit: '',
-
-            addProductPermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
+            editProductPermission: permissionItems,
+            addProductPermission: permissionItems,
             api_key_products_add: '',
-
-            addClientPermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
+            addClientPermission: permissionItems,
             api_key_clients_add: '',
-
-            editClientPermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
+            editClientPermission: permissionItems,
             api_key_clients_edit: '',
-
-            addLicensePermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
+            addLicensePermission: permissionItems,
             api_key_licenses_add: '',
-
-            editLicensePermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
+            editLicensePermission: permissionItems,
             api_key_licenses_edit: '',
-
-            addInstallationsPermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
+            addInstallationsPermission: permissionItems,
             api_key_installations_edit: '',
-
-            useSearchPermission: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
-            api_key_search: '',
-
+            useSearchPermission: permissionItems,
             api_key_description: '',
-
-            apiKeyStatus: [
-                { name: 'Active', value: 1 },
-                { name: 'Inactive', value: 0 }
-            ],
-
-            api_key_status: '',
-        }
+            apiKeyStatus: permissionItems,
+            api_key_status: ''
+        };
     },
 
     beforeMount() {
