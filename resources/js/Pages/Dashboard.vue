@@ -3,8 +3,7 @@
 
         <custom-loader :duration="4000"></custom-loader>
     </div>
-    <div class="container">
-        <div class="col-sm-12" >
+    <div class="container-fluid">
 
             <div class="container-fluid">
 
@@ -78,7 +77,6 @@
                     </div>
 
                 </div>
-            </div>
             </div>
 
 
@@ -185,4 +183,5 @@ export default {
 
 .word_wrap{
     font-size: 1.9rem;
-}</style>
+}
+</style>

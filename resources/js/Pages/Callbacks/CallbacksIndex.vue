@@ -20,7 +20,7 @@
                 <h3 class="card-title">{{lang('callbacks')}}</h3>
             </div>
 
-            <div class="card-body" id="callbacks">
+            <div class="card-body" id="my_callbacks">
 
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
 
@@ -177,17 +177,15 @@ export default {
     word-break: break-all;
 }
 
-.VueTables .table-responsive > table th {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 150px; /* Set a minimum width for the columns */
-    max-width: 300px; /* Set a maximum width for the columns if needed */
+#my_callbacks .VueTables .table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
 }
 
-
-.glyphicon-sort {
-    margin-left: 178px;
-    margin-top: -19px;
+#my_callbacks .VueTables .table-responsive>table {
+    width: max-content;
+    min-width: 100%;
+    max-width: max-content;
+    overflow: auto !important;
 }
 </style>
