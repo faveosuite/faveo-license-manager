@@ -3,7 +3,7 @@
 
         <custom-loader :duration="4000"></custom-loader>
     </div>
-    <div class="container-fluid">
+
 
             <div class="container-fluid">
 
@@ -80,7 +80,6 @@
             </div>
 
 
-        <div class="col-md-12 col-12">
             <div class="row justify-content-around">
                 <div class="shadow-none body-scrollable col-md-6 justify-content-around">
                     <latest-product></latest-product>
@@ -107,8 +106,8 @@
                     <expiring-version></expiring-version>
                 </div>
             </div>
-        </div>
-    </div>
+
+
 </template>
 <script>
 import axios from 'axios';
