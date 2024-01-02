@@ -29,6 +29,7 @@
         "vite": "^5.0.12"
     },
     "dependencies": {
+        "clipboard-copy": "^4.0.1",
         "mitt": "^3.0.1",
         "moment": "^2.29.4",
         "v-tables-3": "^0.4.7",

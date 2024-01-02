@@ -29,52 +29,26 @@
                         :value="whitelistedAccessType" :onChange="onChange">
                     </dynamic-select>
 
-                    <text-field :label="lang('whitelisted_ip')" :value="whiteListedIp" :onChange="onChange"
-                        name="WHITELISTED_IP" type="text" classname="col-sm-6" :required="true">
-
-                    </text-field>
-                </div>
-
-                <div class="row">
 
                     <dynamic-select :label="lang('banned_hosts')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="true" name="BANNED_HOSTS" :elements="bannedHosts" :value="bannedHostsType"
-                        :onChange="onChange">
+                                    :required="true" name="BANNED_HOSTS" :elements="bannedHosts" :value="bannedHostsType"
+                                    :onChange="onChange">
                     </dynamic-select>
-
-                    <text-field :label="lang('message_for_banned_hosts')" :value="messageBannedHosts"
-                        :onChange="onChange" name="BANNED_HOST_MESSAGE" type="text" classname="col-sm-6"
-                        :required="true">
-
-                    </text-field>
                 </div>
 
                 <div class="row">
 
                     <dynamic-select :label="lang('autoban_failed_login_hosts')" classname="col-sm-6" :strlength="35"
-                        :required="true" name="FAILED_LOGINS_LIMIT" :elements="autobanFailedLoginOptions"
-                        :value="autobanFailedLogin" :onChange="onChange" optionLabel="title">
+                                    :required="true" name="FAILED_LOGINS_LIMIT" :elements="autobanFailedLoginOptions"
+                                    :value="autobanFailedLogin" :onChange="onChange" optionLabel="title">
                     </dynamic-select>
-
-                    <dynamic-select :label="lang('autoban_failed_licensing_hosts')" classname="col-sm-6" :strlength="35"
-                        :required="true" name="FAILED_LICENSINGS_LIMIT" :elements="autobanFailedLicensingOptions"
-                        :value="autobanFailedLicensing" :onChange="onChange" optionLabel="title">
-                    </dynamic-select>
-                </div>
-
-                <div class="row">
 
                     <dynamic-select :label="lang('forget_failed_attempts')" classname="col-sm-6" :strlength="35"
-                        :required="true" name="FAILED_HOSTS_FORGET" :elements="ForgetFailedAttemptsOptions"
-                        :value="ForgetFailedAttempts" :onChange="onChange" optionLabel="title">
+                                    :required="true" name="FAILED_FORGET_LIMIT" :elements="ForgetFailedAttemptsOptions"
+                                    :value="ForgetFailedAttempts" :onChange="onChange" optionLabel="title">
                     </dynamic-select>
-
-                    <text-field :label="lang('minimum_password_length')" :value="minPasswordLength" :onChange="onChange"
-                        name="MIN_PASSWORD_LENGTH" type="number" classname="col-sm-6" :required="true">
-
-                    </text-field>
-
                 </div>
+
             </div>
 
             <div class="card-footer">
@@ -146,21 +120,15 @@
 
                 bannedHostsType: null,
 
-                messageBannedHosts: null,
-
-                autobanFailedLogin: null,
+                autobanFailedLogin: { title: '3 Attempts', value: 3 },
 
                 autobanFailedLoginOptions: [],
-
-                autobanFailedLicensing: null,
 
                 autobanFailedLicensingOptions: [],
 
                 ForgetFailedAttempts: null,
 
                 ForgetFailedAttemptsOptions: [],
-
-                minPasswordLength: null,
 
                 settingId: 'new'
 
@@ -242,21 +210,14 @@
                         return opt.value === securitySettings.BANNED_HOSTS
                     })
 
-                    this.messageBannedHosts = securitySettings.BANNED_HOST_MESSAGE ?? null
-
-                    this.autobanFailedLicensing = this.autobanFailedLicensingOptions.find((opt) => {
-                        return opt.value === securitySettings.FAILED_LICENSINGS_LIMIT
-                    })
-
                     this.ForgetFailedAttempts = this.ForgetFailedAttemptsOptions.find((opt) => {
-                        return opt.value === securitySettings.FAILED_HOSTS_FORGET
+                        return opt.value === securitySettings.FAILED_FORGET_LIMIT
                     })
 
                     this.autobanFailedLogin = this.autobanFailedLoginOptions.find((opt) => {
                         return opt.value === securitySettings.FAILED_LOGINS_LIMIT
                     })
 
-                    this.minPasswordLength = securitySettings.MIN_PASSWORD_LENGTH ?? null
                 }
             },
             onChange(value, name) {
@@ -266,16 +227,10 @@
                     this.whiteListedIp = value
                 } else if (name === 'BANNED_HOSTS') {
                     this.bannedHostsType = value
-                } else if (name === 'BANNED_HOST_MESSAGE') {
-                    this.messageBannedHosts = value
-                } else if (name === 'FAILED_LOGINS_LIMIT') {
+                }  else if (name === 'FAILED_LOGINS_LIMIT') {
                     this.autobanFailedLogin = value
-                } else if (name === 'FAILED_LICENSINGS_LIMIT') {
-                    this.autobanFailedLicensing = value
-                } else if (name === 'FAILED_HOSTS_FORGET') {
+                }  else if (name === 'FAILED_FORGET_LIMIT') {
                     this.ForgetFailedAttempts = value
-                } else if (name === 'MIN_PASSWORD_LENGTH') {
-                    this.minPasswordLength = value
                 }
             },
 
@@ -286,19 +241,14 @@
                     this.loading = true
 
                     const formData = {
-                        MIN_PASSWORD_LENGTH: this.minPasswordLength ?? null,
 
                         WHITELISTED_ACCESS: this.whitelistedAccessType ? this.whitelistedAccessType.value : null,
 
                         BANNED_HOSTS: this.bannedHostsType ? this.bannedHostsType.value : null,
 
-                        BANNED_HOST_MESSAGE: this.messageBannedHosts ?? null,
-
                         FAILED_LOGINS_LIMIT: this.autobanFailedLogin ? this.autobanFailedLogin.value : null,
 
-                        FAILED_LICENSINGS_LIMIT: this.autobanFailedLicensing ? this.autobanFailedLicensing.value : null,
-
-                        FAILED_HOSTS_FORGET: this.ForgetFailedAttempts ? this.ForgetFailedAttempts.value : null,
+                        FAILED_FORGET_LIMIT: this.ForgetFailedAttempts ? this.ForgetFailedAttempts.value : null,
 
                         WHITELISTED_IP: this.whiteListedIp ?? null,
                     }
