@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\BannedHostController;
+use App\Http\Controllers\WhitelistIpsController;
 use App\Http\Controllers\Admin\CallBackController;
 use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -48,6 +49,9 @@ use Illuminate\Support\Facades\Route;
 /*
  * These routes are secure any way because it's called internally from the cloud app
  * */
+
+Route::middleware('whitelist')->group(function () {
+
 Route::post('/LicenseReissue', [LicenseController::class, 'reissueLicenseCloud']);
 
 //Only reserved for cloud routes//
@@ -131,11 +135,17 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('viewBannedHost', [BannedHostController::class, 'show']);
     Route::get('viewBannedHost/{banned_host_id}', [BannedHostController::class, 'view']);
 
+    Route::post('whitelist/updateOrCreate', [WhitelistIpsController::class, 'whitelistAdd']);
+    Route::get('whitelist-edit/{id}', [WhitelistIpsController::class, 'edit']);
+    Route::post('delete-whitelist-ip', [WhitelistIpsController::class, 'deleteWhitelistIp']);
+    Route::get('view-Whitelist', [WhitelistIpsController::class, 'view']);
+
     //SETTINGS
     Route::post('generalsettings/{SETTING_ID}', [SettingsController::class, 'generalSettingsCreate']);
     Route::post('advancedsettings/{SETTING_ID}', [SettingsController::class, 'advancedSettings']);
     Route::post('securitysettings/{SETTING_ID}', [SettingsController::class, 'securitySettings']);
-    Route::post('cleanupsettings/{SETTING_ID}', [SettingsController::class, 'cleanUpSettings']);
+    Route::post('emailsettings/{SETTING_ID}', [SettingsController::class, 'emailSettings']);
+    Route::post('cleanupsettings', [SettingsController::class, 'cleanUpSettings']);
     Route::get('viewSettings', [SettingsController::class, 'show']);
     Route::get('securityDropdown', [SettingsController::class, 'dropDownForSecuritySettings']);
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
@@ -143,11 +153,16 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('emailSettings', [EmailSettingsController::class, 'postSettingsEmail']);
 
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
+      Route::get('cleanSettings', [SettingsController::class, 'dropForCleanUpSettings']);
+      Route::post('saveintervalSettings', [SettingsController::class, 'saveintervalSettings']);
     Route::post('saveLicenseExpireRange', [SettingsController::class, 'saveUpdateExpireRange']);
     Route::get('getUpdatesExpirings', [SettingsController::class, 'getUpdatesExpirings']);
     Route::post('saveSupportExpireRange', [SettingsController::class, 'saveSupportExpireRange']);
     Route::get('getSupportExpirings', [SettingsController::class, 'getSupportExpirings']);
     Route::get('getDebugger', [SettingsController::class, 'getDebugger']);
+    Route::get('cronTimeCommands', [SettingsController::class, 'cronTimeCommands']);
+    Route::get('intervalTime', [SettingsController::class, 'intervalTime']);
+    Route::post('verify-php-path', [SettingsController::class, 'checkPHPExecutablePath'])->name('verify-cron');
 
     //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);
@@ -208,10 +223,5 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 });
 
 Route::get('admin/viewApiKeys',[ApiKeysController::class, 'show'])->middleware('manager');
+});
 
-/*Route::middleware('auth:api')->group(function (){
-
-});*/
-/*Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});*/

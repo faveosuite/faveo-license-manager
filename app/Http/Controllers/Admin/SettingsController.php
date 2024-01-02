@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\Cache;
 use Carbon;
 use App\Models\ExpireSupportDisplay;
 use App\Models\ExpireUpdatesDisplay;
+use App\Models\ScheduleCron;
 use App\Models\AflLicenses;
 use Illuminate\Support\Facades\Redirect;
 use Throwable;
@@ -107,35 +108,28 @@ class SettingsController extends Controller
      */
     public function securitySettings(SecuritySettingRequest $request, $SETTING_ID)
     {
-        $secset = AflSettings::find($SETTING_ID);
-        if (empty($secset)) {
-            $sec = new AflSettings([
-                'MIN_PASSWORD_LENGTH' => $request->get('MIN_PASSWORD_LENGTH'),
-                'WHITELISTED_ACCESS' => $request->get('WHITELISTED_ACCESS'),
-                'BANNED_HOSTS' => $request->get('BANNED_HOSTS'),
-                'BANNED_HOST_MESSAGE' => $request->get('BANNED_HOST_MESSAGE'),
-                'FAILED_LOGINS_LIMIT' => $request->get('FAILED_LOGINS_LIMIT'),
-                'FAILED_LICENSINGS_LIMIT' => $request->get('FAILED_LICENSINGS_LIMIT'),
-                'FAILED_HOSTS_FORGET' => $request->get('FAILED_HOSTS_FORGET'),
-                'WHITELISTED_IP' => $request->get('WHITELISTED_IP'),
-            ]);
-            $sec->save();
+        $secset = AflSettings::findOrNew($SETTING_ID);
 
-            return successResponse(Lang::get('lang.settings_created'), $sec, 201);
-        } else {
-            $secset->MIN_PASSWORD_LENGTH = $request->get('MIN_PASSWORD_LENGTH');
-            $secset->WHITELISTED_ACCESS = $request->get('WHITELISTED_ACCESS');
-            $secset->BANNED_HOSTS = $request->get('BANNED_HOSTS');
-            $secset->BANNED_HOST_MESSAGE = $request->get('BANNED_HOST_MESSAGE');
-            $secset->FAILED_LOGINS_LIMIT = $request->get('FAILED_LOGINS_LIMIT');
-            $secset->FAILED_LICENSINGS_LIMIT = $request->get('FAILED_LICENSINGS_LIMIT');
-            $secset->FAILED_HOSTS_FORGET = $request->get('FAILED_HOSTS_FORGET');
-            $secset->WHITELISTED_IP = $request->get('WHITELISTED_IP');
-            $secset->save();
+        $secset->fill([
+            'WHITELISTED_ACCESS' => $request->input('WHITELISTED_ACCESS'),
+            'BANNED_HOSTS' => $request->input('BANNED_HOSTS'),
+            'FAILED_HOSTS_FORGET' => $request->input('FAILED_FORGET_LIMIT') > 0 ? 1 : 0,
+            'FAILED_FORGET_LIMIT' => $request->input('FAILED_FORGET_LIMIT') ?: null,
+            'FAILED_LOGINS' => $request->input('FAILED_LOGINS_LIMIT') > 0 ? 1 : 0,
+            'FAILED_LOGINS_LIMIT' => $request->input('FAILED_LOGINS_LIMIT') ?: null,
+        ]);
 
-            return successResponse(lang::get('lang.settings_updated'), $secset, 200);
-        }
+        $secset->save();
+
+        $statusCode = $secset->wasRecentlyCreated ? 201 : 200;
+
+        $message = $secset->wasRecentlyCreated
+            ? Lang::get('lang.settings_created')
+            : Lang::get('lang.settings_updated');
+
+        return successResponse($message, $secset, $statusCode);
     }
+
 
     /**
      * To Add or Update the email settings of license manager
@@ -180,35 +174,64 @@ class SettingsController extends Controller
      * @param $SETTING_ID
      * @return $clean with a success response leaving the other fields to be null if not filled
      */
-    public function cleanUpSettings(CleanUpSettingRequest $request, $SETTING_ID)
+    public function saveintervalSettings(Request $request)
     {
-        $cleanup = AflSettings::find($SETTING_ID);
+        $cleanup = AflSettings::first();
         if (empty($cleanup)) {
             $clean = new AflSettings([
-                'DATABASE_CLEANUP_ENABLED' => $request->get('DATABASE_CLEANUP_ENABLED'),
                 'DATABASE_CLEANUP_CALLBACKS' => $request->get('DATABASE_CLEANUP_CALLBACKS'),
                 'DATABASE_CLEANUP_REPORTS_MAIN' => $request->get('DATABASE_CLEANUP_REPORTS_MAIN'),
                 'DATABASE_CLEANUP_REPORTS_SYSTEM' => $request->get('DATABASE_CLEANUP_REPORTS_SYSTEM'),
                 'DATABASE_CLEANUP_REPORTS_LICENSES' => $request->get('DATABASE_CLEANUP_REPORTS_LICENSES'),
                 'DATABASE_CLEANUP_VERSIONS' => $request->get('DATABASE_CLEANUP_VERSIONS'),
-                'DATABASE_CLEANUP_FILES' => $request->get('DATABASE_CLEANUP_FILES'),
             ]);
             $clean->save();
 
             return successResponse(Lang::get('lang.settings_created'), $clean, 201);
         } else {
-            $cleanup->DATABASE_CLEANUP_ENABLED = $request->get('DATABASE_CLEANUP_ENABLED');
             $cleanup->DATABASE_CLEANUP_CALLBACKS = $request->get('DATABASE_CLEANUP_CALLBACKS');
             $cleanup->DATABASE_CLEANUP_REPORTS_MAIN = $request->get('DATABASE_CLEANUP_REPORTS_MAIN');
             $cleanup->DATABASE_CLEANUP_REPORTS_SYSTEM = $request->get('DATABASE_CLEANUP_REPORTS_SYSTEM');
             $cleanup->DATABASE_CLEANUP_REPORTS_LICENSES = $request->get('DATABASE_CLEANUP_REPORTS_LICENSES');
             $cleanup->DATABASE_CLEANUP_VERSIONS = $request->get('DATABASE_CLEANUP_VERSIONS');
-            $cleanup->DATABASE_CLEANUP_FILES = $request->get('DATABASE_CLEANUP_FILES');
 
             $cleanup->save();
 
             return successResponse(lang::get('lang.settings_updated'), $cleanup, 200);
         }
+    }
+    public function cleanUpSettings(Request $request)
+    {
+        $cleanupSettings = $request->get('conditions');
+        foreach ($cleanupSettings as $settingName => $settingData) {
+            $job = ScheduleCron::where('scenario', $settingName)->first();
+
+            if ($job) {
+                $job->update([
+                    'value' => $settingData['value'],
+                    'status' => $settingData['status'],
+                ]);
+            }
+        }
+            return successResponse(Lang::get('lang.settings_created'),['Cleanup Settings' => $cleanupSettings],200);
+    }
+
+    public function cronTimeCommands()
+    {
+        $commands = [
+            ['id' => 'everyMinute', 'name' => trans('lang.everyMinute')],
+            ['id' => 'everyFiveMinutes', 'name' => trans('lang.everyFiveMinutes')],
+            ['id' => 'everyTenMinutes',  'name' => trans('lang.everyTenMinutes')],
+            ['id' => 'everyThirtyMinutes', 'name' => trans('lang.everyThirtyMinutes')],
+            ['id' => 'hourly', 'name' => trans('lang.hourly')],
+            ['id' => 'daily', 'name' => trans('lang.daily')],
+            ['id' => 'dailyAt', 'name' => trans('lang.dailyAt')],
+            ['id' => 'weekly', 'name' => trans('lang.weekly')],
+            ['id' => 'monthly', 'name' => trans('lang.monthly')],
+            ['id' => 'yearly', 'name' => trans('lang.yearly')],
+        ];
+
+        return successResponse('Commands', ['cron_time_commands' => $commands]);
     }
 
     public function show()
@@ -236,8 +259,7 @@ class SettingsController extends Controller
         }
         $failed_logins_limit_array = returnNumbersDropdownArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'Attempts', 'Disabled', $FAILED_LOGINS_LIMIT);
         $failed_licensings_limit_array = returnNumbersDropdownArray([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'Attempts', 'Disabled', $FAILED_LICENSINGS_LIMIT);
-        $failed_hosts_forget_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $FAILED_HOSTS_FORGET);
-
+        $failed_hosts_forget_array = returnNumbersDropdownArray([00, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'Attempts', 'Disabled', $FAILED_HOSTS_FORGET);
         return response()->json([
             'failed logins limit' => $failed_logins_limit_array,
             'failed licensings limit' => $failed_licensings_limit_array,
@@ -287,6 +309,20 @@ class SettingsController extends Controller
 
     protected function dropDownForCleanUpSettings()
     {
+
+        $phpBinPaths = $this->getPHPBinPath();
+        $cronPath = '-q '.base_path('artisan').' schedule:run 2>&1';
+        $execEnabled = $this->execEnabled();
+        $sets_array = DB::table('afl_settings')->get();
+        $conditions = DB::table('schedule_crons')->get()->toArray();
+        return successResponse('', [ 'conditions' => $conditions,
+            'php_bin_paths' => $phpBinPaths,
+            'cron_path' => $cronPath,
+            'settings' =>$sets_array,
+            'php_extension_status' => $execEnabled,]);
+    }
+    protected function dropForCleanUpSettings()
+    {
         $sets_array = DB::table('afl_settings')->get()->toArray();
         foreach ($sets_array as $set) {
             extract((array) $set);
@@ -295,14 +331,58 @@ class SettingsController extends Controller
         $database_cleanup_callbacks_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_CALLBACKS);
         $database_cleanup_reports_main_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_REPORTS_MAIN);
         $database_cleanup_reports_system_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_REPORTS_SYSTEM);
-        $database_cleanup_licenses_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days ago', 'Disabled', $DATABASE_CLEANUP_REPORTS_LICENSES);
+        $database_cleanup_versions_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days ago', 'Disabled', $DATABASE_CLEANUP_REPORTS_LICENSES);
+        $database_cleanup_license_reports_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days ago', 'Disabled', $DATABASE_CLEANUP_REPORTS_LICENSES);
 
         return response()->json([
             'database cleanup callbacks' => $database_cleanup_callbacks_array,
             'database cleanup reports main' => $database_cleanup_reports_main_array,
             'database cleanup reports system' => $database_cleanup_reports_system_array,
-            'database cleanup licenses' => $database_cleanup_licenses_array,
+            'database cleanup versions' => $database_cleanup_versions_array,
+            'database cleanup reports license' => $database_cleanup_license_reports_array,
         ]);
+    }
+
+    public function execEnabled()
+    {
+        try {
+            // make a small test
+            return function_exists('exec') && ! in_array('exec', array_map('trim', explode(', ', ini_get('disable_functions'))));
+        } catch (\Exception $ex) {
+            return false;
+        }
+    }
+
+    protected function getPHPBinPath()
+    {
+        $paths = [
+            '/usr/bin/php',
+            '/usr/local/bin/php',
+            '/bin/php',
+            '/usr/bin/php8',
+            '/usr/bin/php8.2',
+        ];
+        // try to detect system's PHP CLI
+        if ($this->execEnabled()) {
+            try {
+                $paths = array_unique(array_merge($paths, explode(' ', exec('whereis php'))));
+            } catch (\Exception $e) {
+                // @todo: system logging here
+                echo $e->getMessage();
+            }
+        }
+        // validate detected / default PHP CLI
+        // Because array_filter() preserves keys, you should consider the resulting array to be an associative array even if the original array had integer keys for there may be holes in your sequence of keys. This means that, for example, json_encode() will convert your result array into an object instead of an array. Call array_values() on the result array to guarantee json_encode() gives you an array.
+        $paths = array_values(array_filter($paths, function ($path) {
+            try {
+                return is_executable($path) && preg_match("/php[0-9\.a-z]{0,3}$/i", $path);
+            } catch(\Exception $e) {
+                // in case of open_basedir, just throw skip it
+                return true;
+            }
+        }));
+
+        return $paths;
     }
     public function saveUpdateExpireRange(Request $request)
     {
@@ -347,13 +427,13 @@ class SettingsController extends Controller
     {
         $debug = (bool) ($request->debug ?? false);
         AflSettings::updateOrInsert(
-            ['SETTING_ID' => 1], 
+            ['SETTING_ID' => 1],
             ['debugger' => $debug]
         );
         Config::set('app.debug', $debug);
         $authorizationHeader = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authorizationHeader);
-         $debug ? Cache::forever($request->user_id, $token) : Cache::forget($request->user_id);
+        $debug ? Cache::forever($request->user_id, $token) : Cache::forget($request->user_id);
         $envFilePath = base_path('.env');
         if (File::exists($envFilePath)) {
             $envFileContents = File::get($envFilePath);
@@ -365,26 +445,50 @@ class SettingsController extends Controller
         }
         $debug = config('app.debug');
         $app_url = env('APP_URL');
-        return successResponse(trans('lang.updated'),['debug' => $debug , 'app_url' => $app_url ]);
+        return successResponse(trans('lang.updated'), ['debug' => $debug, 'app_url' => $app_url]);
     }
     protected function clockwork(Request $request)
     {
         $userId = $request->query('user_id');
-        if($userId){
+        if ($userId) {
             return redirect('/__clockwork/app');
-        }
-        else{
+        } else {
             return redirect('/login');
         }
-    }  
+
+    }
     public function getDebugger()
     {
-       
-    try {
-        $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
-        return response()->json(['debugger' => $debuggerValue]);
-    } catch (\Exception $e) {
-        return errorResponse($e,500);
+
+        try {
+            $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
+            return response()->json(['debugger' => $debuggerValue]);
+        } catch (\Exception $e) {
+            return errorResponse($e,500);
+        }
     }
-    } 
+
+    public function checkPHPExecutablePath(Request $request)
+    {
+        try {
+            $path = $request->get('path');
+            $cronCommandCopiedMessage = trans('lang.cron-command-copied');
+            $cronCommandNotCopiedMessage = trans('lang.cron-command-not-copied');
+            $version = '8.2';
+            if (! file_exists($path) || ! is_executable($path)) {
+                return errorResponse($cronCommandNotCopiedMessage.' '.trans('lang.invalid-php-path'));
+            }
+
+            if ($this->execEnabled()) {
+                $execScript = $path.' '.public_path('cron-test.php');
+                $version = exec($execScript, $output);
+
+                return (version_compare($version, '7.3', '>=') == 1) ? successResponse($cronCommandCopiedMessage.' '.trans('lang.valid-php-path')) : errorResponse(trans('lang.cron-command-copied').' '.trans('lang.invalid-php-version-or-path'));
+            }
+
+            return errorResponse(trans('lang.cron-command-copied').' '.trans('lang.please_enable_php_exec_for_cronjob_check'));
+        } catch(\Exception $e) {
+            return errorResponse($e->getMessage());
+        }
+    }
 }

@@ -406,6 +406,42 @@
 "children": []
 }
 ]
-}
+},
+
+    {
+        "name": "WhiteList IP",
+        "key": null,
+        "count": 0,
+        "hasCount": false,
+        "iconClass": "fas fa-dollar-sign",
+        "order": 0,
+        "redirectUrl": null,
+        "routeString": "",
+        "hasChildren": true,
+        "children": [
+            {
+                "name": "New White List",
+                "key": null,
+                "count": 0,
+                "hasCount": false,
+                "iconClass": "far fa-circle",
+                "order": 0,
+                "routeString": "/whitelist/create",
+                "hasChildren": false,
+                "children": []
+            },
+            {
+                "name": "All White List",
+                "key": null,
+                "count": 0,
+                "hasCount": false,
+                "iconClass": "far fa-circle",
+                "order": 0,
+                "routeString": "/whitelist/list",
+                "hasChildren": false,
+                "children": []
+            }
+        ]
+    }
 ]
 }

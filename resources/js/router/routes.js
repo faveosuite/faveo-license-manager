@@ -572,6 +572,38 @@ let bannedMenu = {
 	]
 }
 
+//===========================WHITELIST IP ======================
+import WhiteList from "../Pages/WhiteList/WhiteList.vue";
+import WhiteListCreate from "../Pages/WhiteList/WhiteListCreate.vue";
+
+let whitelistMenu = {
+    path: '/Whitelist',
+    component: LicenseLayout,
+    name: 'White List',
+    redirect: '/Whitelist/list',
+    beforeEnter: requireAuth,
+    children: [
+        {
+            path: 'list',
+            name: 'Whitelist List',
+            component: WhiteList,
+            meta: { title: 'White list', crumb: { link: { name: 'dashboard', to: '/' }, active: 'Whitelist' } }
+        },
+        {
+            path: 'create',
+            name: 'Whitelist Create',
+            component: WhiteListCreate,
+            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'Whitelist', to: '/whitelist' }, active: 'create' } }
+        },
+        {
+            path: ':id/edit',
+            name: 'Whitelist create',
+            component: WhiteListCreate,
+            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'Whitelist', to: '/whitelist' }, active: 'edit' } }
+        }
+    ]
+
+}
 //===========================EXTRA MENU=========================
 
 import ConfigurationSettings from '../Pages/Extra/ConfigurationSettings.vue';
@@ -655,6 +687,8 @@ const routes = [
     bannedMenu,
 
     extraMenu,
+
+    whitelistMenu,
 
     {
         path: '/login',

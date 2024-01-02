@@ -27,11 +27,10 @@ class CleanUpSettingRequest extends FormRequest
     public function rules()
     {
         return [
-            'DATABASE_CLEANUP_ENABLED' => 'required|boolean',
             'DATABASE_CLEANUP_CALLBACKS' => 'required|numeric|min:0|max:365',
             'DATABASE_CLEANUP_REPORTS_MAIN' => 'required|numeric|min:0|max:365',
             'DATABASE_CLEANUP_REPORTS_SYSTEM' => 'required|numeric|min:0|max:365',
-            'DATABASE_CLEANUP_REPORTS_LICENSES' => 'required|numeric|min:0|max:365',
+           'DATABASE_CLEANUP_REPORTS_LICENSES' => 'required|numeric|min:0|max:365',
         ];
     }
 }
