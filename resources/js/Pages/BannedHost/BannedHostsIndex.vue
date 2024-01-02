@@ -32,7 +32,7 @@
             <div class="card-body" id="banned_hosts">
 
                 <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
-                    
+
                     <template v-slot:actions="props">
 
                         <table-actions :data="props.row"></table-actions>
@@ -57,7 +57,7 @@
 
                 data: '',
 
-                columns: ['banned_host_ip', 'banned_host_comments', 'banned_host_date', 'banned_host_blocks', 'banned_host_last_block_date', 'actions'],
+                columns: ['banned_host_ip', 'banned_host_comments', 'banned_host_date','actions'],
 
                 options: {},
 
@@ -96,10 +96,6 @@
                     banned_host_comments: 'banned_host_comments',
 
                     banned_host_date: 'banned_host_date	',
-
-                    banned_host_blocks: 'banned_host_blocks',
-
-                    banned_host_last_block_date: 'banned_host_last_block_date',
                 },
 
                 templates: {
@@ -118,16 +114,6 @@
 
                         return row.banned_host_date ? row.banned_host_date : '---';
                     },
-
-                    banned_host_blocks(h, row) {
-
-                        return row.banned_host_blocks ? row.banned_host_blocks : '---';
-                    },
-
-                    banned_host_last_block_date(h, row) {
-
-                        return row.banned_host_last_block_date ? row.banned_host_last_block_date : '---';
-                    }
                 },
 
                 pagination: { chunk: 5, nav: 'fixed', edge: true },
@@ -139,10 +125,6 @@
                     banned_host_comments: 'Comments',
 
                     banned_host_date: 'Date',
-
-                    banned_host_blocks: 'Blocks',
-
-                    banned_host_last_block_date: 'Latest Blocks',
 
                     actions: 'Actions'
                 },

@@ -21,6 +21,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Config;
 use App\Http\Controllers\PhpMailController;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
+use App\Models\AflSettings;
+use App\Http\Requests\UserValidationRequest;
 
 
 
@@ -67,26 +71,18 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-
         $filled = $request->validate([
             'client_email' => 'required|string',
             'client_password' => 'required|string',
         ]);
-
-        $admin = AflClients::where(function($query) use ($filled) {
-            $query->whereRaw('BINARY client_email = ?', [$filled['client_email']])
-                ->orWhereRaw('BINARY client_username = ?', [$filled['client_email']]);
-        })
-        ->where('client_role', 'admin')
-        ->first();
-       $admin? $admin_status = $admin->client_status:0;
+        $ipAddress = $request->ip();
+        $failed_limit = AflSettings::value('FAILED_LOGINS_LIMIT');
+        $failed_check = AflSettings::value('FAILED_LOGINS');
+        $admin = $this->findAdminUser($filled['client_email']);
 
         if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
-            return errorResponse(Lang::get('auth.failed'), 400);
-            }
-        if($admin_status == 0){
-            return errorResponse(Lang::get('auth.unathourized'), 400);
-        }
+           return $this->handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_check);
+              }
       $token = $admin->createToken('AFL')->accessToken;
         $response = [
             'message' => 'logged in',
@@ -95,6 +91,27 @@ class AuthController extends Controller
         ];
         return successResponse(Lang::get('lang.Login'), $response, 200);
 
+}
+private function findAdminUser($email)
+{
+    return AflClients::where(function($query) use ($email) {
+        $query->whereRaw('BINARY client_email = ?', [$email])
+            ->orWhereRaw('BINARY client_username = ?', [$email]);
+    })
+    ->where('client_role', 'admin')
+    ->where('client_status', 1)
+    ->first();
+}
+private function handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_check)
+{
+    $failedAttempts = Cache::increment('login_attempts:' . $ipAddress);
+
+    Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed login attempts.');
+    if ($failedAttempts >= $failed_limit && $failed_check ==1 ) {
+        Cache::put($ipAddress . $ipAddress, true, now()->addMinutes(30));
+        return errorResponse(Lang::get('auth.throttle'), 403);
+    }
+    return errorResponse(Lang::get('auth.failed'), 401);
 }
 
     /**
@@ -110,8 +127,19 @@ class AuthController extends Controller
   $admin = AflClients::where('client_email', $email)
     ->where('client_role', 'admin')
     ->first();
+    $ipAddress = $request->ip();
+    $failed_limit = AflSettings::value('FAILED_FORGET_LIMIT');
+    if (!$admin) {
+    $failedAttempts = Cache::increment('forgot_attempts:' . $ipAddress);
+    $failed_check = AflSettings::value('FAILED_HOSTS_FORGET');
+    Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed forgot password attempts.');
 
-if (!$admin) {
+    if ($failedAttempts >= $failed_limit && $failed_check ==1 ) {
+        Cache::put($ipAddress .  $ipAddress, true, now()->addDays(1));
+
+        //Log::info($ipAddress . $ipAddress . ' banned due to multiple failed forgot password attempts.');
+        return errorResponse('Too many failed forgot password attempts. IP banned for 30 minutes.', 403);
+    }
     return errorResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 400);
 
 }

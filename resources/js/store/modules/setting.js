@@ -39,6 +39,7 @@ const state = {
             FAILED_HOSTS_FORGET: state.settings.FAILED_HOSTS_FORGET,
             FAILED_LOGINS_LIMIT: state.settings.FAILED_LOGINS_LIMIT,
             MIN_PASSWORD_LENGTH: state.settings.MIN_PASSWORD_LENGTH,
+            FAILED_FORGET_LIMIT: state.settings.FAILED_FORGET_LIMIT,
 
         }: null
     },
