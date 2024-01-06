@@ -89,7 +89,7 @@
       @vite(['resources/css/app.scss', 'resources/js/app.js'])
   </head>
 
-  <body class="sidebar-mini layout-fixed layout-navbar-fixed text-sm layout-footer-fixed">
+  <body >
 
   <?php $versioning = config('app.version');?>
 
