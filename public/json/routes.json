@@ -268,17 +268,6 @@
 "children": []
 },
 {
-"name": "Advanced Settings",
-"key": null,
-"count": 0,
-"hasCount": false,
-"iconClass": "far fa-circle",
-"order": 0,
-"routeString": "/settings/advanced",
-"hasChildren": false,
-"children": []
-},
-{
 "name": "Security Settings",
 "key": null,
 "count": 0,
