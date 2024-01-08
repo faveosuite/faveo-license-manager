@@ -382,8 +382,6 @@ let serverMenu = {
 
 import GeneralSettings from '../Pages/Settings/GeneralSettings.vue';
 
-import AdvancedSettings from '../Pages/Settings/AdvancedSettings.vue';
-
 import SecuritySettings from '../Pages/Settings/SecuritySettings.vue';
 
 import EmailSettings from '../Pages/Settings/EmailSettings.vue';
@@ -416,17 +414,6 @@ let settingsMenu = {
 
 			meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'general_settings' } }
 		},
-
-        {
-
-            path: 'advanced',
-
-            name: 'Advanced Settings',
-
-            component: AdvancedSettings,
-
-            meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'advanced_settings' } }
-        },
 
         {
 
