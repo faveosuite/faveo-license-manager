@@ -219,14 +219,6 @@ class InstallerController extends Controller
         $ENV['DB_USERNAME'] = '"'.$dbusername.'"';
         $ENV['DB_PASSWORD'] = '"'.str_replace('"', '\"', $dbpassword).'"';
         $ENV['DB_ENGINE'] = 'InnoDB'; //must be removed after fixing code for foreign key contraints for InnoDB
-        $ENV['MAIL_DRIVER'] = 'smtp';
-        $ENV['MAIL_HOST'] = 'mailtrap.io';
-        $ENV['MAIL_PORT'] = '2525';
-        $ENV['MAIL_USERNAME'] = 'null';
-        $ENV['MAIL_PASSWORD'] = 'null';
-        $ENV['MAIL_ENCRYPTION'] = 'SSL';
-        $ENV['MAIL_FROM_ADDRESS'] = 'null';
-        $ENV['MAIL_FROM_NAME'] = 'null';
         $ENV['CACHE_DRIVER'] = 'file';
         $ENV['SESSION_DRIVER'] = 'file';
         $ENV['SESSION_COOKIE_NAME'] = 'faveo_'.rand(0, 10000);

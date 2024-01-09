@@ -5,8 +5,18 @@ import axios from "axios";
 import MockAdapter from "axios-mock-adapter";
 describe('ProductsIndex', () => {
 
+    const emitter = {
+        on: jest.fn(),
+    };
+
     it('renders without errors', () => {
-        const wrapper = shallowMount(APIKeyIndex);
+        const wrapper = mount(APIKeyIndex, {
+            global: {
+                mocks: {
+                    emitter,
+                },
+            },
+        });
         expect(wrapper.exists()).toBe(true);
     });
 
@@ -23,8 +33,13 @@ describe('ProductsIndex', () => {
             },
         };
         mock.onGet('/api/admin/viewApiKeys').reply(200, responseData);
-        const wrapper = mount(APIKeyIndex);
-
+        const wrapper = mount(APIKeyIndex, {
+            global: {
+                mocks: {
+                    emitter,
+                },
+            },
+        });
         await wrapper.vm.$nextTick();
         expect(wrapper.vm.loading).toBe(false);
 

@@ -14,6 +14,7 @@ return [
     */
 
     'failed' => 'Invalid Crdentials.',
+    'unathourized' => 'Access denied, get in touch with the administrator for assistance with logging in',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 

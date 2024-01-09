@@ -1,205 +1,209 @@
 <template>
 
-	<div class="col-sm-12">
+    <div class="col-sm-12">
 
-	<div class="row" v-if="loading">
+        <div class="row" v-if="loading">
 
-	<custom-loader :duration="4000"></custom-loader>
-	</div>
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
 
-	<alert componentName="dataTableModal" />
+        <alert componentName="dataTableModal"/>
 
-	<div class="card card-light ">
+        <div class="card card-light ">
 
-	<div class="card-header">
+            <div class="card-header">
 
-	<h3 class="card-title">{{lang('contacts')}}</h3>
+                <h3 class="card-title">{{ lang('contacts') }}</h3>
 
-	<div class="card-tools">
+                <div class="card-tools">
 
-	<router-link to="/clients/create" class="btn-tool" v-tooltip="lang('create_client')">
+                    <router-link to="/clients/create" class="btn-tool" v-tooltip="lang('create_client')">
 
-	<i class="fas fa-plus"></i>
-	</router-link>
-	</div>
-	</div>
+                        <i class="fas fa-plus"></i>
+                    </router-link>
+                </div>
+            </div>
 
-	<div class="card-body" id="my_clients">
+            <div class="card-body" id="my_clients">
 
-	<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
 
-	<template v-slot:full_name="props">
+                    <template v-slot:full_name="props">
 
-	<router-link :to="'/clients/' + props.row.client_id + '/edit'">{{props.row.full_name}}</router-link>
-	</template>
-	<template v-slot:client_email="props">
+                        <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.full_name }}
+                        </router-link>
+                    </template>
+                    <template v-slot:client_email="props">
 
-   <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{props.row.client_email}}</router-link>
-   </template>
+                        <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.client_email }}
+                        </router-link>
+                    </template>
 
-	<template v-slot:client_status="props">
+                    <template v-slot:client_status="props">
 
 	<span :style="{ color: props.row.client_status ? 'green' : 'red' }">
 
-	{{ props.row.client_status ? 'Active' : 'Inactive'}}
+	{{ props.row.client_status ? 'Active' : 'Inactive' }}
 	</span>
-	</template>
+                    </template>
 
-	<template v-slot:actions="props">
-		<table-actions :data="props.row" :disabled="getUserData"></table-actions>
-	</template>
-	</v-client-table>
-	</div>
-	</div>
-	</div>
-   </template>
+                    <template v-slot:actions="props">
+                        <table-actions :data="props.row" :disabled="getUserData"></table-actions>
+                    </template>
+                </v-client-table>
+            </div>
+        </div>
+    </div>
+</template>
 
-   <script>
+<script>
 
-	import axios from 'axios';
-	import {useStore} from "vuex";
-	import {computed} from "vue";
-    import {lang} from "../../helpers/extraLogics";
+import axios from 'axios';
+import {useStore} from "vuex";
+import {computed} from "vue";
+import {lang} from "../../helpers/extraLogics";
 
-	export default {
-	setup() {
+export default {
+    setup() {
 
-	const store = useStore();
+        const store = useStore();
 
-	return {
-	// getter
-	getUserData: computed(() => store.getters.getUserData)
-	};
-	},
-	data() {
+        return {
+            // getter
+            getUserData: computed(() => store.getters.getUserData)
+        };
+    },
+    data() {
 
-	return {
+        return {
 
-	data: '',
+            data: '',
 
-	columns: ['full_name', 'client_email', 'client_role' , 'client_active_date', 'client_status', 'actions'],
+            columns: ['full_name', 'client_email', 'client_role', 'client_active_date', 'client_status', 'actions'],
 
-	options: {},
+            options: {},
 
-	counter: 0,
+            counter: 0,
 
-	disabled:true,
-	}
-	},
+            disabled: true,
+        }
+    },
 
-	beforeMount() {
+    created() {
+        this.emitter.on('refreshData', this.getData);
+    },
 
- const self = this;
+    beforeMount() {
 
- this.getData();
+        const self = this;
 
- this.options = {
+        this.getData();
 
- sortIcon: {
+        this.options = {
 
- base: 'glyphicon',
+            sortIcon: {
 
- up: 'glyphicon-chevron-up',
+                base: 'glyphicon',
 
- down: 'glyphicon-chevron-down'
- },
+                up: 'glyphicon-chevron-up',
 
- texts: { filter: '', limit: '' },
+                down: 'glyphicon-chevron-down'
+            },
 
- columnsClasses: {
+            texts: {filter: '', limit: ''},
 
- full_name: 'full_name',
+            columnsClasses: {
 
- client_email: 'client_email',
+                full_name: 'full_name',
 
- client_active_date: 'client_date',
+                client_email: 'client_email',
 
- client_status: 'client_status',
+                client_active_date: 'client_date',
 
- client_role: 'client_role'
- },
+                client_status: 'client_status',
 
- templates: {
-	client_active_date(h,row){
-    return row.client_active_date ? row.client_active_date : '---';
-},
- },
+                client_role: 'client_role'
+            },
 
- pagination: { chunk: 5, nav: 'fixed', edge: true },
+            templates: {
+                client_active_date(h, row) {
+                    return row.client_active_date ? row.client_active_date : '---';
+                },
+            },
 
- headings: {
+            pagination: {chunk: 5, nav: 'fixed', edge: true},
 
- full_name: 'Name',
+            headings: {
 
- client_email: 'Email',
+                full_name: 'Name',
 
- client_active_date: 'Activation Date',
+                client_email: 'Email',
 
- client_status: 'Status',
+                client_active_date: 'Activation Date',
 
- client_role: 'Role',
+                client_status: 'Status',
 
- actions: 'Actions'
- },
- }
- },
+                client_role: 'Role',
 
- methods: {
+                actions: 'Actions'
+            },
+        }
+    },
 
-     lang: lang,
+    methods: {
 
- updateData() {
+        lang: lang,
 
- this.getData();
- },
+        updateData() {
 
- getData() {
+            this.getData();
+        },
 
- this.loading = true;
+        getData() {
 
- axios.get('/api/admin/viewClients/' + this.getUserData.client_id)
+            this.loading = true;
 
-.then(res => {
- this.loading = false;
+            axios.get('/api/admin/viewClients/' + this.getUserData.client_id)
 
- this.data = res.data.data.map(data => {
+                .then(res => {
+                    this.loading = false;
 
- data.edit_url = '/clients/' + data.client_id + '/edit';
+                    this.data = res.data.data.map(data => {
 
- data.delete_url = '/api/admin/clients/delete';
+                        data.edit_url = '/clients/' + data.client_id + '/edit';
 
- data.keyVal = 'client_id';
+                        data.delete_url = '/api/admin/clients/delete';
 
- data.idVal = data.client_id;
+                        data.keyVal = 'client_id';
 
- return data;
- })
- }).catch(err => {
+                        data.idVal = data.client_id;
 
- this.loading = false;
- })
- }
- }
- };
+                        return data;
+                    })
+                    if (this.data.length % 10 === 0 && this.data.length !== 0) {
+                        this.counter--;
+                    }
+                }).catch(err => {
+
+                this.loading = false;
+            })
+        }
+    }
+};
 </script>
 
 <style>
- .client_name,
- .client_email,
- .client_date,
- .client_status {
- max-width: 200px;
- word-break: break-all;
- }
- .client_role{
- text-transform: capitalize;
- }
+.client_name,
+.client_email,
+.client_date,
+.client_status {
+    max-width: 200px;
+    word-break: break-all;
+}
 
- #my_clients .VueTables .table-responsive {
- overflow-x: auto;
- overflow-y: hidden;
- }
-
+.client_role {
+    text-transform: capitalize;
+}
  #my_clients .VueTables .table-responsive>table {
  width: max-content;
  min-width: 100%;
@@ -209,4 +213,8 @@
  .VueTables .table-responsive > table th {
      position: static !important;
  }
+#my_clients .VueTables .table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 </style>

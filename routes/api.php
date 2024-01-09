@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ConfigGenerateController;
 use App\Http\Controllers\Admin\EmailsController;
+use App\Http\Controllers\Admin\EmailSettingsController;
 use App\Http\Controllers\Admin\InstallationController;
 use App\Http\Controllers\Admin\LicenseController;
 use App\Http\Controllers\Admin\NotificationsController;
@@ -81,6 +82,7 @@ Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
 //API CALLS FOR UI OF LICENSE AND UPDATE MANAGER AND BILLING
 
 Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(function () {
+
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
 
     /******************************************* LICENSE MANAGER ******************************************************/
@@ -133,12 +135,13 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('generalsettings/{SETTING_ID}', [SettingsController::class, 'generalSettingsCreate']);
     Route::post('advancedsettings/{SETTING_ID}', [SettingsController::class, 'advancedSettings']);
     Route::post('securitysettings/{SETTING_ID}', [SettingsController::class, 'securitySettings']);
-    Route::post('emailsettings/{SETTING_ID}', [SettingsController::class, 'emailSettings']);
     Route::post('cleanupsettings/{SETTING_ID}', [SettingsController::class, 'cleanUpSettings']);
     Route::get('viewSettings', [SettingsController::class, 'show']);
     Route::get('securityDropdown', [SettingsController::class, 'dropDownForSecuritySettings']);
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
-    Route::get('emailsDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
+    Route::get('emailDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
+    Route::post('emailSettings', [EmailSettingsController::class, 'postSettingsEmail']);
+
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
     Route::post('saveLicenseExpireRange', [SettingsController::class, 'saveUpdateExpireRange']);
     Route::get('getUpdatesExpirings', [SettingsController::class, 'getUpdatesExpirings']);

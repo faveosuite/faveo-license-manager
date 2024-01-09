@@ -14,6 +14,7 @@ return [
     */
 
     'reset' => 'Your password has been reset!',
+    'password_reset' => 'Password Reset Link',
     'sent' => 'Password reset link has been sent to this email',
     'throttled' => 'Please wait before retrying.',
     'token' => 'This password reset token is invalid.',

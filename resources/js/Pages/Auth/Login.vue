@@ -68,6 +68,7 @@ import { validateLoginSettings } from "../../helpers/validator/loginRules.js";
 import axios from 'axios'
 
 import TextField from "../../components/Reusable/FormField/TextField.vue";
+import store from "../../store";
 
 export default {
 
@@ -78,7 +79,6 @@ export default {
         const store = useStore();
 
         return {
-            // getter
             getUserToken: computed(() => store.getters.getUserToken)
         };
     },
@@ -96,12 +96,13 @@ export default {
             loading: false,
         }
     },
-
     beforeMount() {
-
-        if (this.getUserToken) {
-
-            this.$router.push({ name: 'Dashboard' }).catch(err => { })
+        const queryParam = this.$route.query;
+        if (queryParam && queryParam.fresh) {
+        } else {
+            if (this.getUserToken) {
+                this.$router.push({name: 'Dashboard'}).catch(err => {});
+            }
         }
     },
 

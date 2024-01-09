@@ -1,5 +1,7 @@
 <?php
-
+use App\Models\AflSettings;
+use App\Http\Controllers\PhpMailController;
+use Illuminate\Support\Facades\Lang;
 //check Auto Faveo Licenser core configuration and return an array with error messages if something wrong
 function aflCheckSettings()
 {
@@ -225,7 +227,7 @@ function aflValidateRawDomain($url)
     return $result;
 }
 
-function errorResponse($message, $statusCode = FAVEO_ERROR_CODE)
+function errorResponse($message, $statusCode = 500)
 {
     /**
      * When developers simply want to send info of exceptions they are handling
@@ -235,7 +237,7 @@ function errorResponse($message, $statusCode = FAVEO_ERROR_CODE)
      * so that developers can easily use this method and simply pass $e->getCode()
      * to use for response HTTP code.
      */
-    $statusCode = ($statusCode) ?: FAVEO_ERROR_CODE;
+    $statusCode = ($statusCode) ?: 500;
 
     return response()->json(['success' => false, 'message' => $message], $statusCode);
 }
@@ -650,4 +652,16 @@ function bundleLink(string $url): string
 function isWhiteLabelEnabled()
 {
     return is_dir(dirname(__DIR__, 1).DIRECTORY_SEPARATOR.'Whitelabel');
+}
+function postEmailSendConfig($email,$title,$template,$data){
+    try {
+                            
+        $emailConfig = AflSettings::find(1);
+        $mailController = new PhpMailController();
+
+        $mailController->configSet($emailConfig);
+        $mailController-> sendEmail($email, $title, $template, $data); 
+    } catch (\Exception $e) {
+        return errorResponse($e, 500);
+    }
 }

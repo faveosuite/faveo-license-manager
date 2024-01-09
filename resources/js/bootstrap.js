@@ -104,9 +104,25 @@ window._ = _;
 import axios from 'axios';
 window.axios = axios;
 
+axios.interceptors.request.use(
+    function (config) {
+        // Get the user token from the store
+        const userToken = store.getters.getUserToken;
+
+        // If the user token is available, set the Authorization header
+        if (userToken) {
+            config.headers.Authorization = `Bearer ${userToken}`;
+        }
+
+        return config;
+    },
+    function (error) {
+        return Promise.reject(error);
+    }
+);
+
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 window.axios.defaults.baseURL = document.head.querySelector('meta[name="api-base-url"]').content;
-window.axios.defaults.headers.common['Authorization'] = 'Bearer'+' '+ store.getters.getUserToken;
 window.axios.interceptors.response.use((response) => {
 
     return response

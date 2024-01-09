@@ -32,7 +32,7 @@ active
 
         <h1 style="text-align: center;">Your License Manager is Ready</h1>
 <div class="woocommerce-message woocommerce-tracker">
-               
+
 
             </div>
 
@@ -42,7 +42,7 @@ active
                 <h2>Next Step</h2>
                 <ul>
 
-                    <li class="setup-product"><a class="button button-primary button-large" href="{!! url('login') !!}" style="float: none; text-align: center; font-size: 24px;    padding: 15px;     line-height: 1;">Login to License Manager</a>
+                    <li class="setup-product"><a class="button button-primary button-large" href="{!! url('login?fresh='.str_random(40)) !!}" style="float: none; text-align: center; font-size: 24px;    padding: 15px;     line-height: 1;">Login to License Manager</a>
                     </li>
                 </ul>
             </div>

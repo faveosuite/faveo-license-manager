@@ -56,11 +56,6 @@ const state = {
         }).catch(err => {
 
             commit('updateApiKey','')
-
-            // if(err.response){
-            //
-            //     errorHandler(err);
-            // }
         });
 
     }

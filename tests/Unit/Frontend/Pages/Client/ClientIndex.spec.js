@@ -11,14 +11,19 @@ describe('ClientsIndex', () => {
             getUserData: () => ({ client_id: 12}),
         },
     });
+    const emitter = {
+        on: jest.fn(),
+    };
 
     it('renders component correctly', async () => {
         const wrapper = mount(ClientsIndex, {
             global: {
                 plugins: [store],
+                mocks: {
+                    emitter,
+                },
             },
         });
-
         await wrapper.vm.$nextTick();
 
         expect(wrapper.exists()).toBe(true);
@@ -28,6 +33,9 @@ describe('ClientsIndex', () => {
         const wrapper = mount(ClientsIndex, {
             global: {
                 plugins: [store],
+                mocks: {
+                    emitter,
+                },
             },
         });
         expect(wrapper.exists()).toBe(true);
@@ -49,6 +57,9 @@ describe('ClientsIndex', () => {
         const wrapper = mount(ClientsIndex, {
             global: {
                 plugins: [store],
+                mocks: {
+                    emitter,
+                },
             },
         });
 

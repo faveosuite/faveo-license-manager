@@ -29,7 +29,6 @@ class Manager
                     InMemory::base64Encoded(base64_encode(str_random(60)))
                 );
             $tokenId = $jwtConfig->parser()->parse($tokenRecieved)->claims()->get('jti'); //retrieves the id of the token from license manager
-            //$tokenId = (new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];//(new Parser(new JoseEncoder()))->parse($tokenRecieved)->claims()->all()['jti'];
             $tokens = new OauthAccessToken();
             $token = json_decode($tokens->where('id', $tokenId)->first()); //gets that particluar token details
             if ((! empty($token->revoked) && $token->revoked != '1') || $token->expires_at > date('Y-m-d H:i:s')) {
@@ -38,7 +37,7 @@ class Manager
                 return errorResponse(Lang::get('lang.invalid_token'), 401);
             }
          }
-
+        return successResponse('');
     }
     catch (\Exception $e) {
         return errorResponse(Lang::get('lang.invalid_token'),401);

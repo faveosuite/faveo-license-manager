@@ -111,7 +111,6 @@
 </template>
 <script>
 import axios from 'axios';
-import { errorHandler } from '../helpers/responseHandler';
 import LatestProduct from "./Dashboard/LatestProducts.vue";
 import LatestVersion from "./Dashboard/LatestVersions.vue";
 import LatestInstallations from "./Dashboard/LatestInstallations.vue";
@@ -166,6 +165,16 @@ export default {
                 .catch((error) => {
                     this.loading = false; // Set loading state to false if an error occurs
                 });
+
+            axios.get('/api/admin/viewApiKeys').then(res => {
+
+                this.$store.dispatch('setApiKey',res.data.data[0].api_key_secret);
+
+            }).catch(err => {
+
+                this.$store.dispatch('setApiKey');
+
+            });
         },
     },
 };
