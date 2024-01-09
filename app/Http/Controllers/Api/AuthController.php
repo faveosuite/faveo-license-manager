@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\AflAdmins;
 use App\Models\AflClients;
+use App\Models\AflSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,6 +19,8 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\PhpMailController;
 
 
 
@@ -64,32 +67,34 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-        
+
         $filled = $request->validate([
             'client_email' => 'required|string',
-            'client_password' => 'required|string|min:8',
+            'client_password' => 'required|string',
         ]);
 
-        //$admin = AflClients::where('client_email', $filled['client_email'])
         $admin = AflClients::where(function($query) use ($filled) {
             $query->whereRaw('BINARY client_email = ?', [$filled['client_email']])
                 ->orWhereRaw('BINARY client_username = ?', [$filled['client_email']]);
         })
         ->where('client_role', 'admin')
-        ->where('client_status', 1)
         ->first();
-    
+       $admin? $admin_status = $admin->client_status:0;
+
         if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
-            return errorResponse(Lang::get('auth.failed'), 401);
+            return errorResponse(Lang::get('auth.failed'), 400);
             }
+        if($admin_status == 0){
+            return errorResponse(Lang::get('auth.unathourized'), 400);
+        }
       $token = $admin->createToken('AFL')->accessToken;
         $response = [
             'message' => 'logged in',
             'user' => $admin,
             'token' => $token,
-        ];         
+        ];
         return successResponse(Lang::get('lang.Login'), $response, 200);
-    
+
 }
 
     /**
@@ -109,7 +114,6 @@ class AuthController extends Controller
 if (!$admin) {
     return errorResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 400);
 
-    //return errorResponse(Lang::get('lang.recieve_forgot'), 400);
 }
 
 $token = Str::random(10);
@@ -123,17 +127,16 @@ try {
     $token = [
         'token' => $token,
     ];
-    // $from = Config::get('constants.Mail.From');
-    Mail::send('emails.myTestMail', $token, function ($message) use ($email) {
-        $message->to($email)->subject('Password Reset Link');
-    });
+    $title = Lang::get('passwords.password_reset');
+    $template ='emails.myTestMail';
+    postEmailSendConfig($email,$title,$template,$token);
     return successResponse(Lang::get('passwords.sent'), $token, 200);
 }  catch (\Exception $e) {
     return  errorResponse($e->getMessage(), 400);
 }
 
 }
-  
+
 
     /**
      * Used to reset the password after validating email,password and token
@@ -160,16 +163,15 @@ try {
             return errorResponse(Lang::get('passwords.token'), 401);
         }
 
-        $admin = AflClients::where('client_email', $tokenData->email)
+        $admin = AflClients::where('client_email', $request->email)
         ->where('client_role','admin')
         ->first();
-
         if (! $admin) {
             return errorResponse(Lang::get('passwords.user'), 401);
         }
         $admin->client_password = \Hash::make($password);
-        $admin->update(); 
-        
+        $admin->update();
+
         $details = DB::table('password_resets')->where('email', $admin->client_email)->delete();
 
         return successResponse(Lang::get('passwords.reset'), $details, 201);

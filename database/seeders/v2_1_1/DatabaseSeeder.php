@@ -83,10 +83,10 @@ class DatabaseSeeder extends  \Database\Seeders\DatabaseSeeder{
     public function settings()
     {
         AflSettings::updateOrCreate(['SETTING_ID' => 1],[
-            'ROOT_URL' => 'https://license.faveohelpdesk.com',
-            'CLIENT_EMAIL' => 'admin@ladybirdweb.com',
-            'LICENSE_CODE' => 'a607e11e-5949-4339-a182-e49f2bd51186',
-            'INSTALLATION_HASH' => '    ',
+            'ROOT_URL' => '',
+            'CLIENT_EMAIL' => '',
+            'LICENSE_CODE' => '',
+            'INSTALLATION_HASH' => '',
             'SYSTEM_LANGUAGE' => 'en',
             'TIMEZONE' => 'UTC',
             'RECORDS_ARCHIVE_DAYS' => '365',
@@ -106,8 +106,8 @@ class DatabaseSeeder extends  \Database\Seeders\DatabaseSeeder{
             'WHITELISTED_ACCESS' => '0',
             'WHITELISTED_IP' => '',
             'VERIFIED_UPDATES' => '0',
-            'EMAIL_FROM_NAME' => 'Faveo Helpdesk',
-            'EMAIL_FROM_ADDRESS' => 'support@faveohelpdesk.com',
+            'EMAIL_FROM_NAME' => '',
+            'EMAIL_FROM_ADDRESS' => '',
             'EMAIL_CC_ADMIN' => '0',
             'EMAIL_EXPIRING_LICENSE_DAYS' => '0',
             'EMAIL_EXPIRING_UPDATES_DAYS' => '0',

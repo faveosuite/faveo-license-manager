@@ -84,5 +84,8 @@ export default {
     transition: opacity 0.2s ease;
     opacity: 0;
 }
+.content-wrapper{
+    min-height: 795px!important;
+}
 
 </style>

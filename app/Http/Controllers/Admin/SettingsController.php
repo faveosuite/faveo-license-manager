@@ -215,6 +215,16 @@ class SettingsController extends Controller
     {
         $settings = AflSettings::all();
 
+        $settings->transform(function ($setting) {
+            unset($setting->EMAIL_PASSWORD);
+            if($setting->EMAIL_DRIVER === 'mail' ) {
+                unset($setting->EMAIL_ENCRYPTION);
+                unset($setting->EMAIL_PORT);
+                unset($setting->EMAIL_HOST);
+            }
+            return $setting;
+        });
+
         return successResponse(Lang::get('lang.Setting_Show'), $settings, 200);
     }
 

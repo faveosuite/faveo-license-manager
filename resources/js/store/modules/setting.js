@@ -3,10 +3,10 @@ const state = {
 
     settings : {},
  };
-   
- 
+
+
  const getters = {
-    
+
     getSettings: state => state.settings,
     getGeneralSettings(state){
         return state.settings && state.settings.SETTING_ID ? {
@@ -25,7 +25,7 @@ const state = {
             SETTING_ID: state.settings.SETTING_ID,
             API_STATUS: state.settings.API_STATUS,
             ENVATO_API_TOKEN: state.settings.ENVATO_API_TOKEN,
-            
+
         }: null
     },
     getSecuritySettings(state){
@@ -39,7 +39,7 @@ const state = {
             FAILED_HOSTS_FORGET: state.settings.FAILED_HOSTS_FORGET,
             FAILED_LOGINS_LIMIT: state.settings.FAILED_LOGINS_LIMIT,
             MIN_PASSWORD_LENGTH: state.settings.MIN_PASSWORD_LENGTH,
-            
+
         }: null
     },
     getEmailSettings(state){
@@ -51,7 +51,12 @@ const state = {
             EMAIL_EXPIRING_LICENSE_DAYS: state.settings.EMAIL_EXPIRING_LICENSE_DAYS,
             EMAIL_EXPIRING_UPDATES_DAYS: state.settings.EMAIL_EXPIRING_UPDATES_DAYS,
             EMAIL_EXPIRING_SUPPORT_DAYS: state.settings.EMAIL_EXPIRING_SUPPORT_DAYS,
-            
+            EMAIL_DRIVER: state.settings.EMAIL_DRIVER,
+            EMAIL_ENCRYPTION: state.settings.EMAIL_ENCRYPTION,
+            EMAIL_PORT: state.settings.EMAIL_PORT,
+            EMAIL_PASSWORD: state.settings.EMAIL_PASSWORD,
+            EMAIL_HOST: state.settings.EMAIL_HOST,
+
         }: null
     },
     getCleanUpSettings(state){
@@ -62,36 +67,35 @@ const state = {
             DATABASE_CLEANUP_REPORTS_MAIN: state.settings.DATABASE_CLEANUP_REPORTS_MAIN,
             DATABASE_CLEANUP_REPORTS_SYSTEM: state.settings.DATABASE_CLEANUP_REPORTS_SYSTEM,
             DATABASE_CLEANUP_REPORTS_LICENSES: state.settings.DATABASE_CLEANUP_REPORTS_LICENSES,
-            
+
         }: null
     }
  };
- 
+
  const mutations = {
 
-   
+
     setSettings(state,payload) {
-        
+
         state.settings = payload
     }
  }
- 
+
  const actions = {
 
-   
+
     fetchSettings({commit}) {
         return axios.get('/api/admin/viewSettings').then(res => {
             if(res && res.data && res.data.data && Array.isArray(res.data.data) && res.data.data.length >0 ) {
                 commit('setSettings',res.data.data[0])
             }
         }).catch(err => {
-            
+
             commit('setSettings',{})
-            
+
            return err
         });
     }
  }
- 
+
  export default {state, getters, mutations, actions}
- 
