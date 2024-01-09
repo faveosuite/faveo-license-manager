@@ -6,21 +6,23 @@ import { lang } from '../../helpers/extraLogics';
 
 export function validateEmailSettings(data) {
 
-    const { EMAIL_FROM_NAME, EMAIL_FROM_ADDRESS,EMAIL_CC_SENDER,EMAIL_EXPIRING_LICENSE_DAYS, EMAIL_EXPIRING_UPDATES_DAYS, EMAIL_EXPIRING_SUPPORT_DAYS} = data
+    const { emailDriver, emailFromName, emailFromAddress,emailPort,emailHost, emailEncryption, emailPassword} = data
 
     let validatingData = {
 
-        EMAIL_FROM_NAME: [EMAIL_FROM_NAME,'isRequired'],
+        EMAIL_DRIVER: [emailDriver,'isRequired'],
 
-        EMAIL_FROM_ADDRESS: [EMAIL_FROM_ADDRESS,'isRequired'],
+        EMAIL_PORT: [emailPort,'isRequired'],
 
-        EMAIL_CC_SENDER: [EMAIL_CC_SENDER, 'isRequired'],
+        EMAIL_HOST: [emailHost, 'isRequired'],
 
-        EMAIL_EXPIRING_LICENSE_DAYS: [EMAIL_EXPIRING_LICENSE_DAYS,'isRequired'],
+        EMAIL_ENCRYPTION: [emailEncryption,'isRequired'],
 
-        EMAIL_EXPIRING_UPDATES_DAYS: [EMAIL_EXPIRING_UPDATES_DAYS, 'isRequired'],
+        EMAIL_FROM_ADDRESS: [emailFromAddress, 'isRequired'],
 
-        EMAIL_EXPIRING_SUPPORT_DAYS: [EMAIL_EXPIRING_SUPPORT_DAYS, 'isRequired' ],
+        EMAIL_PASSWORD: [emailPassword, 'isRequired' ],
+
+        EMAIL_FROM_NAME: [emailFromName, 'isRequired' ],
 
     };
 

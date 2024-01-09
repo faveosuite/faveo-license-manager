@@ -161,6 +161,8 @@ return [
     'nothing_updated' => 'Nothing was updated.',
     'create_new_contact' => 'Create New Contact',
     'edit_client' => 'Edit Contact',
+    'admin_privileges' => 'Admin Privileges Granted',
+    'login_credentials_agora' => 'Agora License Manager Login Credential',
     'first_name' => 'First Name',
     'last_name' => 'Last Name',
     'email_address' => 'Email Address',
@@ -361,9 +363,15 @@ return [
 
     'api_key_description'  =>   'Description',
 
-    'installation_delete'  => 'Installation Deleted successfully!'
+    'installation_delete'  => 'Installation Deleted successfully!',
 
     //EMAIL
+    'driver'             =>   'Driver',
+    'port'               =>  'Port',
+    'host'               =>   'Host',
+    'encryption'         =>   'Encryption',
+    'email_sent' => 'Email Settings saved successfully',
+    'php_disabled' => 'PHP Mail function is disabled on your server'
 
 
 

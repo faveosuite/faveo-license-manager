@@ -3,15 +3,15 @@
 	<div v-if="shallDisplay()" class="alert-container" id="alert">
 
 			<div v-bind:class="['alert', classname]">
-		
+
 				<button type="button" v-on:click="dismiss" class="close" id="alert_close">×</button>
-		
+
 				<div id="alert-message">
-		
+
 					<i v-if="classname=='alert-success'" class="fa  fa-check-circle alert-icon"></i>
-		
+
 					<i v-if="classname=='alert-danger'" class="fa fa-warning alert-icon"></i>&nbsp;
-				
+
 					<span v-html="message"></span>
 			</div>
 		</div>
@@ -23,52 +23,52 @@
 	import { mapGetters } from "vuex";
 
 	export default {
-		
+
 		name: "alert",
 
 		props: {
 
 			componentName: { type: String, default: "" }
 		},
-		
+
 		computed: {
 
 			...mapGetters(["getAlertType", "getAlertMessage", "getAlertComponentName", "getAlertDuration"]),
 
 			type: {
-			
+
 				get() {
-			
+
 					return this.getAlertType;
 				}
 			},
 
 			message: {
-			
+
 				get() {
-			
+
 					return this.getAlertMessage;
 				}
 			},
 
 			classname: {
-			
+
 				get() {
-			
+
 					return "alert-" + this.getAlertType;
 				}
 			}
 		},
 
 	methods: {
-		
+
 		dismiss() {
-		
+
 			this.$store.dispatch("unsetAlert");
 		},
 
 		shallDisplay() {
-		
+
 			return (this.type !== "" && this.getAlertComponentName === this.componentName) || this.getAlertComponentName === 'root-alert-container';
 		},
 
@@ -79,29 +79,29 @@
 	},
 
 	watch: {
-		
+
 		message() {
-		
+
 			if (this.message !== "") {
-				
+
 				let self = this;
-		
-				const duration = this.getAlertDuration ? this.getAlertDuration : this.type === "success" ? 7000 : 20000;
-		
+
+				const duration = this.getAlertDuration ? this.getAlertDuration : this.type === "success" ? 7000 : 7000;
+
 				setTimeout(function() {
 
 					self.dismiss();
-				
+
 				}, duration);
 
 				let x = {};
-		
+
 				setTimeout(()=>{
-		
+
 					let x = document.getElementsByClassName("alert-container")[0];
-		
+
 					if(x !== undefined){
-		
+
 						x.scrollIntoView({behavior: "smooth", block: 'start' });
 					}
 				}, 50)

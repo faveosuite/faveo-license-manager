@@ -2,73 +2,77 @@
 
     <div class="col-sm-12">
 
-        <div class="alert alert-info">
-            <p>Configure reminder email settings, enable and disable individual options.</p><br>
-
-            <p><b>Attention</b>: reminder emails will only be sent to personal (email-based) license owners who have
-                their email addresses set.</p>
-        </div>
-
         <div class="row" v-if="!hasDataPopulated || loading">
 
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="settings" />
+        <alert componentName="settings"/>
 
         <div class="card card-light" v-if="hasDataPopulated">
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang(title)}}</h3>
+                <h3 class="card-title">{{ lang(title) }}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <text-field :label="lang('from_name')" :value="fromName" :onChange="onChange" name="EMAIL_FROM_NAME"
-                        type="text" classname="col-sm-6" :required="true">
+                    <dynamic-select :label="lang('driver')" :multiple="false" classname="col-sm-6"
+                                    :strlength="35" :required="true" name="EMAIL_DRIVER" :elements="emailDrivers"
+                                    :value="emailDriver" :onChange="onChange">
+                    </dynamic-select>
 
+                    <text-field :label="lang('email')" :value="emailFromAddress" :onChange="onChange"
+                                name="EMAIL_FROM_ADDRESS" type="text" classname="col-sm-6" :required="true">
                     </text-field>
 
-                    <text-field :label="lang('from_address')" :value="fromAddress" :onChange="onChange"
-                        name="EMAIL_FROM_ADDRESS" type="text" classname="col-sm-6" :required="true">
-
-                    </text-field>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select :label="lang('send_copy_sender')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="EMAIL_CC_SENDER" :elements="copySender"
-                        :value="copySenderType" :onChange="onChange">
+                    <text-field :label="lang('from_name')" :value="emailFromName" :onChange="onChange"
+                                name="EMAIL_FROM_NAME" type="text" classname="col-sm-6" :required="true">
+                    </text-field>
+
+                    <dynamic-select v-if="emailDriver && emailDriver.id === 'smtp'" :label="lang('encryption')"
+                                    :multiple="false" classname="col-sm-6"
+                                    :strlength="35" :required="true" name="EMAIL_ENCRYPTION"
+                                    :elements="emailEncryptions"
+                                    :value="emailEncryption" :onChange="onChange">
                     </dynamic-select>
 
-                    <dynamic-select :label="lang('expiring_license_reminder')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="EMAIL_EXPIRING_LICENSE_DAYS" :elements="licenseReminder"
-                        :value="licenseReminderType" :onChange="onChange">
-                    </dynamic-select>
                 </div>
 
                 <div class="row">
+                    <number-field v-if="emailDriver && emailDriver.id === 'smtp'" :label="lang('port')"
+                                  :value="emailPort" :onChange="onChange"
+                                  name="EMAIL_PORT" type="number" classname="col-sm-6" :required="true">
 
-                    <dynamic-select :label="lang('expiring_updates_reminder')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="EMAIL_EXPIRING_UPDATES_DAYS" :elements="updatesReminder"
-                        :value="updatesReminderType" :onChange="onChange">
-                    </dynamic-select>
+                    </number-field>
 
-                    <dynamic-select :label="lang('expiring_support_reminder')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="EMAIL_EXPIRING_SUPPORT_DAYS" :elements="supportReminder"
-                        :value="supportReminderType" :onChange="onChange">
-                    </dynamic-select>
+                    <text-field v-if="emailDriver && emailDriver.id === 'smtp'" :label="lang('password')"
+                                :value="emailPassword" :onChange="onChange"
+                                name="EMAIL_PASSWORD" type="password" classname="col-sm-6" :required="true">
+
+                    </text-field>
+                </div>
+                <div class="row">
+                    <text-field v-if="emailDriver && emailDriver.id === 'smtp'" :label="lang('host')" :value="emailHost"
+                                :onChange="onChange"
+                                name="EMAIL_HOST" type="text" classname="col-sm-6" :required="true">
+
+                    </text-field>
                 </div>
             </div>
 
             <div class="card-footer">
 
                 <button class="btn btn-primary" @click="onSubmit()"><i
-                        :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
+                    :class="iconClass"></i> {{ lang(btnName) }}
+                </button>
             </div>
         </div>
     </div>
@@ -76,236 +80,216 @@
 
 <script>
 
-    import axios from 'axios'
+import axios from 'axios'
 
-    import { successHandler, errorHandler } from '../../helpers/responseHandler';
+import {successHandler, errorHandler} from '../../helpers/responseHandler';
 
-    import { getIdFromUrl } from '../../helpers/extraLogics';
+import moment from 'moment'
 
-    import { validateEmailSettings } from "../../helpers/validator/validateEmailSettings.js";
+import {validateEmailSettings} from "../../helpers/validator/validateEmailSettings.js";
 
-    import moment from 'moment'
+import TextField from "../../components/Reusable/FormField/TextField.vue";
 
-    import TextField from "../../components/Reusable/FormField/TextField.vue";
+import NumberField from "../../components/Reusable/FormField/NumberField.vue";
 
-    import NumberField from "../../components/Reusable/FormField/NumberField.vue";
+import StaticSelect from "../../components/Reusable/FormField/StaticSelect.vue";
 
-    import StaticSelect from "../../components/Reusable/FormField/StaticSelect.vue";
+import DynamicSelect from "../../components/Reusable/FormField/DynamicSelect.vue";
 
-    import DynamicSelect from "../../components/Reusable/FormField/DynamicSelect.vue";
+export default {
 
-    export default {
+    name: 'Email-Settings',
 
-        name: 'Email-Settings',
+    data() {
 
-        data() {
+        return {
 
-            return {
+            title: 'email_settings',
 
-                title: 'email_settings',
+            iconClass: 'fas fa-save',
 
-                iconClass: 'fas fa-save',
+            btnName: 'save',
 
-                btnName: 'save',
+            hasDataPopulated: false,
 
-                hasDataPopulated: false,
+            loading: false,
 
-                loading: false,
+            apiEndpoint: '',
 
-                apiEndpoint: '',
+            moment: moment,
 
-                moment: moment,
+            settingId: 'new',
 
-                fromName: null,
+            emailDriver: null,
 
-                fromAddress: null,
+            emailPort: null,
 
-                copySender: [
-                    { name: 'Enabled', value: 1 },
-                    { name: 'Disabled', value: 0 }
+            emailHost: null,
+
+            emailEncryption: null,
+
+            emailFromAddress: null,
+
+            emailFromName: null,
+
+            company: null,
+
+            emailPassword: null,
+
+            emailEncryptions:
+                [
+                    {value: 'None', name: 'None'},
+                    {value: 'SSL', name: 'SSL'},
+                    {value: 'TLS', name: 'TLS'},
+                    {value: 'StartTLS', name: 'StartTLS'},
                 ],
 
-                copySenderType: null,
+            emailDrivers: null,
+        }
+    },
 
-                licenseReminder: [
-                    { name: 'Enabled', value: 1 },
-                    { name: 'Disabled', value: 0 }
-                ],
+    async beforeMount() {
 
-                licenseReminderType: null,
+        const path = window.location.pathname
 
-                updatesReminder: [
-                    { name: 'Enabled', value: 1 },
-                    { name: 'Disabled', value: 0 }
-                ],
+        await this.getEmailDropdownOptions();
 
-                updatesReminderType: null,
+        this.loadData()
 
-                supportReminder: [
-                    { name: 'Enabled', value: 1 },
-                    { name: 'Disabled', value: 0 }
-                ],
+    },
+    methods: {
 
-                supportReminderType: null,
+        async loadData() {
 
-                settingId: 'new'
-            }
+            this.loading = true;
+
+            this.hasDataPopulated = false;
+
+            await this.$store.dispatch('fetchSettings');
+
+            this.setFormData()
+
+            this.hasDataPopulated = true;
+
+            this.loading = false;
         },
 
-        async beforeMount() {
+        async getEmailDropdownOptions() {
+            this.loading = true;
 
-            const path = window.location.pathname
+            return await axios.get("/api/admin/viewEmails").then((res) => {
+                const options = res.data.data;
+                if (options['prototypeDropdown']) {
+                    this.emailDrivers = options['prototypeDropdown']
+                }
+                this.loading = false;
 
-            await this.getEmailDropdownOptions()
-
-            this.loadData();
-        },
-
-        methods: {
-
-            async loadData() {
-
-                this.loading = true;
-
-                this.hasDataPopulated = false;
-
-                await this.$store.dispatch('fetchSettings');
-
-                this.setFormData()
-
-                this.hasDataPopulated = true;
+            }).catch((err) => {
 
                 this.loading = false;
-            },
 
-            async getEmailDropdownOptions() {
-                this.loading = true;
+            });
+        },
 
-                return await axios.get("/api/admin/emailDropdown").then((res) => {
-                    const options = res.data
+        isValid() {
 
-                    if (options['email expiring license days']) {
-                        this.licenseReminderType = options['email expiring license days']
-                    }
-                    if (options['email expiring updates days']) {
-                        this.updatesReminderType = options['email expiring updates days']
-                    }
-                    if (options['email expiring support days']) {
-                        this.supportReminderType = options['email expiring support days']
-                    }
+            const {errors, isValid} = validateEmailSettings(this.$data);
 
-                    this.loading = false;
-
-                }).catch((err) => {
-
-                    this.loading = false;
-
-                });
-            },
-
-            isValid() {
-
-                const { errors, isValid } = validateEmailSettings(this.$data);
-
-                return isValid;
-            },
-
-            setFormData() {
-
-                const emailSettings = this.$store.getters['getEmailSettings']
-
-                if (emailSettings) {
-
-                    this.settingId = emailSettings.SETTING_ID ?? 'new'
-
-                    this.fromName = emailSettings.EMAIL_FROM_NAME ?? null
-
-                    this.fromAddress = emailSettings.EMAIL_FROM_ADDRESS ?? null
-
-                    this.copySenderType = this.copySender.find((opt) => {
-                        return opt.value === emailSettings.EMAIL_CC_SENDER
-                    })
-
-                    this.licenseReminderType = this.licenseReminder.find((opt) => {
-                        return opt.value === emailSettings.EMAIL_EXPIRING_LICENSE_DAYS
-                    })
-
-                    this.updatesReminderType = this.updatesReminder.find((opt) => {
-                        return opt.value === emailSettings.EMAIL_EXPIRING_UPDATES_DAYS
-                    })
-
-                    this.supportReminderType = this.supportReminder.find((opt) => {
-                        return opt.value === emailSettings.EMAIL_EXPIRING_SUPPORT_DAYS
-                    })
-                }
-            },
-
-            onChange(value, name) {
-
-                if (name === 'EMAIL_FROM_NAME') {
-                    this.fromName = value
-                } else if (name === 'EMAIL_FROM_ADDRESS') {
-                    this.fromAddress = value
-                } else if (name === 'EMAIL_CC_SENDER') {
-                    this.copySenderType = value
-                } else if (name === 'EMAIL_EXPIRING_LICENSE_DAYS') {
-                    this.licenseReminderType = value
-                } else if (name === 'EMAIL_EXPIRING_UPDATES_DAYS') {
-                    this.updatesReminderType = value
-                } else if (name === 'EMAIL_EXPIRING_SUPPORT_DAYS') {
-                    this.supportReminderType = value
-                }
-            },
-
-            async onSubmit() {
-
-                if (this.isValid()) {
-
-                    this.loading = true
-
-                    const formData = {
-
-                        EMAIL_FROM_NAME: this.fromName ?? null,
-
-                        EMAIL_FROM_ADDRESS: this.fromAddress ?? null,
-
-                        EMAIL_CC_SENDER: this.copySenderType ? this.copySenderType.value : null,
-
-                        EMAIL_EXPIRING_LICENSE_DAYS: this.licenseReminderType ? this.licenseReminderType.value : null,
-
-                        EMAIL_EXPIRING_UPDATES_DAYS: this.updatesReminderType ? this.updatesReminderType.value : null,
-
-                        EMAIL_EXPIRING_SUPPORT_DAYS: this.supportReminderType ? this.supportReminderType.value : null,
-                    }
-
-                    await axios.post(`/api/admin/emailsettings/${this.settingId}`, formData).then(async (res) => {
+            return isValid;
+        },
 
 
-                        successHandler(res, 'settings');
+        setFormData() {
 
-                        await this.$store.dispatch('fetchSettings');
+            const emailSettings = this.$store.getters['getEmailSettings']
 
-                        this.loading = false;
+            if (emailSettings) {
 
-                    }).catch((err) => {
+                this.settingId = emailSettings.SETTING_ID ?? 'new'
 
-                        this.loading = false;
+                this.emailDriver = emailSettings.EMAIL_DRIVER ?
+                    (emailSettings.EMAIL_DRIVER.toLowerCase() === 'mail' ?
+                        {'name' : 'Php Mail', 'id' : 'mail' } :
+                        emailSettings.EMAIL_DRIVER.toLowerCase() === 'smtp' || emailSettings.EMAIL_DRIVER.toUpperCase() === 'SMTP' ?
+                            {'name' : 'SMTP', 'id' : 'smtp' } :
+                            emailSettings.EMAIL_DRIVER)
+                    : null;
 
-                        errorHandler(err, 'settings');
-                    });
-                }
+                this.emailPort = emailSettings.EMAIL_PORT ?? null
+
+                this.emailHost = emailSettings.EMAIL_HOST ?? null
+
+                this.emailFromAddress = emailSettings.EMAIL_FROM_ADDRESS ?? null
+
+                this.emailEncryption = emailSettings.EMAIL_ENCRYPTION ?? null
+
+                this.emailFromName = emailSettings.EMAIL_FROM_NAME ?? null
+
+                this.emailPassword = emailSettings.EMAIL_PASSWORD ?? null
             }
         },
 
-        components: {
+        onChange(value, name) {
+            const propertyMap = {
+                'EMAIL_DRIVER': 'emailDriver',
+                'EMAIL_PORT': 'emailPort',
+                'EMAIL_HOST': 'emailHost',
+                'EMAIL_ENCRYPTION': 'emailEncryption',
+                'EMAIL_FROM_ADDRESS': 'emailFromAddress',
+                'EMAIL_FROM_NAME': 'emailFromName',
+                'EMAIL_PASSWORD': 'emailPassword',
+            };
+            const propertyName = propertyMap[name];
 
-            "text-field": TextField,
+            if (name === 'EMAIL_DRIVER' && value !== 'smtp') {
+                this.emailPassword = null;
+                this.emailHost = null;
+                this.emailEncryption = null;
+            }
 
-            "number-field": NumberField,
+            if (propertyName !== undefined) {
+                this[propertyName] = (propertyName === 'emailEncryption' && typeof value === 'object') ? value.value : value;
+            }
+        },
 
-            "static-select": StaticSelect,
 
-            "dynamic-select": DynamicSelect,
+        async onSubmit() {
+
+            if (this.isValid()) {
+                this.loading = true;
+                const formData = {
+                    EMAIL_DRIVER: this.emailDriver ? this.emailDriver.id ?? null : null,
+                    EMAIL_PORT: this.emailPort ?? null,
+                    EMAIL_HOST: this.emailHost ?? null,
+                    EMAIL_FROM_ADDRESS: this.emailFromAddress ?? null,
+                    EMAIL_FROM_NAME: this.emailFromName ?? null,
+                    EMAIL_PASSWORD: this.emailPassword ?? null,
+                    EMAIL_ENCRYPTION: this.emailEncryption ?? null,
+                };
+
+                try {
+                    const response = await axios.post(`/api/admin/emailSettings`, formData);
+                    successHandler(response, 'settings');
+                    await this.$store.dispatch('fetchSettings');
+                } catch (error) {
+                    errorHandler(error, 'settings');
+                } finally {
+                    this.loading = false;
+                }
+            }
         }
+
+    },
+
+    components: {
+
+        "text-field": TextField,
+
+        "number-field": NumberField,
+
+        "static-select": StaticSelect,
+
+        "dynamic-select": DynamicSelect,
     }
+}
 </script>

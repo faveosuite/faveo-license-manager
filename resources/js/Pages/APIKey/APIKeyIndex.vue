@@ -107,8 +107,9 @@ export default {
             counter: 0
         }
     },
-
-
+    created() {
+        this.emitter.on('refreshData', this.getData);
+    },
 
     beforeMount() {
 

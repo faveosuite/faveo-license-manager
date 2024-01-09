@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EmailsRequest;
 use App\Models\AflEmails;
+use App\Models\AflSettings;
 use Illuminate\Support\Facades\Lang;
 
 /**
@@ -58,8 +59,16 @@ class EmailsController extends Controller
      */
     public function show()
     {
-        $emails = AflEmails::all();
+        $emails = AflSettings::all();
 
-        return successResponse(Lang::get('lang.Emails_Show'), $emails, 200);
+        $encryptionDropdown = [['id' =>'none', 'name' => 'None'], ['id' =>'SSL', 'name' => 'SSL'], ['id' =>'TLS', 'name' => 'TLS'],['id' =>'StartTLS', 'name' => 'StartTLS']];
+
+        $prototypeDropdown = [['id' =>'smtp', 'name' => 'SMTP'], ['id' =>'mail', 'name' => 'Php Mail']];
+
+        return successResponse(Lang::get('lang.Emails_Show'), [
+            'emails' => $emails,
+            'encryptionDropdown' => $encryptionDropdown,
+            'prototypeDropdown' => $prototypeDropdown,
+        ], 200);
     }
 }

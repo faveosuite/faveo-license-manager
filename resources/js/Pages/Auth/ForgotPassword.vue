@@ -4,7 +4,7 @@
 
     <div class="login-logo">
 
-      {{lang('auto')}}&nbsp;<b>Faveo</b>&nbsp;{{lang('licenser')}}
+      {{lang('agora')}}&nbsp;<b>License</b>&nbsp;{{lang('manager')}}
     </div>
 
     <div class="login-box">

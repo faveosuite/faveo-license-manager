@@ -63,7 +63,7 @@ class AuthControllerTest extends TestCase
             'client_password' => 'invalidpassword',
         ]);
 
-        $response->assertStatus(401)
+        $response->assertStatus(400)
             ->assertJson([
                 'message' => Lang::get('auth.failed'),
             ]);
