@@ -44,24 +44,28 @@
            const store = this.$store;
            let activeRequests = 0;
 
+           const toggleProgressBar = (show, progress) => {
+               this.shouldShowProgressBar = show;
+               store.dispatch('updateProgressBar', progress);
+           };
+
            const showProgressBar = () => {
-               if (activeRequests === 0) {
-                   this.shouldShowProgressBar = true;
-                   store.dispatch('updateProgressBar', 20);
-               }
                activeRequests++;
+               if (activeRequests === 1) {
+                   toggleProgressBar(true, 20);
+               }
            };
 
            const hideProgressBar = () => {
                activeRequests--;
                if (activeRequests === 0) {
-                   store.dispatch('updateProgressBar', 100);
+                   toggleProgressBar(false, 0);
                    setTimeout(() => {
-                       this.shouldShowProgressBar = false;
                        store.dispatch('updateProgressBar', 0);
                    }, 500);
                }
            };
+
 
            const onRequestSuccess = (response) => {
                hideProgressBar();
