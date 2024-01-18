@@ -93,10 +93,6 @@ export default {
             }
         },
 
-        // saveToLocalStorage() {
-        //     localStorage.setItem("debug", this.selectedValue);
-        // },
-
         saveValue() {
 
             this.loading = true;
