@@ -93,9 +93,9 @@ export default {
             }
         },
 
-        saveToLocalStorage() {
-            localStorage.setItem("debug", this.selectedValue);
-        },
+        // saveToLocalStorage() {
+        //     localStorage.setItem("debug", this.selectedValue);
+        // },
 
         saveValue() {
 
@@ -108,7 +108,7 @@ export default {
             axios.post("/api/save-debug-value", data)
             .then((response) => {
                     this.debugValue = response.data.debug;
-                    localStorage.setItem("debug", this.debugValue);
+                    localStorage.setItem("debug", this.selectedValue);
 
                     this.showLink = this.selectedValue === "1";
                     localStorage.setItem("showLink", this.showLink);
