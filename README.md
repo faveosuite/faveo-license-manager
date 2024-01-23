@@ -21,6 +21,10 @@ To run Agora License Manager your host just needs a couple of things:
 * PHP Extensions: Mcrypt, OpenSSL, Mbstring, Tokenizer
 * Web Server Extension: Pretty URLs or Search Engine Friendly URLs have to be enabled in your web server configuration
 
+Installation Guide
+--------------------------
+The installation steps for gora License Manager is same as that of Faveo. Please refer to our <a href="https://docs.faveohelpdesk.com/" target="_blank">Installation Guide</a> for steps.
+
 Credits
 --------------------------
 * Laravel Framework
@@ -34,11 +38,6 @@ Agora License Manager Features
 * Blocked installation for users without active licenses
 * Direct License Monitoring
 * Guaranteed protection from software piracy
-
-Agora License Manager Probe
---------------------------
-Helps verify whether your server can run Faveo or not. 
-<a href="https://github.com/ladybirdweb/faveo-probe" target="_blank">Download here</a>
 
 Error Reporting
 --------------------------
