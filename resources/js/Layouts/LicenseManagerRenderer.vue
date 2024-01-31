@@ -1,113 +1,96 @@
 <template>
-    <div  v-if="shouldShowProgressBar"  class="progress  color-shift-progress-bar">
-        <div class="progress-bar" role="progressbar" :style="{width: progressBarWidth}"></div>
-
+    <div v-if="shouldShowProgressBar" class="progress color-shift-progress-bar">
+        <div class="progress-bar" role="progressbar" :style="{ width: progressBarWidth }"></div>
     </div>
     <router-view :versioning="versioning"></router-view>
-   </template>
+</template>
 
-   <script>
-
-   export default {
-
-    props:{
-        versioning : { type : String , default : ''},
+<script>
+export default {
+    props: {
+        versioning: { type: String, default: '' },
     },
-
-       data() {
-           return {
-               shouldShowProgressBar: false,
-           };
-       },
-
-    watch : {
-
-    $route(to, from){
-
-    this.$store.dispatch('unsetAlert');
-
-    this.$store.dispatch('unsetValidationError');
-    }
+    data() {
+        return {
+            shouldShowProgressBar: false,
+            progressBarInterval: null, // Interval variable to control the progress bar animation
+        };
     },
-
-    beforeMount(){
-
-    this.$store.dispatch('setApiKey');
+    watch: {
+        $route(to, from) {
+            this.$store.dispatch('unsetAlert');
+            this.$store.dispatch('unsetValidationError');
+        },
     },
+    beforeMount() {
+        this.$store.dispatch('setApiKey');
+    },
+    computed: {
+        progressBarWidth() {
+            return this.$store.state.progressBarValue + '%';
+        },
+    },
+    methods: {
+        startProgressBarAnimation() {
+            let progress = 0;
+            this.progressBarInterval = setInterval(() => {
+                progress += 1; // Adjust the increment as needed
+                this.$store.dispatch('updateProgressBar', progress);
+                if (progress >= 100) {
+                    clearInterval(this.progressBarInterval);
+                }
+            }, 100); // Adjust the interval as needed
+        },
+        stopProgressBarAnimation() {
+            clearInterval(this.progressBarInterval);
+            this.$store.dispatch('updateProgressBar', 0);
+        },
+    },
+    created() {
+        const store = this.$store;
+        let activeRequests = 0;
 
-       computed: {
-           progressBarWidth() {
-               return this.$store.state.progressBarValue + '%';
-           },
-       },
-       created() {
-           const store = this.$store;
-           let activeRequests = 0;
+        const showProgressBar = () => {
+            activeRequests++;
+            if (activeRequests === 1) {
+                this.shouldShowProgressBar = true;
+                this.startProgressBarAnimation();
+            }
+        };
 
-           const toggleProgressBar = (show, progress) => {
-               this.shouldShowProgressBar = show;
-               store.dispatch('updateProgressBar', progress);
-           };
+        const hideProgressBar = () => {
+            activeRequests--;
+            if (activeRequests === 0) {
+                this.shouldShowProgressBar = false;
+                this.stopProgressBarAnimation();
+            }
+        };
 
-           const showProgressBar = () => {
-               activeRequests++;
-               if (activeRequests === 1) {
-                   toggleProgressBar(true, 20);
-               }
-           };
+        const onRequestSuccess = (response) => {
+            hideProgressBar();
+            return response;
+        };
 
-           const hideProgressBar = () => {
-               activeRequests--;
-               if (activeRequests === 0) {
-                   toggleProgressBar(false, 0);
-                   setTimeout(() => {
-                       store.dispatch('updateProgressBar', 0);
-                   }, 500);
-               }
-           };
+        const onRequestError = (error) => {
+            hideProgressBar();
+            return Promise.reject(error);
+        };
 
+        axios.interceptors.request.use((config) => {
+            showProgressBar();
+            return config;
+        });
 
-           const onRequestSuccess = (response) => {
-               hideProgressBar();
-               return response;
-           };
+        axios.interceptors.response.use(onRequestSuccess, onRequestError);
+    },
+};
+</script>
 
-           const onRequestError = (error) => {
-               hideProgressBar();
-               return Promise.reject(error);
-           };
-
-           axios.interceptors.request.use((config) => {
-               showProgressBar();
-               return config;
-           });
-
-           axios.interceptors.response.use(onRequestSuccess, onRequestError);
-       },
-
-   }
-   </script>
 <style scoped>
-loader {
-    width: 100%;
-    position: fixed;
-    top: 0;
-    left: 0; /* Set to 0 to ensure the loader is positioned at the left */
-    z-index: 1000;
-    padding: 0;
-    margin: 0;
-}
-
-progress {
-    background: none;
-    width: 100%; /* Make the progress bar fill the container width */
-    height: 5px; /* Set the height of the progress bar */
-}
-
 .color-shift-progress-bar {
     width: 100%;
     height: 3px;
-    background: linear-gradient(90deg, transparent 0, #00e1ff 200px, transparent 0);
+    background: linear-gradient(90deg, transparent 0,  transparent 0);
     background-size: 200% 10px;
     animation: color-move-animation 2s linear infinite;
 }
@@ -120,4 +103,5 @@ progress {
         background-position: -100% 0;
     }
 }
+
 </style>
