@@ -9,6 +9,7 @@ use App\Http\Requests\Settings\EmailSettingRequest;
 use App\Http\Requests\Settings\GeneralSettingsRequest;
 use App\Http\Requests\Settings\SecuritySettingRequest;
 use App\Models\AflSettings;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -22,9 +23,7 @@ use App\Models\ExpireSupportDisplay;
 use App\Models\ExpireUpdatesDisplay;
 use App\Models\AflLicenses;
 use Illuminate\Support\Facades\Redirect;
-
-
-
+use Throwable;
 
 /**
  * Consist of functionalities for the Settings page in Auto Faveo licenser
@@ -363,5 +362,32 @@ class SettingsController extends Controller
         else{
             return redirect('/login');
         }
-    }  
+    } 
+    public function storetDebugger(Request $request)
+    {
+        try{
+        $validatedData = $request->validate([
+            'debugger' => 'required|boolean',
+        ]);
+        $debuggerValue = $validatedData['debugger'] ?? 0; 
+        AflSettings::updateOrInsert(
+            ['id' => 1], 
+            ['debugger' => $debuggerValue]
+        );
+        return successResponse(trans('lang.updated'),200);
+    }
+    catch (\Exception $e) {
+        return errorResponse($e,500);
+    }
+    }   
+    public function gettDebugger()
+    {
+       
+    try {
+        $debuggerValue = AflSettings::where('id', 1)->value('debugger');
+        return response()->json(['debugger' => $debuggerValue]);
+    } catch (\Exception $e) {
+        return errorResponse($e,500);
+    }
+    } 
 }

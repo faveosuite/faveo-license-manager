@@ -144,6 +144,8 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('getUpdatesExpirings', [SettingsController::class, 'getUpdatesExpirings']);
     Route::post('saveSupportExpireRange', [SettingsController::class, 'saveSupportExpireRange']);
     Route::get('getSupportExpirings', [SettingsController::class, 'getSupportExpirings']);
+    Route::post('storetDebugger', [SettingsController::class, 'storetDebugger']);
+    Route::get('gettDebugger', [SettingsController::class, 'gettDebugger']);
 
     //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);
