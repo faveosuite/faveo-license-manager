@@ -3,6 +3,15 @@
         <div class="card card-light">
             <div class="card-header versions">
                 <h3 class="card-title">{{'Expiring Version'}}</h3>
+
+                <div class="card-tools">
+
+                    <button type="button"  :disabled="loading" class="btn btn-tool" data-card-widget="refresh"
+                            @click="getData()" v-tooltip="trans('refresh')">
+
+                        <i class="fas fa-sync-alt" :class="loading ? 'fa-spin': ''"></i>
+                    </button>
+                </div>
             </div>
             <div class="card-body" id="afl_products">
                 <div class="datatable-container">
@@ -46,7 +55,9 @@ export default {
 
             options : {},
 
-            counter: 0
+            counter: 0,
+
+            loading : false
         }
     },
 
