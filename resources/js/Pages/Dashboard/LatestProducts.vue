@@ -8,7 +8,7 @@
                 <div class="card-tools">
 
                     <button type="button"  :disabled="loading" class="btn btn-tool" data-card-widget="refresh"
-                            @click="getData()" v-tooltip="trans('refresh')">
+                            @click="getData()" v-tooltip="lang('refresh')">
 
                         <i class="fas fa-sync-alt" :class="loading ? 'fa-spin': ''"></i>
                     </button>
@@ -40,6 +40,7 @@
 <script>
 import axios from "axios";
 import {errorHandler} from "../../helpers/responseHandler";
+import {lang} from "../../helpers/extraLogics";
 
 export default {
     name :'latest-product',
@@ -101,6 +102,7 @@ export default {
     },
 
     methods:{
+        lang: lang,
 
         getData() {
             this.loading = true;
