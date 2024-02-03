@@ -128,10 +128,5 @@ export default {
     white-space: nowrap;
     width: 100px;
 }
-.glyphicon-sort {
-    margin-left: 100px;
-    margin-top: -19px;
-}
-
 </style>
 
