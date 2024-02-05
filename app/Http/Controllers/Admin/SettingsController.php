@@ -336,6 +336,10 @@ class SettingsController extends Controller
     public function debuggerSettings(Request $request)
     {
         $debug = (bool) ($request->debug ?? false);
+        AflSettings::updateOrInsert(
+            ['id' => 1], 
+            ['debugger' => $debug]
+        );
         Config::set('app.debug', $debug);
         $authorizationHeader = $request->headers->get('Authorization');
         $token = str_replace('Bearer ', '', $authorizationHeader);
