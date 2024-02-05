@@ -371,7 +371,7 @@ class SettingsController extends Controller
     {
        
     try {
-        $debuggerValue = AflSettings::where('id', 1)->value('debugger');
+        $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
         return response()->json(['debugger' => $debuggerValue]);
     } catch (\Exception $e) {
         return errorResponse($e,500);
