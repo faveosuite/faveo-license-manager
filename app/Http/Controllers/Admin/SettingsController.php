@@ -337,7 +337,7 @@ class SettingsController extends Controller
     {
         $debug = (bool) ($request->debug ?? false);
         AflSettings::updateOrInsert(
-            ['id' => 1], 
+            ['SETTING_ID' => 1], 
             ['debugger' => $debug]
         );
         Config::set('app.debug', $debug);
@@ -366,25 +366,8 @@ class SettingsController extends Controller
         else{
             return redirect('/login');
         }
-    } 
-    public function storetDebugger(Request $request)
-    {
-        try{
-        $validatedData = $request->validate([
-            'debugger' => 'required|boolean',
-        ]);
-        $debuggerValue = $validatedData['debugger'] ?? 0; 
-        AflSettings::updateOrInsert(
-            ['id' => 1], 
-            ['debugger' => $debuggerValue]
-        );
-        return successResponse(trans('lang.updated'),200);
-    }
-    catch (\Exception $e) {
-        return errorResponse($e,500);
-    }
-    }   
-    public function gettDebugger()
+    }  
+    public function getDebugger()
     {
        
     try {
