@@ -90,17 +90,17 @@ export default {
 .color-shift-progress-bar {
     width: 100%;
     height: 3px;
-    background: linear-gradient(to right, transparent, #007bff, transparent); /* Updated */
+    background: linear-gradient(to right, #007bff, #007bff); /* Updated to blue color */
     background-size: 200% 100%;
     animation: color-move-animation 2s linear infinite;
 }
 
 @keyframes color-move-animation {
     0% {
-        background-position: 200% 0; /* Updated */
+        background-position: 200% 0;
     }
     100% {
-        background-position: -200% 0; /* Updated */
+        background-position: -200% 0;
     }
 }
 </style>
