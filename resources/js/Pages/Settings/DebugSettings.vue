@@ -15,10 +15,10 @@
                 <div class="row">
                     <div class="col-6">
                         <input type="radio" value="1" v-model="selectedValue" />
-              &nbsp;<label> Enable </label> &emsp;
+              &nbsp;<label class="ml-1"> Enable </label> &emsp;
 
               <input type="radio" value="0" v-model="selectedValue" />
-            &nbsp;<label>
+            &nbsp;<label class="ml-1">
               Disable
             </label>
                     </div>
@@ -57,7 +57,7 @@ export default {
     },
     data() {
         return {
-            selectedValue: "",
+            selectedValue: "0",
             debugValue: "",
             iconClass: "fas fa-save",
             btnName: "save",
@@ -68,11 +68,11 @@ export default {
             loading: false
         };
     },
-
+    beforeMount() {
+        this.fetchDebugger();
+    },
     created() {
-        this.debugValue = localStorage.getItem("debug") || "";
-        this.selectedValue = this.debugValue || "0"; // Set the default value to "0" (Disable) if debugValue is empty
-        this.showLink = localStorage.getItem("showLink") === "true" || false;
+        this.showLink = false;
         this.user_id = this.getUserId.client_id || 0;
         this.saveTokenForDebugger();
     },
@@ -83,6 +83,17 @@ export default {
     },
 
     methods: {
+        fetchDebugger() {
+            axios.get('/api/admin/getDebugger')
+                .then((res) => {
+                    this.debugValue = res.data.debugger;
+                    this.selectedValue = this.debugValue
+                    this.showLink = this.selectedValue === 1;
+                })
+                .catch((error) => {
+                    errorHandler(error, 'DebugSettings');
+                });
+        },
         setFormData() {
             const emailSettings = this.$store.getters["getEmailSettings"];
 
@@ -104,10 +115,6 @@ export default {
             axios.post("/api/save-debug-value", data)
             .then((response) => {
                     this.debugValue = response.data.debug;
-                    localStorage.setItem("debug", this.selectedValue);
-
-                    this.showLink = this.selectedValue === "1";
-                    localStorage.setItem("showLink", this.showLink);
                     successHandler(response, 'DebugSettings')
                     setTimeout(() => {
                         window.location.reload();
@@ -116,9 +123,9 @@ export default {
                     this.loading = false;
                 })
                 .catch((error) => {
-2
                     this.loading = false;
-                    errorHandler(response,'DebugSettings')
+                    errorHandler(error,'DebugSettings')
+
                 });
         },
 
