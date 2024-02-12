@@ -7,6 +7,11 @@
             </div>
 
             <div class="card-body">
+
+                <div class="row" v-if="loading">
+
+                    <custom-loader :duration="4000"></custom-loader>
+                </div>
                 <div class="row">
                     <div class="col-6">
                         <input type="radio" value="1" v-model="selectedValue" />
@@ -60,6 +65,7 @@ export default {
             showLink: false,
             user_id: 0,
             getValue: "",
+            loading: false
         };
     },
 
@@ -92,6 +98,8 @@ export default {
         },
 
         saveValue() {
+
+            this.loading = true;
             const data = {
                 debug: this.selectedValue,
                 user_id: this.user_id,
@@ -108,8 +116,12 @@ export default {
                     setTimeout(() => {
                         window.location.reload();
                     }, 1000);
+
+                    this.loading = false;
                 })
                 .catch((error) => {
+2
+                    this.loading = false;
                     errorHandler(response,'DebugSettings')
                 });
         },
