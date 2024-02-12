@@ -22,7 +22,7 @@
                 (expiration date can be updated at any time).</p>
         </div>
 
-        <div class="row" v-if="!hasDataPopulated || loading">
+        <div class="row" v-if="loading">
 
             <custom-loader :duration="4000"></custom-loader>
         </div>
@@ -238,27 +238,23 @@ export default {
 
         loadData() {
 
-            this.loading = true;
-
             this.hasDataPopulated = false;
 
             Promise.all([this.getProducts(), this.getClients()]).then((values) => {
 
                 [this.productOptions, this.clientOptions] = values;
 
-                this.loading = false;
-
                 this.hasDataPopulated = true;
 
             }).catch(function (error) {
-
-                this.loading = false;
 
                 this.hasDataPopulated = true;
             });
         },
 
         getProducts() {
+
+            this.loading = true;
 
             axios.get('/api/admin/viewproducts').then(res => {
 
@@ -270,9 +266,12 @@ export default {
 
                     return data;
                 })
+
             }).catch(err=>{});
 
             return this.productOptions
+
+            this.loading = false
         },
 
         getClients() {
@@ -287,12 +286,18 @@ export default {
 
                     return data;
                 })
+
+                this.loading = false
             }).catch(err=>{});
 
             return this.clientOptions
+
+            this.loading = false
         },
 
         getValues(path) {
+
+            this.loading = true;
 
             const licenseId = getIdFromUrl(path)
 
@@ -328,10 +333,6 @@ export default {
 
             axios.get('/api/admin/license/' + id).then(res => {
 
-                this.loading = false;
-
-                this.hasDataPopulated = true;
-
                 let resData = res.data.data;
 
                 let licenseData = res.data.data.license;
@@ -347,6 +348,8 @@ export default {
                 licenseData['license_support_date'] = licenseData.license_support_date ? new Date(moment(licenseData.license_support_date).format("MM-DD-YYYY")) : '';
 
                 this.updateStatesWithData(resData);
+
+                this.loading = false;
 
             }).catch(error => {
 

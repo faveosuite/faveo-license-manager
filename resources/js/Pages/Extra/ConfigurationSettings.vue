@@ -8,7 +8,7 @@
                 is generated, copy/paste its content to your apl_core_configuration.php file.</span>
         </div>
 
-        <div class="row" v-if="!hasDataPopulated || loading">
+        <div class="row" v-if="loading">
 
             <custom-loader :duration="4000"></custom-loader>
         </div>
@@ -217,6 +217,11 @@
 
             getProducts() {
 
+                this.loading = true;
+
+                this.hasDataPopulated = false;
+
+
                 axios.get('/api/admin/viewproducts').then(res => {
 
                     this.products = res.data.data.map(data => {
@@ -226,6 +231,11 @@
                             value: data.product_id
                         };
                     })
+
+                    this.loading = false;
+
+                    this.hasDataPopulated = true;
+
                 }).catch(err=>{
 
                     this.loading = false;
@@ -282,13 +292,13 @@
 
                     await axios.post("/api/admin/config", formData).then((res) => {
 
-                        this.loading = false;
-
                         successHandler(res, 'configuration');
 
                         this.responseData = res.data.replaceAll('<br />\r\n', "")
 
                         this.showModal = true
+
+                        this.loading = false;
 
                     }).catch((err) => {
 
