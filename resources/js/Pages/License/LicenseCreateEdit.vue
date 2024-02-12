@@ -267,6 +267,8 @@ export default {
                     return data;
                 })
 
+                this.loading = false
+
             }).catch(err=>{});
 
             return this.productOptions

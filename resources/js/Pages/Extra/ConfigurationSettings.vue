@@ -188,12 +188,12 @@
 
             this.getValues(path);
 
-            this.loadData();
+            this.getProducts();
         },
 
         methods: {
 
-            loadData() {
+          /*  loadData() {
 
                 this.loading = true;
 
@@ -213,7 +213,7 @@
 
                     this.hasDataPopulated = true;
                 });
-            },
+            },*/
 
             getProducts() {
 
