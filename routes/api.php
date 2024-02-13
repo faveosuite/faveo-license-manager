@@ -82,7 +82,7 @@ Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
 
 Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(function () {
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
-    Route::get('/clockwork/app', [SettingsController::class, 'clockwork']);
+
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
     Route::get('dashboarddropdown', [DashboardController::class, 'dashboard']);
