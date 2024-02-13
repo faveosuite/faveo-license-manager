@@ -410,6 +410,7 @@ return [
 	|
 	*/
 
-	'server_timing' => env('CLOCKWORK_SERVER_TIMING', 10)
+	'server_timing' => env('CLOCKWORK_SERVER_TIMING', 10),
+	'middlewares' => ['ClockworkManager'],
 
 ];
