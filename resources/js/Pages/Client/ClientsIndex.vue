@@ -206,5 +206,7 @@
  max-width: max-content;
  overflow: auto !important;
  }
-
+ .VueTables .table-responsive > table th {
+     position: static !important;
+ }
 </style>
