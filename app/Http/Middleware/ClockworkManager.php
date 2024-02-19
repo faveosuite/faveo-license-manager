@@ -19,8 +19,7 @@ class ClockworkManager
      */
     public function handle(Request $request, Closure $next): Response
     {
-       // if ($request->headers->has('referer')) {
-       if($request->hasCookie('x-clockwork')){
+        if ($request->headers->has('referer')) {
          return $next($request);
         } 
             return redirect('/login');       
