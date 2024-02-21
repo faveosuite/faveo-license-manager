@@ -27,8 +27,13 @@ class BannedHostRequest extends FormRequest
     public function rules()
     {
         return [
-            'banned_host_ip' => 'required|string|unique:afl_banned_hosts,banned_host_ip',
-            'banned_host_date' => 'date',
+            'banned_host_ip' => [
+                'required',
+                'string',
+                'unique:afl_banned_hosts,banned_host_ip',
+                'regex:/\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\b|\b(?:\d{1,3}\.){3}\d{1,3}\b/'
+            ],
+             'banned_host_date' => 'date',
             'banned_host_blocks' => 'numeric',
             'banned_host_last_block_date' => 'date',
         ];
