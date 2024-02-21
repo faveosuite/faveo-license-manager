@@ -22,7 +22,12 @@ class whitelistIpsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'whitelist_host_ip' => 'required|string|unique:afl_whitelist_ips,whitelist_host_ip|ip',
-        ];
+            'whitelist_host_ip' => [
+                'required',
+                'string',
+                'unique:afl_whitelist_ips,whitelist_host_ip',
+                'regex:/\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\b|\b(?:\d{1,3}\.){3}\d{1,3}\b/'
+            ],
+            ];
     }
 }
