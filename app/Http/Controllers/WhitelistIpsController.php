@@ -14,6 +14,7 @@ class WhitelistIpsController extends Controller
 
     public function whitelistAdd(whitelistIpsRequest $request)
     {
+        try{
         $whitelist_host_ip = $request->input('whitelist_host_ip');
         $whitelist_host_comments = $request->input('whitelist_host_comments');
         $id = $request->id;
@@ -34,13 +35,17 @@ class WhitelistIpsController extends Controller
 
        return successResponse($responseMessage, $whitelist, $statusCode);
     }
+    catch(\Exception $e){
+        return errorResponse($e,404);
+    }
+    }
 
     public function deleteWhitelistIp(Request $request)
     {
         try {
             $host_data = AflWhitelistIps::where('whitelist_host_id', $request->whitelist_host_id)->firstOrFail();
             $host_data->delete();
-            return successResponse(Lang::get('lang.delete'), ['host_data' => $host_data], 201);
+            return successResponse(Lang::get('lang.delete'), 201);
             } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
             return errorResponse(Lang::get('lang.invalid'), 404);
             }
