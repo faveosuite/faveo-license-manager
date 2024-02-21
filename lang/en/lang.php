@@ -419,13 +419,14 @@ return [
     'system_cleanup_tooltip' =>  'Delete System Reports older than 60 days',
     'version_cleanup_tooltip' =>  'Delete Versions data older than 60 days',
     'remove_versions' => 'Remove versions older than',
-    'add_new_whitelist_ip'  =>  'Add New Whitelist IP',
+    'add_new_whitelist_ip'  =>  'Add New White List IP',
     'system_cleanup_crons'   => 'System cleanup crons',
-    'view_whitelist_ip'      =>  'White List IP',
+    'view_whitelist_ip'      =>  'View White List',
    "already_exist_ip" =>" IP already exists in the Banned Hosts. It can be either in the Banned Hosts or Whitelist",
    "whitelist_add" =>"WhiteList Ip has been Created",
    "whitelist_update" =>"WhiteList Ip has been Updated",
     "license_reports"  => "Remove licenses reports older than",
-    'edit_whitelist' => 'Edit WhiteList',
+    'edit_whitelist' => 'Edit White List',
+    'banned_ip_in_whitelist' => 'The Banned Host already exists in Whitelist',
 ];
 
