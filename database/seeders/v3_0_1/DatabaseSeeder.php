@@ -2,11 +2,13 @@
 
 namespace Database\Seeders\v3_0_1;
 
+
+use App\Models\AflSettings;
+use App\Models\ScheduleCron;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\AflSettings;
 use Illuminate\Support\Facades\DB;
-use App\Models\ScheduleCron;
 
 class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
 
@@ -15,9 +17,9 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
      */
     public function run()
     {
-
         $this->seedEmail();
-        $this->cronsTable();
+       // $this->cronsTable();
+        $this->settingsTable();
     }
 
     private function seedEmail(){
@@ -55,4 +57,15 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
         ]);
     }
 
+    public function settingsTable()
+    {
+        $settings = AflSettings::firstOrFail();
+
+        $settings->WHITELISTED_ACCESS = 0;
+        $settings->FAILED_FORGET_LIMIT = 3;
+        $settings->FAILED_LOGINS_LIMIT = 3;
+        $settings->BANNED_HOSTS = 0;
+
+        $settings->save();
+    }
 }
