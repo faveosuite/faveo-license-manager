@@ -108,9 +108,9 @@ class SettingsController extends Controller
      */
     public function securitySettings(SecuritySettingRequest $request, $SETTING_ID)
     {
-        $secset = AflSettings::findOrNew($SETTING_ID);
 
-        $secset->fill([
+        AflSettings::updateOrCreate(["SETTING_ID" => $SETTING_ID],
+        [
             'WHITELISTED_ACCESS' => $request->input('WHITELISTED_ACCESS'),
             'BANNED_HOSTS' => $request->input('BANNED_HOSTS'),
             'FAILED_HOSTS_FORGET' => $request->input('FAILED_FORGET_LIMIT') > 0 ? 1 : 0,
@@ -119,15 +119,7 @@ class SettingsController extends Controller
             'FAILED_LOGINS_LIMIT' => $request->input('FAILED_LOGINS_LIMIT') ?: null,
         ]);
 
-        $secset->save();
-
-        $statusCode = $secset->wasRecentlyCreated ? 201 : 200;
-
-        $message = $secset->wasRecentlyCreated
-            ? Lang::get('lang.settings_created')
-            : Lang::get('lang.settings_updated');
-
-        return successResponse($message, $secset, $statusCode);
+        return successResponse(trans('lang.settings_updated'), 200);
     }
 
 

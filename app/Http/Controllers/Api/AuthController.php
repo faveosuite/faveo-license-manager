@@ -135,10 +135,8 @@ private function handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_che
     Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed forgot password attempts.');
 
     if ($failedAttempts >= $failed_limit && $failed_check ==1 ) {
-        Cache::put($ipAddress .  $ipAddress, true, now()->addDays(1));
-
-        //Log::info($ipAddress . $ipAddress . ' banned due to multiple failed forgot password attempts.');
-        return errorResponse('Too many failed forgot password attempts. IP banned for 30 minutes.', 403);
+        Cache::put($ipAddress .  $ipAddress, true, now()->addDays(1)); 
+        return errorResponse(Lang::get('lang.too_many_attempts'), 403);
     }
     return errorResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 400);
 

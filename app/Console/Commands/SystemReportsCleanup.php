@@ -29,11 +29,10 @@ class SystemReportsCleanup extends Command
     public function handle()
     {
         $aflSettings = AflSettings::first();
-        if ($aflSettings->DATABASE_CLEANUP_REPORTS_SYSTEM !== null) {
-            $daysThreshold = now()->subDays($aflSettings->DATABASE_CLEANUP_REPORTS_SYSTEMMAIN);           
+        if ($aflSettings->DATABASE_CLEANUP_REPORTS_SYSTEM) {
             AflReports::
              where('report_system', 1)
-            ->where('report_date_time', '<', now()->subDays($daysThreshold))
+            ->where('report_date_time', '<',now()->subDays($aflSettings->DATABASE_CLEANUP_REPORTS_SYSTEMMAIN))
             ->delete();
         }
     }

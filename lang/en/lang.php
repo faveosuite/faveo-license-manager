@@ -26,6 +26,7 @@ return [
     'no_client' => 'No Contact was added to license manager',
     'not_found_client' => 'Contact does not exist',
     'recieve_forgot' => 'Reset instructions have been mailed to ',
+    'too_many_attempts' => 'Too many failed forgot password attempts. IP banned for 30 minutes.',
     'junk' =>' Be sure to check your Junk folder if you do not see an email from us in your Inbox within a few minutes.',
     'no_client_update' => 'Contact details were not updated',
     'Destroy' => 'Record has been Deleted Successfully',
@@ -68,7 +69,7 @@ return [
     'banned_host_not_found' => 'Banned host you\'re looking for is not found',
 
     'settings_updated' => 'The above settings of Auto Faveo license manager has been updated ',
-    'settings_created' => 'The above settings of Auto Faveo license manager has been created ',
+    'settings_created' => 'The above settings of Auto Faveo license manager has been Saved Successfully ',
 
     'notifications' => 'The server notification details has been updated',
     'emails' => 'Email notification details regarding the Auto Faveo License Expiry has been updated',

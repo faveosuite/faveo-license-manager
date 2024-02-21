@@ -29,11 +29,10 @@ class CrackReportsCleanup extends Command
     public function handle()
     {
         $aflSettings = AflSettings::first();
-        if ($aflSettings->DATABASE_CLEANUP_REPORTS_MAIN !== null) {
-            $daysThreshold = now()->subDays($aflSettings->DATABASE_CLEANUP_REPORTS_MAIN);
+        if ($aflSettings->DATABASE_CLEANUP_REPORTS_MAIN) {
            AflReports::where('product_id', 0)
                 ->where('report_system', 0)
-                ->where('report_date_time', '<', $daysThreshold)
+                ->where('report_date_time', '<', now()->subDays($aflSettings->DATABASE_CLEANUP_REPORTS_MAIN))
                 ->delete();
         } 
     }
