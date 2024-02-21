@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 class PHPController extends Controller
-{public function execEnabled()
+{
+    public function execEnabled()
     {
         try {
             // make a small test

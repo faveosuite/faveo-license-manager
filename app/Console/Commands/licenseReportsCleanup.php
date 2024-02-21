@@ -29,12 +29,11 @@ class licenseReportsCleanup extends Command
     public function handle()
     {
         $aflSettings = AflSettings::first();
-        if ($aflSettings->DATABASE_CLEANUP_REPORTS_LICENSES !== null) {
-            $daysThreshold = now()->subDays($aflSettings->DATABASE_CLEANUP_REPORTS_LICENSES);
+        if ($aflSettings->DATABASE_CLEANUP_REPORTS_LICENSES) {
             AflReports::where(function ($query) use ($aflSettings, $daysThreshold) {
                 $query->where('license_code' ,'!=', 'null')
                     ->where('license_code', '!=', '')
-                    ->where('report_date_time', '<', $daysThreshold);
+                    ->where('report_date_time', '<', now()->subDays($aflSettings->DATABASE_CLEANUP_REPORTS_LICENSES));
             })->delete();
         }     
     }
