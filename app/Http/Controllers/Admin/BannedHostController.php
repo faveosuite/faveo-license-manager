@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BannedHostRequest;
 use App\Models\AflBannedHosts;
+use App\Models\AflWhitelistIps;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -43,6 +44,10 @@ class BannedHostController extends Controller
         if (empty($banned_host_ip) || $api_action_success != 1) {
             return errorResponse(Lang::get('lang.banned_empty'), 400);
         }
+        $whitelistIpExists = AflWhitelistIps::where('whitelist_host_ip', $banned_host_ip)->exists();
+        if ($whitelistIpExists) {
+            return errorResponse(Lang::get('lang.banned_ip_in_whitelist'), 400);
+        }
         $banned = new AflBannedHosts([
             'banned_host_ip' => $banned_host_ip,
             'banned_host_comments' => $banned_host_comments,
@@ -79,6 +84,10 @@ class BannedHostController extends Controller
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
         if (empty($banned_host_ip) || $api_action_success != 1) {
             return errorResponse(Lang::get('lang.banned_empty'), 400);
+        }
+        $whitelistIpExists = AflWhitelistIps::where('whitelist_host_ip', $banned_host_ip)->exists();
+        if ($whitelistIpExists) {
+            return errorResponse(Lang::get('lang.banned_ip_in_whitelist'), 400);
         }
         $banned = AflBannedHosts::where('banned_host_id', $banned_host_id)->update([
             'banned_host_ip' => $banned_host_ip,

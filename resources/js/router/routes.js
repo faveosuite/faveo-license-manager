@@ -585,21 +585,21 @@ let whitelistMenu = {
     children: [
         {
             path: 'list',
-            name: 'Whitelist List',
+            name: 'White List List',
             component: WhiteList,
-            meta: { title: 'White list', crumb: { link: { name: 'dashboard', to: '/' }, active: 'Whitelist' } }
+            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, active: 'White List' } }
         },
         {
             path: 'create',
-            name: 'Whitelist Create',
+            name: 'White List Create',
             component: WhiteListCreate,
-            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'Whitelist', to: '/whitelist' }, active: 'create' } }
+            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'White List', to: '/whitelist' }, active: 'create' } }
         },
         {
             path: ':id/edit',
-            name: 'Whitelist create',
+            name: 'White List create',
             component: WhiteListCreate,
-            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'Whitelist', to: '/whitelist' }, active: 'edit' } }
+            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'White List', to: '/whitelist' }, active: 'edit' } }
         }
     ]
 
