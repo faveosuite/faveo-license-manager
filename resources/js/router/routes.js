@@ -579,27 +579,27 @@ import WhiteListCreate from "../Pages/WhiteList/WhiteListCreate.vue";
 let whitelistMenu = {
     path: '/Whitelist',
     component: LicenseLayout,
-    name: 'White List',
+    name: 'Whitelist',
     redirect: '/Whitelist/list',
     beforeEnter: requireAuth,
     children: [
         {
             path: 'list',
-            name: 'White List List',
+            name: 'Whitelist',
             component: WhiteList,
-            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, active: 'White List' } }
+            meta: { title: 'Whitelist', crumb: { link: { name: 'dashboard', to: '/' }, active: 'Whitelist' } }
         },
         {
             path: 'create',
-            name: 'White List Create',
+            name: 'Whitelist Create',
             component: WhiteListCreate,
-            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'White List', to: '/whitelist' }, active: 'create' } }
+            meta: { title: 'Whitelist', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'Whitelist', to: '/whitelist' }, active: 'create' } }
         },
         {
             path: ':id/edit',
-            name: 'White List create',
+            name: 'Whitelist create',
             component: WhiteListCreate,
-            meta: { title: 'White List', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'White List', to: '/whitelist' }, active: 'edit' } }
+            meta: { title: 'Whitelist', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'Whitelist', to: '/whitelist' }, active: 'edit' } }
         }
     ]
 

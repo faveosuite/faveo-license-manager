@@ -3,9 +3,13 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Traits\RequestJsonValidation;
+
+
 
 class whitelistIpsRequest extends FormRequest
 {
+    use RequestJsonValidation;
     /**
      * Determine if the user is authorized to make this request.
      */

@@ -420,7 +420,7 @@
         "hasChildren": true,
         "children": [
             {
-                "name": "New White List",
+                "name": "New Whitelist",
                 "key": null,
                 "count": 0,
                 "hasCount": false,
@@ -431,7 +431,7 @@
                 "children": []
             },
             {
-                "name": "All White List",
+                "name": "All Whitelist",
                 "key": null,
                 "count": 0,
                 "hasCount": false,
