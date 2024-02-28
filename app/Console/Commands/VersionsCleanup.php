@@ -28,10 +28,7 @@ class VersionsCleanup extends Command
      */
     public function handle()
     {  
-        $aflSettings = AflSettings::first();
-        if ($aflSettings->DATABASE_CLEANUP_VERSIONS){
-            AfuVersions::where('version_date', '<', now()->subDays($aflSettings->DATABASE_CLEANUP_VERSIONS))
-            ->delete();      
-         }
+        $aflSettings = AflSettings::value('DATABASE_CLEANUP_VERSIONS');
+        $aflSettings ?  AfuVersions::where('version_date', '<', now()->subDays($aflSettings))->delete() : null ;      
     }
 }
