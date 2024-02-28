@@ -28,12 +28,7 @@ class SystemReportsCleanup extends Command
      */
     public function handle()
     {
-        $aflSettings = AflSettings::first();
-        if ($aflSettings->DATABASE_CLEANUP_REPORTS_SYSTEM) {
-            AflReports::
-             where('report_system', 1)
-            ->where('report_date_time', '<',now()->subDays($aflSettings->DATABASE_CLEANUP_REPORTS_SYSTEMMAIN))
-            ->delete();
-        }
+        $aflSettings = AflSettings::value('DATABASE_CLEANUP_REPORTS_SYSTEM');
+        $aflSettings ? AflReports::where('report_system', 1)->where('report_date_time', '<',now()->subDays($aflSettings))->delete() : null ;
     }
 }
