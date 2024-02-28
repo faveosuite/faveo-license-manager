@@ -18,7 +18,7 @@ class WhitelistIpsController extends Controller
         $whitelist_host_ip = $request->input('whitelist_host_ip');
         $whitelist_host_comments = $request->input('whitelist_host_comments');
         $id = $request->id;
-        $bannedHosts = AflBannedHosts::pluck('banned_host_ip')->all();
+        $bannedHosts = AflBannedHosts::pluck('banned_host_ip')->toArray();
         if(in_array($whitelist_host_ip,$bannedHosts)){
             return errorResponse($whitelist_host_ip .Lang::get('lang.already_exist_ip'), 500);
         }

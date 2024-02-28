@@ -28,11 +28,9 @@ class CleanupCommand extends Command
      */
     public function handle()
     {   
-        $aflSettings = AflSettings::first();
-        if ($aflSettings->DATABASE_CLEANUP_CALLBACKS){
-        AflCallbacks::where('callback_date_time', '<', now()->subDays($aflSettings->DATABASE_CLEANUP_CALLBACKS))
-        ->delete();
-        } 
+        $aflSettings = AflSettings::value('DATABASE_CLEANUP_CALLBACKS');
+        $aflSettings ? AflCallbacks::where('callback_date_time', '<', now()->subDays($aflSettings))->delete() : null;
+        
     }
 }
 
