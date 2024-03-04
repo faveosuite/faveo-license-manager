@@ -137,7 +137,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 
     Route::post('whitelist/updateOrCreate', [WhitelistIpsController::class, 'whitelistAdd']);
     Route::get('whitelist-edit/{id}', [WhitelistIpsController::class, 'edit']);
-    Route::delete('delete-whitelist-ip', [WhitelistIpsController::class, 'deleteWhitelistIp']);
+    Route::post('delete-whitelist-ip', [WhitelistIpsController::class, 'deleteWhitelistIp']);
     Route::get('view-Whitelist', [WhitelistIpsController::class, 'view']);
 
     //SETTINGS
