@@ -204,6 +204,9 @@
 
  import copy from 'clipboard-copy';
 
+ import {systemCleanupSettings} from "../../helpers/validator/SystemCleanupSettings";
+
+
  export default {
 
 
@@ -300,6 +303,13 @@
 
     methods: {
 
+        isValid() {
+
+            const { errors, isValid } = systemCleanupSettings(this.$data);
+
+            return isValid;
+        },
+
         findOptionByValue(options, value) {
             if (options) {
                 return options.find(option => option.value === value);
@@ -378,8 +388,10 @@
         },
 
         async onSubmit() {
+            if (this.isValid()) {
 
                 this.loading = true
+
                 const formData = {
 
                     DATABASE_CLEANUP_CALLBACKS: this.removeOlderCallbacksOptions ? this.removeOlderCallbacksOptions.value : null,
@@ -411,6 +423,7 @@
 
                     errorHandler(err, 'settings');
                 });
+            }
         },
 
         async getTimeOptions() {
