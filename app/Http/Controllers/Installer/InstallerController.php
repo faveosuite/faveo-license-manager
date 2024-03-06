@@ -250,6 +250,8 @@ class InstallerController extends Controller
         $ENV['LARAVEL_WEBSOCKETS_SSL_LOCAL_CERT'] = 'null';
         $ENV['LARAVEL_WEBSOCKETS_SSL_LOCAL_PK'] = 'null';
         $ENV['LARAVEL_WEBSOCKETS_SSL_PASSPHRASE'] = 'null';
+        $ENV['SESSION_SECURE_COOKIE'] = false;
+        $ENV['CSRF_COOKIE_HTTP_ONLY'] = false;
         $config = '';
         foreach ($ENV as $key => $val) {
             $config .= "{$key}={$val}\n";

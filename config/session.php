@@ -168,7 +168,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('SESSION_SECURE_COOKIE', false),
 
     /*
     |--------------------------------------------------------------------------
@@ -197,5 +197,7 @@ return [
     */
 
     'same_site' => 'lax',
+
+    'csrfCookieHttpOnly' => env('CSRF_COOKIE_HTTP_ONLY', false)
 
 ];
