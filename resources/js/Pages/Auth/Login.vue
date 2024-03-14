@@ -98,8 +98,7 @@ export default {
     },
     beforeMount() {
         const queryParam = this.$route.query;
-        if (queryParam && queryParam.fresh) {
-        } else {
+        if (!queryParam && !queryParam.fresh) {
             if (this.getUserToken) {
                 this.$router.push({name: 'Dashboard'}).catch(err => {});
             }
