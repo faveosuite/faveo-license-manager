@@ -5,10 +5,6 @@ namespace Database\Seeders\v3_0_1;
 
 use App\Models\AflSettings;
 use App\Models\ScheduleCron;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
-use App\Models\AflSettings;
-use Illuminate\Support\Facades\DB;
 
 class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
 

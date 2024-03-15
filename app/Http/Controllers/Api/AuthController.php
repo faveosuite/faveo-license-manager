@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api;
 
-//use App\Http\Requests\SessionRequest;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegisterRequest;
 use App\Models\AflAdmins;
@@ -11,20 +10,13 @@ use App\Models\AflSettings;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Config;
-use App\Http\Controllers\PhpMailController;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-use App\Models\AflSettings;
-use App\Http\Requests\UserValidationRequest;
 
 
 
