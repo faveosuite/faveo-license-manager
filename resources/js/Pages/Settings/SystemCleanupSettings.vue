@@ -164,15 +164,6 @@
                     </dynamic-select>
                 </div>
 
-                <div class="row">
-
-                    <dynamic-select :label="lang('remove_versions')" :multiple="false" classname="col-sm-6"
-                                    :strlength="35" name="DATABASE_CLEANUP_VERSIONS"
-                                    :elements="removeVersions" optionLabel="title" :value="removeVersionsType"
-                                    :onChange="onChange">
-                    </dynamic-select>
-                </div>
-
             </div>
 
             <div class="card-footer">

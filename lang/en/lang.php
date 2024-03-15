@@ -230,7 +230,7 @@ return [
     'advanced_settings' => 'Advanced Settings',
     'email_settings' => 'Email Settings',
     'security_settings' => 'Security settings',
-    'system_cleanup_settings' => 'System cleanup settings',
+    'system_cleanup_settings' => 'Cron settings',
     'smart_reports' => 'Smart Reports',
     'smart_tables' => 'Smart Tables',
     'records_per_page' => 'Records Per Page',
