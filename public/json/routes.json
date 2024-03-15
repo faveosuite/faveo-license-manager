@@ -290,7 +290,7 @@
 "children": []
 },
 {
-"name": "System Cleanup Settings",
+"name": "Cron Settings",
 "key": null,
 "count": 0,
 "hasCount": false,
