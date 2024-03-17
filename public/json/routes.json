@@ -211,30 +211,6 @@
 ]
 },
 {
-"name": "Server Notifications",
-"key": null,
-"count": 0,
-"hasCount": false,
-"iconClass": "fas fa-flag",
-"order": 0,
-"redirectUrl": null,
-"routeString": "",
-"hasChildren": true,
-"children": [
-{
-"name": "Customize Notifications",
-"key": null,
-"count": 0,
-"hasCount": false,
-"iconClass": "far fa-circle",
-"order": 0,
-"routeString": "/server/notifications",
-"hasChildren": false,
-"children": []
-}
-]
-},
-{
 "name": "Software Settings",
 "key": null,
 "count": 0,
