@@ -428,5 +428,18 @@ return [
     "license_reports"  => "Remove licenses reports older than",
     'edit_whitelist' => 'Edit',
     'banned_ip_in_whitelist' => 'The Banned Host already exists in Whitelist',
+
+
+        'license_verification_period_info' => 'This is the frequency at which you want clients to ping the license server and verify their licenses.',
+        'product_for_info' => 'Choose a product for which you want to generate product configuration.',
+        'license_storage_type_info' => 'Specify whether your clients will store the license in a database or a file storage.',
+        'license_file_location_info' => 'This is a relative path where the license will be stored.',
+        'mysql_tablename_info' => 'Specify the table name in which the license will be stored.',
+        'delete_cancelled_license_info' => 'Decide if you want to delete any license that has been cancelled during the creation process.',
+        'delete_cracked_license_info' => 'Decide if you want to delete any license that has been cracked/pirated during the creation process.',
+        'god_mode_info' => 'When god mode is selected, if any suspicious activity is detected, it will erase all data.',
+
+        'config_gen'    => 'Automatically generate settings for apl_core_configuration.php and update_configuration.php file. Select the product to be licensed, license verification period, license storage options, and click the "Submit" button. Once the configuration is generated, copy/paste its content to your apl_core_configuration.php and update_configuration.php file.',
+    
 ];
 
