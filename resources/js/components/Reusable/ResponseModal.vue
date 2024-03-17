@@ -14,7 +14,7 @@
 
             <div v-if="!loading">
 
-                <span>{{ responseData}}</span>
+                <pre>{{responseData}}</pre> <!-- Use preformatted text for responseData -->
             </div>
 
             <div v-if="loading">
