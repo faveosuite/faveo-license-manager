@@ -231,17 +231,6 @@
 "routeString": "/server/notifications",
 "hasChildren": false,
 "children": []
-},
-{
-"name": "Customize Emails",
-"key": null,
-"count": 0,
-"hasCount": false,
-"iconClass": "far fa-circle",
-"order": 0,
-"routeString": "/server/emails",
-"hasChildren": false,
-"children": []
 }
 ]
 },

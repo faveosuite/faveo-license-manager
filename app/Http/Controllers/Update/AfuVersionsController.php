@@ -147,23 +147,27 @@ class AfuVersionsController extends Controller
                     } else {
                         $version_upgrade_query = '';
                     }
-                    $added_records = DB::table('afu_versions')->insertOrIgnore([
-                        'product_id' => $product_id,
-                        'version_number' => $version_number,
-                        'version_install_file' => $version_install_file,
-                        'version_install_query' => $version_install_file,
-                        'version_raw_install_query' => $version_raw_install_query,
-                        'version_upgrade_file' => $version_upgrade_file,
-                        'version_upgrade_query' => $version_upgrade_query,
-                        'version_raw_upgrade_query' => $version_raw_upgrade_query,
-                        'version_install_limit' => $version_install_limit,
-                        'version_upgrade_limit' => $version_upgrade_limit,
-                        'version_changelog' => $version_changelog,
-                        'version_date' => $version_date,
-                        'version_expire_date' => $version_expire_date,
-                        'version_comments' => $version_comments,
-                        'version_status' => $version_status,
-                    ]);
+                    $added_record = AfuVersions::updateOrCreate(
+                        ['version_number' => $version_number],
+                        [
+                            'version_number' => $version_number,
+                            'product_id' => $product_id,
+                            'version_install_file' => $version_install_file,
+                            'version_install_query' => $version_install_query,
+                            'version_raw_install_query' => $version_raw_install_query,
+                            'version_upgrade_file' => $version_upgrade_file,
+                            'version_upgrade_query' => $version_upgrade_query,
+                            'version_raw_upgrade_query' => $version_raw_upgrade_query,
+                            'version_install_limit' => $version_install_limit,
+                            'version_upgrade_limit' => $version_upgrade_limit,
+                            'version_changelog' => $version_changelog,
+                            'version_date' => $version_date,
+                            'version_expire_date' => $version_expire_date,
+                            'version_comments' => $version_comments,
+                            'version_status' => $version_status,
+                        ]
+                    );
+                    
 
                     if (! aflValidateIntegerValue($added_records)) {
                         $error_detected = 1;
