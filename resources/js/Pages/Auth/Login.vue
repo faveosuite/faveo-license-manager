@@ -8,7 +8,7 @@
         </div>
 
 
-            <div class="login-box">
+        <div class="login-box">
 
             <div class="card">
 
@@ -37,6 +37,7 @@
 
                         </text-field>
 
+
                         <div class="social-auth-links text-center mb-1">
 
                             <a href="javascript:;" class="btn btn-block btn-primary" @click="onSubmit()">
@@ -57,42 +58,72 @@
     </div>
 </template>
 <script>
-
-import { computed }  from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-
-import { errorHandler, successHandler } from '../../helpers/responseHandler'
-
+import { errorHandler } from '../../helpers/responseHandler';
 import { validateLoginSettings } from "../../helpers/validator/loginRules.js";
-
-import axios from 'axios'
-
+import axios from 'axios';
 import TextField from "../../components/Reusable/FormField/TextField.vue";
-import store from "../../store";
+// import {env} from "../../../../env";
 
 export default {
-
     name: 'Login',
-
     setup() {
-
         const store = useStore();
+        const getUserToken = computed(() => store.getters.getUserToken);
+        const recaptchaToken = ref(null);
+        const siteKey = ref(null);
+
+        const loadRecaptchaScript = () => {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://www.google.com/recaptcha/api.js?render=' + siteKey.value;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        };
+
+        const generateRecaptchaToken = () => {
+
+            return new Promise((resolve, reject) => {
+                grecaptcha.ready(() => {
+                    grecaptcha.execute(siteKey.value, { action: 'submit' }).then(resolve).catch(reject);
+                });
+            })
+        }
+
+        const getSiteKey = async() => {
+
+            await axios.get('/api/recaptchaStatus')
+                .then((res) => siteKey.value = res.data.site_key)
+                .catch(error => {
+
+                })
+        }
+
+        onMounted(async () => {
+            try {
+                await getSiteKey();
+                await loadRecaptchaScript();
+                recaptchaToken.value = await generateRecaptchaToken();
+            } catch (error) {
+
+            }
+        });
 
         return {
-            getUserToken: computed(() => store.getters.getUserToken)
+            getUserToken,
+            recaptchaToken,
+            generateRecaptchaToken,
+            siteKey
         };
     },
-
     data() {
-
         return {
-
             user_name: '',
-
             password: '',
-
             labelStyle: { display: 'none' },
-
             loading: false,
         }
     },
@@ -104,71 +135,57 @@ export default {
             }
         }
     },
-
-
     methods: {
-
         onChange(value, name) {
-
             this[name] = value;
         },
-
         isValid() {
-
             const { errors, isValid } = validateLoginSettings(this.$data);
-
             return isValid;
         },
-
         triggerEvent(event) {
-
             var key = event.which || event.keyCode;
-
             if (key === 13) { // 13 is enter
-
                 this.onSubmit();
             }
         },
-
         onSubmit() {
-
             if (this.isValid()) {
-
                 this.$store.dispatch('unsetAlert');
-
                 this.$store.dispatch('unsetValidationError');
-
                 this.loading = true;
-
                 let data = {}
-
                 data['client_email'] = this.user_name
-
                 data['client_password'] = this.password
-
-                axios.post("/api/login", data)
+                if(this.siteKey){
+                    data['g-recaptcha-response'] = this.recaptchaToken
+                }
+                axios.post("/api/login", { ...data})
                     .then((res) => {
                         this.loading = false;
-                        // Set the authentication token in the default headers
                         const authToken = res.data.data.token;
                         axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
                         this.$store.dispatch('setLoggedInUserToken', authToken);
                         this.$store.dispatch('setUserInfo', res.data.data.user);
                         this.$router.push(this.getUserToken ? '/dashboard' : '/login');
                     })
-                    .catch((err) => {
+                    .catch(async (err) => {
                         this.loading = false;
                         errorHandler(err, 'login');
-                    });
+                        if (this.siteKey) {
+                            try {
+                                this.recaptchaToken = await this.generateRecaptchaToken();
+                            } catch (error) {
 
+                            }
+                        }
+                    });
             }
         }
     },
-
-
     components: {
-
         "text-field": TextField,
     }
 };
+
 </script>

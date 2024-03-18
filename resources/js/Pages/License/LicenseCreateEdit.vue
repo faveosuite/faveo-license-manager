@@ -258,7 +258,7 @@ export default {
 
             axios.get('/api/admin/viewproducts').then(res => {
 
-                this.productOptions = res.data.data.map(data => {
+                this.productOptions = res.data.data.data.map(data => {
 
                     data.name = data.product_title;
 

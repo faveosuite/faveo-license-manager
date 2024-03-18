@@ -27,13 +27,9 @@
 
             <div class="card-body" id="white_list">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" alertComponentName="dataTableModal" :option="options" scroll_to="products-list">
 
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-                </v-client-table>
+                </data-table>
             </div>
         </div>
     </div>
@@ -41,15 +37,23 @@
 
 <script>
 
-import axios from 'axios';
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
 
     name: 'whitelist',
+    methods: {lang},
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
+    },
 
     data() {
 
         return {
+
+            loading: false,
 
             data: '',
 
@@ -57,20 +61,19 @@ export default {
 
             options: {},
 
-            counter: 0
+            counter: 0,
+
+            endPoint : '/api/admin/view-Whitelist?page=1'
         }
     },
 
-    created() {
+     beforeMount() {
 
-        this.emitter.on('refreshData', this.updateData);
-    },
-
-    async beforeMount() {
+         const date_format = this.generalSetting.date_format.js_format
+         const time_format = this.generalSetting.time_format.js_format
+         const timezone = this.generalSetting.timezone.name
 
         const self = this;
-
-        await this.getData();
 
         this.options = {
 
@@ -85,13 +88,54 @@ export default {
 
             texts: { filter: '', limit: '' },
 
+            sortable:  ['whitelist_host_comments', 'whitelist_host_date'],
+
+            filterable : [ 'whitelist_host_ip' ],
+
             columnsClasses: {
 
                 whitelist_host_ip: 'whitelist_host_ip',
 
                 whitelist_host_comments: 'whitelist_host_comments',
 
-                whitelist_host_date: 'whitelist_host_date	',
+                whitelist_host_date: 'whitelist_host_date',
+            },
+
+            pagination: { show : false },
+
+            requestAdapter(data) {
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : 'whitelist_host_id',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                    perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.edit_url = '/whitelist/' + data.whitelist_host_id  + '/edit';
+
+                        data.delete_url = '/api/admin/delete-whitelist-ip';
+
+                        data.keyVal = 'whitelist_host_id';
+
+                        data.idVal = data.whitelist_host_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
             },
 
             templates: {
@@ -108,11 +152,9 @@ export default {
 
                 whitelist_host_date(h, row) {
 
-                    return row.whitelist_host_date ? row.whitelist_host_date : '---';
+                    return formatDateTime(row.whitelist_host_date, timezone, date_format, time_format)
                 },
             },
-
-            pagination: { chunk: 5, nav: 'fixed', edge: true },
 
             headings: {
 
@@ -127,31 +169,8 @@ export default {
         }
     },
 
-    methods: {
-
-        updateData() {
-            this.getData();
-        },
-
-        async getData() {
-
-            return await axios.get('/api/admin/view-Whitelist').then(res => {
-                console.log('trew',res)
-                this.loading = false;
-
-                this.data = res.data.data.map(row => {
-                    row.id = row.whitelist_host_id;
-                    row.edit_url = '/whitelist/' + row.whitelist_host_id  + '/edit';
-                    row.delete_url = `/api/admin/delete-whitelist-ip`;
-                    row.keyVal = 'whitelist_host_id';
-                    row.idVal = row.whitelist_host_id;
-                    return row
-                })
-            }).catch(err => {
-
-                this.loading = false;
-            })
-        }
+    components: {
+        'data-table': DynamicDataTable
     }
 };
 </script>

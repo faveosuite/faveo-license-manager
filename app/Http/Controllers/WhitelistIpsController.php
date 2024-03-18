@@ -22,13 +22,13 @@ class WhitelistIpsController extends Controller
         if(in_array($whitelist_host_ip,$bannedHosts)){
             return errorResponse($whitelist_host_ip .Lang::get('lang.already_exist_ip'), 500);
         }
-        $whitelist = AflWhitelistIps::updateOrCreate(
-            ['whitelist_host_id' => $id, 'whitelist_host_ip' => $whitelist_host_ip],
-            [
-                'whitelist_host_ip' => $whitelist_host_ip,
-                'whitelist_host_comments' => $whitelist_host_comments,
-            ]
-        );
+            $whitelist = AflWhitelistIps::updateOrCreate(
+                ['whitelist_host_id' => $id],
+                [
+                    'whitelist_host_ip' => $whitelist_host_ip,
+                    'whitelist_host_comments' => $whitelist_host_comments,
+                ]
+            );
 
        $responseMessage = Lang::get('lang.whitelist_' . ($id ? 'update' : 'add'));
        $statusCode = $id ? 200 : 201;
@@ -60,9 +60,22 @@ class WhitelistIpsController extends Controller
 
         return errorResponse(Lang::get('lang.invalid'), 400);
     }
-    public function view()
+    public function view(Request $request)
     {
-        $records = AflWhitelistIps::cursor()->map(function ($record) {
+        $perPage = $request->input('perPage', 10);
+        $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order','desc');
+        $sortField = $request->input('sort_field','whitelist_host_id');
+
+
+        $records = AflWhitelistIps::when($searchQuery, function ($query) use ($searchQuery) {
+            return $query->where('whitelist_host_ip', 'like', '%'.$searchQuery.'%')
+                ->orWhere('whitelist_host_comments', 'like', '%'.$searchQuery.'%');
+        })->orderBy($sortField, $sortOrder)
+        ->paginate($perPage, ['*'], 'page', $page);
+
+        $records->getCollection()->transform(function ($record) {
             return [
                 'whitelist_host_id' => $record->whitelist_host_id,
                 'whitelist_host_date' => $record->created_at->format('Y-m-d'), // Rename and format created_at
@@ -70,7 +83,7 @@ class WhitelistIpsController extends Controller
                 'whitelist_host_comments' => $record->whitelist_host_comments,
             ];
         });
-        return successResponse(Lang::get('lang.delete'), $records, 201);
+        return successResponse(Lang::get('lang.view_whitelist_ip'), $records, 201);
     }
 
 }

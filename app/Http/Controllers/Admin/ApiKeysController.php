@@ -131,9 +131,35 @@ class ApiKeysController extends Controller
         return successResponse(Lang::get('lang.Delete'), $removed_records, 200);
     }
 
-    public function show()
+    public function show(Request $request)
     {
-        return successResponse(Lang::get('lang.Api_show'), AflApiKeys::latest()->get());
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = $request->input('search_query');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $sortField = $request->input('sort_field','api_key_id');
+        $paginatedApiKeys = AflApiKeys::where(function($query) use ($searchQuery) {
+            $query->where('api_key_secret', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('api_key_description', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('api_key_ip', 'LIKE', '%' . $searchQuery . '%');
+        });
+
+        $sortOptions = [
+            'api_key_clients' => ['api_key_clients_add', 'api_key_clients_edit'],
+            'api_key_licenses' => ['api_key_licenses_add', 'api_key_licenses_edit'],
+            'api_key_products' => ['api_key_products_add', 'api_key_products_edit'],
+        ];
+
+        if (array_key_exists($sortField, $sortOptions)) {
+            foreach ($sortOptions[$sortField] as $field) {
+                $paginatedApiKeys->orderBy($field, $sortOrder);
+            }
+        } else {
+            $paginatedApiKeys->orderBy($sortField, $sortOrder);
+        }
+
+        $paginatedApiKeys = $paginatedApiKeys->paginate($perPage, ['*'], 'page', $page);
+        return successResponse(Lang::get('lang.Api_show'), $paginatedApiKeys, 200);
     }
 
     /**

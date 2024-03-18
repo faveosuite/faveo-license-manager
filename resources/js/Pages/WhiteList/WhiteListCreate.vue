@@ -49,8 +49,6 @@ import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
 import { getIdFromUrl } from '../../helpers/extraLogics';
 
-import moment from 'moment'
-
 import TextField from "../../components/Reusable/FormField/TextField.vue";
 
 export default {
@@ -72,8 +70,6 @@ export default {
             loading: false,
 
             apiEndpoint: '',
-
-            moment: moment,
 
             ipAddress: null,
 

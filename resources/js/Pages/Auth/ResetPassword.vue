@@ -191,52 +191,6 @@
                     }
                 }
             }
-
-            // onSubmit() {
-            //
-            //     if(this.isValid()){
-            //
-            //         if(this.password === this.repeat){
-            //
-            //             this.$Progress.start();
-            //
-            //             this.loading = true;
-            //
-            //              this.token = this.path[this.path.length-1];
-            //
-            //             this.token = this.path[this.path.length-1];
-            //
-            //             const data = {token : this.token, password : this.repeat}
-            //
-            //             axios.post('/api/reset/' + this.token,data).then(res=>{
-            //
-            //                 console.log(data)
-            //
-            //                 this.loading = false;
-            //
-            //                 successHandler(res,'reset');
-            //
-            //                 this.$Progress.finish();
-            //
-            //                 setTimeout(()=>{
-            //
-            //                     this.$router.push({ path:'/login',name: 'Login'});
-            //                 },3000)
-            //
-            //             }).catch(error=>{
-            //
-            //                 errorHandler(error,'reset');
-            //
-            //                 this.$Progress.fail();
-            //
-            //                 this.loading = false;
-            //             })
-            //         } else {
-            //
-            //             this.$store.dispatch('setValidationError', {'repeat' : 'Password does not match'})
-            //         }
-            //     }
-            // }
         },
 
         components: {

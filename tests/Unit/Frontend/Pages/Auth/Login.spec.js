@@ -52,7 +52,7 @@ describe('Login', () => {
                 plugins: [store],
                 mixins: [globalMixins],
                 stubs : ['text-field','loader','alert','router-link'],
-                mocks: { axios, $router: mockRouter }
+                mocks: { axios, $router: mockRouter, $route: {query : 'your-query'} }
             }
         })
     }
@@ -104,9 +104,9 @@ describe('Login', () => {
 
         setTimeout(async ()=>{
 
-        
+
             expect(axiosMock.history.post[0].url).toEqual('/api/login');
-            
+
             expect(mockRouter.push).toHaveBeenCalledWith('/login');
 
 
@@ -126,7 +126,7 @@ describe('Login', () => {
 
             expect(wrapper.vm.loading).toEqual(false);
 
-            // expect(mockRouter.push).not.toHaveBeenCalledWith('/dashboard')
+            expect(mockRouter.push).not.toHaveBeenCalledWith('/dashboard')
 
             done();
         },1);

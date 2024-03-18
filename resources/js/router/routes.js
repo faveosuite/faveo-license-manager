@@ -608,6 +608,8 @@ let whitelistMenu = {
 
 import ConfigurationSettings from '../Pages/Extra/ConfigurationSettings.vue';
 
+import ExceptionLogs from "../Pages/Extra/ExceptionLogs.vue";
+
 let extraMenu = {
 
 	path: '/tools',
@@ -631,7 +633,17 @@ let extraMenu = {
 			component: ConfigurationSettings,
 
 			meta: { title : 'configuration', crumb : { link: { name : 'dashboard', to : '/' }, active : 'configuration' } }
-		}
+		},
+        {
+
+            path: 'exception',
+
+            name: 'Exception Logs',
+
+            component: ExceptionLogs,
+
+            meta: { title : 'exception_logs', crumb : { link: { name : 'dashboard', to : '/' }, active : 'exception' } }
+        },
 	]
 }
 

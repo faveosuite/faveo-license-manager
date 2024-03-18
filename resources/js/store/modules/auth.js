@@ -51,7 +51,7 @@ const state = {
 
         axios.get('/api/admin/viewApiKeys').then(res => {
 
-            commit('updateApiKey',res.data.data[0].api_key_secret)
+            commit('updateApiKey',res.data.data.data[0].api_key_secret)
 
         }).catch(err => {
 

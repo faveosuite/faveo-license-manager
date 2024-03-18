@@ -62,6 +62,15 @@ app.component('tool-tip', Tooltip);
 import {ServerTable, ClientTable, EventBus} from 'v-tables-3';
 
 app.use(ClientTable)
+app.use(ServerTable)
+
+
+import mitt from 'mitt';
+const emitter = mitt();
+app.config.globalProperties.emitter = emitter;
+window.emitter = emitter;
+emitter.on('*', console.info.bind(console, 'event: '));
+
 
 import Alert from "./components/Reusable/Alert.vue";
 import Loader from "./components/Reusable/Loader.vue";

@@ -37,15 +37,13 @@
 </template>
 
 <script>
-import axios from "axios";
-import { errorHandler } from "../../helpers/responseHandler";
-import {lang} from "../../helpers/extraLogics";
+
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
     name: 'latest-product-report',
     data() {
         return {
-            data: [],
             columns: ['report_text', 'report_date_time','license_code', 'report_status'],
             options: {},
             counter: 0,
@@ -53,10 +51,15 @@ export default {
         }
     },
     beforeMount() {
-        this.getData();
+
+        const date_format = this.generalSetting.date_format.js_format;
+        const time_format = this.generalSetting.time_format.js_format;
+        const timezone = this.generalSetting.timezone.name;
 
         this.options = {
+
             columnsClasses: {
+
                 report_text: 'report_status',
 
                 report_date_time: 'report_date_time',
@@ -65,13 +68,15 @@ export default {
 
                 report_status: 'report_status'
             },
+
             templates: {
                 license_code(h, row) {
                     const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
                     return formattedLicenseCode;
                 },
                 report_date_time(h, row) {
-                    return row.report_date_time ? row.report_date_time : '----';
+
+                    return formatDateTime(row.report_date_time, timezone, date_format, time_format)
                 },
             },
             headings: {
@@ -89,19 +94,17 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.latest_product_reports; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    errorHandler(err, 'latest-product-report');
-                });
+
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type: Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
+    }
 };
 </script>
 <style>

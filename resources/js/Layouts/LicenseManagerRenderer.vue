@@ -3,7 +3,7 @@
         <div v-if="shouldShowProgressBar" class="progress color-shift-progress-bar">
             <div class="progress-bar" role="progressbar" :style="{ width: progressBarWidth }"></div>
         </div>
-        <router-view :versioning="versioning"></router-view>
+        <router-view :versioning="versioning" :generalSetting="generalSetting"></router-view>
     </div>
 </template>
 
@@ -12,6 +12,7 @@
 export default {
     props:{
         versioning : { type : String , default : ''},
+        generalSetting : {type : Object, default : () => {}},
     },
     data() {
         return {

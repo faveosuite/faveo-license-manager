@@ -37,9 +37,8 @@
 </template>
 
 <script>
-import {errorHandler} from "../../helpers/responseHandler";
-import axios from 'axios'
-import {lang} from "../../helpers/extraLogics";
+
+import {lang, formatDateTime} from "../../helpers/extraLogics";
 
 export default {
     name :'latest-callbacks',
@@ -47,8 +46,6 @@ export default {
     data(){
 
         return {
-
-            data: [],
 
             columns:['callback_domain','callback_ip','callback_date_time','callback_status'],
 
@@ -64,7 +61,9 @@ export default {
 
         const self =this;
 
-        this.getData();
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options ={
 
@@ -87,17 +86,17 @@ export default {
                 },
 
                 callback_date_time(h,row){
-                    return row.callback_date_time ?row.callback_date_time : '----';
 
+                    return formatDateTime(row.callback_date_time, timezone, date_format, time_format)
                 },
 
                 callback_ip(h,row){
                     return row.callback_ip ?row.callback_ip : '----';
-
                 },
             },
 
             headings: {
+
                 callback_domain: 'Domain',
 
                 callback_date_time: 'Date',
@@ -114,20 +113,17 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.afu_latest_callbacks; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false
 
-                    errorHandler(err, 'latest-callbacks')
-                });
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type : Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
+    }
 
 };
 

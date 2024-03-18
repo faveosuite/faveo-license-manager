@@ -1,3 +1,4 @@
+import store from "../index";
 
 const state = {
 
@@ -8,6 +9,7 @@ const state = {
  const getters = {
 
     getSettings: state => state.settings,
+
     getGeneralSettings(state){
         return state.settings && state.settings.SETTING_ID ? {
             SETTING_ID: state.settings.SETTING_ID,
@@ -79,7 +81,7 @@ const state = {
     setSettings(state,payload) {
 
         state.settings = payload
-    }
+    },
  }
 
  const actions = {
@@ -94,9 +96,10 @@ const state = {
 
             commit('setSettings',{})
 
-           return err
+           return err;
         });
-    }
+    },
+
  }
 
  export default {state, getters, mutations, actions}
