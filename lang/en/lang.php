@@ -26,7 +26,7 @@ return [
     'no_client' => 'No Contact was added to license manager',
     'not_found_client' => 'Contact does not exist',
     'recieve_forgot' => 'Reset instructions have been mailed to ',
-    'too_many_attempts' => 'Too many failed forgot password attempts. IP banned for 30 minutes.',
+    'too_many_attempts' => 'Too many failed forgot password attempts. IP banned for 15 minutes.',
     'junk' =>' Be sure to check your Junk folder if you do not see an email from us in your Inbox within a few minutes.',
     'no_client_update' => 'Contact details were not updated',
     'Destroy' => 'Record has been Deleted Successfully',
