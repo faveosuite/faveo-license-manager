@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\BannedHostRequest;
 use App\Models\AflBannedHosts;
 use App\Models\AflWhitelistIps;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -34,9 +35,9 @@ class BannedHostController extends Controller
     {
         $api_key_secret = $request->input('api_key_secret');
         $banned_host_ip = $request->input('banned_host_ip');
-        $banned_host_comments = $request->input('banned_host_comments');
-        $banned_host_blocks = $request->input('banned_host_blocks');
-        $banned_host_last_block_date = $request->input('banned_host_last_block_date');
+        $banned_host_comments = $request->input('banned_host_comments','');
+        $banned_host_blocks = $request->input('banned_host_blocks',1);
+        $banned_host_last_block_date = $request->input('banned_host_last_block_date', Carbon::now());
 
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
