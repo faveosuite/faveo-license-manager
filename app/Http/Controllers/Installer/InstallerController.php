@@ -244,6 +244,9 @@ class InstallerController extends Controller
         $ENV['LARAVEL_WEBSOCKETS_SSL_PASSPHRASE'] = 'null';
         $ENV['SESSION_SECURE_COOKIE'] = false;
         $ENV['CSRF_COOKIE_HTTP_ONLY'] = false;
+        $ENV['RECAPTCHA_SITE_KEY'] ='';
+        $ENV['VITE_RECAPTCHA_SITE_KEY'] ='"${RECAPTCHA_SITE_KEY}"';
+
         $config = '';
         foreach ($ENV as $key => $val) {
             $config .= "{$key}={$val}\n";

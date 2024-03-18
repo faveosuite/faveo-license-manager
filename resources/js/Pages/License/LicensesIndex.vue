@@ -1,222 +1,242 @@
 <template>
 
-	<div class="col-sm-12">
+    <div class="col-sm-12">
 
         <div class="row" v-if="loading">
 
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-		<alert componentName="dataTableModal" />
+        <alert componentName="dataTableModal" />
 
-		<div class="card card-light ">
+        <div class="card card-light ">
 
-			<div class="card-header">
+            <div class="card-header">
 
-				<h3 class="card-title">{{lang('licenses')}}</h3>
+                <h3 class="card-title">{{lang('licenses')}}</h3>
 
-				<div class="card-tools">
+                <div class="card-tools">
 
-					<router-link to="/licenses/create" class="btn-tool" v-tooltip="lang('create_license')">
+                    <router-link to="/licenses/create" class="btn-tool" v-tooltip="lang('create_license')">
 
-						<i class="fas fa-plus"></i>
-					</router-link>
-				</div>
-			</div>
+                        <i class="fas fa-plus"></i>
+                    </router-link>
+                </div>
+            </div>
 
-			<div class="card-body" id="my_licenses">
+            <div class="card-body" id="my_licenses">
 
-				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" alertComponentName="dataTableModal" scroll_to="licenses-list">
 
-                    <template v-slot:product_title="props">
+                </data-table>
 
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
+            </div>
 
-                    <template v-slot:license_status="props">
-
-                        <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
-
-                            {{ props.row.license_status ? 'Active' : 'Inactive'}}
-                        </span>
-                    </template>
-
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-				</v-client-table>
-			</div>
-		</div>
-	</div>
+        </div>
+    </div>
 </template>
 
 <script>
 
-	import axios from 'axios';
-  import {lang} from "../../helpers/extraLogics";
+import {lang, formatDateTime} from "../../helpers/extraLogics";
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import {useStore} from 'vuex';
+import {computed} from "vue";
 
-	export default {
+export default {
 
-		name: 'licenses-list',
+    name: 'licenses-list',
 
-		data() {
+    methods : {
+        lang
+    },
 
-			return {
-        loading: false,
+    props : {
+        generalSetting : {type : Object, default : () => {}},
+    },
 
-        data: '',
+    setup() {
 
-				columns: ['product_title', 'license_code', 'installations_count', 'callbacks_count',
-					'latest_callback_date', 'latest_license_date','actions'],
+        const store = useStore();
 
-				options: {},
+        return {
 
-				counter: 0
-			}
-		},
+            formattedTime : computed(()=>store.getters.formattedTime)
+        }
+    },
 
+    data() {
 
-		beforeMount() {
+        return {
 
-			const self = this;
+            loading: false,
 
-			this.getData();
+            data: '',
 
-			this.options = {
+            columns: ['product_title', 'license_code', 'license_order_number', 'installations_count', 'callbacks_count',
+                'latest_callback_date', 'latest_license_date','actions'],
 
-				sortIcon: {
+            options: {},
 
-					base: 'glyphicon',
+            counter: 0,
 
-					up: 'glyphicon-chevron-up',
+            endPoint : '/api/admin/viewLicenses?page=1',
+        }
+    },
 
-					down: 'glyphicon-chevron-down'
-				},
+    beforeMount() {
 
-				texts: { filter: '', limit: '' },
+        const self = this;
 
-				columnsClasses: {
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
-					product_title: 'license_product_title',
+        this.options = {
 
-					license_code: 'license_code',
+            sortIcon: {
 
-					installations_count: 'license_install',
+                base: 'glyphicon',
 
-					callbacks_count: 'license_callbacks',
+                up: 'glyphicon-chevron-up',
 
-					latest_callback_date: 'latest_callback_date',
+                down: 'glyphicon-chevron-down'
+            },
 
-                    latest_license_date: 'latest_license',
+            texts: { filter: '', limit: '' },
 
-                    actions:      'actions',
-				},
+            sortable:  ['product_title','license_code', 'license_order_number', 'installations_count', 'callbacks_count', 'latest_callback_date', 'latest_license_date'],
 
-				templates: {
-                    latest_license(h,row){
-                        return row.latest_license ? row.latest_license : '---';
-                    },
+            filterable:  ['product_title'],
 
-                    latest_callback(h,row){
-                        return row.latest_callback ? row.latest_callback : '---';
-                    },
+            requestAdapter(data) {
 
-                    license_code(h, row) {
-                        const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
-                        return formattedLicenseCode;
-                    },
+                return {
 
-					latest_license_date(h, row) {
+                    'sort_field' : data.orderBy ? data.orderBy : 'license_id',
 
-						return row.latest_license_date ? row.latest_license_date : '---'
-					},
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
 
-					latest_callback_date(h, row) {
+                    'search_query' : data.query,
 
-						return row.latest_callback_date ? row.latest_callback_date : '---';
-					},
+                     perPage : data.limit,
+                }
+            },
 
-				},
+            responseAdapter({data}) {
 
-				pagination: { chunk: 5, nav: 'fixed', edge: true },
+                return {
 
-				headings: {
+                    data: data.data.data.map(data => {
 
-					product_id: 'Product',
+                        data.edit_url = '/licenses/' + data.license_id + '/edit';
 
-					license_code: 'License Code',
+                        data.delete_url = '/api/admin/license/delete';
 
-					installations_count: 'Installations',
+                        data.keyVal = 'license_id';
 
-					callbacks_count: 'Callbacks',
+                        data.idVal = data.license_id;
 
-					latest_callback_date: 'Latest Callback',
+                        return data;
+                    }),
+                    count: data.data.total
+                }
+            },
 
-					latest_license_date: 'Latest License',
-					
+            columnsClasses: {
 
-					actions: 'Actions'
-				},
-			}
-		},
+                product_title: 'license_product_title',
 
-		methods: {
-      lang: lang,
-			updateData() {
+                license_code: 'license_code',
 
-				this.getData();
-			},
+                license_order_number : 'license_order_number',
 
-			getData() {
+                installations_count: 'license_install',
 
-                this.loading = true;
+                callbacks_count: 'license_callbacks',
 
-				axios.get('/api/admin/viewLicenses').then(res => {
+                latest_callback_date: 'latest_callback_date',
 
-                    this.loading = false;
+                latest_license_date: 'latest_license',
 
-					this.data = res.data.data.data.map(data => {
+                actions:      'actions',
+            },
 
-						data.edit_url = '/licenses/' + data.license_id + '/edit';
+            templates: {
 
-						data.delete_url = '/api/admin/license/delete';
+                latest_callback_date(h, row) {
 
-						data.keyVal = 'license_id';
+                    return formatDateTime(row.latest_callback_date, timezone, date_format, time_format)
+                },
 
-						data.idVal = data.license_id;
+                license_code(h, row) {
 
-						return data;
-					})
-				}).catch(err => {
+                    return row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
+                },
 
-                    this.loading = false;
-                })
-			}
-		}
-	};
+                latest_license_date(h, row) {
+
+                    return formatDateTime(row.latest_license_date, timezone, date_format, time_format)
+                },
+
+            },
+
+            pagination: { show : false },
+
+            headings: {
+
+                product_id: 'Product',
+
+                license_code: 'License Code',
+
+                license_order_number : 'Order Number',
+
+                installations_count: 'Installations',
+
+                callbacks_count: 'Callbacks',
+
+                latest_callback_date: 'Latest Callback',
+
+                latest_license_date: 'Latest License',
+
+                actions: 'Actions'
+            },
+        }
+    },
+
+    components : {
+
+        'data-table' : DynamicDataTable
+    }
+};
 </script>
 
 <style>
-	.license_product_title,
-	.license_code,
-	.license_install,
-	.license_callbacks,
-	.latest_callback_time,
-	.license_date {
-		max-width: 200px;
-		word-break: break-all;
-	}
+.license_product_title,
+.license_code,
+.license_install,
+.license_callbacks,
+.latest_callback_time,
+.license_date {
+    max-width: 200px;
+    word-break: break-all;
+}
 
-	#my_licenses .VueTables .table-responsive {
-		overflow-x: auto;
-		overflow-y: hidden;
-	}
+#my_licenses .VueTables .table-responsive {
+    overflow-x: auto;
+    overflow-y: hidden;
+}
 
-	#my_licenses .VueTables .table-responsive>table {
-		width: max-content;
-		min-width: 100%;
-		max-width: max-content;
-		overflow: auto !important;
-	}
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#my_licenses .VueTables .table-responsive>table {
+    width: max-content;
+    min-width: 100%;
+    max-width: max-content;
+    overflow: auto !important;
+}
 </style>

@@ -40,16 +40,14 @@
 </template>
 
 <script>
-import axios from 'axios';
-import {errorHandler} from "../../helpers/responseHandler";
-import {lang} from "../../helpers/extraLogics";
+
+import {lang, formatDateTime} from "../../helpers/extraLogics";
 
 export default {
     name: 'latest-installations',
 
     data() {
         return {
-            data: [], // Initialize as an empty array to hold the fetched data
             columns: ['license_code','installation_ip','installation_date','installation_domain'],
             options: {},
             counter: 0,
@@ -58,10 +56,17 @@ export default {
     },
 
     beforeMount() {
+
         const self = this;
-        this.getData();
+
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
+
         this.options = {
+
             columnsClasses: {
+
                 license_code: 'license_code',
 
                 installation_ip: 'installation_ip',
@@ -70,9 +75,13 @@ export default {
 
                 installation_domain: 'installation_domain',
             },
+
             templates: {
+
                 license_code(h, row) {
+
                     const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
+
                     return formattedLicenseCode;
                 },
 
@@ -82,17 +91,23 @@ export default {
                 },
 
                 installation_date(h, row) {
-                    return row.installation_date ? row.installation_date : '----';
+
+                    return formatDateTime(row.installation_date, timezone, date_format, time_format)
                 },
 
                 installation_domain(h, row) {
                     return row.installation_domain ? row.installation_domain : '----';
                 },
             },
+
             headings: {
+
                 license_code: 'License Code',
+
                 installation_date: 'Date',
+
                 installation_ip: 'IP',
+
                 installation_domain: 'Domain',
             },
         };
@@ -103,20 +118,17 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.afl_latest_installation; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false
 
-                    errorHandler(err, 'latest-installations')
-                });
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type : Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
+    }
 };
 </script>
 <style>

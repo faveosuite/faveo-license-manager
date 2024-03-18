@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 use Bugsnag\BugsnagLaravel\Facades\Bugsnag;
 use RuntimeException;
@@ -48,6 +50,7 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             $this->handleExceptionWhenApplicationIsNotReady();
             Bugsnag::notifyException($e);
+            $this->exceptionLogs($e);
         });
     }
 
@@ -58,6 +61,25 @@ class Handler extends ExceptionHandler
              exit();
          }
      }
+
+     private function exceptionLogs($e){
+         if ($this->shouldBeLoggedInDB($e) && isInstall()) {
+             // Log exception to database
+             \Logger::exception($e);
+         }
+     }
+
+    private function shouldBeLoggedInDB(Throwable $exception)
+    {
+        $notAllowedExceptions = [PDOException::class, NotFoundHttpException::class, AuthenticationException::class];
+        foreach ($notAllowedExceptions as $notAllowedException) {
+            if ($exception instanceof $notAllowedException) {
+                return false;
+            }
+        }
+
+        return true;
+    }
 
 
 }

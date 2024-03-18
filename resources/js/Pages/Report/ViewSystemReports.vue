@@ -19,26 +19,9 @@
 
             <div class="card-body" id="my_licenses">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
 
-                    <template v-slot:product_title="props">
-
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
-
-                    <template v-slot:report_status="props">
-
-                        <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
-
-                            {{ props.row.report_status ? 'Success' : 'Error'}}
-                        </span>
-                    </template>
-
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-                </v-client-table>
+                </data-table>
             </div>
         </div>
     </div>
@@ -46,15 +29,25 @@
 
 <script>
 
-import axios from 'axios';
-
+import {formatDateTime, lang} from '../../helpers/extraLogics'
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 export default {
 
     name: 'licenses-list',
 
+    methods: {
+        lang
+    },
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
+    },
+
     data() {
 
         return {
+
+            loading : false,
 
             data: '',
 
@@ -62,20 +55,19 @@ export default {
 
             options: {},
 
-            counter: 0
+            counter: 0,
+
+            endPoint : '/api/admin/reportSystem?page=1'
         }
-    },
-
-    created() {
-
-        this.emitter.on('refreshData', this.updateData);
     },
 
     beforeMount() {
 
         const self = this;
 
-        this.getData();
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options = {
 
@@ -89,6 +81,41 @@ export default {
             },
 
             texts: { filter: '', limit: '' },
+
+            sortable:  ['report_text', 'user_formatted', 'report_date_time', 'report_status'],
+
+            filterable : [ 'report_text' ],
+
+            requestAdapter(data) {
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : 'product_id',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                     perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.keyVal = 'product_id';
+
+                        data.idVal = data.product_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
+            },
 
             columnsClasses: {
 
@@ -109,39 +136,29 @@ export default {
 
             templates: {
 
-                product_title(createElement, row) {
-
-                    if(row.product_id) {
-
-                        return createElement('router-link', {
-                            attrs: {
-                                to: '/products/'+row.product_id+'/edit'
-                            }
-                        }, row.product_title);
-
-                    } else{
-                        return '---'
-                    }
-                },
-
                 license_code(h, row) {
 
                     return row.license_code ? row.license_code : '---';
                 },
 
+                report_date_time(h, row) {
+
+                    return formatDateTime(row.report_date_time, timezone, date_format, time_format)
+                },
+
                 license_date(h, row) {
 
-                    return row.license_date ? row.license_date : '---'
+                    return formatDateTime(row.license_date, timezone, date_format, time_format)
                 },
 
                 latest_callback_date_time(h, row) {
 
-                    return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
+                    return formatDateTime(row.latest_callback_date_time, timezone, date_format, time_format)
                 },
 
             },
 
-            pagination: { chunk: 5, nav: 'fixed', edge: true },
+            pagination: { show : false },
 
             headings: {
 
@@ -161,26 +178,9 @@ export default {
         }
     },
 
-    methods: {
+    components : {
 
-
-        getData() {
-
-            this.loading = true;
-
-            axios.get('/api/admin/reportSystem').then(res => {
-
-                this.loading = false;
-
-                this.data = res.data.map(data => {
-
-                    return data;
-                })
-            }).catch(err => {
-
-                this.loading = false;
-            })
-        }
+        'data-table' : DynamicDataTable
     }
 };
 </script>

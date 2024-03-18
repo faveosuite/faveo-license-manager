@@ -376,8 +376,6 @@ export default {
 
                     this.loading = false;
 
-                    console.log('this',this.api_key_description),
-
                         successHandler(res, 'api_keys');
 
                     if (!this.api_key_id) {

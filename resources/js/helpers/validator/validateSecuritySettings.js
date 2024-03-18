@@ -2,7 +2,7 @@ import store from '../../store'
 
 import { Validator } from '../easy-validator';
 
-import { lang } from '../../helpers/extraLogics';
+import { lang } from '../extraLogics';
 
 export function validateSecuritySettings(data) {
 

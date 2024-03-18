@@ -2,326 +2,311 @@
 
     <div class="col-sm-12">
 
-        <div class="alert alert-info">
-            <p>Configure general software settings, enable and disable individual options.</p>
-        </div>
-
-        <div class="row" v-if="!hasDataPopulated || loading">
+        <div class="row" v-if="loading">
 
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="settings" />
+        <alert componentName="google-recaptcha" />
 
         <div class="card card-light" v-if="hasDataPopulated">
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang(title)}}</h3>
+                <h3 class="card-title">{{trans(title)}}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <dynamic-select :label="lang('smart_reports')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="SMART_REPORTS" :elements="smartReports"
-                        :value="smartReportsType" :onChange="onChange">
-                    </dynamic-select>
+                    <text-field :label="trans('google_site_key')" v-tooltip="lang('recaptcha')" :value="google_site_key"
+                                :onChange="onChange" name="google_site_key" type="text" :required="true" classname="col-sm-6">
 
-                    <dynamic-select :label="lang('smart_tables')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="true" name="SMART_TABLES" :elements="smartTables" :value="smartTablesType"
-                        :onChange="onChange">
-                    </dynamic-select>
+                    </text-field>
+
+                    <text-field :label="trans('google_secret_key')" v-tooltip="lang('recaptcha')" :value="google_secret_key"
+                                :onChange="onChange" :required="true" name="google_secret_key" type="password" classname="col-sm-6">
+
+                    </text-field>
                 </div>
+
+                <hr>
 
                 <div class="row">
 
-                    <dynamic-select :label="lang('records_per_page')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="RECORDE_ON_ADMIN_PAGE" :elements="recordsPerPage"
-                        :value="recordsPerPageType" optionLabel="title" :onChange="onChange">
-                    </dynamic-select>
+                    <text-field :label="trans('agora_invoicing_url')" :value="agora_invoicing_url" :onChange="onChange"
+                                name="agora_invoicing_url" :required="true" type="text" classname="col-sm-6">
 
-                    <dynamic-select :label="lang('records_on_index_page')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="RECORDE_ON_INDEX_PAGE" :elements="recordIndexPage"
-                        :value="recordIndexPageType" optionLabel="title" :onChange="onChange">
-                    </dynamic-select>
-                </div>
+                    </text-field>
 
-                <div class="row">
+                    <dynamic-select name="timezone" apiEndpoint="/api/admin/timezones" :multiple="false" label="Timezone Settings" :onChange="onChange"
+                                    classname="col-sm-6" :value="timezone" optionLabel="location" :required="true">
 
-                    <dynamic-select :label="lang('search_result_limit')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="RECORDE_ON_SEARCH_PAGE" :elements="searchLimit"
-                        :value="searchLimitType" optionLabel="title" :onChange="onChange">
-                    </dynamic-select>
-
-                    <dynamic-select :label="lang('archive_older_records')" :multiple="false" classname="col-sm-6"
-                        :strlength="35" :required="true" name="RECORDE_ARCHIVE_DAYS" :elements="archiveOlderRecords"
-                        :value="archiveOlderRecordsType" optionLabel="title" :onChange="onChange">
                     </dynamic-select>
                 </div>
 
+                <hr>
+
                 <div class="row">
 
-                    <dynamic-select :label="lang('timezone')" :multiple="false" classname="col-sm-6" :strlength="35"
-                        :required="true" name="TIMEZONE" :elements="timezones" :value="selectedTimezone"
-                        :onChange="onChange" optionLabel="title">
+                    <dynamic-select name="date_format" apiEndpoint="api/admin/date-formats" :multiple="false" label="Date Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" :value="date_format" optionLabel="format" :required="true" :showPreview="previewMethod(date_format)">
+
                     </dynamic-select>
 
+                    <dynamic-select name="time_format" apiEndpoint="api/admin/time-formats" :multiple="false" label="Time Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" :showPreview="timeFormat(time_format)" :value="time_format" optionLabel="hours" :required="true">
+
+                    </dynamic-select>
+                </div>
+
+                <div>
+                    <br>
+                    <div v-if="!verified" class="row">
+
+                        <div class="col-sm-6">
+
+                            <custom-loader :animation-duration="4000" :size="30"/>
+                        </div>
+                    </div>
+
+                    <recaptcha-field v-if="verified && google_site_key" :node="{}"
+                                     name="recaptcha"
+                                     :siteKeyValue="google_site_key"
+                                     captchaVersion="v3"
+                                     :verifyCaptcha="verifyCaptcha">
+
+                    </recaptcha-field>
                 </div>
             </div>
 
             <div class="card-footer">
 
-                <button class="btn btn-primary" @click="onSubmit()"><i
-                        :class="iconClass"></i>&nbsp;&nbsp;{{lang(btnName)}}</button>
+                <button class="btn btn-primary mr-2" :disabled="!recaptchaVerified" @click="onSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
+
+                <button class="btn btn-danger" @click="onReset"> <i :class="iconUndo"></i> {{ trans('Reset') }}</button>
             </div>
+
         </div>
     </div>
 </template>
 
 <script>
 
-    import axios from 'axios'
+import axios from 'axios'
 
-    import { successHandler, errorHandler } from '../../helpers/responseHandler';
+import DatatableDynamicSelect from "../../components/Reusable/FormField/DatatableDynamicSelect.vue";
 
-    import { getIdFromUrl } from '../../helpers/extraLogics';
+import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
-    import { validateGeneralSettings } from "../../helpers/validator/validateGeneralSettings.js";
+import moment from 'moment'
 
-    import moment from 'moment'
+import {lang} from "../../helpers/extraLogics";
 
-    import DynamicSelect from "../../components/Reusable/FormField/DynamicSelect.vue";
+import TextField from "../../components/Reusable/FormField/TextField.vue";
 
-    export default {
+import RecaptchaField from "../../components/Reusable/FormField/RecaptchaField.vue";
 
-        name: 'General-Settings',
+import {validateGeneralSettings} from "../../helpers/validator/validateGeneralSettings";
 
-        data() {
+export default {
 
-            return {
+    name: 'google-recaptcha',
 
-                title: 'general_settings',
+    data() {
 
-                iconClass: 'fas fa-save',
+        return {
 
-                btnName: 'save',
+            title: 'general-settings',
 
-                hasDataPopulated: false,
+            iconClass: 'fas fa-save',
 
-                loading: false,
+            iconUndo : 'fas fa-undo',
 
-                apiEndpoint: '',
+            btnName: 'save',
 
-                moment: moment,
+            verified: true,
 
-                settingId: 'new',
+            recaptchaVerified: '',
 
-                timezones: [],
+            hasDataPopulated: false,
 
-                selectedTimezone: null,
+            loading: true,
 
-                smartReports: [
-                    { name: 'Enabled', value: 1 },
-                    { name: 'Disabled', value: 0 }
-                ],
+            apiEndpoint: '',
 
-                smartReportsType: null,
+            moment: moment,
 
-                smartTables: [
-                    { name: 'Enabled', value: 1 },
-                    { name: 'Disabled', value: 0 }
-                ],
+            responseData: '',
 
-                smartTablesType: null,
+            google_site_key: '',
 
-                recordsPerPage: [],
+            google_secret_key: '',
 
-                recordsPerPageType: null,
+            agora_invoicing_url: '',
 
-                recordIndexPage: [],
+            time_format : '',
 
-                recordIndexPageType: null,
+            timezone : '',
 
-                searchLimit: [],
+            date_format : ''
 
-                searchLimitType: null,
-
-                archiveOlderRecords: [],
-
-                archiveOlderRecordsType: null,
-            }
-        },
-
-        async beforeMount() {
-
-            const path = window.location.pathname
-
-            await this.getGeneralDropDownOptions()
-
-            this.loadData();
-        },
-
-        methods: {
-
-            async loadData() {
-
-                this.loading = true;
-
-                this.hasDataPopulated = false;
-
-                await this.$store.dispatch('fetchSettings');
-
-                this.setFormData()
-
-                this.hasDataPopulated = true;
-
-
-                this.loading = false;
-
-            },
-            async getGeneralDropDownOptions() {
-                this.loading = true;
-
-                return await axios.get("/api/admin/generalDropdown").then((res) => {
-
-                    const options = res.data
-
-                    if (options.Timezon) {
-                        this.timezones = options.Timezon
-                    }
-                    if (options['records on admin page']) {
-                        this.recordsPerPage = options['records on admin page']
-                    }
-                    if (options['records on index page']) {
-                        this.recordIndexPage = options['records on index page']
-                    }
-                    if (options['records on search page']) {
-                        this.searchLimit = options['records on search page']
-                    }
-                    if (options['records on archieve days']) {
-                        this.archiveOlderRecords = options['records on archieve days']
-                    }
-
-                    this.loading = false;
-
-
-                }).catch((err) => {
-
-                    this.loading = false;
-
-                });
-            },
-
-            setFormData() {
-                const generalSetting = this.$store.getters['getGeneralSettings']
-
-                if (generalSetting) {
-
-                    this.settingId = generalSetting.SETTING_ID ?? 'new'
-
-                    this.smartReportsType = this.smartReports.find((opt) => {
-                        return opt.value === generalSetting.SMART_REPORTS
-                    })
-
-                    this.smartTablesType = this.smartTables.find((opt) => {
-                        return opt.value === generalSetting.SMART_TABLES
-                    })
-
-                    this.selectedTimezone = this.timezones.find((opt) => {
-                        return opt.value === generalSetting.TIMEZONE
-                    })
-
-                    this.archiveOlderRecordsType = this.archiveOlderRecords.find((opt) => {
-                        return opt.value === generalSetting.RECORDS_ARCHIVE_DAYS
-                    })
-
-                    this.recordsPerPageType = this.recordsPerPage.find((opt) => {
-                        return opt.value === generalSetting.RECORDS_ON_ADMIN_PAGE
-                    })
-
-                    this.recordIndexPageType = this.recordIndexPage.find((opt) => {
-                        return opt.value === generalSetting.RECORDS_ON_INDEX_PAGE
-                    })
-
-                    this.searchLimitType = this.searchLimit.find((opt) => {
-                        return opt.value === generalSetting.RECORDS_ON_SEARCH_PAGE
-                    })
-                }
-            },
-
-            onChange(value, name) {
-
-                if (name === 'SMART_REPORTS') {
-                    this.smartReportsType = value
-                } else if (name === 'SMART_TABLES') {
-                    this.smartTablesType = value
-                } else if (name === 'RECORDE_ON_ADMIN_PAGE') {
-                    this.recordsPerPageType = value
-                } else if (name === 'RECORDE_ON_INDEX_PAGE') {
-                    this.recordIndexPageType = value
-                } else if (name === 'RECORDE_ON_SEARCH_PAGE') {
-                    this.searchLimitType = value
-                } else if (name === 'RECORDE_ARCHIVE_DAYS') {
-                    this.archiveOlderRecordsType = value
-                } else if (name === 'TIMEZONE') {
-                    this.selectedTimezone = value
-                }
-            },
-
-            isValid() {
-
-                const { errors, isValid } = validateGeneralSettings(this.$data);
-
-                return isValid;
-            },
-
-            async onSubmit() {
-
-                if (this.isValid()) {
-
-                    this.loading = true
-
-                const formData = {
-
-                    SMART_REPORTS: this.smartReportsType ? this.smartReportsType.value : null,
-
-                    SMART_TABLES: this.smartTablesType ? this.smartTablesType.value : null,
-
-                    TIMEZONE: this.selectedTimezone ? this.selectedTimezone.value : null,
-
-                    RECORDE_ARCHIVE_DAYS: this.archiveOlderRecordsType ? this.archiveOlderRecordsType.value : null,
-
-                    RECORDE_ON_ADMIN_PAGE: this.recordsPerPageType ? this.recordsPerPageType.value : null,
-
-                    RECORDE_ON_INDEX_PAGE: this.recordIndexPageType ? this.recordIndexPageType.value : null,
-
-                    RECORDE_ON_SEARCH_PAGE: this.searchLimitType ? this.searchLimitType.value : null,
-                }
-
-                await axios.post(`/api/admin/generalsettings/${this.settingId}`, formData).then(async (res) => {
-
-
-                    successHandler(res, 'settings');
-
-                    await this.$store.dispatch('fetchSettings');
-
-                    this.loading = false;
-
-                }).catch((err) => {
-
-                    this.loading = false;
-
-                    errorHandler(err, 'settings');
-                });
-            }
         }
     },
 
-        components: {
+    beforeMount() {
 
-            "dynamic-select": DynamicSelect,
-        }
+        this.getProducts();
+    },
+
+    methods: {
+        lang,
+
+        verifyCaptcha(value) {
+
+            this.recaptchaVerified = value;
+        },
+
+        previewMethod(value) {
+
+            return value ? moment(new Date()).format(value.js_format) : ''
+        },
+
+        timeFormat(value) {
+
+            return value ? moment(new Date()).format(value.js_format) : ''
+        },
+
+        getProducts() {
+
+            this.loading = true;
+
+            this.hasDataPopulated = false;
+
+            axios.get('/api/admin/common-setting/get').then(res => {
+
+                this.updateStatesWithData(res.data.data);
+
+                this.loading = false;
+
+                this.hasDataPopulated = true;
+
+            }).catch(err=>{
+
+                this.loading = false;
+            })
+        },
+
+        onChange(option, name) {
+
+            this.recaptchaVerified = '';
+
+            this.verified = false;
+
+            setTimeout(()=>{
+
+                this.verified = true
+            },2000)
+
+            this[name] = option;
+        },
+
+         onSubmit() {
+
+            if(this.isValid()) {
+
+                this.loading = true;
+
+                const formData = {};
+
+                formData['google_site_key'] = this.google_site_key;
+
+                formData['google_secret_key'] = this.google_secret_key;
+
+                formData['g-recaptcha-response'] = this.recaptchaVerified;
+
+                formData['agora_invoicing_url'] = this.agora_invoicing_url;
+
+                formData['date_format'] = this.date_format.id;
+
+                formData['time_format'] = this.time_format.id;
+
+                formData['timezone'] = this.timezone.id
+
+                axios.post('/api/admin/common-setting', formData).then(res => {
+
+                    this.loading = false;
+
+                    successHandler(res,'google-recaptcha');
+
+                    this.getProducts()
+
+                }).catch(err => {
+
+                    this.loading = false;
+
+                    errorHandler(err,'google-recaptcha');
+                });
+
+                this.loading = false;
+
+            }
+        },
+
+        isValid() {
+
+            const {errors, isValid} = validateGeneralSettings(this.$data);
+
+            return isValid;
+        },
+
+         onReset() {
+
+            this.loading = true;
+
+            axios.post('/api/admin/common-setting/reset').then(res => {
+
+                this.loading = false;
+
+                successHandler(res,'google-recaptcha');
+
+                this.getProducts()
+
+            }).catch(err => {
+
+                this.loading = false;
+
+                errorHandler(err,'google-recaptcha');
+            });
+
+            this.loading = false;
+        },
+
+        updateStatesWithData(data) {
+
+            const self = this;
+
+            const stateData = this.$data;
+
+            Object.keys(data).map(key => {
+
+                if (stateData.hasOwnProperty(key)) {
+
+                    self[key] = data[key];
+                }
+            });
+        },
+    },
+
+    components: {
+
+        "text-field": TextField,
+
+        "dynamic-select" : DatatableDynamicSelect,
+
+        "recaptcha-field": RecaptchaField
+
     }
+}
 </script>

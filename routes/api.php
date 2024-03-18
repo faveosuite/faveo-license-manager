@@ -11,6 +11,8 @@ use App\Http\Controllers\Admin\EmailsController;
 use App\Http\Controllers\Admin\EmailSettingsController;
 use App\Http\Controllers\Admin\InstallationController;
 use App\Http\Controllers\Admin\LicenseController;
+use App\Http\Controllers\Admin\LogViewController;
+use App\Http\Controllers\Admin\LogWriteController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ReportsController;
@@ -25,6 +27,7 @@ use App\Http\Controllers\AfuCallbacks\FetchQueryController;
 use App\Http\Controllers\AfuCallbacks\GetAllVersionsController;
 use App\Http\Controllers\AfuCallbacks\GetVersionsController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\CommonSettingController;
 use App\Http\Controllers\EditProfilesController;
 use App\Http\Controllers\Update\AfuProductsController;
 use App\Http\Controllers\Update\AfuVersionsController;
@@ -66,6 +69,7 @@ Route::post('/forgot', [AuthController::class, 'forgot']);
 Route::post('/reset', [AuthController::class, 'reset']);
 Route::post('/save-debug-value', [SettingsController::class, 'debuggerSettings'])->name('save-debug-value');
 Route::post('/saveTokenForDebugger', [SettingsController::class, 'SaveTokenForDebugger']);
+Route::get('recaptchaStatus',[AuthController::class,'getRecaptchaStatus']);
 
 /*************************************** CALLBACK FROM FAVEO TO LICENSE AND UPDATE *******************************************/
 
@@ -152,6 +156,14 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('emailDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::post('emailSettings', [EmailSettingsController::class, 'postSettingsEmail']);
 
+    Route::post('common-setting', [CommonSettingController::class, 'createOrUpdateCommonSetting']);
+    Route::get('common-setting/get', [CommonSettingController::class, 'getCommonSetting']);
+    Route::post('common-setting/reset', [CommonSettingController::class, 'clearCommonSetting']);
+    Route::get('timezones', [CommonSettingController::class, 'getDropDownForTimezone']);
+    Route::get('date-formats', [CommonSettingController::class, 'getDropDownForDateFormat']);
+    Route::get('time-formats', [CommonSettingController::class, 'getDropDownForTimeFormat']);
+
+
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
       Route::get('cleanSettings', [SettingsController::class, 'dropForCleanUpSettings']);
       Route::post('saveintervalSettings', [SettingsController::class, 'saveintervalSettings']);
@@ -175,6 +187,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 
     //CONFIGURATION GENERATOR
     Route::post('config', [ConfigGenerateController::class, 'configGenerate']);
+
+    //EXCEPTION LOGS
+    Route::get('logs/exception',[LogViewController::class,'getExceptionLogs']);
 
     //SEARCH
     Route::post('search', [SearchController::class, 'search']);

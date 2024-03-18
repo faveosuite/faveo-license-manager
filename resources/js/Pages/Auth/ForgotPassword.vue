@@ -64,7 +64,7 @@
 
   import {useStore} from "vuex";
 
-  import {computed} from "vue";
+  import {computed, onMounted, ref} from "vue";
 
   export default {
 
@@ -73,10 +73,53 @@
       setup() {
 
           const store = useStore();
+          const getUserToken = computed(() => store.getters.getUserToken);
+          const recaptchaToken = ref(null);
+          const siteKey = ref(null);
+
+          const loadRecaptchaScript = () => {
+              return new Promise((resolve, reject) => {
+                  const script = document.createElement('script');
+                  script.src = 'https://www.google.com/recaptcha/api.js?render=' + siteKey.value;
+                  script.onload = resolve;
+                  script.onerror = reject;
+                  document.head.appendChild(script);
+              });
+          };
+
+          const generateRecaptchaToken = () => {
+
+              return new Promise((resolve, reject) => {
+                  grecaptcha.ready(() => {
+                      grecaptcha.execute(siteKey.value, { action: 'submit' }).then(resolve).catch(reject);
+                  });
+              })
+          }
+
+          const getSiteKey = async() => {
+
+              await axios.get('/api/recaptchaStatus')
+                  .then((res) => siteKey.value = res.data.site_key)
+                  .catch(error => {
+
+                  })
+          }
+
+          onMounted(async () => {
+              try {
+                  await getSiteKey();
+                  await loadRecaptchaScript();
+                  recaptchaToken.value = await generateRecaptchaToken();
+              } catch (error) {
+
+              }
+          });
 
           return {
-              // getter
-              getUserToken: computed(() => store.getters.getUserToken)
+              getUserToken,
+              recaptchaToken,
+              generateRecaptchaToken,
+              siteKey,
           };
       },
 
@@ -137,6 +180,9 @@
           let data = {}
 
           data['admin_email'] = this.email;
+            if(this.siteKey){
+                data['g-recaptcha-response'] = this.recaptchaToken
+            }
 
           axios.post("/api/forgot", data).then((res) => {
 
@@ -150,11 +196,19 @@
 
             }, 4000);
 
-          }).catch((err) => {
+          }).catch(async (err) => {
 
             this.loading = false;
 
             errorHandler(err, 'forgot');
+
+              if (this.siteKey) {
+                  try {
+                      this.recaptchaToken = await this.generateRecaptchaToken();
+                  } catch (error) {
+
+                  }
+              }
           });
         }
       }

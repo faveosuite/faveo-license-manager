@@ -18,38 +18,43 @@
 
 			<div class="card-body" id="my_installations">
 
-				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" alertComponentName="dataTableModal" :dataColumns="columns" :option="options" scroll_to="licenses-list">
 
-                    <template v-slot:product_title="props">
+                </data-table>
 
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
-
-                    <template v-slot:installation_status="props">
-
-                        <span :style="{ color: props.row.installation_status ? 'green' : 'red' }">
-
-                            {{ props.row.installation_status ? 'Active' : 'Inactive'}}
-                        </span>
-                    </template>
-
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-				</v-client-table>
-			</div>
+            </div>
 		</div>
 	</div>
 </template>
 
 <script>
 
-	import axios from 'axios';
+import {formatDateTime, lang} from '../../helpers/extraLogics'
+    import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+    import {useStore} from "vuex";
+    import {computed} from "vue";
 
 	export default {
 
 		name: 'installations-list',
+
+        methods : {
+            lang
+        },
+
+        setup() {
+
+            const store = useStore();
+
+            return {
+
+                formattedTime : computed(()=>store.getters.formattedTime)
+            }
+        },
+
+        props : {
+            generalSetting : {type : Object, default : () => {}},
+        },
 
 		data() {
 
@@ -63,20 +68,19 @@
 
 				counter: 0,
 
-				loading: false
+				loading: false,
+
+                endPoint : '/api/admin/viewInstallations?page=1',
 			}
-		},
-
-		created() {
-
-			this.emitter.on('refreshData', this.updateData);
 		},
 
 		beforeMount() {
 
 			const self = this;
 
-			this.getData();
+            const date_format = this.generalSetting.date_format.js_format
+            const time_format = this.generalSetting.time_format.js_format
+            const timezone = this.generalSetting.timezone.name
 
 			this.options = {
 
@@ -90,6 +94,44 @@
 				},
 
 				texts: { filter: '', limit: '' },
+
+                sortable:  ['product_title', 'license_code', 'total_installations', 'latest_installation_date', 'total_installations', 'installation_status'],
+
+                filterable : [ 'product_title' ],
+
+                requestAdapter(data) {
+
+                    return {
+
+                        'sort_field' : data.orderBy ? data.orderBy : 'installation_id',
+
+                        'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                        'search_query' : data.query,
+
+                         perPage : data.limit,
+                    }
+                },
+
+                responseAdapter({data}) {
+
+                    return {
+
+                        data: data.data.data.map(data => {
+
+                            data.edit_url = '/installations/' + data.installation_id + '/edit';
+
+                            data.delete_url = '/api/admin/installations/delete';
+
+                            data.keyVal = 'installation_id';
+
+                            data.idVal = data.installation_id;
+
+                            return data;
+                        }),
+                        count: data.data.total
+                    }
+                },
 
 				columnsClasses: {
 
@@ -111,13 +153,13 @@
                         return formattedLicenseCode;
                     },
 
-					latest_installation_date(h, row) {
+                    latest_installation_date(h, row) {
 
-						return row.latest_installation_date ? row.latest_installation_date : '---';
-					}
+                        return formatDateTime(row.latest_installation_date, timezone, date_format, time_format)
+                    },
 				},
 
-				pagination: { chunk: 5, nav: 'fixed', edge: true },
+				pagination: { show : false },
 
 				headings: {
 
@@ -136,39 +178,10 @@
 			}
 		},
 
-		methods: {
+        components : {
 
-			updateData() {
-
-				this.getData();
-			},
-
-			getData() {
-
-				this.loading = true;
-
-				axios.get('/api/admin/viewInstallations').then(res => {
-
-					this.loading = false;
-
-					this.data = res.data.data.map(data => {
-
-						data.edit_url = '/installations/' + data.installation_id + '/edit';
-
-						data.delete_url = '/api/admin/installations/delete';
-
-						data.keyVal = 'installation_id';
-
-						data.idVal = data.installation_id;
-
-						return data;
-					})
-				}).catch(err => {
-
-					this.loading = false;
-				})
-			}
-		}
+            'data-table' : DynamicDataTable
+        }
 	};
 </script>
 

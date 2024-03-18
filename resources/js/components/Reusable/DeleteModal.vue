@@ -122,7 +122,7 @@
 
 			afterRespond(){
 
-				this.emitter.emit('refreshData');
+                window.emitter.emit('refreshData')
 
 				this.onClose();
 

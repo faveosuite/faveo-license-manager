@@ -2,8 +2,8 @@
 
 use App\Models\AflSettings;
 use App\Http\Controllers\PhpMailController;
-use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Lang;
 //check Auto Faveo Licenser core configuration and return an array with error messages if something wrong
 function aflCheckSettings()
 {

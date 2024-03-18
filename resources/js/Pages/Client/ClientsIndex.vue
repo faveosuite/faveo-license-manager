@@ -26,31 +26,10 @@
 
             <div class="card-body" id="my_clients">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" alertComponentName="dataTableModal" :dataColumns="columns" :option="options">
 
-                    <template v-slot:full_name="props">
+                </data-table>
 
-                        <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.full_name }}
-                        </router-link>
-                    </template>
-                    <template v-slot:client_email="props">
-
-                        <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.client_email }}
-                        </router-link>
-                    </template>
-
-                    <template v-slot:client_status="props">
-
-	<span :style="{ color: props.row.client_status ? 'green' : 'red' }">
-
-	{{ props.row.client_status ? 'Active' : 'Inactive' }}
-	</span>
-                    </template>
-
-                    <template v-slot:actions="props">
-                        <table-actions :data="props.row" :disabled="getUserData"></table-actions>
-                    </template>
-                </v-client-table>
             </div>
         </div>
     </div>
@@ -58,10 +37,10 @@
 
 <script>
 
-import axios from 'axios';
 import {useStore} from "vuex";
 import {computed} from "vue";
-import {lang} from "../../helpers/extraLogics";
+import {formatDateTime, lang} from "../../helpers/extraLogics";
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
     setup() {
@@ -69,13 +48,14 @@ export default {
         const store = useStore();
 
         return {
-            // getter
             getUserData: computed(() => store.getters.getUserData)
         };
     },
     data() {
 
         return {
+
+            loading : false,
 
             data: '',
 
@@ -86,18 +66,22 @@ export default {
             counter: 0,
 
             disabled: true,
+
+            endPoint : `/api/admin/viewClients/${this.getUserData.client_id}?page=1`
         }
     },
 
-    created() {
-        this.emitter.on('refreshData', this.getData);
+    props : {
+        generalSetting : {type : Object, default : () => {}},
     },
 
     beforeMount() {
 
         const self = this;
 
-        this.getData();
+        const date_format = this.generalSetting.date_format.js_format;
+        const time_format = this.generalSetting.time_format.js_format;
+        const timezone = this.generalSetting.timezone.name;
 
         this.options = {
 
@@ -126,12 +110,53 @@ export default {
             },
 
             templates: {
+
                 client_active_date(h, row) {
-                    return row.client_active_date ? row.client_active_date : '---';
+
+                    return formatDateTime(row.client_active_date, timezone, date_format, time_format)
                 },
             },
 
-            pagination: {chunk: 5, nav: 'fixed', edge: true},
+            pagination: { show : false },
+
+            sortable:  ['full_name', 'client_email', 'client_role', 'client_active_date', 'client_status'],
+
+            filterable : [ 'full_name' ],
+
+            requestAdapter(data) {
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : 'client_id',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                     perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.edit_url = '/clients/' + data.client_id + '/edit';
+
+                        data.delete_url = '/api/admin/clients/delete';
+
+                        data.keyVal = 'client_id';
+
+                        data.idVal = data.client_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
+            },
 
             headings: {
 
@@ -154,40 +179,11 @@ export default {
 
         lang: lang,
 
-        updateData() {
+    },
 
-            this.getData();
-        },
+    components : {
 
-        getData() {
-
-            this.loading = true;
-
-            axios.get('/api/admin/viewClients/' + this.getUserData.client_id)
-
-                .then(res => {
-                    this.loading = false;
-
-                    this.data = res.data.data.map(data => {
-
-                        data.edit_url = '/clients/' + data.client_id + '/edit';
-
-                        data.delete_url = '/api/admin/clients/delete';
-
-                        data.keyVal = 'client_id';
-
-                        data.idVal = data.client_id;
-
-                        return data;
-                    })
-                    if (this.data.length % 10 === 0 && this.data.length !== 0) {
-                        this.counter--;
-                    }
-                }).catch(err => {
-
-                this.loading = false;
-            })
-        }
+        'data-table' : DynamicDataTable
     }
 };
 </script>
