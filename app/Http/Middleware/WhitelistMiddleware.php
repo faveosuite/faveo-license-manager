@@ -18,25 +18,23 @@ class WhitelistMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-
         $settings = AflSettings::first();
-        $whitelistedAccess = $settings->WHITELISTED_ACCESS;
-        if ($whitelistedAccess == 1) {
-            $whitelistedIPsString = AflWhitelistIps::pluck('whitelist_host_ip')->toArray();
-            $clientIP = $request->ip();
-            if (!in_array($clientIP, $whitelistedIPsString)) {
-                return errorResponse('Access denied', 403);
-            }
-        }
-        $bannedHosts = $settings->BANNED_HOSTS;
+        $clientIP = $request->ip();
 
-        if ($bannedHosts == 1) {
+        if ($settings->WHITELISTED_ACCESS == 1 || $settings->BANNED_HOSTS == 1) {
+            $whitelistedIPs = AflWhitelistIps::pluck('whitelist_host_ip')->toArray();
             $bannedIPs = AflBannedHosts::pluck('banned_host_ip')->toArray();
-            $clientIP = $request->ip();
-            if (in_array($clientIP, $bannedIPs)) {
-                return errorResponse('Access denied', 403);
+
+            if ($settings->WHITELISTED_ACCESS == 1 && !empty($whitelistedIPs) && !in_array($clientIP, $whitelistedIPs)) {
+                return errorResponse('Access denied', 400);
+            }
+
+            if ($settings->BANNED_HOSTS == 1 && !empty($bannedIPs) && in_array($clientIP, $bannedIPs)) {
+                return errorResponse('Access denied', 400);
             }
         }
+
         return $next($request);
+
     }
 }
