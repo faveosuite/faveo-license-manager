@@ -9,6 +9,7 @@ use App\Http\Requests\Settings\EmailSettingRequest;
 use App\Http\Requests\Settings\GeneralSettingsRequest;
 use App\Http\Requests\Settings\SecuritySettingRequest;
 use App\Models\AflSettings;
+use App\Models\GoogleRecaptchaSetting;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -447,11 +448,9 @@ class SettingsController extends Controller
         } else {
             return redirect('/login');
         }
-
     }
     public function getDebugger()
     {
-
         try {
             $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
             return response()->json(['debugger' => $debuggerValue]);
@@ -481,6 +480,49 @@ class SettingsController extends Controller
             return errorResponse(trans('lang.cron-command-copied').' '.trans('lang.please_enable_php_exec_for_cronjob_check'));
         } catch(\Exception $e) {
             return errorResponse($e->getMessage());
+        }
+    }
+
+    public function createOrUpdateGoogleRecaptcha(Request $request){
+        try{
+            $request->validate(
+                [
+                    'google_site_key' => 'required',
+                    'google_secret_key' => 'required',
+                ]
+            );
+            GoogleRecaptchaSetting::updateOrCreate([
+                'google_site_key' => $request->input('google_site_key'),
+                'google_secret_key' => $request->input('google_secret_key')
+            ],
+                [
+                    'google_site_key' => $request->input('google_site_key'),
+                    'google_secret_key' => $request->input('google_secret_key')
+                ]
+            );
+            return successResponse(trans('lang.complete_google'));
+        }
+        Catch(\Exception $e){
+            return errorResponse($e->getMessage(),400);
+        }
+    }
+
+    public function getGoogleRecaptcha(){
+        try{
+            return successResponse('', GoogleRecaptchaSetting::cursor());
+        }
+        Catch(\Exception $e){
+            return errorResponse($e->getMessage(),400);
+        }
+    }
+
+    public function clearGoogleRecaptcha(Request  $request){
+        try{
+            !($request->has('clear'))?:GoogleRecaptchaSetting::delete();
+            return successResponse(trans('lang.reset_successfully'));
+        }
+        Catch(\Exception $e){
+            return errorResponse($e->getMessage(),400);
         }
     }
 }

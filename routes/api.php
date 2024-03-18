@@ -151,6 +151,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
     Route::get('emailDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::post('emailSettings', [EmailSettingsController::class, 'postSettingsEmail']);
+    Route::post('recaptcha/enable', [SettingsController::class, 'createOrUpdateGoogleRecaptcha']);
+    Route::get('getRecaptcha', [SettingsController::class, 'getGoogleRecaptcha']);
+    Route::post('recaptcha/reset', [SettingsController::class, 'clearGoogleRecaptcha']);
+
 
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
       Route::get('cleanSettings', [SettingsController::class, 'dropForCleanUpSettings']);
