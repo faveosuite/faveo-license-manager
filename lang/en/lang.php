@@ -412,12 +412,12 @@ return [
 
     //FOR SYSTEM CLEAN UP SETTINGS TOOLTIP
 
-    'callback_cleanup_tooltip' => 'Delete Callbacks older than 60 days',
-    'crack_cleanup_tooltip' =>   'Delete Cracking Reports older than 60 days',
-    'license_cleanup_tooltip' =>  'Delete Expire license older than 60 days',
-    'license_report_cleanup_tooltip' => 'Delete License Reports older than 60 days ',
-    'system_cleanup_tooltip' =>  'Delete System Reports older than 60 days',
-    'version_cleanup_tooltip' =>  'Delete Versions data older than 60 days',
+    'callback_cleanup_tooltip' => 'Delete Callbacks that are older than the specified days mentioned below',
+    'crack_cleanup_tooltip' =>   'Delete Cracking Reports that are older than the specified days mentioned below',
+    'license_cleanup_tooltip' =>  'Delete Expire license that are older than the specified days mentioned below',
+    'license_report_cleanup_tooltip' => 'Delete License Reports that are older than the specified days mentioned below',
+    'system_cleanup_tooltip' =>  'Delete System Reports that are older than the specified days mentioned below',
+    'version_cleanup_tooltip' =>  'Delete Versions data',
     'remove_versions' => 'Remove versions older than',
     'add_new_whitelist_ip'  =>  'Create',
     'system_cleanup_crons'   => 'System cleanup crons',
@@ -440,6 +440,6 @@ return [
         'god_mode_info' => 'When god mode is selected, if any suspicious activity is detected, it will erase all data.',
 
         'config_gen'    => 'Automatically generate settings for apl_core_configuration.php and update_configuration.php file. Select the product to be licensed, license verification period, license storage options, and click the "Submit" button. Once the configuration is generated, copy/paste its content to your apl_core_configuration.php and update_configuration.php file.',
-    
+
 ];
 
