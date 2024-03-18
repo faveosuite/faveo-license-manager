@@ -36,6 +36,7 @@
 
                 <button class="btn btn-primary" @click="onSubmit()"><i
                     :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+
             </div>
         </div>
     </div>
@@ -83,6 +84,10 @@ export default {
 
             responseData: '',
 
+            google_site_key: '',
+
+            google_secret_key: '',
+
         }
     },
 
@@ -101,13 +106,7 @@ export default {
 
             axios.get('/api/admin/getRecaptcha').then(res => {
 
-                this.products = res.data.data.map(data => {
-
-                    return {
-                        name: data.product_title,
-                        value: data.product_id
-                    };
-                })
+                this.updateStatesWithData(res.data.data[0]);
 
                 this.loading = false;
 
@@ -126,21 +125,18 @@ export default {
 
         async onSubmit() {
 
-            if (this.isValid()) {
+            //if (this.isValid()) {
 
                 this.loading = true
 
                 const formData = {
-
+                    google_site_key : this.google_site_key,
+                    google_secret_key: this.google_secret_key,
                 }
 
                 await axios.post("/api/admin/recaptcha/enable", formData).then((res) => {
 
                     successHandler(res, 'google-recaptcha');
-
-                    this.responseData = res.data.replaceAll('<br />\r\n', "")
-
-                    this.showModal = true
 
                     this.loading = false;
 
@@ -150,8 +146,23 @@ export default {
 
                     errorHandler(err, 'google-recaptcha');
                 });
-            }
-        }
+            //}
+        },
+
+        updateStatesWithData(data) {
+
+            const self = this;
+
+            const stateData = this.$data;
+
+            Object.keys(data).map(key => {
+
+                if (stateData.hasOwnProperty(key)) {
+
+                    self[key] = data[key];
+                }
+            });
+        },
     },
 
     components: {
