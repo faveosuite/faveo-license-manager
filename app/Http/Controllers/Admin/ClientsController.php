@@ -140,6 +140,8 @@ class ClientsController extends Controller
             ->when($searchQuery, function ($query) use ($searchQuery) {
                 return $query->where(function ($query) use ($searchQuery) {
                     $query->where(DB::raw('CONCAT(client_fname, " ", client_lname)'), 'LIKE', '%'.$searchQuery.'%')
+                        ->orWhere('client_role', 'LIKE', '%'.$searchQuery.'%')
+                        ->orWhere('client_status', 'LIKE',  '%' . statusFormatter($searchQuery) . '%')
                         ->orWhere('client_email', 'LIKE', '%'.$searchQuery.'%');
                 });
             })

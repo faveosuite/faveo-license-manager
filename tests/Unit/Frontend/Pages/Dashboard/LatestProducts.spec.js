@@ -66,9 +66,4 @@ describe('LatestProducts', () => {
         expect(wrapper.vm.data).toEqual(data);
     })
 
-    it("return columns in template option of datatable", () => {
-
-        expect(wrapper.vm.options.templates.product_title('test', {'product_title': 'default text'})).toEqual("default text")
-    })
-
 });

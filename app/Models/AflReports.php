@@ -19,21 +19,25 @@ class AflReports extends Model
     public function product() {
         return $this->belongsTo(AflProducts::class, 'product_id');
     }
+    public function license()
+    {
+        return $this->belongsTo(AflLicenses::class, 'license_code', 'license_code');
+    }
     public function scopeWithUserFormatted($query)
     {
         $query->addSelect([
-            'user_formatted' => User::select(DB::raw("
-                CASE
-                    WHEN client_email LIKE '%_@__%.__%' THEN
-                        CASE
-                            WHEN client_fname IS NOT NULL AND client_lname IS NOT NULL THEN CONCAT(client_fname, ' ', client_lname)
-                            ELSE client_email
-                        END
-                    ELSE 'System'
-                END
-            "))
-                ->whereColumn('afl_reports.account_id', 'users.client_id')
-                ->limit(1)
-        ]);
+            'user_formatted' => DB::raw("
+            CASE
+                WHEN users.client_email LIKE '%_@__%.__%' THEN
+                    CASE
+                        WHEN users.client_fname IS NOT NULL AND users.client_lname IS NOT NULL THEN CONCAT(users.client_fname, ' ', users.client_lname)
+                        ELSE users.client_email
+                    END
+                ELSE 'System'
+            END AS user_formatted
+        ")
+        ])
+            ->leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
+            ->limit(1);
     }
 }

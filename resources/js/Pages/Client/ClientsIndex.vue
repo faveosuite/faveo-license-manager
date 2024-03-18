@@ -13,7 +13,7 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{ lang('contacts') }}</h3>
+                <h3 class="card-title">{{ lang('all_contacts') }}</h3>
 
                 <div class="card-tools">
 
@@ -40,6 +40,7 @@
 import {useStore} from "vuex";
 import {computed, h} from "vue";
 import {formatDateTime, lang} from "../../helpers/extraLogics";
+import { RouterLink } from 'vue-router';
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import DataTableStatuses from "../../components/Reusable/DataTableStatuses.vue";
 
@@ -73,7 +74,13 @@ export default {
     },
 
     props : {
+
         generalSetting : {type : Object, default : () => {}},
+    },
+
+    created() {
+
+        this.emitter.on('refreshData', this.getData);
     },
 
     beforeMount() {
@@ -119,8 +126,46 @@ export default {
                     return formatDateTime(row.client_active_date, timezone, date_format, time_format)
                 },
 
-                info : (f,row)=>{
-                    return h(DataTableStatuses,{data : row})
+                info : (f,row)=> {
+
+                    return h(DataTableStatuses, {data: row})
+                },
+
+                full_name: (f, row) => {
+
+                    if(row.full_name) {
+
+                        return h(RouterLink, {
+
+                            to: '/clients/' + row.client_id + '/view'
+
+                        },[row.full_name])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                client_email: (f, row) => {
+
+                    if(row.client_email) {
+
+                        return h(RouterLink, {
+
+                            to: '/clients/' + row.client_id + '/view'
+
+                        },[row.client_email])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                client_status: (f, row) => {
+
+                    return h('span', {
+                        'class': row.client_status ? 'text-green' : 'text-red'
+                    }, row.client_status ? this.lang('active'): this.lang('inactive'))
                 },
             },
 
@@ -138,7 +183,7 @@ export default {
 
                     'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                    'search_query' : data.query,
+                    'search_query' : data.query.trim(),
 
                      perPage : data.limit,
                 }
@@ -153,6 +198,8 @@ export default {
                         data.edit_url = '/clients/' + data.client_id + '/edit';
 
                         data.delete_url = '/api/admin/clients/delete';
+
+                        data.view_url = '/clients/' + data.client_id + '/view';
 
                         data.keyVal = 'client_id';
 
@@ -207,7 +254,7 @@ export default {
 }
 
 .client_role {
-    text-transform: capitalize;
+    text-langform: capitalize;
 }
  #my_clients .VueTables .table-responsive>table {
  width: max-content;

@@ -228,7 +228,7 @@
 
 			onChange(value, name) {
 
-                if(name == 'product_status') {
+                if(name === 'product_status') {
 
                     this[name] = value;
 
@@ -238,31 +238,9 @@
                 }
 			},
 
-			validUrl(path) {
-
-				if (this[path]) {
-
-					let regex = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
-
-					if (this[path].match(regex)) { return true }
-
-					else {
-
-						this.$store.dispatch('setAlert', {
-							type: 'danger', message: `Invalid Homepage or Download URL`,
-							component_name: 'product'
-						});
-					}
-
-				} else {
-
-					return true
-				}
-			},
-
 			onSubmit() {
 
-				if (this.isValid() && this.validUrl('product_url_homepage') && this.validUrl('product_url_download')) {
+				if (this.isValid()) {
 
 					this.loading = true
 

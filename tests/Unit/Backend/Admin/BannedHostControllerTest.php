@@ -89,7 +89,7 @@ class BannedHostControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/bannedHosts/delete'), $data);
         $response->assertStatus(201);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database']);
+        $response->assertJson(['message' => 'The record you have selected has been deleted successfully']);
         $response->assertJson(['data' => 1]);
     }
 

@@ -111,7 +111,7 @@
                   await loadRecaptchaScript();
                   recaptchaToken.value = await generateRecaptchaToken();
               } catch (error) {
-
+                  store.dispatch('setAlert', {message: 'Recaptcha Not Loaded', type: 'danger', component_name: 'login'} )
               }
           });
 
@@ -180,6 +180,7 @@
           let data = {}
 
           data['admin_email'] = this.email;
+
             if(this.siteKey){
                 data['g-recaptcha-response'] = this.recaptchaToken
             }
@@ -206,7 +207,7 @@
                   try {
                       this.recaptchaToken = await this.generateRecaptchaToken();
                   } catch (error) {
-
+                      store.dispatch('setAlert', {message: 'Recaptcha Site Key is not found', type: 'danger', component_name: 'login'} )
                   }
               }
           });

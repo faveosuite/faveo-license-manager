@@ -13,7 +13,7 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('licenses')}}</h3>
+                <h3 class="card-title">{{lang('all_licenses')}}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
             <div class="card-body" id="my_licenses">
 
-                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" alertComponentName="dataTableModal" scroll_to="licenses-list">
+                <data-table v-if="!loading" :url="endPoint" :show_pagination="true" :showColumn="true" :dataColumns="selectedColumns" :allColumns="allColumns" @columns="updateColumn" :option="options" scroll_to="licenses-list">
 
                 </data-table>
 
@@ -41,15 +41,13 @@
 import {lang, formatDateTime} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import {useStore} from 'vuex';
-import {computed} from "vue";
+import {computed, h} from "vue";
+import {errorHandler, successHandler} from "../../helpers/responseHandler";
+import {RouterLink} from "vue-router";
 
 export default {
 
     name: 'licenses-list',
-
-    methods : {
-        lang
-    },
 
     props : {
         generalSetting : {type : Object, default : () => {}},
@@ -73,8 +71,10 @@ export default {
 
             data: '',
 
-            columns: ['product_title', 'license_code', 'license_order_number', 'installations_count', 'callbacks_count',
-                'latest_callback_date', 'latest_license_date','actions'],
+            selectedColumns: [],
+
+            allColumns: ['license_code','client_email', 'product_title', 'license_order_number', 'license_domain', 'license_ip','license_date', 'installation_counts', 'call_backs_count',
+                'latest_call_backs', 'license_limit', 'license_expire_date','license_updates_date' ,'license_support_date', 'license_status'],
 
             options: {},
 
@@ -92,6 +92,8 @@ export default {
         const time_format = this.generalSetting.time_format.js_format
         const timezone = this.generalSetting.timezone.name
 
+        this.getColumns();
+
         this.options = {
 
             sortIcon: {
@@ -105,7 +107,7 @@ export default {
 
             texts: { filter: '', limit: '' },
 
-            sortable:  ['product_title','license_code', 'license_order_number', 'installations_count', 'callbacks_count', 'latest_callback_date', 'latest_license_date'],
+            sortable:  ['product_title', 'client_email', 'license_code', 'license_limit', 'license_order_number','license_expire_date','license_support_date','license_updates_date', 'license_status'],
 
             filterable:  ['product_title'],
 
@@ -117,7 +119,7 @@ export default {
 
                     'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                    'search_query' : data.query,
+                    'search_query' : data.query.trim(),
 
                      perPage : data.limit,
                 }
@@ -133,6 +135,8 @@ export default {
 
                         data.delete_url = '/api/admin/license/delete';
 
+                        data.view_url = '/licenses/' + data.license_id + '/view';
+
                         data.keyVal = 'license_id';
 
                         data.idVal = data.license_id;
@@ -145,63 +149,261 @@ export default {
 
             columnsClasses: {
 
-                product_title: 'license_product_title',
+                product_title: 'product_title',
+
+                license_ip: 'license_ip',
+
+                license_domain: 'license_domain',
 
                 license_code: 'license_code',
 
+                client_email: 'client_email',
+
                 license_order_number : 'license_order_number',
 
-                installations_count: 'license_install',
+                installation_counts: 'installation_counts',
 
-                callbacks_count: 'license_callbacks',
+                call_backs_count: 'license_callbacks',
 
-                latest_callback_date: 'latest_callback_date',
+                latest_call_backs: 'latest_call_backs',
 
-                latest_license_date: 'latest_license',
+                license_limit: 'license_limit',
+
+                license_expire_date: 'license_expire_date',
+
+                license_updates_date: 'license_updates_date',
+
+                license_support_date: 'license_support_date',
+
+                license_status: 'license_status',
 
                 actions:      'actions',
             },
 
             templates: {
 
-                latest_callback_date(h, row) {
+                license_ip(h, row) {
 
-                    return formatDateTime(row.latest_callback_date, timezone, date_format, time_format)
+                    return row.license_ip ? row.license_ip : '----';
                 },
 
-                license_code(h, row) {
+                license_updates_date(h, row) {
 
-                    return row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
+                    return formatDateTime(row.license_updates_date, timezone, date_format, time_format)
                 },
 
-                latest_license_date(h, row) {
+                latest_call_backs(h, row) {
 
-                    return formatDateTime(row.latest_license_date, timezone, date_format, time_format)
+                    return formatDateTime(row.latest_call_backs, timezone, date_format, time_format)
                 },
 
+                license_support_date(h, row) {
+
+                    return formatDateTime(row.license_support_date, timezone, date_format, time_format)
+                },
+
+                license_date(h, row) {
+
+                    return formatDateTime(row.license_date, timezone, date_format, time_format)
+                },
+
+                license_expire_date(h, row) {
+
+                    return formatDateTime(row.license_expire_date, timezone, date_format, time_format)
+                },
+
+                license_code: (f, row) => {
+
+                    if(row.license_code && row.license_id) {
+
+                        return h(RouterLink, {
+
+                            to: '/licenses/' + row.license_id + '/view'
+
+                        },[row.license_code.match(/.{1,4}/g).join('-')])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                product_title: (f, row) => {
+
+                    if(row.product && row.product.product_title && row.product.product_id) {
+
+                        return h(RouterLink, {
+
+                            to: '/products/' + row.product_id + '/view'
+
+                        },[row.product_title])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                client_email: (f, row) => {
+
+                    if(row.client_email) {
+
+                        return h(RouterLink, {
+
+                            to: '/clients/' + row.client_id + '/view'
+
+                        },[row.client_email])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                license_domain: (f, row) => {
+
+                    if(row.license_domain) {
+
+                        return h('a', {
+
+                            href: 'https://'+row.license_domain,
+                            target: '_blank'
+
+                        },[row.license_domain])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                license_status: (f, row) => {
+
+                    return h('span', {
+                        'class': row.license_status ? 'text-green' : 'text-red'
+                    }, row.license_status ? this.lang('active'): this.lang('inactive'))
+                },
+
+                license_order_number: (f, row) => {
+
+                    if(row.license_order_url && row.license_order_url.includes('href')) {
+
+                        return h('a', {
+
+                            href: this.extractHref(row.license_order_url),
+                            target: '_blank'
+                        },[row.license_order_number])
+
+                    } else if(row.license_order_ur) {
+
+                        return row.license_order_url
+
+                    } else {
+
+                        return  '----'
+                    }
+
+                }
             },
 
             pagination: { show : false },
 
             headings: {
 
-                product_id: 'Product',
+                product_title: this.lang('product'),
 
-                license_code: 'License Code',
+                license_ip: this.lang('license_ip'),
 
-                license_order_number : 'Order Number',
+                license_domain: this.lang('license_domain'),
 
-                installations_count: 'Installations',
+                client_email: this.lang('email'),
 
-                callbacks_count: 'Callbacks',
+                license_code: this.lang('license_code'),
 
-                latest_callback_date: 'Latest Callback',
+                license_order_number : this.lang('order_number'),
 
-                latest_license_date: 'Latest License',
+                installation_counts: this.lang('installations_count'),
 
-                actions: 'Actions'
+                call_backs_count: this.lang('callbacks_count'),
+
+                latest_call_backs: this.lang('latest_callbacks'),
+
+                license_limit: this.lang('license_limit'),
+
+                license_expire_date: this.lang('license_expiry'),
+
+                license_updates_date: this.lang('updates_expiry'),
+
+                license_support_date: this.lang('support_expiry'),
+
+                license_status: this.lang('status'),
+
+                actions: this.lang('actions')
             },
         }
+    },
+
+    methods : {
+
+        lang,
+
+        getColumns() {
+
+            this.loading = true;
+
+            axios.get('/api/admin/getLicenseColumn').then(res => {
+
+                this.allColumns.map(col => {
+
+                    if (res.data.data.includes(col)) {
+
+                        this.selectedColumns.push(col)
+                    }
+                })
+
+                this.selectedColumns.push('actions')
+
+            }).catch(err => {
+
+                this.loading = false;
+            })
+
+            this.loading = false;
+        },
+
+        updateColumn(value) {
+
+            this.loading = true
+
+            const payload  = {
+                "selected_columns": value
+            }
+            axios.post('/api/admin/saveLicenseColumn', payload).then(res => {
+
+                this.selectedColumns = [];
+
+                successHandler(res, 'dataTableModal')
+
+            }).catch(err => errorHandler(err, 'dataTableModal'))
+
+            setTimeout(()=>{
+
+                this.getColumns()
+
+                this.loading = false;
+            },100)
+        },
+
+        extractHref(orderUrl) {
+
+            const parser = new DOMParser();
+
+            // Parse the HTML string
+
+            const parsedHtml = parser.parseFromString(orderUrl, 'text/html');
+
+            // Get the root element of the parsed HTML
+
+            const htmlElement = parsedHtml.documentElement;
+
+            return htmlElement.querySelector('#href_link') ?? ''
+        },
     },
 
     components : {
@@ -212,6 +414,7 @@ export default {
 </script>
 
 <style>
+
 .license_product_title,
 .license_code,
 .license_install,

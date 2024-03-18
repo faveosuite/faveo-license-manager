@@ -469,7 +469,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/delete'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database']);
+        $response->assertJson(['message' => 'The record you have selected has been deleted successfully']);
         $response->assertJson(['data' => 1]);
         AflProducts::where('product_id', 13)->delete();
     }

@@ -17,9 +17,13 @@ class AfuVersions extends Model
 
     public function product()
     {
-        return $this->hasMany(AfuProducts::class);
+        return $this->hasMany(AfuProducts::class,'product_id','product_id');
     }
 
+    public function callback()
+    {
+        return $this->hasMany(AfuCallbacks::class,'version_id','version_id');
+    }
     public function updateInstallation()
     {
         return $this->hasMany(AfuInstallations::class);

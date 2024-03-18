@@ -4,6 +4,8 @@ namespace Database\Seeders\v3_0_1;
 
 use App\Models\CommonSetting;
 use App\Models\DateFormat;
+use App\Models\CallbackTypes;
+use App\Models\ReportColumn;
 use App\Models\TimeFormat;
 use App\Models\Timezone;
 use App\Models\AflSettings;
@@ -27,6 +29,8 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
         $this->timezonesSeeder();
         $this->commonSettingSeeder();
         $this->countryCodeTable();
+        $this->addLicenseColumns();
+        $this->callbackTypeSeed();
     }
 
     private function seedEmail()
@@ -2359,6 +2363,7 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
             );
         }
     }
+
     private function timeFormatSeeder()
     {
         $timeformats = [
@@ -2525,6 +2530,136 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
             CommonSetting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value]
+            );
+        }
+    }
+
+    private function addLicenseColumns(){
+        $licenseColumns = [
+            [
+                'key' => 'license_ip',
+                'label' => 'license_ip',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_limit',
+                'label' => 'license_limit',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_expire_date',
+                'label' => 'license_expire_date',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_support_date',
+                'label' => 'license_support_date',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_order_number',
+                'label' => 'license_order_number',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_domain',
+                'label' => 'license_domain',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_date',
+                'label' => 'license_date',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_updates_date',
+                'label' => 'license_updates_date',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_status',
+                'label' => 'license_status',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'client_email',
+                'label' => 'client_email',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'license_code',
+                'label' => 'license_code',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'installation_counts',
+                'label' => 'installation_counts',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'latest_call_backs',
+                'label' => 'latest_call_backs',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'call_backs_count',
+                'label' => 'call_backs_count',
+                'type' => 'license',
+                'default' => '1'
+            ],
+            [
+                'key' => 'product_title',
+                'label' => 'product_title',
+                'type' => 'license',
+                'default' => '1'
+            ]
+        ];
+        foreach ($licenseColumns as $column) {
+            ReportColumn::updateOrCreate(
+                ['key' => $column['key']],
+                [
+                    'label' => $column['label'],
+                    'type' => $column['type'],
+                    'default' => $column['default']
+                ]
+            );
+        }
+    }
+    private function callbackTypeSeed()
+    {
+        $callbackTypes = [
+            [
+                'key' => '1',
+                'value' => 'Version Check',
+            ],
+            [
+                'key' => '2',
+                'value' => 'Installation',
+            ],
+            [
+                'key' => '3',
+                'value' => 'Upgrade',
+            ]
+        ];
+        foreach ($callbackTypes as $types) {
+            CallbackTypes::updateOrCreate(
+                ['key' => $types['key']],
+                [
+                    'value' => $types['value']
+                ]
             );
         }
     }

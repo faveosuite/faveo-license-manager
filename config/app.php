@@ -216,6 +216,7 @@ return [
         App\Providers\ImageUploadHelperServiceProvider::class,
         \App\Providers\LogServiceProvider::class,
         PragmaRX\Google2FALaravel\ServiceProvider::class,
+        \App\Providers\LogServiceProvider::class,
     ],
 
     /*

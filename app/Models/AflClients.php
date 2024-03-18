@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Crypt;
@@ -24,6 +25,8 @@ class AflClients extends Model
         'client_id',
         'client_fname',
         'client_lname',
+        'client_role',
+        'client_active_date',
         'client_username',
         'client_email',
         'client_mobile',
@@ -33,18 +36,21 @@ class AflClients extends Model
         'google2fa_secret',
         'google2fa_activation_date',
         'is_2fa_enabled',
+        'client_address',
+        'client_organization',
+        'client_status',
     ];
 
     protected $primaryKey = 'client_id';
 
     public function license()
     {
-        return $this->hasMany(AflLicenses::class);
+        return $this->hasMany(AflLicenses::class, 'client_id', 'client_id');
     }
 
     public function installation()
     {
-        return $this->hasMany(AflInstallations::class);
+        return $this->hasMany(AflInstallations::class,'client_id','client_id');
     }
 
     public function updateInstallation()
@@ -72,6 +78,7 @@ class AflClients extends Model
 
         return $image;
     }
+
     protected function google2faSecret(): Attribute
     {
         return Attribute::make(
@@ -82,5 +89,10 @@ class AflClients extends Model
                 return $value ? Crypt::encrypt($value) : null;
             }
         );
+    }
+
+    public function scopeFullName($query)
+    {
+        $query->addSelect(DB::raw("CONCAT(client_fname, ' ', client_lname) as full_name"));
     }
 }

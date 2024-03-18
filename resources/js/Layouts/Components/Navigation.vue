@@ -15,11 +15,11 @@
 
         	<li class="nav-item">
 
-            	<router-link :to="item.routeString" class="nav-link" exact exact-active-class="active">
+            	<router-link :to="item.routeString" v-tooltip="item.name" class="nav-link" exact exact-active-class="active">
 
                 <i :class="'nav-icon '+item.iconClass"></i>
 
-                <p>{{ item.name }}</p>
+                <p>{{ subString(item.name) }}</p>
 
             </router-link>
         </li>
@@ -29,7 +29,9 @@
 
 <script>
 
-	export default {
+	import {getSubStringValue} from "../../helpers/extraLogics";
+
+    export default {
 
 		props : {
 
@@ -67,6 +69,11 @@
 
 
     	methods : {
+
+            subString(value,length = 15){
+
+                return getSubStringValue(value,length)
+            },
 
     		handleMainMenuAction() {
 

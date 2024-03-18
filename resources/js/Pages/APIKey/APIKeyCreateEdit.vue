@@ -180,6 +180,7 @@ export default {
             api_key_licenses_edit: '',
             addInstallationsPermission: permissionItems,
             api_key_installations_edit: '',
+            api_key_search: '',
             useSearchPermission: permissionItems,
             api_key_description: '',
             apiKeyStatus: permissionItems,

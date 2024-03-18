@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-12 col-sm-12 col-12">
+
         <div class="card card-light">
             <div class="card-header versions">
                 <h3 class="card-title">{{'Latest Versions'}}</h3>
@@ -28,15 +28,26 @@
                             {{ props.row.version_status ? 'Active' : 'Inactive'}}
                         </span>
                             </template>
+
+                            <template v-slot:version_number="props">
+
+                                <router-link :to="'/versions/'+props.row.version_id+'/view'">{{ props.row.version_number }}</router-link>
+                            </template>
+
+                            <template v-slot:product="props">
+                                <router-link v-if="props.row.product && Array.isArray(props.row.product) && props.row.product[0] && props.row.product[0].product_title" :to="'/products/'+props.row.product[0].product_id+'/view'">{{ props.row.product[0].product_title }}</router-link>
+                                <span v-else>----</span>
+                            </template>
                         </v-client-table>
                     </div>
                 </div>
             </div>
-        </div>
 </template>
 
 <script>
 
+import moment from "moment";
+import 'moment-timezone'
 import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
@@ -46,9 +57,9 @@ export default {
 
         return {
 
-            columns:['version_number','version_date','version_expire_date','version_status'],
+            columns:['product', 'version_number','version_date','version_upgrade_count','version_status'],
 
-             options : {},
+            options : {},
 
             counter: 0,
 
@@ -69,20 +80,18 @@ export default {
 
             columnsClasses:{
 
+                product: 'product_title',
+
                 version_number: 'version_number',
 
-                version_date: 'version_date',
+                version_upgrade_count: 'version_upgrade_count',
 
-                version_expire_date: 'version_expire_date',
+                version_date: 'version_date',
 
                 version_status:    'version_status',
             },
 
             templates: {
-
-                version_number(h,row){
-                    return row.version_number ?row.version_number : '----';
-                },
 
                 version_date(h,row){
 
@@ -98,9 +107,11 @@ export default {
 
             headings: {
 
-                version_date: 'Version Date',
+                product: 'Product',
 
-                version_expire_date: 'Version Expire date',
+                version_date: 'Released Date',
+
+                version_upgrade_count: 'Upgrades',
 
                 version_number: "Version",
 

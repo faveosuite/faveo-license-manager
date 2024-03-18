@@ -45,7 +45,7 @@ describe('ProductsIndex', () => {
 
     it("return row->created_at for `created_at` column in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.product_version('test', {'product_version': '201210124567'})).toEqual("201210124567")
+        expect(wrapper.vm.options.templates.total_licenses('test', {'total_licenses': 0})).toEqual("---")
     })
 
     it("requestAdapter method should return `sort-field`, `sort-order`, `search-query`, `page` & `limit`", () => {
@@ -77,7 +77,8 @@ describe('ProductsIndex', () => {
                 }
             }
         }
-        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "product_id" , "product_id":3, "edit_url": "/products/3/edit", "delete_url": "/api/admin/products/delete"}]}
+
+        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "product_id", "view_url": "/products/3/view", "product_id":3, "edit_url": "/products/3/edit", "delete_url": "/api/admin/products/delete"}]}
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });

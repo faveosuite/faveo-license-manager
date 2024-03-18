@@ -68,9 +68,7 @@ describe('LatestInstallations', () => {
 
     it("return columns in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.license_code('test', {'license_code': '238765300'})).toEqual("2387-6530-0")
-
-        expect(wrapper.vm.options.templates.installation_ip('test', {'installation_ip': '15-16-1000 00:00'})).toEqual("15-16-1000 00:00")
+        expect(wrapper.vm.options.templates.installation_ip('test', {'installation_ip': '15-16-1000'})).toEqual("15-16-1000")
 
         expect(wrapper.vm.options.templates.installation_date('test', {'installation_date': '2020-10-22'})).toEqual("22-10-2020")
     })

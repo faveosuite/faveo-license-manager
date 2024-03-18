@@ -81,14 +81,16 @@ import { useStore } from 'vuex';
 export default {
 
     name: 'client-create-edit',
+
     setup() {
 
-const store = useStore();
+        const store = useStore();
 
-return {
-    getApiKey: computed(() => store.getters.getApiKey)
-};
-},
+        return {
+
+            getApiKey: computed(() => store.getters.getApiKey)
+        };
+    },
 
     data() {
 
