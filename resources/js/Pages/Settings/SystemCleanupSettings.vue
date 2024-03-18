@@ -357,7 +357,6 @@
                 this.removeOlderCallbacksOptions = this.findOptionByValue(this.removeOlderCallbacks, cleanUpSettings.DATABASE_CLEANUP_CALLBACKS);
                 this.removeLicenseReportsOptions = this.findOptionByValue(this.removeLicenseReports, cleanUpSettings.DATABASE_CLEANUP_REPORTS_MAIN);
                 this.removeSystemReportsOptions = this.findOptionByValue(this.removeSystemReports, cleanUpSettings.DATABASE_CLEANUP_REPORTS_SYSTEM);
-                this.removeVersionsType = this.findOptionByValue(this.removeVersions, cleanUpSettings.DATABASE_CLEANUP_VERSIONS);
                 this.removeSystem = this.findOptionByValue(this.removeSystems, cleanUpSettings.DATABASE_CLEANUP_REPORTS_LICENSES);
             }
         },
@@ -369,7 +368,6 @@
                 'DATABASE_CLEANUP_CALLBACKS': 'removeOlderCallbacksOptions',
                 'DATABASE_CLEANUP_REPORTS_MAIN': 'removeLicenseReportsOptions',
                 'DATABASE_CLEANUP_REPORTS_SYSTEM': 'removeSystemReportsOptions',
-                'DATABASE_CLEANUP_VERSIONS': 'removeVersionsType',
                 'DATABASE_CLEANUP_REPORTS_LICENSES': 'removeSystem'
             };
 
@@ -392,9 +390,6 @@
                     DATABASE_CLEANUP_REPORTS_MAIN: this.removeLicenseReportsOptions ? this.removeLicenseReportsOptions.value : null,
 
                     DATABASE_CLEANUP_REPORTS_SYSTEM: this.removeSystemReportsOptions ? this.removeSystemReportsOptions.value : null,
-
-                    DATABASE_CLEANUP_VERSIONS: this.removeVersionsType ? this.removeVersionsType.value : null,
-
 
                 }
 

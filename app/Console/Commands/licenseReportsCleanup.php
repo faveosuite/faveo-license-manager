@@ -28,9 +28,20 @@ class licenseReportsCleanup extends Command
      */
     public function handle()
     {
+        // Get the value of DATABASE_CLEANUP_REPORTS_LICENSES from afl_settings table
         $aflSettings = AflSettings::value('DATABASE_CLEANUP_REPORTS_LICENSES');
-        $aflSettings ? AflReports::where('license_code' ,'!=', 'null')
-                    ->where('license_code', '!=', '')
-                    ->where('report_date_time', '<', now()->subDays($aflSettings))->delete() : null ;
+
+        // If $aflSettings has a value, proceed with the cleanup
+        if ($aflSettings !== null) {
+            // Calculate the date threshold based on the $aflSettings value
+            $thresholdDate = now()->subDays($aflSettings);
+
+            // Perform cleanup query to delete records older than the threshold date
+            AflReports::whereNotNull('license_code')
+                ->where('license_code', '!=', '')
+                ->where('report_date_time', '<', $thresholdDate)
+                ->delete();
+        }
     }
+
 }

@@ -81,9 +81,6 @@ public function reportArraySystem()
 $rows_array = AflReports::leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
 ->leftJoin('afl_products','afl_reports.product_id','=','afl_products.product_id')
 ->where('report_system', 1)
-->where(function ($query) {
-    $query->where('users.client_role', '=', 'admin');
-})
 ->orderBy('report_date_time', 'DESC')->orderBy('report_id', 'DESC')->cursor()
 ->toArray();
 $root_array = [];
@@ -153,7 +150,7 @@ public function reportArrayLicense()
         if ($product) {
             $itemArray['products'] = $product->product_title;
         } else {
-            $itemArray['products'] = '---'; 
+            $itemArray['products'] = '---';
         }
 
         $itemArray['client_formatted'] = formatClient($itemArray['license_code'], $itemArray['client_email']);
