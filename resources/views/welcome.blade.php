@@ -45,9 +45,12 @@
 
     <script src="{{assetLink('js','polyfill')}}"></script>
 
-    <script src="{{assetLink('js','select2')}}" type="text/javascript"></script>
+      <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
 
-      <style>
+
+          <script src="{{assetLink('js','select2')}}" type="text/javascript"></script>
+
+          <style>
 
           .VuePagination__pagination{
               margin-top: -5px !important;

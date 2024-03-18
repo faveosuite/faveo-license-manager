@@ -8,7 +8,7 @@
         </div>
 
 
-            <div class="login-box">
+        <div class="login-box">
 
             <div class="card">
 
@@ -37,6 +37,7 @@
 
                         </text-field>
 
+
                         <div class="social-auth-links text-center mb-1">
 
                             <a href="javascript:;" class="btn btn-block btn-primary" @click="onSubmit()">
@@ -57,42 +58,26 @@
     </div>
 </template>
 <script>
-
 import { computed }  from 'vue';
 import { useStore } from 'vuex';
-
-import { errorHandler, successHandler } from '../../helpers/responseHandler'
-
+import { errorHandler } from '../../helpers/responseHandler'
 import { validateLoginSettings } from "../../helpers/validator/loginRules.js";
-
 import axios from 'axios'
-
 import TextField from "../../components/Reusable/FormField/TextField.vue";
-import store from "../../store";
 
 export default {
-
     name: 'Login',
-
     setup() {
-
         const store = useStore();
-
         return {
             getUserToken: computed(() => store.getters.getUserToken)
         };
     },
-
     data() {
-
         return {
-
             user_name: '',
-
             password: '',
-
             labelStyle: { display: 'none' },
-
             loading: false,
         }
     },
@@ -103,53 +88,37 @@ export default {
                 this.$router.push({name: 'Dashboard'}).catch(err => {});
             }
         }
+        grecaptcha.ready(() => {
+            grecaptcha.execute('6LcHXpwpAAAAAP2yCT8CQqhr_EUgT3WvW29-mzcY', {action: 'submit'}).then((token) => {
+                this.recaptchaToken = token;
+            });
+        });
     },
-
-
     methods: {
-
         onChange(value, name) {
-
             this[name] = value;
         },
-
         isValid() {
-
             const { errors, isValid } = validateLoginSettings(this.$data);
-
             return isValid;
         },
-
         triggerEvent(event) {
-
             var key = event.which || event.keyCode;
-
             if (key === 13) { // 13 is enter
-
                 this.onSubmit();
             }
         },
-
         onSubmit() {
-
             if (this.isValid()) {
-
                 this.$store.dispatch('unsetAlert');
-
                 this.$store.dispatch('unsetValidationError');
-
                 this.loading = true;
-
                 let data = {}
-
                 data['client_email'] = this.user_name
-
                 data['client_password'] = this.password
-
-                axios.post("/api/login", data)
+                axios.post("/api/login", { ...data, 'g-recaptcha-response': this.recaptchaToken })
                     .then((res) => {
                         this.loading = false;
-                        // Set the authentication token in the default headers
                         const authToken = res.data.data.token;
                         axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
                         this.$store.dispatch('setLoggedInUserToken', authToken);
@@ -160,14 +129,10 @@ export default {
                         this.loading = false;
                         errorHandler(err, 'login');
                     });
-
             }
         }
     },
-
-
     components: {
-
         "text-field": TextField,
     }
 };
