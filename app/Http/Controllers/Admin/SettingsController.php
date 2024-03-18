@@ -416,7 +416,7 @@ class SettingsController extends Controller
 
     public function getGoogleRecaptcha(){
         try{
-            return successResponse('', GoogleRecaptchaSetting::cursor());
+            return successResponse('', GoogleRecaptchaSetting::find(1));
         }
         Catch(\Exception $e){
             return errorResponse($e->getMessage(),400);
@@ -425,10 +425,11 @@ class SettingsController extends Controller
 
     public function clearGoogleRecaptcha(Request  $request){
         try{
-            !($request->has('clear'))?:GoogleRecaptchaSetting::delete();
+            !($request->has('clear'))?:GoogleRecaptchaSetting::query()->delete();
             return successResponse(trans('lang.reset_successfully'));
         }
         Catch(\Exception $e){
+            dd($e);
             return errorResponse($e->getMessage(),400);
         }
     }

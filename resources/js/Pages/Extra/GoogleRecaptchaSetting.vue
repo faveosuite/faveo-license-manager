@@ -7,7 +7,7 @@
             <custom-loader :duration="4000"></custom-loader>
         </div>
 
-        <alert componentName="configuration" />
+        <alert componentName="google-recaptcha" />
 
         <div class="card card-light" v-if="hasDataPopulated">
 
@@ -30,13 +30,54 @@
                                 :required="true">
                     </text-field>
                 </div>
-            </div>
+            </div>  
 
             <div class="card-footer">
 
-                <button class="btn btn-primary" @click="onSubmit()"><i
+                <button class="btn btn-primary" @click="onSubmit(true,'/api/admin/recaptcha/enable', {
+                    google_site_key : this.google_site_key,
+                    google_secret_key: this.google_secret_key})"><i
                     :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                    &nbsp;                    
+                    <button class="btn btn-danger" @click="onSubmit(false, '/api/admin/recaptcha/reset',{clear:1})"><i
+                    :class="iconUndo"></i>&nbsp;&nbsp;{{trans('Reset')}}</button>
+            </div>
+        </div>
+    </div>
 
+
+        <div class="col-sm-12">
+
+        <div class="row" v-if="loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
+
+        <div class="card card-light" v-if="hasDataPopulated">
+
+            <div class="card-header">
+
+                <h3 class="card-title">{{trans('agora-invoicing-integration')}}</h3>
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <text-field :label="trans('agora_invoicing_url')" :value="agora_invoicing_url" :onChange="onChange"
+                                name="agora_invoicing_url" type="text" classname="col-sm-6" :required="true">
+
+                    </text-field>
+                </div>
+            </div>  
+
+            <div class="card-footer">
+
+                <button class="btn btn-primary" @click="onSubmit(true)"><i
+                    :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
+                    &nbsp;                    
+                    <button class="btn btn-danger" @click="onSubmit()"><i
+                    :class="iconUndo"></i>&nbsp;&nbsp;{{trans('Reset')}}</button>
             </div>
         </div>
     </div>
@@ -72,6 +113,8 @@ export default {
 
             iconClass: 'fas fa-save',
 
+            iconUndo : 'fas fa-undo',
+
             btnName: 'save',
 
             hasDataPopulated: false,
@@ -106,7 +149,7 @@ export default {
 
             axios.get('/api/admin/getRecaptcha').then(res => {
 
-                this.updateStatesWithData(res.data.data[0]);
+                this.updateStatesWithData(res.data.data ?? '');
 
                 this.loading = false;
 
@@ -123,18 +166,13 @@ export default {
             this[name] = option ? option : '';
         },
 
-        async onSubmit() {
+        async onSubmit(clear=false,url,formData) {
 
-            //if (this.isValid()) {
+            if (clear) {
 
                 this.loading = true
 
-                const formData = {
-                    google_site_key : this.google_site_key,
-                    google_secret_key: this.google_secret_key,
-                }
-
-                await axios.post("/api/admin/recaptcha/enable", formData).then((res) => {
+                await axios.post(url, formData).then((res) => {
 
                     successHandler(res, 'google-recaptcha');
 
@@ -146,7 +184,27 @@ export default {
 
                     errorHandler(err, 'google-recaptcha');
                 });
-            //}
+            }
+            else{
+                 this.loading = true
+
+                const formData = {
+                    clear: 1
+                }
+
+                await axios.post(url, formData).then((res) => {
+
+                    successHandler(res, 'google-recaptcha');
+
+                    this.loading = false;
+
+                }).catch((err) => {
+
+                    this.loading = false;
+
+                    errorHandler(err, 'google-recaptcha');
+                });
+            }
         },
 
         updateStatesWithData(data) {
