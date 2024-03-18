@@ -148,7 +148,7 @@ class AfuVersionsController extends Controller
                         $version_upgrade_query = '';
                     }
                     $added_record = AfuVersions::updateOrCreate(
-                        ['version_number' => $version_number],
+                        ['version_number' => $version_number, 'product_id' => $product_id],
                         [
                             'version_number' => $version_number,
                             'product_id' => $product_id,
@@ -168,7 +168,6 @@ class AfuVersionsController extends Controller
                         ]
                     );
                     
-
                     if (! aflValidateIntegerValue($added_records)) {
                         $error_detected = 1;
                         $error_details .= 'Invalid record details, duplicated data, or database error.<br>';
@@ -307,7 +306,7 @@ class AfuVersionsController extends Controller
         $path = storage_path();
         define('SCRIPT_ROOT_DIRECTORY', __DIR__);
         define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
-        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY); 
+        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
         $version_id = $request->get('version_id');
         $product_id = $request->get('product_id');
         $api_key_secret = $request->get('api_key_secret');
