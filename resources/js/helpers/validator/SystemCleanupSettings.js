@@ -3,13 +3,12 @@ import { Validator } from '../easy-validator';
 import { lang } from '../extraLogics';
 
 export function systemCleanupSettings(data) {
-    const { removeOlderCallbacksOptions, removeSystem, removeVersionsType, removeLicenseReportsOptions, removeSystemReportsOptions } = data;
+    const { removeOlderCallbacksOptions, removeSystem, removeLicenseReportsOptions, removeSystemReportsOptions } = data;
 
     // Define validation rules
     const validatingData = {
         DATABASE_CLEANUP_CALLBACKS: removeOlderCallbacksOptions,
         DATABASE_CLEANUP_REPORTS_LICENSES: removeSystem,
-        DATABASE_CLEANUP_VERSIONS: removeVersionsType,
         DATABASE_CLEANUP_REPORTS_MAIN: removeLicenseReportsOptions,
         DATABASE_CLEANUP_REPORTS_SYSTEM: removeSystemReportsOptions,
     };

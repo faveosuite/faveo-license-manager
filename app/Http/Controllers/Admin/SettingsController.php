@@ -323,8 +323,8 @@ class SettingsController extends Controller
         $database_cleanup_callbacks_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_CALLBACKS);
         $database_cleanup_reports_main_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_REPORTS_MAIN);
         $database_cleanup_reports_system_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_REPORTS_SYSTEM);
-        $database_cleanup_versions_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days ago', 'Disabled', $DATABASE_CLEANUP_REPORTS_LICENSES);
-        $database_cleanup_license_reports_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days ago', 'Disabled', $DATABASE_CLEANUP_REPORTS_LICENSES);
+        $database_cleanup_versions_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_REPORTS_LICENSES);
+        $database_cleanup_license_reports_array = returnNumbersDropdownArray([0, 1, 7, 14, 30, 60, 90, 180, 365], 'Days', 'Disabled', $DATABASE_CLEANUP_REPORTS_LICENSES);
 
         return response()->json([
             'database cleanup callbacks' => $database_cleanup_callbacks_array,
