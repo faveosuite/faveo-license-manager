@@ -47,6 +47,41 @@
             ]
         },
         {
+            "name": "Versions",
+            "key": null,
+            "count": 0,
+            "hasCount": false,
+            "iconClass": "fas fa-cart-arrow-down",
+            "order": 0,
+            "redirectUrl": null,
+            "routeString": "",
+            "hasChildren": true,
+            "children": [
+                {
+                    "name": "New Version",
+                    "key": null,
+                    "count": 0,
+                    "hasCount": false,
+                    "iconClass": "far fa-circle",
+                    "order": 0,
+                    "routeString": "/versions/create",
+                    "hasChildren": false,
+                    "children": []
+                },
+                {
+                    "name": "All Versions",
+                    "key": null,
+                    "count": 0,
+                    "hasCount": false,
+                    "iconClass": "far fa-circle",
+                    "order": 0,
+                    "routeString": "/versions/list",
+                    "hasChildren": false,
+                    "children": []
+                }
+            ]
+        },
+        {
             "name": "Contacts",
             "key": null,
             "count": 0,
@@ -194,6 +229,17 @@
                     "iconClass": "far fa-circle",
                     "order": 0,
                     "routeString": "/reports/system",
+                    "hasChildren": false,
+                    "children": []
+                },
+                {
+                    "name": "Update Reports",
+                    "key": null,
+                    "count": 0,
+                    "hasCount": false,
+                    "iconClass": "far fa-circle",
+                    "order": 0,
+                    "routeString": "/reports/update",
                     "hasChildren": false,
                     "children": []
                 },
@@ -447,7 +493,7 @@
                     "hasCount": false,
                     "iconClass": "far fa-circle",
                     "order": 0,
-                    "routeString": "/Whitelist",
+                    "routeString": "/Whitelist/list",
                     "hasChildren": false,
                     "children": []
                 }

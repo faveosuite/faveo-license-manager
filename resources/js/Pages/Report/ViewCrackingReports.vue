@@ -32,6 +32,10 @@
 
 import {formatDateTime, lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import moment from "moment";
+import 'moment-timezone'
+import {h} from "vue";
+import {RouterLink} from "vue-router";
 
 export default {
 
@@ -92,11 +96,11 @@ export default {
 
                 return {
 
-                    'sort_field' : data.orderBy ? data.orderBy : 'product_id',
+                    'sort_field' : data.orderBy ? data.orderBy : 'license_code',
 
-                    'sort_order' : data.ascending ? 'desc' : 'asc',
+                    'sort_order' : data.ascending ? 'asc' : 'desc',
 
-                    'search_query' : data.query,
+                    'search_query' : data.query.trim(),
 
                      perPage : data.limit,
                 }
@@ -108,9 +112,9 @@ export default {
 
                     data: data.data.data.map(data => {
 
-                        data.keyVal = 'product_id';
+                        data.keyVal = 'report_id';
 
-                        data.idVal = data.product_id;
+                        data.idVal = data.report_id;
 
                         return data;
                     }),
@@ -121,32 +125,52 @@ export default {
 
             columnsClasses: {
 
-                product_title: 'license_product_title',
-
                 license_code: 'license_code',
 
-                account_id: 'account_id',
-
                 report_date_time: 'report_date_time',
+
+                report_status: 'report_status',
 
                 report_text:  'report_text',
             },
 
             templates: {
 
-                license_code(h, row) {
-
-                    return row.license_code ? row.license_code : '---';
-                },
-
                 license_date(h, row) {
 
                     return formatDateTime(row.license_date, timezone, date_format, time_format)
                 },
 
-                latest_callback_date_time(h, row) {
+                latest_callback_date_time(h, row){
 
                     return formatDateTime(row.latest_callback_date_time, timezone, date_format, time_format)
+                },
+
+                report_date_time(h, row) {
+
+                    return formatDateTime(row.report_date_time, timezone, date_format, time_format)
+                },
+
+                license_code: (f, row) => {
+
+                    if(row.license_code && row.license_id) {
+
+                        return h(RouterLink, {
+
+                            to: '/licenses/' + row.license_id + '/view'
+
+                        },[row.license_code.match(/.{1,4}/g).join('-')])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                report_status: (f, row) => {
+
+                    return h('span', {
+                        'class': row.report_status ? 'text-green' : 'text-red'
+                    }, row.report_status ? this.lang('success'): this.lang('error'))
                 },
             },
 
@@ -154,15 +178,13 @@ export default {
 
             headings: {
 
-                product_title: 'Product',
+                report_status:   this.lang('status'),
 
-                report_id:   'Report',
+                license_code: this.lang('license_code'),
 
-                license_code: 'License Code',
+                report_text:  this.lang('report'),
 
-                report_text:  'Report',
-
-                report_date_time: 'Report Date Time',
+                report_date_time: this.lang('report_date_time'),
 
             },
         }

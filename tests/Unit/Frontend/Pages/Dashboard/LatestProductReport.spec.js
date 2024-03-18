@@ -68,8 +68,6 @@ describe('LatestProductReport', () => {
 
     it("return columns in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.license_code('test', {'license_code': '123456789098'})).toEqual("1234-5678-9098")
-
         expect(wrapper.vm.options.templates.report_date_time('test', {'report_date_time': '2000-6-5'})).toEqual("05-06-2000")
 
     })

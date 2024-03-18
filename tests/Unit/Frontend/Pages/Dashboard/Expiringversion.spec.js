@@ -67,9 +67,4 @@ describe('ExpiringVersion', () => {
         expect(wrapper.vm.data).toEqual(data);
     })
 
-    it("return columns in template option of datatable", () => {
-
-        expect(wrapper.vm.options.templates.version_number('test', {'version_number': '15161000'})).toEqual("15161000")
-    })
-
 });

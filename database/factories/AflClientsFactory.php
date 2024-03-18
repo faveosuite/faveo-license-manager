@@ -13,16 +13,17 @@ class AflClientsFactory extends Factory
      */
     public function definition()
     {
-        //this factory ois used to create admin data in clients table
-        $faker = Faker::create();
         return [
             'client_fname' => 'admin',
             'client_lname' => 'admin',
-            'client_email' => $faker->email,
             'client_password' => '$2y$10$CPDb8Ck93jBsgRke67TcFuRzkf8PwAF1CQVI2fRIJgasAdvHwPr/S',
             'client_role' => 'admin',
             'client_active_date' => now(),
             'client_status' => 1,
+            'client_email' => $this->faker->unique()->safeEmail(),
+            'client_profile_pic' => $this->faker->imageUrl(),
+            'client_address' => $this->faker->address(),
+            'client_organization' => $this->faker->company(),
         ];
     }
 }

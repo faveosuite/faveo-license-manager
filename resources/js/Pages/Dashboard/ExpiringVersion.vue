@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-12 col-sm-12 col-12">
+
         <div class="card card-light">
             <div class="card-header versions">
                 <h3 class="card-title">{{'Expiring Version'}}</h3>
@@ -29,16 +29,23 @@
                             {{ props.row.version_status ? 'Active' : 'Inactive'}}
                         </span>
                         </template>
+
+                        <template v-slot:version_number="props">
+
+                            <router-link v-if="props.row.version_number" :to="'/versions/'+props.row.version_id+'/view'">{{ props.row.version_number }}</router-link>
+                            <span v-else>----</span>
+                        </template>
                     </v-client-table>
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 
 <script>
 
+import moment from "moment";
+import 'moment-timezone'
 import {lang, formatDateTime} from "../../helpers/extraLogics";
 
 export default {
@@ -85,17 +92,12 @@ export default {
 
                 version_date(h,row){
 
-                    return formatDateTime(row.version_date, timezone, date_format, time_format)
+                    return row.version_date ? moment(row.version_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
                 version_expire_date(h,row){
 
-                    return formatDateTime(row.version_expire_date, timezone, date_format, time_format)
-                },
-
-                version_number(h,row){
-
-                    return row.version_number ?row.version_number : '----';
+                    return row.version_expire_date ? moment(row.version_expire_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
             },
 

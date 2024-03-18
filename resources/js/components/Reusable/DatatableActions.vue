@@ -16,6 +16,11 @@
 			</button>
 		</span>
 
+        <router-link v-if="data.view_url" class="btn btn-default btn-act ml-2" :to="data.view_url" v-tooltip="trans('view')">
+
+            <i class="fas fa-eye"></i>
+        </router-link>
+
 		<transition name="modal">
 
 		 	<delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" :deleteUrl="data.delete_url"

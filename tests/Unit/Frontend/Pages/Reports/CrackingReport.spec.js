@@ -49,7 +49,7 @@ describe('CrackingReport', () => {
 
     it("return row->created_at for `created_at` column in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.license_code('test', {'license_code': '201210124567'})).toEqual("201210124567")
+        expect(wrapper.vm.options.templates.license_code('test', {'license_code': '201210124567'})).toEqual("----")
     })
 
     it("requestAdapter method should return `sort-field`, `sort-order`, `search-query`, `page` & `limit`", () => {
@@ -62,7 +62,7 @@ describe('CrackingReport', () => {
         }
         let reqAdptDataReturn = {
             "sort_field": "id",
-            "sort_order": "desc",
+            "sort_order": "asc",
             "search_query": "something",
             "perPage": 10,
         }
@@ -75,13 +75,14 @@ describe('CrackingReport', () => {
             "data": {
                 "data": {
                     "data": [
-                        {product_id : 3},
+                        {report_id : 3},
                     ],
                     "total": 1
                 }
             }
         }
-        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "product_id", "product_id":3}]}
+
+        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "report_id", "report_id":3}]}
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });

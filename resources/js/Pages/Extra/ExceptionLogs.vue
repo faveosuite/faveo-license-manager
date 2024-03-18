@@ -32,9 +32,11 @@
 <script>
 
 import {formatDateTime, lang} from "../../helpers/extraLogics";
-import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-import LogsTrace from "../../components/Reusable/LogsTrace.vue";
 import {h} from 'vue'
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import moment from "moment";
+import LogsTrace from "../../components/Reusable/LogsTrace.vue";
+import 'moment-timezone'
 
 export default {
 
@@ -115,7 +117,7 @@ export default {
 
                     'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                    'search_query' : data.query,
+                    'search_query' : data.query.trim(),
 
                      perPage : data.limit,
                 }
@@ -150,7 +152,7 @@ export default {
 
                 category(h,row){
 
-                    return row.name ? row.name : '----'
+                    return row.category.name
                 },
 
                 created_at(h, row) {

@@ -76,8 +76,9 @@ class ProductsControllerTest extends TestCase
            ];
         $response = $this->json('POST', url('api/admin/products/delete'), $data);
         $response->assertStatus(200);
+
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database']);
+        $response->assertJson(['message' => 'Product Deleted Successfully']);
         $response->assertJson(['data' => 1]);
     }
 

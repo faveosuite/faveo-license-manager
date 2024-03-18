@@ -28,7 +28,7 @@ class LicenseRequest extends FormRequest
     {
         return [
 
-            'license_code' => 'string',
+            'license_code' => 'nullable|string',
             'product_id' => 'numeric',
             'license_order_number' => 'numeric',
             'license_require_domain' => 'boolean',

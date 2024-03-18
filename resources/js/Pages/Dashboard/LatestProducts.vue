@@ -1,6 +1,5 @@
 <template>
 
-    <div class="col-md-12 col-sm-12 col-12">
         <div class="card card-light">
             <div class="card-header">
                 <h3 class="card-title">{{ 'Latest Products' }}</h3>
@@ -30,16 +29,28 @@
                             {{ props.row.product_status ? 'Active' : 'Inactive'}}
                         </span>
                         </template>
+
+                        <template v-slot:product_title="props">
+
+                            <router-link :to="'/products/'+props.row.product_id+'/view'">{{ props.row.product_title }}</router-link>
+                        </template>
+
+                        <template v-slot:versions="props">
+                            <router-link v-if="props.row.versions && props.row.versions.version_number" :to="'/versions/'+props.row.versions.version_id+'/view'">{{ props.row.versions.version_number }}</router-link>
+                            <span v-else>----</span>
+                        </template>
+
                     </v-client-table>
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
 
 import {formatDateTime, lang} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
     name :'latest-product',
@@ -48,7 +59,7 @@ export default {
 
         return {
 
-            columns:['product_title','product_sku','product_date','product_status'],
+            columns:['product_title','product_sku','versions', 'installations_count','licenses_count' ,'product_status'],
 
             options : {},
 
@@ -81,10 +92,6 @@ export default {
 
             templates: {
 
-                product_title(h,row){
-                    return row.product_title ?row.product_title : '----';
-                },
-
                 product_date(h, row) {
 
                     return formatDateTime(row.product_date, timezone, date_format, time_format)
@@ -97,7 +104,11 @@ export default {
 
                 product_sku: 'SKU',
 
-                product_date: 'Date',
+                versions: 'Versions',
+
+                licenses_count: 'Licenses',
+
+                installations_count: 'Installations',
 
                 product_status: 'Status'
             },

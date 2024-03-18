@@ -13,7 +13,7 @@
 
 			<div class="card-header">
 
-				<h3 class="card-title">{{lang('products')}}</h3>
+				<h3 class="card-title">{{lang('all_products')}}</h3>
 
 				<div class="card-tools">
 
@@ -39,6 +39,8 @@
 
     import {lang} from "../../helpers/extraLogics";
     import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+    import {h} from "vue";
+    import {RouterLink} from "vue-router";
 
 	export default {
 
@@ -56,7 +58,7 @@
 
                 data: '',
 
-				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'licenses_count', 'installations_count', 'product_status', 'actions'],
+				columns: ['product_title', 'product_sku', 'versions', 'versions_available', 'licenses_count', 'installations_count', 'product_status', 'actions'],
 
 				options: {},
 
@@ -83,7 +85,7 @@
 
 				texts: { filter: '', limit: '' },
 
-                sortable:  ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'licenses_count', 'installations_count', 'product_status'],
+                sortable:  ['product_title', 'product_sku', 'product_status'],
 
                 filterable : [ 'product_title' ],
 
@@ -95,7 +97,7 @@
 
                         'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                        'search_query' : data.query,
+                        'search_query' : data.query.trim(),
 
                          perPage : data.limit,
                     }
@@ -110,6 +112,8 @@
                             data.edit_url = '/products/' + data.product_id + '/edit';
 
                             data.delete_url = '/api/admin/products/delete';
+
+                            data.view_url = '/products/' + data.product_id + '/view';
 
                             data.keyVal = 'product_id';
 
@@ -128,11 +132,11 @@
 
 					product_sku: 'product_sku',
 
-					product_url_homepage: 'product_url',
-
 					product_status: 'product_status',
 
-					product_version: 'product_version',
+                    versions: 'versions',
+
+                    versions_available: 'versions_available',
 
                     licenses_count: 'product_licenses',
 
@@ -141,19 +145,14 @@
 
 				templates: {
 
-                    product_version(h, row) {
+                    versions_available(h, row) {
 
-                        return row.product_version ? row.product_version : '---'
+                        return row.versions_count >= 0 ? row.versions_count : '----'
                     },
 
                     product_sku(h, row) {
 
                         return row.product_sku ? row.product_sku : '---'
-                    },
-
-                    product_url_homepage(h, row) {
-
-                        return row.product_url_homepage ? row.product_url_homepage : '---'
                     },
 
                     total_licenses(h, row) {
@@ -163,7 +162,44 @@
 
                     installations_count(h, row) {
 
-                        return row.total_installations ? row.total_installations : '---'
+                        return row.installations_count >= 0 ? row.installations_count : '---'
+                    },
+
+                    product_title: (f, row) => {
+
+                        if(row.product_title && row.product_id) {
+
+                            return h(RouterLink, {
+
+                                to: '/products/' + row.product_id + '/view'
+
+                            },[row.product_title])
+
+                        } else {
+                            return '----'
+                        }
+                    },
+
+                    versions: (f, row) => {
+
+                        if(row.versions && row.versions.version_number) {
+
+                            return h(RouterLink, {
+
+                                to: '/versions/' + row.versions.version_id + '/view'
+
+                            },[row.versions.version_number])
+
+                        } else {
+                            return '----'
+                        }
+                    },
+
+                    product_status: (f, row) => {
+
+                        return h('span', {
+                                'class': row.product_status ? 'text-green' : 'text-red'
+                            }, row.product_status ? this.lang('active'): this.lang('inactive'))
                     },
 				},
 
@@ -171,21 +207,19 @@
 
 				headings: {
 
-					product_title: 'Product',
+					product_title: this.lang('product'),
 
-					product_sku: 'SKU',
+					product_sku: this.lang('sku'),
 
-					product_url_homepage: 'Homepage',
+                    versions: this.lang('latest_versions'),
 
-					product_version: 'Version',
+					licenses_count: this.lang('licenses'),
 
-					licenses_count: 'Licenses',
+                    installations_count: this.lang('no_of_installations'),
 
-					total_installations: 'Installations',
+					product_status: this.lang('status'),
 
-					product_status: 'Status',
-
-					actions: 'Actions'
+					actions: this.lang('actions')
 				},
 			}
 		},

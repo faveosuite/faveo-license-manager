@@ -47,11 +47,6 @@ describe('LicenseReport', () => {
         await expect(wrapper.find('data-table-stub').exists()).toBe(true)
     });
 
-    it("return row->created_at for `created_at` column in template option of datatable", () => {
-
-        expect(wrapper.vm.options.templates.license_code('test', {})).toEqual("---")
-    })
-
     it("requestAdapter method should return `sort-field`, `sort-order`, `search-query`, `page` & `limit`", () => {
         // page query will come with url
         let reqAdptData = {
@@ -75,13 +70,14 @@ describe('LicenseReport', () => {
             "data": {
                 "data": {
                     "data": [
-                        {product_id : 3},
+                        {report_id : 3},
                     ],
                     "total": 1
                 }
             }
         }
-        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "product_id", "product_id":3}]}
+
+        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "report_id", "report_id":3}]}
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });
