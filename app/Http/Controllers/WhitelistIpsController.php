@@ -23,7 +23,7 @@ class WhitelistIpsController extends Controller
             return errorResponse($whitelist_host_ip .Lang::get('lang.already_exist_ip'), 500);
         }
         $whitelist = AflWhitelistIps::updateOrCreate(
-            ['whitelist_host_id' => $id],
+            ['whitelist_host_id' => $id, 'whitelist_host_ip' => $whitelist_host_ip],
             [
                 'whitelist_host_ip' => $whitelist_host_ip,
                 'whitelist_host_comments' => $whitelist_host_comments,
@@ -62,7 +62,14 @@ class WhitelistIpsController extends Controller
     }
     public function view()
     {
-        $records = AflWhitelistIps::cursor();
+        $records = AflWhitelistIps::cursor()->map(function ($record) {
+            return [
+                'whitelist_host_id' => $record->whitelist_host_id,
+                'whitelist_host_date' => $record->created_at->format('Y-m-d'), // Rename and format created_at
+                'whitelist_host_ip' => $record->whitelist_host_ip,
+                'whitelist_host_comments' => $record->whitelist_host_comments,
+            ];
+        });
         return successResponse(Lang::get('lang.delete'), $records, 201);
     }
 

@@ -12,5 +12,5 @@ class AflWhitelistIps extends Model
 
     protected $primaryKey = 'whitelist_host_id';
 
-    public $timestamps = false;
+    public $timestamps = true;
 }
