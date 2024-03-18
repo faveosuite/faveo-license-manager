@@ -31,6 +31,10 @@
 
 import {formatDateTime, lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import moment from "moment";
+import 'moment-timezone'
+import {h} from "vue";
+import {RouterLink} from "vue-router";
 export default {
 
     name: 'licenses-list',
@@ -94,7 +98,7 @@ export default {
 
                     'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                    'search_query' : data.query,
+                    'search_query' : data.query.trim(),
 
                      perPage : data.limit,
                 }
@@ -106,9 +110,9 @@ export default {
 
                     data: data.data.data.map(data => {
 
-                        data.keyVal = 'product_id';
+                        data.keyVal = 'report_id';
 
-                        data.idVal = data.product_id;
+                        data.idVal = data.report_id;
 
                         return data;
                     }),
@@ -119,19 +123,13 @@ export default {
 
             columnsClasses: {
 
-                product_title: 'license_product_title',
-
-                license_code: 'license_code',
-
-                account_id: 'account_id',
-
                 report_date_time: 'report_date_time',
 
                 report_text:  'report_text',
 
-                report_status:  'Status',
+                report_status:  'status',
 
-                user_formatted:  'Format'
+                user_formatted:  'format'
             },
 
             templates: {
@@ -156,23 +154,45 @@ export default {
                     return formatDateTime(row.latest_callback_date_time, timezone, date_format, time_format)
                 },
 
+                user_formatted: (f, row) => {
+
+                    if(row.user_formatted && row.user_formatted !== 'System') {
+
+                        return h(RouterLink, {
+
+                            to: '/clients/' + row.account_id + '/view'
+
+                        },[row.user_formatted])
+
+                    } else if(row.user_formatted && row.user_formatted === 'System') {
+
+                        return row.user_formatted
+                    } else {
+
+                        return '----'
+                    }
+                },
+
+                report_status: (f, row) => {
+
+                    return h('span', {
+                        'class': row.report_status ? 'text-green' : 'text-red'
+                    }, row.report_status ? this.lang('success'): this.lang('error'))
+                },
+
             },
 
             pagination: { show : false },
 
             headings: {
 
-                product_title: 'Product',
+                report_text:  this.lang('report'),
 
-                license_code: 'License Code',
+                report_date_time: this.lang('report_date_time'),
 
-                report_text:  'Report',
+                report_status:  this.lang('status'),
 
-                report_date_time: 'Report Date Time',
-
-                report_status:  'Status',
-
-                user_formatted:  'User',
+                user_formatted:  this.lang('user'),
 
             },
         }
@@ -185,18 +205,16 @@ export default {
 };
 </script>
 
-<style>
-.license_product_title,
-.license_code,
-.license_install,
-.license_callbacks,
-.latest_callback_time,
-.license_date {
+<style scoped>
+.report_date_time,
+.report_text,
+.status,
+.format{
     max-width: 200px;
     word-break: break-all;
 }
 
-#my_licenses .VueTables .table-responsive {
+#my_systemreports .VueTables .table-responsive {
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -205,7 +223,7 @@ export default {
     width: 200px;
 }
 
-#my_licenses .VueTables .table-responsive>table {
+#my_systemreports .VueTables .table-responsive>table {
     width: max-content;
     min-width: 100%;
     max-width: max-content;

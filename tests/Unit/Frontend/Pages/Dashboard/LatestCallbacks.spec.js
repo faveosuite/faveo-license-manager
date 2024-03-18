@@ -68,8 +68,6 @@ describe('LatestCallbacks', () => {
 
     it("return columns in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.callback_domain('test', {'callback_domain': '23-1-300'})).toEqual("23-1-300")
-
         expect(wrapper.vm.options.templates.callback_date_time('test', {'callback_date_time': '2020-10-22'})).toEqual("22-10-2020")
 
         expect(wrapper.vm.options.templates.callback_ip('test', {'callback_ip': '15161000'})).toEqual("15161000")

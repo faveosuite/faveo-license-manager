@@ -75,13 +75,14 @@ describe('SystemReport', () => {
             "data": {
                 "data": {
                     "data": [
-                        {product_id : 3},
+                        {report_id : 3},
                     ],
                     "total": 1
                 }
             }
         }
-        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "product_id", "product_id":3}]}
+
+        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "report_id", "report_id":3}]}
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });

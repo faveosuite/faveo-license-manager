@@ -88,30 +88,19 @@ class ReportsController extends Controller
 
         // Fetch paginated system reports with related user and product data
         $reportsQuery = AflReports::with(['user'])
+            ->select("afl_reports.*")
             ->withUserFormatted()
             ->where('report_system', 1)
-            ->whereHas('user', function ($query) {
-                $query->where('client_role', 'admin');
-            });
-        $rawSql = $reportsQuery->toSql();
-        $reportsQuery = DB::table(DB::raw("({$rawSql}) as sub"))
-            ->mergeBindings($reportsQuery->getQuery())
-            ->where('report_text', 'like', '%' . $searchQuery . '%')
-            ->orWhere('user_formatted', 'like', '%' . $searchQuery . '%')
-            ->orderBy($sortField, $sortOrder);
+            ->when($searchQuery, function ($query, $searchQuery) {
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%');
+                });
+            })
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
 
-        $paginatedReports = $reportsQuery->paginate($perPage, ['*'], 'page', $page);
-
-        // Modify the fetched data as needed
-        $modifiedReports = $paginatedReports->map(function ($report) {
-            // report_date_time, and report_status
-            $report->report_date_time = removeSeconds($report->report_date_time);
-            $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
-
-            return $report;
-        });
-        $paginatedReports->setCollection($modifiedReports);
-        return successResponse(Lang::get('lang.SystemReport_Show'), $paginatedReports,200);
+        return successResponse(Lang::get('lang.SystemReport_Show'), $reportsQuery,200);
     }
 
     public function reportArrayCracking(Request $request)
@@ -123,32 +112,52 @@ class ReportsController extends Controller
         $sortField = $request->input('sort_field','report_id');
 
         // Fetch paginated cracking reports with related user and product data
-        $paginatedReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
+        $crakingReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
             ->where('account_id', 0)
             ->where('product_id', 0)
             ->where('report_system', 0)
             ->where(function ($query) use ($searchQuery) {
                     $query->where('report_text', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%')
+                    ->orWhere('license_code', 'LIKE', '%' . str_replace('-','',$searchQuery) . '%');
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
-        // Modify the fetched data as needed
-        $modifiedReports = $paginatedReports->map(function ($report) {
-            // Format client, report_date_time, and report_status
-            $report->client_formatted = formatClient($report->license_code, optional($report->user)->client_email);
-            $report->report_date_time = removeSeconds($report->report_date_time);
-            $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
-
-            return $report;
-        });
-
-        $paginatedReports->setCollection($modifiedReports);
-        return successResponse(Lang::get('lang.CrackingReport_Show'), $paginatedReports,200);
+        return successResponse(Lang::get('lang.CrackingReport_Show'), $crakingReports,200);
     }
 
     public function reportArrayLicense(Request $request)
+    {
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order','desc');
+        $sortField = $request->input('sort_field','report_id');
+
+        // Fetch paginated license reports with related user and product data
+        $LicenseReports = AflReports::with('user:client_id,client_email','license:license_id,license_code')
+            ->select('report_id','account_id','report_text','license_code','report_date_time','report_status')
+            ->where('license_code' , '!=', null)
+            ->withAggregate('user as client_email','client_email')
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%')
+                        ->orWhereHas('user', function ($query) use ($searchQuery) {
+                            $query->where('client_email', 'like', '%' . $searchQuery . '%');
+                        })
+                        ->orWhere('license_code', 'like', '%' . str_replace("-", "", $searchQuery) . '%')
+                        ->orWhere('report_date_time', 'like', '%' . $searchQuery . '%');
+                });
+            })
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        return successResponse(Lang::get('lang.LicenseReport_Show'), $LicenseReports,200);
+    }
+
+    public function reportArrayUpdate(Request $request)
     {
         $perPage = $request->input('perPage',10); // Number of items per page
         $page = $request->input('page', 1); // Get the current page from the request
@@ -156,59 +165,35 @@ class ReportsController extends Controller
         $sortOrder= $request->input('sort_order','desc');
         $sortField = $request->input('sort_field','report_id');
 
-        // Fetch paginated license reports with related user and product data
-        $paginatedReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
-            ->withAggregate('product as product_title','product_title')
-            ->whereNotNull('license_code')
-            ->where(function ($query) use ($searchQuery) {
-                $query->whereHas('product', function ($query) use ($searchQuery) {
-                    $query->where('product_title', 'LIKE', '%' . $searchQuery . '%');
-                })
-                    ->orWhere('report_text', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
-            })
-                ->orderBy($sortField, $sortOrder)
-            ->paginate($perPage, ['afl_reports.*'], 'page', $page);
-
-
-
-        // Modify the fetched data as needed
-        $modifiedReports = $paginatedReports->map(function ($report) {
-            // Format product, client, report_date_time, and report_status
-            $report->products = $report->product ? $report->product->product_title : '---';
-            $report->client_formatted = formatClient($report->license_code, optional($report->user)->client_email);
-            $report->report_date_time = removeSeconds($report->report_date_time);
-            $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
-
-            return $report;
-        });
-
-        $paginatedReports->setCollection($modifiedReports);
-        return successResponse(Lang::get('lang.LicenseReport_Show'), $paginatedReports,200);
-    }
-
-    public function reportArrayUpdate()
-    {
-        $perPage = 10; // Number of items per page
-        $page = request()->input('page', 1); // Get the current page from the request
-
         // Fetch paginated update reports with related product data
-        $paginatedReports = AflReports::with('product')
-            ->orderByDesc('report_date_time')
-            ->orderByDesc('report_id')
+        $updateReports = AflReports::with('product')
+            ->withAggregate('product','product_title')
+            ->where('report_text', 'like', '%' ."upgrade" .'%')
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'like', '%' . $searchQuery . '%')
+                        ->orWhereHas('product', function ($query) use ($searchQuery) {
+                            $query->where('product_title', 'like', '%' . $searchQuery . '%');
+                        })
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%')
+                        ->orWhere('report_date_time', 'like', '%' . $searchQuery . '%');
+                });
+            })
+            ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
-        // Modify the fetched data as needed
-        $modifiedReports = $paginatedReports->map(function ($report) {
-            // Format product_title, report_date_time, and report_status
-            $report->product_title = $report->product ? $report->product->product_title : 'Unknown';
-            $report->report_date_time = removeSeconds($report->report_date_time);
-            $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
+        return successResponse(Lang::get('lang.report_update'), $updateReports,200);
 
-            return $report;
-        });
-
-        return $modifiedReports->toArray();
+    }
+    private function reportStatusFormatter($status)
+    {
+        if (strtolower($status) == 'success'){
+            $status = 1;
+        }
+        if (strtolower($status) == 'error' ){
+            $status = 0;
+        }
+        return $status;
     }
 }
 

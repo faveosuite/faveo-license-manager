@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Backend\Admin;
 
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\AflProducts;
 use App\Models\AfuVersions;

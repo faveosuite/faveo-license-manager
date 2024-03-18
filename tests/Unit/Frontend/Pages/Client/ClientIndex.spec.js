@@ -8,6 +8,7 @@ jest.mock('../../../../../resources/js/helpers/extraLogics', ()=>({
     lang: jest.fn()
 }));
 
+
 describe('ClientsIndex', () => {
 
     let wrapper;
@@ -83,7 +84,7 @@ describe('ClientsIndex', () => {
                 }
             }
         }
-        let responseAdpDataReturn = {"count": 1, "data": [{"edit_url": "/clients/1/edit", "client_id":1, "delete_url" : "/api/admin/clients/delete", "keyVal": "client_id", "idVal": 1}]}
+        let responseAdpDataReturn = {"count": 1, "data": [{"edit_url": "/clients/1/edit", "client_id":1, "view_url":"/clients/1/view", "delete_url" : "/api/admin/clients/delete", "keyVal": "client_id", "idVal": 1}]}
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });

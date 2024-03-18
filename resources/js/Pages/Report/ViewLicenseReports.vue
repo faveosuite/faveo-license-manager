@@ -9,7 +9,7 @@
 
         <alert componentName="dataTableModal" />
 
-        <div class="card card-light" id="my_licencereports">
+        <div class="card card-light" id="my_licensereports">
 
             <div class="card-header">
 
@@ -30,6 +30,10 @@
 
 import {formatDateTime, lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import moment from "moment";
+import 'moment-timezone'
+import {h} from "vue";
+import {RouterLink} from "vue-router";
 
 export default {
 
@@ -49,7 +53,7 @@ export default {
 
             data: '',
 
-            columns: ['report_text', 'license_code', 'product_title','report_date_time', 'report_status'],
+            columns: ['report_text', 'user' ,'license','report_date_time', 'report_status'],
 
             options: {},
 
@@ -59,6 +63,11 @@ export default {
 
             endPoint : '/api/admin/reportLicense?page=1'
         };
+    },
+
+    created() {
+
+        this.emitter.on('refreshData', this.updateData);
     },
 
     beforeMount() {
@@ -80,7 +89,7 @@ export default {
 
             texts: { filter: '', limit: '' },
 
-            sortable:  ['product_title', 'report_text', 'license_code', 'report_date_time', 'report_status'],
+            sortable:  ['product_title', 'report_text', 'report_date_time', 'report_status'],
 
             filterable : [ 'product_title', 'report_text' ],
 
@@ -92,7 +101,7 @@ export default {
 
                     'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                    'search_query' : data.query,
+                    'search_query' : data.query.trim(),
 
                      perPage : data.limit,
                 }
@@ -104,9 +113,9 @@ export default {
 
                     data: data.data.data.map(data => {
 
-                        data.keyVal = 'product_id';
+                        data.keyVal = 'report_id';
 
-                        data.idVal = data.product_id;
+                        data.idVal = data.report_id;
 
                         return data;
                     }),
@@ -119,42 +128,43 @@ export default {
 
                 product_title: 'license_product_title',
 
-                license_code: 'license_code',
+                license: 'license_code',
+
+                user: 'client_email',
 
                 report_date_time: 'report_date_time',
 
                 report_text: 'report_text',
 
-                report_status: 'Status',
+                report_status: 'status',
             },
 
             pagination: { show : false },
 
             headings: {
 
-                products_title: 'Product Title',
+                license: this.lang('license_code'),
 
-                license_code: 'License Code',
+                user: this.lang('email'),
 
-                report_text: 'Report',
+                report_text: this.lang('report'),
 
-                report_date_time: 'Report Date Time',
+                report_date_time: this.lang('report_date_time'),
 
-                report_status: 'Status',
+                report_status: this.lang('status'),
             },
 
             templates :{
 
-                license_code(h, row) {
+                user(f, row) {
 
-                    return row.license_code ? row.license_code : '---';
-                },
+                    if(row.user && row.user.client_email) {
 
-                product_title(h, row) {
+                        return h(RouterLink, {
 
-                    if(row.product && Array.isArray(row.product) && row.product[0].product_title) {
+                            to: '/clients/' + row.user.client_id + '/view'
 
-                        return row.product[0].product_title
+                        },[row.user.client_email])
 
                     } else {
 
@@ -162,9 +172,33 @@ export default {
                     }
                 },
 
+
                 report_date_time(h, row) {
 
                     return formatDateTime(row.report_date_time, timezone, date_format, time_format)
+
+                },
+
+                license: (f, row) => {
+
+                    if(row.license && row.license.license_code && row.license.license_id) {
+
+                        return h(RouterLink, {
+
+                            to: '/licenses/' + row.license.license_id + '/view'
+
+                        },[row.license.license_code.match(/.{1,4}/g).join('-')])
+
+                    } else {
+                        return '----'
+                    }
+                },
+
+                report_status: (f, row) => {
+
+                    return h('span', {
+                        'class': row.report_status ? 'text-green' : 'text-red'
+                    }, row.report_status ? this.lang('success'): this.lang('error'))
                 },
             }
         };
@@ -178,13 +212,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .license_product_title,
 .license_code,
-.license_install,
-.license_callbacks,
-.latest_callback_time,
-.license_date {
+.report_date_time,
+.report_text,
+.status {
     max-width: 200px;
     word-break: break-all;
 }
@@ -193,7 +226,7 @@ export default {
     white-space: nowrap;
     width: 200px;
 }
-#my_licencereports .glyphicon-sort {
+#my_licensereports .glyphicon-sort {
     margin-left: 0px;
     margin-top: 0px;
 }

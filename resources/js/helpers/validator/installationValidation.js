@@ -6,7 +6,7 @@ import { lang } from '../../helpers/extraLogics';
 
 export function validateInstallationSettings(data) {
 
-  const { installation_ip } = data
+  const { installation_ip, installation_domain } = data
 
   var validatingData = {
 

@@ -20,10 +20,15 @@
 
 				<div class="row">
 
-					<text-field :label="trans('ip_address')" :value="installation_ip" type="text" name="installation_ip"
+					<text-field :label="trans('domain')" required :disabled="true" :value="installation_domain" type="text" name="installation_domain"
 						:onChange="onChange" classname="col-sm-3">
 
 					</text-field>
+
+                    <text-field :label="trans('ip_address')" required :value="installation_ip" type="text" name="installation_ip"
+                                :onChange="onChange" classname="col-sm-3">
+
+                    </text-field>
 
 					<radio-button :options="statusOptions" :label="trans('status')" name="installation_status"
 						:value="installation_status" :onChange="onChange" classname="form-group col-sm-3">
@@ -33,11 +38,6 @@
 					<radio-button :options="radioOptions" :label="trans('disable_ip')"
 						name="installation_disable_ip_verification" :value="installation_disable_ip_verification"
 						:onChange="onChange" classname="form-group col-sm-3">
-
-					</radio-button>
-
-					<radio-button :options="radioOptions" :label="trans('delete_installation')" name="delete_record"
-						:value="delete_record" :onChange="onChange" classname="form-group col-sm-3">
 
 					</radio-button>
 				</div>
@@ -65,10 +65,23 @@
     import TextField from "../../components/Reusable/FormField/TextField.vue";
 
     import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
+    import store from "../../store";
+    import {computed} from "vue";
+    import {useStore} from "vuex";
 
 	export default {
 
 		name: 'installation-create-edit',
+
+        setup() {
+
+            const store = useStore();
+
+            return {
+                // getter
+                getApiKey: computed(() => store.getters.getApiKey)
+            };
+        },
 
 		data() {
 
@@ -84,13 +97,13 @@
 
 				installation_id: '',
 
+                installation_domain: '',
+
 				installation_ip: '',
 
 				installation_status: 1,
 
 				installation_disable_ip_verification: 0,
-
-				delete_record: 0,
 			}
 		},
 
@@ -154,10 +167,7 @@
                     this[name] = value;
                 }else if (name == 'installation_status') {
                     this[name] = value ? 1 : 0;
-                }
-                else if (name == 'delete_record') {
-                    this[name] = value ? 1 : 0;
-                } else {
+                }else {
                     this[name] = value ? value : '';
                 }
             },
@@ -180,17 +190,15 @@
 
 					data['installation_disable_ip'] = this.installation_disable_ip_verification ? 1 : 0;
 
-					data['delete_record'] = this.delete_record ? 1 : 0;
-
 					axios.post('/api/admin/installations/edit', data).then(res => {
 
 						this.loading = false
 
-						if (res.data.error_detected) {
+						if (!res.data.api_action_success || res.data.error_detected || res.data.api_error_detected) {
 
-							errorHandler({ response: { status: 400, data: { message: res.data.page_message } } }, 'installation');
+                            store.dispatch('setAlert', { type: 'danger', message: res.data.page_message, component_name: 'installation' });
 
-						} else {
+						} else if(res.data.api_action_success && res.data.action_success) {
 
 							successHandler({ status: 200, data: { message: res.data.page_message } }, 'installation');
 

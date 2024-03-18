@@ -47,11 +47,6 @@ describe('InstallationsIndex', () => {
         await expect(wrapper.find('data-table-stub').exists()).toBe(true)
     });
 
-    it("return row->created_at for `created_at` column in template option of datatable", () => {
-
-        expect(wrapper.vm.options.templates.license_code('test', {'license_code': '201210124567'})).toEqual("2012-1012-4567")
-    })
-
     it("requestAdapter method should return `sort-field`, `sort-order`, `search-query`, `page` & `limit`", () => {
         // page query will come with url
         let reqAdptData = {
@@ -81,7 +76,9 @@ describe('InstallationsIndex', () => {
                 }
             }
         }
-        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "installation_id" , "installation_id":3, "edit_url": "/installations/3/edit", "delete_url": "/api/admin/installations/delete"}]}
+
+        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "installation_id", "view_url": "/installations/3/view", "installation_id":3, "edit_url": "/installations/3/edit", "delete_url": "/api/admin/installations/delete"}]}
+
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });

@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-6 col-md-12 col-12">
+
         <div class="card card-light">
             <div class="card-header products">
                 <h3 class="card-title">{{'Latest Product Report'}}</h3>
@@ -29,22 +29,29 @@
                             {{ props.row.report_status ? 'Active' : 'Inactive'}}
                         </span>
                         </template>
+
+                        <template v-slot:license="props">
+
+                            <router-link v-if="props.row.license && props.row.license.license_id" :to="'/licenses/' + props.row.license.license_id + '/view'">{{ props.row.license.license_code.match(/.{1,4}/g).join('-')}}</router-link>
+
+                            <span v-else>----</span>
+                        </template>
                     </v-client-table>
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
 
 import {formatDateTime, lang} from "../../helpers/extraLogics";
-
+import moment from "moment";
+import 'moment-timezone'
 export default {
     name: 'latest-product-report',
     data() {
         return {
-            columns: ['report_text', 'report_date_time','license_code', 'report_status'],
+            columns: ['report_text', 'report_date_time','license', 'report_status'],
             options: {},
             counter: 0,
             loading: false
@@ -64,16 +71,13 @@ export default {
 
                 report_date_time: 'report_date_time',
 
-                license_code: 'license_code',
+                license: 'license_code',
 
                 report_status: 'report_status'
             },
 
             templates: {
-                license_code(h, row) {
-                    const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
-                    return formattedLicenseCode;
-                },
+
                 report_date_time(h, row) {
 
                     return formatDateTime(row.report_date_time, timezone, date_format, time_format)
@@ -84,7 +88,7 @@ export default {
 
                 report_date_time: 'Date',
 
-                license_code:  'License Code',
+                license:  'License Code',
 
                 report_status:  'Status'
             },

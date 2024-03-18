@@ -20,6 +20,8 @@ import ProductCreateEdit from '../Pages/Product/ProductCreateEdit.vue';
 
 import ProductsIndex from '../Pages/Product/ProductsIndex.vue';
 
+import ProductsView from "../Pages/Product/ProductsView.vue";
+
 let productsMenu = {
 
     path: '/products',
@@ -66,6 +68,88 @@ let productsMenu = {
 
             meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'edit' } }
         },
+
+        {
+
+            path: ':id/view',
+
+            name: 'Product View',
+
+            component: ProductsView,
+
+            meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'view' } }
+        },
+    ]
+}
+
+//=================================================================
+
+//===========================VERSIONS MENU=========================
+
+import VersionCreateEdit from "../Pages/Version/VersionCreateEdit.vue";
+
+import VersionsIndex from "../Pages/Version/VersionsIndex.vue";
+
+import VersionsView from "../Pages/Version/VersionsView.vue";
+
+let versionsMenu = {
+
+    path: '/versions',
+
+    component: LicenseLayout,
+
+    name: 'Versions',
+
+    redirect: '/versions/list',
+
+    beforeEnter: requireAuth,
+
+    children: [
+
+        {
+
+            path: 'list',
+
+            name: 'Versions Index',
+
+            component: VersionsIndex,
+
+            meta: { title : 'versions', crumb : { link: { name : 'dashboard', to : '/' }, active : 'versions' } }
+        },
+
+        {
+
+            path: 'create',
+
+            name: 'Version Create',
+
+            component: VersionCreateEdit,
+
+            meta: { title : 'versions', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'versions', to : '/version' }, active : 'create' } }
+        },
+
+        {
+
+            path: ':id/edit',
+
+            name: 'Version Edit',
+
+            component: VersionCreateEdit,
+
+            meta: { title : 'version', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'version', to : '/version' }, active : 'edit' } }
+        },
+
+        {
+
+            path: ':id/view',
+
+            name: 'Versions View',
+
+            component: VersionsView,
+
+            meta: { title : 'versions', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'versions', to : '/versions' }, active : 'view' } }
+        },
+
     ]
 }
 
@@ -108,6 +192,8 @@ let profileMenu = {
 import ClientCreateEdit from '../Pages/Client/ClientCreateEdit.vue';
 
 import ClientsIndex from '../Pages/Client/ClientsIndex.vue';
+
+import ClientsView from "../Pages/Client/ClientsView.vue";
 
 let clientsMenu = {
 
@@ -155,6 +241,17 @@ let clientsMenu = {
 
 			meta: { title : 'Contacts', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'Contacts', to : '/clients' }, active : 'edit' } }
 		},
+
+        {
+
+            path: ':id/view',
+
+            name: 'Client View',
+
+            component: ClientsView,
+
+            meta: { title : 'Contacts', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'Contacts', to : '/clients' }, active : 'view' } }
+        },
 	]
 }
 
@@ -165,6 +262,8 @@ let clientsMenu = {
 import LicenseCreateEdit from '../Pages/License/LicenseCreateEdit.vue';
 
 import LicensesIndex from '../Pages/License/LicensesIndex.vue';
+
+import LicensesView from "../Pages/License/LicensesView.vue";
 
 let licensesMenu = {
 
@@ -212,6 +311,17 @@ let licensesMenu = {
 
 			meta: { title : 'licenses', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'licenses', to : '/licenses' }, active : 'edit' } }
 		},
+
+        {
+
+            path: ':id/view',
+
+            name: 'License View',
+
+            component: LicensesView,
+
+            meta: { title : 'licenses', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'licenses', to : '/licenses' }, active : 'view' } }
+        },
 	]
 }
 
@@ -222,6 +332,8 @@ let licensesMenu = {
 import InstallationsIndex from '../Pages/Installations/InstallationsIndex.vue';
 
 import InstallationCreateEdit from '../Pages/Installations/InstallationCreateEdit.vue';
+
+import InstallationsView from "../Pages/Installations/InstallationsView.vue";
 
 let installationsMenu = {
 
@@ -258,6 +370,17 @@ let installationsMenu = {
 
 			meta: { title : 'installations', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'installations', to : '/installations' }, active : 'edit' } }
 		},
+
+        {
+
+            path: ':id/view',
+
+            name: 'Installation View',
+
+            component: InstallationsView,
+
+            meta: { title : 'installations', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'installations', to : '/installations' }, active : 'view' } }
+        },
 	]
 }
 
@@ -313,6 +436,8 @@ import ViewCrackingReports from '../Pages/Report/ViewCrackingReports.vue';
 
 import ViewLicenseReports from '../Pages/Report/ViewLicenseReports.vue';
 
+import ViewUpdateReports from "../Pages/Report/ViewUpdateReports.vue";
+
 import ViewSystemReports from '../Pages/Report/ViewSystemReports.vue';
 
 let reportsMenu = {
@@ -349,6 +474,17 @@ let reportsMenu = {
             component: ViewLicenseReports,
 
             meta: { title : 'reports', crumb : { link: { name : 'dashboard', to : '/' }, active : 'view_license_reports' } }
+        },
+
+        {
+
+            path: 'update',
+
+            name: 'View Update Report',
+
+            component: ViewUpdateReports,
+
+            meta: { title : 'reports', crumb : { link: { name : 'dashboard', to : '/' }, active : 'view_update_reports' } }
         },
 
         {
@@ -713,6 +849,8 @@ const routes = [
 	},
 
     productsMenu,
+
+    versionsMenu,
 
     clientsMenu,
 

@@ -130,10 +130,14 @@
 }
 .dp-data {
     background-color: #4f5962;
-    color: #c2c7d0;
+    color: #c2c7d0 !important;
 }
 .dp-data:hover {
     background-color: rgba(0,0,0,0.2);
     color: #c2c7d0;
+}
+
+.dropdown-menu{
+    left: -20px !important;
 }
 </style>

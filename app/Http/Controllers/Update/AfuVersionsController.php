@@ -167,7 +167,7 @@ class AfuVersionsController extends Controller
                             'version_status' => $version_status,
                         ]
                     );
-                    
+                    $added_records = empty($added_record) ? 0 : 1;
                     if (! aflValidateIntegerValue($added_records)) {
                         $error_detected = 1;
                         $error_details .= 'Invalid record details, duplicated data, or database error.<br>';
@@ -466,23 +466,26 @@ class AfuVersionsController extends Controller
                     } else {
                         $version_upgrade_count = $rows_array[0]['version_upgrade_count']; //use old value when no reset is needed
                     }
-                    $updated_records += DB::table('afu_versions')->where('version_id', $version_id)
-                            ->update([
-                                'version_install_file' => $version_install_file,
-                                'version_install_query' => $version_install_query,
-                                'version_raw_install_query' => $version_raw_install_query,
-                                'version_upgrade_file' => $version_upgrade_file,
-                                'version_upgrade_query' => $version_upgrade_query,
-                                'version_raw_upgrade_query' => $version_raw_upgrade_query,
-                                'version_install_limit' => $version_install_limit,
-                                'version_install_count' => $version_install_count,
-                                'version_upgrade_limit' => $version_upgrade_limit,
-                                'version_upgrade_count' => $version_upgrade_count,
-                                'version_changelog' => $version_changelog,
-                                'version_expire_date' => $version_expire_date,
-                                'version_comments' => $version_comments,
-                                'version_status' => $version_status,
-                            ]);
+                    $updated_records = AfuVersions::updateOrCreate(
+                        ['version_id' => $version_id],
+                        [
+                            'version_install_file' => $version_install_file,
+                            'version_install_query' => $version_install_query,
+                            'version_raw_install_query' => $version_raw_install_query,
+                            'version_upgrade_file' => $version_upgrade_file,
+                            'version_upgrade_query' => $version_upgrade_query,
+                            'version_raw_upgrade_query' => $version_raw_upgrade_query,
+                            'version_install_limit' => $version_install_limit,
+                            'version_install_count' => $version_install_count,
+                            'version_upgrade_limit' => $version_upgrade_limit,
+                            'version_upgrade_count' => $version_upgrade_count,
+                            'version_changelog' => $version_changelog,
+                            'version_expire_date' => $version_expire_date,
+                            'version_comments' => $version_comments,
+                            'version_status' => $version_status,
+                        ]
+                    );
+                    $updated_records = empty($updated_records) ? 0 : 1 ;
                     if (! aflValidateIntegerValue($updated_records)) {
                         $error_detected = 1;
                         $error_details .= 'Invalid record details, duplicated data, or database error.<br>';
@@ -652,7 +655,9 @@ class AfuVersionsController extends Controller
         foreach ($rows_array = DB::table('directory')->where('id', 1)->get()->toArray() as $row) {
             extract((array) $row);
         }
-
+        define('SCRIPT_ROOT_DIRECTORY', __DIR__);
+        define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
+        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
 

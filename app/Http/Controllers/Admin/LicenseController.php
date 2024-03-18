@@ -8,9 +8,12 @@ use App\Models\AflClients;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\CommonSetting;
+use App\Models\LicenseColumn;
+use App\Models\ReportColumn;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use function Laravel\Prompts\select;
 
 /**
  * Consist of functionalities for the License page in Auto Faveo licenser
@@ -312,37 +315,76 @@ class LicenseController extends Controller
     {
         $perPage = $request->input('perPage', 10);
         $page = $request->input('page', 1);
-        $searchQuery = str_replace("-","",$request->input('search_query'));
-        $sortOrder= $request->input('sort_order','desc');
-        $sortField = $request->input('sort_field','license_id');
-        $query = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+        $searchQuery = $request->input('search_query', '');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $sortField = $request->input('sort_field', 'license_id');
+        $fields = json_decode($this->getLicenseColumns()->content())->data;
+        $searchable = [
+            'license_code',
+            'license_ip',
+            'license_limit',
+            'license_expire_date',
+            'license_support_date',
+            'license_order_number',
+            'license_domain',
+            'license_date',
+            'license_updates_date',
+            'license_status'
+        ];
+        $licenseQuery = AflLicenses::with('product:product_id,product_title','clients:client_id,client_email')
             ->select(
                 'license_id',
+                'product_id',
+                'client_id',
                 'license_code',
-                'license_status',
+                'license_ip',
+                'license_limit',
+                'license_expire_date',
+                'license_support_date',
                 'license_order_number',
+                'license_domain',
                 'license_date',
-                'afl_products.product_id',
-                'afl_products.product_title',
-                DB::raw('(SELECT MAX(license_date) FROM afl_licenses AS sub_licenses WHERE sub_licenses.license_code = afl_licenses.license_code) as latest_license_date'),
-                DB::raw('(SELECT MAX(callback_date_time) FROM afl_callbacks AS sub_callbacks WHERE sub_callbacks.license_code = afl_licenses.license_code) as latest_callback_date')
+                'license_updates_date',
+                'license_status'
             )
-            ->withCount(['installations', 'callbacks'])
-            ->with(['callbacks' => function ($query) {
-                $query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
-                    ->groupBy('license_code');
-            }])->where(function ($query) use ($searchQuery) {
-                $query->where('license_code', 'LIKE', '%'.$searchQuery.'%')
-                    ->orWhere('license_order_number', 'LIKE', '%'.$searchQuery.'%')
-                    ->orWhere('afl_products.product_title', 'LIKE', '%'.$searchQuery.'%');
+            ->withAggregate(['product as product_title'], 'product_title')
+            ->withAggregate(['clients as client_email'], 'client_email')
+            ->when($searchQuery, function ($query) use ($searchQuery, $request,$fields,$searchable) {
+                    $query->when(in_array('client_email', $fields), function ($query) use ($searchQuery) {
+                        $query->whereHas('clients', function ($query) use ($searchQuery) {
+                            $query->where('client_email', 'like', '%' . $searchQuery . '%');
+                        });
+                    })
+                    ->when(in_array('product_title', $fields), function ($query) use ($searchQuery) {
+                        $query->whereHas('product', function ($query) use ($searchQuery) {
+                            $query->where('product_title', 'like', '%' . $searchQuery . '%');
+                        });
+                    });
+                foreach ($fields as $field) {
+                        $query->when(in_array($field,$searchable), function ($query) use ($field, $searchQuery) {
+                            if($field == 'license_status'){
+                                $query->orWhere($field, 'like', '%' . statusFormatter($searchQuery) . '%');
+                            }
+                            else if($field == 'license_code'){
+                                $query->orWhere($field, 'like', '%' . str_replace('-','',$searchQuery) . '%');
+                            }
+                            else{
+                                $query->orWhere($field, 'like', '%' . $searchQuery . '%');
+                            }
+                        });
+                }
             })
-            ->orderBy($sortField, $sortOrder);
-
-        $paginatedData = $query->paginate($perPage, ['*'], 'page', $page);
-
-        return successResponse(Lang::get('lang.License_show'), $paginatedData, 200);
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
+        $licenseQuery->getCollection()->transform(function ($license) {
+            $license->license_order_url = $license->order_url;
+            $license->installation_counts = $license->installation_count;
+            $license->latest_call_backs = $license->latest_call_back;
+            $license->call_backs_count = $license->call_backs->count();
+            return $license;
+        });
+        return successResponse(Lang::get('lang.License_show'), $licenseQuery, 200);
     }
-
 
     public function edit($license_id)
     {
@@ -459,5 +501,37 @@ class LicenseController extends Controller
         public function updateTheLicenseCode(Request $request){
         return AflLicenses::where('license_code',$request->old_license_code)
             ->update(['licnese_code'=> $request->license_code]);
+    }
+
+    public function getLicenseColumns()
+    {
+        $userId = 1;
+        $userColumns = LicenseColumn::where('client_id', $userId)->where('type', 'license')->pluck('column_id');
+        if ($userColumns->isEmpty()) {
+            $defaultColumns = ReportColumn::where('type', 'license')->where('default', true)->pluck('key');
+            return successResponse('',$defaultColumns);
+        }
+        $defaultColumns = ReportColumn::where('type', 'license')->whereIn('id', $userColumns)->pluck('key');
+        return successResponse('',$defaultColumns);
+    }
+    public function saveLicenseColumns(Request $request)
+    {
+        $userId = 1;
+        $selectedColumns = $request->selected_columns;
+        $reportColumns = ReportColumn::whereIn('key', $selectedColumns)
+            ->where('type', 'license')
+            ->pluck('id', 'key');
+        LicenseColumn::where('client_id', $userId)->where('type', 'license')->delete();
+
+        foreach ($selectedColumns as $columnKey) {
+            if (isset($reportColumns[$columnKey])) {
+                LicenseColumn::create([
+                    'client_id' => $userId,
+                    'column_id' => $reportColumns[$columnKey],
+                    'type' => 'license',
+                ]);
+            }
+        }
+        return successResponse(Lang::get('lang.column_saved'));
     }
 }

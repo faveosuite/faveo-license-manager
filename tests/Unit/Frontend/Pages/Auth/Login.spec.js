@@ -15,6 +15,11 @@ import MockAdapter from "axios-mock-adapter";
 let axiosMock;
 
 jest.mock('../../../../../resources/js/helpers/responseHandler');
+jest.mock('../../../../../env', () => ({
+    env: {
+        VITE_RECAPTCHA_SITE_KEY: 'test-site-key',
+    },
+}));
 
 window.axios = axios;
 axios.defaults.baseURL = 'http://localhost';
@@ -32,6 +37,8 @@ const store = createStore({
     actions: {
 
         unsetAlert: jest.fn(),
+
+        setAlert: jest.fn(),
 
         unsetValidationError: jest.fn(),
 

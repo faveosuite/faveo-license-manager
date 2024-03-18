@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-6 col-md-12 col-12">
+
         <div class="card card-light">
             <div class="card-header callbacks">
                 <h3 class="card-title ">{{'Latest Callbacks'}}</h3>
@@ -29,11 +29,18 @@
                             {{ props.row.callback_status ? 'Active' : 'Inactive'}}
                         </span>
                         </template>
+
+                        <template v-slot:callback_domain="props">
+
+                            <a v-if="props.row.callback_domain" :href="'https://'+props.row.callback_domain" target="_blank">{{props.row.callback_domain}}</a>
+
+                            <span v-else>----</span>
+
+                        </template>
                     </v-client-table>
                 </div>
             </div>
         </div>
-    </div>
 </template>
 
 <script>
@@ -80,10 +87,6 @@ export default {
             },
 
             templates: {
-
-                callback_domain(h,row){
-                    return row.callback_domain ?row.callback_domain : '----';
-                },
 
                 callback_date_time(h,row){
 

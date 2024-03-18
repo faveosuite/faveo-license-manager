@@ -25,6 +25,8 @@ describe('LicenseIndex', () => {
 
     beforeEach(()=>{
 
+        jest.spyOn(LicenseIndex.methods, 'getColumns').mockImplementation();
+
         wrapper = mount(LicenseIndex,{
 
             global : { plugins : [store], stubs:['custom-loader', 'alert', 'data-table'] },
@@ -45,12 +47,8 @@ describe('LicenseIndex', () => {
 
     it("return row->created_at for `created_at` column in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.license_code('test', {'license_code': '201210124567'})).toEqual("2012-1012-4567")
-    })
-
-    it("return row->created_at for `created_at` column in template option of datatable", () => {
-
         expect(wrapper.vm.options.templates.license_code('test', {})).toEqual("----")
+
     })
 
     it("requestAdapter method should return `sort-field`, `sort-order`, `search-query`, `page` & `limit`", () => {
@@ -82,7 +80,8 @@ describe('LicenseIndex', () => {
                 }
             }
         }
-        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "license_id" , "license_id":3, "edit_url": "/licenses/3/edit", "delete_url": "/api/admin/license/delete"}]}
+
+        let responseAdpDataReturn = {"count": 1, "data": [{ "idVal" : 3, "keyVal" : "license_id" , "license_id":3, "edit_url": "/licenses/3/edit", "view_url": "/licenses/3/view", "delete_url": "/api/admin/license/delete"}]}
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });

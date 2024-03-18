@@ -24,7 +24,9 @@ const store = createStore({
 
             getApiKey: () => { return '' },
 
-            getUserToken: () => { return '' }
+            getUserToken: () => { return '' },
+
+            getUserData: () => {  return { client_id: 2 }  }
         }
     },
 })

@@ -43,6 +43,7 @@
 <script>
 
 import {lang} from "../../helpers/extraLogics";
+import {h} from 'vue'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
@@ -112,7 +113,7 @@ export default {
 
                     'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                    'search_query' : data.query,
+                    'search_query' : data.query.trim(),
 
                      perPage : data.limit,
                 }
@@ -175,32 +176,67 @@ export default {
                 api_key_description(h,row) {
 
                     return row.api_key_description ? row.api_key_description :  '---';
-                }
+                },
+
+                api_key_products(f, row) {
+                    return h('span', {}, [`${row.api_key_products_add ? 'Active' : 'Inactive'}/${row.api_key_products_edit ? 'Active' : 'Inactive'}`])
+                },
+
+                api_key_clients(f, row) {
+                    return h('span', {}, [`${row.api_key_clients_add ? 'Active' : 'Inactive'}/${row.api_key_clients_edit ? 'Active' : 'Inactive'}`])
+                },
+
+                api_key_licenses(f, row) {
+                    return h('span', {}, [`${row.api_key_licenses_add ? 'Active' : 'Inactive'}/${row.api_key_licenses_edit ? 'Active' : 'Inactive'}`])
+                },
+
+                api_key_installations_edit: (f, row) => {
+
+                    return h('span', {
+                        'class': row.api_key_installations_edit ? 'text-green' : 'text-red'
+                    }, row.api_key_installations_edit ? this.lang('active'): this.lang('inactive'))
+                },
+
+                api_key_search: (f, row) => {
+
+                    return h('span', {
+                        'class': row.api_key_search ? 'text-green' : 'text-red'
+                    }, row.api_key_search ? this.lang('active'): this.lang('inactive'))
+                },
+
+                api_key_status: (f, row) => {
+
+                    return h('span', {
+                        'class': row.api_key_status ? 'text-green' : 'text-red'
+                    }, row.api_key_status ? this.lang('active'): this.lang('inactive'))
+                },
+
+
             },
 
             pagination: { show : false },
 
             headings: {
 
-                api_key_secret: 'API Secret',
+                api_key_secret: this.lang('api_secret'),
 
-                api_key_ip: 'IP Address',
+                api_key_ip: this.lang('ip_address'),
 
-                api_key_products: 'Add/Edit Products',
+                api_key_products: this.lang('api_key_products'),
 
-                api_key_clients: 'Add/Edit Clients',
+                api_key_clients: this.lang('api_key_clients'),
 
-                api_key_licenses: 'Add/Edit Licenses',
+                api_key_licenses: this.lang('api_key_licenses'),
 
-                api_key_installations_edit: 'Edit Installations',
+                api_key_installations_edit: this.lang('edit_installations'),
 
-                api_key_search: 'Search',
+                api_key_search: this.lang('search'),
 
-                api_key_status: 'Status',
+                api_key_status: this.lang('status'),
 
-                api_key_description:  'Description',
+                api_key_description:  this.lang('description'),
 
-                actions: 'Actions'
+                actions: this.lang('actions')
             },
         }
     },
