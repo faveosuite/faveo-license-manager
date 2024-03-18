@@ -101,9 +101,9 @@ private function handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_che
     Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed login attempts.');
     if ($failedAttempts >= $failed_limit && $failed_check ==1 ) {
         Cache::put($ipAddress . $ipAddress, true, now()->addMinutes(30));
-        return errorResponse(Lang::get('auth.throttle'), 403);
+        return errorResponse(Lang::get('auth.throttle'), 400);
     }
-    return errorResponse(Lang::get('auth.failed'), 401);
+    return errorResponse(Lang::get('auth.failed'), 400);
 }
 
     /**
@@ -128,9 +128,9 @@ private function handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_che
 
     if ($failedAttempts >= $failed_limit && $failed_check ==1 ) {
         Cache::put($ipAddress .  $ipAddress, true, now()->addDays(1));
-        return errorResponse(Lang::get('lang.too_many_attempts'), 403);
+        return errorResponse(Lang::get('lang.too_many_attempts'), 400);
     }
-    return errorResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 400);
+    return successResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 200);
 
 }
 
