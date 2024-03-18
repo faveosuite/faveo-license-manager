@@ -40,9 +40,9 @@
 
                 <div class="row">
 
-                    <dynamic-select :label="trans('product')" :multiple="false" :elements="productOptions"
-                                    name="product_id" classname="col-sm-6" :value="product_id" :onChange="onChange" :strlength="35"
-                                    :required="true">
+                    <dynamic-select name="product" apiEndpoint="/api/admin/viewproducts" :multiple="false" :label="trans('product')" :onChange="onChange"
+                                    classname="col-sm-6" :value="product_title" optionLabel="product_title" :required="true">
+
                     </dynamic-select>
 
                     <text-field :label="trans('license_code')" :value="license_code" type="text" name="license_code"
@@ -54,25 +54,33 @@
 
                 <div class="row">
 
+                    <dynamic-select name="client" :apiEndpoint="'/api/admin/viewClients/'+client_id" :multiple="false" :label="trans('client')" :onChange="onChange"
+                                    classname="col-sm-6" :value="client_name" optionLabel="full_name" :required="true">
+
+                    </dynamic-select>
+
                     <number-field :label="trans('order_number')" :value="license_order_number"
                                   name="license_order_number" :onChange="onChange" classname="col-sm-6">
 
                     </number-field>
+
+                </div>
+
+                <div class="row">
 
                     <text-field :label="trans('licensed_ip')" :value="license_ip" type="text" name="license_ip"
                                 :onChange="onChange" classname="col-sm-6">
 
                     </text-field>
 
-                </div>
-
-                <div class="row">
-
                     <text-field :label="trans('licensed_domain')" :multiple="true" :elements="[]"
                                 name="license_domain" classname="col-sm-6" :value="license_domain" :onChange="onChange"
                                 :strlength="35" :required="false" :taggable="true" :hint="trans('domain_tip')">
                     </text-field>
 
+                </div>
+
+                <div class="row">
 
                     <date-picker :label="trans('license_expire_date')" :value="license_expire_date" type="date"
                                  name="license_expire_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
@@ -80,15 +88,15 @@
 
                     </date-picker>
 
-                </div>
-
-                <div class="row">
-
                     <date-picker :label="trans('license_updates_date')" :value="license_updates_date" type="date"
                                  name="license_updates_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
                                  classname="col-sm-6" :clearable="true" :disabled="false" :confirm="false">
 
                     </date-picker>
+
+                </div>
+
+                <div class="row">
 
                     <date-picker :label="trans('license_support_date')" :value="license_support_date" type="date"
                                  name="license_support_date" :onChange="onChange" :required="true" format="DD-MM-YYYY"
@@ -96,23 +104,16 @@
 
                     </date-picker>
 
-                </div>
-
-                <div class="row">
                     <radio-button :options="domainOptions" :label="trans('license_require_domain')"
                                   name="license_require_domain" :value="license_require_domain ? license_require_domain : 0" :onChange="onChange"
                                   classname="form-group col-sm-6">
 
                     </radio-button>
 
-                    <radio-button :options="radioOptions" :label="lang('license_status')" name="license_status"
-                                  :value="license_status ? license_status : 0" :onChange="onChange" classname="form-group col-sm-6">
-
-                    </radio-button>
-
                 </div>
 
                 <div class="row">
+
                     <number-field :label="trans('installations_limit')" :value="license_limit" name="license_limit"
                                   :onChange="onChange" classname="col-sm-6">
 
@@ -122,6 +123,15 @@
                                 name="license_comments" :onChange="onChange" classname="col-sm-6">
 
                     </text-field>
+                </div>
+
+                <div class="row">
+
+                    <radio-button :options="radioOptions" :label="lang('license_status')" name="license_status"
+                                  :value="license_status ? license_status : 0" :onChange="onChange" classname="form-group col-sm-6">
+
+                    </radio-button>
+
                 </div>
             </div>
 
@@ -152,11 +162,13 @@ import NumberField from "../../components/Reusable/FormField/NumberField.vue";
 
 import StaticSelect from "../../components/Reusable/FormField/StaticSelect.vue";
 
-import DynamicSelect from "../../components/Reusable/FormField/DynamicSelect.vue";
+import DatatableDynamicSelect from "../../components/Reusable/FormField/DatatableDynamicSelect.vue";
 
 import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
 
 import DateTimePicker from "../../components/Reusable/FormField/DateTimePicker.vue";
+
+import store from "../../store";
 
 export default {
 
@@ -189,9 +201,9 @@ export default {
 
             product_id: '',
 
-            product_name: '',
+            product_title: '',
 
-            productOptions: [],
+            product_name: '',
 
             client_id: '',
 
@@ -301,7 +313,11 @@ export default {
 
             this.loading = true;
 
+            this.hasDataPopulated = true
+
             const licenseId = getIdFromUrl(path)
+
+            this.client_id = store.getters.getUserData.client_id
 
             if (path.indexOf('edit') >= 0) {
 
@@ -373,7 +389,9 @@ export default {
                 }
             });
 
-            this.product_id = { id : data.product_name[0].product_id , name : data.product_name[0].product_title }
+            // this.product_id = { id : data.product_name[0].product_id , name : data.product_name[0].product_title }
+            this.product_id = data.product_name[0].product_id
+            this.product_title = data.product_name[0].product_title
 
             this.license_id = data.license.license_id;
 
@@ -412,7 +430,19 @@ export default {
 
         onChange(value, name) {
 
-            this[name] = value ? value : '';
+            if(name === 'product') {
+
+                this.product_id = value.product_id
+                this.product_title = value.product_title
+            } else if(name === 'client') {
+
+                this.client_id = value.client_id
+                this.client_name = value.full_name
+            }
+            else {
+
+                this[name] = value ? value : '';
+            }
         },
 
         generateCode() {
@@ -434,11 +464,19 @@ export default {
 
                 data['api_key_secret'] = this.getApiKey;
 
-                data['product_id'] = this.product_id ? this.product_id.id : '';
+                data['product_id'] = this.product_id ? this.product_id : '';
 
                 data['license_status'] = this.license_status ? 1 : 0;
 
                 data['license_require_domain'] = this.license_require_domain ? 1 : 0;
+
+                if(this.client_id) {
+                    data['client_id'] = this.client_id
+                }
+
+                if(this.client_name) {
+                    data['client_name'] = this.client_name
+                }
 
                 if (this.license_order_number) { data['license_order_number'] = this.license_order_number; }
 
@@ -501,7 +539,7 @@ export default {
 
         "static-select": StaticSelect,
 
-        "dynamic-select": DynamicSelect,
+        "dynamic-select": DatatableDynamicSelect,
 
         "radio-button": RadioButton,
 

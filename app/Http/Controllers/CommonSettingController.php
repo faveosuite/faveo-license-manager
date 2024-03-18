@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Facades\ImageUpload;
 use App\Http\Requests\CommonSettingRequest;
 use App\Models\CommonSetting;
@@ -18,6 +19,7 @@ class CommonSettingController extends Controller
       $this->requestKeys = ['google_site_key'];
       $this->envKeys = ['RECAPTCHA_SITE_KEY'];
     }
+
     public function createOrUpdateCommonSetting(CommonSettingRequest $request){
         // Get status from request or default to 1
         $status = $request->input('recaptcha_status', 1);

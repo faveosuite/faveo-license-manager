@@ -120,7 +120,7 @@ export default {
 
             axios.get('/api/get-log-mail-body/'+id).then(res=>{
 
-                this.loading = falseLogsTrace
+                this.loading = false
 
                 this.content = this.contentParser(res.data.data.mail_body.replaceAll('<br />\r\n', ""));
 

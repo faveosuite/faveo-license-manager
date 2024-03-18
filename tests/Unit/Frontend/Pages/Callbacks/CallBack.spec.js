@@ -2,11 +2,11 @@ import { mount } from '@vue/test-utils';
 
 import CallbacksIndex from "../../../../../resources/js/Pages/Callbacks/CallbacksIndex.vue";
 
+
 jest.mock('../../../../../resources/js/helpers/extraLogics', ()=>({
     formatDateTime: jest.fn(),
     lang: jest.fn()
 }));
-
 describe('CallbacksIndex', () => {
 
     let wrapper;
@@ -59,14 +59,13 @@ describe('CallbacksIndex', () => {
             "data": {
                 "data": {
                     "data": [
-                        {id: 1,subject:'name'},
+                        {callback_id: 1,subject:'name'},
                     ],
                     "total": 1
                 }
             }
         }
-
-        let responseAdpDataReturn = {"count" : 1, "data": [{id: 1,subject:'name'}]};
+        let responseAdpDataReturn = {"count" : 1, "data": [{callback_id: 1, idVal: 1, keyVal: "callback_id" ,subject:'name'}]};
 
         expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
     });

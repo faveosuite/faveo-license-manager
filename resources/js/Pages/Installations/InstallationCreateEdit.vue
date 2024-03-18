@@ -20,10 +20,15 @@
 
 				<div class="row">
 
-					<text-field :label="trans('ip_address')" :value="installation_ip" type="text" name="installation_ip"
+					<text-field :label="trans('domain')" required :value="installation_domain" type="text" name="installation_domain"
 						:onChange="onChange" classname="col-sm-3">
 
 					</text-field>
+
+                    <text-field :label="trans('ip_address')" required :value="installation_ip" type="text" name="installation_ip"
+                                :onChange="onChange" classname="col-sm-3">
+
+                    </text-field>
 
 					<radio-button :options="statusOptions" :label="trans('status')" name="installation_status"
 						:value="installation_status" :onChange="onChange" classname="form-group col-sm-3">
@@ -83,6 +88,8 @@
 				statusOptions: [{ name: 'Active', value: 1 }, { name: 'Inactive', value: 0 }],
 
 				installation_id: '',
+
+                installation_domain: '',
 
 				installation_ip: '',
 
@@ -175,6 +182,8 @@
 					data['api_key_secret'] = this.getApiKey;
 
 					data['installation_ip'] = this.installation_ip;
+
+                    data['installation_domain'] = this.installation_domain;
 
 					data['installation_status'] = this.installation_status ? 1 : 0;
 

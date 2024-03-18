@@ -1,5 +1,5 @@
 <template>
-    <div class="col-sm-6 col-md-12 col-12">
+
         <div class="card card-light">
 
             <div class="card-header licences">
@@ -31,24 +31,47 @@
                             {{ props.row.product_status ? 'Active' : 'Inactive'}}
                         </span>
                         </template>
+
+                        <template v-slot:installation_domain="props">
+
+                            <a v-if="props.row.installation_domain" :href="props.row.installation_domain" target="_blank">{{props.row.installation_domain}}</a>
+
+                            <span v-else>----</span>
+
+                        </template>
+
+                        <template v-slot:license="props">
+
+                            <router-link v-if="props.row.license && props.row.license.license_id" :to="'/licenses/' + props.row.license.license_id + '/view'">{{ props.row.license.license_code.match(/.{1,4}/g).join('-')}}</router-link>
+
+                            <span v-else>----</span>
+                        </template>
+
+                        <template v-slot:installation_status="props">
+
+                            <span :style="{ color: props.row.installation_status ? 'green' : 'red' }">
+
+                            {{ props.row.installation_status ? 'Active' : 'Inactive'}}
+                        </span>
+                        </template>
                     </v-client-table>
                 </div>
             </div>
         </div>
-
-    </div>
 </template>
 
 <script>
 
 import {lang, formatDateTime} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
     name: 'latest-installations',
 
     data() {
         return {
-            columns: ['license_code','installation_ip','installation_date','installation_domain'],
+            columns: ['license','installation_ip','installation_date','installation_domain', 'installation_status'],
             options: {},
             counter: 0,
             loading: false
@@ -67,24 +90,18 @@ export default {
 
             columnsClasses: {
 
-                license_code: 'license_code',
+                license: 'license_code',
 
                 installation_ip: 'installation_ip',
 
                 installation_date: 'installation_date',
 
                 installation_domain: 'installation_domain',
+
+                installation_status: 'installation_status'
             },
 
             templates: {
-
-                license_code(h, row) {
-
-                    const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
-
-                    return formattedLicenseCode;
-                },
-
 
                 installation_ip(h, row) {
                     return row.installation_ip ? row.installation_ip : '----';
@@ -94,21 +111,19 @@ export default {
 
                     return formatDateTime(row.installation_date, timezone, date_format, time_format)
                 },
-
-                installation_domain(h, row) {
-                    return row.installation_domain ? row.installation_domain : '----';
-                },
             },
 
             headings: {
 
-                license_code: 'License Code',
+                license: 'License Code',
 
-                installation_date: 'Date',
+                installation_date: 'Installation Date',
 
                 installation_ip: 'IP',
 
                 installation_domain: 'Domain',
+
+                installation_status: 'Status'
             },
         };
     },

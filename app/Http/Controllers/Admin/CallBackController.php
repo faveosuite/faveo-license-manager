@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AflCallbacks;
 use App\Models\AflProducts;
 use App\Models\AfuCallbacks;
+use App\Models\CallbackTypes;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
@@ -18,60 +19,53 @@ class CallBackController extends Controller
         $searchQuery = str_replace("-","",$request->input('search_query'));
         $sortOrder= $request->input('sort_order','desc');
         $sortField =$request->input('sort_field','callback_id');
-
-        // Fetch paginated callbacks with related product and user data using Eloquent relationships
-        $paginatedCallbacks = AflCallbacks::with(['product', 'user'])
-            ->withAggregate('product as product_title','product_title',)
-            ->where(function ($query) use ($searchQuery) {
+        $paginatedCallbacks = AflCallbacks::with(['product:product_id,product_title', 'user:client_id,client_email','license:license_id,license_code'])
+            ->select('callback_id','product_id','client_id','license_code','callback_domain','callback_ip','callback_date_time','callback_status')
+            ->withAggregate('product as product_title','product_title')
+            ->withAggregate(['user as client_email'], 'client_email')
+            ->when($searchQuery,function ($query) use ($searchQuery) {
                 $query->whereHas('product', function ($query) use ($searchQuery) {
                     $query->where('product_title', 'LIKE', '%'.$searchQuery.'%');
-                })->orWhere('license_code', 'LIKE', '%'.$searchQuery.'%')
+                })->orWhereHas('user', function ($query) use ($searchQuery) {
+                    $query->where('client_email', 'LIKE', '%'.$searchQuery.'%');
+                })
+                    ->orWhere('license_code', 'LIKE', '%'.$searchQuery.'%')
                     ->orWhere('callback_ip', 'LIKE', '%'.$searchQuery.'%')
                     ->orWhere('callback_domain', 'LIKE', '%'.$searchQuery.'%');
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
-        // Modify the fetched data as needed
-        $modifiedCallbacks = $paginatedCallbacks->map(function ($callback) {
-            // Format client and callback status
-            $callback->client_formatted = formatClient($callback->license_code, optional($callback->user)->client_email);
-            $callback->callback_date_time = removeSeconds($callback->callback_date_time);
-            $callback->callback_status_formatted = returnFormattedStatusArray($callback->callback_status, 'Success', 'Error', 'Unknown');
-
-            return $callback;
-        });
-        $paginatedCallbacks->setCollection($modifiedCallbacks);
         return successResponse(Lang::get('lang.Callback_Show'),$paginatedCallbacks,200);
     }
 
-    public function updateCallbacks()
+    public function updateCallbacks(Request $request)
     {
-        $callbacks = $this->callbackUpdateArray();
-
-        return $callbacks;
-    }
-
-    private function callbackUpdateArray()
-    {
-        $rows_array = AfuCallbacks::leftJoin('afl_products', 'afu_callbacks.product_id', '=', 'afl_products.product_id')
-                               ->leftJoin('afu_versions', 'afu_callbacks.version_id', '=', 'afu_versions.version_id')
-                               ->orderBy('afu_callbacks.callback_date_time', 'DESC')
-                                ->orderBy('afu_callbacks.callback_id', 'DESC')->get()->toArray();
-
-        foreach ($rows_array as $row) {
-            foreach ($row as $key => $value) {
-                $item_array[$key] = $value;
-            }
-
-            $item_array['callback_date_time'] = removeSeconds($item_array['callback_date_time']);
-            $item_array['callback_type_formatted'] = $this->returnFormattedCallbackTypeArray($item_array['callback_type']);
-            $item_array['callback_status_formatted'] = returnFormattedStatusArray($item_array['callback_status'], 'Success', 'Error', 'Unknown');
-
-            $root_array[] = $item_array;
-        }
-
-        return $root_array;
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = str_replace("-","",$request->input('search_query'));
+        $sortOrder= $request->input('sort_order','desc');
+        $sortField =$request->input('sort_field','callback_id');
+       $updateCallbacks = AfuCallbacks::with(['product:product_id,product_title', 'version:version_id,version_number'])
+           ->select('callback_id','product_id','version_id','callback_ip','callback_type','callback_date_time','callback_status')
+           ->withAggregate('product as product_title','product_title')
+           ->withAggregate('types as callback_types','value')
+           ->when($searchQuery,function ($query) use ($searchQuery) {
+               $query->whereHas('product', function ($query) use ($searchQuery) {
+                   $query->where('product_title', 'LIKE', '%'.$searchQuery.'%');
+               })
+                   ->orWhereHas('version', function ($query) use ($searchQuery) {
+                       $query->where('version_number', 'LIKE', '%'.$searchQuery.'%');
+                   })
+                   ->orWhereHas('type', function ($query) use ($searchQuery) {
+                       $query->where('keys', 'LIKE', '%'.$searchQuery.'%');
+                   })
+                   ->orWhere('callback_ip', 'LIKE', '%'.$searchQuery.'%')
+                   ->orWhere('callback_date_time', 'LIKE', '%'.$searchQuery.'%');
+           })
+           ->orderBy($sortField, $sortOrder)
+           ->paginate($perPage, ['*'], 'page', $page);
+       return successResponse('',$updateCallbacks);
     }
 
     //format and return callback type text

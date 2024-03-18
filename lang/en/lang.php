@@ -99,6 +99,9 @@ return [
     'server_notify' => 'Server Notifications',
     'settings' => 'Settings',
     'api_keys' => 'API Keys',
+    'api_key_products' => 'Add/Edit Products',
+    'api_key_clients' => 'Add/Edit Clients',
+    'api_key_licenses' => 'Add/Edit Licenses',
     'banned-hosts' => 'Banned Hosts',
     'configuration' => 'Configuration',
     'view' => 'View',
@@ -121,6 +124,7 @@ return [
     'max_length_exceeded' => 'Maximum length exceeded',
     'not_enough_length' => 'Input is shorter than minimum value',
     'invalid_email' => 'Please type a valid email address',
+    'type' => 'Type',
     'not_alpha' => 'Input should only consist of alphabets',
     'not_alphanumeric' => 'Input should only consist of alphabets and numbers',
     'invalid_number' => 'Input should only consist of numbers',
@@ -320,6 +324,9 @@ return [
     'product_version'   =>   'Product Version',
     'product_homepage_url'  => 'Product Homepage Url',
     'product_status'     =>  'Product Status',
+    'latest_versions' => 'Latest Versions',
+    'no_of_installations' => 'No. of Installations',
+    'actions' => 'Actions',
 
 
     //CLIENTS
@@ -460,11 +467,13 @@ return [
     'Callback_Show' => 'All the Details of the callback\'s registered so far are displayed',
     'Banned_Show' => 'All the Details of the banned host\'s registered so far are displayed',
     'invalid_secret_key' => 'Please enter a valid secret key.',
+    'report_update' => 'All the Details of the update report\'s registered so far are displayed',
 
     //EXCEPTION LOGS PAGE
     'exception' => 'Exception',
     'exception_logs' => 'Exception Logs',
     'type_and_enter_to_search' => 'Type and Enter to Search',
+    'search' => 'Search',
     'category' => 'Category',
     'file' => 'File',
     'line' => 'Line',
@@ -548,6 +557,126 @@ return [
     'cant_scan' => 'CAN\'T SCAN IT?',
     'scan_barcode' => 'SCAN A BARCODE',
     'done' => 'Done',
-    'you_are_all_set_from_now_on_you_will_use_authenticator_to_sign_in_to_your_account' => 'You\'re all set. From now on, you\'ll use Authenticator to sign in to your License Manager Account.'
+    'you_are_all_set_from_now_on_you_will_use_authenticator_to_sign_in_to_your_account' => 'You\'re all set. From now on, you\'ll use Authenticator to sign in to your License Manager Account.',
+
+    //columns
+    'column_saved' => 'Column Saved Successfully',
+
+    //CONTACTS VIEW PAGE
+    'copy_email' => 'Copy Email',
+    'copy_name' => 'Copy Name',
+    'copied' => 'Copied',
+    'user_activation_date' => 'User Activation Date',
+    'organization' => 'Organization',
+    'address' => 'Address',
+
+    //PRODUCTS VIEW PAGE
+    'sku_id' => 'SKU id',
+    'product_latest_version' => 'Product Latest Version',
+    'delete_btn' => 'Delete',
+    'ip' => 'IP',
+    'activation_date' => 'Activation Date',
+    'expiration_date' => 'Expiration Date',
+    'release_date' => 'Release Date',
+    'upgrades' => 'Upgrades',
+
+
+    //LICENSES VIEW PAGE
+    'client_email' => 'Client Email',
+    'product_title' => 'Product',
+    'latest_callback' => 'Latest Callback',
+    'license_ip' => 'License IP',
+    'license_domain' => 'License Domain',
+    'license_limit' => 'License Limit',
+    'license_date' => 'License Date',
+    'license_expiry' => 'License Expiry',
+    'updates_expiry' => 'Updates Expiry',
+    'support_expiry' => 'Support Expiry',
+    'select_columns' => 'Select Columns',
+    'client_email_or_license_code' => 'Client Email/License',
+    'latest_call_backs' => 'Latest Callbacks',
+    'license_order_number' => 'Order Number',
+    'call_backs_count' => 'Callbacks Count',
+    'installation_counts' => 'Installation Count',
+    'columns' => 'Columns',
+    'copy_license_code' => 'Copy License Code',
+
+    //INSTALLATION VIEW PAGE
+    'ip_address_verification' => 'IP Address Verification',
+    'installation_date' => 'Installation Date',
+    'enabled' => 'Enabled',
+    'disabled' => 'Disabled',
+    'domain' => 'Domain',
+    'installation_domain' => 'Domain',
+    'installation_ip' => 'IP',
+
+    //VERSIONS INDEX PAGE
+    'upgrades_count' => 'Upgrades Count',
+    'callbacks_count' => 'Callbacks Count',
+
+    //VERSIONS VIEW PAGE
+    'create_versions' => 'Create Version',
+    'version_status' => 'Version Status',
+    'version_date' => 'Released Date',
+    'version_upgrade_count' => 'Upgrades',
+
+    //CALLBACKS PAGE
+    'license_callbacks' => 'License Callbacks',
+    'update_callbacks' => 'Update Callbacks',
+
+    //UPDATE REPORTS
+    'view_update_reports' => 'View Update Reports',
+    'error' => 'Error',
+    'success' => 'Success',
+    'report_date_time' => 'Report Date Time',
+    'report' => 'Report',
+    'user' => 'User',
+
+    // Dashboard
+    'dashboard_show' => 'All license manager analytics are displayed here',
+
+    // Product View
+    'product_details' => 'Product details are displayed here',
+    'product_installations' => 'All product installations are displayed here',
+    'product_licenses' => 'All product licenses are displayed here',
+    'product_versions' => 'All product versions are displayed here',
+
+    // CREATE VERSION
+    'create_new_version' => 'Add New Version' ,
+    'version_number' => 'Version Number',
+    'version_install_limit' => 'Installations Limit',
+    'version_upgrade_limit' => 'Upgrades Limit',
+    'version_install_file' => 'Installation Archive',
+    'version_upgrade_file' => 'Upgrade Archive',
+    'version_install_query' => 'Installation MYSQL Query',
+    'version_upgrade_query' => 'Upgrade MYSQL Query',
+    'version_raw_install_query' => 'Installation Raw MYSQL Query',
+    'version_raw_upgrade_query' => 'Upgrade Raw MYSQL Query',
+    'version_change_log' => 'Version Changelog',
+    'version_comments' => 'Comments',
+    'version_expire_date' => 'Version Expiration Date',
+    'edit_version' => 'Edit Version',
+
+    // Version View
+    'version_details' => 'Version details are displayed here',
+    'version_callbacks' => 'All version callbacks are displayed here',
+
+    // Client View
+    'client_details' => 'Client details are displayed here',
+    'client_installations' => 'All client installation details are displayed here',
+    'client_licenses' => 'All client licenses are displayed here',
+
+    // License View
+    'license_details' => 'License details are displayed here',
+    'license_installations' => 'All license installations are displayed here',
+    'license_callback' => 'All license callbacks are displayed here',
+    'installation_limit' => 'Installation Limit',
+    'installations_count' => 'Installation Count',
+
+    // Installation View
+    'installation_details' => 'Installation details are displayed here',
+    'installation_callbacks' => 'All installation callbacks are displayed here',
+    'date' => 'Date',
+    'types' => 'Types'
 ];
 

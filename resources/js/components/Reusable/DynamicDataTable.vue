@@ -1,7 +1,5 @@
 <template>
 
-    <alert componentName="datatable" />
-
     <div class="datatable">
 
         <div v-if="showTable" class="row float-right mr-0 mb-3">
@@ -11,152 +9,36 @@
                 <input type="text" class="form-control globe-search" v-model="search_str"
                        @keyup.enter="checkFile()" :style="inputStyle" :placeholder="trans('type_and_enter_to_search')">
             </div>
+
+            <div v-if="showColumn" class="dropdown dropdownn">
+                <button v-tooltip="lang('select_columns')" class="btn btn-default ml-2 h-100 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-columns"></i> {{lang('columns')}}</button>
+
+                <div class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton" style="">
+                    <div v-for="column in selectedColumns" :key="column" class="form-check dropdown-item">
+                        <input
+                            class="form-check-input"
+                            :disabled="selectedColumnsArray.length===2 && selectedColumnsArray.includes(column)"
+                            :checked="selectedColumnsArray.includes(column)" v-model="selectedColumnsArray"
+                            style="cursor: pointer"
+                            type="checkbox"
+                            id="columnCheckbox"
+                            :value="column"
+                        />
+                        <label class="form-check-label" for="columnCheckbox">{{lang(column)}}</label>
+                    </div>
+
+                    <div class="dropdown-item text-right">
+                        <button @click="updateColumns" id="updateButton" class="btn btn-primary">{{lang('update')}}</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
         <v-server-table v-if="showTable" ref="table" :onLimit="onLimitChange" :url="endPoint" :columns="columnArray" :options="optionsObject" @error="onError" @loaded="onLoaded" :key="counter">
 
-            <template v-slot:product_url_homepage="props">
-
-                <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>
-
-                <span v-else>&#45;&#45;</span>
-            </template>
-
-            <template v-slot:license_order_number="props">
-
-                <a v-if="props.row.order_url.includes('href')" :href="extractHref(props.row.order_url)" target="_blank">{{props.row.license_order_number}}</a>
-
-                <span v-else>{{ props.row.license_order_number }}</span>
-
-            </template>
-
-
-
-            <template v-slot:license_status="props">
-
-                <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
-
-                    {{ props.row.license_status ? 'Active' : 'Inactive'}}
-                </span>
-            </template>
-
-            <template v-slot:product_status="props">
-
-                <span :class="props.row.product_status ? 'text-green' : 'text-red'">
-
-                    {{ props.row.product_status ? 'Active' : 'Inactive'}}
-                </span>
-            </template>
-
-            <template v-slot:client_status="props">
-
-                <span :style="{ color: props.row.client_status ? 'green' : 'red' }">
-
-                    {{ props.row.client_status ? 'Active' : 'Inactive' }}
-                </span>
-            </template>
-
-            <template v-slot:installation_status="props">
-
-                <span :style="{ color: props.row.installation_status ? 'green' : 'red' }">
-
-                    {{ props.row.installation_status ? 'Active' : 'Inactive' }}
-                </span>
-            </template>
-
-            <template v-slot:api_key_licenses_add="props">
-
-                {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
-                                        /
-                {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:api_key_products="props">
-
-                {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}
-                                /
-                {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:api_key_clients="props">
-
-                {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
-                                /
-                {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:api_key_licenses="props">
-
-                {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
-                /
-                {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:api_key_clients_edit="props">
-
-                {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
-                                        /
-                {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}
-            </template>
-
-            <template v-slot:api_key_products_add_edit="props">
-
-                {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}
-                                        /
-                {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:api_key_search="props">
-
-                {{ props.row.api_key_search ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:api_key_status="props">
-
-                {{ props.row.api_key_status ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:api_key_installations_edit="props">
-
-                {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}
-
-            </template>
-
-            <template v-slot:report_status="props">
-
-                <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
-
-                    {{ props.row.report_status ? 'Active' : 'Inactive'}}
-
-                </span>
-
-            </template>
-
-            <template v-slot:full_name="props">
-
-                <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.full_name }}</router-link>
-            </template>
-
-            <template v-slot:client_email="props">
-
-                <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.client_email }}</router-link>
-            </template>
-
             <template v-if="isLoading && !disableLoader" #afterTable>
 
                 <custom-loader loaderType='clip-loader' :color="color"></custom-loader>
-            </template>
-
-            <template v-slot:product_title="props">
-
-                <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
             </template>
 
             <template v-slot:actions="props">
@@ -175,8 +57,6 @@
 
             <loader :animation-duration="4000" :color="color" :size="60"/>
         </div>
-
-
 
         <div class="pagination-container">
 
@@ -226,6 +106,8 @@ export default {
          */
         dataColumns: {type: Array, required: true},
 
+        allColumns: {type: Array, required: false},
+
         option:{type:Object},
 
         url:{type:String},
@@ -247,7 +129,9 @@ export default {
 
         show_pagination : { type : Boolean, default : false },
 
-        disableLoader : {type: Boolean, default: false}
+        disableLoader : {type: Boolean, default: false},
+
+        showColumn: {type: Boolean, default: false}
     },
 
     data(){
@@ -255,6 +139,10 @@ export default {
         return{
 
             columnArray : this.dataColumns,
+
+            selectedColumns: this.allColumns,
+
+            selectedColumnsArray: this.dataColumns,
 
             optionsObj : this.option,
 
@@ -305,6 +193,8 @@ export default {
         dataColumns(newValue,oldValue){
 
             this.columnArray = newValue
+
+            this.selectedColumnsArray = newValue
 
             if(this.show_pagination){
 
@@ -367,6 +257,7 @@ export default {
     },
 
     methods :{
+
         lang,
 
         extractHref(orderUrl) {
@@ -504,6 +395,11 @@ export default {
         onLimitChange() {
 
             this.endPoint = this.updateQueryParam(this.endPoint, "page", 1)
+        },
+
+        updateColumns() {
+
+            this.$emit('columns', this.selectedColumnsArray)
         }
     },
 
@@ -620,4 +516,13 @@ table{
 .VueTables__limit-field label{
     display: none !important;
 }
+.dropdown-menu{
+    left: -150px;
+}
+.dropdown-item.active, .dropdown-item:active {
+    color: black;
+    text-decoration: none;
+    background: none
+}
+
 </style>

@@ -4,6 +4,12 @@ use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\BannedHostController;
 use App\Http\Controllers\Admin\Google2FAController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\VersionsController;
+use App\Http\Controllers\Admin\Views\ClientsViewController;
+use App\Http\Controllers\Admin\Views\InstallationViewController;
+use App\Http\Controllers\Admin\Views\LicenseViewController;
+use App\Http\Controllers\Admin\Views\ProductsViewController;
+use App\Http\Controllers\Admin\Views\VersionsViewController;
 use App\Http\Controllers\WhitelistIpsController;
 use App\Http\Controllers\Admin\CallBackController;
 use App\Http\Controllers\Admin\ClientsController;
@@ -125,7 +131,15 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('products/delete', [ProductsController::class, 'deleteProduct']);
     Route::post('products/edit', [ProductsController::class, 'productUpdate']);
     Route::get('product/{product_id}', [ProductsController::class, 'edit']);
+    Route::get('productView/{product_id}', [ProductsViewController::class, 'getProductDetails']);
+    Route::get('productInstallations/{product_id}',[ProductsViewController::class,'getProductInstallations']);
+    Route::get('productLicenses/{product_id}',[ProductsViewController::class,'getProductLicenses']);
+    Route::get('productVersions/{product_id}',[ProductsViewController::class,'getProductVersions']);
 
+    //VERSIONS
+    Route::get('viewVersions',[VersionsController::class,'show']);
+    Route::get('versionView/{version_id}',[VersionsViewController::class,'getVersionInfo']);
+    Route::get('versionCallbacks/{version_id}', [VersionsViewController::class, 'getVersionCallbacks']);
 
     //CLIENTS
 
@@ -134,6 +148,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('clients/delete', [ClientsController::class, 'deleteClient']);
     Route::post('clients/edit', [ClientsController::class, 'clientUpdate']);
     Route::get('client/{client_id}', [ClientsController::class, 'edit']);
+    Route::get('clientView/{client_id}', [ClientsViewController::class, 'getClientInfo']);
+    Route::get('clientInstallations/{client_id}',[ClientsViewController::class,'getClientInstallations']);
+    Route::get('clientLicenses/{client_id}',[ClientsViewController::class,'getClientLicenses']);
 
     //LICENSES
     Route::post('license/add', [LicenseController::class, 'licenseAdd']);
@@ -143,6 +160,11 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('license/{license_id}', [LicenseController::class, 'edit']);
     Route::post('license/deactivate', [LicenseController::class, 'licenseDeactivate']);
     Route::post('license/updateLicenseCode', [LicenseController::class, 'updateTheLicenseCode']);
+    Route::get('licenseView/{license_id}', [LicenseViewController::class, 'getLicenseDetails']);
+    Route::get('licenseInstallation/{license_id}', [LicenseViewController::class, 'getLicenseInstallations']);
+    Route::get('licenseCallbacks/{license_id}',[LicenseViewController::class,'getLicenseCallBacks']);
+    Route::get('getLicenseColumn',[LicenseController::class,'getLicenseColumns']);
+    Route::post('saveLicenseColumn',[LicenseController::class,'saveLicenseColumns']);
 
 
     //INSTALLATIONS
@@ -153,6 +175,8 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('installation/{installation_id}', [InstallationController::class, 'edit']);
     Route::post('installation/reissue', [InstallationController::class, 'removeUnwantedInstallations']);
     Route::post('installation/updateLicenseCode', [InstallationController::class, 'updateTheLicenseCode']);
+    Route::get('installationView/{installation_id}', [InstallationViewController::class, 'getInstallation']);
+    Route::get('installationCallbacks/{installation_id}',[InstallationViewController::class,'getInstallationCallBacks']);
 
     //BANNED HOSTS
     Route::post('bannedHosts/add', [BannedHostController::class, 'bannedHostAdd']);
@@ -187,8 +211,8 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 
 
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
-      Route::get('cleanSettings', [SettingsController::class, 'dropForCleanUpSettings']);
-      Route::post('saveintervalSettings', [SettingsController::class, 'saveintervalSettings']);
+    Route::get('cleanSettings', [SettingsController::class, 'dropForCleanUpSettings']);
+    Route::post('saveintervalSettings', [SettingsController::class, 'saveintervalSettings']);
     Route::post('saveLicenseExpireRange', [SettingsController::class, 'saveUpdateExpireRange']);
     Route::get('getUpdatesExpirings', [SettingsController::class, 'getUpdatesExpirings']);
     Route::post('saveSupportExpireRange', [SettingsController::class, 'saveSupportExpireRange']);

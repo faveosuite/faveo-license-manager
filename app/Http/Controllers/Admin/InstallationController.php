@@ -9,6 +9,7 @@ use App\Models\AflInstallations;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
+use function Laravel\Prompts\select;
 
 /**
  * Consist of functionalities for the Installation page in Auto Faveo licenser
@@ -136,44 +137,39 @@ class InstallationController extends Controller
      */
     public function show(Request $request)
     {
-        $perPage = $request->input('perPage',10); // Number of items per page
-        $page = $request->input('page', 1); // Get the current page from the request
-        $searchQuery = str_replace("-","",$request->input('search_query'));
-        $sortOrder= $request->input('sort_order','desc');
-        $sortField = $request->input('sort_field','installation_id');
+        $perPage = $request->input('perPage', 10);
+        $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $sortField = $request->input('sort_field', 'installation_id');
 
-        // Fetch paginated installations with related product data
-        $paginatedInstallations = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+        $installations = AflInstallations::with('product:product_id,product_title','clients:client_id,client_email','license:license_id,license_code')
+            ->withAggregate(['product as product_title'], 'product_title')
+            ->withAggregate(['clients as client_email'], 'client_email')
             ->when($searchQuery, function ($query) use ($searchQuery) {
-                return $query->where(function($query) use ($searchQuery) {
-                    $query->where('afl_products.product_title', 'LIKE', "%{$searchQuery}%")
-                        ->orWhere('afl_installations.license_code', 'LIKE', "%{$searchQuery}%");
-                });
+                $query->whereHas('clients', function ($query) use ($searchQuery) {
+                    $query->where('client_email', 'like', '%' . $searchQuery . '%');
+                })
+                    ->orWhereHas('product', function ($query) use ($searchQuery) {
+                        $query->where('product_title', 'like', '%' . $searchQuery . '%');
+                    })
+                    ->orWhere('license_code', 'like', '%' . str_replace("-", "", $searchQuery) . '%')
+                ->orWhere('installation_ip', 'like', '%' . $searchQuery . '%')
+                ->orWhere('installation_domain', 'like', '%' . $searchQuery . '%');
+
             })
-            ->select(
-                'installation_id',
-                'afl_products.product_id',
-                'afl_products.product_title',
-                'license_code',
-                'installation_status',
-                DB::raw('(SELECT COUNT(*) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as total_installations'),
-                DB::raw('(SELECT MAX(installation_date) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as latest_installation_date')
-            )
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
-        // Modify the fetched data as needed
-        $modifiedInstallations = $paginatedInstallations->map(function ($installation) {
-            // Format dates and other modifications
-            $installation['latest_installation_date'] = removeSeconds($installation['latest_installation_date']);
-            // Add other modifications if needed
-
+        $installations->getCollection()->transform(function ($installation) {
+            $installation->installation_counts = $installation->installation_count;
+            $installation->latest_installation_date = $installation->install;
             return $installation;
         });
-        $paginatedInstallations->setCollection($modifiedInstallations);
 
-        return successResponse(Lang::get('lang.Install_show'), $paginatedInstallations);
+        return successResponse(Lang::get('lang.Install_show'), $installations);
     }
+
 
     //for localized license only
     public function installationAdd(Request $request)

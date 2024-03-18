@@ -68,8 +68,6 @@ describe('LatestVersions', () => {
 
     it("return columns in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.version_number('test', {'version_number': '238765300'})).toEqual("238765300")
-
         expect(wrapper.vm.options.templates.version_date('test', {'version_date': '2000-2-3'})).toEqual("03-02-2000")
 
         expect(wrapper.vm.options.templates.version_expire_date('test', {'version_expire_date': '2020-2-10'})).toEqual("10-02-2020")

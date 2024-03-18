@@ -41,7 +41,8 @@
 
 <script>
 
-import {formatDateTime, lang} from '../../helpers/extraLogics'
+
+    import {formatDateTime, lang} from '../../helpers/extraLogics'
     import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
     export default {
@@ -107,7 +108,7 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
                         'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                        'search_query' : data.query,
+                        'search_query' : data.query.trim(),
 
                          perPage : data.limit,
                     }
@@ -165,13 +166,13 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
                 headings: {
 
-                    banned_host_ip: 'IP Address',
+                    banned_host_ip: this.lang('ip_address'),
 
-                    banned_host_comments: 'Comments',
+                    banned_host_comments: this.lang('comments'),
 
-                    banned_host_date: 'Date',
+                    banned_host_date: this.lang('date'),
 
-                    actions: 'Actions'
+                    actions: this.lang('actions')
                 },
             }
         },

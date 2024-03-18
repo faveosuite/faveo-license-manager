@@ -30,9 +30,12 @@
 <script>
 
 import {formatDateTime, lang} from '../../helpers/extraLogics'
-    import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-    import {useStore} from "vuex";
-    import {computed} from "vue";
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import {useStore} from "vuex";
+import {computed, h} from "vue";
+import moment from "moment";
+import 'moment-timezone'
+import {RouterLink} from "vue-router";
 
 	export default {
 
@@ -62,7 +65,7 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
 				data: '',
 
-				columns: ['product_title', 'license_code', 'total_installations', 'latest_installation_date', 'installation_status', 'actions'],
+				columns: ['product_title', 'license', 'client_email', 'installation_domain', 'installation_ip', 'latest_installation_date', 'installation_status', 'actions'],
 
 				options: {},
 
@@ -95,7 +98,7 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
 				texts: { filter: '', limit: '' },
 
-                sortable:  ['product_title', 'license_code', 'total_installations', 'latest_installation_date', 'total_installations', 'installation_status'],
+                sortable:  ['product_title', 'installation_status'],
 
                 filterable : [ 'product_title' ],
 
@@ -107,7 +110,7 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
                         'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                        'search_query' : data.query,
+                        'search_query' : data.query.trim(),
 
                          perPage : data.limit,
                     }
@@ -123,6 +126,8 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
                             data.delete_url = '/api/admin/installations/delete';
 
+                            data.view_url = '/installations/' + data.installation_id + '/view';
+
                             data.keyVal = 'installation_id';
 
                             data.idVal = data.installation_id;
@@ -135,11 +140,15 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
 				columnsClasses: {
 
-					product_title: 'i_product_title',
+					product_title: 'product_title',
 
-					license_code: 'i_license_code',
+					license: 'i_license_code',
 
-					total_installations: 'i_total_installations',
+                    client_email: 'client_email',
+
+                    installation_domain: 'installation_domain',
+
+                    installation_ip: 'installation_ip',
 
 					latest_installation_date: 'i_latest_installation',
 
@@ -148,14 +157,77 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
 				templates: {
 
-                    license_code(h, row) {
-                        const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
-                        return formattedLicenseCode;
-                    },
-
-                    latest_installation_date(h, row) {
+                    latest_installation_date(h, row){
 
                         return formatDateTime(row.latest_installation_date, timezone, date_format, time_format)
+                    },
+
+                    product_title: (f, row) => {
+
+                        if(row.product && row.product.product_title && row.product.product_id) {
+
+                            return h(RouterLink, {
+
+                                to: '/products/' + row.product_id + '/view'
+
+                            },[row.product_title])
+
+                        } else {
+                            return '----'
+                        }
+                    },
+
+                    license: (f, row) => {
+
+                        if(row.license && row.license.license_code && row.license.license_id) {
+
+                            return h(RouterLink, {
+
+                                to: '/licenses/' + row.license.license_id + '/view'
+
+                            },[row.license.license_code.match(/.{1,4}/g).join('-')])
+
+                        } else {
+                            return '----'
+                        }
+                    },
+
+                    client_email: (f, row) => {
+
+                        if(row.client_email) {
+
+                            return h(RouterLink, {
+
+                                to: '/clients/' + row.client_id + '/view'
+
+                            },[row.client_email])
+
+                        } else {
+                            return '----'
+                        }
+                    },
+
+                    installation_domain: (f, row) => {
+
+                        if(row.installation_domain) {
+
+                            return h('a', {
+
+                                href: row.installation_domain,
+                                target: '_blank'
+
+                            },[row.installation_domain])
+
+                        } else {
+                            return '----'
+                        }
+                    },
+
+                    installation_status: (f, row) => {
+
+                        return h('span', {
+                            'class': row.installation_status ? 'text-green' : 'text-red'
+                        }, row.installation_status ? this.lang('active'): this.lang('inactive'))
                     },
 				},
 
@@ -163,17 +235,21 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 
 				headings: {
 
-					product_title: 'Product',
+					product_title: this.lang('product'),
 
-					license_code: 'License Code',
+					license: this.lang('license_code'),
 
-					total_installations: 'Total Installations',
+                    client_email: this.lang('email'),
 
-					latest_installation_date: 'Latest Installation',
+                    installation_domain: this.lang('domain'),
 
-					installation_status: 'Status',
+                    installation_ip: this.lang('ip'),
 
-					actions: 'Actions'
+					latest_installation_date: this.lang('installation_date'),
+
+					installation_status: this.lang('status'),
+
+					actions: this.lang('actions')
 				},
 			}
 		},

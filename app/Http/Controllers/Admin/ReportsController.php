@@ -88,16 +88,15 @@ class ReportsController extends Controller
 
         // Fetch paginated system reports with related user and product data
         $reportsQuery = AflReports::with(['user'])
+            ->select("afl_reports.*")
             ->withUserFormatted()
             ->where('report_system', 1)
-            ->whereHas('user', function ($query) {
+            ->orWhereHas('user', function ($query) {
                 $query->where('client_role', 'admin');
-            });
-        $rawSql = $reportsQuery->toSql();
-        $reportsQuery = DB::table(DB::raw("({$rawSql}) as sub"))
-            ->mergeBindings($reportsQuery->getQuery())
-            ->where('report_text', 'like', '%' . $searchQuery . '%')
-            ->orWhere('user_formatted', 'like', '%' . $searchQuery . '%')
+            })
+            ->when($searchQuery, function ($query, $searchQuery) {
+                $query->where('report_text', 'like', '%' . $searchQuery . '%');
+            })
             ->orderBy($sortField, $sortOrder);
 
         $paginatedReports = $reportsQuery->paginate($perPage, ['*'], 'page', $page);
@@ -170,6 +169,17 @@ class ReportsController extends Controller
                 ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['afl_reports.*'], 'page', $page);
 
+        // Fetch paginated cracking reports with related user and product data
+        $paginatedReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
+            ->where('account_id', 0)
+            ->where('product_id', 0)
+            ->where('report_system', 0)
+            ->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
+            })
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
 
 
         // Modify the fetched data as needed
@@ -187,28 +197,30 @@ class ReportsController extends Controller
         return successResponse(Lang::get('lang.LicenseReport_Show'), $paginatedReports,200);
     }
 
-    public function reportArrayUpdate()
+    public function reportArrayUpdate(Request $request)
     {
-        $perPage = 10; // Number of items per page
-        $page = request()->input('page', 1); // Get the current page from the request
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = str_replace("-","",$request->input('search_query'));
+        $sortOrder= $request->input('sort_order','desc');
+        $sortField = $request->input('sort_field','report_id');
 
         // Fetch paginated update reports with related product data
-        $paginatedReports = AflReports::with('product')
-            ->orderByDesc('report_date_time')
-            ->orderByDesc('report_id')
+        $updateReports = AflReports::with('product')
+            ->withAggregate('product','product_title')
+            ->where('report_text', 'like', '%' ."upgrade" .'%')
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                $query->where('report_text', 'like', '%' . $searchQuery . '%')
+                    ->orWhereHas('product', function ($query) use ($searchQuery) {
+                        $query->where('product_title', 'like', '%' . $searchQuery . '%');
+                    })
+                    ->orWhere('report_date_time', 'like', '%' . $searchQuery . '%');
+            })
+            ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
-        // Modify the fetched data as needed
-        $modifiedReports = $paginatedReports->map(function ($report) {
-            // Format product_title, report_date_time, and report_status
-            $report->product_title = $report->product ? $report->product->product_title : 'Unknown';
-            $report->report_date_time = removeSeconds($report->report_date_time);
-            $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
+        return successResponse(Lang::get('lang.report_update'), $updateReports,200);
 
-            return $report;
-        });
-
-        return $modifiedReports->toArray();
     }
 }
 

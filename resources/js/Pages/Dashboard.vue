@@ -8,7 +8,7 @@
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-lg-3 col-6">
+                    <div class="col-md-3">
 
                         <div class="small-box bg-info">
                             <div class="inner">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
+                    <div class="col-md-3">
 
                         <div class="small-box bg-success">
                             <div class="inner">
@@ -35,18 +35,18 @@
                             <div class="icon">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <router-link class="small-box-footer disabled-link" to="/versions/list">
+                            <router-link class="small-box-footer" to="/versions/list">
                                 {{lang('view_all')}}
                                 <i class="far fa-arrow-alt-circle-right"></i>
                             </router-link>
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
+                    <div class="col-md-3">
 
                         <div class="small-box bg-warning">
                             <div class="inner">
-                                <h3> {{installations}}</h3>
+                                <h3> {{licenses}}</h3>
                                 <p>{{lang('licenses')}}</p>
                             </div>
                             <div class="icon">
@@ -59,7 +59,7 @@
                         </div>
                     </div>
 
-                    <div class="col-lg-3 col-6">
+                    <div class="col-md-3">
 
                         <div class="small-box bg-danger">
                             <div class="inner">
@@ -79,34 +79,53 @@
                 </div>
             </div>
 
+            <div class="container-fluid">
 
-            <div class="row justify-content-around">
-                <div class="shadow-none col-md-6 justify-content-around">
-                    <latest-product :data="latest_products" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product>
+                <div class="row">
+            <div class="shadow-none col-md-6">
+                <latest-product :data="latest_products" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product>
+            </div>
+            <div class="shadow-none col-md-6">
+                <latest-version :data="latest_versions" :generalSetting="generalSetting" v-on:refresh="getData"></latest-version>
+            </div>
+        </div>
+
+                <div class="row">
+            <div class="shadow-none col-md-6">
+                <latest-installations :data="latest_installations" :generalSetting="generalSetting" v-on:refresh="getData"></latest-installations>
+            </div>
+            <div class="shadow-none col-md-6">
+                <latest-callbacks :data="latest_callbacks" :generalSetting="generalSetting" v-on:refresh="getData"></latest-callbacks>
+            </div>
+        </div>
+
+                <div class="row">
+                    <div class="shadow-none col-md-6">
+                        <latest-product-report :data="latest_reports" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product-report>
+                    </div>
+                    <div class="shadow-none col-md-6">
+                        <expiring-version :data="expired_versions" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-version>
+                    </div>
                 </div>
-                <div class="shadow-none col-md-6 justify-content-around">
-                    <latest-version :data="latest_versions" :generalSetting="generalSetting" v-on:refresh="getData"></latest-version>
+
+                <div class="row">
+                    <div class="shadow-none col-md-6">
+                        <latest-clients :data="latest_clients" :generalSetting="generalSetting" v-on:refresh="getData"></latest-clients>
+                    </div>
+                    <div class="shadow-none col-md-6">
+                        <latest-licenses :data="latest_licenses" :generalSetting="generalSetting" v-on:refresh="getData"></latest-licenses>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="shadow-none col-md-6">
+                        <expiring-support :data="expiring_support" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-support>
+                    </div>
+                    <div class="shadow-none col-md-6">
+                        <expiring-updates :data="expiring_update" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-updates>
+                    </div>
                 </div>
             </div>
-
-            <div class="row">
-                <div class=" shadow-none col-md-6">
-                    <latest-installations :data="latest_installations" :generalSetting="generalSetting" v-on:refresh="getData"></latest-installations>
-                </div>
-                <div class="shadow-none col-md-6">
-                    <latest-callbacks :data="latest_callbacks" :generalSetting="generalSetting" v-on:refresh="getData"></latest-callbacks>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="shadow-none col-md-6">
-                    <latest-product-report :data="latest_reports" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product-report>
-                </div>
-                <div class="shadow-none col-md-6">
-                    <expiring-version :data="expired_versions" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-version>
-                </div>
-            </div>
-
 
 </template>
 
@@ -126,6 +145,14 @@ import LatestProductReport from "./Dashboard/LatestProductReport.vue";
 
 import ExpiringVersion from "./Dashboard/ExpiringVersion.vue";
 
+import LatestClients from "./Dashboard/LatestClients.vue";
+
+import LatestLicenses from "./Dashboard/LatestLicenses.vue";
+
+import ExpiringSupport from "./Dashboard/ExpiringSupport.vue";
+
+import ExpiringUpdates from "./Dashboard/ExpiringUpdates.vue";
+
 export default {
 
     name: 'dashboard',
@@ -142,7 +169,15 @@ export default {
 
         LatestVersion,
 
-        LatestProduct
+        LatestProduct,
+
+        LatestClients,
+
+        LatestLicenses,
+
+        ExpiringSupport,
+
+        ExpiringUpdates
 
     },
 
@@ -154,15 +189,15 @@ export default {
 
         return {
 
-            versions: '',
+            versions: 0,
 
             clients: '',
 
-            products: '',
+            products: 0,
 
-            licenses: '',
+            licenses: 0,
 
-            callbacks: '',
+            callbacks: 0,
 
             latest_products : '',
 
@@ -175,6 +210,14 @@ export default {
             latest_reports : '',
 
             expired_versions : '',
+
+            latest_clients : '',
+
+            latest_licenses: '',
+
+            expiring_support: '',
+
+            expiring_update: '',
 
             items: [],
 
@@ -205,7 +248,7 @@ export default {
 
                         this.products = data.productsCount;
 
-                        this.installations = data.installationsCount;
+                        this.licenses = data.licenseCount;
 
                         this.versions = data.versionsCount;
 
@@ -222,6 +265,14 @@ export default {
                         this.latest_reports = data.latestReports;
 
                         this.expired_versions = data.expiredVersions;
+
+                        this.latest_clients = data.latestClients;
+
+                        this.latest_licenses = data.latestLicenses;
+
+                        this.expiring_support = data.expiringSupport;
+
+                        this.expiring_update = data.expiringUpdates
                     }
                 })
                 .catch((error) => {

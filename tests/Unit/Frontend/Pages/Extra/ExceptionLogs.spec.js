@@ -27,7 +27,7 @@ describe('ExceptionLogs', () => {
 
     it("return row->category for `category` column in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.category('test', {'name' : 'default'})).toEqual("default")
+        expect(wrapper.vm.options.templates.category('test', {'category' : {'name' : 'default'}})).toEqual("default")
     })
 
     it("requestAdapter method should return `sort_field`, `sort_order`, `search_query` & `perPage`", () => {

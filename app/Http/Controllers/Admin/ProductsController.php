@@ -262,7 +262,7 @@ class ProductsController extends Controller
                 }
             }
 
-            return successResponse(Lang::get('lang.delete'), $removed_records, 200);
+            return successResponse(Lang::get('lang.Product_Destroy'), $removed_records, 200);
         }
     }
 
