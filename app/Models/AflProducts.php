@@ -34,6 +34,7 @@ class AflProducts extends Model
     {
         return $this->hasMany(AflReports::class, 'product_id', 'product_id');
     }
+
     public function getProductLatestVersionAttribute()
     {
         $productId = AfuProducts::where('product_sku', $this->product_sku)->value('product_id');
@@ -46,5 +47,8 @@ class AflProducts extends Model
         $versionCount = AfuVersions::where('product_id', $productId)->count();
         return $versionCount;
     }
-
+    public function versions()
+    {
+        return $this->hasMany(AfuVersions::class,'product_id','product_id');
+    }
 }

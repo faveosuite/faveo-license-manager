@@ -24,14 +24,18 @@
 
                             <p class="text-muted">
                                 {{client_email}}
+
                                 <span class="btn ml-1 btn-default" v-tooltip="lang('copy')" style="cursor: pointer" @click="copyCommand('email')">
                                     <i :class="iconClassEmail"></i>
+
                                 </span>
                             </p>
 
                             <div class="client-status-btn">
+
                                 <span v-if="client_status" class="px-4 py-1 user-select-none bg-success">Active</span>
                                 <span v-else class="px-4 py-1 user-select-none bg-danger w-50">Inactive</span>
+
                             </div>
 
                         </div>
@@ -103,6 +107,16 @@
 
         <div class="col-sm-12">
 
+<<<<<<< HEAD
+=======
+            <div class="row" v-if="loading">
+
+                <custom-loader :duration="4000"></custom-loader>
+            </div>
+
+            <alert componentName="dataTableModal" />
+
+>>>>>>> a55f642b (refactor fields)
             <div class="card card-header-tabs">
 
                 <div class="card-header border-0 data-table-header p-0 pt-1">
@@ -142,12 +156,12 @@
 
 import {formatDateTime, getIdFromUrl, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-import axios from "axios";
-import copy from 'clipboard-copy'
 import DeleteModal from "../../components/Reusable/DeleteModal.vue";
 import {h} from "vue";
 import {RouterLink} from "vue-router";
 import ImageElement from "../../components/Reusable/ImageElement.vue";
+import axios from "axios";
+import copy from 'clipboard-copy'
 export default {
     name: "client",
 

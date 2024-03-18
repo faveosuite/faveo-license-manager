@@ -11,6 +11,7 @@
             </div>
 
             <div v-if="showColumn" class="dropdown">
+
                 <button v-tooltip="lang('select_columns')" class="btn btn-default ml-2 h-100 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-columns"></i> {{lang('columns')}}</button>
 
                 <div class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton" style="">
@@ -28,6 +29,7 @@
                     </div>
 
                     <div class="dropdown-item text-right">
+
                         <button @click="updateColumns" id="updateButton" class="btn btn-primary">{{lang('apply')}}</button>
                     </div>
                 </div>

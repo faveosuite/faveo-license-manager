@@ -46,6 +46,8 @@
 <script>
 
 import {lang, formatDateTime} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
     name :'latest-callbacks',

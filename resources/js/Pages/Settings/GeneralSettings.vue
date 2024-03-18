@@ -225,7 +225,6 @@ export default {
             selectedAdminLogo: '',
 
             selectedClientLogo: ''
-
         }
     },
 

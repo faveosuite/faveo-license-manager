@@ -217,6 +217,7 @@ return [
         \App\Providers\LogServiceProvider::class,
         PragmaRX\Google2FALaravel\ServiceProvider::class,
         \App\Providers\LogServiceProvider::class,
+        \App\Providers\LogServiceProvider::class,
     ],
 
     /*

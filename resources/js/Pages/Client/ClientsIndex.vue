@@ -41,8 +41,8 @@ import {useStore} from "vuex";
 import {computed, h} from "vue";
 import {formatDateTime, lang} from "../../helpers/extraLogics";
 import { RouterLink } from 'vue-router';
-import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import DataTableStatuses from "../../components/Reusable/DataTableStatuses.vue";
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
     setup() {

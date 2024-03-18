@@ -529,8 +529,6 @@ export default {
                     },
                 }
 
-                this.loading = false
-
             } else if(value === 'callbacks') {
 
                 this.loading = true

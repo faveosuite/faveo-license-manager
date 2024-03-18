@@ -186,6 +186,8 @@
 
 					data['installation_ip'] = this.installation_ip;
 
+                    data['installation_domain'] = this.installation_domain;
+
 					data['installation_status'] = this.installation_status ? 1 : 0;
 
 					data['installation_disable_ip'] = this.installation_disable_ip_verification ? 1 : 0;

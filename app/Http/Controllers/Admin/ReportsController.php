@@ -183,7 +183,6 @@ class ReportsController extends Controller
             ->paginate($perPage, ['*'], 'page', $page);
 
         return successResponse(Lang::get('lang.report_update'), $updateReports,200);
-
     }
     private function reportStatusFormatter($status)
     {

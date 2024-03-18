@@ -149,6 +149,7 @@ import DateTimePicker from "../../components/Reusable/FormField/DateTimePicker.v
 import DatatableDynamicSelect from "../../components/Reusable/FormField/DatatableDynamicSelect.vue";
 
 import moment from "moment";
+
 import store from "../../store";
 
 export default {
@@ -375,7 +376,7 @@ export default {
 
                     } else if(res.data.api_action_success && res.data.action_success) {
 
-                        successHandler({ status: 200, data: { message: res.data.page_message } }, 'version');
+                        successHandler({status: 200, data: {message: res.data.page_message}}, 'version');
 
                         if (!this.version_id) {
 
@@ -389,6 +390,19 @@ export default {
 
                             this.getInitialValues(this.version_id)
                         }
+                    }
+
+                    if (!this.version_id) {
+
+                        setTimeout(() => {
+
+                            this.$router.push('/versions/list')
+
+                        }, 2000)
+
+                    } else {
+
+                        this.getInitialValues(this.version_id)
                     }
 
                 }).catch(err => {

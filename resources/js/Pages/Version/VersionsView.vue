@@ -98,6 +98,7 @@
 </template>
 
 <script>
+
 import {boolean, formatDateTime, getIdFromUrl, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import axios from "axios";
