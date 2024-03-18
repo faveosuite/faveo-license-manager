@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Models\AflAdmins;
 use App\Models\AflClients;
 use App\Models\AflSettings;
+use App\Rules\CaptchaValidation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -71,6 +72,7 @@ class AuthController extends Controller
         $filled = $request->validate([
             'client_email' => 'required|string',
             'client_password' => 'required|string',
+            'g-recaptcha-response' => new CaptchaValidation,
         ]);
 
         $admin = AflClients::where(function($query) use ($filled) {
