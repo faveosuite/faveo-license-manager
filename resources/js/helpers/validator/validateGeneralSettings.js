@@ -2,27 +2,25 @@ import store from '../../store'
 
 import { Validator } from '../easy-validator';
 
-import { lang } from '../../helpers/extraLogics';
+import { lang } from '../extraLogics';
 
 export function validateGeneralSettings(data) {
 
-    const { TIMEZONE, RECORDE_ON_ADMIN_PAGE,RECORDE_ON_INDEX_PAGE,RECORDE_ON_SEARCH_PAGE, SMART_REPORTS, SMART_TABLES, RECORDE_ARCHIVE_DAYS } = data
+    const { google_site_key, google_secret_key, agora_invoicing_url, timezone, date_format, time_format } = data
 
-    var validatingData = {
+    let validatingData = {
 
-        SMART_REPORTS: [SMART_REPORTS,'isRequired'],
+        google_site_key: [google_site_key,'isRequired'],
 
-        SMART_TABLES: [SMART_TABLES,'isRequired'],
+        google_secret_key: [google_secret_key, 'isRequired'],
 
-        TIMEZONE: [TIMEZONE, 'isRequired'],
+        agora_invoicing_url: [agora_invoicing_url,'isRequired'],
 
-        RECORDE_ARCHIVE_DAYS: [RECORDE_ARCHIVE_DAYS,'isRequired'],
+        timezone: [timezone, 'isRequired'],
 
-        RECORDE_ON_ADMIN_PAGE: [RECORDE_ON_ADMIN_PAGE, 'isRequired'],
+        date_format: [date_format, 'isRequired' ],
 
-        RECORDE_ON_INDEX_PAGE: [RECORDE_ON_INDEX_PAGE, 'isRequired' ],
-
-        RECORDE_ON_SEARCH_PAGE: [RECORDE_ON_SEARCH_PAGE,'isRequired'],
+        time_format: [time_format,'isRequired'],
 
     };
 

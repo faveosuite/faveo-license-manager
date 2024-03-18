@@ -10,6 +10,7 @@ use App\Models\AflClients;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflSettings;
+use Doctrine\DBAL\Query;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -125,11 +126,28 @@ class ClientsController extends Controller
      *
      * @return response that a client is deleted
      */
-    public function show($client_id)
+    public function show(Request $request, $client_id)
     {
-        $clients = AflClients::where('client_id', '!=', $client_id)->select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
-            ->get();
+        // Set default pagination values
+        $perPage = $request->input('perPage', 10); // Default per page is 10
+        $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order','desc');
+        $sortField = $request->input('sort_field','client_id');
 
+        // Query to retrieve clients excluding the specified client ID
+        $clients = AflClients::where('client_id', '!=', $client_id)
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                return $query->where(function ($query) use ($searchQuery) {
+                    $query->where(DB::raw('CONCAT(client_fname, " ", client_lname)'), 'LIKE', '%'.$searchQuery.'%')
+                        ->orWhere('client_email', 'LIKE', '%'.$searchQuery.'%');
+                });
+            })
+            ->select(DB::raw('CONCAT(client_fname, " ", client_lname) AS full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        // Return success response with paginated client data
         return successResponse(Lang::get('lang.Client_Show'), $clients, 200);
     }
 
@@ -244,7 +262,7 @@ class ClientsController extends Controller
                 $dataToUpdate['client_active_date'] = date('Y-m-d');
             }
             // The  below code controls the flow of providing credentials to users based on the condition email is fired to the particular user if are creating user with eole client or inactive status then he should not be recieving any credentials  the below code also controls the logic to send email only first the admin gets activated .
-            
+
             $changingroleCondition = ($client_role == 'admin' && $role == "client" && $client_status == '1');
             $changingstatusCondition = ($client_role == 'admin' && $role == "admin"  && $status == '0' && $client_status == '1' && $active_date == '0000-00-00');
 
@@ -264,11 +282,11 @@ class ClientsController extends Controller
                         $title =Lang::get('lang.admin_privileges');
                         $template ='emails.adminRoleMail';
                         postEmailSendConfig($client_email,$title,$template,$data);
-                    
+
                 } catch (\Exception $e) {
                     return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
                 }
-            } 
+            }
             else {
                 $updated_records = AflClients::where('client_id', $client_id)
                     ->update($dataToUpdate);

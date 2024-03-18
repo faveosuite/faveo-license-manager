@@ -4,16 +4,45 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AflCallbacks;
+use App\Models\AflProducts;
 use App\Models\AfuCallbacks;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 class CallBackController extends Controller
 {
-    public function licneseCallbacks()
+    public function licneseCallbacks(Request $request)
     {
-        $callbacks = callbackArray();
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = str_replace("-","",$request->input('search_query'));
+        $sortOrder= $request->input('sort_order','desc');
+        $sortField =$request->input('sort_field','callback_id');
 
-        return $callbacks;
+        // Fetch paginated callbacks with related product and user data using Eloquent relationships
+        $paginatedCallbacks = AflCallbacks::with(['product', 'user'])
+            ->withAggregate('product as product_title','product_title',)
+            ->where(function ($query) use ($searchQuery) {
+                $query->whereHas('product', function ($query) use ($searchQuery) {
+                    $query->where('product_title', 'LIKE', '%'.$searchQuery.'%');
+                })->orWhere('license_code', 'LIKE', '%'.$searchQuery.'%')
+                    ->orWhere('callback_ip', 'LIKE', '%'.$searchQuery.'%')
+                    ->orWhere('callback_domain', 'LIKE', '%'.$searchQuery.'%');
+            })
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        // Modify the fetched data as needed
+        $modifiedCallbacks = $paginatedCallbacks->map(function ($callback) {
+            // Format client and callback status
+            $callback->client_formatted = formatClient($callback->license_code, optional($callback->user)->client_email);
+            $callback->callback_date_time = removeSeconds($callback->callback_date_time);
+            $callback->callback_status_formatted = returnFormattedStatusArray($callback->callback_status, 'Success', 'Error', 'Unknown');
+
+            return $callback;
+        });
+        $paginatedCallbacks->setCollection($modifiedCallbacks);
+        return successResponse(Lang::get('lang.Callback_Show'),$paginatedCallbacks,200);
     }
 
     public function updateCallbacks()

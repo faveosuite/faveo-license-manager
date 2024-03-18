@@ -22,9 +22,9 @@
 
             <div class="card-body" id="my_callbacks">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" alertComponentName="dataTableModal" :dataColumns="columns" :option="options" scroll_to="callbacks-list">
 
-                </v-client-table>
+                </data-table>
             </div>
         </div>
     </div>
@@ -32,13 +32,21 @@
 
 <script>
 
-import axios from 'axios';
-
-import {lang} from "../../helpers/extraLogics";
+import {formatDateTime, lang} from "../../helpers/extraLogics";
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
     name : 'callbacks-list',
+
+    methods : {
+
+        lang
+    },
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
+    },
 
     data() {
 
@@ -49,24 +57,23 @@ export default {
             columns: ['product_title', 'license_code','callback_ip','callback_domain',
                 'callback_date_time','created_at','updated_at'],
 
-            loading: true,
+            loading: false,
 
             options: {},
 
             counter : 0,
+
+            endPoint : 'api/admin/showLicenseCallbacks?page=1'
         }
     },
-
-    // created() {
-    //
-    //     this.emitter.on('refreshData',this.updateData);
-    // },
 
     beforeMount(){
 
         const self= this;
 
-        this.getData();
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options = {
 
@@ -80,6 +87,10 @@ export default {
             },
 
             texts: { filter: '', limit: '' },
+
+            sortable:  ['product_title', 'license_code', 'callback_ip', 'callback_domain', 'callback_date_time', 'created_at', 'updated_at'],
+
+            filterable : [ 'product_title' ],
 
             columnsClasses : {
 
@@ -101,31 +112,55 @@ export default {
             },
 
             templates : {
-                license_code(h, row) {
 
-                    return row.license_code ? row.license_code : '---';
+                product_title(h, row) {
+
+                    return row.product.product_title ? row.product.product_title : '---'
                 },
 
-                license_date(h, row) {
+                callback_date_time(h, row) {
 
-                    return row.license_date ? row.license_date : '---'
+                    return formatDateTime(row.callback_date_time, timezone, date_format, time_format)
                 },
-                created_at(h, row) {
 
-                    return row.license_date ? row.license_date : '---'
-                },
                 updated_at(h, row) {
 
-                    return row.license_date ? row.license_date : '---'
+                    return formatDateTime(row.updated_at, timezone, date_format, time_format)
                 },
 
-                latest_callback_date_time(h, row) {
+                created_at(h, row) {
 
-                    return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
+                    return formatDateTime(row.created_at, timezone, date_format, time_format)
                 },
             },
 
-            pagination:{chunk:5,nav: 'fixed',edge:true},
+            pagination : { show : false },
+
+            requestAdapter(data) {
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : 'callback_id',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                     perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        return data;
+                    }),
+                    count: data.data.total
+                }
+            },
 
             headings: {
 
@@ -149,19 +184,9 @@ export default {
         }
     },
 
-    methods:{
-        lang: lang,
-        getData(){
-            axios.get('api/admin/showLicenseCallbacks').
-            then(res=>{
-                this.loading = false;
-                this.data = res.data.map(data => {
-                    return data;
-                });
-            }).catch(err => {
-                this.loading =false;
-            })
-        }
+    components : {
+
+        'data-table' : DynamicDataTable
     }
 
 };

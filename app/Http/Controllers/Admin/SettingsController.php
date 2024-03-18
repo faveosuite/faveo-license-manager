@@ -9,6 +9,7 @@ use App\Http\Requests\Settings\EmailSettingRequest;
 use App\Http\Requests\Settings\GeneralSettingsRequest;
 use App\Http\Requests\Settings\SecuritySettingRequest;
 use App\Models\AflSettings;
+use App\Models\GoogleRecaptchaSetting;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -380,7 +381,7 @@ class SettingsController extends Controller
     {
         $update_startDate = Carbon\Carbon::today();
         $update_endDate = Carbon\Carbon::today()->addDays($request->count);
-        $expire_update = AflLicenses::where('license_expire_date', '>=', $update_startDate,)
+        $expire_update = AflLicenses::where('license_expire_date', '>=', $update_startDate)
             ->where('license_expire_date', '<=', $update_endDate)->get();
         DB::table('expire_updates_display')->truncate();
         foreach ($expire_update as $e) {
@@ -400,7 +401,7 @@ class SettingsController extends Controller
     {
         $support_startDate = Carbon\Carbon::today();
         $support_endDate = Carbon\Carbon::today()->addDays($request->count);
-        $expire_support = AflLicenses::where('license_support_date', '>=', $support_startDate,)
+        $expire_support = AflLicenses::where('license_support_date', '>=', $support_startDate)
             ->where('license_support_date', '<=', $support_endDate)
             ->get();
         foreach ($expire_support as $e) {
@@ -447,16 +448,14 @@ class SettingsController extends Controller
         } else {
             return redirect('/login');
         }
-
     }
     public function getDebugger()
     {
-
         try {
             $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
             return response()->json(['debugger' => $debuggerValue]);
         } catch (\Exception $e) {
-            return errorResponse($e,500);
+            return errorResponse($e->getMessage(),500);
         }
     }
 
@@ -481,6 +480,50 @@ class SettingsController extends Controller
             return errorResponse(trans('lang.cron-command-copied').' '.trans('lang.please_enable_php_exec_for_cronjob_check'));
         } catch(\Exception $e) {
             return errorResponse($e->getMessage());
+        }
+    }
+
+    public function createOrUpdateGoogleRecaptcha(Request $request){
+        try{
+            $request->validate(
+                [
+                    'google_site_key' => 'required',
+                    'google_secret_key' => 'required',
+                ]
+            );
+            GoogleRecaptchaSetting::updateOrCreate([
+                'google_site_key' => $request->input('google_site_key'),
+                'google_secret_key' => $request->input('google_secret_key')
+            ],
+                [
+                    'google_site_key' => $request->input('google_site_key'),
+                    'google_secret_key' => $request->input('google_secret_key')
+                ]
+            );
+            return successResponse(trans('lang.complete_google'));
+        }
+        Catch(\Exception $e){
+            return errorResponse($e->getMessage(),400);
+        }
+    }
+
+    public function getGoogleRecaptcha(){
+        try{
+            return successResponse('', GoogleRecaptchaSetting::find(1));
+        }
+        Catch(\Exception $e){
+            return errorResponse($e->getMessage(),400);
+        }
+    }
+
+    public function clearGoogleRecaptcha(Request  $request){
+        try{
+            !($request->has('clear'))?:GoogleRecaptchaSetting::query()->delete();
+            return successResponse(trans('lang.reset_successfully'));
+        }
+        Catch(\Exception $e){
+            return errorResponse($e->getMessage(),400);
+
         }
     }
 }

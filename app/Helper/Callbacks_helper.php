@@ -459,7 +459,7 @@ function callbackArray()
         ->leftJoin('users', 'afl_callbacks.client_id', '=', 'users.client_id')
         ->orderBy('afl_callbacks.callback_date_time', 'desc')
         ->orderBy('afl_callbacks.callback_id', 'desc')->get()->toArray();
-    
+
     $root_array = []; // Initialize the root array
 
     foreach ($rows_array as $key => $row) {

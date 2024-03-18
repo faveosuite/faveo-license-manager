@@ -31,13 +31,9 @@
 
             <div class="card-body" id="banned_hosts">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" alertComponentName="dataTableModal" :dataColumns="columns" :option="options" scroll_to="products-list">
 
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-                </v-client-table>
+                </data-table>
             </div>
         </div>
     </div>
@@ -45,7 +41,8 @@
 
 <script>
 
-    import axios from 'axios';
+import {formatDateTime, lang} from '../../helpers/extraLogics'
+    import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
     export default {
 
@@ -55,26 +52,35 @@
 
             return {
 
+                loading : false,
+
                 data: '',
 
                 columns: ['banned_host_ip', 'banned_host_comments', 'banned_host_date','actions'],
 
                 options: {},
 
-                counter: 0
+                counter: 0,
+
+                endPoint : '/api/admin/viewBannedHost?page=1'
             }
         },
 
-        created() {
-
-            this.emitter.on('refreshData', this.updateData);
+        methods: {
+            lang
         },
 
-        async beforeMount() {
+        props : {
+            generalSetting : {type : Object, default : () => {}},
+        },
+
+         beforeMount() {
 
             const self = this;
 
-            await this.getData();
+             const date_format = this.generalSetting.date_format.js_format
+             const time_format = this.generalSetting.time_format.js_format
+             const timezone = this.generalSetting.timezone.name
 
             this.options = {
 
@@ -88,6 +94,45 @@
                 },
 
                 texts: { filter: '', limit: '' },
+
+                sortable:  ['banned_host_ip', 'banned_host_comments', 'banned_host_date', 'banned_host_blocks', 'banned_host_last_block_date'],
+
+                filterable : [ 'banned_host_ip' ],
+
+                requestAdapter(data) {
+
+                    return {
+
+                        'sort_field' : data.orderBy ? data.orderBy : 'banned_host_id',
+
+                        'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                        'search_query' : data.query,
+
+                         perPage : data.limit,
+                    }
+                },
+
+                responseAdapter({data}) {
+
+                    return {
+
+                        data: data.data.data.map(data => {
+
+                            data.edit_url = '/banned-hosts/' + data.banned_host_id + '/edit';
+
+                            data.delete_url = '/api/admin/bannedHosts/delete';
+
+                            data.keyVal = 'banned_host_id';
+
+                            data.idVal = data.banned_host_id;
+
+                            return data;
+                        }),
+
+                        count: data.data.total
+                    }
+                },
 
                 columnsClasses: {
 
@@ -112,11 +157,11 @@
 
                     banned_host_date(h, row) {
 
-                        return row.banned_host_date ? row.banned_host_date : '---';
+                        return formatDateTime(row.banned_host_date, timezone, date_format, time_format)
                     },
                 },
 
-                pagination: { chunk: 5, nav: 'fixed', edge: true },
+                pagination: { show : false },
 
                 headings: {
 
@@ -131,32 +176,9 @@
             }
         },
 
-        methods: {
+        components : {
 
-            updateData() {
-                this.getData();
-            },
-
-            async getData() {
-                this.loading = true;
-
-                return await axios.get('/api/admin/viewBannedHost').then(res => {
-
-                    this.loading = false;
-
-                    this.data = res.data.data.map(row => {
-                        row.id = row.banned_host_id;
-                        row.edit_url = '/banned-hosts/' + row.banned_host_id + '/edit';
-                        row.delete_url = `/api/admin/bannedHosts/delete`;
-                        row.keyVal = 'banned_host_id';
-                        row.idVal = row.banned_host_id;
-                        return row
-                    })
-                }).catch(err => {
-
-                    this.loading = false;
-                })
-            }
+            'data-table' : DynamicDataTable
         }
     };
 </script>

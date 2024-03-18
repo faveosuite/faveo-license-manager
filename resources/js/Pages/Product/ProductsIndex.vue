@@ -26,68 +26,49 @@
 
 			<div class="card-body" id="my_products">
 
-				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" alertComponentName="dataTableModal" :dataColumns="columns" :option="options" scroll_to="products-list">
 
-                    <template v-slot:product_title="props">
+                </data-table>
 
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
-
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-
-                    <template v-slot:product_url_homepage="props">
-
-                        <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>
-
-                        <span v-else>--</span>
-                    </template>
-
-                    <template v-slot:product_status="props">
-
-                        <span :style="{ color: props.row.product_status ? 'green' : 'red' }">
-
-                            {{ props.row.product_status ? 'Active' : 'Inactive'}}
-                        </span>
-                    </template>
-				</v-client-table>
-			</div>
+            </div>
 		</div>
 	</div>
 </template>
 
 <script>
 
-	import axios from 'axios';
-
-  import {lang} from "../../helpers/extraLogics";
+    import {lang} from "../../helpers/extraLogics";
+    import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 	export default {
 
 		name: 'products-list',
 
+        methods : {
+            lang
+        },
+
 		data() {
 
 			return {
-        loading: false,
 
-        data: '',
+                loading: false,
 
-				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations', 'product_status', 'actions'],
+                data: '',
+
+				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'licenses_count', 'installations_count', 'product_status', 'actions'],
 
 				options: {},
 
-				counter: 0
+				counter: 0,
+
+                endPoint : '/api/admin/viewproducts?page=1'
 			}
 		},
 
 		beforeMount() {
 
 			const self = this;
-
-			this.getData();
 
 			this.options = {
 
@@ -102,6 +83,45 @@
 
 				texts: { filter: '', limit: '' },
 
+                sortable:  ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'licenses_count', 'installations_count', 'product_status'],
+
+                filterable : [ 'product_title' ],
+
+                requestAdapter(data) {
+
+                    return {
+
+                        'sort_field' : data.orderBy ? data.orderBy : 'product_id',
+
+                        'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                        'search_query' : data.query,
+
+                         perPage : data.limit,
+                    }
+                },
+
+                responseAdapter({data}) {
+
+                    return {
+
+                        data: data.data.data.map(data => {
+
+                            data.edit_url = '/products/' + data.product_id + '/edit';
+
+                            data.delete_url = '/api/admin/products/delete';
+
+                            data.keyVal = 'product_id';
+
+                            data.idVal = data.product_id;
+
+                            return data;
+                        }),
+
+                        count: data.data.total
+                    }
+                },
+
 				columnsClasses: {
 
 					product_title: 'product_title',
@@ -114,9 +134,9 @@
 
 					product_version: 'product_version',
 
-					total_licenses: 'product_licenses',
+                    licenses_count: 'product_licenses',
 
-					total_installations: 'product_installations'
+                    installations_count: 'product_installations'
 				},
 
 				templates: {
@@ -124,10 +144,30 @@
                     product_version(h, row) {
 
                         return row.product_version ? row.product_version : '---'
-                    }
+                    },
+
+                    product_sku(h, row) {
+
+                        return row.product_sku ? row.product_sku : '---'
+                    },
+
+                    product_url_homepage(h, row) {
+
+                        return row.product_url_homepage ? row.product_url_homepage : '---'
+                    },
+
+                    total_licenses(h, row) {
+
+                        return row.total_licenses ? row.total_licenses : '---'
+                    },
+
+                    installations_count(h, row) {
+
+                        return row.total_installations ? row.total_installations : '---'
+                    },
 				},
 
-				pagination: { chunk: 5, nav: 'fixed', edge: true },
+				pagination: { show : false },
 
 				headings: {
 
@@ -139,7 +179,7 @@
 
 					product_version: 'Version',
 
-					total_licenses: 'Licenses',
+					licenses_count: 'Licenses',
 
 					total_installations: 'Installations',
 
@@ -150,42 +190,10 @@
 			}
 		},
 
-		methods: {
+        components : {
 
-     lang: lang,
-			updateData() {
-
-				this.counter++;
-
-				this.getData();
-			},
-
-			getData() {
-
-                this.loading = true;
-
-				axios.get('/api/admin/viewproducts').then(res => {
-
-                    this.loading = false;
-
-					this.data = res.data.data.map(data => {
-
-						data.edit_url = '/products/' + data.product_id + '/edit';
-
-						data.delete_url = '/api/admin/products/delete';
-
-						data.keyVal = 'product_id';
-
-						data.idVal = data.product_id;
-
-						return data;
-					})
-				}).catch(err => {
-
-                    this.loading = false;
-                })
-			}
-		}
+            'data-table' : DynamicDataTable
+        }
 	};
 </script>
 

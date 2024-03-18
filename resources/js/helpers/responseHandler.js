@@ -29,7 +29,7 @@ export const errorHandler = (err, componentName = '') => {
     }
 
     // checking if status is any of 400 and 422
-    if ([400, 422, 401, 500].includes(err.response.status)) {
+    if ([400, 422, 401, 429, 500].includes(err.response.status)) {
 
         //check if it has a key called message, if yes, write the message to vuex store
         if (err.response.data.message !== undefined) {

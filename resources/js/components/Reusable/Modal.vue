@@ -4,7 +4,7 @@
 
     <div class="modal-mask" :class="{rtl : language === 'ar'}">
 
-      <div class="modal-wrapper " :class="classname">
+      <div class="modal-wrapper" :class="classname">
 
         <div class="modal-container" :style="containerStyle">
 
@@ -28,7 +28,7 @@
 
           </div>
 
-          <div class="modal-footer" :class="[showCloseBtn]">
+          <div class="modal-footer" :class="[showCloseBtn ? 'justify-content-between' : '']">
 
             <slot name="controls"></slot>
 
@@ -87,6 +87,10 @@
     font-weight: 400;
     font-size: 14px;
     /*transition: opacity 0.5s ease !important;*/
+  }
+
+  .mod_width {
+      scrollbar-width: none;
   }
 
   .modal-wrapper {

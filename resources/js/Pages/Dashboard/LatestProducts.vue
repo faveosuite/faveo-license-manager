@@ -38,9 +38,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import {errorHandler} from "../../helpers/responseHandler";
-import {lang} from "../../helpers/extraLogics";
+
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
     name :'latest-product',
@@ -48,8 +47,6 @@ export default {
     data(){
 
         return {
-
-            data: [],
 
             columns:['product_title','product_sku','product_date','product_status'],
 
@@ -65,7 +62,9 @@ export default {
 
         const self =this;
 
-        this.getData();
+        const date_format = this.generalSetting.date_format.js_format;
+        const time_format = this.generalSetting.time_format.js_format;
+        const timezone = this.generalSetting.timezone.name;
 
         this.options ={
 
@@ -86,6 +85,10 @@ export default {
                     return row.product_title ?row.product_title : '----';
                 },
 
+                product_date(h, row) {
+
+                    return formatDateTime(row.product_date, timezone, date_format, time_format)
+                }
             },
 
             headings: {
@@ -105,20 +108,17 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.latest_products; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false
 
-                    errorHandler(err, 'latest-products')
-                });
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type: Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
+    }
 };
 
 </script>

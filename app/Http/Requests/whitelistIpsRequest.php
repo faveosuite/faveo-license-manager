@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use App\Traits\RequestJsonValidation;
-
+use Illuminate\Validation\Rule;
 
 
 class whitelistIpsRequest extends FormRequest
@@ -29,6 +29,7 @@ class whitelistIpsRequest extends FormRequest
             'whitelist_host_ip' => [
                 'required',
                 'string',
+                Rule::unique( 'afl_whitelist_ips', 'whitelist_host_ip' )->ignore( $this->id, 'whitelist_host_id' ),
                 'regex:/\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\b|\b(?:\d{1,3}\.){3}\d{1,3}\b/'
             ],
             ];

@@ -36,10 +36,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import {errorHandler} from "../../helpers/responseHandler";
-import {lang} from "../../helpers/extraLogics";
 
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
     name :'latest-version',
@@ -47,8 +45,6 @@ export default {
     data(){
 
         return {
-
-            data: [],
 
             columns:['version_number','version_date','version_expire_date','version_status'],
 
@@ -65,7 +61,9 @@ export default {
 
         const self =this;
 
-        this.getData();
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options ={
 
@@ -87,13 +85,13 @@ export default {
                 },
 
                 version_date(h,row){
-                    return row.version_date ?row.version_date : '----';
 
+                    return formatDateTime(row.version_date, timezone, date_format, time_format)
                 },
 
                 version_expire_date(h,row){
-                    return row.version_expire_date ?row.version_expire_date : '----';
 
+                    return formatDateTime(row.version_expire_date, timezone, date_format, time_format)
                 },
 
             },
@@ -117,19 +115,17 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.latest_versions; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    errorHandler(err, 'latest-versions');
-                });
+
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type : Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
+    }
 
 };
 

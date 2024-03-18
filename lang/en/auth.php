@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Invalid Crdentials.',
+    'failed' => 'Invalid Credentials.',
     'unathourized' => 'Access denied, get in touch with the administrator for assistance with logging in',
     'password' => 'The provided password is incorrect.',
     'throttle' => 'Too many attempts. Please try again in 15 minutes.',
