@@ -154,7 +154,7 @@
 					latest_callback_date: 'Latest Callback',
 
 					latest_license_date: 'Latest License',
-					
+
 
 					actions: 'Actions'
 				},

@@ -64,7 +64,7 @@
 
   import {useStore} from "vuex";
 
-  import {computed} from "vue";
+  import {computed, onMounted, ref} from "vue";
 
   export default {
 
@@ -73,10 +73,35 @@
       setup() {
 
           const store = useStore();
+          const getUserToken = computed(() => store.getters.getUserToken);
+          const recaptchaToken = ref(null);
+
+          const loadRecaptchaScript = () => {
+              return new Promise((resolve, reject) => {
+                  const script = document.createElement('script');
+                  script.src = 'https://www.google.com/recaptcha/api.js?render=' + import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+                  script.onload = resolve;
+                  script.onerror = reject;
+                  document.head.appendChild(script);
+              });
+          };
+
+          onMounted(async () => {
+              try {
+                  await loadRecaptchaScript();
+                  grecaptcha.ready(() => {
+                      grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: 'submit' }).then((token) => {
+                          recaptchaToken.value = token;
+                      });
+                  });
+              } catch (error) {
+
+              }
+          });
 
           return {
-              // getter
-              getUserToken: computed(() => store.getters.getUserToken)
+              getUserToken,
+              recaptchaToken,
           };
       },
 
@@ -137,6 +162,9 @@
           let data = {}
 
           data['admin_email'] = this.email;
+            if(import.meta.env.VITE_RECAPTCHA_SITE_KEY){
+                data['g-recaptcha-response'] = this.recaptchaToken
+            }
 
           axios.post("/api/forgot", data).then((res) => {
 

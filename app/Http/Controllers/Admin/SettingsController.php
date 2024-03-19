@@ -381,7 +381,7 @@ class SettingsController extends Controller
     {
         $update_startDate = Carbon\Carbon::today();
         $update_endDate = Carbon\Carbon::today()->addDays($request->count);
-        $expire_update = AflLicenses::where('license_expire_date', '>=', $update_startDate,)
+        $expire_update = AflLicenses::where('license_expire_date', '>=', $update_startDate)
             ->where('license_expire_date', '<=', $update_endDate)->get();
         DB::table('expire_updates_display')->truncate();
         foreach ($expire_update as $e) {
@@ -401,7 +401,7 @@ class SettingsController extends Controller
     {
         $support_startDate = Carbon\Carbon::today();
         $support_endDate = Carbon\Carbon::today()->addDays($request->count);
-        $expire_support = AflLicenses::where('license_support_date', '>=', $support_startDate,)
+        $expire_support = AflLicenses::where('license_support_date', '>=', $support_startDate)
             ->where('license_support_date', '<=', $support_endDate)
             ->get();
         foreach ($expire_support as $e) {
@@ -455,7 +455,7 @@ class SettingsController extends Controller
             $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
             return response()->json(['debugger' => $debuggerValue]);
         } catch (\Exception $e) {
-            return errorResponse($e,500);
+            return errorResponse($e->getMessage(),500);
         }
     }
 
@@ -522,8 +522,8 @@ class SettingsController extends Controller
             return successResponse(trans('lang.reset_successfully'));
         }
         Catch(\Exception $e){
-            dd($e);
             return errorResponse($e->getMessage(),400);
+
         }
     }
 }

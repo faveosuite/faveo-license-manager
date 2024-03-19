@@ -25,6 +25,7 @@ use App\Http\Controllers\AfuCallbacks\FetchQueryController;
 use App\Http\Controllers\AfuCallbacks\GetAllVersionsController;
 use App\Http\Controllers\AfuCallbacks\GetVersionsController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\CommonSettingController;
 use App\Http\Controllers\EditProfilesController;
 use App\Http\Controllers\Update\AfuProductsController;
 use App\Http\Controllers\Update\AfuVersionsController;
@@ -151,9 +152,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('generalDropdown', [SettingsController::class, 'dropDownForGeneralSettings']);
     Route::get('emailDropdown', [SettingsController::class, 'dropDownForEmailSettings']);
     Route::post('emailSettings', [EmailSettingsController::class, 'postSettingsEmail']);
-    Route::post('recaptcha/enable', [SettingsController::class, 'createOrUpdateGoogleRecaptcha']);
-    Route::get('getRecaptcha', [SettingsController::class, 'getGoogleRecaptcha']);
-    Route::post('recaptcha/reset', [SettingsController::class, 'clearGoogleRecaptcha']);
+
+    Route::post('common-setting', [CommonSettingController::class, 'createOrUpdateCommonSetting']);
+    Route::get('common-setting/get', [CommonSettingController::class, 'getCommonSetting']);
+    Route::post('common-setting/reset', [CommonSettingController::class, 'clearCommonSetting']);
 
 
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);

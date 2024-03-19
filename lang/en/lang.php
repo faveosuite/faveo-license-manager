@@ -441,5 +441,13 @@ return [
 
         'config_gen'    => 'Automatically generate settings for apl_core_configuration.php and update_configuration.php file. Select the product to be licensed, license verification period, license storage options, and click the "Submit" button. Once the configuration is generated, copy/paste its content to your apl_core_configuration.php and update_configuration.php file.',
 
+    'general-settings'  => 'General Settings',
+    'google_site_key'   => 'Google site key',
+    'google_secret_key' => 'Google secret key',
+    'agora_invoicing_url' => 'Agora Invoicing Url',
+
+    'common_setting_svaed' => 'You general settings for license manager saved successfully',
+    'reset_successfully' => 'You general settings for license manager has been reset successfully',
+    'updated_successfully' => 'You general settings for license manager has been updated successfully',
 ];
 

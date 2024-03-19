@@ -607,7 +607,6 @@ let whitelistMenu = {
 //===========================EXTRA MENU=========================
 
 import ConfigurationSettings from '../Pages/Extra/ConfigurationSettings.vue';
-import RecaptchaSettings from '../Pages/Extra/GoogleRecaptchaSetting.vue';
 
 let extraMenu = {
 
@@ -633,18 +632,6 @@ let extraMenu = {
 
 			meta: { title : 'configuration', crumb : { link: { name : 'dashboard', to : '/' }, active : 'configuration' } }
 		},
-
-
-        {
-
-            path: 'captcha',
-
-            name: 'Google reCAPTCHA',
-
-            component: RecaptchaSettings,
-
-            meta: { title : 'reCAPTCHA', crumb : { link: { name : 'dashboard', to : '/' }, active : 'reCAPTCHA' } }
-        },
 	]
 }
 
