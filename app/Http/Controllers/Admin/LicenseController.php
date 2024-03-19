@@ -307,20 +307,35 @@ class LicenseController extends Controller
         return successResponse(Lang::get('lang.delete'), $removed_records, 200);
     }
 
-    public function show()
-{
-$root_array = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-->select('license_id','license_code', 'license_status', 'license_date','afl_products.product_id', 'afl_products.product_title',
-DB::raw('(SELECT MAX(license_date) FROM afl_licenses AS sub_licenses WHERE sub_licenses.license_code = afl_licenses.license_code) as latest_license_date'),
-DB::raw('(SELECT MAX(callback_date_time) FROM afl_callbacks AS sub_callbacks WHERE sub_callbacks.license_code = afl_licenses.license_code) as latest_callback_date')
-)
-->withCount(['installations', 'callbacks'])
-->with(['callbacks' => function ($query) {
-$query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
-->groupBy('license_code');
-}])->cursorPaginate(50000)->toArray();
-return successResponse(Lang::get('lang.License_show'), $root_array, 200);
-}
+    public function show(Request $request)
+    {
+        // Extract pagination parameters from the request
+        $perPage = $request->input('perPage', 100); // Default per page is 10
+        $page = $request->input('page', 1);
+
+        // Query to retrieve data
+        $query = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
+            ->select(
+                'license_id',
+                'license_code',
+                'license_status',
+                'license_date',
+                'afl_products.product_id',
+                'afl_products.product_title',
+                DB::raw('(SELECT MAX(license_date) FROM afl_licenses AS sub_licenses WHERE sub_licenses.license_code = afl_licenses.license_code) as latest_license_date'),
+                DB::raw('(SELECT MAX(callback_date_time) FROM afl_callbacks AS sub_callbacks WHERE sub_callbacks.license_code = afl_licenses.license_code) as latest_callback_date')
+            )
+            ->withCount(['installations', 'callbacks'])
+            ->with(['callbacks' => function ($query) {
+                $query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
+                    ->groupBy('license_code');
+            }]);
+
+        $paginatedData = $query->paginate($perPage, ['*'], 'page', $page);
+
+        return successResponse(Lang::get('lang.License_show'), $paginatedData->toArray(), 200);
+    }
+
 
     public function edit($license_id)
     {

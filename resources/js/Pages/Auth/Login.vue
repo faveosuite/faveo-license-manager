@@ -58,19 +58,46 @@
     </div>
 </template>
 <script>
-import { computed }  from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
-import { errorHandler } from '../../helpers/responseHandler'
+import { errorHandler } from '../../helpers/responseHandler';
 import { validateLoginSettings } from "../../helpers/validator/loginRules.js";
-import axios from 'axios'
+import axios from 'axios';
 import TextField from "../../components/Reusable/FormField/TextField.vue";
 
 export default {
     name: 'Login',
     setup() {
         const store = useStore();
+        const getUserToken = computed(() => store.getters.getUserToken);
+        const recaptchaToken = ref(null);
+
+        const loadRecaptchaScript = () => {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://www.google.com/recaptcha/api.js?render=' + import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+                script.onload = resolve;
+                script.onerror = reject;
+                document.head.appendChild(script);
+            });
+        };
+
+        onMounted(async () => {
+            try {
+                await loadRecaptchaScript();
+                grecaptcha.ready(() => {
+                    grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: 'submit' }).then((token) => {
+                        recaptchaToken.value = token;
+                    });
+                });
+            } catch (error) {
+
+            }
+        });
+
         return {
-            getUserToken: computed(() => store.getters.getUserToken)
+            getUserToken,
+            recaptchaToken,
         };
     },
     data() {
@@ -88,11 +115,6 @@ export default {
                 this.$router.push({name: 'Dashboard'}).catch(err => {});
             }
         }
-        grecaptcha.ready(() => {
-            grecaptcha.execute('6LcHXpwpAAAAAP2yCT8CQqhr_EUgT3WvW29-mzcY', {action: 'submit'}).then((token) => {
-                this.recaptchaToken = token;
-            });
-        });
     },
     methods: {
         onChange(value, name) {
@@ -116,7 +138,10 @@ export default {
                 let data = {}
                 data['client_email'] = this.user_name
                 data['client_password'] = this.password
-                axios.post("/api/login", { ...data, 'g-recaptcha-response': this.recaptchaToken })
+                if(import.meta.env.VITE_RECAPTCHA_SITE_KEY){
+                    data['g-recaptcha-response'] = this.recaptchaToken
+                }
+                axios.post("/api/login", { ...data})
                     .then((res) => {
                         this.loading = false;
                         const authToken = res.data.data.token;
@@ -136,4 +161,5 @@ export default {
         "text-field": TextField,
     }
 };
+
 </script>

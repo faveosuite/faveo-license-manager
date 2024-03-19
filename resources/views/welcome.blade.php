@@ -45,7 +45,15 @@
 
     <script src="{{assetLink('js','polyfill')}}"></script>
 
-      <script src="https://www.google.com/recaptcha/api.js?render={{ env('RECAPTCHA_SITE_KEY') }}"></script>
+     <?php
+         try {
+             $googleSiteKey = \App\Models\CommonSetting::where('key', 'google_site_key')->value('value');
+         }
+         Catch(\Exception $e){
+             $googleSiteKey = null;
+         }
+      ?>
+
 
 
           <script src="{{assetLink('js','select2')}}" type="text/javascript"></script>

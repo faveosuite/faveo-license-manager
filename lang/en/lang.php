@@ -371,10 +371,15 @@ return [
     'host'               =>   'Host',
     'encryption'         =>   'Encryption',
     'email_sent' => 'Email Settings saved successfully',
-    'php_disabled' => 'PHP Mail function is disabled on your server'
+    'php_disabled' => 'PHP Mail function is disabled on your server',
 
+    'general-settings'  => 'General Settings',
+    'google_site_key'   => 'Google site key',
+    'google_secret_key' => 'Google secret key',
+    'agora_invoicing_url' => 'Agora Invoicing Url',
 
-
-
+    'common_setting_svaed' => 'You general settings for license manager saved successfully',
+    'reset_successfully' => 'You general settings for license manager has been reset successfully',
+    'updated_successfully' => 'You general settings for license manager has been updated successfully',
 ];
 

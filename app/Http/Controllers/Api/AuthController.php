@@ -39,26 +39,26 @@ class AuthController extends Controller
      */
     //public function register(RegisterRequest $request)
     //{
-       // $date = Carbon::now();
-        //$hash = generateRandomString(64);
-       // $admin = AflAdmins::create([
-            //'admin_fname' => $request->get('admin_fname'),
-            //'admin_lname' => $request->get('admin_lname'),
-            //'admin_email' => $request->get('admin_email'),
-            //'admin_password' => bcrypt($request->get('admin_password')),
-            //'admin_ip' => $request->ip(),
-            //'admin_date' => $date->toDateString(),
-            //'admin_hash' => $hash,
-       // ]);
+    // $date = Carbon::now();
+    //$hash = generateRandomString(64);
+    // $admin = AflAdmins::create([
+    //'admin_fname' => $request->get('admin_fname'),
+    //'admin_lname' => $request->get('admin_lname'),
+    //'admin_email' => $request->get('admin_email'),
+    //'admin_password' => bcrypt($request->get('admin_password')),
+    //'admin_ip' => $request->ip(),
+    //'admin_date' => $date->toDateString(),
+    //'admin_hash' => $hash,
+    // ]);
 
-        //previous comment//$token = $admin->createToken('AFL')->accessToken;
+    //previous comment//$token = $admin->createToken('AFL')->accessToken;
 
-       // $response = [
-           // 'user' => $admin,
-       // ];
+    // $response = [
+    // 'user' => $admin,
+    // ];
 
-       // return successResponse(Lang::get('lang.registered'), $response, 201);
-   // }
+    // return successResponse(Lang::get('lang.registered'), $response, 201);
+    // }
 
     /**
      * To Login an user to Auto faveo licenser
@@ -68,28 +68,28 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
-
         $filled = $request->validate([
             'client_email' => 'required|string',
             'client_password' => 'required|string',
-            'g-recaptcha-response' => new CaptchaValidation,
+            'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))?
+                new CaptchaValidation:['required',new CaptchaValidation],
         ]);
 
         $admin = AflClients::where(function($query) use ($filled) {
             $query->whereRaw('BINARY client_email = ?', [$filled['client_email']])
                 ->orWhereRaw('BINARY client_username = ?', [$filled['client_email']]);
         })
-        ->where('client_role', 'admin')
-        ->first();
-       $admin? $admin_status = $admin->client_status:0;
+            ->where('client_role', 'admin')
+            ->first();
+        $admin? $admin_status = $admin->client_status:0;
 
         if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
             return errorResponse(Lang::get('auth.failed'), 400);
-            }
+        }
         if($admin_status == 0){
             return errorResponse(Lang::get('auth.unathourized'), 400);
         }
-      $token = $admin->createToken('AFL')->accessToken;
+        $token = $admin->createToken('AFL')->accessToken;
         $response = [
             'message' => 'logged in',
             'user' => $admin,
@@ -97,7 +97,7 @@ class AuthController extends Controller
         ];
         return successResponse(Lang::get('lang.Login'), $response, 200);
 
-}
+    }
 
     /**
      * To Send a reset link as email to users who have forgotten the password
@@ -106,38 +106,43 @@ class AuthController extends Controller
      * @return response With a check your email and mail to the registered email address
      */
 
-     public function forgot(Request $request)
-{
-  $email = $request->input('admin_email');
-  $admin = AflClients::where('client_email', $email)
-    ->where('client_role', 'admin')
-    ->first();
+    public function forgot(Request $request)
+    {
+       $request->validate([
+            'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))?
+                new CaptchaValidation:['required',new CaptchaValidation],
+        ]);
 
-if (!$admin) {
-    return errorResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 400);
+        $email = $request->input('admin_email');
+        $admin = AflClients::where('client_email', $email)
+            ->where('client_role', 'admin')
+            ->first();
 
-}
+        if (!$admin) {
+            return errorResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 400);
 
-$token = Str::random(10);
+        }
 
-try {
-    DB::table('password_resets')->insert([
+        $token = Str::random(10);
 
-        'email' => $email,
-        'token' => $token,
-    ]);
-    $token = [
-        'token' => $token,
-    ];
-    $title = Lang::get('passwords.password_reset');
-    $template ='emails.myTestMail';
-    postEmailSendConfig($email,$title,$template,$token);
-    return successResponse(Lang::get('passwords.sent'), $token, 200);
-}  catch (\Exception $e) {
-    return  errorResponse($e->getMessage(), 400);
-}
+        try {
+            DB::table('password_resets')->insert([
 
-}
+                'email' => $email,
+                'token' => $token,
+            ]);
+            $token = [
+                'token' => $token,
+            ];
+            $title = Lang::get('passwords.password_reset');
+            $template ='emails.myTestMail';
+            postEmailSendConfig($email,$title,$template,$token);
+            return successResponse(Lang::get('passwords.sent'), $token, 200);
+        }  catch (\Exception $e) {
+            return  errorResponse($e->getMessage(), 400);
+        }
+
+    }
 
 
     /**
@@ -166,8 +171,8 @@ try {
         }
 
         $admin = AflClients::where('client_email', $request->email)
-        ->where('client_role','admin')
-        ->first();
+            ->where('client_role','admin')
+            ->first();
         if (! $admin) {
             return errorResponse(Lang::get('passwords.user'), 401);
         }
@@ -189,11 +194,11 @@ try {
     public function logout(Request $request, $user_id)
     {
         $logout = DB::table('oauth_access_tokens')
-                   ->where('user_id', $user_id)
-                   ->update([
-                       'revoked' => true,
-                       'expires_at' => Carbon::now(),
-                   ]);
+            ->where('user_id', $user_id)
+            ->update([
+                'revoked' => true,
+                'expires_at' => Carbon::now(),
+            ]);
         return successResponse(Lang::get('lang.Logout'), $logout, 201);
     }
 }

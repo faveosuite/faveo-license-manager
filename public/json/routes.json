@@ -404,17 +404,6 @@
                     "routeString": "/tools/config",
                     "hasChildren": false,
                     "children": []
-                },
-                {
-                    "name": "Google reCAPTCHA",
-                    "key": null,
-                    "count": 0,
-                    "hasCount": false,
-                    "iconClass": "far fa-circle",
-                    "order": 0,
-                    "routeString": "/tools/captcha",
-                    "hasChildren": false,
-                    "children": []
                 }
             ]
         }

@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use App\Models\CommonSetting;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Http;
 
@@ -17,7 +18,7 @@ class CaptchaValidation implements Rule
     public function passes($attribute, $value)
     {
         $response = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
-            'secret' => env('RECAPTCHA_SECRET_KEY'),
+            'secret' => CommonSetting::where('key','google_secret_key')->value('value'),
             'response' => $value,
         ]);
         return $response->json('success');

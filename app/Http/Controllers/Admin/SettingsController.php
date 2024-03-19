@@ -381,56 +381,11 @@ class SettingsController extends Controller
     public function getDebugger()
     {
 
-    try {
-        $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
-        return response()->json(['debugger' => $debuggerValue]);
-    } catch (\Exception $e) {
-        return errorResponse($e,500);
-    }
-    }
-
-
-    public function createOrUpdateGoogleRecaptcha(Request $request){
-        try{
-            $request->validate(
-                [
-                    'google_site_key' => 'required',
-                    'google_secret_key' => 'required',
-                ]
-            );
-            GoogleRecaptchaSetting::updateOrCreate([
-                'google_site_key' => $request->input('google_site_key'),
-                'google_secret_key' => $request->input('google_secret_key')
-            ],
-                [
-                    'google_site_key' => $request->input('google_site_key'),
-                    'google_secret_key' => $request->input('google_secret_key')
-                ]
-            );
-            return successResponse(trans('lang.complete_google'));
-        }
-        Catch(\Exception $e){
-            return errorResponse($e->getMessage(),400);
-        }
-    }
-
-    public function getGoogleRecaptcha(){
-        try{
-            return successResponse('', GoogleRecaptchaSetting::find(1));
-        }
-        Catch(\Exception $e){
-            return errorResponse($e->getMessage(),400);
-        }
-    }
-
-    public function clearGoogleRecaptcha(Request  $request){
-        try{
-            !($request->has('clear'))?:GoogleRecaptchaSetting::query()->delete();
-            return successResponse(trans('lang.reset_successfully'));
-        }
-        Catch(\Exception $e){
-            dd($e);
-            return errorResponse($e->getMessage(),400);
+        try {
+            $debuggerValue = AflSettings::where('SETTING_ID', 1)->value('debugger');
+            return response()->json(['debugger' => $debuggerValue]);
+        } catch (\Exception $e) {
+            return errorResponse($e, 500);
         }
     }
 }
