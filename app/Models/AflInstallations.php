@@ -17,7 +17,7 @@ class AflInstallations extends Model
 
     public function product()
     {
-    return $this->hasOne(AflProducts::class, 'product_id', 'product_id');
+        return $this->belongsTo(AflProducts::class, 'product_id', 'product_id');
     }
 
     public function client()

@@ -309,11 +309,9 @@ class LicenseController extends Controller
 
     public function show(Request $request)
     {
-        // Extract pagination parameters from the request
         $perPage = $request->input('perPage', 100); // Default per page is 10
         $page = $request->input('page', 1);
 
-        // Query to retrieve data
         $query = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
             ->select(
                 'license_id',

@@ -9,11 +9,28 @@ use Illuminate\Http\Request;
 
 class CallBackController extends Controller
 {
-    public function licneseCallbacks()
+    public function licneseCallbacks(Request $request)
     {
-        $callbacks = callbackArray();
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
 
-        return $callbacks;
+        // Fetch paginated callbacks with related product and user data using Eloquent relationships
+        $paginatedCallbacks = AflCallbacks::with(['product', 'user'])
+            ->orderBy('callback_date_time', 'desc')
+            ->orderBy('callback_id', 'desc')
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        // Modify the fetched data as needed
+        $modifiedCallbacks = $paginatedCallbacks->map(function ($callback) {
+            // Format client and callback status
+            $callback->client_formatted = formatClient($callback->license_code, optional($callback->user)->client_email);
+            $callback->callback_date_time = removeSeconds($callback->callback_date_time);
+            $callback->callback_status_formatted = returnFormattedStatusArray($callback->callback_status, 'Success', 'Error', 'Unknown');
+
+            return $callback;
+        });
+
+        return $modifiedCallbacks->toArray();
     }
 
     public function updateCallbacks()

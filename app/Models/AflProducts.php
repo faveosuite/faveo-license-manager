@@ -15,17 +15,23 @@ class AflProducts extends Model
 
     public $timestamps = false;
 
-    public function license()
+    public function licenses()
     {
-        return $this->belongTo(AflLicenses::class);
+        return $this->hasMany(AflLicenses::class, 'product_id', 'product_id');
     }
 
-    public function installation()
-    {
-        return $this->belongsTo(AflInstallations::class);
-    }
     public function installations()
-{
-return $this->hasMany(AflInstallations::class);
-}
+    {
+        return $this->hasMany(AflInstallations::class, 'product_id', 'product_id');
+    }
+
+    public function callbacks()
+    {
+        return $this->hasMany(AflCallbacks::class, 'product_id', 'product_id');
+    }
+
+    public function reports()
+    {
+        return $this->hasMany(AflReports::class, 'product_id', 'product_id');
+    }
 }
