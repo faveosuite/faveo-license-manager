@@ -29,5 +29,10 @@ class AflClients extends Model
     {
         return $this->hasMany(AfuInstallations::class);
     }
-   
+
+    public function callbacks()
+    {
+        return $this->hasMany(AflCallbacks::class, 'client_id', 'client_id');
+    }
+
 }

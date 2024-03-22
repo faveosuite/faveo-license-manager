@@ -140,9 +140,53 @@ class ProductsController extends Controller
      */
     public function show()
     {
-        $products = productArray();
+        $perPage = 10; // Number of items per page
+        $page = request()->input('page', 1); // Get the current page from the request
 
-        return successResponse(Lang::get('lang.Product_Show'), $products, 200);
+        // Fetch products with counts and related records, ordered by product title
+        $productsQuery = AflProducts::withCount(['licenses', 'installations', 'callbacks', 'reports'])
+            ->with(['licenses' => function ($query) {
+                $query->latest('license_date');
+            }])
+            ->with(['installations' => function ($query) {
+                $query->latest('installation_date');
+            }])
+            ->with(['callbacks' => function ($query) {
+                $query->latest('callback_date_time');
+            }])
+            ->with(['reports' => function ($query) {
+                $query->latest('report_date_time');
+            }])
+            ->orderBy('product_title');
+
+        // Paginate the query
+        $paginatedProducts = $productsQuery->paginate($perPage, ['*'], 'page', $page);
+
+        // Modify the fetched data as needed
+        $root_array = $paginatedProducts->map(function ($product) {
+            // Format dates and other modifications
+            if (isset($product['licenses'][0]['license_date'])) {
+                $product['latest_license_date'] = $product['licenses'][0]['license_date'];
+                unset($product['licenses']);
+            }
+            if (isset($product['installations'][0]['installation_date'])) {
+                $product['latest_installation_date'] = $product['installations'][0]['installation_date'];
+                unset($product['installations']);
+            }
+            if (isset($product['callbacks'][0]['callback_date_time'])) {
+                $product['latest_callback_date_time'] = removeSeconds($product['callbacks'][0]['callback_date_time']);
+                unset($product['callbacks']);
+            }
+            if (isset($product['reports'][0]['report_date_time'])) {
+                $product['latest_report_date_time'] = removeSeconds($product['reports'][0]['report_date_time']);
+                unset($product['reports']);
+            }
+            $product['product_status_formatted'] = returnFormattedStatusArray($product['product_status']);
+
+            return $product;
+        });
+
+        return successResponse(Lang::get('lang.Product_Show'), $root_array->toArray(), 200);
     }
 
     /**

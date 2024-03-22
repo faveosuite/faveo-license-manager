@@ -1,6 +1,7 @@
 <?php
 use App\Models\AflSettings;
 use App\Http\Controllers\PhpMailController;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Lang;
 //check Auto Faveo Licenser core configuration and return an array with error messages if something wrong
 function aflCheckSettings()
@@ -655,13 +656,23 @@ function isWhiteLabelEnabled()
 }
 function postEmailSendConfig($email,$title,$template,$data){
     try {
-                            
+
         $emailConfig = AflSettings::find(1);
         $mailController = new PhpMailController();
 
         $mailController->configSet($emailConfig);
-        $mailController-> sendEmail($email, $title, $template, $data); 
+        $mailController-> sendEmail($email, $title, $template, $data);
     } catch (\Exception $e) {
         return errorResponse($e, 500);
     }
+}
+
+function isInstall()
+{
+    $check = false;
+    $env = base_path('.env');
+    if (File::exists($env) && env('DB_INSTALL') == 1) {
+        $check = true;
+    }
+    return $check;
 }

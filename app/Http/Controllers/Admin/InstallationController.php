@@ -134,19 +134,36 @@ class InstallationController extends Controller
     /**
      * Returns the list of all the instalaltions using license manager
      */
-    public function show()
+    public function show(Request $request)
     {
-    $root_array = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-    ->orderByDesc('installation_date')
-    ->orderByDesc('installation_id')
-    ->select('installation_id','afl_products.product_id', 'afl_products.product_title', 'license_code', 'installation_status',
-    DB::raw('(SELECT COUNT(*) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as total_installations'),
-    DB::raw('(SELECT MAX(installation_date) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as latest_installation_date')
-)
-    ->cursor()
-    ->toArray();
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
 
-    return successResponse(Lang::get('lang.Install_show'), $root_array, 200);
+        // Fetch paginated installations with related product data
+        $paginatedInstallations = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
+            ->orderByDesc('installation_date')
+            ->orderByDesc('installation_id')
+            ->select(
+                'installation_id',
+                'afl_products.product_id',
+                'afl_products.product_title',
+                'license_code',
+                'installation_status',
+                DB::raw('(SELECT COUNT(*) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as total_installations'),
+                DB::raw('(SELECT MAX(installation_date) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as latest_installation_date')
+            )
+            ->paginate($perPage, ['*'], 'page', $page);
+
+        // Modify the fetched data as needed
+        $modifiedInstallations = $paginatedInstallations->map(function ($installation) {
+            // Format dates and other modifications
+            $installation['latest_installation_date'] = removeSeconds($installation['latest_installation_date']);
+            // Add other modifications if needed
+
+            return $installation;
+        });
+
+        return successResponse(Lang::get('lang.Install_show'), $modifiedInstallations->toArray(), 200);
     }
 
     //for localized license only
