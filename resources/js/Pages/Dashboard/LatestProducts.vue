@@ -3,7 +3,7 @@
     <div class="col-md-12 col-sm-12 col-12">
         <div class="card card-light">
             <div class="card-header">
-                <h3 class="card-title">{{ 'Latest Products' }}</h3>
+                <h3 class="card-title">{{ 'Products' }}</h3>
 
                 <div class="card-tools">
 
