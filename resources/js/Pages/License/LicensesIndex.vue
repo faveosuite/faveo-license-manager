@@ -26,7 +26,7 @@
 
 			<div class="card-body" id="my_licenses">
 
-				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+				<v-client-table v-on:limit="onPerPageChange" v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
 
                     <template v-slot:product_title="props">
 
@@ -46,15 +46,39 @@
                         <table-actions :data="props.row"></table-actions>
                     </template>
 				</v-client-table>
-			</div>
+
+
+                <div class="pagination-container mt-2">
+
+                    <div v-if="!loading">
+                        <div v-if="total == 1">
+                            {{trans('one_record')}}
+                        </div>
+                        <div v-if="total > 1 && total <= 10">
+                            {{ total }} {{trans('records')}}
+                        </div>
+                        <div v-if="total > 10">
+                            {{trans('showing')}} {{ from }} to {{ to }} of {{ total }} {{trans('records')}}
+                        </div>
+                    </div>
+
+                    <div v-if="!loading" class="float-right mr-0 pt-2">
+
+                        <simple-paginaton :prev_page="prev_page" :next_page="next_page" :onPagination="onPagination"></simple-paginaton>
+                    </div>
+
+                </div>
+
+            </div>
 		</div>
 	</div>
 </template>
 
 <script>
 
-	import axios from 'axios';
+    import axios from 'axios';
   import {lang} from "../../helpers/extraLogics";
+  import SimplePagination from "../../components/Reusable/FormField/SimplePagination.vue";
 
 	export default {
 
@@ -63,16 +87,32 @@
 		data() {
 
 			return {
-        loading: false,
 
-        data: '',
+                loading: false,
 
-				columns: ['product_title', 'license_code', 'installations_count', 'callbacks_count',
-					'latest_callback_date', 'latest_license_date','actions'],
+                data: '',
 
-				options: {},
+                columns: ['product_title', 'license_code', 'installations_count', 'callbacks_count',
+                    'latest_callback_date', 'latest_license_date','actions'],
 
-				counter: 0
+                options: {},
+
+                prev_page : '',
+
+                next_page : '',
+
+                per_page : 100,
+
+                endPoint : `/api/admin/viewLicenses?page=1&perPage=100`,
+
+				counter: 0,
+
+                total : '',
+
+                from : '',
+
+                to : ''
+
 			}
 		},
 
@@ -84,6 +124,12 @@
 			this.getData();
 
 			this.options = {
+
+                perPage : 10,
+
+                // perPageValues : [10, 20, 45, 50, 100],
+
+                pagination: { dropdown : false, show : false },
 
 				sortIcon: {
 
@@ -114,6 +160,7 @@
 				},
 
 				templates: {
+
                     latest_license(h,row){
                         return row.latest_license ? row.latest_license : '---';
                     },
@@ -139,8 +186,6 @@
 
 				},
 
-				pagination: { chunk: 5, nav: 'fixed', edge: true },
-
 				headings: {
 
 					product_id: 'Product',
@@ -155,14 +200,24 @@
 
 					latest_license_date: 'Latest License',
 
-
 					actions: 'Actions'
 				},
 			}
 		},
 
 		methods: {
-      lang: lang,
+
+            lang: lang,
+
+            onPerPageChange(payload) {
+
+                this.per_page = payload;
+
+                this.endPoint = `/api/admin/viewLicenses?page=1&perPage=${payload}`;
+
+                this.getData();
+            },
+
 			updateData() {
 
 				this.getData();
@@ -172,9 +227,19 @@
 
                 this.loading = true;
 
-				axios.get('/api/admin/viewLicenses').then(res => {
+				axios.get(this.endPoint).then(res => {
 
                     this.loading = false;
+
+                    this.next_page = res.data.data.next_page_url;
+
+                    this.prev_page = res.data.data.prev_page_url;
+
+                    this.total = res.data.data.total;
+
+                    this.from = res.data.data.from;
+
+                    this.to = res.data.data.to;
 
 					this.data = res.data.data.data.map(data => {
 
@@ -192,8 +257,40 @@
 
                     this.loading = false;
                 })
-			}
-		}
+			},
+
+            onPagination(direction) {
+
+                const targetUrl = direction === 'next' ? this.next_page : this.prev_page;
+
+                if (targetUrl) {
+
+                    const url = new URL(targetUrl);
+
+                    const pageValue = url.searchParams.get("page");
+
+                    this.endPoint = this.updateQueryParam(this.endPoint, "page", pageValue);
+
+                    this.getData();
+                }
+            },
+
+            updateQueryParam(url, param, value) {
+
+                url = url.replace(/([?&])page=\d+/, '');
+
+                url = url.replace(/([?&])perPage=\d+/, '');
+
+                const separator = url.includes('?') ? '&' : '?';
+
+                return `${url}${separator}${param}=${value}&perPage=${this.per_page}`;
+            }
+		},
+
+        components : {
+
+            'simple-paginaton' : SimplePagination
+        }
 	};
 </script>
 
@@ -207,6 +304,12 @@
 		max-width: 200px;
 		word-break: break-all;
 	}
+
+    .pagination-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 
 	#my_licenses .VueTables .table-responsive {
 		overflow-x: auto;

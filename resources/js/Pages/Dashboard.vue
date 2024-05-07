@@ -81,88 +81,149 @@
 
 
             <div class="row justify-content-around">
-                <div class="shadow-none body-scrollable col-md-6 justify-content-around">
-                    <latest-product></latest-product>
+                <div class="shadow-none col-md-6 justify-content-around">
+                    <latest-product :data="latest_products" v-on:refresh="getData"></latest-product>
                 </div>
                 <div class="shadow-none col-md-6 justify-content-around">
-                    <latest-version></latest-version>
+                    <latest-version :data="latest_versions" v-on:refresh="getData"></latest-version>
                 </div>
             </div>
 
             <div class="row">
                 <div class=" shadow-none col-md-6">
-                    <latest-installations></latest-installations>
+                    <latest-installations :data="latest_installations" v-on:refresh="getData"></latest-installations>
                 </div>
                 <div class="shadow-none col-md-6">
-                    <latest-callbacks></latest-callbacks>
+                    <latest-callbacks :data="latest_callbacks" v-on:refresh="getData"></latest-callbacks>
                 </div>
             </div>
 
             <div class="row">
                 <div class="shadow-none col-md-6">
-                    <latest-product-report></latest-product-report>
+                    <latest-product-report :data="latest_reports" v-on:refresh="getData"></latest-product-report>
                 </div>
                 <div class="shadow-none col-md-6">
-                    <expiring-version></expiring-version>
+                    <expiring-version :data="expired_versions" v-on:refresh="getData"></expiring-version>
                 </div>
             </div>
 
 
 </template>
+
 <script>
+
 import axios from 'axios';
+
 import LatestProduct from "./Dashboard/LatestProducts.vue";
+
 import LatestVersion from "./Dashboard/LatestVersions.vue";
+
 import LatestInstallations from "./Dashboard/LatestInstallations.vue";
+
 import LatestCallbacks from "./Dashboard/LatestCallbacks.vue";
+
 import LatestProductReport from "./Dashboard/LatestProductReport.vue";
+
 import ExpiringVersion from "./Dashboard/ExpiringVersion.vue";
 
 export default {
+
     name: 'dashboard',
+
     components: {
+
         ExpiringVersion,
+
         LatestProductReport,
+
         LatestCallbacks,
+
         LatestInstallations,
+
         LatestVersion,
+
         LatestProduct
 
     },
+
     data() {
+
         return {
+
             versions: '',
+
             clients: '',
+
             products: '',
+
             licenses: '',
+
             callbacks: '',
+
+            latest_products : '',
+
+            latest_versions : '',
+
+            latest_installations : '',
+
+            latest_callbacks : '',
+
+            latest_reports : '',
+
+            expired_versions : '',
+
             items: [],
+
             widgetKeys: [],
+
             loading: true, // Add loading state
         };
     },
 
     mounted() {
+
         this.getData();
     },
 
     methods: {
+
         getData() {
+
             this.loading = true; // Set loading state to true before making the request
+
             axios
                 .get('/api/admin/dashboarddropdown')
                 .then((res) => {
                     this.loading = false; // Set loading state to false after the request is completed
                     const { data } = res.data;
 
+                    console.log(data)
+
                     if (data) {
-                        this.products = data.products_count;
-                        this.installations = data.installlation_count;
-                        this.versions = data.version_count;
-                        this.callbacks = data.callback_count;
+
+                        this.products = data.productsCount;
+
+                        this.installations = data.installationsCount;
+
+                        this.versions = data.versionsCount;
+
+                        this.callbacks = data.callbacksCount;
+
+                        this.latest_products = data.latestProducts;
+
+                        this.latest_versions = data.latestVersions;
+
+                        this.latest_installations = data.latestInstallations;
+
+                        this.latest_callbacks = data.latestCallbacks;
+
+                        this.latest_reports = data.latestReports;
+
+                        this.expired_versions = data.expiredVersions;
                     }
                 })
                 .catch((error) => {
+
                     this.loading = false; // Set loading state to false if an error occurs
                 });
 

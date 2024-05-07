@@ -41,10 +41,10 @@
 
                     <template v-slot:client_status="props">
 
-	<span :style="{ color: props.row.client_status ? 'green' : 'red' }">
+	                    <span :style="{ color: props.row.client_status ? 'green' : 'red' }">
 
-	{{ props.row.client_status ? 'Active' : 'Inactive' }}
-	</span>
+	                        {{ props.row.client_status ? 'Active' : 'Inactive' }}
+	                    </span>
                     </template>
 
                     <template v-slot:actions="props">
@@ -168,7 +168,7 @@ export default {
                 .then(res => {
                     this.loading = false;
 
-                    this.data = res.data.data.map(data => {
+                    this.data = res.data.data.data.map(data => {
 
                         data.edit_url = '/clients/' + data.client_id + '/edit';
 
