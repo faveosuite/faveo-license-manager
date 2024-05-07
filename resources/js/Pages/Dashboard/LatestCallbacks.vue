@@ -64,8 +64,6 @@ export default {
 
         const self =this;
 
-        this.getData();
-
         this.options ={
 
             columnsClasses:{
@@ -98,6 +96,7 @@ export default {
             },
 
             headings: {
+
                 callback_domain: 'Domain',
 
                 callback_date_time: 'Date',
@@ -114,20 +113,15 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.afu_latest_callbacks; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false
 
-                    errorHandler(err, 'latest-callbacks')
-                });
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type : Array, default : ()=>{}}
+    }
 
 };
 

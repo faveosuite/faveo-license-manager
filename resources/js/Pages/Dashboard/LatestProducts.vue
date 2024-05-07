@@ -49,8 +49,6 @@ export default {
 
         return {
 
-            data: [],
-
             columns:['product_title','product_sku','product_date','product_status'],
 
             options : {},
@@ -64,8 +62,6 @@ export default {
     beforeMount(){
 
         const self =this;
-
-        this.getData();
 
         this.options ={
 
@@ -105,20 +101,15 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.latest_products; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false
 
-                    errorHandler(err, 'latest-products')
-                });
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type: Array, default : ()=>{}}
+    }
 };
 
 </script>

@@ -66,7 +66,7 @@ export default {
 
         const self =this;
 
-        this.getData();
+        // this.getData();
 
         this.options ={
 
@@ -116,20 +116,15 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.expired_versions; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false
 
-                    errorHandler(err, 'expiring-version')
-                });
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type : Array, default : ()=>{}}
+    }
 };
 
 </script>

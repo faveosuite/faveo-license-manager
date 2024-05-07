@@ -53,10 +53,11 @@ export default {
         }
     },
     beforeMount() {
-        this.getData();
 
         this.options = {
+
             columnsClasses: {
+
                 report_text: 'report_status',
 
                 report_date_time: 'report_date_time',
@@ -65,6 +66,7 @@ export default {
 
                 report_status: 'report_status'
             },
+
             templates: {
                 license_code(h, row) {
                     const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
@@ -89,19 +91,15 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.latest_product_reports; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    errorHandler(err, 'latest-product-report');
-                });
+
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type: Array, default : ()=>{}}
+    }
 };
 </script>
 <style>

@@ -65,8 +65,6 @@ export default {
 
         const self =this;
 
-        this.getData();
-
         this.options ={
 
             columnsClasses:{
@@ -117,19 +115,15 @@ export default {
         lang: lang,
 
         getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/dashboarddropdown')
-                .then((res) => {
-                    this.data = res.data.data.latest_versions; // Assign the fetched data to the data property
-                    this.loading = false;
-                })
-                .catch((err) => {
-                    this.loading = false;
-                    errorHandler(err, 'latest-versions');
-                });
+
+            this.$emit('refresh')
         },
     },
+
+    props : {
+
+        data : {type : Array, default : ()=>{}}
+    }
 
 };
 
