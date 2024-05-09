@@ -30,7 +30,7 @@ class CallBackController extends Controller
             return $callback;
         });
 
-        return $modifiedCallbacks->toArray();
+        return successResponse('',$paginatedCallbacks);
     }
 
     public function updateCallbacks()

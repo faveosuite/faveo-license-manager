@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CommonSetting;
+use App\Models\DateFormat;
+use App\Models\TimeFormat;
+use App\Models\Timezone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 
@@ -88,5 +91,35 @@ class CommonSettingController extends Controller
         // Write the updated contents back to the .env file
         File::put($envFilePath, $envContent);
     }
+
+    public function getDropDownForTimezone(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $search = $request->input('search', '');
+        $timezones = Timezone::where('location', 'like', '%'.$search.'%')
+            ->paginate(10, ['*'], 'page', $page);
+        return successResponse('', $timezones);
+    }
+
+    public function getDropDownForDateFormat(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $search = $request->input('search', '');
+        $date_formats = DateFormat::where('format', 'like', '%'.$search.'%')
+            ->where('is_active', 1)
+            ->paginate(10, ['*'], 'page', $page);
+        return successResponse('', $date_formats);
+    }
+
+    public function getDropDownForTimeFormat(Request $request)
+    {
+        $page = $request->input('page', 1);
+        $search = $request->input('search', '');
+        $time_formats = TimeFormat::where('hours', 'like', '%'.$search.'%')
+            ->where('is_active', 1)
+            ->paginate(10, ['*'], 'page', $page);
+        return successResponse('', $time_formats);
+    }
+
 
 }
