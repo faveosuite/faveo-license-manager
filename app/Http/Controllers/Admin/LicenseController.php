@@ -7,6 +7,7 @@ use App\Http\Requests\LicenseRequest;
 use App\Models\AflClients;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
+use App\Models\CommonSetting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -311,7 +312,7 @@ class LicenseController extends Controller
     {
         $perPage = $request->input('perPage', 100); // Default per page is 10
         $page = $request->input('page', 1);
-
+        $agora_invoicing_url = CommonSetting::where("key","agora_invoicing_url")->value('value');
         $query = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
             ->select(
                 'license_id',
@@ -320,6 +321,7 @@ class LicenseController extends Controller
                 'license_date',
                 'afl_products.product_id',
                 'afl_products.product_title',
+                DB::raw('CONCAT("<a href=\"'.$agora_invoicing_url.'","orders/license/", license_order_number, "\">", license_order_number, "</a>") AS order_url'),
                 DB::raw('(SELECT MAX(license_date) FROM afl_licenses AS sub_licenses WHERE sub_licenses.license_code = afl_licenses.license_code) as latest_license_date'),
                 DB::raw('(SELECT MAX(callback_date_time) FROM afl_callbacks AS sub_callbacks WHERE sub_callbacks.license_code = afl_licenses.license_code) as latest_callback_date')
             )

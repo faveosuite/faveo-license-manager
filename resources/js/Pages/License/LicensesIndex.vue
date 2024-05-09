@@ -33,6 +33,11 @@
                         <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
                     </template>
 
+                    <template v-slot:license_order_number="props">
+
+                        <span v-html="props.row.order_url"></span>
+                    </template>
+
                     <template v-slot:license_status="props">
 
                         <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
@@ -103,6 +108,10 @@
 
                 per_page : 100,
 
+				columns: ['product_title', 'license_code', 'license_order_number' , 'installations_count', 'callbacks_count',
+					'latest_callback_date', 'latest_license_date','actions'],
+
+
                 endPoint : `/api/admin/viewLicenses?page=1&perPage=100`,
 
 				counter: 0,
@@ -148,6 +157,8 @@
 
 					license_code: 'license_code',
 
+                    license_order_number: 'license_order_number',
+
 					installations_count: 'license_install',
 
 					callbacks_count: 'license_callbacks',
@@ -191,6 +202,8 @@
 					product_id: 'Product',
 
 					license_code: 'License Code',
+
+                    license_order_number: 'License Order Number',
 
 					installations_count: 'Installations',
 
@@ -297,6 +310,7 @@
 <style>
 	.license_product_title,
 	.license_code,
+    .license_order_number,
 	.license_install,
 	.license_callbacks,
 	.latest_callback_time,

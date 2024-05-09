@@ -56,4 +56,10 @@ class SettingsControllerTest extends TestCase
         $response->assertStatus(200);
         $this->assertEquals(1, json_decode($response->getContent())->expiring_support[0]->license_id);
     }
+    public function test()
+    {
+        $this->withoutMiddleware();
+        $response = $this->call('GET', url("api/admin/timezones"));
+        $response->assertStatus(200);
+    }
 }

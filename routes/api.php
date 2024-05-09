@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\EmailsController;
 use App\Http\Controllers\Admin\EmailSettingsController;
 use App\Http\Controllers\Admin\InstallationController;
 use App\Http\Controllers\Admin\LicenseController;
+use App\Http\Controllers\Admin\LogWriteController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ReportsController;
@@ -146,6 +147,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('common-setting', [CommonSettingController::class, 'createOrUpdateCommonSetting']);
     Route::get('common-setting/get', [CommonSettingController::class, 'getCommonSetting']);
     Route::post('common-setting/reset', [CommonSettingController::class, 'clearCommonSetting']);
+    Route::get('timezones', [CommonSettingController::class, 'getDropDownForTimezone']);
+    Route::get('date-formats', [CommonSettingController::class, 'getDropDownForDateFormat']);
+    Route::get('time-formats', [CommonSettingController::class, 'getDropDownForTimeFormat']);
 
 
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
@@ -166,6 +170,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
 
     //CONFIGURATION GENERATOR
     Route::post('config', [ConfigGenerateController::class, 'configGenerate']);
+
+    //EXCEPTION LOGS
+    Route::get('logs/exception',[LogWriteController::class,'getExceptionLogs']);
 
     //SEARCH
     Route::post('search', [SearchController::class, 'search']);

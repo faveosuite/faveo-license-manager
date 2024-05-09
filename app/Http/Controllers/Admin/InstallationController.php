@@ -162,8 +162,9 @@ class InstallationController extends Controller
 
             return $installation;
         });
+        $paginatedInstallations->setCollection($modifiedInstallations);
 
-        return successResponse(Lang::get('lang.Install_show'), $modifiedInstallations->toArray(), 200);
+        return successResponse(Lang::get('lang.Install_show'), $paginatedInstallations);
     }
 
     //for localized license only
