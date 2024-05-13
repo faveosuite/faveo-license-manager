@@ -62,6 +62,7 @@ app.component('tool-tip', Tooltip);
 import {ServerTable, ClientTable, EventBus} from 'v-tables-3';
 
 app.use(ClientTable)
+app.use(ServerTable)
 
 import Alert from "./components/Reusable/Alert.vue";
 import Loader from "./components/Reusable/Loader.vue";
