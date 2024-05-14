@@ -129,9 +129,20 @@ class BannedHostController extends Controller
     /**
      * Returns the list of all the banned host present for this application.
      */
-    public function show()
+    public function show(Request $request)
     {
-        $banned = AflBannedHosts::all();
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') :'banned_host_id';
+
+        $banned = AflBannedHosts::where(function($query) use ($searchQuery) {
+        $query->where('banned_host_ip', 'LIKE', '%' . $searchQuery . '%')
+            ->orWhere('banned_host_comments', 'LIKE', '%' . $searchQuery . '%');
+    })
+        ->orderBy($sortField, $sortOrder)
+        ->paginate($perPage, ['*'], 'page', $page);
 
         return successResponse(Lang::get('lang.Banned_Show'), $banned, 200);
     }

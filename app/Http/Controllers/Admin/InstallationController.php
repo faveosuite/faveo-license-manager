@@ -138,11 +138,19 @@ class InstallationController extends Controller
     {
         $perPage = $request->input('perPage',10); // Number of items per page
         $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = str_replace("-","",$request->input('search_query'));
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') :'installation_id';
 
         // Fetch paginated installations with related product data
         $paginatedInstallations = AflInstallations::leftJoin('afl_products', 'afl_installations.product_id', '=', 'afl_products.product_id')
-            ->orderByDesc('installation_date')
-            ->orderByDesc('installation_id')
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                return $query->where(function($query) use ($searchQuery) {
+                    $query->where('afl_products.product_title', 'LIKE', "%{$searchQuery}%")
+                        ->orWhere('afl_installations.license_code', 'LIKE', "%{$searchQuery}%");
+                });
+            })
+            ->orderBy($sortField, $sortOrder)
             ->select(
                 'installation_id',
                 'afl_products.product_id',

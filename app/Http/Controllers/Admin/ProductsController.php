@@ -138,10 +138,13 @@ class ProductsController extends Controller
      * @param
      * @return array of all the products that is present in the database
      */
-    public function show()
+    public function show(Request $request)
     {
-        $perPage = 10; // Number of items per page
-        $page = request()->input('page', 1); // Get the current page from the request
+        $perPage = $request->input('perPage', 10);
+        $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') :'product_id';
 
         // Fetch products with counts and related records, ordered by product title
         $productsQuery = AflProducts::withCount(['licenses', 'installations', 'callbacks', 'reports'])
@@ -157,7 +160,12 @@ class ProductsController extends Controller
             ->with(['reports' => function ($query) {
                 $query->latest('report_date_time');
             }])
-            ->orderBy('product_title');
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                $query->where('product_title', 'LIKE', '%'.$searchQuery.'%')
+                    ->orWhere('product_sku', 'LIKE', '%'.$searchQuery.'%')
+                    ->orWhere('product_url_homepage', 'LIKE','%'.$searchQuery.'%');
+            })
+            ->orderBy($sortField, $sortOrder);
 
         // Paginate the query
         $paginatedProducts = $productsQuery->paginate($perPage, ['*'], 'page', $page);
@@ -185,8 +193,9 @@ class ProductsController extends Controller
 
             return $product;
         });
+        $paginatedProducts->setCollection($root_array);
 
-        return successResponse(Lang::get('lang.Product_Show'), $root_array->toArray(), 200);
+        return successResponse(Lang::get('lang.Product_Show'), $paginatedProducts, 200);
     }
 
     /**

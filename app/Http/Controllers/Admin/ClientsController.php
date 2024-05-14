@@ -130,9 +130,17 @@ class ClientsController extends Controller
         // Set default pagination values
         $perPage = $request->input('perPage', 10); // Default per page is 10
         $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') : 'client_id';
 
         // Query to retrieve clients excluding the specified client ID
         $clients = AflClients::where('client_id', '!=', $client_id)
+            ->when($searchQuery, function ($query) use ($searchQuery) {
+                return $query->where(DB::raw('CONCAT(client_fname," " ,client_lname)'), 'LIKE', '%'.$searchQuery.'%')
+                    ->orWhere('client_email', 'LIKE', '%'.$searchQuery.'%');
+            })
+            ->orderBy($sortField, $sortOrder)
             ->select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
             ->paginate($perPage, ['*'], 'page', $page);
 

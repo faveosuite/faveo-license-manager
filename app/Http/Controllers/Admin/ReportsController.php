@@ -76,10 +76,13 @@ class ReportsController extends Controller
 
 
 //system1
-    public function reportArraySystem()
+    public function reportArraySystem(Request $request)
     {
-        $perPage = 10; // Number of items per page
-        $page = request()->input('page', 1); // Get the current page from the request
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') : 'report_id';
 
         // Fetch paginated system reports with related user and product data
         $paginatedReports = AflReports::with(['user', 'product'])
@@ -87,8 +90,8 @@ class ReportsController extends Controller
             ->whereHas('user', function ($query) {
                 $query->where('client_role', 'admin');
             })
-            ->orderByDesc('report_date_time')
-            ->orderByDesc('report_id')
+            ->where('report_text', 'LIKE', '%' . $searchQuery . '%')
+            ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
         // Modify the fetched data as needed
@@ -103,18 +106,24 @@ class ReportsController extends Controller
         return $modifiedReports->toArray();
     }
 
-    public function reportArrayCracking()
+    public function reportArrayCracking(Request $request)
     {
-        $perPage = 10; // Number of items per page
-        $page = request()->input('page', 1); // Get the current page from the request
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') :'report_id';
 
         // Fetch paginated cracking reports with related user and product data
         $paginatedReports = AflReports::with(['user', 'product'])
             ->where('account_id', 0)
             ->where('product_id', 0)
             ->where('report_system', 0)
-            ->orderByDesc('report_date_time')
-            ->orderByDesc('report_id')
+            ->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
+            })
+            ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
         // Modify the fetched data as needed
@@ -127,19 +136,29 @@ class ReportsController extends Controller
             return $report;
         });
 
-        return $modifiedReports->toArray();
+        $paginatedReports->setCollection($modifiedReports);
+        return successResponse(Lang::get('lang.CrackingReport_Show'), $paginatedReports,200);
     }
 
-    public function reportArrayLicense()
+    public function reportArrayLicense(Request $request)
     {
-        $perPage = 10; // Number of items per page
-        $page = request()->input('page', 1); // Get the current page from the request
+        $perPage = $request->input('perPage',10); // Number of items per page
+        $page = $request->input('page', 1); // Get the current page from the request
+        $searchQuery = str_replace("-","",$request->input('search_query'));
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') :'report_id';
 
         // Fetch paginated license reports with related user and product data
         $paginatedReports = AflReports::with(['user', 'product'])
             ->whereNotNull('license_code')
-            ->orderByDesc('report_date_time')
-            ->orderByDesc('report_id')
+            ->where(function ($query) use ($searchQuery) {
+                $query->whereHas('product', function ($query) use ($searchQuery) {
+                    $query->where('product_title', 'LIKE', '%' . $searchQuery . '%');
+                })
+                ->orWhere('report_text', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
+            })
+            ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
         // Modify the fetched data as needed
@@ -153,7 +172,8 @@ class ReportsController extends Controller
             return $report;
         });
 
-        return $modifiedReports->toArray();
+        $paginatedReports->setCollection($modifiedReports);
+        return successResponse(Lang::get('lang.LicenseReport_Show'), $paginatedReports,200);
     }
 
     public function reportArrayUpdate()

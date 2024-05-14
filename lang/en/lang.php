@@ -22,7 +22,7 @@ return [
     'Email_Error' => 'An error occurred while sending the email.',
     'Client_Show' => 'All the Details of the contact\'s registered so far are displayed',
     'Client_Destroy' => 'Contact has been deleted Successfully',
-    'Client_Update' => 'Contact Deatils has been updated Successfully',
+    'Client_Update' => 'Contact Details has been updated Successfully',
     'no_client' => 'No Contact was added to license manager',
     'not_found_client' => 'Contact does not exist',
     'recieve_forgot' => 'Reset instructions have been mailed to ',
@@ -42,7 +42,7 @@ return [
     'Product_Add' => 'Product and the Product\'s details has been added',
     'Product_Show' => 'All the Details of the Product\'s registered so far are displayed',
     'Product_Destroy' => 'Product Deleted Successfully',
-    'Product_Update' => 'Product Deatils updated Successfully',
+    'Product_Update' => 'Product Details updated Successfully',
     'no_product' => 'No product was added.',
     'invalid_product' => 'This is an invalid product.',
 
@@ -52,7 +52,7 @@ return [
 
     'Login' => 'You have logged in successfully to Auto Faveo Licenser',
     'Logout' => 'You have has logged out successfully from Auto Faveo Licenser',
-    'registered' => 'You Have registered successfuly to Auto Faveo Licenser',
+    'registered' => 'You Have registered successfully to Auto Faveo Licenser',
 
     'form' => 'The details entered into the form seems to be incomplete',
     'invalid' => 'There are invalid details present in this request',
@@ -75,7 +75,7 @@ return [
     'emails' => 'Email notification details regarding the Auto Faveo License Expiry has been updated',
 
     'no_edit' => 'Invalid record details, duplicated data, or database error.',
-    'edit' => 'The details of Auto Licnese Manager user has been updated',
+    'edit' => 'The details of Auto License Manager user has been updated',
 
     'got_it' => 'The search results are as follows for the above search',
 
@@ -449,5 +449,15 @@ return [
     'common_setting_svaed' => 'You general settings for license manager saved successfully',
     'reset_successfully' => 'You general settings for license manager has been reset successfully',
     'updated_successfully' => 'You general settings for license manager has been updated successfully',
+
+    'SystemReport_Show' => 'All the Details of the system report\'s registered so far are displayed',
+    'CrackingReport_Show' => 'All the Details of the cracking report\'s registered so far are displayed',
+    'LicenseReport_Show' => 'All the Details of the license report\'s registered so far are displayed',
+    'Exception_Show' => 'All the Details of the exception log\'s registered so far are displayed',
+    'License_show' => 'All the Details of the license\'s registered so far are displayed',
+    'Install_show' => 'All the Details of the installation\'s registered so far are displayed',
+    'Callback_Show' => 'All the Details of the callback\'s registered so far are displayed',
+    'Banned_Show' => 'All the Details of the banned host\'s registered so far are displayed',
+
 ];
 
