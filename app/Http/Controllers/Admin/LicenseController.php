@@ -310,8 +310,11 @@ class LicenseController extends Controller
 
     public function show(Request $request)
     {
-        $perPage = $request->input('perPage', 100); // Default per page is 10
+        $perPage = $request->input('perPage', 10);
         $page = $request->input('page', 1);
+        $searchQuery = str_replace("-","",$request->input('search_query'));
+        $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
+        $sortField = $request->input('sort_field') ? $request->input('sort_field') :'license_id';
         $agora_invoicing_url = CommonSetting::where("key","agora_invoicing_url")->value('value');
         $query = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
             ->select(
@@ -329,11 +332,16 @@ class LicenseController extends Controller
             ->with(['callbacks' => function ($query) {
                 $query->select('license_code', DB::raw('MAX(callback_date_time) as latest_callback_date_time'))
                     ->groupBy('license_code');
-            }]);
+            }])->where(function ($query) use ($searchQuery) {
+                $query->where('license_code', 'LIKE', '%'.$searchQuery.'%')
+                    ->orWhere('license_order_number', 'LIKE', '%'.$searchQuery.'%')
+                    ->orWhere('afl_products.product_title', 'LIKE', '%'.$searchQuery.'%');
+            })
+            ->orderBy($sortField, $sortOrder);
 
         $paginatedData = $query->paginate($perPage, ['*'], 'page', $page);
 
-        return successResponse(Lang::get('lang.License_show'), $paginatedData->toArray(), 200);
+        return successResponse(Lang::get('lang.License_show'), $paginatedData, 200);
     }
 
 

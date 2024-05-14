@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\EmailsController;
 use App\Http\Controllers\Admin\EmailSettingsController;
 use App\Http\Controllers\Admin\InstallationController;
 use App\Http\Controllers\Admin\LicenseController;
+use App\Http\Controllers\Admin\LogViewController;
 use App\Http\Controllers\Admin\LogWriteController;
 use App\Http\Controllers\Admin\NotificationsController;
 use App\Http\Controllers\Admin\ProductsController;
@@ -172,7 +173,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('config', [ConfigGenerateController::class, 'configGenerate']);
 
     //EXCEPTION LOGS
-    Route::get('logs/exception',[LogWriteController::class,'getExceptionLogs']);
+    Route::get('logs/exception',[LogViewController::class,'getExceptionLogs']);
 
     //SEARCH
     Route::post('search', [SearchController::class, 'search']);

@@ -62,7 +62,7 @@ class ClientsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/clients/edit'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => true]);
-        $response->assertJson(['message' => 'Contact Deatils has been updated Successfully']);
+        $response->assertJson(['message' => 'Contact Details has been updated Successfully']);
         $response->assertJson(['data' => 1]);
     }
 
