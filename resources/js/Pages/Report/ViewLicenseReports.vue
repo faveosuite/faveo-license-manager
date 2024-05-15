@@ -9,17 +9,21 @@
                 <h3 class="card-title">{{ lang('view_license_reports') }}</h3>
             </div>
             <div class="card-body" id="my_licenses">
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
-                    <template v-slot:report_status="props">
-                        <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
+<!--                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">-->
+<!--                    <template v-slot:report_status="props">-->
+<!--                        <span :style="{ color: props.row.report_status ? 'green' : 'red' }">-->
 
-              {{ props.row.report_status ? 'Success' : 'Error' }}
-            </span>
-                    </template>
-                    <template v-slot:actions="props">
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-                </v-client-table>
+<!--              {{ props.row.report_status ? 'Success' : 'Error' }}-->
+<!--            </span>-->
+<!--                    </template>-->
+<!--                    <template v-slot:actions="props">-->
+<!--                        <table-actions :data="props.row"></table-actions>-->
+<!--                    </template>-->
+<!--                </v-client-table>-->
+
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
+
+                </data-table>
             </div>
         </div>
     </div>
@@ -27,6 +31,7 @@
 
 <script>
 import axios from 'axios';
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
     name: 'licenses-list',
@@ -37,13 +42,15 @@ export default {
             options: {},
             counter: 0,
             loading: false, // Add the 'loading' property
+
+            endPoint : '/api/admin/reportLicense?page=1'
         };
     },
     created() {
         this.emitter.on('refreshData', this.updateData);
     },
     beforeMount() {
-        this.getData();
+
         this.options = {
             sortIcon: {
                 base: 'glyphicon',
@@ -51,6 +58,45 @@ export default {
                 down: 'glyphicon-chevron-down',
             },
             texts: { filter: '', limit: '' },
+
+            sortable:  ['products', 'report_text', 'license_code', 'report_date_time', 'report_status'],
+
+            filterable : [ 'products', 'report_text' ],
+
+            requestAdapter(data) {
+                console.log('request', data)
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : '',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                    // page : data.page,
+
+                    perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+                console.log('response',data);
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.keyVal = 'product_id';
+
+                        data.idVal = data.product_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
+            },
+
             columnsClasses: {
                 product_title: 'license_product_title',
                 license_code: 'license_code',
@@ -58,8 +104,8 @@ export default {
                 report_text: 'report_text',
                 report_status: 'Status',
             },
-            // Remove the 'templates' property for now
-            pagination: { chunk: 5, nav: 'fixed', edge: true },
+
+            pagination: { show : false },
             headings: {
                 products: 'Product',
                 license_code: 'License Code',
@@ -74,29 +120,18 @@ export default {
                     return row.license_code ? row.license_code : '---';
                 },
                 products(h, row) {
-                
+
                     return row.products ?? '---';
 }
 
             }
         };
     },
-    methods: {
-        getData() {
-            this.loading = true;
-            axios
-                .get('/api/admin/reportLicense')
-                .then((res) => {
-                    this.loading = false;
-                    this.data = res.data.map((data) => {
-                        return data;
-                    });
-                })
-                .catch((err) => {
-                    this.loading = false;
-                });
-        },
-    },
+
+    components : {
+
+        'data-table' : DynamicDataTable
+    }
 
 };
 </script>

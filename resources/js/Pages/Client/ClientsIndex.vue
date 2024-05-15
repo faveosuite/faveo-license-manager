@@ -26,31 +26,10 @@
 
             <div class="card-body" id="my_clients">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="products-list">
 
-                    <template v-slot:full_name="props">
+                </data-table>
 
-                        <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.full_name }}
-                        </router-link>
-                    </template>
-                    <template v-slot:client_email="props">
-
-                        <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.client_email }}
-                        </router-link>
-                    </template>
-
-                    <template v-slot:client_status="props">
-
-	                    <span :style="{ color: props.row.client_status ? 'green' : 'red' }">
-
-	                        {{ props.row.client_status ? 'Active' : 'Inactive' }}
-	                    </span>
-                    </template>
-
-                    <template v-slot:actions="props">
-                        <table-actions :data="props.row" :disabled="getUserData"></table-actions>
-                    </template>
-                </v-client-table>
             </div>
         </div>
     </div>
@@ -62,6 +41,7 @@ import axios from 'axios';
 import {useStore} from "vuex";
 import {computed} from "vue";
 import {lang} from "../../helpers/extraLogics";
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
     setup() {
@@ -77,6 +57,8 @@ export default {
 
         return {
 
+            loading : false,
+
             data: '',
 
             columns: ['full_name', 'client_email', 'client_role', 'client_active_date', 'client_status', 'actions'],
@@ -86,18 +68,18 @@ export default {
             counter: 0,
 
             disabled: true,
+
+            endPoint : `/api/admin/viewClients/${this.getUserData.client_id}?page=1`
         }
     },
 
-    created() {
-        this.emitter.on('refreshData', this.getData);
-    },
+    // created() {
+    //     this.emitter.on('refreshData', this.getData);
+    // },
 
     beforeMount() {
 
         const self = this;
-
-        this.getData();
 
         this.options = {
 
@@ -131,7 +113,49 @@ export default {
                 },
             },
 
-            pagination: {chunk: 5, nav: 'fixed', edge: true},
+            pagination: { show : false },
+
+            sortable:  ['full_name', 'client_email', 'client_role', 'client_active_date', 'client_status'],
+
+            filterable : [ 'full_name' ],
+
+            requestAdapter(data) {
+                console.log('request', data)
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : '',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                    // page : data.page,
+
+                    perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+                console.log('response',data);
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.edit_url = '/clients/' + data.client_id + '/edit';
+
+                        data.delete_url = '/api/admin/clients/delete';
+
+                        data.keyVal = 'client_id';
+
+                        data.idVal = data.client_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
+            },
 
             headings: {
 
@@ -154,40 +178,11 @@ export default {
 
         lang: lang,
 
-        updateData() {
+    },
 
-            this.getData();
-        },
+    components : {
 
-        getData() {
-
-            this.loading = true;
-
-            axios.get('/api/admin/viewClients/' + this.getUserData.client_id)
-
-                .then(res => {
-                    this.loading = false;
-
-                    this.data = res.data.data.data.map(data => {
-
-                        data.edit_url = '/clients/' + data.client_id + '/edit';
-
-                        data.delete_url = '/api/admin/clients/delete';
-
-                        data.keyVal = 'client_id';
-
-                        data.idVal = data.client_id;
-
-                        return data;
-                    })
-                    if (this.data.length % 10 === 0 && this.data.length !== 0) {
-                        this.counter--;
-                    }
-                }).catch(err => {
-
-                this.loading = false;
-            })
-        }
+        'data-table' : DynamicDataTable
     }
 };
 </script>

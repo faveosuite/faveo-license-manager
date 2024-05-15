@@ -19,32 +19,31 @@
 
             <div class="card-body" id="my_licenses">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+<!--                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">-->
 
-                    <template v-slot:product_title="props">
+<!--                    <template v-slot:product_title="props">-->
 
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
+<!--                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>-->
+<!--                    </template>-->
+<!--                    -->
+<!--                    <template v-slot:report_status="props">-->
 
-                    <template v-slot:license_status="props">
+<!--                        <span :style="{ color: props.row.report_status ? 'green' : 'red' }">-->
 
-                        <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
+<!--                            {{ props.row.report_status ? 'Success' : 'Error'}}-->
+<!--                        </span>-->
+<!--                    </template>-->
+<!--                    -->
+<!--                    <template v-slot:actions="props">-->
 
-                            {{ props.row.license_status ? 'Active' : 'Inactive'}}
-                        </span>
-                    </template>
-                    <template v-slot:report_status="props">
+<!--                        <table-actions :data="props.row"></table-actions>-->
+<!--                    </template>-->
+<!--                </v-client-table>-->
 
-<span :style="{ color: props.row.report_status ? 'green' : 'red' }">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
 
-    {{ props.row.report_status ? 'Success' : 'Error'}}
-</span>
-</template>
-                    <template v-slot:actions="props">
+                </data-table>
 
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-                </v-client-table>
             </div>
         </div>
     </div>
@@ -53,6 +52,7 @@
 <script>
 
 import axios from 'axios';
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
@@ -62,13 +62,17 @@ export default {
 
         return {
 
+            loading : false,
+
             data: '',
 
             columns: ['report_text','license_code','report_date_time','report_status'],
 
             options: {},
 
-            counter: 0
+            counter: 0,
+
+            endPoint : '/api/admin/reportCracking?page=1'
         }
     },
 
@@ -80,8 +84,6 @@ export default {
     beforeMount() {
 
         const self = this;
-
-        this.getData();
 
         this.options = {
 
@@ -95,6 +97,44 @@ export default {
             },
 
             texts: { filter: '', limit: '' },
+
+            sortable:  ['report_text', 'license_code', 'report_date_time', 'report_status'],
+
+            filterable : [ 'report_text' ],
+
+            requestAdapter(data) {
+                console.log('request', data)
+
+                return {
+
+                    'sort-field' : data.orderBy ? data.orderBy : '',
+
+                    'sort-order' : data.ascending ? 'desc' : 'asc',
+
+                    'search-query' : data.query,
+
+                    // page : data.page,
+
+                    perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+                console.log('response',data);
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.keyVal = 'product_id';
+
+                        data.idVal = data.product_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
+            },
 
             columnsClasses: {
 
@@ -110,21 +150,6 @@ export default {
             },
 
             templates: {
-
-                product_title(createElement, row) {
-
-                    if(row.product_id) {
-
-                        return createElement('router-link', {
-                            attrs: {
-                                to: '/products/'+row.product_id+'/edit'
-                            }
-                        }, row.product_title);
-
-                    } else{
-                        return '---'
-                    }
-                },
 
                 license_code(h, row) {
 
@@ -142,7 +167,7 @@ export default {
                 },
             },
 
-            pagination: { chunk: 5, nav: 'fixed', edge: true },
+            pagination: { show : false },
 
             headings: {
 
@@ -160,25 +185,9 @@ export default {
         }
     },
 
-    methods: {
+    components : {
 
-        getData() {
-
-            this.loading = true;
-
-            axios.get('/api/admin/reportCracking').then(res => {
-
-                this.loading = false;
-
-                this.data = res.data.map(data => {
-
-                    return data;
-                })
-            }).catch(err => {
-
-                this.loading = false;
-            })
-        }
+        'data-table' : DynamicDataTable
     }
 };
 </script>

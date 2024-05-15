@@ -45,7 +45,6 @@ export default {
     name: 'latest-product-report',
     data() {
         return {
-            data: [],
             columns: ['report_text', 'report_date_time','license_code', 'report_status'],
             options: {},
             counter: 0,

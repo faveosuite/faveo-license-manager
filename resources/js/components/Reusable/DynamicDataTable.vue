@@ -12,17 +12,12 @@
 
         <v-server-table v-if="showTable" ref="table" :onLimit="onLimitChange" :url="endPoint" :columns="columnArray" :options="optionsObject" @error="onError" @loaded="onLoaded" :key="counter">
 
-<!--            <template #id="{row}">-->
+            <template v-slot:product_url_homepage="props">
 
-<!--                <input type="checkbox" @change="unmarkAll()" :value="row.id" v-model="markedRows">-->
-<!--            </template>-->
+                <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>
 
-<!--            <template v-slot:product_url_homepage="props">-->
-
-<!--                <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>-->
-
-<!--                <span v-else>&#45;&#45;</span>-->
-<!--            </template>-->
+                <span v-else>&#45;&#45;</span>
+            </template>
 
             <template v-slot:license_status="props">
 
@@ -30,6 +25,91 @@
 
                     {{ props.row.license_status ? 'Active' : 'Inactive'}}
                 </span>
+            </template>
+
+            <template v-slot:product_status="props">
+
+                <span :class="props.row.product_status ? 'text-green' : 'text-red'">
+
+                    {{ props.row.product_status ? 'Active' : 'Inactive'}}
+                </span>
+            </template>
+
+            <template v-slot:client_status="props">
+
+                <span :style="{ color: props.row.client_status ? 'green' : 'red' }">
+
+                    {{ props.row.client_status ? 'Active' : 'Inactive' }}
+                </span>
+            </template>
+
+            <template v-slot:installation_status="props">
+
+                <span :style="{ color: props.row.installation_status ? 'green' : 'red' }">
+
+                    {{ props.row.installation_status ? 'Active' : 'Inactive' }}
+                </span>
+            </template>
+
+            <template v-slot:api_key_licenses_add="props">
+
+                {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
+                                        /
+                {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
+
+            </template>
+
+            <template v-slot:api_key_clients_edit="props">
+
+                {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
+                                        /
+                {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}
+            </template>
+
+            <template v-slot:api_key_products_add_edit="props">
+
+                {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}
+                                        /
+                {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}
+
+            </template>
+
+            <template v-slot:api_key_search="props">
+
+                {{ props.row.api_key_search ? 'Active' : 'Inactive'}}
+
+            </template>
+
+            <template v-slot:api_key_status="props">
+
+                {{ props.row.api_key_status ? 'Active' : 'Inactive'}}
+
+            </template>
+
+            <template v-slot:api_key_installations_edit="props">
+
+                {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}
+
+            </template>
+
+            <template v-slot:report_status="props">
+
+                <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
+
+                    {{ props.row.report_status ? 'Active' : 'Inactive'}}
+
+                </span>
+
+            </template>
+
+            <template v-slot:full_name="props">
+
+                <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.full_name }}</router-link>
+            </template>
+
+            <template v-slot:client_email="props">
+
+                <router-link :to="'/clients/' + props.row.client_id + '/edit'">{{ props.row.client_email }}</router-link>
             </template>
 
             <template v-if="isLoading && !disableLoader" #afterTable>
@@ -147,7 +227,7 @@ export default {
 
             error_message : '',
 
-            loading : true,
+            loading : false,
 
             markedRows : [],
 

@@ -31,54 +31,59 @@
 
             <div class="card-body" id="api_key_index">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+<!--                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">-->
 
-                    <template v-slot:api_key_installations_edit="props">
+<!--                    <template v-slot:api_key_installations_edit="props">-->
 
-                        {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}
+<!--                        {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}-->
 
-                    </template>
+<!--                    </template>-->
 
-                    <template v-slot:api_key_status="props">
+<!--                    <template v-slot:api_key_status="props">-->
 
-                        {{ props.row.api_key_status ? 'Active' : 'Inactive'}}
+<!--                        {{ props.row.api_key_status ? 'Active' : 'Inactive'}}-->
 
-                    </template>
+<!--                    </template>-->
 
-                    <template v-slot:api_key_search="props">
+<!--                    <template v-slot:api_key_search="props">-->
 
-                        {{ props.row.api_key_search ? 'Active' : 'Inactive'}}
+<!--                        {{ props.row.api_key_search ? 'Active' : 'Inactive'}}-->
 
-                    </template>
+<!--                    </template>-->
 
-                    <template v-slot:api_key_products_add_edit="props">
+<!--                    <template v-slot:api_key_products_add_edit="props">-->
 
-                        {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}
-                        /
-                        {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}
+<!--                        {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}-->
+<!--                        /-->
+<!--                        {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}-->
 
-                    </template>
+<!--                    </template>-->
 
-                    <template v-slot:api_key_clients_edit="props">
+<!--                    <template v-slot:api_key_clients_edit="props">-->
 
-                        {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
-                        /
-                        {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}
-                    </template>
+<!--                        {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}-->
+<!--                        /-->
+<!--                        {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}-->
+<!--                    </template>-->
 
-                    <template v-slot:api_key_licenses_add="props">
+<!--                    <template v-slot:api_key_licenses_add="props">-->
 
-                        {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}
-                        /
-                        {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}
+<!--                        {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}-->
+<!--                        /-->
+<!--                        {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}-->
 
-                    </template>
+<!--                    </template>-->
 
-                    <template v-slot:actions="props" >
+<!--                    <template v-slot:actions="props" >-->
 
-                        <table-actions :data="props.row" ></table-actions>
-                    </template>
-                </v-client-table>
+<!--                        <table-actions :data="props.row" ></table-actions>-->
+<!--                    </template>-->
+<!--                </v-client-table>-->
+
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="products-list">
+
+                </data-table>
+
             </div>
         </div>
     </div>
@@ -88,6 +93,7 @@
 
 import axios from 'axios';
 import {lang} from "../../helpers/extraLogics";
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
@@ -97,6 +103,8 @@ export default {
 
         return {
 
+            loading : false,
+
             data: '',
 
             columns: ['api_key_secret','api_key_description', 'api_key_ip', 'api_key_products_add_edit', 'api_key_clients_edit', 'api_key_licenses_add',
@@ -104,7 +112,9 @@ export default {
 
             options: {},
 
-            counter: 0
+            counter: 0,
+
+            endPoint : '/api/admin/viewApiKeys?page=1'
         }
     },
     created() {
@@ -114,8 +124,6 @@ export default {
     beforeMount() {
 
         const self = this;
-
-        this.getData();
 
         function createPermissionStatusLabel(h, hasPrmission) {
             return h('span', {
@@ -137,6 +145,50 @@ export default {
             },
 
             texts: { filter: '', limit: '' },
+
+            sortable:  ['api_key_secret', 'api_key_ip', 'api_key_products_add_edit',
+                'api_key_clients_edit', 'api_key_licenses_add', 'api_key_installations_edit',
+                'api_key_search', 'api_key_status', 'api_key_description'],
+
+            filterable : [ 'api_key_secret' ],
+
+            requestAdapter(data) {
+                console.log('request', data)
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : '',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                    // page : data.page,
+
+                    perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+                console.log('response',data);
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.edit_url = '/apikeys/' + data.api_key_id + '/edit';
+
+                        data.delete_url = `/api/admin/deleteapi/${data.api_key_id}`;
+
+                        data.keyVal = 'product_id';
+
+                        data.idVal = data.product_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
+            },
 
             columnsClasses: {
 
@@ -176,7 +228,7 @@ export default {
                 }
             },
 
-            pagination: { chunk: 5, nav: 'fixed', edge: true },
+            pagination: { show : false },
 
             headings: {
 
@@ -203,34 +255,9 @@ export default {
         }
     },
 
-    methods: {
-      lang: lang,
-        updateData() {
+    components : {
 
-            this.getData();
-        },
-
-        getData() {
-
-            this.loading = true;
-
-            axios.get('/api/admin/viewApiKeys').then(res => {
-
-                this.loading = false;
-
-                this.data = res.data.data.map(data => {
-
-                    data.edit_url = '/apikeys/' + data.api_key_id + '/edit';
-
-                    data.delete_url = `/api/admin/deleteapi/${data.api_key_id}`;
-
-                    return data;
-                })
-            }).catch(err => {
-
-                this.loading = false;
-            })
-        }
+        'data-table' : DynamicDataTable
     }
 };
 </script>

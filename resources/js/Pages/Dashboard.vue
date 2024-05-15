@@ -197,8 +197,6 @@ export default {
                     this.loading = false; // Set loading state to false after the request is completed
                     const { data } = res.data;
 
-                    console.log(data)
-
                     if (data) {
 
                         this.products = data.productsCount;

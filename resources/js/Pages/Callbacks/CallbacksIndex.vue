@@ -22,7 +22,7 @@
 
             <div class="card-body" id="my_callbacks">
 
-                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="callbacks-list">
 
                 </data-table>
             </div>
@@ -61,10 +61,10 @@ export default {
         }
     },
 
-    // created() {
-    //
-    //     this.emitter.on('refreshData',this.updateData);
-    // },
+    created() {
+
+        this.emitter.on('refreshData',this.updateData);
+    },
 
     beforeMount(){
 
@@ -82,6 +82,10 @@ export default {
             },
 
             texts: { filter: '', limit: '' },
+
+            sortable:  ['product_title', 'license_code', 'callback_ip', 'callback_domain', 'callback_date_time', 'created_at', 'updated_at'],
+
+            filterable : [ 'product_title' ],
 
             columnsClasses : {
 
@@ -103,28 +107,34 @@ export default {
             },
 
             templates : {
-                license_code(h, row) {
 
-                    return row.license_code ? row.license_code : '---';
+                product_title(h, row) {
+
+                    return row.product.product_title ? row.product.product_title : '---'
                 },
 
-                license_date(h, row) {
+                // license_code(h, row) {
+                //
+                //     return row.license_code ? row.license_code : '---';
+                // },
 
-                    return row.license_date ? row.license_date : '---'
-                },
+                // license_date(h, row) {
+                //
+                //     return row.license_date ? row.license_date : '---'
+                // },
                 created_at(h, row) {
 
-                    return row.license_date ? row.license_date : '---'
+                    return row.created_at ? row.created_at : '---'
                 },
                 updated_at(h, row) {
 
-                    return row.license_date ? row.license_date : '---'
+                    return row.updated_at ? row.updated_at : '---'
                 },
 
-                latest_callback_date_time(h, row) {
-
-                    return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
-                },
+                // latest_callback_date_time(h, row) {
+                //
+                //     return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
+                // },
             },
 
             pagination : { show : false },
@@ -134,9 +144,9 @@ export default {
 
                 return {
 
-                    'sort_field' : data.orderBy ? data.orderBy : 'license_id',
+                    'sort_field' : data.orderBy ? data.orderBy : '',
 
-                    'sort_order' : data.ascending ? 'desc' : 'asc',
+                    'sort_order' : data.ascending ? 'asc' : 'desc',
 
                     'search_query' : data.query,
 
@@ -151,8 +161,6 @@ export default {
                 return {
 
                     data: data.data.data.map(data => {
-
-                        // data.product_title = data.product.product_title
 
                         return data;
                     }),

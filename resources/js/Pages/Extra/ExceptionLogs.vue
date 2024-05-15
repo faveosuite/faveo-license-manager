@@ -162,13 +162,13 @@ export default {
             templates: {
 
                 category(h,row){
-                    return row.name
+
+                    return row.category.name
                 },
 
                 created_at(h, row) {
-                    console.log(row.created_at)
 
-                    // return moment(row.created_at)
+                    return row.created_at
                 },
 
                 // trace: (f,row)=>{
