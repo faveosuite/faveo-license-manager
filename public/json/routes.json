@@ -404,6 +404,17 @@
                     "routeString": "/tools/config",
                     "hasChildren": false,
                     "children": []
+                },
+                {
+                    "name": "Exception Logs",
+                    "key": null,
+                    "count": 0,
+                    "hasCount": false,
+                    "iconClass": "far fa-circle",
+                    "order": 0,
+                    "routeString": "/tools/exception",
+                    "hasChildren": false,
+                    "children": []
                 }
             ]
         }

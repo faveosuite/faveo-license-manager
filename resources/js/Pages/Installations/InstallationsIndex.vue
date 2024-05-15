@@ -18,27 +18,11 @@
 
 			<div class="card-body" id="my_installations">
 
-				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
 
-                    <template v-slot:product_title="props">
+                </data-table>
 
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
-
-                    <template v-slot:installation_status="props">
-
-                        <span :style="{ color: props.row.installation_status ? 'green' : 'red' }">
-
-                            {{ props.row.installation_status ? 'Active' : 'Inactive'}}
-                        </span>
-                    </template>
-
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-				</v-client-table>
-			</div>
+            </div>
 		</div>
 	</div>
 </template>
@@ -46,10 +30,23 @@
 <script>
 
 	import axios from 'axios';
+    import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+    import {useStore} from "vuex";
+    import {computed} from "vue";
 
 	export default {
 
 		name: 'installations-list',
+
+        setup() {
+
+            const store = useStore();
+
+            return {
+
+                formattedTime : computed(()=>store.getters.formattedTime)
+            }
+        },
 
 		data() {
 
@@ -63,7 +60,9 @@
 
 				counter: 0,
 
-				loading: false
+				loading: false,
+
+                endPoint : '/api/admin/viewInstallations?page=1',
 			}
 		},
 
@@ -75,8 +74,6 @@
 		beforeMount() {
 
 			const self = this;
-
-			this.getData();
 
 			this.options = {
 
@@ -90,6 +87,43 @@
 				},
 
 				texts: { filter: '', limit: '' },
+
+                requestAdapter(data) {
+                    console.log('request', data)
+
+                    return {
+
+                        'sort-field' : data.orderBy ? data.orderBy : 'license_id',
+
+                        'sort-order' : data.ascending ? 'desc' : 'asc',
+
+                        'search-query' : data.query,
+
+                        // page : data.page,
+
+                        perPage : data.limit,
+                    }
+                },
+
+                responseAdapter({data}) {
+                    console.log('response',data);
+                    return {
+
+                        data: data.data.data.map(data => {
+
+                            data.edit_url = '/installations/' + data.installation_id + '/edit';
+
+                            data.delete_url = '/api/admin/installations/delete';
+
+                            data.keyVal = 'installation_id';
+
+                            data.idVal = data.installation_id;
+
+                            return data;
+                        }),
+                        count: data.data.total
+                    }
+                },
 
 				columnsClasses: {
 
@@ -117,7 +151,7 @@
 					}
 				},
 
-				pagination: { chunk: 5, nav: 'fixed', edge: true },
+				pagination: { show : false },
 
 				headings: {
 
@@ -136,39 +170,10 @@
 			}
 		},
 
-		methods: {
+        components : {
 
-			updateData() {
-
-				this.getData();
-			},
-
-			getData() {
-
-				this.loading = true;
-
-				axios.get('/api/admin/viewInstallations').then(res => {
-
-					this.loading = false;
-
-					this.data = res.data.data.map(data => {
-
-						data.edit_url = '/installations/' + data.installation_id + '/edit';
-
-						data.delete_url = '/api/admin/installations/delete';
-
-						data.keyVal = 'installation_id';
-
-						data.idVal = data.installation_id;
-
-						return data;
-					})
-				}).catch(err => {
-
-					this.loading = false;
-				})
-			}
-		}
+            'data-table' : DynamicDataTable
+        }
 	};
 </script>
 

@@ -22,9 +22,9 @@
 
             <div class="card-body" id="my_callbacks">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
 
-                </v-client-table>
+                </data-table>
             </div>
         </div>
     </div>
@@ -35,6 +35,8 @@
 import axios from 'axios';
 
 import {lang} from "../../helpers/extraLogics";
+
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
@@ -49,11 +51,13 @@ export default {
             columns: ['product_title', 'license_code','callback_ip','callback_domain',
                 'callback_date_time','created_at','updated_at'],
 
-            loading: true,
+            loading: false,
 
             options: {},
 
             counter : 0,
+
+            endPoint : 'api/admin/showLicenseCallbacks?page=1'
         }
     },
 
@@ -65,8 +69,6 @@ export default {
     beforeMount(){
 
         const self= this;
-
-        this.getData();
 
         this.options = {
 
@@ -125,7 +127,38 @@ export default {
                 },
             },
 
-            pagination:{chunk:5,nav: 'fixed',edge:true},
+            pagination : { show : false },
+
+            requestAdapter(data) {
+                console.log('request', data)
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : 'license_id',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                    // page : data.page,
+
+                    perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+                console.log('response',data);
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        // data.product_title = data.product.product_title
+
+                        return data;
+                    }),
+                    count: data.data.total
+                }
+            },
 
             headings: {
 
@@ -149,19 +182,9 @@ export default {
         }
     },
 
-    methods:{
-        lang: lang,
-        getData(){
-            axios.get('api/admin/showLicenseCallbacks').
-            then(res=>{
-                this.loading = false;
-                this.data = res.data.map(data => {
-                    return data;
-                });
-            }).catch(err => {
-                this.loading =false;
-            })
-        }
+    components : {
+
+        'data-table' : DynamicDataTable
     }
 
 };

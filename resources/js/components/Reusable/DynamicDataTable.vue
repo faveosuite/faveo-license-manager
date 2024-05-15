@@ -12,10 +12,17 @@
 
         <v-server-table v-if="showTable" ref="table" :onLimit="onLimitChange" :url="endPoint" :columns="columnArray" :options="optionsObject" @error="onError" @loaded="onLoaded" :key="counter">
 
-            <template #id="{row}">
+<!--            <template #id="{row}">-->
 
-                <input type="checkbox" @change="unmarkAll()" :value="row.id" v-model="markedRows">
-            </template>
+<!--                <input type="checkbox" @change="unmarkAll()" :value="row.id" v-model="markedRows">-->
+<!--            </template>-->
+
+<!--            <template v-slot:product_url_homepage="props">-->
+
+<!--                <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>-->
+
+<!--                <span v-else>&#45;&#45;</span>-->
+<!--            </template>-->
 
             <template v-slot:license_status="props">
 
