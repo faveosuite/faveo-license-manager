@@ -26,34 +26,39 @@
 
 			<div class="card-body" id="my_products">
 
-				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+<!--				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">-->
 
-                    <template v-slot:product_title="props">
+<!--                    <template v-slot:product_title="props">-->
 
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
+<!--                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>-->
+<!--                    </template>-->
 
-                    <template v-slot:actions="props">
+<!--                    <template v-slot:actions="props">-->
 
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
+<!--                        <table-actions :data="props.row"></table-actions>-->
+<!--                    </template>-->
 
-                    <template v-slot:product_url_homepage="props">
+<!--                    <template v-slot:product_url_homepage="props">-->
 
-                        <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>
+<!--                        <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>-->
 
-                        <span v-else>--</span>
-                    </template>
+<!--                        <span v-else>&#45;&#45;</span>-->
+<!--                    </template>-->
 
-                    <template v-slot:product_status="props">
+<!--                    <template v-slot:product_status="props">-->
 
-                        <span :style="{ color: props.row.product_status ? 'green' : 'red' }">
+<!--                        <span :style="{ color: props.row.product_status ? 'green' : 'red' }">-->
 
-                            {{ props.row.product_status ? 'Active' : 'Inactive'}}
-                        </span>
-                    </template>
-				</v-client-table>
-			</div>
+<!--                            {{ props.row.product_status ? 'Active' : 'Inactive'}}-->
+<!--                        </span>-->
+<!--                    </template>-->
+<!--				</v-client-table>-->
+
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="products-list">
+
+                </data-table>
+
+            </div>
 		</div>
 	</div>
 </template>
@@ -63,31 +68,45 @@
 	import axios from 'axios';
 
   import {lang} from "../../helpers/extraLogics";
+    import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+    import {useStore} from "vuex";
+    import {computed} from "vue";
 
 	export default {
 
 		name: 'products-list',
 
+        // setup() {
+        //
+        //     const store = useStore();
+        //
+        //     return {
+        //
+        //         formattedTime : computed(()=>store.getters.formattedTime)
+        //     }
+        // },
+
 		data() {
 
 			return {
-        loading: false,
 
-        data: '',
+                loading: false,
+
+                data: '',
 
 				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations', 'product_status', 'actions'],
 
 				options: {},
 
-				counter: 0
+				counter: 0,
+
+                endPoint : '/api/admin/viewproducts?page=1'
 			}
 		},
 
 		beforeMount() {
 
 			const self = this;
-
-			this.getData();
 
 			this.options = {
 
@@ -101,6 +120,44 @@
 				},
 
 				texts: { filter: '', limit: '' },
+
+                requestAdapter(data) {
+                    console.log('request', data)
+
+                    return {
+
+                        'sort-field' : data.orderBy ? data.orderBy : 'products_id',
+
+                        'sort-order' : data.ascending ? 'desc' : 'asc',
+
+                        'search-query' : data.query,
+
+                        // page : data.page,
+
+                        perPage : data.limit,
+                    }
+                },
+
+                responseAdapter({data}) {
+                    console.log('response',data);
+                    return {
+
+                        data: data.data.map(data => {
+
+                            data.edit_url = '/products/' + data.product_id + '/edit';
+
+                            data.delete_url = '/api/admin/products/delete';
+
+                            data.keyVal = 'product_id';
+
+                            data.idVal = data.product_id;
+
+                            return data;
+                        }),
+
+                        // count: data.data.data.total
+                    }
+                },
 
 				columnsClasses: {
 
@@ -127,7 +184,7 @@
                     }
 				},
 
-				pagination: { chunk: 5, nav: 'fixed', edge: true },
+				pagination: { show : false },
 
 				headings: {
 
@@ -150,42 +207,10 @@
 			}
 		},
 
-		methods: {
+        components : {
 
-     lang: lang,
-			updateData() {
-
-				this.counter++;
-
-				this.getData();
-			},
-
-			getData() {
-
-                this.loading = true;
-
-				axios.get('/api/admin/viewproducts').then(res => {
-
-                    this.loading = false;
-
-					this.data = res.data.data.map(data => {
-
-						data.edit_url = '/products/' + data.product_id + '/edit';
-
-						data.delete_url = '/api/admin/products/delete';
-
-						data.keyVal = 'product_id';
-
-						data.idVal = data.product_id;
-
-						return data;
-					})
-				}).catch(err => {
-
-                    this.loading = false;
-                })
-			}
-		}
+            'data-table' : DynamicDataTable
+        }
 	};
 </script>
 

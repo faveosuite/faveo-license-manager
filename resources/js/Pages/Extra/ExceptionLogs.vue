@@ -13,7 +13,7 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('licenses')}}</h3>
+                <h3 class="card-title">{{lang('error_logs')}}</h3>
 
                 <div class="card-tools">
 
@@ -41,22 +41,23 @@
 import axios from 'axios';
 import {lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import moment from "moment";
 import {useStore} from 'vuex';
 import {computed} from "vue";
 
 export default {
 
-    name: 'licenses-list',
+    name: 'exception-logs',
 
-    setup() {
-
-        const store = useStore();
-
-        return {
-
-            formattedTime : computed(()=>store.getters.formattedTime)
-        }
-    },
+    // setup() {
+    //
+    //     const store = useStore();
+    //
+    //     return {
+    //
+    //         formattedTime : computed(()=>store.getters.formattedTime)
+    //     }
+    // },
 
     data() {
 
@@ -66,20 +67,23 @@ export default {
 
             data: '',
 
-            columns: ['product_title', 'license_code', 'installations_count', 'callbacks_count',
-                'latest_callback_date', 'latest_license_date','actions'],
+            columns: ['category', 'file', 'line', 'message', 'trace', 'created_at'],
 
             options: {},
 
             counter: 0,
 
-            endPoint : '/api/admin/viewLicenses?page=1',
+            endPoint : '/api/admin/logs/exception?page=1',
         }
     },
 
     beforeMount() {
 
         const self = this;
+
+        // let date = this.created_at ? moment(this.created_at).format('YYYY-MM-DD') : '';
+        //
+        // console.log(date)
 
         this.options = {
 
@@ -92,20 +96,35 @@ export default {
                 down: 'glyphicon-chevron-down'
             },
 
+            headings: {
+
+                category: this.lang('category'),
+
+                file: this.lang('file'),
+
+                line: this.lang('line'),
+
+                message: this.lang('message'),
+
+                trace: this.lang('trace'),
+
+                created_at: this.lang('created-at')
+            },
+
             texts: { filter: '', limit: '' },
 
-            sortable:  ['product_title','license_code', 'installations_count', 'callbacks_count'],
+            sortable:  ['category','file', 'line', 'message', 'trace', 'created_at'],
 
-            filterable:  ['product_title'],
+            filterable:  ['category','file', 'line', 'message', 'trace', 'created_at'],
 
             requestAdapter(data) {
                 console.log('request', data)
 
                 return {
 
-                    'sort_field' : data.orderBy ? data.orderBy : 'license_id',
+                    'sort_field' : data.orderBy ? data.orderBy : 'id',
 
-                    'sort_order' : data.ascending ? 'desc' : 'asc',
+                    'sort_order' : data.ascending ? 'asc' : 'desc',
 
                     'search_query' : data.query,
 
@@ -119,84 +138,46 @@ export default {
                 console.log('response',data);
                 return {
 
-                    data: data.data.data.map(data => {
+                    data: data.data.data,
 
-                        data.edit_url = '/licenses/' + data.license_id + '/edit';
-
-                        data.delete_url = '/api/admin/license/delete';
-
-                        data.keyVal = 'license_id';
-
-                        data.idVal = data.license_id;
-
-                        return data;
-                    }),
                     count: data.data.total
                 }
             },
 
-            columnsClasses: {
+            columnsClasses : {
 
-                product_title: 'license_product_title',
+                category: 'log-category',
 
-                license_code: 'license_code',
+                file: 'log-file',
 
-                installations_count: 'license_install',
+                line:'log-line',
 
-                callbacks_count: 'license_callbacks',
+                trace: 'log-trace',
 
-                latest_callback_date: 'latest_callback_date',
+                message: 'log-message',
 
-                latest_license_date: 'latest_license',
-
-                actions:      'actions',
-            },
+                created_at: 'log-created'
+        },
 
             templates: {
-                latest_license(h,row){
-                    return row.latest_license ? row.latest_license : '---';
+
+                category(h,row){
+                    return row.name
                 },
 
-                latest_callback(h,row){
-                    return row.latest_callback ? row.latest_callback : '---';
+                created_at(h, row) {
+                    console.log(row.created_at)
+
+                    // return moment(row.created_at)
                 },
 
-                license_code(h, row) {
-                    const formattedLicenseCode = row.license_code ? row.license_code.match(/.{1,4}/g).join('-') : '----';
-                    return formattedLicenseCode;
-                },
-
-                latest_license_date(h, row) {
-
-                    return row.latest_license_date ? row.latest_license_date : '---'
-                },
-
-                latest_callback_date(h, row) {
-
-                    return row.latest_callback_date ? row.latest_callback_date : '---';
-                },
-
+                // trace: (f,row)=>{
+                //
+                //     return self.h(LogsTrace,{ data : row })
+                // },
             },
 
             pagination: { show : false },
-
-            headings: {
-
-                product_id: 'Product',
-
-                license_code: 'License Code',
-
-                installations_count: 'Installations',
-
-                callbacks_count: 'Callbacks',
-
-                latest_callback_date: 'Latest Callback',
-
-                latest_license_date: 'Latest License',
-
-
-                actions: 'Actions'
-            },
         }
     },
 
