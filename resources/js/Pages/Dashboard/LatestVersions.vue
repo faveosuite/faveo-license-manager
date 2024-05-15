@@ -48,8 +48,6 @@ export default {
 
         return {
 
-            data: [],
-
             columns:['version_number','version_date','version_expire_date','version_status'],
 
              options : {},

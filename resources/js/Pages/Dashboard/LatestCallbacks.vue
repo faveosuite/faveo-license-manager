@@ -48,8 +48,6 @@ export default {
 
         return {
 
-            data: [],
-
             columns:['callback_domain','callback_ip','callback_date_time','callback_status'],
 
             options : {},

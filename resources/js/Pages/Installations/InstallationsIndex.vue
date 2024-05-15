@@ -88,16 +88,20 @@
 
 				texts: { filter: '', limit: '' },
 
+                sortable:  ['product_title', 'license_code', 'total_installations', 'latest_installation_date', 'total_installations'],
+
+                filterable : [ 'product_title' ],
+
                 requestAdapter(data) {
                     console.log('request', data)
 
                     return {
 
-                        'sort-field' : data.orderBy ? data.orderBy : 'license_id',
+                        'sort_field' : data.orderBy ? data.orderBy : '',
 
-                        'sort-order' : data.ascending ? 'desc' : 'asc',
+                        'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                        'search-query' : data.query,
+                        'search_query' : data.query,
 
                         // page : data.page,
 

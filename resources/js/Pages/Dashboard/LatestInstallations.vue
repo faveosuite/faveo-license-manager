@@ -49,7 +49,6 @@ export default {
 
     data() {
         return {
-            data: [], // Initialize as an empty array to hold the fetched data
             columns: ['license_code','installation_ip','installation_date','installation_domain'],
             options: {},
             counter: 0,

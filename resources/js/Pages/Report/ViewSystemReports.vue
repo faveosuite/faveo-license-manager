@@ -19,26 +19,9 @@
 
             <div class="card-body" id="my_licenses">
 
-                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
 
-                    <template v-slot:product_title="props">
-
-                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>
-                    </template>
-
-                    <template v-slot:report_status="props">
-
-                        <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
-
-                            {{ props.row.report_status ? 'Success' : 'Error'}}
-                        </span>
-                    </template>
-
-                    <template v-slot:actions="props">
-
-                        <table-actions :data="props.row"></table-actions>
-                    </template>
-                </v-client-table>
+                </data-table>
             </div>
         </div>
     </div>
@@ -47,6 +30,7 @@
 <script>
 
 import axios from 'axios';
+import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
@@ -56,13 +40,17 @@ export default {
 
         return {
 
+            loading : false,
+
             data: '',
 
             columns: ['report_text' ,'user_formatted','report_date_time','report_status'],
 
             options: {},
 
-            counter: 0
+            counter: 0,
+
+            endPoint : '/api/admin/reportSystem?page=1'
         }
     },
 
@@ -74,8 +62,6 @@ export default {
     beforeMount() {
 
         const self = this;
-
-        this.getData();
 
         this.options = {
 
@@ -89,6 +75,44 @@ export default {
             },
 
             texts: { filter: '', limit: '' },
+
+            sortable:  ['report_text', 'user_formatted', 'report_date_time', 'report_status'],
+
+            filterable : [ 'report_text' ],
+
+            requestAdapter(data) {
+                console.log('request', data)
+
+                return {
+
+                    'sort_field' : data.orderBy ? data.orderBy : '',
+
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                    'search_query' : data.query,
+
+                    // page : data.page,
+
+                    perPage : data.limit,
+                }
+            },
+
+            responseAdapter({data}) {
+                console.log('response',data);
+                return {
+
+                    data: data.data.data.map(data => {
+
+                        data.keyVal = 'product_id';
+
+                        data.idVal = data.product_id;
+
+                        return data;
+                    }),
+
+                    count: data.data.total
+                }
+            },
 
             columnsClasses: {
 
@@ -109,21 +133,6 @@ export default {
 
             templates: {
 
-                product_title(createElement, row) {
-
-                    if(row.product_id) {
-
-                        return createElement('router-link', {
-                            attrs: {
-                                to: '/products/'+row.product_id+'/edit'
-                            }
-                        }, row.product_title);
-
-                    } else{
-                        return '---'
-                    }
-                },
-
                 license_code(h, row) {
 
                     return row.license_code ? row.license_code : '---';
@@ -141,7 +150,7 @@ export default {
 
             },
 
-            pagination: { chunk: 5, nav: 'fixed', edge: true },
+            pagination: { show : false },
 
             headings: {
 
@@ -161,26 +170,9 @@ export default {
         }
     },
 
-    methods: {
+    components : {
 
-
-        getData() {
-
-            this.loading = true;
-
-            axios.get('/api/admin/reportSystem').then(res => {
-
-                this.loading = false;
-
-                this.data = res.data.map(data => {
-
-                    return data;
-                })
-            }).catch(err => {
-
-                this.loading = false;
-            })
-        }
+        'data-table' : DynamicDataTable
     }
 };
 </script>

@@ -33,11 +33,6 @@
 <!--                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>-->
 <!--                    </template>-->
 
-<!--                    <template v-slot:actions="props">-->
-
-<!--                        <table-actions :data="props.row"></table-actions>-->
-<!--                    </template>-->
-
 <!--                    <template v-slot:product_url_homepage="props">-->
 
 <!--                        <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>-->
@@ -121,16 +116,20 @@
 
 				texts: { filter: '', limit: '' },
 
+                sortable:  ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations'],
+
+                filterable : [ 'product_title' ],
+
                 requestAdapter(data) {
                     console.log('request', data)
 
                     return {
 
-                        'sort-field' : data.orderBy ? data.orderBy : 'products_id',
+                        'sort_field' : data.orderBy ? data.orderBy : '',
 
-                        'sort-order' : data.ascending ? 'desc' : 'asc',
+                        'sort_order' : data.ascending ? 'desc' : 'asc',
 
-                        'search-query' : data.query,
+                        'search_query' : data.query,
 
                         // page : data.page,
 
@@ -142,7 +141,7 @@
                     console.log('response',data);
                     return {
 
-                        data: data.data.map(data => {
+                        data: data.data.data.map(data => {
 
                             data.edit_url = '/products/' + data.product_id + '/edit';
 
@@ -155,7 +154,7 @@
                             return data;
                         }),
 
-                        // count: data.data.data.total
+                        count: data.data.total
                     }
                 },
 
@@ -181,7 +180,27 @@
                     product_version(h, row) {
 
                         return row.product_version ? row.product_version : '---'
-                    }
+                    },
+
+                    product_sku(h, row) {
+
+                        return row.product_sku ? row.product_sku : '---'
+                    },
+
+                    product_url_homepage(h, row) {
+
+                        return row.product_url_homepage ? row.product_url_homepage : '---'
+                    },
+
+                    total_licenses(h, row) {
+
+                        return row.total_licenses ? row.total_licenses : '---'
+                    },
+
+                    total_installations(h, row) {
+
+                        return row.total_installations ? row.total_installations : '---'
+                    },
 				},
 
 				pagination: { show : false },
