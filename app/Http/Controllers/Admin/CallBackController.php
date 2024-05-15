@@ -20,6 +20,8 @@ class CallBackController extends Controller
 
         // Fetch paginated callbacks with related product and user data using Eloquent relationships
         $paginatedCallbacks = AflCallbacks::with(['product', 'user'])
+            ->select('afl_callbacks.*')
+            ->leftJoin('afl_products', 'afl_callbacks.product_id', '=', 'afl_products.product_id')
             ->where(function ($query) use ($searchQuery) {
                 $query->whereHas('product', function ($query) use ($searchQuery) {
                     $query->where('product_title', 'LIKE', '%'.$searchQuery.'%');

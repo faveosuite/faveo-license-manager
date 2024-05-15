@@ -86,6 +86,8 @@ class ReportsController extends Controller
 
         // Fetch paginated system reports with related user and product data
         $paginatedReports = AflReports::with(['user', 'product'])
+            ->select('afl_reports.*')
+            ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
             ->where('report_system', 1)
             ->whereHas('user', function ($query) {
                 $query->where('client_role', 'admin');
@@ -151,6 +153,8 @@ class ReportsController extends Controller
 
         // Fetch paginated license reports with related user and product data
         $paginatedReports = AflReports::with(['user', 'product'])
+            ->select('afl_reports.*')
+            ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
             ->whereNotNull('license_code')
             ->where(function ($query) use ($searchQuery) {
                 $query->whereHas('product', function ($query) use ($searchQuery) {
