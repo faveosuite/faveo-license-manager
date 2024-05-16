@@ -88,13 +88,19 @@ class ReportsController extends Controller
         $paginatedReports = AflReports::with(['user', 'product'])
             ->select('afl_reports.*')
             ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
+            ->leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
             ->where('report_system', 1)
             ->whereHas('user', function ($query) {
                 $query->where('client_role', 'admin');
             })
-            ->where('report_text', 'LIKE', '%' . $searchQuery . '%')
-            ->orderBy($sortField, $sortOrder)
-            ->paginate($perPage, ['*'], 'page', $page);
+            ->where('report_text', 'LIKE', '%' . $searchQuery . '%');
+            if ($sortField == 'user_formatted') {
+                $paginatedReports = $paginatedReports->orderBy('users.client_fname', $sortOrder)
+                    ->orderBy('users.client_lname', $sortOrder);
+            } else {
+                $paginatedReports = $paginatedReports->orderBy($sortField, $sortOrder);
+            }
+        $paginatedReports = $paginatedReports->paginate($perPage, ['*'], 'page', $page);
 
         // Modify the fetched data as needed
         $modifiedReports = $paginatedReports->map(function ($report) {

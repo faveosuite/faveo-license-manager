@@ -138,14 +138,27 @@ class ApiKeysController extends Controller
         $searchQuery = $request->input('search_query');
         $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
         $sortField = $request->input('sort_field') ? $request->input('sort_field') :'api_key_id';
-        $paginatedApiKeys = AflApiKeys::
-            where(function($query) use ($searchQuery) {
-                $query->where('api_key_secret', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('api_key_description', 'LIKE', '%' . $searchQuery . '%');
-            })
-            ->orderBy($sortField, $sortOrder)
-            ->paginate($perPage, ['*'], 'page', $page);
-        return successResponse(Lang::get('lang.Api_show'),$paginatedApiKeys,200);
+        $paginatedApiKeys = AflApiKeys::where(function($query) use ($searchQuery) {
+            $query->where('api_key_secret', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('api_key_description', 'LIKE', '%' . $searchQuery . '%');
+        });
+
+        $sortOptions = [
+            'api_key_clients' => ['api_key_clients_add', 'api_key_clients_edit'],
+            'api_key_licenses' => ['api_key_licenses_add', 'api_key_licenses_edit'],
+            'api_key_products' => ['api_key_products_add', 'api_key_products_edit'],
+        ];
+
+        if (array_key_exists($sortField, $sortOptions)) {
+            foreach ($sortOptions[$sortField] as $field) {
+                $paginatedApiKeys->orderBy($field, $sortOrder);
+            }
+        } else {
+            $paginatedApiKeys->orderBy($sortField, $sortOrder);
+        }
+
+        $paginatedApiKeys = $paginatedApiKeys->paginate($perPage, ['*'], 'page', $page);
+        return successResponse(Lang::get('lang.Api_show'), $paginatedApiKeys, 200);
     }
 
     /**
