@@ -94,24 +94,21 @@ export default {
 
             texts: { filter: '', limit: '' },
 
-            sortable:  ['product_title','license_code', 'installations_count', 'callbacks_count'],
+            sortable:  ['product_title','license_code', 'installations_count', 'callbacks_count', 'latest_callback_date', 'latest_license_date'],
 
             filterable:  ['product_title'],
 
             requestAdapter(data) {
-                console.log('request', data)
 
                 return {
 
                     'sort_field' : data.orderBy ? data.orderBy : 'license_id',
 
-                    'sort_order' : data.ascending ? 'desc' : 'asc',
+                    'sort_order' : data.ascending ? 'asc' : 'desc',
 
                     'search_query' : data.query,
 
-                    // page : data.page,
-
-                    perPage : data.limit,
+                     perPage : data.limit,
                 }
             },
 

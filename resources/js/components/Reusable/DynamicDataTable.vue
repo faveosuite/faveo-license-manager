@@ -172,7 +172,7 @@ import { errorHandler } from '../../helpers/responseHandler';
 import PageLoader from '../Reusable/Loader.vue';
 import SimplePagination from "../Reusable/SimplePagination.vue";
 // import {computed} from 'Vue'
-// import {EventBus} from "v-tables-3";
+import {EventBus} from "v-tables-3";
 
 export default {
 

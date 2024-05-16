@@ -103,24 +103,21 @@ export default {
             filterable : [ 'report_text' ],
 
             requestAdapter(data) {
-                console.log('request', data)
 
                 return {
 
                     'sort-field' : data.orderBy ? data.orderBy : '',
 
-                    'sort-order' : data.ascending ? 'desc' : 'asc',
+                    'sort-order' : data.ascending ? 'asc' : 'desc',
 
                     'search-query' : data.query,
 
-                    // page : data.page,
-
-                    perPage : data.limit,
+                     perPage : data.limit,
                 }
             },
 
             responseAdapter({data}) {
-                console.log('response',data);
+
                 return {
 
                     data: data.data.data.map(data => {

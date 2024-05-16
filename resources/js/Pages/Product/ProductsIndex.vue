@@ -89,7 +89,7 @@
 
                 data: '',
 
-				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations', 'product_status', 'actions'],
+				columns: ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'licenses_count', 'installations_count', 'product_status', 'actions'],
 
 				options: {},
 
@@ -116,29 +116,26 @@
 
 				texts: { filter: '', limit: '' },
 
-                sortable:  ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'total_licenses', 'total_installations'],
+                sortable:  ['product_title', 'product_sku', 'product_url_homepage', 'product_version', 'licenses_count', 'installations_count', 'product_status'],
 
                 filterable : [ 'product_title' ],
 
                 requestAdapter(data) {
-                    console.log('request', data)
 
                     return {
 
                         'sort_field' : data.orderBy ? data.orderBy : '',
 
-                        'sort_order' : data.ascending ? 'desc' : 'asc',
+                        'sort_order' : data.ascending ? 'asc' : 'desc',
 
                         'search_query' : data.query,
 
-                        // page : data.page,
-
-                        perPage : data.limit,
+                         perPage : data.limit,
                     }
                 },
 
                 responseAdapter({data}) {
-                    console.log('response',data);
+
                     return {
 
                         data: data.data.data.map(data => {
@@ -170,9 +167,9 @@
 
 					product_version: 'product_version',
 
-					total_licenses: 'product_licenses',
+                    licenses_count: 'product_licenses',
 
-					total_installations: 'product_installations'
+                    installations_count: 'product_installations'
 				},
 
 				templates: {
@@ -197,7 +194,7 @@
                         return row.total_licenses ? row.total_licenses : '---'
                     },
 
-                    total_installations(h, row) {
+                    installations_count(h, row) {
 
                         return row.total_installations ? row.total_installations : '---'
                     },
@@ -215,7 +212,7 @@
 
 					product_version: 'Version',
 
-					total_licenses: 'Licenses',
+					licenses_count: 'Licenses',
 
 					total_installations: 'Installations',
 
