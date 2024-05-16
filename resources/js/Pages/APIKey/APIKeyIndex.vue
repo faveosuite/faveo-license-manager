@@ -31,55 +31,6 @@
 
             <div class="card-body" id="api_key_index">
 
-<!--                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">-->
-
-<!--                    <template v-slot:api_key_installations_edit="props">-->
-
-<!--                        {{ props.row.api_key_installations_edit ? 'Active' : 'Inactive'}}-->
-
-<!--                    </template>-->
-
-<!--                    <template v-slot:api_key_status="props">-->
-
-<!--                        {{ props.row.api_key_status ? 'Active' : 'Inactive'}}-->
-
-<!--                    </template>-->
-
-<!--                    <template v-slot:api_key_search="props">-->
-
-<!--                        {{ props.row.api_key_search ? 'Active' : 'Inactive'}}-->
-
-<!--                    </template>-->
-
-<!--                    <template v-slot:api_key_products_add_edit="props">-->
-
-<!--                        {{ props.row.api_key_products_add ? 'Active' : 'Inactive'}}-->
-<!--                        /-->
-<!--                        {{ props.row.api_key_products_edit ? 'Active' : 'Inactive'}}-->
-
-<!--                    </template>-->
-
-<!--                    <template v-slot:api_key_clients_edit="props">-->
-
-<!--                        {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}-->
-<!--                        /-->
-<!--                        {{ props.row.api_key_clients_edit ? 'Active' : 'Inactive'}}-->
-<!--                    </template>-->
-
-<!--                    <template v-slot:api_key_licenses_add="props">-->
-
-<!--                        {{ props.row.api_key_licenses_add ? 'Active' : 'Inactive'}}-->
-<!--                        /-->
-<!--                        {{ props.row.api_key_licenses_edit ? 'Active' : 'Inactive'}}-->
-
-<!--                    </template>-->
-
-<!--                    <template v-slot:actions="props" >-->
-
-<!--                        <table-actions :data="props.row" ></table-actions>-->
-<!--                    </template>-->
-<!--                </v-client-table>-->
-
                 <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="products-list">
 
                 </data-table>
@@ -107,7 +58,7 @@ export default {
 
             data: '',
 
-            columns: ['api_key_secret','api_key_description', 'api_key_ip', 'api_key_products_add_edit', 'api_key_clients_edit', 'api_key_licenses_add',
+            columns: ['api_key_secret','api_key_description', 'api_key_ip', 'api_key_products', 'api_key_clients', 'api_key_licenses',
                 'api_key_installations_edit', 'api_key_search', 'api_key_status','actions'],
 
             options: {},
@@ -146,31 +97,28 @@ export default {
 
             texts: { filter: '', limit: '' },
 
-            sortable:  ['api_key_secret', 'api_key_ip', 'api_key_products_add_edit',
-                'api_key_clients_edit', 'api_key_licenses_add', 'api_key_installations_edit',
+            sortable:  ['api_key_secret', 'api_key_ip', 'api_key_products',
+                'api_key_clients', 'api_key_licenses', 'api_key_installations_edit',
                 'api_key_search', 'api_key_status', 'api_key_description'],
 
             filterable : [ 'api_key_secret' ],
 
             requestAdapter(data) {
-                console.log('request', data)
 
                 return {
 
                     'sort_field' : data.orderBy ? data.orderBy : '',
 
-                    'sort_order' : data.ascending ? 'desc' : 'asc',
+                    'sort_order' : data.ascending ? 'asc' : 'desc',
 
                     'search_query' : data.query,
 
-                    // page : data.page,
-
-                    perPage : data.limit,
+                     perPage : data.limit,
                 }
             },
 
             responseAdapter({data}) {
-                console.log('response',data);
+
                 return {
 
                     data: data.data.data.map(data => {
@@ -196,11 +144,11 @@ export default {
 
                 api_key_ip: 'api_key_ip',
 
-                api_key_products_add_edit: 'api_key_products_add_edit',
+                api_key_products: 'api_key_products',
 
-                api_key_clients_edit: 'api_key_clients_edit',
+                api_key_clients: 'api_key_clients',
 
-                api_key_licenses_add: 'api_key_licenses_add',
+                api_key_licenses: 'api_key_licenses',
 
                 api_key_installations_edit: 'api_key_installations_edit',
 
@@ -224,6 +172,7 @@ export default {
                 },
 
                 api_key_description(h,row) {
+
                     return row.api_key_description ? row.api_key_description :  '---';
                 }
             },
@@ -236,11 +185,11 @@ export default {
 
                 api_key_ip: 'IP Address',
 
-                api_key_products_add_edit: 'Add/Edit Products',
+                api_key_products: 'Add/Edit Products',
 
-                api_key_clients_edit: 'Add/Edit Clients',
+                api_key_clients: 'Add/Edit Clients',
 
-                api_key_licenses_add: 'Add/Edit Licenses',
+                api_key_licenses: 'Add/Edit Licenses',
 
                 api_key_installations_edit: 'Edit Installations',
 

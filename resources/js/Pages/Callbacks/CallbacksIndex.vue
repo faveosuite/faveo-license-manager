@@ -140,7 +140,6 @@ export default {
             pagination : { show : false },
 
             requestAdapter(data) {
-                console.log('request', data)
 
                 return {
 
@@ -150,14 +149,12 @@ export default {
 
                     'search_query' : data.query,
 
-                    // page : data.page,
-
-                    perPage : data.limit,
+                     perPage : data.limit,
                 }
             },
 
             responseAdapter({data}) {
-                console.log('response',data);
+
                 return {
 
                     data: data.data.data.map(data => {

@@ -73,6 +73,8 @@ export default {
 
             counter: 0,
 
+            moment : moment,
+
             endPoint : '/api/admin/logs/exception?page=1',
         }
     },
@@ -80,10 +82,6 @@ export default {
     beforeMount() {
 
         const self = this;
-
-        // let date = this.created_at ? moment(this.created_at).format('YYYY-MM-DD') : '';
-        //
-        // console.log(date)
 
         this.options = {
 
@@ -128,9 +126,7 @@ export default {
 
                     'search_query' : data.query,
 
-                    // page : data.page,
-
-                    perPage : data.limit,
+                     perPage : data.limit,
                 }
             },
 
@@ -168,7 +164,7 @@ export default {
 
                 created_at(h, row) {
 
-                    return row.created_at
+                    return moment(row.created_at).format('MMMM Do YYYY, h:mm:ss a')
                 },
 
                 // trace: (f,row)=>{

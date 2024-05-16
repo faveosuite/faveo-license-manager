@@ -100,24 +100,21 @@
                 filterable : [ 'banned_host_ip' ],
 
                 requestAdapter(data) {
-                    console.log('request', data)
 
                     return {
 
                         'sort_field' : data.orderBy ? data.orderBy : '',
 
-                        'sort_order' : data.ascending ? 'desc' : 'asc',
+                        'sort_order' : data.ascending ? 'asc' : 'desc',
 
                         'search_query' : data.query,
 
-                        // page : data.page,
-
-                        perPage : data.limit,
+                         perPage : data.limit,
                     }
                 },
 
                 responseAdapter({data}) {
-                    console.log('response',data);
+
                     return {
 
                         data: data.data.data.map(data => {

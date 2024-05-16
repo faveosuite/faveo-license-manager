@@ -88,29 +88,26 @@
 
 				texts: { filter: '', limit: '' },
 
-                sortable:  ['product_title', 'license_code', 'total_installations', 'latest_installation_date', 'total_installations'],
+                sortable:  ['product_title', 'license_code', 'total_installations', 'latest_installation_date', 'total_installations', 'installation_status'],
 
                 filterable : [ 'product_title' ],
 
                 requestAdapter(data) {
-                    console.log('request', data)
 
                     return {
 
                         'sort_field' : data.orderBy ? data.orderBy : '',
 
-                        'sort_order' : data.ascending ? 'desc' : 'asc',
+                        'sort_order' : data.ascending ? 'asc' : 'desc',
 
                         'search_query' : data.query,
 
-                        // page : data.page,
-
-                        perPage : data.limit,
+                         perPage : data.limit,
                     }
                 },
 
                 responseAdapter({data}) {
-                    console.log('response',data);
+
                     return {
 
                         data: data.data.data.map(data => {
