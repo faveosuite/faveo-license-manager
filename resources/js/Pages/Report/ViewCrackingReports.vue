@@ -106,11 +106,11 @@ export default {
 
                 return {
 
-                    'sort-field' : data.orderBy ? data.orderBy : '',
+                    'sort_field' : data.orderBy ? data.orderBy : '',
 
-                    'sort-order' : data.ascending ? 'asc' : 'desc',
+                    'sort_order' : data.ascending ? 'asc' : 'desc',
 
-                    'search-query' : data.query,
+                    'search_query' : data.query,
 
                      perPage : data.limit,
                 }

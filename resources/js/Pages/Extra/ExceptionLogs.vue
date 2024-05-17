@@ -15,18 +15,11 @@
 
                 <h3 class="card-title">{{lang('error_logs')}}</h3>
 
-                <div class="card-tools">
-
-                    <router-link to="/licenses/create" class="btn-tool" v-tooltip="lang('create_license')">
-
-                        <i class="fas fa-plus"></i>
-                    </router-link>
-                </div>
             </div>
 
             <div class="card-body" id="my_licenses">
 
-                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="exception-logs">
 
                 </data-table>
 
@@ -42,6 +35,8 @@ import axios from 'axios';
 import {lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import moment from "moment";
+import LogsTrace from "../../components/Reusable/LogsTrace.vue";
+import {h} from 'vue'
 import {useStore} from 'vuex';
 import {computed} from "vue";
 
@@ -167,10 +162,10 @@ export default {
                     return moment(row.created_at).format('MMMM Do YYYY, h:mm:ss a')
                 },
 
-                // trace: (f,row)=>{
-                //
-                //     return self.h(LogsTrace,{ data : row })
-                // },
+                trace: (f,row)=>{
+
+                    return h(LogsTrace, { data : row })
+                },
             },
 
             pagination: { show : false },
@@ -179,7 +174,7 @@ export default {
 
     components : {
 
-        'data-table' : DynamicDataTable
+        'data-table' : DynamicDataTable,
     }
 };
 </script>
