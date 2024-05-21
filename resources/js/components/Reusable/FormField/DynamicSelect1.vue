@@ -1,12 +1,12 @@
 <template>
-   <form-field-template
+   <form-field-template v-if="showField"
       :name="name"
       :classname="classname"
       :label="label"
       :hint="hint"
       :required="required"
       :labelStyle="labelStyle"
-      :showNewButton="showNewButton" 
+      :showNewButton="showNewButton"
       :onClickEvent="getFieldName"
 		:actionBtn="actionBtn"
 		:isInlineForm="isInlineForm"
@@ -45,7 +45,7 @@
 					<template v-if="searching">No results found for <em>{{ search }}</em>. </template>
 					<template v-else>
 						<span v-if="!isLoading && !hasNextPage">No options found.</span>
-						<loader v-if="isLoading && !hasNextPage" :duration="4000" :size="25"></loader> 
+						<loader v-if="isLoading && !hasNextPage" :duration="4000" :size="25"></loader>
 					</template>
 				</template>
 
@@ -58,7 +58,7 @@
 						{{ subString(option[optionLabel]) }}
 					</div>
 				</template>
-				
+
 				<template slot="selected-option" slot-scope="option">
 					<div class="selected d-center" :title="option[optionLabel]">
 						<!-- For images -->
@@ -68,7 +68,7 @@
 						{{ subString(option[optionLabel]) }}
 					</div>
 				</template>
-				
+
 				<template slot="list-footer" v-if="hasNextPage">
 					<li ref="dynamicSelectLoader" class="loader-area">
 						<loader :duration="4000" :size="25"></loader>
@@ -87,18 +87,18 @@ import axios from "axios";
 
 import FormFieldTemplate from "./FormFieldTemplate.vue";
 
-import { errorHandler } from "helpers/responseHandler";
+import { errorHandler } from "../../../helpers/responseHandler";
 
-import { getSubStringValue, boolean } from "helpers/extraLogics";
+import { getSubStringValue, boolean } from "../../../helpers/extraLogics";
 
-import _ from 'lodash-core';
+// import _ from 'lodash-core';
 
 export default {
 
 	name: "dynamic-select",
 
 	props: {
-	
+
 		name: {
 			type: String | Number,
 			Required: true
@@ -245,7 +245,7 @@ export default {
 		showNewButton: { type: Boolean, default: false },
 
     	onClickEvent : { type : Function },
-    
+
     	onButtonClick: { type : Function},
 
 		isInlineForm: { type: Boolean, default: false },
@@ -263,20 +263,22 @@ export default {
 	data: () => {
 
 		return {
-		
+
 			listElements: [],
-		
+
 			page: 0,
-		
+
 			observer: null,
-		
+
 			nextPageUrl: '',
-		
+
 			searchQuery: undefined,
-		
+
 			isLoading: false,
-		
-			selectedValue: null
+
+			selectedValue: null,
+
+            showField:false
 		};
 	},
 
@@ -293,6 +295,12 @@ export default {
 		}
 
 		this.selectedValue = this.value;
+
+        // Intentionally added 1 sec timeout for avoiding initial errors on page load
+        setTimeout(()=>{
+
+            this.showField = true
+        },1);
 	},
 
 	created() {
@@ -301,9 +309,9 @@ export default {
 	},
 
 	computed: {
-		
+
 		hasNextPage() {
-		
+
 			return Boolean( this.nextPageUrl !== null && this.apiEndpoint);
 		}
 	},
@@ -316,7 +324,7 @@ export default {
 		},
 
 		getFieldName(name){
-						
+
 			this.onButtonClick(name)
 		},
 
@@ -329,9 +337,9 @@ export default {
 		flushAndRestart(from = '') {
 
 			this.disconnectObserver();
-			
+
 			this.resetProperties(from);
-			
+
 			this.observer = new IntersectionObserver(this.infiniteScroll);
 		},
 
@@ -362,7 +370,7 @@ export default {
 		}, 350),
 
 		filterListElements() {
-			
+
 			this.listElements = this.elements.filter((element) => element[this.optionLabel].toLowerCase().includes(this.searchQuery.toLowerCase()));
 		},
 
@@ -371,7 +379,7 @@ export default {
 			if (!boolean(this.apiEndpoint)) return;
 
 			this.isLoading = true;
-			
+
 			axios.get(this.apiEndpoint, {
 					params: this.getApiParams()
 				})
@@ -504,7 +512,7 @@ export default {
 	components: {
 		'v-select': vSelect,
 		'form-field-template': FormFieldTemplate,
-		'faveo-image-element': require('components/Reusable/FaveoImageElement').default,
+		// 'faveo-image-element': require('components/Reusable/FaveoImageElement').default,
 	}
 };
 </script>
