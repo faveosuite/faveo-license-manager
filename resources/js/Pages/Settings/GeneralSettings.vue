@@ -30,11 +30,41 @@
                     >
                     </text-field>
                 </div>
+
                 <hr>
+
                 <div class="row">
                     <text-field :label="trans('agora_invoicing_url')" :value="agora_invoicing_url" :onChange="onChange"
                                 name="agora_invoicing_url" type="text" classname="col-sm-6">
                     </text-field>
+
+<!--                    <dynamic-select :label="trans('timeformat')" :multiple="false" name="time_format" classname="col-sm-4"-->
+<!--                                    apiEndpoint="/api/admin/timezones" :value="time_format" :onChange="onChange" :strlength="25"-->
+<!--                                    :required="true">-->
+
+<!--                    </dynamic-select>-->
+
+                    <example-select name="name" apiEndpoint="/api/admin/timezones"
+                                    label="Timezone Settings" :onChange="onChange"
+                                    classname="col-sm-6" optionLabel="location" :required="true">
+
+                    </example-select>
+                </div>
+
+                <hr>
+
+                <div class="row">
+                    <example-select name="name" apiEndpoint="api/admin/date-formats"
+                                    label="Date Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" optionLabel="format" :required="true">
+
+                    </example-select>
+
+                    <example-select name="name" apiEndpoint="api/admin/time-formats"
+                                    label="Time Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" optionLabel="hours" :required="true">
+
+                    </example-select>
                 </div>
             </div>
 
@@ -61,6 +91,10 @@
 <script>
 
 import axios from 'axios'
+
+import ExampleSelect from "../../components/Reusable/FormField/ExampleSelect.vue";
+
+import DynamicSelect1 from "../../components/Reusable/FormField/DynamicSelect1.vue";
 
 import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
@@ -172,6 +206,10 @@ export default {
     components: {
 
         "text-field": TextField,
+
+        "example-select" : ExampleSelect,
+
+        "dynamic-select" : DynamicSelect1
 
     }
 }
