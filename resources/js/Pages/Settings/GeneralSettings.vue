@@ -21,12 +21,12 @@
                 <div class="row">
 
                     <text-field :label="trans('google_site_key')" :value="google_site_key" :onChange="onChange"
-                                name="google_site_key" type="text" classname="col-sm-6">
+                                name="google_site_key" type="text" :required="true" classname="col-sm-6">
 
                     </text-field>
 
                     <text-field :label="trans('google_secret_key')" :value="google_secret_key"
-                                :onChange="onChange" name="google_secret_key" type="password" classname="col-sm-6"
+                                :onChange="onChange" :required="true" name="google_secret_key" type="password" classname="col-sm-6"
                     >
                     </text-field>
                 </div>
@@ -34,56 +34,57 @@
                 <hr>
 
                 <div class="row">
+
                     <text-field :label="trans('agora_invoicing_url')" :value="agora_invoicing_url" :onChange="onChange"
-                                name="agora_invoicing_url" type="text" classname="col-sm-6">
+                                name="agora_invoicing_url" :required="true" type="text" classname="col-sm-6">
+
                     </text-field>
 
-<!--                    <dynamic-select :label="trans('timeformat')" :multiple="false" name="time_format" classname="col-sm-4"-->
-<!--                                    apiEndpoint="/api/admin/timezones" :value="time_format" :onChange="onChange" :strlength="25"-->
-<!--                                    :required="true">-->
+                    <dynamic-select name="system_time_zone" apiEndpoint="/api/admin/timezones" :multiple="false" label="Timezone Settings" :onChange="onChange"
+                                    classname="col-sm-6" :value="system_time_zone" optionLabel="location" :required="true">
 
-<!--                    </dynamic-select>-->
-
-                    <example-select name="name" apiEndpoint="/api/admin/timezones"
-                                    label="Timezone Settings" :onChange="onChange"
-                                    classname="col-sm-6" optionLabel="location" :required="true">
-
-                    </example-select>
+                    </dynamic-select>
                 </div>
 
                 <hr>
 
                 <div class="row">
-                    <example-select name="name" apiEndpoint="api/admin/date-formats"
-                                    label="Date Format Settings" :onChange="onChange"
-                                    classname="col-sm-6" optionLabel="format" :required="true">
 
-                    </example-select>
+                    <dynamic-select name="date_format" apiEndpoint="api/admin/date-formats" :multiple="false" label="Date Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" :value="date_format" optionLabel="format" :required="true" :showPreview="previewMethod(date_format)">
 
-                    <example-select name="name" apiEndpoint="api/admin/time-formats"
-                                    label="Time Format Settings" :onChange="onChange"
-                                    classname="col-sm-6" optionLabel="hours" :required="true">
+                    </dynamic-select>
 
-                    </example-select>
+                    <dynamic-select name="time_format" apiEndpoint="api/admin/time-formats" :multiple="false" label="Time Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" :showPreview="timeFormat(time_format)" :value="time_format" optionLabel="hours" :required="true">
+
+                    </dynamic-select>
                 </div>
             </div>
 
+<!--            <div class="card-footer">-->
+
+<!--                <button class="btn btn-primary" @click="onSubmit(true,-->
+<!--                '/api/admin/common-setting',-->
+<!--                {-->
+<!--                    google_site_key : this.google_site_key,-->
+<!--                    google_secret_key: this.google_secret_key,-->
+<!--                    agora_invoicing_url: this.agora_invoicing_url-->
+<!--                }-->
+<!--                )-->
+<!--            "><i-->
+<!--                    :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>-->
+<!--                &nbsp;-->
+<!--                <button class="btn btn-danger" @click="onSubmit(false, '/api/admin/common-setting/reset',{clear:1})"><i-->
+<!--                    :class="iconUndo"></i>&nbsp;&nbsp;{{trans('Reset')}}</button>-->
+<!--            </div>-->
             <div class="card-footer">
 
-                <button class="btn btn-primary" @click="onSubmit(true,
-                '/api/admin/common-setting',
-                {
-                    google_site_key : this.google_site_key,
-                    google_secret_key: this.google_secret_key,
-                    agora_invoicing_url: this.agora_invoicing_url
-                }
-                )
-            "><i
-                    :class="iconClass"></i>&nbsp;&nbsp;{{trans(btnName)}}</button>
-                &nbsp;
-                <button class="btn btn-danger" @click="onSubmit(false, '/api/admin/common-setting/reset',{clear:1})"><i
-                    :class="iconUndo"></i>&nbsp;&nbsp;{{trans('Reset')}}</button>
+                <button class="btn btn-primary mr-2" @click="onSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
+
+                <button class="btn btn-danger"> <i :class="iconUndo"></i> {{ trans('Reset') }}</button>
             </div>
+
         </div>
     </div>
 </template>
@@ -92,9 +93,7 @@
 
 import axios from 'axios'
 
-import ExampleSelect from "../../components/Reusable/FormField/ExampleSelect.vue";
-
-import DynamicSelect1 from "../../components/Reusable/FormField/DynamicSelect1.vue";
+import DatatableDynamicSelect from "../../components/Reusable/FormField/DatatableDynamicSelect.vue";
 
 import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
@@ -132,7 +131,13 @@ export default {
 
             google_secret_key: '',
 
-            agora_invoicing_url: ''
+            agora_invoicing_url: '',
+
+            time_format : '',
+
+            system_time_zone : '',
+
+            date_format : ''
 
         }
     },
@@ -143,12 +148,21 @@ export default {
 
     methods: {
 
+        previewMethod(value) {
+            console.log('date-format---->',value)
+            return value ? moment(new Date()).format(value.js_format) : ''
+        },
+
+        timeFormat(value) {
+            console.log('time-format---->',value)
+            return moment(new Date()).format(value.js_format);
+        },
+
         getProducts() {
 
             this.loading = true;
 
             this.hasDataPopulated = false;
-
 
             axios.get('/api/admin/common-setting/get').then(res => {
 
@@ -166,28 +180,62 @@ export default {
 
         onChange(option, name) {
 
+            console.log(option, name)
+
             this[name] = option ? option : '';
         },
 
-        async onSubmit(clear=false,url,formData) {
+        async onSubmit() {
 
-            this.loading = true
+            // this.loading = true
+            //
+            // await axios.post(url, formData).then((res) => {
+            //
+            //     successHandler(res, 'google-recaptcha');
+            //
+            //     this.loading = false;
+            //
+            // }).catch((err) => {
+            //
+            //     this.loading = false;
+            //
+            //     errorHandler(err, 'google-recaptcha');
+            // });
 
-            await axios.post(url, formData).then((res) => {
+                this.pageLoad = true;
 
-                successHandler(res, 'google-recaptcha');
+                const data = {};
 
-                this.loading = false;
+                data['google_site_key'] = this.google_site_key;
 
-            }).catch((err) => {
+                data['google_secret_key'] = this.google_secret_key;
 
-                this.loading = false;
+                data['agora_invoicing_url'] = this.agora_invoicing_url;
 
-                errorHandler(err, 'google-recaptcha');
-            });
+                data['date_format'] = this.date_format.name;
+
+                data['system_time_zone'] = this.system_time_zone.id;
+
+                data['time_format'] = this.time_format.format;
+
+                axios.post('/api/admin/common-setting', data).then(res => {
+
+                    this.pageLoad = false;
+
+                    successHandler(res,'google-recaptcha');
+
+                    this.getValues()
+
+                }).catch(err => {
+
+                    this.pageLoad = false;
+
+                    errorHandler(err,'google-recaptcha');
+                });
         },
 
         updateStatesWithData(data) {
+            console.log('data ----->', data)
 
             const self = this;
 
@@ -207,9 +255,7 @@ export default {
 
         "text-field": TextField,
 
-        "example-select" : ExampleSelect,
-
-        "dynamic-select" : DynamicSelect1
+        "dynamic-select" : DatatableDynamicSelect
 
     }
 }
