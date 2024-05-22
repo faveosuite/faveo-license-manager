@@ -17,7 +17,7 @@
 
             </div>
 
-            <div class="card-body" id="my_licenses">
+            <div class="card-body" id="exception-logs">
 
                 <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="exception-logs">
 
@@ -43,16 +43,6 @@ import {computed} from "vue";
 export default {
 
     name: 'exception-logs',
-
-    // setup() {
-    //
-    //     const store = useStore();
-    //
-    //     return {
-    //
-    //         formattedTime : computed(()=>store.getters.formattedTime)
-    //     }
-    // },
 
     data() {
 
@@ -180,17 +170,10 @@ export default {
 </script>
 
 <style>
-.license_product_title,
-.license_code,
-.license_install,
-.license_callbacks,
-.latest_callback_time,
-.license_date {
-    max-width: 200px;
-    word-break: break-all;
-}
+.log-category,.log-file,.log-trace,.log-line,.log-created,.log-message
+{ max-width: 250px; word-break: break-all;}
 
-#my_licenses .VueTables .table-responsive {
+#exception-logs .VueTables .table-responsive {
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -201,7 +184,7 @@ export default {
     align-items: center;
 }
 
-#my_licenses .VueTables .table-responsive>table {
+#exception-logs .VueTables .table-responsive>table {
     width: max-content;
     min-width: 100%;
     max-width: max-content;

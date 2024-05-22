@@ -26,7 +26,7 @@
 
             <div class="card-body" id="my_clients">
 
-                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="products-list">
+                <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options">
 
                 </data-table>
 

@@ -26,8 +26,8 @@
                     </text-field>
 
                     <text-field :label="trans('google_secret_key')" :value="google_secret_key"
-                                :onChange="onChange" :required="true" name="google_secret_key" type="password" classname="col-sm-6"
-                    >
+                                :onChange="onChange" :required="true" name="google_secret_key" type="password" classname="col-sm-6">
+
                     </text-field>
                 </div>
 

@@ -11,11 +11,6 @@
 
             <template #fields>
 
-                <div v-if="loading" class="row">
-
-                    <reuse-loader :animation-duration="4000" color="#1d78ff" :size="size" />
-                </div>
-
                 <div v-if="!loading" class="mod_width">
 
                     <p v-html="content" :class="[{'trace' : title === 'trace'}]"></p>
@@ -24,12 +19,6 @@
 
             </template>
 
-            <template #controls>
-
-<!--                <div v-if="title === 'delete_logs'">-->
-<!--                    <button id="log_delete_btn" type="button" @click = "onSubmit()" class="btn btn-danger" :disabled="isDisabled"><i class="fa fa-trash" aria-hidden="true"></i> {{lang('delete')}}</button>-->
-<!--                </div>-->
-            </template>
         </modal>
     </div>
 </template>
@@ -93,18 +82,6 @@ export default {
         delete_after_date : '',
 
         delete_before_date : '',
-
-        timeOptions:{
-            start: '00:00',
-            step: '00:30',
-            end: '23:30'
-        },
-
-        checkOptions:[
-            {name:'cron',value:'cron'},
-            {name:'mail',value:'mail'},
-            {name:'exception',value:'exception'}
-        ],
 
         logs : []
 
