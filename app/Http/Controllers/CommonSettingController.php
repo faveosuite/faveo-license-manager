@@ -35,7 +35,9 @@ class CommonSettingController extends Controller
             foreach ($commonSettings as $setting) {
                 $settingsArray[$setting->key] = $setting->value;
             }
-
+            $settingsArray['timezone']=  Timezone::find($settingsArray['timezone']);
+            $settingsArray['date_format']= DateFormat::find($settingsArray['date_format']);
+            $settingsArray['time_format'] = TimeFormat::find($settingsArray['time_format']);
             return successResponse('',$settingsArray);
 
         } catch (\Exception $e) {

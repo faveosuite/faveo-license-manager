@@ -140,7 +140,8 @@ class ApiKeysController extends Controller
         $sortField = $request->input('sort_field') ? $request->input('sort_field') :'api_key_id';
         $paginatedApiKeys = AflApiKeys::where(function($query) use ($searchQuery) {
             $query->where('api_key_secret', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('api_key_description', 'LIKE', '%' . $searchQuery . '%');
+                ->orWhere('api_key_description', 'LIKE', '%' . $searchQuery . '%')
+                ->orWhere('api_key_ip', 'LIKE', '%' . $searchQuery . '%');
         });
 
         $sortOptions = [
