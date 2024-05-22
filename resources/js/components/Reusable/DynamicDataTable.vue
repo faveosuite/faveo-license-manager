@@ -6,7 +6,7 @@
             <div v-if="option.filterable">
 
                 <input type="text" class="form-control globe-search" v-model="search_str"
-                       @keyup.enter="checkFile()" :style="inputStyle" :placeholder="lang('type_and_enter_to_search')">
+                       @keyup.enter="checkFile()" :style="inputStyle" :placeholder="('type_and_enter_to_search')">
             </div>
         </div>
 
@@ -139,7 +139,7 @@
 
         <div v-if="!showTable && error_message" class="callout callout-danger bg-danger">
 
-            <p><i class="fa fa-exclamation-triangle"> </i> {{lang(error_message)}}</p>
+            <p><i class="fa fa-exclamation-triangle"> </i> {{(error_message)}}</p>
         </div>
 
         <div v-if="loading && !disableLoader" class="row faveo-datatable-loader">
@@ -152,13 +152,13 @@
 
             <div v-if="showTable && !loading && show_pagination">
                 <template v-if="total == 1">
-                    {{trans('one_record')}}
+                    {{('one_record')}}
                 </template>
                 <template v-if="total > 1 && total <= 10">
-                    {{ total }} {{trans('records')}}
+                    {{ total }} {{('records')}}
                 </template>
                 <template v-if="total > 10">
-                    {{trans('showing')}} {{ from }} to {{ to }} of {{ total }} {{trans('records')}}
+                    {{('showing')}} {{ from }} to {{ to }} of {{ total }} {{('records')}}
                 </template>
             </div>
 
@@ -298,8 +298,8 @@ export default {
             const self = this;
 
             self.optionsObj.texts = {
-                noResults: self.trans('no_matching_records'),
-                loading: self.trans('loading')
+                noResults: ('no_matching_records'),
+                loading: ('loading')
             };
 
             if(self.optionsObj.headings && self.optionsObj.headings.hasOwnProperty('id')){

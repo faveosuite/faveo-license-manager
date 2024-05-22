@@ -13,11 +13,11 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('licenses')}}</h3>
+                <h3 class="card-title">{{('licenses')}}</h3>
 
                 <div class="card-tools">
 
-                    <router-link to="/licenses/create" class="btn-tool" v-tooltip="lang('create_license')">
+                    <router-link to="/licenses/create" class="btn-tool" v-tooltip="('create_license')">
 
                         <i class="fas fa-plus"></i>
                     </router-link>
@@ -38,8 +38,6 @@
 
 <script>
 
-import axios from 'axios';
-import {lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import {useStore} from 'vuex';
 import {computed} from "vue";
