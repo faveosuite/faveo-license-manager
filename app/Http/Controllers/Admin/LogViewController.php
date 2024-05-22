@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\ExceptionLog;
+use App\Models\LogCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
@@ -17,8 +18,7 @@ class LogViewController extends Controller
         $sortOrder= $request->input('sort_order') ? $request->input('sort_order') : 'desc';
         $sortField = $this->getSortField($request->input('sort_field'));
         $logs = ExceptionLog::with('category')
-            ->select('exception_logs.*')
-            ->leftJoin('log_categories', 'exception_logs.log_category_id', '=', 'log_categories.id')
+            ->withAggregate('category as name','name')
             ->where('created_at', 'LIKE', '%' . $searchQuery . '%')
             ->orWhere(function ($query) use ($searchQuery) {
                 $query->whereHas('category', function ($query) use ($searchQuery) {

@@ -150,7 +150,6 @@ class InstallationController extends Controller
                         ->orWhere('afl_installations.license_code', 'LIKE', "%{$searchQuery}%");
                 });
             })
-            ->orderBy($sortField, $sortOrder)
             ->select(
                 'installation_id',
                 'afl_products.product_id',
@@ -160,6 +159,7 @@ class InstallationController extends Controller
                 DB::raw('(SELECT COUNT(*) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as total_installations'),
                 DB::raw('(SELECT MAX(installation_date) FROM afl_installations AS sub_installations WHERE sub_installations.license_code = afl_installations.license_code) as latest_installation_date')
             )
+            ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
         // Modify the fetched data as needed

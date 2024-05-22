@@ -7,7 +7,9 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\AflReports;
 use App\Models\AflProducts;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 
 
@@ -85,27 +87,24 @@ class ReportsController extends Controller
         $sortField = $request->input('sort_field') ? $request->input('sort_field') : 'report_id';
 
         // Fetch paginated system reports with related user and product data
-        $paginatedReports = AflReports::with(['user', 'product'])
-            ->select('afl_reports.*')
-            ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
-            ->leftJoin('users', 'afl_reports.account_id', '=', 'users.client_id')
+        $reportsQuery = AflReports::with(['user'])
+            ->withUserFormatted()
             ->where('report_system', 1)
             ->whereHas('user', function ($query) {
                 $query->where('client_role', 'admin');
-            })
-            ->where('report_text', 'LIKE', '%' . $searchQuery . '%');
-            if ($sortField == 'user_formatted') {
-                $paginatedReports = $paginatedReports->orderBy('users.client_fname', $sortOrder)
-                    ->orderBy('users.client_lname', $sortOrder);
-            } else {
-                $paginatedReports = $paginatedReports->orderBy($sortField, $sortOrder);
-            }
-        $paginatedReports = $paginatedReports->paginate($perPage, ['*'], 'page', $page);
+            });
+        $rawSql = $reportsQuery->toSql();
+        $reportsQuery = DB::table(DB::raw("({$rawSql}) as sub"))
+            ->mergeBindings($reportsQuery->getQuery())
+            ->where('report_text', 'like', '%' . $searchQuery . '%')
+            ->orWhere('user_formatted', 'like', '%' . $searchQuery . '%')
+            ->orderBy($sortField, $sortOrder);
+
+        $paginatedReports = $reportsQuery->paginate($perPage, ['*'], 'page', $page);
 
         // Modify the fetched data as needed
         $modifiedReports = $paginatedReports->map(function ($report) {
-            // Format user, report_date_time, and report_status
-            $report->user_formatted = $this->formatSystemReportUser($report->user->client_fname, $report->user->client_lname, $report->user->client_email);
+            // report_date_time, and report_status
             $report->report_date_time = removeSeconds($report->report_date_time);
             $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
 
@@ -123,7 +122,7 @@ class ReportsController extends Controller
         $sortField = $request->input('sort_field') ? $request->input('sort_field') :'report_id';
 
         // Fetch paginated cracking reports with related user and product data
-        $paginatedReports = AflReports::with(['user', 'product'])
+        $paginatedReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
             ->where('account_id', 0)
             ->where('product_id', 0)
             ->where('report_system', 0)
@@ -157,19 +156,20 @@ class ReportsController extends Controller
         $sortField = $request->input('sort_field') ? $request->input('sort_field') :'report_id';
 
         // Fetch paginated license reports with related user and product data
-        $paginatedReports = AflReports::with(['user', 'product'])
-            ->select('afl_reports.*')
-            ->leftJoin('afl_products', 'afl_reports.product_id', '=', 'afl_products.product_id')
+        $paginatedReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
+            ->withAggregate('product as product_title','product_title')
             ->whereNotNull('license_code')
             ->where(function ($query) use ($searchQuery) {
                 $query->whereHas('product', function ($query) use ($searchQuery) {
                     $query->where('product_title', 'LIKE', '%' . $searchQuery . '%');
                 })
-                ->orWhere('report_text', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('report_text', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
             })
-            ->orderBy($sortField, $sortOrder)
-            ->paginate($perPage, ['*'], 'page', $page);
+                ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['afl_reports.*'], 'page', $page);
+
+
 
         // Modify the fetched data as needed
         $modifiedReports = $paginatedReports->map(function ($report) {
@@ -208,24 +208,6 @@ class ReportsController extends Controller
         });
 
         return $modifiedReports->toArray();
-    }
-
-
-//format system report user
-    private function formatSystemReportUser($admin_fname, $admin_lname, $admin_email)
-    {
-        if (filter_var($admin_email, FILTER_VALIDATE_EMAIL)) {
-            if (! empty($admin_fname) && ! empty($admin_lname)) {
-                $user_formatted = "$admin_fname $admin_lname";
-            } else {
-                $user_formatted = $admin_email;
-            }
-        } else {
-            $user_formatted = 'System';
-        }
-
-
-        return $user_formatted;
     }
 }
 

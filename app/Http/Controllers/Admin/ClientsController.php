@@ -140,8 +140,8 @@ class ClientsController extends Controller
                 return $query->where(DB::raw('CONCAT(client_fname," " ,client_lname)'), 'LIKE', '%'.$searchQuery.'%')
                     ->orWhere('client_email', 'LIKE', '%'.$searchQuery.'%');
             })
-            ->orderBy($sortField, $sortOrder)
             ->select(DB::raw('CONCAT(client_fname, " ", client_lname) As full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
+            ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
         // Return success response with paginated client data
