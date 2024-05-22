@@ -19,6 +19,14 @@
                 <span v-else>&#45;&#45;</span>
             </template>
 
+            <template v-slot:order_number="props">
+                <a :href="extractHref(props.row.order_url)" target="_blank">
+                    {{ props.row.order_url.match(/\d+/)[0] ?? '---' }}
+                </a>
+            </template>
+
+
+
             <template v-slot:license_status="props">
 
                 <span :class="props.row.license_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
@@ -325,46 +333,19 @@ export default {
         }
     },
 
-    mounted() {
-
-        // if(this.show_pagination){
-        //
-        //     EventBus.on('vue-tables.pagination', () => {
-        //
-        //         this.endPoint = this.url;
-        //     });
-        // }
-        //
-        // EventBus.on('vue-tables.loading', () => {
-        //
-        //     this.$emit('loaderState', true);
-        //
-        //     this.isLoading = true;
-        // });
-        //
-        // EventBus.on('vue-tables.loaded', () => {
-        //
-        //     this.isLoading = false;
-        //
-        //     this.$emit('loaderState',false);
-        // });
-        //
-        // EventBus.on('vue-tables.error', () => {
-        //
-        //     this.isLoading = false;
-        //
-        //     this.$emit('loaderState',false);
-        // });
-    },
-
-    created(){
-
-        // window.emitter.on(this.componentTitle+'refreshData',this.onUpdate)
-
-        // window.emitter.on(this.componentTitle+'uncheckCheckbox',this.unselectAll)
-    },
-
     methods :{
+
+        extractHref(orderUrl) {
+
+            const parser = new DOMParser();
+            // Parse the HTML string
+            const parsedHtml = parser.parseFromString(orderUrl, 'text/html');
+            // Get the root element of the parsed HTML
+            const htmlElement = parsedHtml.documentElement;
+            const tag = htmlElement.getElementsByTagName('a')
+
+            return tag[0].getAttribute('href')
+        },
 
         checkFile() {
 

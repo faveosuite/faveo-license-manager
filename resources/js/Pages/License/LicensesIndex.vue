@@ -66,7 +66,7 @@ export default {
 
             data: '',
 
-            columns: ['product_title', 'license_code', 'installations_count', 'callbacks_count',
+            columns: ['product_title', 'license_code', 'order_number', 'installations_count', 'callbacks_count',
                 'latest_callback_date', 'latest_license_date','actions'],
 
             options: {},
@@ -94,7 +94,7 @@ export default {
 
             texts: { filter: '', limit: '' },
 
-            sortable:  ['product_title','license_code', 'installations_count', 'callbacks_count', 'latest_callback_date', 'latest_license_date'],
+            sortable:  ['product_title','license_code', 'order_number', 'installations_count', 'callbacks_count', 'latest_callback_date', 'latest_license_date'],
 
             filterable:  ['product_title'],
 
@@ -138,6 +138,8 @@ export default {
 
                 license_code: 'license_code',
 
+                order_number : 'order_number',
+
                 installations_count: 'license_install',
 
                 callbacks_count: 'license_callbacks',
@@ -163,6 +165,18 @@ export default {
                     return formattedLicenseCode;
                 },
 
+                // order_number(h, row) {
+                //     const parser = new DOMParser();
+                //     // Parse the HTML string
+                //     const parsedHtml = parser.parseFromString(row.order_url, 'text/html');
+                //     // Get the root element of the parsed HTML
+                //     const htmlElement = parsedHtml.documentElement;
+                //     const um = htmlElement.getElementsByTagName('a')
+                //     // console.log(um[0].getAttribute('href'))
+                //     console.log(um[0].textContent)
+                //     return um[0].textContent ? um[0].textContent : '---'
+                // },
+
                 latest_license_date(h, row) {
 
                     return row.latest_license_date ? row.latest_license_date : '---'
@@ -182,6 +196,8 @@ export default {
                 product_id: 'Product',
 
                 license_code: 'License Code',
+
+                order_number : 'Order Number',
 
                 installations_count: 'Installations',
 
