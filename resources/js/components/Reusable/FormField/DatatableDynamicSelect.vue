@@ -284,7 +284,6 @@ export default {
         },
 
         getListFromServer(isRefresh, target) {
-            console.log('API Call done')
 
             if (!boolean(this.apiEndpoint)) return;
 

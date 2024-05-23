@@ -40,8 +40,8 @@
 
                     </text-field>
 
-                    <dynamic-select name="system_time_zone" apiEndpoint="/api/admin/timezones" :multiple="false" label="Timezone Settings" :onChange="onChange"
-                                    classname="col-sm-6" :value="system_time_zone" optionLabel="location" :required="true">
+                    <dynamic-select name="timezone" apiEndpoint="/api/admin/timezones" :multiple="false" label="Timezone Settings" :onChange="onChange"
+                                    classname="col-sm-6" :value="timezone" optionLabel="location" :required="true">
 
                     </dynamic-select>
                 </div>
@@ -119,7 +119,7 @@ export default {
 
             hasDataPopulated: false,
 
-            loading: false,
+            loading: true,
 
             apiEndpoint: '',
 
@@ -135,7 +135,7 @@ export default {
 
             time_format : '',
 
-            system_time_zone : '',
+            timezone : '',
 
             date_format : ''
 
@@ -149,13 +149,13 @@ export default {
     methods: {
 
         previewMethod(value) {
-            console.log('date-format---->',value)
+
             return value ? moment(new Date()).format(value.js_format) : ''
         },
 
         timeFormat(value) {
-            console.log('time-format---->',value)
-            return moment(new Date()).format(value.js_format);
+
+            return value ? moment(new Date()).format(value.js_format) : ''
         },
 
         getProducts() {
@@ -180,8 +180,6 @@ export default {
 
         onChange(option, name) {
 
-            console.log(option, name)
-
             this[name] = option ? option : '';
         },
 
@@ -202,7 +200,7 @@ export default {
             //     errorHandler(err, 'google-recaptcha');
             // });
 
-                this.pageLoad = true;
+                this.loading = true;
 
                 const data = {};
 
@@ -212,30 +210,31 @@ export default {
 
                 data['agora_invoicing_url'] = this.agora_invoicing_url;
 
-                data['date_format'] = this.date_format.name;
+                data['date_format'] = this.date_format.id;
 
-                data['system_time_zone'] = this.system_time_zone.id;
+                data['time_format'] = this.time_format.id;
 
-                data['time_format'] = this.time_format.format;
+                data['timezone'] = this.timezone.id
 
                 axios.post('/api/admin/common-setting', data).then(res => {
 
-                    this.pageLoad = false;
+                    this.loading = false;
 
                     successHandler(res,'google-recaptcha');
 
-                    this.getValues()
+                    this.getProducts()
 
                 }).catch(err => {
 
-                    this.pageLoad = false;
+                    this.loading = false;
 
                     errorHandler(err,'google-recaptcha');
                 });
+
+                this.loading = false;
         },
 
         updateStatesWithData(data) {
-            console.log('data ----->', data)
 
             const self = this;
 
