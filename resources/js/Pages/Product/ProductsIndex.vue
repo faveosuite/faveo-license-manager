@@ -26,29 +26,6 @@
 
 			<div class="card-body" id="my_products">
 
-<!--				<v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">-->
-
-<!--                    <template v-slot:product_title="props">-->
-
-<!--                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>-->
-<!--                    </template>-->
-
-<!--                    <template v-slot:product_url_homepage="props">-->
-
-<!--                        <a v-if="props.row.product_url_homepage" :href="props.row.product_url_homepage" target="_blank">{{props.row.product_url_homepage}}</a>-->
-
-<!--                        <span v-else>&#45;&#45;</span>-->
-<!--                    </template>-->
-
-<!--                    <template v-slot:product_status="props">-->
-
-<!--                        <span :style="{ color: props.row.product_status ? 'green' : 'red' }">-->
-
-<!--                            {{ props.row.product_status ? 'Active' : 'Inactive'}}-->
-<!--                        </span>-->
-<!--                    </template>-->
-<!--				</v-client-table>-->
-
                 <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="products-list">
 
                 </data-table>
@@ -60,9 +37,7 @@
 
 <script>
 
-	import axios from 'axios';
-
-  import {lang} from "../../helpers/extraLogics";
+    import {lang} from "../../helpers/extraLogics";
     import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
     import {useStore} from "vuex";
     import {computed} from "vue";
@@ -70,6 +45,10 @@
 	export default {
 
 		name: 'products-list',
+
+        methods : {
+            lang
+        },
 
         // setup() {
         //

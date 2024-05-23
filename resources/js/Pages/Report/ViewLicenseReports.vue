@@ -27,13 +27,18 @@
 </template>
 
 <script>
-import axios from 'axios';
+
+import {lang} from '../../helpers/extraLogics'
 
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
     name: 'licenses-list',
+
+    methods : {
+        lang
+    },
 
     data() {
 
@@ -55,7 +60,7 @@ export default {
 
     created() {
 
-        this.emitter.on('refreshData', this.updateData);
+        // this.emitter.on('refreshData', this.updateData);
     },
 
     beforeMount() {

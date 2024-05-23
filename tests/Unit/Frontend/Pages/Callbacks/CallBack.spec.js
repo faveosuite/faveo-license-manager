@@ -1,58 +1,63 @@
 import { mount } from '@vue/test-utils';
-import axios from 'axios';
+
 import CallbacksIndex from "../../../../../resources/js/Pages/Callbacks/CallbacksIndex.vue";
 
-jest.mock('axios');
-
 describe('CallbacksIndex', () => {
-    it('should fetch data on mount', async () => {
-        axios.get.mockResolvedValue({
-            data: [
-                {
-                    product_title: 'Product 1',
-                    license_code: 'ABC123',
-                    callback_ip: '127.0.0.1',
-                    callback_domain: 'example.com',
-                    callback_date_time: '2022-01-01 12:00:00',
-                    created_at: '2022-01-01 12:00:00',
-                    updated_at: '2022-01-01 12:00:00',
-                },
-                {
-                    product_title: 'Product 2',
-                    license_code: 'DEF456',
-                    callback_ip: '127.0.0.2',
-                    callback_domain: 'example.org',
-                    callback_date_time: '2022-01-02 12:00:00',
-                    created_at: '2022-01-02 12:00:00',
-                    updated_at: '2022-01-02 12:00:00',
-                },
-            ],
-        });
 
-        const wrapper = mount(CallbacksIndex);
+    let wrapper;
 
-        await wrapper.vm.$nextTick();
+    beforeEach(()=>{
 
-        expect(axios.get).toHaveBeenCalledWith('api/admin/showLicenseCallbacks');
-        expect(wrapper.vm.data).toEqual([
-            {
-                product_title: 'Product 1',
-                license_code: 'ABC123',
-                callback_ip: '127.0.0.1',
-                callback_domain: 'example.com',
-                callback_date_time: '2022-01-01 12:00:00',
-                created_at: '2022-01-01 12:00:00',
-                updated_at: '2022-01-01 12:00:00',
-            },
-            {
-                product_title: 'Product 2',
-                license_code: 'DEF456',
-                callback_ip: '127.0.0.2',
-                callback_domain: 'example.org',
-                callback_date_time: '2022-01-02 12:00:00',
-                created_at: '2022-01-02 12:00:00',
-                updated_at: '2022-01-02 12:00:00',
-            },
-        ]);
+        wrapper = mount(CallbacksIndex,{
+
+            global : { stubs:['custom-loader', 'alert', 'data-table'] },
+
+        })
+    })
+
+    it('data-table should exists when page created', async () => {
+
+        await expect(wrapper.find('data-table-stub').exists()).toBe(true)
     });
-});
+
+    it("return row->created_at for `created_at` column in template option of datatable", () => {
+
+        expect(wrapper.vm.options.templates.created_at('test', {'created_at': '2000-11-22'})).toEqual("2000-11-22")
+    })
+
+    it("requestAdapter method should return `sort_field`, `sort_order`, `search_query` & `limit`", () => {
+
+        // page query will come with url
+        let reqAdptData = {
+            "orderBy": "id",
+            "ascending": true,
+            "query": "something",
+            "limit": 10
+        }
+        let reqAdptDataReturn = {
+            "sort_field": "id",
+            "sort_order": "asc",
+            "search_query": "something",
+            "perPage": 10
+        }
+        expect(wrapper.vm.options.requestAdapter(reqAdptData)).toEqual(reqAdptDataReturn)
+    });
+
+    it("`responseAdapter` should return all data", () => {
+
+        let responseAdpData = {
+            "data": {
+                "data": {
+                    "data": [
+                        {id: 1,subject:'name'},
+                    ],
+                    "total": 1
+                }
+            }
+        }
+
+        let responseAdpDataReturn = {"count" : 1, "data": [{id: 1,subject:'name'}]};
+
+        expect(wrapper.vm.options.responseAdapter(responseAdpData)).toEqual(responseAdpDataReturn)
+    });
+})

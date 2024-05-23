@@ -29,7 +29,7 @@
 
 <script>
 
-	import axios from 'axios';
+	import { lang } from '../../helpers/extraLogics'
     import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
     import {useStore} from "vuex";
     import {computed} from "vue";
@@ -37,6 +37,10 @@
 	export default {
 
 		name: 'installations-list',
+
+        methods : {
+            lang
+        },
 
         setup() {
 
@@ -68,7 +72,7 @@
 
 		created() {
 
-			this.emitter.on('refreshData', this.updateData);
+			// this.emitter.on('refreshData', this.updateData);
 		},
 
 		beforeMount() {
