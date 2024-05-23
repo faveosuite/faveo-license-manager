@@ -19,27 +19,6 @@
 
             <div class="card-body" id="my_licenses">
 
-<!--                <v-client-table v-if="data" :columns="columns" :data="data" :options="options" :key="counter">-->
-
-<!--                    <template v-slot:product_title="props">-->
-
-<!--                        <router-link :to="'/products/' + props.row.product_id + '/edit'">{{props.row.product_title}}</router-link>-->
-<!--                    </template>-->
-<!--                    -->
-<!--                    <template v-slot:report_status="props">-->
-
-<!--                        <span :style="{ color: props.row.report_status ? 'green' : 'red' }">-->
-
-<!--                            {{ props.row.report_status ? 'Success' : 'Error'}}-->
-<!--                        </span>-->
-<!--                    </template>-->
-<!--                    -->
-<!--                    <template v-slot:actions="props">-->
-
-<!--                        <table-actions :data="props.row"></table-actions>-->
-<!--                    </template>-->
-<!--                </v-client-table>-->
-
                 <data-table :url="endPoint" :show_pagination="true" :dataColumns="columns" :option="options" scroll_to="licenses-list">
 
                 </data-table>
@@ -51,12 +30,16 @@
 
 <script>
 
-import axios from 'axios';
+import {lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
     name: 'licenses-list',
+
+    methods: {
+        lang
+    },
 
     data() {
 
@@ -78,7 +61,7 @@ export default {
 
     created() {
 
-        this.emitter.on('refreshData', this.updateData);
+        // this.emitter.on('refreshData', this.updateData);
     },
 
     beforeMount() {
@@ -200,7 +183,7 @@ export default {
     word-break: break-all;
 }
 
-#my_licenses .VueTables .table-responsive {
+#my_crackingreports .VueTables .table-responsive {
     overflow-x: auto;
     overflow-y: hidden;
 }
@@ -209,7 +192,7 @@ export default {
     width: 200px;
 }
 
-#my_licenses .VueTables .table-responsive>table {
+#my_crackingreports .VueTables .table-responsive>table {
     width: max-content;
     min-width: 100%;
     max-width: max-content;

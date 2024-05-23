@@ -42,13 +42,17 @@
 
 <script>
 
-import axios from 'axios';
 import {lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 
 export default {
 
     name: 'api-keys',
+
+    methods : {
+
+        lang
+    },
 
     data() {
 
@@ -69,7 +73,7 @@ export default {
         }
     },
     created() {
-        this.emitter.on('refreshData', this.getData);
+        // this.emitter.on('refreshData', this.getData);
     },
 
     beforeMount() {
