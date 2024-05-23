@@ -51,6 +51,8 @@ class LicenseSchemeController extends Controller
         $client_fname = $request->get('client_fname');
         $client_lname = $request->get('client_lname');
         $is_cloud = $request->get('is_cloud');
+        $isPlugin = $request->input('isPlugin',null);
+        $tableCreate = $request->input('tableCreate',true);
 
         //check basic data
         if (filter_var($this->ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($product_id) && filter_var($root_url, FILTER_VALIDATE_URL) && $root_url == $this->refer && $installation_hash == hash('sha256', $root_url.$client_email.$license_code) && ! empty($license_signature) && isValidLicenseRequest($license_code, $client_email) === true) {
@@ -218,8 +220,15 @@ class LicenseSchemeController extends Controller
                                                 ->where('installation_hash', $installation_hash)
                                                 ->where('installation_status', 1)->get()->toArray();
                                 if (! empty($this_installation_array)) { //installation exists and is active
-                                    $mysql_scheme_rows = AflLicenseSchemes::where('scheme_id', 1)
-                                                    ->where('scheme_status', 1)->get()->toArray(); //fetch MySQL scheme
+
+
+                                    $mysql_scheme_rows = AflLicenseSchemes::where('scheme_id', is_null($isPlugin) ? 1 : ($tableCreate ? 2 : 3))
+                                        ->where('scheme_status', 1)
+                                        ->get()
+                                        ->toArray();
+
+
+
                                     if (! empty($mysql_scheme_rows)) { //scheme exists
                                         $action_success = 1;
                                         $notification_case = setValue($notification_case, 'notification_license_ok');
