@@ -64,8 +64,6 @@ export default {
 
         const self =this;
 
-        // this.getData();
-
         this.options ={
 
             columnsClasses:{
@@ -82,17 +80,18 @@ export default {
             templates: {
 
                 version_date(h,row){
-                    return row.version_date ?row.version_date : '----';
 
+                    return row.version_date ?row.version_date : '----';
                 },
 
                 version_expire_date(h,row){
+
                     return row.version_expire_date ?row.version_expire_date : '----';
-
                 },
-                version_number(h,row){
-                    return row.version_number ?row.version_number : '----';
 
+                version_number(h,row){
+
+                    return row.version_number ?row.version_number : '----';
                 },
             },
 
