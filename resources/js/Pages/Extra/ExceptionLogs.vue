@@ -31,18 +31,20 @@
 
 <script>
 
-import axios from 'axios';
 import {lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import moment from "moment";
 import LogsTrace from "../../components/Reusable/LogsTrace.vue";
 import {h} from 'vue'
-import {useStore} from 'vuex';
-import {computed} from "vue";
 
 export default {
 
     name: 'exception-logs',
+
+    methods: {
+
+        lang
+    },
 
     data() {
 
@@ -101,7 +103,6 @@ export default {
             filterable:  ['category','file', 'line', 'message', 'trace', 'created_at'],
 
             requestAdapter(data) {
-                console.log('request', data)
 
                 return {
 
@@ -116,7 +117,7 @@ export default {
             },
 
             responseAdapter({data}) {
-                console.log('response',data);
+
                 return {
 
                     data: data.data.data,
