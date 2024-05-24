@@ -67,6 +67,30 @@
 
             </template>
 
+            <template v-slot:api_key_products="props">
+
+                {{ props.row.api_key_products_add}}
+                                /
+                {{ props.row.api_key_products_edit}}
+
+            </template>
+
+            <template v-slot:api_key_clients="props">
+
+                {{ props.row.api_key_clients_add}}
+                                /
+                {{ props.row.api_key_clients_edit}}
+
+            </template>
+
+            <template v-slot:api_key_licenses="props">
+
+                {{ props.row.api_key_licenses_add}}
+                /
+                {{ props.row.api_key_licenses_edit}}
+
+            </template>
+
             <template v-slot:api_key_clients_edit="props">
 
                 {{ props.row.api_key_clients_add ? 'Active' : 'Inactive'}}
