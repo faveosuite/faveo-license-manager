@@ -4,7 +4,7 @@
 
     <div class="modal-mask" :class="{rtl : language === 'ar'}">
 
-      <div class="modal-wrapper " :class="classname">
+      <div class="modal-wrapper" :class="classname">
 
         <div class="modal-container" :style="containerStyle">
 
@@ -29,11 +29,6 @@
           </div>
 
           <div class="modal-footer" :class="[showCloseBtn ? 'justify-content-between' : '']">
-
-              <button v-if="showCloseBtn" type="button" id="clos" :class="{right: lang_locale == 'ar'}" class="btn btn-default btn-light"
-                      @click="onClose()">
-                  <i class="fas fa-times">&nbsp;&nbsp;</i>{{lang('close') }}
-              </button>
 
             <slot name="controls"></slot>
 
@@ -92,6 +87,13 @@
     font-weight: 400;
     font-size: 14px;
     /*transition: opacity 0.5s ease !important;*/
+  }
+
+  .trace {
+      scrollbar-width: none;
+  }
+  .mod_width {
+      scrollbar-width: none;
   }
 
   .modal-wrapper {
