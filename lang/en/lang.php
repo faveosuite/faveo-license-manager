@@ -298,10 +298,10 @@ return [
     'invalid_token' => 'Your personal access Token is invalid',
     'error_client_or_license_code' => 'The License code is manditory',
      'create_callbacks'           => 'Create CallBacks',
-    'latest_callbacks'            =>  'Latest CallBacks',
-    'callbacks'                   =>   'CallBacks',
+//    'latest_callbacks'            =>  'Latest CallBacks',
+//    'callbacks'                   =>   'CallBacks',
     'cracking_reports'            =>    'Cracking Reports',
-    'view_cracking_reports'       =>     'View Cracking Reports',
+//    'view_cracking_reports'       =>     'View Cracking Reports',
     'inavalid_records'=> 'Invalid record or database error.',
     'no_record_selected'=> 'No record selected.',
     'Deleted' => 'Deleted :removed :which report(s).',
@@ -319,11 +319,11 @@ return [
     'product_status'     =>  'Product Status',
 
 
-//CLIENTS
+    //CLIENTS
 
-'status'   =>  'Status',
-'role'   =>  'Role',
-'close'   =>  'Close',
+//    'status'   =>  'Status',
+    'role'   =>  'Role',
+    'close'   =>  'Close',
 
     //LICENSE
     'license_status'  =>  'Licence Status',
@@ -341,28 +341,17 @@ return [
 
     //DASHBOARD
     'license'   =>   'License',
-
     'versions'     =>   'Versions',
-
     'view_all'     =>   'ViewAll',
-
     'latest_callbacks'  =>  'Latest Callbacks',
-
     'latest_installations' =>  'Latest Installations',
-
     'latest_version'      =>     'Latest Version',
-
     'expiring_version'  => 'Expiring Version',
-
     'latest_product_report'  =>   'Latest Product Report',
-
     'latest_product'      =>    'Latest Product',
 
-
     //API KEY
-
     'api_key_description'  =>   'Description',
-
     'installation_delete'  => 'Installation Deleted successfully!',
 
     //EMAIL
@@ -390,6 +379,30 @@ return [
     'Install_show' => 'All the Details of the installation\'s registered so far are displayed',
     'Callback_Show' => 'All the Details of the callback\'s registered so far are displayed',
     'Banned_Show' => 'All the Details of the banned host\'s registered so far are displayed',
+
+    //EXCEPTION LOGS PAGE
+    'exception' => 'Exception',
+    'exception_logs' => 'Exception Logs',
+    'type_and_enter_to_search' => 'Type and Enter to Search',
+    'category' => 'Category',
+    'file' => 'File',
+    'line' => 'Line',
+    'message' => 'Message',
+    'trace' => 'Trace',
+    'created_at' => 'Created At',
+
+    //LOGS TRACE PAGE
+    'read-more' => 'Read More',
+
+    //PAGINATION
+    'next'=> 'Next',
+    'previous' => 'Previous',
+    'one_record' => 'One Record',
+    'records' => 'Records',
+    'showing' => 'Showing',
+    'no_matching_records' => 'No Matching Records',
+    'loading' => 'Loading'
+
 
 ];
 

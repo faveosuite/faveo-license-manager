@@ -19,6 +19,7 @@
 <script>
 
 import LogsModal from "./LogsModal.vue";
+import {lang} from '../../helpers/extraLogics'
 
 import {getSubStringValue} from "../../helpers/extraLogics";
 
@@ -43,6 +44,8 @@ export default {
     },
 
     methods:{
+
+        lang,
 
         onClose(){
 
