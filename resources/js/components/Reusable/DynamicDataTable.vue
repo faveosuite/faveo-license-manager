@@ -6,7 +6,7 @@
             <div v-if="option.filterable">
 
                 <input type="text" class="form-control globe-search" v-model="search_str"
-                       @keyup.enter="checkFile()" :style="inputStyle" :placeholder="('type_and_enter_to_search')">
+                       @keyup.enter="checkFile()" :style="inputStyle" :placeholder="trans('type_and_enter_to_search')">
             </div>
         </div>
 
@@ -152,13 +152,13 @@
 
             <div v-if="showTable && !loading && show_pagination">
                 <template v-if="total == 1">
-                    {{('one_record')}}
+                    {{trans('one_record')}}
                 </template>
                 <template v-if="total > 1 && total <= 10">
-                    {{ total }} {{('records')}}
+                    {{ total }} {{trans('records')}}
                 </template>
                 <template v-if="total > 10">
-                    {{('showing')}} {{ from }} to {{ to }} of {{ total }} {{('records')}}
+                    {{trans('showing')}} {{ from }} to {{ to }} of {{ total }} {{trans('records')}}
                 </template>
             </div>
 
@@ -181,6 +181,7 @@ import PageLoader from '../Reusable/Loader.vue';
 import SimplePagination from "../Reusable/SimplePagination.vue";
 // import {computed} from 'Vue'
 import {EventBus} from "v-tables-3";
+import {lang} from "../../helpers/extraLogics";
 
 export default {
 
@@ -298,8 +299,8 @@ export default {
             const self = this;
 
             self.optionsObj.texts = {
-                noResults: ('no_matching_records'),
-                loading: ('loading')
+                noResults: lang('no_matching_records'),
+                loading: lang('loading')
             };
 
             if(self.optionsObj.headings && self.optionsObj.headings.hasOwnProperty('id')){
@@ -334,6 +335,7 @@ export default {
     },
 
     methods :{
+        lang,
 
         extractHref(orderUrl) {
 

@@ -642,7 +642,7 @@ let extraMenu = {
 
             component: ExceptionLogs,
 
-            meta: { title : 'error-logs', crumb : { link: { name : 'dashboard', to : '/' }, active : 'exception' } }
+            meta: { title : 'exception_logs', crumb : { link: { name : 'dashboard', to : '/' }, active : 'exception' } }
         },
 	]
 }

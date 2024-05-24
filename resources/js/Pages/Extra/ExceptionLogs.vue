@@ -13,7 +13,7 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('error_logs')}}</h3>
+                <h3 class="card-title">{{lang('exception_logs')}}</h3>
 
             </div>
 
@@ -83,17 +83,17 @@ export default {
 
             headings: {
 
-                category: this.lang('category'),
+                category: lang('category'),
 
-                file: this.lang('file'),
+                file: lang('file'),
 
-                line: this.lang('line'),
+                line: lang('line'),
 
-                message: this.lang('message'),
+                message: lang('message'),
 
-                trace: this.lang('trace'),
+                trace: lang('trace'),
 
-                created_at: this.lang('created-at')
+                created_at: lang('created_at')
             },
 
             texts: { filter: '', limit: '' },

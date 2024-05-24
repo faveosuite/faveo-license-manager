@@ -82,7 +82,7 @@
 
                 <button class="btn btn-primary mr-2" @click="onSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
 
-                <button class="btn btn-danger"> <i :class="iconUndo"></i> {{ trans('Reset') }}</button>
+                <button class="btn btn-danger" @click="onReset"> <i :class="iconUndo"></i> {{ trans('Reset') }}</button>
             </div>
 
         </div>
@@ -232,6 +232,42 @@ export default {
                 });
 
                 this.loading = false;
+        },
+
+        async onReset() {
+
+            this.loading = true;
+
+            const data = {};
+
+            data['google_site_key'] = "";
+
+            data['google_secret_key'] = "";
+
+            data['agora_invoicing_url'] = "";
+
+            data['date_format'] = "";
+
+            data['time_format'] = "";
+
+            data['timezone'] = ""
+
+            axios.post('/api/admin/common-setting', data).then(res => {
+
+                this.loading = false;
+
+                successHandler(res,'google-recaptcha');
+
+                this.getProducts()
+
+            }).catch(err => {
+
+                this.loading = false;
+
+                errorHandler(err,'google-recaptcha');
+            });
+
+            this.loading = false;
         },
 
         updateStatesWithData(data) {
