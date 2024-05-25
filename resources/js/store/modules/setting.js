@@ -1,13 +1,26 @@
+import store from "../index";
 
 const state = {
 
     settings : {},
+
+    generalSettings: {}
  };
 
 
  const getters = {
 
     getSettings: state => state.settings,
+    getTimezoneSettings (state) {
+        return state.generalSettings ? {
+            GOOGLE_SITE_KEY : state.generalSettings.google_site_key,
+            GOOGLE_SECRET_KEY : state.generalSettings.google_secret_key,
+            AGORA_INVOICING_URL : state.generalSettings.agora_invoicing_url,
+            TIMEZONE_SETTINGS : state.generalSettings.timezone,
+            TIME_FORMAT : state.generalSettings.time_format,
+            DATE_FORMAT : state.generalSettings.date_format
+        } : null
+    },
     getGeneralSettings(state){
         return state.settings && state.settings.SETTING_ID ? {
             SETTING_ID: state.settings.SETTING_ID,
@@ -78,7 +91,12 @@ const state = {
     setSettings(state,payload) {
 
         state.settings = payload
-    }
+    },
+
+     setGeneralSettings(state, payload) {
+
+        state.generalSettings = payload
+     }
  }
 
  const actions = {
@@ -93,9 +111,23 @@ const state = {
 
             commit('setSettings',{})
 
-           return err
+           return err;
         });
-    }
+    },
+
+     fetchGeneralSettings({commit}) {
+        return axios.get('/api/admin/common-setting/get').then(res => {
+            if(res && res.data && res.data.data) {
+
+                commit('setGeneralSettings', res.data.data)
+            }
+        }).catch(err => {
+
+            commit('setGeneralSettings', {})
+
+            return err;
+        })
+     }
  }
 
  export default {state, getters, mutations, actions}
