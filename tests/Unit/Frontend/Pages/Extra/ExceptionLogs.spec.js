@@ -12,6 +12,11 @@ describe('ExceptionLogs', () => {
 
             global : { stubs:['data-table', 'custom-loader', 'alert'] },
 
+            props : {generalSetting : {
+                time_format : {js_format:81},
+                timezone : {name : 'hello'},
+                date_format : {js_format : 8765}
+            }}
         })
     })
 

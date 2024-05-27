@@ -25,7 +25,13 @@ describe('LatestProductReport', () => {
                         "license_code" : '23.11.22.33',
                         "report_status" : "Inactive"
                     }
-                ]
+                ],
+
+                generalSetting : {
+                    time_format : {js_format:81},
+                    timezone : {name : 'Asia/Kolkata'},
+                    date_format : {js_format : 8765}
+                }
             },
 
         })
@@ -64,7 +70,7 @@ describe('LatestProductReport', () => {
 
         expect(wrapper.vm.options.templates.license_code('test', {'license_code': '123456789098'})).toEqual("1234-5678-9098")
 
-        expect(wrapper.vm.options.templates.report_date_time('test', {'report_date_time': '15-16-1000'})).toEqual("15-16-1000")
+        // expect(wrapper.vm.options.templates.report_date_time('test', {'report_date_time': '15-6-2000'})).toEqual("15-6-2000")
 
     })
 

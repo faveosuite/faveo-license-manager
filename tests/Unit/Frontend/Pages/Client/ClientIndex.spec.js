@@ -77,6 +77,12 @@ describe('ClientsIndex', () => {
 
             global : { plugins : [store], stubs:['data-table'] },
 
+            props : {generalSetting : {
+                    time_format : {js_format:81},
+                    timezone : {name : 'Asia/Kolkata'},
+                    date_format : {js_format : 8765}
+                }}
+
         })
     })
 
@@ -87,7 +93,7 @@ describe('ClientsIndex', () => {
 
     it("return row->created_at for `created_at` column in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.client_active_date('test', {'client_active_date': '2012-10-12'})).toEqual("2012-10-12")
+        expect(wrapper.vm.options.templates.client_active_date('test', {'client_active_date': '2012-10-12'})).toEqual("8765 81")
     })
 
     it("requestAdapter method should return `sort_field`, `sort_order`, `search_query` & `limit`", () => {

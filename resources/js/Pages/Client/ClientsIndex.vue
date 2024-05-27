@@ -37,11 +37,12 @@
 
 <script>
 
-import axios from 'axios';
 import {useStore} from "vuex";
 import {computed} from "vue";
 import {lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import moment from 'moment'
+import 'moment-timezone'
 
 export default {
     setup() {
@@ -73,6 +74,10 @@ export default {
         }
     },
 
+    props : {
+        generalSetting : {type : Object, default : () => {}},
+    },
+
     // created() {
     //     this.emitter.on('refreshData', this.getData);
     // },
@@ -80,6 +85,10 @@ export default {
     beforeMount() {
 
         const self = this;
+
+        const date_format = this.generalSetting.date_format.js_format;
+        const time_format = this.generalSetting.time_format.js_format;
+        const timezone = this.generalSetting.timezone.name;
 
         this.options = {
 
@@ -109,7 +118,7 @@ export default {
 
             templates: {
                 client_active_date(h, row) {
-                    return row.client_active_date ? row.client_active_date : '---';
+                    return row.client_active_date ? moment(row.client_active_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
             },
 

@@ -33,6 +33,8 @@
     import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
     import {useStore} from "vuex";
     import {computed} from "vue";
+    import moment from "moment";
+    import 'moment-timezone'
 
 	export default {
 
@@ -50,6 +52,10 @@
 
                 formattedTime : computed(()=>store.getters.formattedTime)
             }
+        },
+
+        props : {
+            generalSetting : {type : Object, default : () => {}},
         },
 
 		data() {
@@ -78,6 +84,10 @@
 		beforeMount() {
 
 			const self = this;
+
+            const date_format = this.generalSetting.date_format.js_format
+            const time_format = this.generalSetting.time_format.js_format
+            const timezone = this.generalSetting.timezone.name
 
 			this.options = {
 
@@ -152,7 +162,7 @@
 
 					latest_installation_date(h, row) {
 
-						return row.latest_installation_date ? row.latest_installation_date : '---';
+                        return row.latest_installation_date ? moment(row.latest_installation_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
 					}
 				},
 

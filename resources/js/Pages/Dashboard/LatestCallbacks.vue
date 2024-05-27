@@ -40,6 +40,8 @@
 import {errorHandler} from "../../helpers/responseHandler";
 import axios from 'axios'
 import {lang} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
     name :'latest-callbacks',
@@ -62,6 +64,10 @@ export default {
 
         const self =this;
 
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
+
         this.options ={
 
             columnsClasses:{
@@ -83,7 +89,7 @@ export default {
                 },
 
                 callback_date_time(h,row){
-                    return row.callback_date_time ?row.callback_date_time : '----';
+                    return row.callback_date_time ? moment(row.callback_date_time).tz(timezone).format(`${date_format} ${time_format}`) : '----'
 
                 },
 
@@ -118,7 +124,9 @@ export default {
 
     props : {
 
-        data : {type : Array, default : ()=>{}}
+        data : {type : Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
     }
 
 };

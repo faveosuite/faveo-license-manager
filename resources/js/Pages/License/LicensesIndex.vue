@@ -43,6 +43,8 @@ import {lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import {useStore} from 'vuex';
 import {computed} from "vue";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
 
@@ -50,6 +52,10 @@ export default {
 
     methods : {
         lang
+    },
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
     },
 
     setup() {
@@ -85,6 +91,10 @@ export default {
 
         const self = this;
 
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
+
         this.options = {
 
             sortIcon: {
@@ -117,7 +127,7 @@ export default {
             },
 
             responseAdapter({data}) {
-                console.log('response',data);
+
                 return {
 
                     data: data.data.data.map(data => {
@@ -156,12 +166,10 @@ export default {
             },
 
             templates: {
-                latest_license(h,row){
-                    return row.latest_license ? row.latest_license : '---';
-                },
 
-                latest_callback(h,row){
-                    return row.latest_callback ? row.latest_callback : '---';
+                latest_callback_date(h,row){
+
+                    return row.latest_callback_date ? moment(row.latest_callback_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
                 license_code(h, row) {
@@ -169,26 +177,9 @@ export default {
                     return formattedLicenseCode;
                 },
 
-                // order_number(h, row) {
-                //     const parser = new DOMParser();
-                //     // Parse the HTML string
-                //     const parsedHtml = parser.parseFromString(row.order_url, 'text/html');
-                //     // Get the root element of the parsed HTML
-                //     const htmlElement = parsedHtml.documentElement;
-                //     const um = htmlElement.getElementsByTagName('a')
-                //     // console.log(um[0].getAttribute('href'))
-                //     console.log(um[0].textContent)
-                //     return um[0].textContent ? um[0].textContent : '---'
-                // },
-
                 latest_license_date(h, row) {
 
-                    return row.latest_license_date ? row.latest_license_date : '---'
-                },
-
-                latest_callback_date(h, row) {
-
-                    return row.latest_callback_date ? row.latest_callback_date : '---';
+                    return row.latest_license_date ? moment(row.latest_license_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
             },

@@ -31,13 +31,18 @@
 
 import {lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-
+import moment from "moment";
+import 'moment-timezone'
 export default {
 
     name: 'licenses-list',
 
     methods: {
         lang
+    },
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
     },
 
     data() {
@@ -66,6 +71,10 @@ export default {
     beforeMount() {
 
         const self = this;
+
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options = {
 
@@ -141,12 +150,12 @@ export default {
 
                 license_date(h, row) {
 
-                    return row.license_date ? row.license_date : '---'
+                    return row.license_date ? moment(row.license_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
                 latest_callback_date_time(h, row) {
 
-                    return row.latest_callback_date_time ? row.latest_callback_date_time : '---';
+                    return row.latest_callback_date_time ? moment(row.latest_callback_date_time).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
             },
