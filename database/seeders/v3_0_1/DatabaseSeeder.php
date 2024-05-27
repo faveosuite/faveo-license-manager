@@ -134,6 +134,7 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
 
         // Timezones
         $timezones = [
+            'UTC' => '(GMT+00:00) UTC',
             'Pacific/Midway' => '(GMT-11:00) Midway Island',
             'US/Samoa' => '(GMT-11:00) Samoa',
             'US/Hawaii' => '(GMT-10:00) Hawaii',
@@ -266,9 +267,9 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
             'google_site_key' => '',
             'google_secret_key' => '',
             'agora_invoicing_url' => '',
-            'timezone' => '81',
-            'date_format' => '13',
-            'time_format' => '3',
+            'timezone' => Timezone::where('name','UTC')->value('id'),
+            'date_format' => DateFormat::where('format','F j, Y')->value('id'),
+            'time_format' => TimeFormat::where('format','g:i a')->value('id'),
         ];
         foreach ($settings as $key => $value) {
             CommonSetting::updateOrCreate(
