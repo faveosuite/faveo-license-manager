@@ -96,10 +96,17 @@ class CommonSettingController extends Controller
 
     public function getDropDownForTimezone(Request $request)
     {
+        $sortField = 'name';
+        $sortOrder = 'asc';
         $page = $request->input('page', 1);
         $search = $request->input('search', '');
-        $timezones = Timezone::where('location', 'like', '%'.$search.'%')
+        $timezones = Timezone::whereRaw("concat(location, ' ', name) LIKE ?", ['%'.$search.'%'])
+            ->select('id', 'name', 'location')
+            ->orderBy($sortField,$sortOrder)
             ->paginate(10, ['*'], 'page', $page);
+        $timezones->getCollection()->transform(function ($element) {
+            return (object) ['id' => $element->id, 'location' => $element->timezone_name,'name' => $element->name];
+        });
         return successResponse('', $timezones);
     }
 

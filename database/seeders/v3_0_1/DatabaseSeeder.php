@@ -2,17 +2,16 @@
 
 namespace Database\Seeders\v3_0_1;
 
+use App\Models\CommonSetting;
 use App\Models\DateFormat;
 use App\Models\TimeFormat;
 use App\Models\Timezone;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\AflSettings;
 use App\Models\ScheduleCron;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
-class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
+class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
 
     /**
      * Run the database seeds.
@@ -28,6 +27,11 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
     {
 
         $this->insertEnvKeysIfNotPresent();
+        $this->dateFormatSeeder();
+        $this->timeFormatSeeder();
+        $this->timezonesSeeder();
+        $this->commonSettingSeeder();
+
         $originalConfigKeys = [
             'MAIL_DRIVER',
             'MAIL_HOST',
@@ -49,80 +53,87 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
             putenv($key);
         }
 
+    }
+
+    private function insertEnvKeysIfNotPresent(){
+        $recaptchaSiteKey = '';
+        $viteRecaptchaSiteKey = '"${RECAPTCHA_SITE_KEY}"';
+
+        // Check if the variables are already defined in the .env file
+        if (!$this->envVariableExists('RECAPTCHA_SITE_KEY')) {
+            // Write to the .env file
+            File::append('.env', PHP_EOL . "RECAPTCHA_SITE_KEY={$recaptchaSiteKey}");
+        }
+
+        if (!$this->envVariableExists('VITE_RECAPTCHA_SITE_KEY')) {
+            // Write to the .env file
+            File::append('.env', PHP_EOL . "VITE_RECAPTCHA_SITE_KEY={$viteRecaptchaSiteKey}");
+        }
+    }
+
+    private function envVariableExists($key)
+    {
+        $envFilePath = base_path('.env');
+        $envContent = file_get_contents($envFilePath);
+        $pattern = "/^{$key}=/m";
+
+        return preg_match($pattern, $envContent);
+    }
+
+    private function dateFormatSeeder()
+    {
         $date_formats = [
-            [
-                'format' => 'dd/mm/yyyy',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'dd-mm-yyyy',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'dd.mm.yyyy',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'mm/dd/yyyy',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'mm:dd:yyyy',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'mm-dd-yyyy',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'yyyy/mm/dd',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'yyyy.mm.dd',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'yyyy-mm-dd',
-                'js_format' => '',
-                'is_active' => '0',
-            ],
-            [
-                'format' => 'd-m-Y',
-                'js_format' => 'DD-MM-YYYY',
-                'is_active' => '1',
-            ],
-            [
-                'format' => 'm-d-Y',
-                'js_format' => 'MM-DD-YYYY',
-                'is_active' => '1',
-            ],
-            [
-                'format' => 'Y-m-d',
-                'js_format' => 'YYYY-MM-DD',
-                'is_active' => '1',
-            ],
-            [
-                'format' => 'F j, Y',
-                'js_format' => 'LL',
-                'is_active' => '1',
-            ],
+            ['format' => 'dd/mm/yyyy', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'dd-mm-yyyy', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'dd.mm.yyyy', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'mm/dd/yyyy', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'mm:dd:yyyy', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'mm-dd-yyyy', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'yyyy/mm/dd', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'yyyy.mm.dd', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'yyyy-mm-dd', 'js_format' => '', 'is_active' => '0'],
+            ['format' => 'd-m-Y', 'js_format' => 'DD-MM-YYYY', 'is_active' => '1'],
+            ['format' => 'm-d-Y', 'js_format' => 'MM-DD-YYYY', 'is_active' => '1'],
+            ['format' => 'Y-m-d', 'js_format' => 'YYYY-MM-DD', 'is_active' => '1'],
+            ['format' => 'F j, Y', 'js_format' => 'LL', 'is_active' => '1'],
         ];
 
         foreach ($date_formats as $format) {
-            DateFormat::create($format);
+            DateFormat::updateOrCreate(
+                ['format' => $format['format']],
+                [
+                    'js_format' => $format['js_format'],
+                    'is_active' => $format['is_active']
+                ]
+            );
         }
+    }
 
-        /* Timezone */
-        $timezone = [
+    private function timeFormatSeeder()
+    {
+        $timeformats = [
+            ['format' => 'H:i:s', 'hours' => '24 Hours', 'js_format' => 'HH:mm', 'is_active' => 1],
+            ['format' => 'H.i.s', 'hours' => '', 'js_format' => '','is_active' => 0],
+            ['format' => 'g:i a', 'hours' => '12 Hours', 'js_format' => 'hh:mm a', 'is_active' => 1],
+        ];
+
+        foreach ($timeformats as $format) {
+            TimeFormat::updateOrCreate(
+                ['format' => $format['format']],
+                [
+                    'hours' => $format['hours'] ?? null,
+                    'js_format' => $format['js_format'] ?? null,
+                    'is_active' => $format['is_active']
+                ]
+            );
+        }
+    }
+
+    private function timezonesSeeder()
+    {
+
+        // Timezones
+        $timezones = [
             'Pacific/Midway' => '(GMT-11:00) Midway Island',
             'US/Samoa' => '(GMT-11:00) Samoa',
             'US/Hawaii' => '(GMT-10:00) Hawaii',
@@ -210,7 +221,7 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
             'Asia/Dhaka' => '(GMT+06:00) Dhaka',
             'Asia/Novosibirsk' => '(GMT+07:00) Novosibirsk',
             'Asia/Bangkok' => '(GMT+07:00) Bangkok',
-            'Asia/Ho_Chi_Minh' => '(GMT+07.00) Ho Chi Minh',
+            'Asia/Ho_Chi_Minh' => '(GMT+07:00) Ho Chi Minh',
             'Asia/Jakarta' => '(GMT+07:00) Jakarta',
             'Asia/Krasnoyarsk' => '(GMT+08:00) Krasnoyarsk',
             'Asia/Chongqing' => '(GMT+08:00) Chongqing',
@@ -241,80 +252,29 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder{
             'Asia/Manila' => '(GMT+08:00) Manila'
         ];
 
-        foreach ($timezone as $name => $location) {
-            Timezone::create(['name' => $name, 'location' => $location]);
+        foreach ($timezones as $name => $location) {
+            Timezone::updateOrCreate(
+                ['name' => $name],
+                ['location' => $location]
+            );
         }
+    }
 
-        $timeformat = [
-
-            [
-                'format' => 'H:i:s',
-                'hours' => '24 Hours',
-                'js_format' => 'HH:mm',
-                'is_active' => 1,
-            ],
-            [
-                'format' => 'H.i.s',
-                'is_active' => 0,
-            ],
-            [
-                'format' => 'g:i a',
-                'hours' => '12 Hours',
-                'js_format' => 'hh:mm a',
-                'is_active' => 1,
-            ],
+    private function commonSettingSeeder()
+    {
+        $settings = [
+            'google_site_key' => '',
+            'google_secret_key' => '',
+            'agora_invoicing_url' => '',
+            'timezone' => '81',
+            'date_format' => '13',
+            'time_format' => '3',
         ];
-        foreach ($timeformat as $format) {
-            TimeFormat::create($format);
+        foreach ($settings as $key => $value) {
+            CommonSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value]
+            );
         }
-    }
-    public function cronsTable()
-    {
-
-        $crons = [
-            ['scenario' => 'callback-cleanup', 'value' => 'everyMinute', 'command' => 'app:crack-callback-cleanup', 'status' => 1, 'icon' => 'glyphicon glyphicon-random', 'job_info' => 'callback_cleanup_tooltip', 'created_at' => now(), 'updated_at' => now()],
-            ['scenario' => 'crack-reports-cleanup', 'value' => 'everyMinute', 'command' => 'app:crack-reports-cleanup', 'status' => 1,  'icon' => 'glyphicon glyphicon-modal-window', 'job_info' => 'crack_cleanup_tooltip', 'created_at' => now(), 'updated_at' => now()],
-            ['scenario' => 'license-reports-cleanup', 'value' => 'everyMinute', 'command' => 'app:license-reports-cleanup', 'status' => 1,  'icon' => 'glyphicon glyphicon-tags', 'job_info' => 'license_report_cleanup_tooltip', 'created_at' => now(), 'updated_at' => now()],
-            ['scenario' => 'system-reports-cleanup', 'value' => 'everyMinute', 'command' => 'app:system-reports-cleanup', 'status' => 1,  'icon' => 'glyphicon glyphicon-wrench', 'job_info' => 'system_cleanup_tooltip', 'created_at' => now(), 'updated_at' => now()],
-        ];
-
-        foreach ($crons as $cron) {
-            ScheduleCron::updateOrcreate(['scenario' => $cron['scenario']], $cron);
-        }
-    }
-
-    public function settingsTable()
-    {
-        AflSettings::first()->update([
-            'WHITELISTED_ACCESS' => 0,
-            'FAILED_FORGET_LIMIT' => 3,
-            'FAILED_LOGINS_LIMIT' => 3,
-            'BANNED_HOSTS' => 0,
-        ]);
-    }
-
-    private function insertEnvKeysIfNotPresent(){
-        $recaptchaSiteKey = '';
-        $viteRecaptchaSiteKey = '"${RECAPTCHA_SITE_KEY}"';
-
-        // Check if the variables are already defined in the .env file
-        if (!$this->envVariableExists('RECAPTCHA_SITE_KEY')) {
-            // Write to the .env file
-            File::append('.env', PHP_EOL . "RECAPTCHA_SITE_KEY={$recaptchaSiteKey}");
-        }
-
-        if (!$this->envVariableExists('VITE_RECAPTCHA_SITE_KEY')) {
-            // Write to the .env file
-            File::append('.env', PHP_EOL . "VITE_RECAPTCHA_SITE_KEY={$viteRecaptchaSiteKey}");
-        }
-    }
-
-    private function envVariableExists($key)
-    {
-        $envFilePath = base_path('.env');
-        $envContent = file_get_contents($envFilePath);
-        $pattern = "/^{$key}=/m";
-
-        return preg_match($pattern, $envContent);
     }
 }
