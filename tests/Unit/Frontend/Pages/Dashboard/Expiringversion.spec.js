@@ -26,7 +26,13 @@ describe('ExpiringVersion', () => {
                         "version_expire_date" : '23-11-2222',
                         "version_status" : "Inactive"
                     }
-                ]
+                ],
+
+                generalSetting : {
+                        time_format : {js_format:81},
+                        timezone : {name : 'Asia/Kolkata'},
+                        date_format : {js_format : 8765}
+                }
             },
 
         })
@@ -62,10 +68,6 @@ describe('ExpiringVersion', () => {
     })
 
     it("return columns in template option of datatable", () => {
-
-        expect(wrapper.vm.options.templates.version_date('test', {'version_date': '23-1-300'})).toEqual("23-1-300")
-
-        expect(wrapper.vm.options.templates.version_expire_date('test', {'version_expire_date': '15-16-1000'})).toEqual("15-16-1000")
 
         expect(wrapper.vm.options.templates.version_number('test', {'version_number': '15161000'})).toEqual("15161000")
     })

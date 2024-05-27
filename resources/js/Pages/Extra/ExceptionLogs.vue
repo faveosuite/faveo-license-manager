@@ -36,6 +36,7 @@ import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import moment from "moment";
 import LogsTrace from "../../components/Reusable/LogsTrace.vue";
 import {h} from 'vue'
+import 'moment-timezone'
 
 export default {
 
@@ -44,6 +45,10 @@ export default {
     methods: {
 
         lang
+    },
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
     },
 
     data() {
@@ -69,6 +74,10 @@ export default {
     beforeMount() {
 
         const self = this;
+
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options = {
 
@@ -150,7 +159,7 @@ export default {
 
                 created_at(h, row) {
 
-                    return moment(row.created_at).format('MMMM Do YYYY, h:mm:ss a')
+                    return row.created_at ? moment(row.created_at).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
                 trace: (f,row)=>{

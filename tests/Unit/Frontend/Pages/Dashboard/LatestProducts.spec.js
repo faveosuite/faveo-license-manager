@@ -25,7 +25,13 @@ describe('LatestProducts', () => {
                         "product_date" : '23.11.22.33',
                         "product_status" : "Inactive"
                     }
-                ]
+                ],
+
+                generalSetting : {
+                    time_format : {js_format:81},
+                    timezone : {name : 'Asia/Kolkata'},
+                    date_format : {js_format : 8765}
+                }
             },
 
         })

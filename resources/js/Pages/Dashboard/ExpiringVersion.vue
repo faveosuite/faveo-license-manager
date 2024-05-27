@@ -41,6 +41,8 @@
 import axios from "axios";
 import {errorHandler} from "../../helpers/responseHandler";
 import {lang} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 
 export default {
@@ -60,9 +62,15 @@ export default {
         }
     },
 
+
+
     beforeMount(){
 
         const self =this;
+
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options ={
 
@@ -81,12 +89,12 @@ export default {
 
                 version_date(h,row){
 
-                    return row.version_date ?row.version_date : '----';
+                    return row.version_date ? moment(row.version_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
                 version_expire_date(h,row){
 
-                    return row.version_expire_date ?row.version_expire_date : '----';
+                    return row.version_expire_date ? moment(row.version_expire_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
                 version_number(h,row){
@@ -120,7 +128,9 @@ export default {
 
     props : {
 
-        data : {type : Array, default : ()=>{}}
+        data : {type : Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
     }
 };
 

@@ -31,6 +31,8 @@
 import {lang} from '../../helpers/extraLogics'
 
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
 
@@ -38,6 +40,10 @@ export default {
 
     methods : {
         lang
+    },
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
     },
 
     data() {
@@ -64,6 +70,10 @@ export default {
     },
 
     beforeMount() {
+
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options = {
 
@@ -151,6 +161,11 @@ export default {
                 product_title(h, row) {
 
                     return row.product.product_title ?? '---';
+                },
+
+                report_date_time(h, row) {
+
+                    return row.report_date_time ? moment(row.report_date_time).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 }
 
             }

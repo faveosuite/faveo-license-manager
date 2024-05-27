@@ -41,6 +41,8 @@
 import axios from "axios";
 import {errorHandler} from "../../helpers/responseHandler";
 import {lang} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
     name :'latest-product',
@@ -63,6 +65,10 @@ export default {
 
         const self =this;
 
+        const date_format = this.generalSetting.date_format.js_format;
+        const time_format = this.generalSetting.time_format.js_format;
+        const timezone = this.generalSetting.timezone.name;
+
         this.options ={
 
             columnsClasses:{
@@ -82,6 +88,9 @@ export default {
                     return row.product_title ?row.product_title : '----';
                 },
 
+                product_date(h, row) {
+                    return row.product_date ? moment(row.product_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                }
             },
 
             headings: {
@@ -108,7 +117,9 @@ export default {
 
     props : {
 
-        data : {type: Array, default : ()=>{}}
+        data : {type: Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
     }
 };
 

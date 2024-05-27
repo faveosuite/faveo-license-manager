@@ -97,6 +97,12 @@ describe('CrackingReport', () => {
 
             global : { plugins : [store], stubs:['custom-loader', 'alert', 'data-table'] },
 
+            props : {generalSetting : {
+                    time_format : {js_format:81},
+                    timezone : {name : 'Asia/Kolkata'},
+                    date_format : {js_format : 8765}
+                }}
+
         })
     })
 

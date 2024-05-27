@@ -82,28 +82,28 @@
 
             <div class="row justify-content-around">
                 <div class="shadow-none col-md-6 justify-content-around">
-                    <latest-product :data="latest_products" v-on:refresh="getData"></latest-product>
+                    <latest-product :data="latest_products" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product>
                 </div>
                 <div class="shadow-none col-md-6 justify-content-around">
-                    <latest-version :data="latest_versions" v-on:refresh="getData"></latest-version>
+                    <latest-version :data="latest_versions" :generalSetting="generalSetting" v-on:refresh="getData"></latest-version>
                 </div>
             </div>
 
             <div class="row">
                 <div class=" shadow-none col-md-6">
-                    <latest-installations :data="latest_installations" v-on:refresh="getData"></latest-installations>
+                    <latest-installations :data="latest_installations" :generalSetting="generalSetting" v-on:refresh="getData"></latest-installations>
                 </div>
                 <div class="shadow-none col-md-6">
-                    <latest-callbacks :data="latest_callbacks" v-on:refresh="getData"></latest-callbacks>
+                    <latest-callbacks :data="latest_callbacks" :generalSetting="generalSetting" v-on:refresh="getData"></latest-callbacks>
                 </div>
             </div>
 
             <div class="row">
                 <div class="shadow-none col-md-6">
-                    <latest-product-report :data="latest_reports" v-on:refresh="getData"></latest-product-report>
+                    <latest-product-report :data="latest_reports" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product-report>
                 </div>
                 <div class="shadow-none col-md-6">
-                    <expiring-version :data="expired_versions" v-on:refresh="getData"></expiring-version>
+                    <expiring-version :data="expired_versions" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-version>
                 </div>
             </div>
 
@@ -144,6 +144,10 @@ export default {
 
         LatestProduct
 
+    },
+
+    props : {
+        generalSetting : {type : Object, default : () => {}},
     },
 
     data() {

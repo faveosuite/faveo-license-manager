@@ -43,6 +43,8 @@
 import axios from 'axios';
 import {errorHandler} from "../../helpers/responseHandler";
 import {lang} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
     name: 'latest-installations',
@@ -59,6 +61,10 @@ export default {
     beforeMount() {
 
         const self = this;
+
+        const date_format = this.generalSetting.date_format.js_format
+        const time_format = this.generalSetting.time_format.js_format
+        const timezone = this.generalSetting.timezone.name
 
         this.options = {
 
@@ -88,7 +94,7 @@ export default {
                 },
 
                 installation_date(h, row) {
-                    return row.installation_date ? row.installation_date : '----';
+                    return row.installation_date ? moment(row.installation_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
 
                 installation_domain(h, row) {
@@ -121,7 +127,9 @@ export default {
 
     props : {
 
-        data : {type : Array, default : ()=>{}}
+        data : {type : Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
     }
 };
 </script>

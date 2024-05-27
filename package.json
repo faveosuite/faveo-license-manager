@@ -33,6 +33,7 @@
     "dependencies": {
         "mitt": "^3.0.1",
         "moment": "^2.29.4",
+        "moment-timezone": "^0.5.45",
         "v-tables-3": "^0.4.7",
         "v-tooltip": "^4.0.0-beta.17",
         "validator": "^13.11.0",

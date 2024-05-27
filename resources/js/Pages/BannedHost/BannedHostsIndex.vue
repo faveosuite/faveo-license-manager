@@ -43,6 +43,8 @@
 
     import axios from 'axios';
     import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+    import moment from "moment";
+    import 'moment-timezone'
 
     export default {
 
@@ -71,9 +73,17 @@
             this.emitter.on('refreshData', this.updateData);
         },
 
-        async beforeMount() {
+        props : {
+            generalSetting : {type : Object, default : () => {}},
+        },
+
+         beforeMount() {
 
             const self = this;
+
+             const date_format = this.generalSetting.date_format.js_format
+             const time_format = this.generalSetting.time_format.js_format
+             const timezone = this.generalSetting.timezone.name
 
             this.options = {
 
@@ -154,7 +164,7 @@
 
                     banned_host_date(h, row) {
 
-                        return row.banned_host_date ? row.banned_host_date : '---';
+                        return row.banned_host_date ? moment(row.banned_host_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                     },
 
                     banned_host_blocks(h, row) {

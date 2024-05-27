@@ -40,6 +40,8 @@
 import axios from "axios";
 import { errorHandler } from "../../helpers/responseHandler";
 import {lang} from "../../helpers/extraLogics";
+import moment from "moment";
+import 'moment-timezone'
 
 export default {
     name: 'latest-product-report',
@@ -52,6 +54,10 @@ export default {
         }
     },
     beforeMount() {
+
+        const date_format = this.generalSetting.date_format.js_format;
+        const time_format = this.generalSetting.time_format.js_format;
+        const timezone = this.generalSetting.timezone.name;
 
         this.options = {
 
@@ -72,7 +78,7 @@ export default {
                     return formattedLicenseCode;
                 },
                 report_date_time(h, row) {
-                    return row.report_date_time ? row.report_date_time : '----';
+                    return row.report_date_time ? moment(row.report_date_time).tz(timezone).format(`${date_format} ${time_format}`) : '----'
                 },
             },
             headings: {
@@ -97,7 +103,9 @@ export default {
 
     props : {
 
-        data : {type: Array, default : ()=>{}}
+        data : {type: Array, default : ()=>{}},
+
+        generalSetting : {type : Object, default : () => {}},
     }
 };
 </script>
