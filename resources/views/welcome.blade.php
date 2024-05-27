@@ -102,12 +102,29 @@
 
   <body >
 
-  <?php $versioning = config('app.version');?>
+  <?php $versioning = config('app.version');
+
+  $settingsArray =[];
+  $timezoneSetting = \App\Models\CommonSetting::where('key', 'timezone')->first();
+  $dateFormatSetting = \App\Models\CommonSetting::where('key', 'date_format')->first();
+  $timeFormatSetting = \App\Models\CommonSetting::where('key', 'time_format')->first();
+  $settingsArray['timezone'] = $timezoneSetting
+      ? \App\Models\Timezone::find($timezoneSetting->value)
+      : \App\Models\Timezone::where('name', 'UTC')->first();
+  $settingsArray['date_format'] = $dateFormatSetting
+      ? \App\Models\DateFormat::find($dateFormatSetting->value)
+      : \App\Models\DateFormat::where('format','F j, Y')->first();
+  $settingsArray['time_format'] = $timezoneSetting
+      ? \App\Models\TimeFormat::find($timeFormatSetting->value)
+      : \App\Models\TimeFormat::where('format','g:i a')->first();
+  ?>
 
     <div id="app">
 
         <license-manager-renderer
-            :versioning="{{ json_encode($versioning) }}">
+            :versioning="{{ json_encode($versioning) }}"
+            :general-setting="{{ json_encode($settingsArray) }}"
+        >
         </license-manager-renderer>
     </div>
 
