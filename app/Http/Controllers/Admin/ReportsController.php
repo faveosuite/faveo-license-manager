@@ -110,7 +110,8 @@ class ReportsController extends Controller
 
             return $report;
         });
-        return $modifiedReports->toArray();
+        $paginatedReports->setCollection($modifiedReports);
+        return successResponse(Lang::get('lang.SystemReport_Show'), $paginatedReports,200);
     }
 
     public function reportArrayCracking(Request $request)
