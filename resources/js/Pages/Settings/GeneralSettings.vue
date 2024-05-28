@@ -20,12 +20,12 @@
 
                 <div class="row">
 
-                    <text-field :label="trans('google_site_key')" :value="google_site_key" :onChange="onChange"
+                    <text-field :label="trans('google_site_key')" v-tooltip="lang('recaptcha')" :value="google_site_key" :onChange="onChange"
                                 name="google_site_key" type="text" :required="true" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('google_secret_key')" :value="google_secret_key"
+                    <text-field :label="trans('google_secret_key')" v-tooltip="lang('recaptcha')" :value="google_secret_key"
                                 :onChange="onChange" :required="true" name="google_secret_key" type="password" classname="col-sm-6">
 
                     </text-field>
@@ -99,6 +99,8 @@ import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
 import moment from 'moment'
 
+import {lang} from "../../helpers/extraLogics";
+
 import TextField from "../../components/Reusable/FormField/TextField.vue";
 
 export default {
@@ -147,6 +149,7 @@ export default {
     },
 
     methods: {
+        lang,
 
         previewMethod(value) {
 
