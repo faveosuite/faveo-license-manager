@@ -402,7 +402,7 @@ return [
     'records' => 'Records',
     'showing' => 'Showing',
     'no_matching_records' => 'No Matching Records',
-    'loading' => 'Loading'
+    'loading' => 'Loading',
 
 
 ];
