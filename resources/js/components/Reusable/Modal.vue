@@ -89,9 +89,6 @@
     /*transition: opacity 0.5s ease !important;*/
   }
 
-  .trace {
-      scrollbar-width: none;
-  }
   .mod_width {
       scrollbar-width: none;
   }

@@ -461,6 +461,7 @@ return [
 
     //LOGS TRACE PAGE
     'read-more' => 'Read More',
+    'recaptcha' => 'Recaptcha Settings',
 
     //PAGINATION
     'next'=> 'Next',
