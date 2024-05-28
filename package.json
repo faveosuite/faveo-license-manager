@@ -27,8 +27,7 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.69.5",
         "sass-loader": "^13.3.2",
-        "vite": "^5.0.12",
-        "vue-jest": "^5.0.0-alpha.10"
+        "vite": "^4.5.3"
     },
     "dependencies": {
         "clipboard-copy": "^4.0.1",
