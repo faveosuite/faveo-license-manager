@@ -38,7 +38,7 @@ class DashboardControllerTest extends TestCase
         $responseContent = json_decode($response->getContent());
 
         $this->assertEquals(1, $responseContent->data->callbacksCount);
-        $this->assertCount(0, $responseContent->data->latestProducts);
+        $this->assertCount(1, $responseContent->data->latestProducts);
         $this->assertCount(0, $responseContent->data->latestVersions);
         $this->assertEquals(100, $responseContent->data->latestInstallations[0]->product_id);
         $this->assertEquals(100, $responseContent->data->latestCallbacks[0]->product_id);
