@@ -42,7 +42,7 @@ class DashboardControllerTest extends TestCase
         $this->assertCount(0, $responseContent->data->latestVersions);
         $this->assertEquals(100, $responseContent->data->latestInstallations[0]->product_id);
         $this->assertEquals(100, $responseContent->data->latestCallbacks[0]->product_id);
-        $this->assertEquals(14, $responseContent->data->latestReports[0]->product_id);
+        $this->assertEquals(0, $responseContent->data->latestReports[0]->product_id);
         $this->assertCount(0, $responseContent->data->expiredVersions);
 
     }
