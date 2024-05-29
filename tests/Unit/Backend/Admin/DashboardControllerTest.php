@@ -2,46 +2,70 @@
 
 namespace Tests\Unit\Backend\Admin;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Models\AflProducts;
 use App\Models\AfuVersions;
 use App\Models\AflInstallations;
-use App\Models\AfuInstallations;
 use App\Models\AflCallbacks;
-use App\Models\AfuCallbacks;
 use App\Models\AflReports;
-use App\Models\AflLicenses;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
-
 
 class DashboardControllerTest extends TestCase
 {
-    // use RefreshDatabase;
-    /**
-     * A basic unit test example.
-     *
-     * @return void
-     */
-    public function test_dashboard()
+    use RefreshDatabase;
+
+    public function dashboard_returns_expected_counts()
     {
-        $this->withoutMiddleware();
-        $aflInstallationsId = AflInstallations::factory()->create()->installation_id;
-        $aflCallbacksId = AflCallbacks::factory()->create()->callback_id;
-        $afuCallbacksId = AfuCallbacks::factory()->create()->callback_id;
-        $aflReportsId = AflReports::factory()->create()->report_id;
-        $aflLicensesId = AflLicenses::factory()->create()->license_id;
-        $result = $this->assertDatabaseHas('afl_installations', ['installation_id' => $aflInstallationsId]);
-        $this->assertDatabaseHas('afl_callbacks', ['callback_id' => $aflCallbacksId]);
-        $this->assertDatabaseHas('afu_callbacks', ['callback_id' => $afuCallbacksId]);
-        $this->assertDatabaseHas('afl_reports', ['report_id' => $aflReportsId]);
-        $this->assertDatabaseHas('afl_licenses', ['license_id' => $aflLicensesId]);
-        $response = $this->call('GET', url("api/admin/dashboarddropdown"));
+        // Given
+        AflProducts::factory()->count(5)->create(['product_status' => '1']);
+        AfuVersions::factory()->count(3)->create(['version_status' => '1']);
+        AflInstallations::factory()->count(4)->create(['installation_status' => '1']);
+        AflCallbacks::factory()->count(2)->create(['callback_status' => '1']);
+        AflReports::factory()->count(6)->create(['report_status' => '1']);
+
+        // When
+        $response = $this->get('api/admin/dashboarddropdown');
+
+        // Then
         $response->assertStatus(200);
-        $this->assertEquals(2, json_decode($response->getContent())->data->callbacksCount);
-        $this->assertEquals('Helpdesk Product 2', json_decode($response->getContent())->data->latestProducts[0]->product_title);
-        $this->assertEquals(100, json_decode($response->getContent())->data->latestInstallation[0]->product_id);
-        $this->assertEquals(100, json_decode($response->getContent())->data->latestCallbacks[0]->product_id);
-        $this->assertEquals(100, json_decode($response->getContent())->data->afu_latest_callbacks[0]->product_id);
-        $this->assertEquals(0, json_decode($response->getContent())->data->latestReports[0]->product_id);
+        $response->assertJson([
+            'productsCount' => 5,
+            'versionsCount' => 3,
+            'installationsCount' => 4,
+            'callbacksCount' => 2,
+            'latestProducts' => AflProducts::latest('product_date')->take(10)->get()->toArray(),
+            'latestVersions' => AfuVersions::latest('version_date')->take(10)->get()->toArray(),
+            'latestInstallations' => AflInstallations::latest('installation_date')->take(10)->get()->toArray(),
+            'latestCallbacks' => AflCallbacks::latest('callback_date_time')->take(10)->get()->toArray(),
+            'latestReports' => AflReports::latest('report_date_time')->take(10)->get()->toArray(),
+        ]);
+    }
+
+    public function dashboard_returns_no_data_when_no_active_entities()
+    {
+        // Given
+        AflProducts::factory()->count(5)->create(['product_status' => '0']);
+        AfuVersions::factory()->count(3)->create(['version_status' => '0']);
+        AflInstallations::factory()->count(4)->create(['installation_status' => '0']);
+        AflCallbacks::factory()->count(2)->create(['callback_status' => '0']);
+        AflReports::factory()->count(6)->create(['report_status' => '0']);
+
+        // When
+        $response = $this->get('api/admin/dashboarddropdown');
+
+        // Then
+        $response->assertStatus(200);
+        $response->assertJson([
+            'productsCount' => 0,
+            'versionsCount' => 0,
+            'installationsCount' => 0,
+            'callbacksCount' => 0,
+            'latestProducts' => [],
+            'latestVersions' => [],
+            'latestInstallations' => [],
+            'latestCallbacks' => [],
+            'latestReports' => [],
+        ]);
     }
 }
