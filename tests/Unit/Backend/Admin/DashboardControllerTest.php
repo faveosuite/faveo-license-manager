@@ -2,19 +2,15 @@
 
 namespace Tests\Unit\Backend\Admin;
 
-use App\Http\Controllers\Admin\DashboardController;
 use App\Models\AflProducts;
 use App\Models\AfuVersions;
 use App\Models\AflInstallations;
 use App\Models\AflCallbacks;
 use App\Models\AflReports;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class DashboardControllerTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function dashboard_returns_expected_counts()
     {
         // Given
