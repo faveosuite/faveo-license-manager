@@ -30,7 +30,9 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
     private function seedEmail()
     {
 
-        $this->insertEnvKeysIfNotPresent();
+        if(file_exists(base_path('.env'))) {
+            $this->insertEnvKeysIfNotPresent();
+        }
 
         $originalConfigKeys = [
             'MAIL_DRIVER',
