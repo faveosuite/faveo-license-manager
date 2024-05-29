@@ -16,7 +16,6 @@ use Tests\TestCase;
 
 class DashboardControllerTest extends TestCase
 {
-     use RefreshDatabase;
     /**
      * A basic unit test example.
      *
