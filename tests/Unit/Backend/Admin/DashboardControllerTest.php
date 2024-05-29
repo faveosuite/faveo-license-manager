@@ -37,11 +37,11 @@ class DashboardControllerTest extends TestCase
         $this->assertDatabaseHas('afl_licenses', ['license_id' => $aflLicensesId]);
         $response = $this->call('GET', url("api/admin/dashboarddropdown"));
         $response->assertStatus(200);
-        $this->assertEquals(2, json_decode($response->getContent())->data->callback_count);
-        $this->assertEquals('Helpdesk Product 2', json_decode($response->getContent())->data->latest_products[0]->product_title);
-        $this->assertEquals(100, json_decode($response->getContent())->data->afl_latest_installation[0]->product_id);
-        $this->assertEquals(100, json_decode($response->getContent())->data->afl_latest_callbacks[0]->product_id);
+        $this->assertEquals(2, json_decode($response->getContent())->data->callbackCount);
+        $this->assertEquals('Helpdesk Product 2', json_decode($response->getContent())->data->latestProducts[0]->product_title);
+        $this->assertEquals(100, json_decode($response->getContent())->data->latestInstallation[0]->product_id);
+        $this->assertEquals(100, json_decode($response->getContent())->data->latestCallbacks[0]->product_id);
         $this->assertEquals(100, json_decode($response->getContent())->data->afu_latest_callbacks[0]->product_id);
-        $this->assertEquals(0, json_decode($response->getContent())->data->latest_product_reports[0]->product_id);
+        $this->assertEquals(0, json_decode($response->getContent())->data->latestReports[0]->product_id);
     }
 }
