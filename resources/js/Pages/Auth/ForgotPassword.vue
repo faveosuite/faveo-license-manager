@@ -64,6 +64,8 @@
 
   import {useStore} from "vuex";
 
+  import {env} from "../../../../env";
+
   import {computed, onMounted, ref} from "vue";
 
   export default {
@@ -79,7 +81,7 @@
           const loadRecaptchaScript = () => {
               return new Promise((resolve, reject) => {
                   const script = document.createElement('script');
-                  script.src = 'https://www.google.com/recaptcha/api.js?render=' + import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+                  script.src = 'https://www.google.com/recaptcha/api.js?render=' + env.VITE_RECAPTCHA_SITE_KEY;
                   script.onload = resolve;
                   script.onerror = reject;
                   document.head.appendChild(script);
@@ -90,7 +92,7 @@
               try {
                   await loadRecaptchaScript();
                   grecaptcha.ready(() => {
-                      grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: 'submit' }).then((token) => {
+                      grecaptcha.execute(env.VITE_RECAPTCHA_SITE_KEY, { action: 'submit' }).then((token) => {
                           recaptchaToken.value = token;
                       });
                   });
@@ -162,7 +164,7 @@
           let data = {}
 
           data['admin_email'] = this.email;
-            if(import.meta.env.VITE_RECAPTCHA_SITE_KEY){
+            if(env.VITE_RECAPTCHA_SITE_KEY){
                 data['g-recaptcha-response'] = this.recaptchaToken
             }
 

@@ -64,6 +64,7 @@ import { errorHandler } from '../../helpers/responseHandler';
 import { validateLoginSettings } from "../../helpers/validator/loginRules.js";
 import axios from 'axios';
 import TextField from "../../components/Reusable/FormField/TextField.vue";
+import {env} from "../../../../env";
 
 export default {
     name: 'Login',
@@ -75,7 +76,7 @@ export default {
         const loadRecaptchaScript = () => {
             return new Promise((resolve, reject) => {
                 const script = document.createElement('script');
-                script.src = 'https://www.google.com/recaptcha/api.js?render=' + import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+                script.src = 'https://www.google.com/recaptcha/api.js?render=' + env.VITE_RECAPTCHA_SITE_KEY;
                 script.onload = resolve;
                 script.onerror = reject;
                 document.head.appendChild(script);
@@ -86,7 +87,7 @@ export default {
             try {
                 await loadRecaptchaScript();
                 grecaptcha.ready(() => {
-                    grecaptcha.execute(import.meta.env.VITE_RECAPTCHA_SITE_KEY, { action: 'submit' }).then((token) => {
+                    grecaptcha.execute(env.VITE_RECAPTCHA_SITE_KEY, { action: 'submit' }).then((token) => {
                         recaptchaToken.value = token;
                     });
                 });
@@ -138,7 +139,7 @@ export default {
                 let data = {}
                 data['client_email'] = this.user_name
                 data['client_password'] = this.password
-                if(import.meta.env.VITE_RECAPTCHA_SITE_KEY){
+                if(env.VITE_RECAPTCHA_SITE_KEY){
                     data['g-recaptcha-response'] = this.recaptchaToken
                 }
                 axios.post("/api/login", { ...data})
