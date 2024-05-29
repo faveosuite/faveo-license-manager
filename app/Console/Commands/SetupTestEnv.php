@@ -44,7 +44,7 @@ class SetupTestEnv extends Command
 
         //setting up new database name
         Config::set('database.connections.mysql.database', $dbName);
-
+///
         //setting up app env to testing
         Config::set('app.env', 'testing');
 
