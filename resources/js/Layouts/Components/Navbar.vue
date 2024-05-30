@@ -11,31 +11,39 @@
 
 	  		<li class="nav-item d-none d-sm-inline-block">
 
-				<router-link to="/dashboard" class="nav-link">{{trans('home')}}</router-link>
+				<router-link to="/dashboard" v-tooltip="lang('home')" class="nav-link">{{trans('home')}}</router-link>
 	  		</li>
 
 		</ul>
 
 		<ul class="navbar-nav ml-auto" v-if="user">
 
-			<li class="nav-item user-menu">
+            <li class="nav-item dropdown user-menu">
 
-        		<a class="nav-link" data-toggle="dropdown" aria-expanded="true">
+                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 
-          			<img :src="basePath()+'/themes/default/img/avatar5.png'" class="user-image img-circle elevation-2"
-          				alt="User Image">
+        <span class="d-none d-md-inline mr-1" v-tooltip="user.client_fname +' '+ user.client_lname" dir="auto">
 
-          			<span class="d-none d-md-inline">{{user.client_fname + ' ' + user.client_lname}}</span>
-        		</a>
-      		</li>
+            {{ user.client_fname +' '+ user.client_lname }}
+            <image-element :sourceUrl="user.client_profile_pic" id="navbar-profile" class="user-image ml-2 img-circle elevation-2 d-none d-md-inline"
+                 alt="User Image"/>
+        </span>
 
-      		<li class="nav-item">
+                </a>
 
-		        <a class="nav-link" href="javascript:;" role="button" v-tooltip="trans('sign_out')" @click="signOut()">
-
-		          	<i class="fas fa-power-off"></i>
-		        </a>
-		    </li>
+                <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-right rounded model-box rounded text-white dropdown-menu-arrow mt-2 rounded">
+                    <li>
+                        <router-link class="dropdown-item dp-data " to="/profile/edit"><i
+                            class="fa fa-user pr-2"></i>{{ trans('profile') }}
+                        </router-link>
+                    </li>
+                    <li>
+                        <a href="javascript:;" class="dropdown-item dp-data mb-4 mt-1" @click="signOut">
+                            <i class="fas fa-sign-out-alt pr-2"></i>{{ trans('sign_out') }}
+                        </a>
+                    </li>
+                </ul>
+            </li>
 		</ul>
 
 	    <custom-loader v-if="loading"></custom-loader>
@@ -45,6 +53,8 @@
 <script>
 
 	import { errorHandler } from '../../helpers/responseHandler';
+    import ImageElement from "../../components/Reusable/ImageElement.vue";
+    import {lang} from "../../helpers/extraLogics";
 
 	export default {
 
@@ -64,6 +74,7 @@
 		},
 
 		methods : {
+            lang,
 
 			signOut() {
 
@@ -87,7 +98,41 @@
 
 				})
 			}
-		}
+		},
+
+        components: {
+
+            'image-element': ImageElement
+        }
 	}
 </script>
 
+<style scoped>
+
+.dropdown-menu-arrow:before {
+    content: ""!important;
+    position: absolute!important;
+    top: -10px!important;
+    left: 88%;
+    transform: translate(-50%);
+    border-width: 3px 7px 8px;
+    border-style: solid;
+    border-color: transparent transparent #3e4d5d
+}
+
+.model-box {
+    margin-top: 8px !important;
+    margin-right: 20px !important;
+    padding-top: 9px !important;
+    width: 170px !important;
+    height: 82px !important;
+    background-color: #4f5962;
+}
+.dp-data {
+    color: #c2c7d0;
+}
+.dp-data:hover {
+    background-color: rgba(0,0,0,0.2);
+    color: #c2c7d0;
+}
+</style>

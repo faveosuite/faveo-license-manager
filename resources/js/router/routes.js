@@ -69,6 +69,38 @@ let productsMenu = {
 
 //=================================================================
 
+//===========================PROFILE MENU=========================
+
+import Profile from "../Pages/UserProfile/Profile.vue";
+
+let profileMenu = {
+
+    path: '/profile',
+
+    component: LicenseLayout,
+
+    name: 'Profile',
+
+    redirect: '/profile/edit',
+
+    beforeEnter: requireAuth,
+
+    children: [
+
+        {
+
+            path: 'edit',
+
+            name: 'Profile',
+
+            component: Profile,
+
+            meta: { title : 'View Profile', crumb : { link: { name : 'dashboard', to : '/' }, active : 'my_profile' } }
+        },
+
+    ]
+}
+
 //===========================CLIENTS MENU==========================
 
 import ClientCreateEdit from '../Pages/Client/ClientCreateEdit.vue';
@@ -691,6 +723,8 @@ const routes = [
     reportsMenu,
 
     serverMenu,
+
+    profileMenu,
 
     settingsMenu,
 

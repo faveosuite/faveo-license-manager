@@ -13,8 +13,11 @@
             "type": "vcs",
 
             "url": "https://github.com/ladybirdweb/clockwork.git"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/ladybirdweb/laravel-gravatar.git"
         }
-
     ],
 
     "require": {
@@ -33,7 +36,8 @@
         "laravel/ui": "^4.2.3",
         "laravelcollective/html": "^6.4",
         "lcobucci/jwt": "^5.2",
-        "league/flysystem-aws-s3-v3": "^3.21"
+        "league/flysystem-aws-s3-v3": "^3.21",
+        "thomaswelton/laravel-gravatar": "dev-master"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",

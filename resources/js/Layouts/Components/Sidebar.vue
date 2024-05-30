@@ -14,14 +14,15 @@
 
         		<div class="image">
 
-          			<img :src="basePath()+'/themes/default/img/avatar5.png'" class="img-circle elevation-2" alt="User Image">
-        		</div>
+          			<img :src="user.client_profile_pic" class="img-fluid rounded-circle" alt="User Image">
+
+                </div>
 
         		<div class="info">
 
-          			<a href="javascript:;" class="d-block" v-tooltip="user.client_fname + ' ' + user.client_lname">
+          			<router-link to="/profile" class="d-block" v-tooltip="user.client_fname + ' ' + user.client_lname">
           				{{subString(user.client_fname + ' ' + user.client_lname)}}
-          			</a>
+          			</router-link>
         		</div>
       		</div>
 
@@ -53,6 +54,7 @@
     import Loader from "../../components/Reusable/Loader.vue";
 
     import Navigation from "./Navigation.vue";
+    import ImageElement from "../../components/Reusable/ImageElement.vue";
 
 	export default {
 
@@ -117,6 +119,7 @@
 		},
 
 		components : {
+            ImageElement,
 
 			'loader': Loader,
 
@@ -128,4 +131,10 @@
 <style scoped>
 
 	.license-navigation { margin-top : 200px !important;}
+
+    .user-panel img{
+        height: 2.1rem;
+        width: 2.1rem;
+        object-fit: cover;
+    }
 </style>
