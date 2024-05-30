@@ -28,7 +28,7 @@
 
           </div>
 
-          <div class="modal-footer" :class="[showCloseBtn ? 'justify-content-between' : '']">
+          <div class="modal-footer">
 
             <slot name="controls"></slot>
 
@@ -62,13 +62,16 @@
       showCloseBtn: { type: Boolean, default: true }
     },
 
-    data() {
+      data() {
+          return {
+              currentStatus: this.showModal,
 
-      return {
-
-        currentStatus: this.showModal,
-      };
-    }
+              /**
+               * for rtl support
+               * @type {String}
+               */
+          };
+      },
   };
 </script>
 
@@ -122,7 +125,9 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-
+    .modal-body{
+        height: 300px;
+    }
   .modal-enter .modal-container,
   .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);
@@ -140,6 +145,10 @@
 
   .modal-header h4 {
     margin-top: 0px !important;
+  }
+
+  #crop_action{
+      z-index: 1;
   }
 
   @media only screen and (max-width: 600px) {

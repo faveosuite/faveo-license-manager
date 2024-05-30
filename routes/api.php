@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\BannedHostController;
+use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\WhitelistIpsController;
 use App\Http\Controllers\Admin\CallBackController;
 use App\Http\Controllers\Admin\ClientsController;
@@ -235,6 +236,11 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     //UPDATE INSTALLATION AFTER UPDATING THE VERSION
     Route::post('updatedInstallation/edit', [UpdateInstallationsController::class, 'updateInstallationEdit']);
     Route::get('showUpdateInstall', [UpdateInstallationsController::class, 'show']);
+
+    Route::get('profile/info', [UserController::class, 'getProfileInfo']);
+    Route::patch('profile', [UserController::class, 'updateProfile']);
+    Route::patch('password', [UserController::class, 'updatePassword']);
+    Route::get('countryCode',[UserController::class, 'getCountryCode']);
 });
 
 Route::get('admin/viewApiKeys',[ApiKeysController::class, 'show'])->middleware('manager');

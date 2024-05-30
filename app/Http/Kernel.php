@@ -76,7 +76,7 @@ class Kernel extends HttpKernel
         'scope' => \Laravel\Passport\Http\Middleware\CheckForAnyScope::class,
         'installer' => \App\Http\Middleware\IsInstalled::class,
         'whitelist' => \App\Http\Middleware\WhitelistMiddleware::class,
-    
+
 
     ];
 }

@@ -3,7 +3,7 @@
         'name' => 'laravel/laravel',
         'pretty_version' => 'dev-master',
         'version' => 'dev-master',
-        'reference' => '5a1391ac77c56e171ded5aeac53f8cb6fcdc9859',
+        'reference' => 'eb398743f125490b015ab96d22f5e49ddb5fc2a1',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -528,7 +528,7 @@
         'laravel/laravel' => array(
             'pretty_version' => 'dev-master',
             'version' => 'dev-master',
-            'reference' => '5a1391ac77c56e171ded5aeac53f8cb6fcdc9859',
+            'reference' => 'eb398743f125490b015ab96d22f5e49ddb5fc2a1',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -892,9 +892,9 @@
             'dev_requirement' => false,
         ),
         'phpseclib/phpseclib' => array(
-            'pretty_version' => '3.0.34',
-            'version' => '3.0.34.0',
-            'reference' => '56c79f16a6ae17e42089c06a2144467acc35348a',
+            'pretty_version' => '3.0.37',
+            'version' => '3.0.37.0',
+            'reference' => 'cfa2013d0f68c062055180dd4328cc8b9d1f30b8',
             'type' => 'library',
             'install_path' => __DIR__ . '/../phpseclib/phpseclib',
             'aliases' => array(),
@@ -1065,8 +1065,8 @@
         'psr/log-implementation' => array(
             'dev_requirement' => false,
             'provided' => array(
-                0 => '1.0|2.0|3.0',
-                1 => '3.0.0',
+                0 => '3.0.0',
+                1 => '1.0|2.0|3.0',
             ),
         ),
         'psr/simple-cache' => array(
@@ -1596,6 +1596,26 @@
             'install_path' => __DIR__ . '/../theseer/tokenizer',
             'aliases' => array(),
             'dev_requirement' => true,
+        ),
+        'thomaswelton/gravatarlib' => array(
+            'pretty_version' => '0.1.0',
+            'version' => '0.1.0.0',
+            'reference' => '8a4e829c53ca2abb51ef2e514f696938a9bdbd0c',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../thomaswelton/gravatarlib/thomaswelton/GravatarLib',
+            'aliases' => array(),
+            'dev_requirement' => false,
+        ),
+        'thomaswelton/laravel-gravatar' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'reference' => 'baa7b60708288fa21cd5285d3b532b2d67fa2780',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../thomaswelton/laravel-gravatar',
+            'aliases' => array(
+                0 => '9999999-dev',
+            ),
+            'dev_requirement' => false,
         ),
         'tijsverkoyen/css-to-inline-styles' => array(
             'pretty_version' => '2.2.6',

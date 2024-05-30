@@ -2,8 +2,13 @@
 
 use App\Models\AflSettings;
 use App\Http\Controllers\PhpMailController;
-use Illuminate\Support\Facades\File;
+use App\Models\User;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\File;
+use Laravel\Passport\Passport;
+use Lcobucci\JWT\Configuration;
+use Lcobucci\JWT\Signer;
+use Lcobucci\JWT\Signer\Key\InMemory;
 //check Auto Faveo Licenser core configuration and return an array with error messages if something wrong
 function aflCheckSettings()
 {
@@ -672,4 +677,20 @@ function isInstall()
 {
     $env = base_path('.env');
     return (File::exists($env) && env('DB_INSTALL') == 1);
+}
+function getAuthUserId()
+{
+    $bearerToken = request()->bearerToken();
+    $tokenId = Configuration::forSymmetricSigner(new Signer\Blake2b(), InMemory::base64Encoded(base64_encode(str_random(60))))
+        ->parser()
+        ->parse($bearerToken)
+        ->claims()
+        ->get('jti');
+    $userId = Passport::token()->where('id', $tokenId)->value('user_id');
+    return $userId;
+}
+
+function getAuthUser()
+{
+    return User::where('client_id',getAuthUserId())->first();
 }

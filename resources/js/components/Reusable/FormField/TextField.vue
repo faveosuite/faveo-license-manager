@@ -18,7 +18,6 @@
 
             </textarea>
         </div>
-
         <div v-else-if="type === 'password'">
             <div class="password-input">
                 <input :id="id ? id : 'text-field-'+name" :name="name"

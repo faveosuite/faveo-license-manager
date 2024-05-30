@@ -1,0 +1,448 @@
+<template>
+
+    <div class="col-sm-12">
+
+        <alert componentName="edit_profile"/>
+
+        <div class="row" v-if="!hasDataPopulated || loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-6" v-if="hasDataPopulated">
+
+                <div class="card card-light ">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title text-bold">{{lang('profile')}}</h3>
+
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="text-center">
+
+                            <image-upload :label="lang('profile_pic')" :value="client_profile_pic" name="client_profile_pic" :onChange="onChange"
+                                          :labelStyle="labelStyle" :labelCss="labelCss" buttonName="change">
+
+                            </image-upload>
+                        </div>
+
+                        <text-field :label="lang('first_name')" :value="client_fname" type="text" name="client_fname"
+                                    :onChange="onChange" :placehold="lang('enter_a_value')" :required="true" :autofocus="true">
+
+                        </text-field>
+
+                        <text-field :label="lang('last_name')" :value="client_lname" type="text" name="client_lname"
+                                    :onChange="onChange" :required="true" :placehold="lang('enter_a_value')">
+
+                        </text-field>
+
+                        <text-field :label="lang('user_name')" :value="client_username" type="text" name="client_username"
+                                    :onChange="onChange" :required="true" :placehold="lang('enter_a_value')">
+
+                        </text-field>
+
+                        <text-field :label="lang('email_address')" :value="client_email" type="text" name="client_email" :onChange="onChange" :placehold="lang('enter_email_addresses')" :disabled="true">
+
+                        </text-field>
+
+                        <div class="row">
+
+                            <phoneWithCountryCode id="phone_number" classname="col-sm-9" name="client_mobile" :onChange="onChange" :value="client_mobile"
+                                                  :countryCode="phone_country_code" :countryIso="client_iso2" @countCode="getPCountCode" @countIso="getPCountIso"
+                                                  labelName="phone_number" apiUrl="/api/admin/countryCode">
+                            </phoneWithCountryCode>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer">
+
+                        <button class="btn btn-primary" @click="onSubmit()" :disabled="isDisabled">
+
+                            <i class="fas fa-sync"></i> {{lang('update')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6" v-if="hasDataPopulated">
+
+                <div class="card card-light ">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title text-bold">{{lang('change_password')}}</h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <text-field :label="lang('old_password')" :value="old_password" type="password" name="old_password"
+                                    :onChange="onChange" :placehold="lang('enter_a_value')" :required="true">
+
+                        </text-field>
+                        <text-field :label="lang('new_password')" :value="new_password" type="password" name="new_password"
+                                    :onChange="onChange" :placehold="lang('enter_a_value')" :required="true" id="new_password">
+
+                        </text-field>
+                        <text-field :label="lang('confirm_password')" :value="confirm_password" type="password"
+                                    name="confirm_password" :onChange="onChange" :placehold="lang('enter_a_value')" :required="true" id="confirm_password">
+
+                        </text-field>
+                    </div>
+
+                    <div class="card-footer">
+
+                        <button class="btn btn-primary" @click="onUpdatePassword()" :disabled="passDisabled">
+
+                            <i class="fas fa-sync"></i> {{lang('update')}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</template>
+
+<script>
+
+import TextField from "../../components/Reusable/FormField/TextField.vue";
+import {lang} from "../../helpers/extraLogics";
+import NumberField from "../../components/Reusable/FormField/NumberField.vue";
+import ImageUpload from "../../components/Reusable/FormField/ImageUpload.vue";
+import PhoneWithCountryCode from "../../components/Reusable/FormField/PhoneWithCountryCode.vue";
+import {validateProfileSettings} from "../../helpers/validator/validateProfileSettings";
+import {errorHandler, successHandler} from "../../helpers/responseHandler";
+import {validatePasswordSettings} from "../../helpers/validator/passwordSettings";
+import {useStore} from "vuex";
+
+export default {
+
+    name: "edit_profile",
+
+    setup() {
+        const store = useStore();
+
+        return {
+
+            code : store.getters.getUserData.client_mobile_code,
+            client_iso : store.getters.getUserData.client_iso2
+        }
+    },
+
+    data() {
+
+      return {
+
+          loading: false,
+
+          hasDataPopulated : true,
+
+          isDisabled : false,
+
+          passDisabled : false,
+
+          client_fname: '',
+
+          client_lname: '',
+
+          client_username: '',
+
+          client_email: '',
+
+          client_mobile: '',
+
+          phone_country_code : this.code,
+
+          client_iso2 : this.client_iso,
+
+          country_code: 91,
+
+          client_profile_pic:'',
+
+          labelStyle : { display : 'none' },
+
+          labelCss : { visibility : 'hidden', margin : 'auto'},
+
+          tooltip : '',
+
+          styleObj : { background : 'none' },
+
+          phone_iso: '',
+
+          iso: '',
+
+          selectedImage : '',
+
+          old_password: '',
+
+          new_password: '',
+
+          confirm_password: ''
+      }
+    },
+    methods: {
+
+        lang,
+
+        getData(from){
+
+            this.loading = true;
+
+            axios.get('/api/admin/profile/info').then(res=>{
+
+                this.profileData = res.data.data;
+
+                this.updateStatesWithData(res.data.data);
+
+                if(from === 'update') {
+
+                    const payload = {
+                        profile_pic: res.data.data.client_profile_pic,
+                        client_mobile_code: res.data.data.client_mobile_code,
+                        client_iso2: res.data.data.client_iso2
+                    }
+
+                    this.$store.dispatch('setUserData', payload)
+                }
+
+                this.loading = false;
+
+                this.hasDataPopulated = true;
+
+            }).catch(error=>{
+
+                this.loading = false;
+
+                this.hasDataPopulated = true;
+
+            });
+        },
+
+        updateStatesWithData(data){
+
+            const self = this;
+
+            const stateData = this.$data;
+
+            Object.keys(data).map(key => {
+
+                if (stateData.hasOwnProperty(key)) {
+
+                    self[key] = data[key];
+                }
+
+            });
+
+            this.mobile = this.mobile === 'Not available' ? '' : this.mobile;
+
+            this.country_code = this.country_code === '' ? 91 : this.country_code;
+
+            this.phone_number = this.phone_number === 'Not available' ? '' : this.phone_number;
+
+            this.phone_country_code = this.phone_country_code === '' ? 91 : this.phone_country_code;
+
+        },
+
+        onChange(value, name) {
+
+           if(name === 'client_profile_pic') {
+               this.client_profile_pic = value.image;
+
+               this.selectedImage = value;
+
+           }  else {
+
+               this[name] = value
+           }
+        },
+
+        getPCountCode(value){
+
+            this.phone_country_code = value;
+        },
+
+        getPCountIso(value){
+
+            this.client_iso2 = value;
+            this.phone_iso = value;
+        },
+
+        isValid(){
+            const {errors, isValid} = validateProfileSettings(this.$data);
+
+            return isValid;
+
+        },
+
+        isPasswordValid(){
+
+            const {errors, isValid} = validatePasswordSettings(this.$data);
+
+            return isValid;
+
+        },
+
+        onSubmit(){
+
+            if(this.isValid()){
+
+                this.isDisabled=true;
+
+                this.loading=true;
+
+                var fd = new FormData();
+
+                fd.append('client_fname', this.client_fname);
+
+                fd.append('client_lname', this.client_lname);
+
+                fd.append('client_email', this.client_email ? this.client_email : null);
+
+                fd.append('client_username', this.client_username);
+
+                fd.append('client_iso2', this.client_iso2)
+
+                fd.append('client_mobile_code', this.phone_country_code ? this.phone_country_code : null);
+
+                fd.append('client_mobile', this.client_mobile ? this.client_mobile : '');
+
+                if(this.selectedImage){
+                    fd.append('client_profile_pic', this.selectedImage.file,this.selectedImage.name);
+                } else {
+                    fd.append('client_profile_pic', null);
+                }
+
+                if(this.types !== ''){
+
+                    for(var i in this.types){
+
+                        fd.append('type['+i+']', this.types[i].id);
+                    }
+                }
+
+                fd.append('_method', "PATCH");
+
+                axios.post('/api/admin/profile', fd).then(res=> {
+
+                    successHandler(res,'edit_profile');
+
+                    this.isDisabled=false;
+
+                    this.loading=false;
+
+                    this.getData('update');
+
+                }).catch(error=>{
+
+                    this.loading=false;
+
+                    this.isDisabled=false;
+
+                    errorHandler(error,'edit_profile')
+                })
+            }
+        },
+
+        onUpdatePassword(){
+
+            var regex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,20}$/;
+
+            var message = regex.exec(this.new_password);
+
+            if(this.isPasswordValid()){
+
+                if(this.old_password !== this.new_password){
+
+                    if(message){
+
+                        if(this.new_password === this.confirm_password){
+
+                            this.passDisabled=true;
+
+                            this.loading=true;
+
+                            var fd = new FormData();
+
+                            fd.append('old_password',this.old_password);
+
+                            fd.append('new_password',this.new_password);
+
+                            fd.append('confirm_password',this.confirm_password);
+
+                            fd.append('_method', "PATCH");
+
+                            axios.post('/api/admin/password',fd).then(res=> {
+
+                                this.old_password = '';
+
+                                this.new_password = '';
+
+                                this.confirm_password = '';
+
+                                this.loading=false;
+
+                                this.passDisabled=false;
+
+                                successHandler(res,'edit_profile');
+
+                            }).catch(error=>{
+
+                                this.loading=false;
+
+                                this.passDisabled=false;
+
+                                errorHandler(error,'edit_profile')
+                            })
+                        }else {
+
+                            this.$store.dispatch('setValidationError', {'confirm_password' : 'Password does not match'})
+                        }
+                    } else {
+
+                        this.$store.dispatch('setValidationError', {'new_password' : 'Password must have 8 characters and contain at least one Uppercase, one lowercase, one number and one special character'})
+                    }
+                }else {
+
+                    this.$store.dispatch('setValidationError', {'new_password' : 'new password is same as old. Please choose a different password'})
+                }
+            }
+        },
+
+        profileBoxVisible() {
+            window.emitter.emit('profile-box-mounted',{'alert' : 'edit_profile'});
+        },
+
+        onClose(){
+
+            this.showModal = false;
+
+            this.removeModal = false;
+
+            this.$store.dispatch('unsetValidationError');
+        },
+    },
+    beforeMount() {
+        this.getData()
+    },
+
+    components: {
+        'number-field' : NumberField,
+        'text-field' : TextField,
+        'image-upload' : ImageUpload,
+        'phoneWithCountryCode': PhoneWithCountryCode,
+    }
+}
+</script>
+
+
+<style scoped>
+
+</style>
