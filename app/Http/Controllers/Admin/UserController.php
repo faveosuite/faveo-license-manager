@@ -10,6 +10,8 @@ use App\Models\User;
 use Exception;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Lang;
+use App\Models\AflClients;
+use Illuminate\Support\Str;
 
 
 class UserController extends Controller
@@ -17,9 +19,7 @@ class UserController extends Controller
     public function getProfileInfo()
     {
         try {
-            $userInfo = User::where('client_id',getAuthUserID())
-                ->select('client_id', 'client_fname','client_username', 'client_lname', 'client_email', 'client_role','client_mobile_code', 'client_mobile', 'client_profile_pic','client_iso2')->first()->toArray();
-
+            $userInfo = AflClients::where('client_id',getAuthUserID())->first();
             return successResponse('', $userInfo);
         } catch (Exception $e) {
             return errorResponse($e->getMessage());

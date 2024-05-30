@@ -214,10 +214,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\ImageUploadHelperServiceProvider::class,
-
         \App\Providers\LogServiceProvider::class,
-
-
+        PragmaRX\Google2FALaravel\ServiceProvider::class,
     ],
 
     /*
@@ -235,7 +233,8 @@ return [
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'Logger' => App\Facades\Log::class,
-        'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class
+        'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
+        'Google2FA' => PragmaRX\Google2FALaravel\Facade::class,
     ])->toArray(),
 
 ];

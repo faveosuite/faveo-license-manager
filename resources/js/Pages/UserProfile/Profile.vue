@@ -53,9 +53,7 @@
 
                         <div class="row">
 
-                            <phoneWithCountryCode id="phone_number" classname="col-sm-9" name="client_mobile" :onChange="onChange" :value="client_mobile"
-                                                  :countryCode="phone_country_code" :countryIso="client_iso2" @countCode="getPCountCode" @countIso="getPCountIso"
-                                                  labelName="phone_number" apiUrl="/api/admin/countryCode">
+                            <phoneWithCountryCode id="phone_number" classname="col-sm-9" name="client_mobile" :onChange="onChange" :value="client_mobile" :countryCode="phone_country_code" :countryIso="client_iso2" @countCode="getPCountCode" @countIso="getPCountIso" labelName="phone_number" apiUrl="/api/admin/countryCode">
                             </phoneWithCountryCode>
 
                         </div>
@@ -105,6 +103,61 @@
                         </button>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+
+                <div class="card card-light ">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title text-bold">{{lang('2fa_setup')}}</h3>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <div class="col-md-9">
+
+								<span>
+
+									<img class="img-responsive img-circle img-sm" :src="basePath()+'/themes/default/img/authenticator.png'" alt="A"
+                                         id="auth_img">&nbsp;{{two_factor ? '2-Step Verification is ON since '+ google2fa_activation_date  : lang('authenticator_app')}}
+								</span>
+                            </div>
+
+                            <div class="col-md-3">
+
+                                <button v-if="!two_factor" type="button" class="btn btn-primary float-right" @click="showModal = true">
+
+                                    <i class="fas fa-toggle-on"></i> {{lang('turn_on')}}
+
+                                </button>
+
+                                <button v-if="two_factor" type="button" class="btn btn-danger float-right" @click="removeModal = true">
+
+                                    <i class="fas fa-power-off"></i> {{lang('turn_off')}}
+
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <transition name="modal">
+
+                    <barcode-modal v-if="showModal" @updateEditData="getData()" :onClose="onClose" :showModal="showModal">
+
+                    </barcode-modal>
+                </transition>
+
+                <transition name="modal">
+
+                    <remove-modal v-if="removeModal" @updateEditData="getData()" :onClose="onClose" :showModal="removeModal" alertName="edit_profile">
+
+                    </remove-modal>
+                </transition>
+>>>>>>> e308d955f (2fa integration)
             </div>
         </div>
     </div>
@@ -118,6 +171,8 @@ import {lang} from "../../helpers/extraLogics";
 import NumberField from "../../components/Reusable/FormField/NumberField.vue";
 import ImageUpload from "../../components/Reusable/FormField/ImageUpload.vue";
 import PhoneWithCountryCode from "../../components/Reusable/FormField/PhoneWithCountryCode.vue";
+import BarcodeModal from "./BarcodeModal.vue";
+import RemoveVerification from "./RemoveVerification.vue";
 import {validateProfileSettings} from "../../helpers/validator/validateProfileSettings";
 import {errorHandler, successHandler} from "../../helpers/responseHandler";
 import {validatePasswordSettings} from "../../helpers/validator/passwordSettings";
@@ -131,7 +186,6 @@ export default {
         const store = useStore();
 
         return {
-
             code : store.getters.getUserData.client_mobile_code,
             client_iso : store.getters.getUserData.client_iso2
         }
@@ -149,6 +203,8 @@ export default {
 
           passDisabled : false,
 
+          two_factor: false,
+
           client_fname: '',
 
           client_lname: '',
@@ -163,6 +219,8 @@ export default {
 
           client_iso2 : this.client_iso,
 
+          google2fa_activation_date: '',
+
           country_code: 91,
 
           client_profile_pic:'',
@@ -172,6 +230,10 @@ export default {
           labelCss : { visibility : 'hidden', margin : 'auto'},
 
           tooltip : '',
+
+          showModal: false,
+
+          removeModal : false,
 
           styleObj : { background : 'none' },
 
@@ -249,6 +311,7 @@ export default {
 
             this.phone_country_code = this.phone_country_code === '' ? 91 : this.phone_country_code;
 
+            this.two_factor = data.is_2fa_enabled
         },
 
         onChange(value, name) {
@@ -438,6 +501,8 @@ export default {
         'text-field' : TextField,
         'image-upload' : ImageUpload,
         'phoneWithCountryCode': PhoneWithCountryCode,
+        'barcode-modal': BarcodeModal,
+        'remove-modal': RemoveVerification
     }
 }
 </script>

@@ -8,6 +8,8 @@ use App\Models\AflAdmins;
 use App\Models\AflClients;
 use App\Models\AflSettings;
 use App\Rules\CaptchaValidation;
+use App\Models\User;
+use App\Models\UserBackupCode;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -18,6 +20,8 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Google2FA;
+use Crypt;
 
 
 
@@ -74,19 +78,19 @@ class AuthController extends Controller
         $failed_limit = AflSettings::value('FAILED_LOGINS_LIMIT');
         $failed_check = AflSettings::value('FAILED_LOGINS');
         $admin = $this->findAdminUser($filled['client_email']);
-
+        if ($this->isThrottled($ipAddress)) {
+            return errorResponse(Lang::get('auth.throttle_login'), 400);
+        }
         if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
            return $this->handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_check);
-              }
-      $token = $admin->createToken('AFL')->accessToken;
-        $response = [
-            'message' => 'logged in',
-            'user' => $admin,
-            'token' => $token,
-        ];
-        return successResponse(Lang::get('lang.Login'), $response, 200);
-
-}
+        }
+        Cache::forget($ipAddress);
+        // Check if 2FA is enabled for the user
+        if ($admin->is_2fa_enabled) {
+            return $this->handle2FactorLogin($admin);
+        }
+        return $this->loginWithResponse($admin);
+    }
 private function findAdminUser($email)
 {
     return AflClients::where(function($query) use ($email) {
@@ -97,17 +101,17 @@ private function findAdminUser($email)
     ->where('client_status', 1)
     ->first();
 }
-private function handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_check)
-{
-    $failedAttempts = Cache::increment('login_attempts:' . $ipAddress);
+    private function handleFailedLoginAttempt($ipAddress, $failedLimit, $failedCheck)
+    {
+        $failedAttempts = Cache::increment('login_attempts:' . $ipAddress);
 
-    Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed login attempts.');
-    if ($failedAttempts >= $failed_limit && $failed_check ==1 ) {
-        Cache::put($ipAddress . $ipAddress, true, now()->addMinutes(15));
-        return errorResponse(Lang::get('auth.throttle'), 400);
+        Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed login attempts.');
+        if ($failedAttempts >= $failedLimit && $failedCheck == 1) {
+            Cache::put($ipAddress, true, now()->addMinutes(15));
+            return errorResponse(Lang::get('auth.throttle'), 400);
+        }
+        return errorResponse(Lang::get('auth.failed'), 400);
     }
-    return errorResponse(Lang::get('auth.failed'), 400);
-}
 
     /**
      * To Send a reset link as email to users who have forgotten the password
@@ -224,5 +228,72 @@ private function handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_che
             'site_key' => env('RECAPTCHA_SITE_KEY') ?? '',
         ];
         return response()->json($data);
+    }
+
+    public function verify2fa(Request $request)
+    {
+        $request->validate([
+            'totp' => 'required|string',
+        ]);
+        $ppAuth = $request->input('PPAuth');
+        $key = array_keys($ppAuth)[0];
+        if (! Cache::has($key)) {
+            return errorResponse('Login time expired login again',400);
+        }
+        $user = AflClients::find(Crypt::decrypt(cache($key)));
+        $secret = $user->google2fa_secret;
+        if (! Google2FA::verifyKey($secret, $request->input('totp'))) {
+            return errorResponse(Lang::get('lang.invalid_passcode'),400);
+        }
+        return $this->loginWithResponse($user);
+    }
+    public function verifyRecoveryCode(Request $request)
+    {
+        try {
+            $request->validate([
+                'recovery_code' => 'required|string',
+            ]);
+            $ppAuth = $request->input('PPAuth');
+            $key = array_keys($ppAuth)[0];
+            if (! Cache::has($key)) {
+                return errorResponse('Login time expired login again',400);
+            }
+            $rec_code = $request->input('recovery_code');
+            $user = AflClients::find(Crypt::decrypt(cache($key)));
+            $codes = UserBackupCode::where('client_id', $user->client_id)->pluck('backup_codes')->toArray();
+
+            if (in_array($rec_code, $codes)) {
+                UserBackupCode::where('client_id', $user->client_id)->where('backup_codes', $rec_code)->delete();
+                return $this->loginWithResponse($user);
+            } else {
+                return errorResponse(Lang::get('lang.invalid_recovery_code'),400);
+            }
+        } catch (\Exception $e) {
+            return errorResponse($e->getMessage());
+        }
+    }
+    private function loginWithResponse($user)
+    {
+        $token = $user->createToken('AFL')->accessToken;
+        $response = [
+            'message' => 'logged in',
+            'user' => $user,
+            'token' => $token,
+        ];
+        return successResponse(Lang::get('lang.Login'), $response, 200);
+    }
+    private function isThrottled($ipAddress)
+    {
+        return Cache::has($ipAddress) || Cache::get($ipAddress);
+    }
+    public function handle2FactorLogin($user)
+    {
+        $key = Str::random(64);
+        $value = Crypt::encrypt($key);
+        //setting random key and encrypted User id in Cache for 5 minutes(just in case users kept their phone in another room)
+        $userId = $user->client_id;
+        cache([$key => Crypt::encrypt($userId)], 300);
+
+        return successResponse('', ['redirect_url' => 'verify-2fa', 'PPAuth' => [$key => $value]]);
     }
 }
