@@ -37,6 +37,8 @@
         "laravelcollective/html": "^6.4",
         "lcobucci/jwt": "^5.2",
         "league/flysystem-aws-s3-v3": "^3.21",
+        "pragmarx/google2fa": "^8.0",
+        "pragmarx/google2fa-laravel": "^2.2",
         "thomaswelton/laravel-gravatar": "dev-master"
     },
     "require-dev": {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\BannedHostController;
+use App\Http\Controllers\Admin\Google2FAController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\WhitelistIpsController;
 use App\Http\Controllers\Admin\CallBackController;
@@ -71,6 +72,9 @@ Route::post('/reset', [AuthController::class, 'reset']);
 Route::post('/save-debug-value', [SettingsController::class, 'debuggerSettings'])->name('save-debug-value');
 Route::post('/saveTokenForDebugger', [SettingsController::class, 'SaveTokenForDebugger']);
 Route::get('recaptchaStatus',[AuthController::class,'getRecaptchaStatus']);
+//2fa AUTHENTICATION
+Route::post('verify-recovery-code', [AuthController::class, 'verifyRecoveryCode']);
+Route::post('verify2fa',[AuthController::class, 'verify2fa']);
 
 /*************************************** CALLBACK FROM FAVEO TO LICENSE AND UPDATE *******************************************/
 
@@ -93,6 +97,23 @@ Route::post('/pdf', [DirectoryController::class, 'pdfForm']);
 Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(function () {
 
     Route::post('/logout/{user_id}', [AuthController::class, 'logout']);
+
+    //Google 2fa
+    Route::middleware( 'password.confirm')->group(function () {
+        Route::post('2fa/enable', [Google2FAController::class, 'enableTwoFactor']);
+        Route::post('2fa-recovery-code', [Google2FAController::class, 'generateRecoveryCode']);
+        Route::post('2fa/setupValidate', [Google2FAController::class, 'postSetupValidateToken']);
+        Route::post('2fa/disable', [Google2FAController::class, 'disableTwoFactor']);
+        Route::get('show/verify-password', [Google2FAController::class, 'showVerifyPasswordPopup']);
+        Route::get('2fa/downloadRecoveryCode', [Google2FAController::class, 'downloadRecoveryCodes']);
+    });
+    Route::post('verify/password', [Google2FAController::class, 'verifyPassword']);
+
+    //Profile
+    Route::get('profile/info', [UserController::class, 'getProfileInfo']);
+    Route::patch('profile', [UserController::class, 'updateProfile']);
+    Route::patch('password', [UserController::class, 'updatePassword']);
+    Route::get('countryCode',[UserController::class, 'getCountryCode']);
 
     /******************************************* LICENSE MANAGER ******************************************************/
     //Dashboiard
