@@ -474,6 +474,28 @@ return [
     'no_matching_records' => 'No Matching Records',
     'loading' => 'Loading',
 
+    'profile_updated_successfully' => 'Profile updated successfully.',
+    'select_image' => 'Please select an image file',
+    'max_size_new_added' => 'Upload Failed. Maximum file size supported is 2 MB ',
+    'restricted_image_file' => 'The profile pic must be of type: png, jpeg, jpg' ,
 
+
+    //PROFILE PAGE
+    'profile' => 'Profile',
+    'change' => 'Change',
+    'my_profile' => 'My Profile',
+    'phone_number' => 'Phone Number',
+    'change_password' => 'Change Password',
+    'old_password' => 'Old Password',
+    'new_password' => 'New Password',
+    'confirm_password' => 'Confirm Password',
+    'enter_a_value' => 'Enter a Value',
+    'no_ratio' => 'Free',
+    'ratio' => 'Ratio',
+    'rotate' => 'Rotate',
+    'proceed' => 'Proceed',
+    'crop_profile' => 'Crop Profile',
+    'crop_logo' => 'Crop Logo',
+    'user_name' => 'Username'
 ];
 

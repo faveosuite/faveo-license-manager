@@ -51,8 +51,8 @@ describe('Login', () => {
             global: {
                 plugins: [store],
                 mixins: [globalMixins],
-                stubs : ['text-field','loader','alert','router-link'],
-                mocks: { axios, $router: mockRouter, $route: {query : 'your-query'} }
+                stubs: ['text-field', 'loader', 'alert', 'router-link'],
+                mocks: {axios, $router: mockRouter, $route: {query: 'your-query'}}
             }
         })
     }

@@ -33,7 +33,14 @@ const state = {
     updateApiKey(state,payload) {
 
         state.api_key = payload
-    }
+    },
+
+     updateUserData(state, payload)  {
+
+         state.user_data.client_profile_pic = payload.profile_pic
+         state.user_data.client_mobile_code = payload.client_mobile_code
+         state.user_data.client_iso2 = payload.client_iso2
+     }
  }
 
  const actions = {
@@ -45,6 +52,10 @@ const state = {
 
     setUserInfo({commit},payload) {
         commit('updateUserInfo',payload)
+    },
+
+    setUserData({commit}, payload) {
+        commit('updateUserData', payload)
     },
 
     setApiKey({commit}) {

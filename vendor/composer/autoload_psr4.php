@@ -11,6 +11,8 @@ return array(
     'Whoops\\' => array($vendorDir . '/filp/whoops/src/Whoops'),
     'Webmozart\\Assert\\' => array($vendorDir . '/webmozart/assert/src'),
     'TijsVerkoyen\\CssToInlineStyles\\' => array($vendorDir . '/tijsverkoyen/css-to-inline-styles/src'),
+    'Thomaswelton\\Tests\\LaravelGravatar\\' => array($vendorDir . '/thomaswelton/laravel-gravatar/tests'),
+    'Thomaswelton\\LaravelGravatar\\' => array($vendorDir . '/thomaswelton/laravel-gravatar/src'),
     'Tests\\' => array($baseDir . '/tests'),
     'Termwind\\' => array($vendorDir . '/nunomaduro/termwind/src'),
     'Symfony\\Polyfill\\Uuid\\' => array($vendorDir . '/symfony/polyfill-uuid'),

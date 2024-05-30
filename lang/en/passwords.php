@@ -21,4 +21,6 @@ return [
     'user' => "We can't find a user with that email address.",
     'not_match' => "The email that you have provided does not match to the requested email",
 
+    'password_updated_successfully' => "Password updated successfully.",
+    'incorrect_password' =>  'Password was not updated. Incorrect old password',
 ];
