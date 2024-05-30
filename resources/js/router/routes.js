@@ -8,6 +8,8 @@ import NotFound from '../Pages/NotFound.vue';
 
 import Login from '../Pages/Auth/Login.vue';
 
+import Verify2FA from "../Pages/Auth/Verify2FA.vue";
+
 import ForgotPassword from '../Pages/Auth/ForgotPassword.vue';
 
 import ResetPassword from '../Pages/Auth/ResetPassword.vue'
@@ -740,6 +742,13 @@ const routes = [
         path: '/login',
         name: 'login',
         component: Login
+    },
+
+    {
+        path: '/verify-2fa/:pp',
+        name: 'Verify2FA',
+        props: true,
+        component: Verify2FA
     },
 
     {

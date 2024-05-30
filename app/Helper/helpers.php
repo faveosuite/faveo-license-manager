@@ -3,6 +3,7 @@
 use App\Models\AflSettings;
 use App\Http\Controllers\PhpMailController;
 use App\Models\User;
+use App\Models\AflClients;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\File;
 use Laravel\Passport\Passport;
@@ -692,5 +693,5 @@ function getAuthUserId()
 
 function getAuthUser()
 {
-    return User::where('client_id',getAuthUserId())->first();
+    return AflClients::where('client_id',getAuthUserId())->first();
 }

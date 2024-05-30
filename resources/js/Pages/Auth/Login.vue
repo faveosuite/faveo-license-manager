@@ -163,11 +163,16 @@ export default {
                 axios.post("/api/login", { ...data})
                     .then((res) => {
                         this.loading = false;
-                        const authToken = res.data.data.token;
-                        axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
-                        this.$store.dispatch('setLoggedInUserToken', authToken);
-                        this.$store.dispatch('setUserInfo', res.data.data.user);
-                        this.$router.push(this.getUserToken ? '/dashboard' : '/login');
+                        if(res.data.data.redirect_url === 'verify-2fa') {
+                            this.$router.push({ name: 'Verify2FA', params : { pp :JSON.stringify(res.data.data.PPAuth)}});
+                        } else {
+                            // Set the authentication token in the default headers
+                            const authToken = res.data.data.token;
+                            axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
+                            this.$store.dispatch('setLoggedInUserToken', authToken);
+                            this.$store.dispatch('setUserInfo', res.data.data.user);
+                            this.$router.push(this.getUserToken ? '/dashboard' : '/login');
+                        }
                     })
                     .catch(async (err) => {
                         this.loading = false;
