@@ -91,6 +91,7 @@ Route::post('/ConnectionTest', [ConnectionController::class, 'connection']);
 Route::post('/licenseInstall', [LicenseInstallController::class, 'licenseInstall']);
 Route::post('/licenseScheme', [LicenseSchemeController::class, 'licenseScheme']);
 Route::post('/licenseVerify', [LicenseVerifyController::class, 'licenseVerify']);
+Route::get('/licenseInfo', [LicenseController::class, 'licenseInfo']);
 //UPDATE MANAGER CALLBACKS
 Route::post('/getVersions', [GetVersionsController::class, 'getVersion']);
 Route::post('/getAllVersions', [GetAllVersionsController::class, 'getAllVersions']);
@@ -176,6 +177,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('getLicenseColumn',[LicenseController::class,'getLicenseColumns']);
     Route::post('saveLicenseColumn',[LicenseController::class,'saveLicenseColumns']);
     Route::get('installationLogs/{id}',[LicenseViewController::class,'getLicenseInstallationLogs']);
+    Route::post('license/syncAddonLicense', [LicenseController::class, 'syncTheCreationOfLicense']);
 
 
     //INSTALLATIONS

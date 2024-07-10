@@ -48,4 +48,9 @@ class AflProducts extends Model
         return $versionCount;
     }
 
+    public function latestVersion()
+    {
+        return $this->hasOne(AfuVersions::class, 'product_id')->latest('version_id');
+    }
+
 }
