@@ -24,4 +24,6 @@ class AflLicenses extends Model
     {
         return $this->hasMany(AflProducts::class);
     }
+
+
 }

@@ -12,6 +12,8 @@ use App\Models\CommonSetting;
 use App\Models\InstallationLogs;
 use App\Models\LicenseColumn;
 use App\Models\ReportColumn;
+use App\Models\AflProducts;
+use App\Models\AfuVersions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -508,7 +510,7 @@ class LicenseController extends Controller
     }
 
     public function licenseDeactivate(Request $request){
-        AflLicenses::where('license_code',$request->get('license_code'))->update(['license_status'=>0]);
+        AflLicenses::where('license_cod e',$request->get('license_code'))->update(['license_status'=>0]);
     }
 
         public function updateTheLicenseCode(Request $request){
@@ -546,5 +548,56 @@ class LicenseController extends Controller
             }
         }
         return successResponse(Lang::get('lang.column_saved'));
+    }
+    public function syncTheCreationOfLicense(Request $request){
+
+        $license_id = AflLicenses::where('license_code',$request->input('license_code'))->value('license_id');
+        $product_ids = explode(",", $request->input('product_ids')); // List of product IDs
+        $license = AflLicenses::find($license_id);
+
+        if ($license) {
+            // Attach products to the license
+            foreach ($product_ids as $product_id) {
+                $product_attribute =AflProducts::where('product_id', $product_id)->value('product_attributes');
+                $product_attributes = ['product_attributes_license' => $request->input('product_attributes',$product_attribute)];
+
+                ($request->input('attach'))?
+                    $license->addonProducts()->syncWithoutDetaching($product_id, $product_attributes):
+                    $license->addonProducts()->detach($product_id);
+
+            }
+        }
+    }
+
+    public function licenseInfo(Request $request)
+    {
+        // Retrieve license information or throw 404 error if not found
+        $license = AflLicenses::where('license_code', $request->input('license_code'))->firstOrFail();
+
+        // Retrieve product information related to the license
+        $product = AflProducts::find($license->product_id);
+
+        // Retrieve addon information related to the license
+        $addons = $license->addonProducts()->with(['latestVersion'])->get()->map(function ($product) {
+            return [
+                'product_id' => $product->product_id,
+                'product_name' => $product->product_title,
+                'product_attributes' => $product->product_attributes,
+                'product_attributes_license' => $product->pivot->product_attributes_license,
+                'latest_version' => optional($product->latestVersion)->version_number,
+                'latest_version_file' => optional($product->latestVersion)->version_upgrade_file,
+            ];
+        });
+
+        // Return success response with formatted data
+        return successResponse(
+            Lang::get('lang.license_info'),
+            [
+                'license' => $license,
+                'product' => $product,
+                'addons' => $addons,
+            ],
+            200
+        );
     }
 }
