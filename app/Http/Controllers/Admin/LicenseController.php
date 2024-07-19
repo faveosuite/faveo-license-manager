@@ -18,6 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use function Laravel\Prompts\select;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Consist of functionalities for the License page in Auto Faveo licenser
@@ -551,23 +552,37 @@ class LicenseController extends Controller
     }
     public function syncTheCreationOfLicense(Request $request){
 
-        $license_id = AflLicenses::where('license_code',$request->input('license_code'))->value('license_id');
-        $product_ids = explode(",", $request->input('product_ids')); // List of product IDs
+        $license_code = $request->input('license_code');
+        $license_id = AflLicenses::where('license_code', $license_code)->value('license_id');
+        $product_ids = explode(",", $request->input('product_ids'));
         $license = AflLicenses::find($license_id);
+        $is_indie = $request->input('indie', 0);
+        $attach = $request->input('attach');
+        $input_product_attributes = $request->input('product_attributes');
 
-        if ($license) {
-            // Attach products to the license
-            foreach ($product_ids as $product_id) {
-                $product_attribute =AflProducts::where('product_id', $product_id)->value('product_attributes');
-                $product_attributes = ['product_attributes_license' => $request->input('product_attributes',$product_attribute)];
-
-                ($request->input('attach'))?
-                    $license->addonProducts()->syncWithoutDetaching($product_id, $product_attributes):
-                    $license->addonProducts()->detach($product_id);
-
-            }
+        if (!$license) {
+            return;
         }
+
+        collect($product_ids)->each(function ($product_id) use ($license, $is_indie, $attach, $input_product_attributes, $license_code) {
+            $product_attribute = AflProducts::where('product_id', $product_id)->value('product_attributes');
+            $product_attributes = ['product_attributes_license' => $input_product_attributes ?? $product_attribute];
+
+            if ($is_indie && $attach) {
+                AflLicenses::where('product_id', $product_id)
+                    ->where('license_code', $license_code)
+                    ->update($product_attributes);
+                return;
+            }
+
+            $licenseProduct = $license->addonProducts();
+
+            $attach
+                ? $licenseProduct->syncWithoutDetaching($product_id,$product_attributes)
+                : $licenseProduct->detach($product_id);
+        });
     }
+
 
     public function licenseInfo(Request $request)
     {
@@ -596,6 +611,24 @@ class LicenseController extends Controller
                 'license' => $license,
                 'product' => $product,
                 'addons' => $addons,
+            ],
+            200
+        );
+    }
+
+    public function individualLicenseInfo(Request $request): \Illuminate\Http\JsonResponse
+    {
+        // Retrieve license information or throw 404 error if not found
+        $license = AflLicenses::where('license_code', $request->input('license_code'))->firstOrFail();
+
+        // Retrieve product information related to the license
+        $product = AflProducts::find($license->product_id);
+
+        return successResponse(
+            Lang::get('lang.license_info'),
+            [
+                'license' => $license,
+                'product' => $product,
             ],
             200
         );
