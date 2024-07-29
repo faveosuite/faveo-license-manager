@@ -90,4 +90,13 @@ class AflLicenses extends Model
             ")
         ]);
     }
+    public function licensePlugins()
+    {
+        return $this->hasMany(LicensePlugin::class, 'license_id', 'license_id');
+    }
+
+    public function licenseOptions()
+    {
+        return $this->hasMany(LicenseOption::class, 'license_id', 'license_id');
+    }
 }

@@ -13,7 +13,10 @@ use App\Models\InstallationLogs;
 use App\Models\LicenseColumn;
 use App\Models\ReportColumn;
 use App\Models\AflProducts;
+use App\Models\AfuProducts;
 use App\Models\AfuVersions;
+use App\Models\LicenseOption;
+use App\Models\LicensePlugin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -105,27 +108,27 @@ class LicenseController extends Controller
                 $license_support_email_date = $license_support_date;
                 try {
                     DB::table('afl_licenses')
-                                       ->insertOrIgnore([
-                                           'client_id' => $client_id,
-                                           'license_code' => $license_code,
-                                           'product_id' => $product_id,
-                                           'license_order_number' => $license_order_number,
-                                           'license_ip' => $license_ip,
-                                           'license_domain' => $license_domain,
-                                           'license_require_domain' => $license_require_domain,
-                                           'license_limit' => $license_limit,
-                                           'license_date' => $license_date,
-                                           'license_cancel_date' => $license_cancel_date,
-                                           'license_expire_date' => $license_expire_date,
-                                           'license_updates_date' => $license_updates_date,
-                                           'license_support_date' => $license_support_date,
-                                           'license_expire_email_date' => $license_expire_email_date,
-                                           'license_updates_email_date' => $license_updates_email_date,
-                                           'license_support_email_date' => $license_support_email_date,
-                                           'license_comments' => $license_comments,
-                                           'license_envato' => $license_envato,
-                                           'license_status' => $license_status,
-                                       ]);
+                        ->insertOrIgnore([
+                            'client_id' => $client_id,
+                            'license_code' => $license_code,
+                            'product_id' => $product_id,
+                            'license_order_number' => $license_order_number,
+                            'license_ip' => $license_ip,
+                            'license_domain' => $license_domain,
+                            'license_require_domain' => $license_require_domain,
+                            'license_limit' => $license_limit,
+                            'license_date' => $license_date,
+                            'license_cancel_date' => $license_cancel_date,
+                            'license_expire_date' => $license_expire_date,
+                            'license_updates_date' => $license_updates_date,
+                            'license_support_date' => $license_support_date,
+                            'license_expire_email_date' => $license_expire_email_date,
+                            'license_updates_email_date' => $license_updates_email_date,
+                            'license_support_email_date' => $license_support_email_date,
+                            'license_comments' => $license_comments,
+                            'license_envato' => $license_envato,
+                            'license_status' => $license_status,
+                        ]);
                     $added_records += 1;
                     //doMysqlQuery("INSERT IGNORE INTO apl_licenses (client_id, license_code, product_id, license_order_number, license_ip, license_domain, license_require_domain, license_limit, license_date, license_cancel_date, license_expire_date, license_updates_date, license_support_date, license_comments, license_envato, license_status) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", array($client_id, $license_code, $product_id, $license_order_number, $license_ip, $license_domain, $license_require_domain, $license_limit, $license_date, $license_cancel_date, $license_expire_date, $license_updates_date, $license_support_date, $license_comments, $license_envato, $license_status), array("i", "s", "i", "s", "s", "s", "i", "i", "s", "s", "s", "s", "s", "s", "i", "i"));
                 } catch (\Exception $e) {
@@ -141,9 +144,9 @@ class LicenseController extends Controller
                     $license_id = DB::getpdo()->lastInsertId();
                     if (aflValidateIntegerValue($license_id)) {
                         foreach ($rows_array = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-                                              ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
-                                              ->where('afl_licenses.license_id', $license_id)
-                                              ->get()->toArray() as $row) {
+                            ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
+                            ->where('afl_licenses.license_id', $license_id)
+                            ->get()->toArray() as $row) {
                             //fetchRow("SELECT * FROM apl_licenses LEFT JOIN apl_products ON apl_licenses.product_id=apl_products.product_id LEFT JOIN apl_clients ON apl_licenses.client_id=apl_clients.client_id WHERE apl_licenses.license_id=?", array($license_id), array("i")) as $row) //fetch product and client details to use in reports
                             extract((array) $row);
                         }
@@ -254,23 +257,23 @@ class LicenseController extends Controller
                     }
                 }
                 $updated_records += AflLicenses::where('license_id', $license_id)
-                                     ->update([
-                                         'license_order_number' => $license_order_number,
-                                         'license_ip' => $license_ip,
-                                         'license_domain' => $license_domain,
-                                         'license_require_domain' => $license_require_domain,
-                                         'license_limit' => $license_limit,
-                                         'license_cancel_date' => $license_cancel_date,
-                                         'license_expire_date' => $license_expire_date,
-                                         'license_expire_email_date' => $license_expire_date,
-                                         'license_updates_date' => $license_updates_date,
-                                         'license_updates_email_date' => $license_updates_email_date,
-                                         'license_support_date' => $license_support_date,
-                                         'license_support_email_date' => $license_support_email_date,
-                                         'license_comments' => $license_comments,
-                                         'license_envato' => $license_envato,
-                                         'license_status' => $license_status,
-                                     ]);
+                    ->update([
+                        'license_order_number' => $license_order_number,
+                        'license_ip' => $license_ip,
+                        'license_domain' => $license_domain,
+                        'license_require_domain' => $license_require_domain,
+                        'license_limit' => $license_limit,
+                        'license_cancel_date' => $license_cancel_date,
+                        'license_expire_date' => $license_expire_date,
+                        'license_expire_email_date' => $license_expire_date,
+                        'license_updates_date' => $license_updates_date,
+                        'license_updates_email_date' => $license_updates_email_date,
+                        'license_support_date' => $license_support_date,
+                        'license_support_email_date' => $license_support_email_date,
+                        'license_comments' => $license_comments,
+                        'license_envato' => $license_envato,
+                        'license_status' => $license_status,
+                    ]);
                 //doMysqlQuery("UPDATE apl_licenses SET license_order_number=?, license_ip=?, license_domain=?, license_require_domain=?, license_limit=?, license_cancel_date=?, license_expire_date=?, license_expire_email_date=?, license_updates_date=?, license_updates_email_date=?, license_support_date=?, license_support_email_date=?, license_comments=?, license_envato=?, license_status=? WHERE license_id=?", array($license_order_number, $license_ip, $license_domain, $license_require_domain, $license_limit, $license_cancel_date, $license_expire_date, $license_expire_email_date, $license_updates_date, $license_updates_email_date, $license_support_date, $license_support_email_date, $license_comments, $license_envato, $license_status, $license_id), array("s", "s", "s", "i", "i", "s", "s", "s", "s", "s", "s", "s", "s", "i", "i", "i"));
 
                 if (! aflValidateIntegerValue($updated_records)) {
@@ -280,9 +283,9 @@ class LicenseController extends Controller
                 } else {
                     $api_action_success = 1;
                     foreach ($rows_array = AflLicenses::leftJoin('afl_products', 'afl_licenses.product_id', '=', 'afl_products.product_id')
-                                              ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
-                                              ->where('afl_licenses.license_id', $license_id)
-                                              ->get()->toArray() as $row) { //fetch product and client details to use in reports
+                        ->leftJoin('users', 'afl_licenses.client_id', '=', 'users.client_id')
+                        ->where('afl_licenses.license_id', $license_id)
+                        ->get()->toArray() as $row) { //fetch product and client details to use in reports
                         extract((array) $row);
                     }
 
@@ -511,10 +514,10 @@ class LicenseController extends Controller
     }
 
     public function licenseDeactivate(Request $request){
-        AflLicenses::where('license_cod e',$request->get('license_code'))->update(['license_status'=>0]);
+        AflLicenses::where('license_code',$request->get('license_code'))->update(['license_status'=>0]);
     }
 
-        public function updateTheLicenseCode(Request $request){
+    public function updateTheLicenseCode(Request $request){
         return AflLicenses::where('license_code',$request->old_license_code)
             ->update(['licnese_code'=> $request->license_code]);
     }
@@ -552,36 +555,49 @@ class LicenseController extends Controller
     }
     public function syncTheCreationOfLicense(Request $request){
 
-        $license_code = $request->input('license_code');
-        $license_id = AflLicenses::where('license_code', $license_code)->value('license_id');
-        $product_ids = explode(",", $request->input('product_ids'));
-        $license = AflLicenses::find($license_id);
-        $is_indie = $request->input('indie', 0);
-        $attach = $request->input('attach');
-        $input_product_attributes = $request->input('product_attributes');
+        try {
+            $license_code = $request->input('license_code');
+            $license_id = AflLicenses::where('license_code', $license_code)->value('license_id');
+            $product_ids = explode(",", $request->input('product_ids'));
+            $license = AflLicenses::find($license_id);
 
-        if (!$license) {
-            return;
-        }
-
-        collect($product_ids)->each(function ($product_id) use ($license, $is_indie, $attach, $input_product_attributes, $license_code) {
-            $product_attribute = AflProducts::where('product_id', $product_id)->value('product_attributes');
-            $product_attributes = ['product_attributes_license' => $input_product_attributes ?? $product_attribute];
-
-            if ($is_indie && $attach) {
-                AflLicenses::where('product_id', $product_id)
-                    ->where('license_code', $license_code)
-                    ->update($product_attributes);
-                return;
+            if (!$license) {
+                return response()->json(['error' => 'License not found'], 404);
             }
 
-            $licenseProduct = $license->addonProducts();
+            $input_options = json_decode($request->input('options', '[]'), true);
 
-            $attach
-                ? $licenseProduct->syncWithoutDetaching($product_id,$product_attributes)
-                : $licenseProduct->detach($product_id);
-        });
+            // Insert into `license_plugins`
+            collect($product_ids)->each(function ($product_id) use ($license, $license_code) {
+                // Insert into `license_plugins` table
+                LicensePlugin::updateOrCreate(
+                    ['license_id' => $license->license_id, 'product_id' => $product_id],
+                    ['license_id' => $license->license_id, 'product_id' => $product_id]
+                );
+            });
+
+            // Insert into `license_options`
+            foreach ($input_options as $option) {
+                LicenseOption::updateOrCreate(
+                    [
+                        'license_id' => $license_id,
+                        'product_id' => $option['product_id'],
+                        'option_group' => $option['option_group'],
+                        'option_name' => $option['option_name'],
+                        'key' => $option['key']
+                    ],
+                    [
+                        'value' => $option['value']
+                    ]
+                );
+            }
+            return response()->json(['message' => 'License synchronization and options insertion complete']);
+        }
+        Catch(\Exception $e){
+            Log::error($e->getMessage());
+        }
     }
+
 
 
     public function licenseInfo(Request $request)
@@ -618,19 +634,88 @@ class LicenseController extends Controller
 
     public function individualLicenseInfo(Request $request): \Illuminate\Http\JsonResponse
     {
-        // Retrieve license information or throw 404 error if not found
-        $license = AflLicenses::where('license_code', $request->input('license_code'))->firstOrFail();
+        $licenseCode = $request->input('license_code');
 
-        // Retrieve product information related to the license
-        $product = AflProducts::find($license->product_id);
+        // Retrieve the license with the given code and load related license options
+        $license = AflLicenses::where('license_code', $licenseCode)
+            ->with('licenseOptions') // Eager load license options
+            ->first();
 
-        return successResponse(
-            Lang::get('lang.license_info'),
-            [
-                'license' => $license,
-                'product' => $product,
-            ],
-            200
-        );
+        // Check if license is found
+        if (!$license) {
+            return successResponse('', []);
+        }
+
+        // Format the license options data to include license_code
+        $licenseOptions = $license->licenseOptions->map(function($option) use ($license) {
+            return [
+                'license_code' => $license->license_code,
+                'product_id' => $option->product_id,
+                'option_group' => $option->option_group,
+                'option_name' => $option->option_name,
+                'key' => $option->key,
+                'value' => $option->value,
+            ];
+        })->toArray();
+
+        return successResponse('', $licenseOptions);
     }
+
+    public function giveLicenseTakeOrder(Request $request){
+        return successResponse('', AflLicenses::where('license_code', $request->input('license_code'))->value('license_order_number'));
+    }
+
+    public function getPluginInfo(Request $request)
+    {
+        $license_code = json_decode($request->input('license_code'));
+        $result = [];
+        foreach ($license_code as $license){
+            $license_id = AflLicenses::where('license_code', $license)->value('license_id');
+            $product_ids = LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray();
+            if(!empty($product_ids)){
+                foreach ($product_ids as $product_id){
+                    $product = AflProducts::find($product_id);
+                    $cloud = AfuProducts::find($product_id);
+                    if(empty($cloud)){
+                        continue;
+                    }
+                    $product_key = $cloud->product_key;
+                    $result[] = [
+                        'product_id' => $product_id,
+                        'product_name' => $product->product_title,
+                        'product_key' => $product_key,
+                        'product_description' => $product->product_description,
+                        'version'  => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_number,
+                        'license_code' => $license,
+                        'version_download_file_name' => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_upgrade_file,
+                    ];
+                }
+            }
+            else{
+                $product_id = AflLicenses::where('license_code', $license)->value('product_id');
+                if (array_column($result, 'product_id') == $product_id) {
+                    continue;
+                }
+
+                $product = AflProducts::find($product_id);
+                $cloud = AfuProducts::find($product_id);
+                if(empty($cloud)) {
+                    continue;
+                }
+                $product_key = AfuProducts::find($product_id)->product_key;
+                $result[] = [
+                    'product_id' => $product_id,
+                    'product_name' => $product->product_title,
+                    'product_key' => $product_key,
+                    'product_description' => $product->product_description,
+                    'version'  => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_number,
+                    'license_code' => $license,
+                    'version_download_file_name' => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_upgrade_file,
+                ];
+            }
+        }
+
+        return successResponse('', json_encode($result));
+    }
+
 }
