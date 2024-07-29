@@ -53,4 +53,14 @@ class AflProducts extends Model
         return $this->hasOne(AfuVersions::class, 'product_id')->latest('version_id');
     }
 
+    public function licensePlugins()
+    {
+        return $this->hasMany(LicensePlugin::class, 'product_id', 'product_id');
+    }
+
+    public function productOptions()
+    {
+        return $this->hasMany(LicenseOption::class, 'product_id', 'product_id');
+    }
+
 }

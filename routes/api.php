@@ -93,6 +93,9 @@ Route::post('/licenseScheme', [LicenseSchemeController::class, 'licenseScheme'])
 Route::post('/licenseVerify', [LicenseVerifyController::class, 'licenseVerify']);
 Route::get('/licenseInfo', [LicenseController::class, 'licenseInfo']);
 Route::get('/IndividuallicenseInfo', [LicenseController::class, 'individualLicenseInfo']);
+Route::get('/getOrder', [LicenseController::class, 'giveLicenseTakeOrder']);
+Route::get('/pluginLicense', [LicenseController::class, 'getPluginInfo']);
+
 //UPDATE MANAGER CALLBACKS
 Route::post('/getVersions', [GetVersionsController::class, 'getVersion']);
 Route::post('/getAllVersions', [GetAllVersionsController::class, 'getAllVersions']);
