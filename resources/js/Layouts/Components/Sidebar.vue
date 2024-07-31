@@ -20,7 +20,7 @@
 
         		<div class="info">
 
-          			<router-link to="/profile" class="d-block" v-tooltip="user.client_fname + ' ' + user.client_lname">
+          			<router-link to="/profile/edit" class="d-block" v-tooltip="user.client_fname + ' ' + user.client_lname">
           				{{subString(user.client_fname + ' ' + user.client_lname)}}
           			</router-link>
         		</div>

@@ -103,8 +103,6 @@
                         </button>
                     </div>
                 </div>
-<<<<<<< HEAD
-=======
 
                 <div class="card card-light ">
 
@@ -157,7 +155,7 @@
 
                     </remove-modal>
                 </transition>
->>>>>>> e308d955f (2fa integration)
+
             </div>
         </div>
     </div>
