@@ -125,9 +125,7 @@
     margin-top: 1rem;
     margin-bottom: 1rem;
   }
-    .modal-body{
-        height: 300px;
-    }
+
   .modal-enter .modal-container,
   .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);
