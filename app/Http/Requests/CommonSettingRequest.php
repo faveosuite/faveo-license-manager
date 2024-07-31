@@ -24,13 +24,33 @@ class CommonSettingRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'google_site_key' => 'required',
-            'google_secret_key' => 'required',
-            'g-recaptcha-response' => ['required',new CaptchaValidation(Lang::get('lang.invalid_secret_key')),],
-            'agora_invoicing_url' => 'required|url',
-            'timezone' => 'required|integer',
-            'time_format' => 'required|integer',
-            'date_format' => 'required|integer',
+            // Google reCAPTCHA fields
+            'google_site_key' => 'sometimes|required',
+            'google_secret_key' => [
+                'sometimes',
+                'required',
+                new CaptchaValidation(Lang::get('lang.invalid_secret_key')),
+            ],
+            'g-recaptcha-response' => 'sometimes|required',
+
+            // reCAPTCHA and general settings
+            'recaptcha_status' => 'sometimes|required',
+
+            // URL and time/date format fields
+            'agora_invoicing_url' => 'sometimes|required|url',
+            'timezone' => 'sometimes|required|integer',
+            'time_format' => 'sometimes|required|integer',
+            'date_format' => 'sometimes|required|integer',
+
+            // File uploads
+            'icon' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2048',
+            'admin_logo' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2048',
+            'client_logo' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2048',
+
+            // Default status for logos and icon
+            'icon_default' => 'sometimes|required',
+            'admin_logo_default' => 'sometimes|required',
+            'client_logo_default' => 'sometimes|required',
         ];
     }
 }
