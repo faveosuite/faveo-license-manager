@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
+use App\Models\LicensePlugin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -88,8 +89,23 @@ class LicenseInstallController extends Controller
                     $notification_case = setValue($notification_case, 'notification_product_inactive');
                 } else { //product active, do other checks
                     if (! empty($license_code)) { //search for code-based license
+
                         $license_array = AflLicenses::where('license_code', $license_code)
                                                   ->where('product_id', $product_id)->get()->toArray();
+
+                        if (empty($license_array)) { // license doesn't exist
+                            $license_id = AflLicenses::where('license_code', $license_code)->value('license_id');
+
+                            $product_ids = LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray();
+
+                            if (in_array($product_id, $product_ids)) {
+                                $license_array = AflLicenses::where('license_code', $license_code)->get()->toArray();
+                                $license_array[0]['product_id'] = $product_id;
+                            } else {
+                                $license_array = [] ; // Append product_id to the array
+                            }
+                        }
+
                     } else { //search for email-based license
                         $license_array = DB::table('afl_licenses')
                                             ->join('users', ' afl_licenses.client_id', '=', 'users.client_id')
@@ -305,6 +321,7 @@ class LicenseInstallController extends Controller
             $client_id = null;
             $license_code = null;
             $report_text = "Host $this->ip_address sent invalid data to requested_url and was rejected. Host sent this data: ".json_encode($request->all()).'.';
+            dd($report_text);
         }
         createLicenseReport($SMART_REPORTS, $product_id, $client_id, $license_code, $report_text, $action_success); //always create report, no matter result
         if ($action_success != 1) { //record failed licensing attempt and ban host if needed

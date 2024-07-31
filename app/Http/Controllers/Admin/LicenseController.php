@@ -664,58 +664,51 @@ class LicenseController extends Controller
     public function giveLicenseTakeOrder(Request $request){
         return successResponse('', AflLicenses::where('license_code', $request->input('license_code'))->value('license_order_number'));
     }
-
     public function getPluginInfo(Request $request)
     {
-        $license_code = json_decode($request->input('license_code'));
-        $result = [];
-        foreach ($license_code as $license){
-            $license_id = AflLicenses::where('license_code', $license)->value('license_id');
-            $product_ids = LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray();
-            if(!empty($product_ids)){
-                foreach ($product_ids as $product_id){
-                    $product = AflProducts::find($product_id);
-                    $cloud = AfuProducts::find($product_id);
-                    if(empty($cloud)){
-                        continue;
-                    }
-                    $product_key = $cloud->product_key;
-                    $result[] = [
-                        'product_id' => $product_id,
-                        'product_name' => $product->product_title,
-                        'product_key' => $product_key,
-                        'product_description' => $product->product_description,
-                        'version'  => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_number,
-                        'license_code' => $license,
-                        'version_download_file_name' => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_upgrade_file,
-                    ];
-                }
-            }
-            else{
-                $product_id = AflLicenses::where('license_code', $license)->value('product_id');
-                if (array_column($result, 'product_id') == $product_id) {
-                    continue;
-                }
+        $license_codes = collect(json_decode($request->input('license_code'), true));
+        $licenses = AflLicenses::whereIn('license_code', $license_codes)->get()->keyBy('license_code');
 
-                $product = AflProducts::find($product_id);
-                $cloud = AfuProducts::find($product_id);
-                if(empty($cloud)) {
-                    continue;
-                }
-                $product_key = AfuProducts::find($product_id)->product_key;
-                $result[] = [
-                    'product_id' => $product_id,
-                    'product_name' => $product->product_title,
-                    'product_key' => $product_key,
-                    'product_description' => $product->product_description,
-                    'version'  => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_number,
-                    'license_code' => $license,
-                    'version_download_file_name' => AfuVersions::where('product_id', $product_id)->orderBy('version_id', 'desc')->first()->version_upgrade_file,
-                ];
-            }
-        }
+        $result = $license_codes->map(function ($license_code) use ($licenses) {
+            $license = $licenses->get($license_code);
 
-        return successResponse('', json_encode($result));
+            if (!$license) {
+                return null; // Skip if the license is not found
+            }
+
+            $product_ids = LicensePlugin::where('license_id', $license->license_id)->pluck('product_id')->toArray();
+            $product_ids = !empty($product_ids) ? $product_ids : [$license->product_id];
+
+            return collect($product_ids)->unique()->map(function ($product_id) use ($license_code) {
+                return $this->generateLicenseData($product_id, $license_code);
+            })->filter();
+        })->filter()->values();
+
+        return successResponse('', $result->toJson());
     }
 
+    private function generateLicenseData($product_id, $license_code)
+    {
+        $product = AflProducts::find($product_id);
+        $cloud = AfuProducts::find($product_id);
+
+        $version = AfuVersions::where('product_id', $product_id)
+            ->orderBy('version_id', 'desc')
+            ->first();
+
+        $installed = AflInstallations::where('product_id', $product_id)
+            ->where('license_code', $license_code)
+            ->exists();
+
+        return (!$product || !$cloud || !$version || $installed) ? null :
+        [
+            'product_id' => $product_id,
+            'product_name' => $product->product_title,
+            'product_key' => $cloud->product_key,
+            'product_description' => $product->product_description,
+            'version' => $version->version_number,
+            'license_code' => $license_code,
+            'path' => $cloud->product_path,
+        ];
+    }
 }
