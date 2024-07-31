@@ -7,6 +7,7 @@ use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflLicenseSchemes;
 use App\Models\AflProducts;
+use App\Models\LicensePlugin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -82,7 +83,22 @@ class LicenseSchemeController extends Controller
                 } else { //product active, do other checks
                     if (! empty($license_code)) { //search for code-based license
                         $license_array = AflLicenses::where('license_code', $license_code)
-                                    ->where('product_id', $product_id)->get()->toArray();
+                            ->where('product_id', $product_id)->get()->toArray();
+
+                        if (empty($license_array)) { // license doesn't exist
+                            $license_id = AflLicenses::where('license_code', $license_code)->value('license_id');
+
+                            $product_ids = LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray();
+
+                            if (in_array($product_id, $product_ids)) {
+                                $license_array = AflLicenses::where('license_code', $license_code)->get()->toArray();
+                                $license_array[0]['product_id'] = $product_id;
+                            } else {
+                                $license_array = [] ; // Append product_id to the array
+                            }
+                        }
+
+
                     } else { //search for email-based license
                         $license_array = AflLicenses::join('users', 'afl_licenses.client_id', '=', 'users.client_id')
                                     ->where('users.client_email', $client_email)
