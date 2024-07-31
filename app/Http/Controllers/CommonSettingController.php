@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Facades\ImageUpload;
 use App\Http\Requests\CommonSettingRequest;
 use App\Models\CommonSetting;
 use App\Models\DateFormat;
@@ -17,11 +18,52 @@ class CommonSettingController extends Controller
       $this->envKeys = ['RECAPTCHA_SITE_KEY'];
     }
     public function createOrUpdateCommonSetting(CommonSettingRequest $request){
-        foreach ($request->except('g-recaptcha-response') as $key => $value) {
-            CommonSetting::updateOrCreate(['key' => $key], ['value' => $value]);
+        // Get status from request or default to 1
+        $status = $request->input('recaptcha_status', 1);
+
+        // Update or create general settings except for specific keys related to files
+        foreach ($request->except(['g-recaptcha-response', 'icon_default', 'admin_logo_default', 'client_logo_default', 'icon', 'client_logo', 'admin_logo']) as $key => $value) {
+            CommonSetting::updateOrCreate(
+                ['key' => $key],
+                ['value' => $value, 'status' => $status]
+            );
         }
 
-        $this->anyEnvUpdate($request,$this->envKeys,$this->requestKeys);
+        // Define default values
+        $defaults = [
+            'icon' => 'themes/default/img/favicon.ico',
+            'admin_logo' => 'themes/default/img/logo.png',
+            'client_logo' => 'themes/default/img/avatar.png',
+        ];
+
+        // Handle icon
+        if ($request->hasFile('icon')) {
+            $icon = $request->file('icon');
+            $iconPath = $request->input('icon_default') ? $defaults['icon'] : ImageUpload::saveImageToStorage($icon, 'common/images/icon');
+            CommonSetting::updateOrCreate(['key' => 'icon'], ['value' => $iconPath]);
+        } else if ($request->input('icon_default')) {
+            CommonSetting::updateOrCreate(['key' => 'icon'], ['value' => $defaults['icon']]);
+        }
+
+        // Handle admin logo
+        if ($request->hasFile('admin_logo')) {
+            $logoAdmin = $request->file('admin_logo');
+            $adminLogoPath = $request->input('admin_logo_default') ? $defaults['admin_logo'] : ImageUpload::saveImageToStorage($logoAdmin, 'common/images/admin_logo');
+            CommonSetting::updateOrCreate(['key' => 'admin_logo'], ['value' => $adminLogoPath]);
+        } else if ($request->input('admin_logo_default')) {
+            CommonSetting::updateOrCreate(['key' => 'admin_logo'], ['value' => $defaults['admin_logo']]);
+        }
+
+        // Handle client logo
+        if ($request->hasFile('client_logo')) {
+            $logoClient = $request->file('client_logo');
+            $clientLogoPath = $request->input('client_logo_default') ? $defaults['client_logo'] : ImageUpload::saveImageToStorage($logoClient, 'common/images/client_logo');
+            CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => $clientLogoPath]);
+        } else if ($request->input('client_logo_default')) {
+            CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => $defaults['client_logo']]);
+        }
+
+        $this->anyEnvUpdate($request, $this->envKeys, $this->requestKeys);
 
         return successResponse(trans('lang.common_setting_svaed'));
     }
@@ -38,6 +80,13 @@ class CommonSettingController extends Controller
             $settingsArray['timezone']=  Timezone::find($settingsArray['timezone']);
             $settingsArray['date_format']= DateFormat::find($settingsArray['date_format']);
             $settingsArray['time_format'] = TimeFormat::find($settingsArray['time_format']);
+
+            $googleSiteKeyStatus = CommonSetting::where('key', 'google_site_key')->pluck('status')->first();
+            $googleSecretKeyStatus = CommonSetting::where('key', 'google_secret_key')->pluck('status')->first();
+
+            $recaptchaStatus = ($googleSiteKeyStatus === '1' && $googleSecretKeyStatus === '1') ? 1 : 0;
+            $settingsArray['recaptcha_status'] = $recaptchaStatus;
+
             return successResponse('',$settingsArray);
 
         } catch (\Exception $e) {
@@ -48,8 +97,6 @@ class CommonSettingController extends Controller
     public function clearCommonSetting(){
         try{
             $settings = [
-                'google_site_key' => '',
-                'google_secret_key' => '',
                 'agora_invoicing_url' => '',
                 'timezone' => Timezone::where('name','UTC')->value('id'),
                 'date_format' => DateFormat::where('format','F j, Y')->value('id'),
