@@ -28,39 +28,31 @@ class CommonSettingController extends Controller
                 ['value' => $value, 'status' => $status]
             );
         }
-
-        // Define default values
-        $defaults = [
-            'icon' => 'themes/default/img/favicon.ico',
-            'admin_logo' => 'themes/default/img/logo.png',
-            'client_logo' => 'themes/default/img/avatar.png',
-        ];
-
         // Handle icon
         if ($request->hasFile('icon')) {
             $icon = $request->file('icon');
-            $iconPath = $request->input('icon_default') ? $defaults['icon'] : ImageUpload::saveImageToStorage($icon, 'common/images/icon');
+            $iconPath = $request->input('icon_default') ? '' : ImageUpload::saveImageToStorage($icon, 'common/images/icon');
             CommonSetting::updateOrCreate(['key' => 'icon'], ['value' => $iconPath]);
         } else if ($request->input('icon_default')) {
-            CommonSetting::updateOrCreate(['key' => 'icon'], ['value' => $defaults['icon']]);
+            CommonSetting::updateOrCreate(['key' => 'icon'], ['value' => '']);
         }
 
         // Handle admin logo
         if ($request->hasFile('admin_logo')) {
             $logoAdmin = $request->file('admin_logo');
-            $adminLogoPath = $request->input('admin_logo_default') ? $defaults['admin_logo'] : ImageUpload::saveImageToStorage($logoAdmin, 'common/images/admin_logo');
+            $adminLogoPath = $request->input('admin_logo_default') ? '' : ImageUpload::saveImageToStorage($logoAdmin, 'common/images/admin_logo');
             CommonSetting::updateOrCreate(['key' => 'admin_logo'], ['value' => $adminLogoPath]);
         } else if ($request->input('admin_logo_default')) {
-            CommonSetting::updateOrCreate(['key' => 'admin_logo'], ['value' => $defaults['admin_logo']]);
+            CommonSetting::updateOrCreate(['key' => 'admin_logo'], ['value' => '']);
         }
 
         // Handle client logo
         if ($request->hasFile('client_logo')) {
             $logoClient = $request->file('client_logo');
-            $clientLogoPath = $request->input('client_logo_default') ? $defaults['client_logo'] : ImageUpload::saveImageToStorage($logoClient, 'common/images/client_logo');
+            $clientLogoPath = $request->input('client_logo_default') ? '' : ImageUpload::saveImageToStorage($logoClient, 'common/images/client_logo');
             CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => $clientLogoPath]);
         } else if ($request->input('client_logo_default')) {
-            CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => $defaults['client_logo']]);
+            CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => '']);
         }
         if($request->input('recaptcha_status')){
             $this->anyEnvUpdate($request, $this->envKeys, $this->requestKeys);
@@ -74,7 +66,12 @@ class CommonSettingController extends Controller
     public function getCommonSetting(){
         try {
             $commonSettings = CommonSetting::all();
-
+            // Define default values
+            $defaults = [
+                'icon' => 'themes/default/img/favicon.ico',
+                'admin_logo' => 'themes/default/img/logo.png',
+                'client_logo' => 'themes/default/img/avatar.png',
+            ];
             $settingsArray = [];
             foreach ($commonSettings as $setting) {
                 $settingsArray[$setting->key] = $setting->value;
@@ -82,7 +79,9 @@ class CommonSettingController extends Controller
             $settingsArray['timezone']=  Timezone::find($settingsArray['timezone']);
             $settingsArray['date_format']= DateFormat::find($settingsArray['date_format']);
             $settingsArray['time_format'] = TimeFormat::find($settingsArray['time_format']);
-
+            $settingsArray['icon'] = empty($settingsArray['icon']) ? asset($defaults['icon']) :  asset('storage/common/images/icon/'.$settingsArray['icon']);
+            $settingsArray['admin_logo'] = empty($settingsArray['admin_logo']) ? asset($defaults['admin_logo']) :   asset('storage/common/images/admin_logo/'.$settingsArray['admin_logo']);
+            $settingsArray['client_logo'] = empty($settingsArray['client_logo']) ? asset($defaults['client_logo']) :   asset( 'storage/common/images/client_logo/'.$settingsArray['client_logo']);
             $googleSiteKeyStatus = CommonSetting::where('key', 'google_site_key')->pluck('status')->first();
             $googleSecretKeyStatus = CommonSetting::where('key', 'google_secret_key')->pluck('status')->first();
             $recaptchaStatus = ($googleSiteKeyStatus === '1' && $googleSecretKeyStatus === '1') ? 1 : 0;
