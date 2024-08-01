@@ -62,9 +62,11 @@ class CommonSettingController extends Controller
         } else if ($request->input('client_logo_default')) {
             CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => $defaults['client_logo']]);
         }
-
-        $this->anyEnvUpdate($request, $this->envKeys, $this->requestKeys);
-
+        if($request->input('recaptcha_status')){
+            $this->anyEnvUpdate($request, $this->envKeys, $this->requestKeys);
+        }else{
+            $this->clearSomeEnv();
+        }
         return successResponse(trans('lang.common_setting_svaed'));
     }
 
@@ -83,7 +85,6 @@ class CommonSettingController extends Controller
 
             $googleSiteKeyStatus = CommonSetting::where('key', 'google_site_key')->pluck('status')->first();
             $googleSecretKeyStatus = CommonSetting::where('key', 'google_secret_key')->pluck('status')->first();
-
             $recaptchaStatus = ($googleSiteKeyStatus === '1' && $googleSecretKeyStatus === '1') ? 1 : 0;
             $settingsArray['recaptcha_status'] = $recaptchaStatus;
 
@@ -108,7 +109,6 @@ class CommonSettingController extends Controller
                     ['value' => $value]
                 );
             }
-            $this->clearSomeEnv();
             return successResponse(trans('lang.reset_successfully'));
         }
         Catch(\Exception $e){
