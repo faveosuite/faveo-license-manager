@@ -41,9 +41,7 @@
 import {lang, formatDateTime} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import {useStore} from 'vuex';
-import {computed} from "vue";
-import moment from "moment";
-import 'moment-timezone'
+import {computed, h} from "vue";
 import {errorHandler, successHandler} from "../../helpers/responseHandler";
 import {RouterLink} from "vue-router";
 
@@ -183,6 +181,11 @@ export default {
             },
 
             templates: {
+
+                license_ip(h, row) {
+
+                    return row.license_ip ? row.license_ip : '----';
+                },
 
                 license_updates_date(h, row) {
 

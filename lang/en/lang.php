@@ -359,6 +359,7 @@ return [
     'expiring_version'  => 'Expiring Version',
     'latest_product_report'  =>   'Latest Product Report',
     'latest_product'      =>    'Latest Product',
+    'refresh' => 'Refresh' ,
 
     //API KEY
     'api_key_description'  =>   'Description',
