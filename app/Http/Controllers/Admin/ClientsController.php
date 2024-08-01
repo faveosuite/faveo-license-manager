@@ -143,7 +143,7 @@ class ClientsController extends Controller
                         ->orWhere('client_email', 'LIKE', '%'.$searchQuery.'%');
                 });
             })
-            ->select(DB::raw('CONCAT(client_fname, " ", client_lname) AS full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date')
+            ->select(DB::raw('CONCAT(client_fname, " ", client_lname) AS full_name'), 'client_id', 'client_email', 'client_role', 'client_status', 'client_cancel_date', 'client_active_date','is_2fa_enabled')
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
