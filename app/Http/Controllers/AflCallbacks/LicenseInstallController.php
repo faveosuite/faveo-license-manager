@@ -90,21 +90,22 @@ class LicenseInstallController extends Controller
                 } else { //product active, do other checks
                     if (! empty($license_code)) { //search for code-based license
 
-                        $license_array = AflLicenses::where('license_code', $license_code)
-                                                  ->where('product_id', $product_id)->get()->toArray();
+                        $license = AflLicenses::where('license_code', $license_code)
+                            ->where('product_id', $product_id)
+                            ->first();
 
-                        if (empty($license_array)) { // license doesn't exist
-                            $license_id = AflLicenses::where('license_code', $license_code)->value('license_id');
+                        $license_array = $license ? $license->toArray() : [];
 
-                            $product_ids = LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray();
+                        $license_id = $license_array ? null : AflLicenses::where('license_code', $license_code)->value('license_id');
 
-                            if (in_array($product_id, $product_ids)) {
-                                $license_array = AflLicenses::where('license_code', $license_code)->get()->toArray();
-                                $license_array[0]['product_id'] = $product_id;
-                            } else {
-                                $license_array = [] ; // Append product_id to the array
-                            }
-                        }
+                        $product_ids = $license_id ? LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray() : [];
+
+                        $license_array = !$license_array && in_array($product_id, $product_ids)
+                            ? AflLicenses::where('license_code', $license_code)->first()->toArray()
+                            : $license_array;
+
+                        $license_array = $license_array ? array_merge($license_array, ['product_id' => $product_id]) : [];
+
 
                     } else { //search for email-based license
                         $license_array = DB::table('afl_licenses')

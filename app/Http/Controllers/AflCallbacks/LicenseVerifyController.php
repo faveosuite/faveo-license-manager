@@ -82,26 +82,27 @@ class LicenseVerifyController extends Controller
                     $notification_case = setValue($notification_case, 'notification_product_inactive');
                 } else { //product active, do other checks
                     if (! empty($license_code)) { //search for code-based license
-                        $license_array = AflLicenses::where('license_code', $license_code)
-                            ->where('product_id', $product_id)->get()->toArray();
 
-                        if (empty($license_array)) { // license doesn't exist
-                            $license_id = AflLicenses::where('license_code', $license_code)->value('license_id');
+                        $license = AflLicenses::where('license_code', $license_code)
+                            ->where('product_id', $product_id)
+                            ->first();
 
-                            $product_ids = LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray();
+                        $license_array = $license ? $license->toArray() : [];
 
-                            if (in_array($product_id, $product_ids)) {
-                                $license_array = AflLicenses::where('license_code', $license_code)->get()->toArray();
-                                $license_array[0]['product_id'] = $product_id;
-                            } else {
-                                $license_array = [] ; // Append product_id to the array
-                            }
-                        }
+                        $license_id = $license_array ? null : AflLicenses::where('license_code', $license_code)->value('license_id');
+
+                        $product_ids = $license_id ? LicensePlugin::where('license_id', $license_id)->pluck('product_id')->toArray() : [];
+
+                        $license_array = !$license_array && in_array($product_id, $product_ids)
+                            ? AflLicenses::where('license_code', $license_code)->first()->toArray()
+                            : $license_array;
+
+                        $license_array = $license_array ? array_merge($license_array, ['product_id' => $product_id]) : [];
                     } else { //search for email-based license
                         $license_array = AflLicenses::join('users', 'afl_licenses.client_id', '=', 'users.client_id')
-                                                   ->where('users.client_email', $client_email)
-                                                   ->where('users.client_status', 1)
-                                                   ->where('afl_licenses.product_id', $product_id)->get()->toArray();
+                            ->where('users.client_email', $client_email)
+                            ->where('users.client_status', 1)
+                            ->where('afl_licenses.product_id', $product_id)->get()->toArray();
                     }
 
                     if (empty($license_array)) { //license doesn't exist
@@ -171,9 +172,9 @@ class LicenseVerifyController extends Controller
                         }
 
                         $this_installation_owner_array = AflInstallations::where('product_id', $product_id)
-                                                                ->where('installation_ip', $this->ip_address)
-                                                                ->where('installation_domain', $installation_domain)
-                                                                ->get()->toArray();
+                            ->where('installation_ip', $this->ip_address)
+                            ->where('installation_domain', $installation_domain)
+                            ->get()->toArray();
                         //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND installation_ip=? AND installation_domain=?", array($product_id, $this->ip_address, $installation_domain), array("i", "s", "s"));
                         if (! empty($this_installation_owner_array)) { //installation exists, check whom it belongs to
                             if (! empty($license_code) && $license_code != $this_installation_owner_array[0]['license_code'] || aflValidateIntegerValue($client_id) && $client_id != $this_installation_owner_array[0]['client_id']) { //this domain is used by another user
@@ -193,11 +194,11 @@ class LicenseVerifyController extends Controller
                                 }*/
 
                             $all_installations_array = DB::table('afl_installations')->where('product_id', $product_id)
-                                                               ->where(function ($query) use ($client_id, $license_code) {
-                                                                   $query->where('client_id', $client_id)
-                                                                         ->whereNotNull('client_id')
-                                                                         ->orWhere('license_code', $license_code);
-                                                               })->get()->toArray(); //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND (client_id=? OR license_code=?)", array($product_id, $client_id, $license_code), array("i", "i", "s")); //check how many installations client has
+                                ->where(function ($query) use ($client_id, $license_code) {
+                                    $query->where('client_id', $client_id)
+                                        ->whereNotNull('client_id')
+                                        ->orWhere('license_code', $license_code);
+                                })->get()->toArray(); //fetchRow("SELECT * FROM apl_installations WHERE product_id=? AND (client_id=? OR license_code=?)", array($product_id, $client_id, $license_code), array("i", "i", "s")); //check how many installations client has
                             if (count($all_installations_array) > $license_limit) { //client has more installations than he is allowed to (most likely limit was changed after installations were made)
                                 $error_detected = 1;
                                 $error_details = setValue($error_details, "maximum installations limit ($license_limit) exceeded");
@@ -224,15 +225,15 @@ class LicenseVerifyController extends Controller
                         if ($error_detected != 1) { //everything OK so far, do final checks
                             if ($license_status == 1) { //license active, check if specified installation exists and is active
                                 $this_installation_array = AflInstallations::where('product_id', $product_id)
-                                                                         ->where(function ($query) use ($client_id, $license_code) {
-                                                                             $query->where('client_id', $client_id)
-                                                                                  ->orWhere('license_code', $license_code);
-                                                                         })->where(function ($query) {
-                                                                             $query->where('installation_ip', $this->ip_address)
-                                                                                  ->orWhere('installation_disable_ip_verification', 1);
-                                                                         })->where('installation_domain', $installation_domain)
-                                                                          ->where('installation_hash', $installation_hash)
-                                                                          ->where('installation_status', 1)->get()->toArray();
+                                    ->where(function ($query) use ($client_id, $license_code) {
+                                        $query->where('client_id', $client_id)
+                                            ->orWhere('license_code', $license_code);
+                                    })->where(function ($query) {
+                                        $query->where('installation_ip', $this->ip_address)
+                                            ->orWhere('installation_disable_ip_verification', 1);
+                                    })->where('installation_domain', $installation_domain)
+                                    ->where('installation_hash', $installation_hash)
+                                    ->where('installation_status', 1)->get()->toArray();
 
                                 if (! empty($this_installation_array)) { //installation exists and is active
                                     $action_success = 1;
@@ -294,14 +295,14 @@ class LicenseVerifyController extends Controller
         $callback_date_time = date('Y-m-d H:i:s');
         if ($SMART_REPORTS == 1) { //check if such callback already exists today
             $rows_array = AflCallbacks::where('product_id', $product_id)
-                    ->where(function ($query) use ($client_id, $license_code) {
-                        $query->where('client_id', $client_id)
-                                       ->whereNotNull('client_id')
-                                       ->orWhere('license_code', $license_code);
-                    })->where('callback_ip', $callback_ip)
-                    ->where('callback_domain', $callback_domain)
-                    ->whereRaw('callback_date_time BETWEEN ? AND ?', ["$date_today 00:00:00", "$date_today 23:59:59"])
-                    ->where('callback_status', $callback_status)->get()->toArray();
+                ->where(function ($query) use ($client_id, $license_code) {
+                    $query->where('client_id', $client_id)
+                        ->whereNotNull('client_id')
+                        ->orWhere('license_code', $license_code);
+                })->where('callback_ip', $callback_ip)
+                ->where('callback_domain', $callback_domain)
+                ->whereRaw('callback_date_time BETWEEN ? AND ?', ["$date_today 00:00:00", "$date_today 23:59:59"])
+                ->where('callback_status', $callback_status)->get()->toArray();
         }
         if (empty($rows_array)) { //no identical callback found (or SMART_REPORTS disabled)
             DB::table('afl_callbacks')->insertOrIgnore([
