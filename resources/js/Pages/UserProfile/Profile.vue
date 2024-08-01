@@ -26,7 +26,7 @@
 
                         <div class="text-center">
 
-                            <image-upload :label="lang('profile_pic')" :value="client_profile_pic" name="client_profile_pic" :onChange="onChange"
+                            <image-upload :label="lang('profile_pic')" :value="client_profile_pic" componentName="edit_profile" name="client_profile_pic" :onChange="onChange"
                                           :labelStyle="labelStyle" :labelCss="labelCss" buttonName="change">
 
                             </image-upload>

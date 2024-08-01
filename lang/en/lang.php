@@ -435,7 +435,18 @@ return [
     'google_site_key'   => 'Google site key',
     'google_secret_key' => 'Google secret key',
     'agora_invoicing_url' => 'Agora Invoicing Url',
-
+    'favicon' => 'Favicon',
+    'admin_logo' => 'Admin Panel Logo',
+    'client_logo' => 'Client Panel Logo',
+    'change_icon' => 'Change Icon',
+    'change_logo' => 'Change Logo',
+    'recaptcha' => 'Recaptcha Settings',
+    'google_recaptcha_settings' => 'Google Recaptcha Settings',
+    'logo_and_favicon' => 'Logo and Favicon',
+    'logo_icon_config' => 'Logo and Favicon Configuration',
+    'use_default' => 'Use Default',
+    'use_logo' => 'Use Logo',
+    'general_settings_configuration' => 'General Settings Configuration',
     'common_setting_svaed' => 'You general settings for license manager saved successfully',
     'reset_successfully' => 'You general settings for license manager has been reset successfully',
     'updated_successfully' => 'You general settings for license manager has been updated successfully',
@@ -463,7 +474,6 @@ return [
 
     //LOGS TRACE PAGE
     'read-more' => 'Read More',
-    'recaptcha' => 'Recaptcha Settings',
 
     //PAGINATION
     'next'=> 'Next',
@@ -522,14 +532,12 @@ return [
     'to_continue_first_verify' => 'To continue, first verify it\'s you',
     'setup_authenticator' => 'Set up Authenticator',
     'validate' => 'Validate',
-    'next' => 'Next',
     'recovery_codes' => 'Recovery Codes',
     'copy' => 'Copy',
     'download' => 'Download',
     'enter_the_code_you_see_in_the_app' => 'Enter the 6-digit code you see in the app.',
     'cant_scan' => 'CAN\'T SCAN IT?',
     'scan_barcode' => 'SCAN A BARCODE',
-    'previous' => 'Previous',
     'done' => 'Done',
     'you_are_all_set_from_now_on_you_will_use_authenticator_to_sign_in_to_your_account' => 'You\'re all set. From now on, you\'ll use Authenticator to sign in to your License Manager Account.'
 ];
