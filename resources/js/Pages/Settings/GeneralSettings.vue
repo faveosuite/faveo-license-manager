@@ -127,15 +127,15 @@
                 <div class="row">
 
                     <label class="label_align col-md-4 text-center">
-                        <input class="checkbox_align" type="checkbox" name="defaulticon" v-model="defaulticon">&nbsp;{{lang('use_default')}}
+                        <input class="checkbox_align" type="checkbox" name="defaultIcon" v-model="defaultIcon">&nbsp;{{lang('use_default')}}
                     </label>
 
                     <label class="label_align col-md-4 text-center">
-                        <input class="checkbox_align" type="checkbox" name="defaultlogo" v-model="defaultlogo">&nbsp;{{lang('use_default')}}
+                        <input class="checkbox_align" type="checkbox" name="defaultLogo" v-model="defaultLogo">&nbsp;{{lang('use_default')}}
                     </label>
 
                     <label class="label_align col-md-4 text-center">
-                        <input class="checkbox_align" type="checkbox" name="uselogo" v-model="uselogo">&nbsp;{{lang('use_logo')}}
+                        <input class="checkbox_align" type="checkbox" name="useLogo" v-model="useLogo">&nbsp;{{lang('use_logo')}}
                     </label>
                 </div>
 
@@ -143,17 +143,17 @@
 
                     <image-upload :label="lang('favicon')" :labelStyle="logoStyle" :value="icon"
                                   name="icon" :onChange="onChange" btnName="change_icon" componentName="google-recaptcha"
-                                  classname="col-sm-4 text-center" :is_default="defaulticon">
+                                  classname="col-sm-4 text-center" :is_default="defaultIcon">
                     </image-upload>
 
                     <image-upload :label="lang('admin_logo')" :labelStyle="logoStyle"
-                                  :value="logo_admin_agent" componentName="google-recaptcha"
-                                  name="logo_admin_agent" :onChange="onChange"
-                                  classname="col-sm-4 text-center" :is_default="defaultlogo">
+                                  :value="admin_logo" componentName="google-recaptcha"
+                                  name="admin_logo" :onChange="onChange"
+                                  classname="col-sm-4 text-center" :is_default="defaultLogo">
                     </image-upload>
 
-                    <image-upload :label="lang('client_logo')" :labelStyle="logoStyle" :value="logo"
-                                  name="logo" :onChange="onChange" componentName="google-recaptcha"
+                    <image-upload :label="lang('client_logo')" :labelStyle="logoStyle" :value="client_logo"
+                                  name="client_logo" :onChange="onChange" componentName="google-recaptcha"
                                   classname="col-sm-4 text-center">
                     </image-upload>
                 </div>
@@ -161,7 +161,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-primary mr-2" @click="onSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
+                <button class="btn btn-primary mr-2" @click="onImageSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
             </div>
 
         </div>
@@ -238,13 +238,21 @@ export default {
 
             icon: '',
 
-            logo_admin_agent: '',
+            admin_logo: '',
 
-            logo: '',
+            client_logo: '',
 
-            defaulticon: 0,
+            defaultIcon: 0,
 
-            defaultlogo: 0
+            defaultLogo: 0,
+
+            useLogo: 0,
+
+            selectedIcon: '',
+
+            selectedAdminLogo: '',
+
+            selectedClientLogo: ''
 
         }
     },
@@ -311,18 +319,21 @@ export default {
                 switch (name) {
                     case 'icon':
                         this.icon = value.image;
-                        let icon = value;
-                        this.selectedIcon = icon.file, icon.name;
+                        // let icon = value;
+                        // this.selectedIcon = icon.file, icon.name;
+                        this.selectedIcon = value;
                         break;
-                    case 'logo_admin_agent':
-                        this.logo_admin_agent = value.image;
-                        let logo_admin_agent = value;
-                        this.selectedLogoAdminAgent = logo_admin_agent.file, logo_admin_agent.name;
+                    case 'admin_logo':
+                        this.admin_logo = value.image;
+                        // let admin_logo = value;
+                        // this.selectedAdminLogo = admin_logo.file, admin_logo.name;
+                        this.selectedAdminLogo = value;
                         break;
-                    case 'logo':
-                        this.logo = value.image;
-                        let logo = value;
-                        this.selectedLogo = logo.file, logo.name;
+                    case 'client_logo':
+                        this.client_logo = value.image;
+                        // let logo = value;
+                        // this.selectedClientLogo = logo.file, logo.name;
+                        this.selectedClientLogo = value;
                         break;
                     default:
                         this[name] = value;
@@ -402,6 +413,54 @@ export default {
             }
         },
 
+        onImageSubmit() {
+
+            this.loading = true;
+
+            let fd = new FormData();
+
+            fd.append('icon_default', this.defaultIcon);
+
+            fd.append('admin_logo_default', this.defaultLogo);
+
+            fd.append('client_logo_default', this.useLogo);
+
+            if(this.selectedIcon){
+                fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
+            } else {
+                fd.append('icon', null);
+            }
+
+            if(this.selectedAdminLogo){
+                fd.append('admin_logo', this.selectedAdminLogo.file,this.selectedAdminLogo.name);
+            } else {
+                fd.append('admin_logo', null);
+            }
+
+            if(this.selectedClientLogo){
+                fd.append('client_logo', this.selectedClientLogo.file,this.selectedClientLogo.name);
+            } else {
+                fd.append('client_logo', null);
+            }
+
+            axios.post('/api/admin/common-setting', fd).then(res => {
+
+                this.loading = false;
+
+                successHandler(res,'google-recaptcha');
+
+                this.getProducts()
+
+            }).catch(err => {
+
+                this.loading = false;
+
+                errorHandler(err,'google-recaptcha');
+            });
+
+            this.loading = false;
+        },
+
         isValid() {
 
             const {errors, isValid} = validateGeneralSettings(this.$data);
@@ -414,7 +473,7 @@ export default {
             return isValid;
         },
 
-         onReset() {
+        onReset() {
 
             this.loading = true;
 
