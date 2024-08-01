@@ -10,6 +10,7 @@ use App\Models\TimeFormat;
 use App\Models\Timezone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Lang;
 
 class CommonSettingController extends Controller
 {
@@ -59,7 +60,7 @@ class CommonSettingController extends Controller
         }else{
             $this->clearSomeEnv();
         }
-        return successResponse(trans('lang.common_setting_svaed'));
+        return successResponse(Lang::get('lang.common_setting_svaed'));
     }
 
 
