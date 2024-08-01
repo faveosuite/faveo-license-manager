@@ -4,19 +4,15 @@ import { Validator } from '../easy-validator';
 
 import { lang } from '../extraLogics';
 
-export function validateGeneralSettings(data) {
+export function validateRecaptchaSettings(data) {
 
-    const { agora_invoicing_url, timezone, date_format, time_format } = data
+    const { google_site_key, google_secret_key } = data
 
     let validatingData = {
 
-        agora_invoicing_url: [agora_invoicing_url,'isRequired'],
+        google_site_key: [google_site_key,'isRequired'],
 
-        timezone: [timezone, 'isRequired'],
-
-        date_format: [date_format, 'isRequired' ],
-
-        time_format: [time_format,'isRequired'],
+        google_secret_key: [google_secret_key, 'isRequired'],
 
     };
 

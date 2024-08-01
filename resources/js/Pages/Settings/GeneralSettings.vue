@@ -30,7 +30,7 @@
 
                     </text-field>
 
-                    <radio-option :label="lang('status')" :value="recaptcha_status" :onChange="onChange"
+                    <radio-option :label="lang('status')" name="recaptcha_status" :value="recaptcha_status" :onChange="onChange"
                                   :options="[{name:'active', value:1}, {name:'inactive', value:0}]" >
 
                     </radio-option>
@@ -59,7 +59,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-primary mr-2" :disabled="!recaptchaVerified" @click="onSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
+                <button class="btn btn-primary mr-2" :disabled="!recaptchaVerified" @click="onRecaptchaSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
             </div>
 
         </div>
@@ -106,7 +106,7 @@
 
             <div class="card-footer">
 
-                <button class="btn btn-primary mr-2" @click="onSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
+                <button class="btn btn-primary mr-2" @click="onSettingsSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
 
                 <button class="btn btn-danger" @click="onReset"> <i :class="iconUndo"></i> {{ trans('Reset') }}</button>
             </div>
@@ -190,6 +190,8 @@ import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
 
 import {validateGeneralSettings} from "../../helpers/validator/validateGeneralSettings";
 
+import {validateRecaptchaSettings} from "../../helpers/validator/validateRecaptchaSettings"
+
 export default {
 
     name: 'google-recaptcha',
@@ -242,9 +244,7 @@ export default {
 
             defaulticon: 0,
 
-            defaultlogo: 0,
-
-            uselogo: 0
+            defaultlogo: 0
 
         }
     },
@@ -330,29 +330,59 @@ export default {
             }
         },
 
-         onSubmit() {
+        onRecaptchaSubmit() {
+
+            if(this.isRecaptchaValid()) {
+
+                this.loading = true;
+
+                let fd = new FormData();
+
+                fd.append('google_site_key', this.google_site_key);
+
+                fd.append('google_secret_key', this.google_secret_key);
+
+                fd.append('g-recaptcha-response', this.recaptchaVerified);
+
+                fd.append('recaptcha_status', this.recaptcha_status);
+
+                axios.post('/api/admin/common-setting', fd).then(res => {
+
+                    this.loading = false;
+
+                    successHandler(res,'google-recaptcha');
+
+                    this.getProducts()
+
+                }).catch(err => {
+
+                    this.loading = false;
+
+                    errorHandler(err,'google-recaptcha');
+                });
+
+                this.loading = false;
+
+            }
+        },
+
+        onSettingsSubmit() {
 
             if(this.isValid()) {
 
                 this.loading = true;
 
-                const formData = {};
+                let fd = new FormData();
 
-                formData['google_site_key'] = this.google_site_key;
+                fd.append('agora_invoicing_url', this.agora_invoicing_url);
 
-                formData['google_secret_key'] = this.google_secret_key;
+                fd.append('date_format', this.date_format.id);
 
-                formData['g-recaptcha-response'] = this.recaptchaVerified;
+                fd.append('time_format', this.time_format.id);
 
-                formData['agora_invoicing_url'] = this.agora_invoicing_url;
+                fd.append('timezone', this.timezone.id);
 
-                formData['date_format'] = this.date_format.id;
-
-                formData['time_format'] = this.time_format.id;
-
-                formData['timezone'] = this.timezone.id
-
-                axios.post('/api/admin/common-setting', formData).then(res => {
+                axios.post('/api/admin/common-setting', fd).then(res => {
 
                     this.loading = false;
 
@@ -375,7 +405,12 @@ export default {
         isValid() {
 
             const {errors, isValid} = validateGeneralSettings(this.$data);
+            return isValid;
+        },
 
+        isRecaptchaValid() {
+
+            const {errors, isValid} = validateRecaptchaSettings(this.$data);
             return isValid;
         },
 
