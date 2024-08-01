@@ -38,9 +38,10 @@
 <script>
 
 import {useStore} from "vuex";
-import {computed} from "vue";
+import {computed, h} from "vue";
 import {formatDateTime, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
+import DataTableStatuses from "../../components/Reusable/DataTableStatuses.vue";
 
 export default {
     setup() {
@@ -59,7 +60,7 @@ export default {
 
             data: '',
 
-            columns: ['full_name', 'client_email', 'client_role', 'client_active_date', 'client_status', 'actions'],
+            columns: ['full_name', 'client_email', 'client_role', 'client_active_date','info', 'client_status', 'actions'],
 
             options: {},
 
@@ -104,6 +105,8 @@ export default {
 
                 client_active_date: 'client_date',
 
+                info: 'info',
+
                 client_status: 'client_status',
 
                 client_role: 'client_role'
@@ -114,6 +117,10 @@ export default {
                 client_active_date(h, row) {
 
                     return formatDateTime(row.client_active_date, timezone, date_format, time_format)
+                },
+
+                info : (f,row)=>{
+                    return h(DataTableStatuses,{data : row})
                 },
             },
 
@@ -163,6 +170,8 @@ export default {
                 full_name: 'Name',
 
                 client_email: 'Email',
+
+                info: 'Info',
 
                 client_active_date: 'Activation Date',
 

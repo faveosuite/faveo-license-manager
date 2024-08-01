@@ -474,6 +474,12 @@ return [
 
     //LOGS TRACE PAGE
     'read-more' => 'Read More',
+    'user_email_is_verified' => 'User\'s email address is verified',
+    'user_email_not_verified' => 'User has not verified email address',
+    'user_mobile_is_verified' => 'User contact number is verified',
+    'user_mobile_not_verified' => 'User has not verified mobile',
+    'user_enabled_2fa' => 'User has enabled 2FA',
+    'user_not_enabled_2fa' => 'User has not enabled 2FA',
 
     //PAGINATION
     'next'=> 'Next',
