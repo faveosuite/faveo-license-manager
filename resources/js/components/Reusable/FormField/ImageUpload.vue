@@ -105,6 +105,8 @@ export default {
 
         value : { type: [Object,String] , default : '' },
 
+        componentName: {type: String, required: true},
+
         is_default : { type :  [Boolean,Number], default : false },
 
         btnName : { type : String, default : ''},
@@ -286,7 +288,7 @@ export default {
             this.$store.dispatch('setAlert', {
                 type: 'danger',
                 message: message,
-                component_name: 'edit_profile'
+                component_name: this.componentName
             });
 
         },
