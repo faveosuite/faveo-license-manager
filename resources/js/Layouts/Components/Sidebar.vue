@@ -4,7 +4,7 @@
 
     	<a href="javascript:;" class="brand-link text-center">
 
-            <image-element id="admin-pic" class="object-fit-cover" l :classes="['profile-user-img', 'img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="getAdminLogo"></image-element>
+            <image-element id="admin-pic" width="100px" height="100px" :classes="['profile-user-img', 'img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="getAdminLogo"></image-element>
     	</a>
 
     	<div class="sidebar" :key="counter">
