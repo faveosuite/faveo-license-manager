@@ -135,7 +135,7 @@
                     </label>
 
                     <label class="label_align col-md-4 text-center">
-                        <input class="checkbox_align" type="checkbox" name="useLogo" v-model="useLogo">&nbsp;{{lang('use_logo')}}
+                        <input class="checkbox_align" type="checkbox" name="useLogo" v-model="useLogo">&nbsp;{{lang('use_default')}}
                     </label>
                 </div>
 
@@ -154,7 +154,7 @@
 
                     <image-upload :label="lang('client_logo')" :labelStyle="logoStyle" :value="client_logo"
                                   name="client_logo" :onChange="onChange" componentName="google-recaptcha"
-                                  classname="col-sm-4 text-center">
+                                  classname="col-sm-4 text-center" :is_default="useLogo">
                     </image-upload>
                 </div>
             </div>
