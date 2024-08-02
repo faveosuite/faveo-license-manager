@@ -81,7 +81,9 @@
 
 			pp : { type : [Object, String], default : ''},
 
-			remember : { type : Boolean, default : false}
+			remember : { type : Boolean, default : false},
+
+            generalSetting : {type : Object, default : () => {}},
 		},
 
 		data() {
@@ -207,6 +209,8 @@
            axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
 
            this.$store.dispatch('setLoggedInUserToken', authToken);
+
+           this.$store.dispatch('setAdminData', this.generalSetting.admin_logo);
 
            this.$store.dispatch('setUserInfo', response.data.data.user);
 

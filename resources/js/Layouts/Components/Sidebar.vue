@@ -4,8 +4,7 @@
 
     	<a href="javascript:;" class="brand-link text-center">
 
-            <a>{{ lang('agora_license_manager') }}</a>
-
+            <image-element id="admin-pic" class="object-fit-cover" l :classes="['profile-user-img', 'img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="admin"></image-element>
     	</a>
 
     	<div class="sidebar" :key="counter">
@@ -55,10 +54,18 @@
 
     import Navigation from "./Navigation.vue";
     import ImageElement from "../../components/Reusable/ImageElement.vue";
+    import store from "../../store";
 
 	export default {
 
 		name : 'side-bar',
+
+        setup() {
+
+            return {
+                admin : store.getters.getAdminData
+            }
+        },
 
 		props : {
 
@@ -119,7 +126,7 @@
 		},
 
 		components : {
-            ImageElement,
+            "image-element": ImageElement,
 
 			'loader': Loader,
 
