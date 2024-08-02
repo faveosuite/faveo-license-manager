@@ -126,7 +126,7 @@ export default {
         return {
             user_name: '',
             password: '',
-            admin: this.generalSetting.admin_logo,
+            admin: this.generalSetting.client_logo,
             labelStyle: { display: 'none' },
             loading: false,
         }
