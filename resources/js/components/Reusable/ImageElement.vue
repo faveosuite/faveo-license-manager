@@ -111,6 +111,6 @@ export default {
 
 <style scoped>
 img {
-    object-fit: cover;
+    object-fit: contain;
 }
 </style>
