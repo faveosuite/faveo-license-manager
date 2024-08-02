@@ -427,20 +427,14 @@ export default {
 
             if(this.selectedIcon){
                 fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
-            } else {
-                fd.append('icon', null);
             }
 
             if(this.selectedAdminLogo){
                 fd.append('admin_logo', this.selectedAdminLogo.file,this.selectedAdminLogo.name);
-            } else {
-                fd.append('admin_logo', null);
             }
 
             if(this.selectedClientLogo){
                 fd.append('client_logo', this.selectedClientLogo.file,this.selectedClientLogo.name);
-            } else {
-                fd.append('client_logo', null);
             }
 
             axios.post('/api/admin/common-setting', fd).then(res => {
