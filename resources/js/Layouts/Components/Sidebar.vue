@@ -4,7 +4,7 @@
 
     	<a href="javascript:;" class="brand-link text-center">
 
-            <image-element id="admin-pic" class="object-fit-cover" l :classes="['profile-user-img', 'img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="admin"></image-element>
+            <image-element id="admin-pic" class="object-fit-cover" l :classes="['profile-user-img', 'img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="getAdminLogo"></image-element>
     	</a>
 
     	<div class="sidebar" :key="counter">
@@ -54,7 +54,8 @@
 
     import Navigation from "./Navigation.vue";
     import ImageElement from "../../components/Reusable/ImageElement.vue";
-    import store from "../../store";
+    import {useStore} from "vuex";
+    import {computed} from "vue";
 
 	export default {
 
@@ -62,8 +63,11 @@
 
         setup() {
 
+            const store = useStore();
+
             return {
-                admin : store.getters.getAdminData
+
+                getAdminLogo : computed(() => store.getters.getAdminData)
             }
         },
 

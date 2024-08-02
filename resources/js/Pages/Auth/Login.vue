@@ -4,9 +4,6 @@
 
         <div class="login-logo">
 
-<!--            <image-element :sourceUrl="admin" id="login-profile" class="user-image ml-2 img-circle elevation-2 d-none d-md-inline"-->
-<!--                           alt="User Image"/>-->
-
             <image-element id="profile-pic" :classes="['profile-user-img','object-fit-cover', 'img-responsive', 'img-circle', 'img-click']" :sourceUrl="admin"></image-element>
         </div>
 
