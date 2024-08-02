@@ -421,7 +421,7 @@ export default {
 }
 
 #pass_btn {
-    margin-top: 26px;
+    margin-top: 33px;
 }
 
 #prev_btn {
