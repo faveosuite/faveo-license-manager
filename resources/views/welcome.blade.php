@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 
 <html>
-
+<?php $versioning = config('app.version');
+$settingsArray =[];
+$commonSettings = new \App\Http\Controllers\CommonSettingController();
+$settingsArray = json_decode($commonSettings->getCommonSetting()->getContent())->data;
+?>
   <head>
 
     <meta charset="UTF-8">
@@ -18,7 +22,7 @@
 
     <meta name="api-base-url" content="{{ url('/') }}" />
 
-    <link href="https://support.faveohelpdesk.com/themes/default/common/images/favicon.ico" rel="shortcut icon">
+    <link href="{{ $settingsArray->icon }}" rel="shortcut icon">
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -44,19 +48,7 @@
     </script>
 
     <script src="{{assetLink('js','polyfill')}}"></script>
-
-     <?php
-         try {
-             $googleSiteKey = \App\Models\CommonSetting::where('key', 'google_site_key')->value('value');
-         }
-         Catch(\Exception $e){
-             $googleSiteKey = null;
-         }
-      ?>
-
-
-
-          <script src="{{assetLink('js','select2')}}" type="text/javascript"></script>
+    <script src="{{assetLink('js','select2')}}" type="text/javascript"></script>
 
           <style>
 
@@ -101,24 +93,6 @@
   </head>
 
   <body >
-
-  <?php $versioning = config('app.version');
-
-  $settingsArray =[];
-  $timezoneSetting = \App\Models\CommonSetting::where('key', 'timezone')->first();
-  $dateFormatSetting = \App\Models\CommonSetting::where('key', 'date_format')->first();
-  $timeFormatSetting = \App\Models\CommonSetting::where('key', 'time_format')->first();
-  $settingsArray['timezone'] = $timezoneSetting
-      ? \App\Models\Timezone::find($timezoneSetting->value)
-      : \App\Models\Timezone::where('name', 'UTC')->first();
-  $settingsArray['date_format'] = $dateFormatSetting
-      ? \App\Models\DateFormat::find($dateFormatSetting->value)
-      : \App\Models\DateFormat::where('format','F j, Y')->first();
-  $settingsArray['time_format'] = $timezoneSetting
-      ? \App\Models\TimeFormat::find($timeFormatSetting->value)
-      : \App\Models\TimeFormat::where('format','g:i a')->first();
-  ?>
-
     <div id="app">
 
         <license-manager-renderer

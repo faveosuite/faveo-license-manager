@@ -71,7 +71,7 @@ class CommonSettingController extends Controller
             $defaults = [
                 'icon' => 'themes/default/img/favicon.ico',
                 'admin_logo' => 'themes/default/img/logo.png',
-                'client_logo' => 'themes/default/img/avatar.png',
+                'client_logo' => 'themes/default/img/default.png',
             ];
             $settingsArray = [];
             foreach ($commonSettings as $setting) {
