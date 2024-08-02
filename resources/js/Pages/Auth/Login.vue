@@ -4,7 +4,10 @@
 
         <div class="login-logo">
 
-            {{lang('agora')}}&nbsp;<b>{{lang('license')}}</b>&nbsp;{{lang('manager')}}
+<!--            <image-element :sourceUrl="admin" id="login-profile" class="user-image ml-2 img-circle elevation-2 d-none d-md-inline"-->
+<!--                           alt="User Image"/>-->
+
+            <image-element id="profile-pic" :classes="['profile-user-img','object-fit-cover', 'img-responsive', 'img-circle', 'img-click']" :sourceUrl="admin"></image-element>
         </div>
 
 
@@ -64,7 +67,7 @@ import { errorHandler } from '../../helpers/responseHandler';
 import { validateLoginSettings } from "../../helpers/validator/loginRules.js";
 import axios from 'axios';
 import TextField from "../../components/Reusable/FormField/TextField.vue";
-// import {env} from "../../../../env";
+import ImageElement from "../../components/Reusable/ImageElement.vue";
 
 export default {
     name: 'Login',
@@ -119,10 +122,14 @@ export default {
             siteKey
         };
     },
+    props : {
+        generalSetting : {type : Object, default : () => {}},
+    },
     data() {
         return {
             user_name: '',
             password: '',
+            admin: this.generalSetting.admin_logo,
             labelStyle: { display: 'none' },
             loading: false,
         }
@@ -171,6 +178,7 @@ export default {
                             axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
                             this.$store.dispatch('setLoggedInUserToken', authToken);
                             this.$store.dispatch('setUserInfo', res.data.data.user);
+                            this.$store.dispatch('setAdminData', this.generalSetting.admin_logo);
                             this.$router.push(this.getUserToken ? '/dashboard' : '/login');
                         }
                     })
@@ -189,6 +197,7 @@ export default {
         }
     },
     components: {
+        "image-element": ImageElement,
         "text-field": TextField,
     }
 };
