@@ -129,6 +129,7 @@
     background-color: #4f5962;
 }
 .dp-data {
+    background-color: #4f5962;
     color: #c2c7d0;
 }
 .dp-data:hover {
