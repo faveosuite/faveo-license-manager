@@ -6,6 +6,8 @@ const state = {
     user_data : '',
 
     api_key : '',
+
+    admin_data: ''
  };
 
 
@@ -14,6 +16,8 @@ const state = {
     getUserToken: state => state.user_token,
 
     getUserData: state => state.user_data,
+
+    getAdminData: state => state.admin_data,
 
     getApiKey : state => state.api_key
  };
@@ -40,7 +44,12 @@ const state = {
          state.user_data.client_profile_pic = payload.profile_pic
          state.user_data.client_mobile_code = payload.client_mobile_code
          state.user_data.client_iso2 = payload.client_iso2
-     }
+     },
+
+     updateAdminData(state,payload) {
+
+         state.admin_data = payload
+     },
  }
 
  const actions = {
@@ -69,7 +78,12 @@ const state = {
             commit('updateApiKey','')
         });
 
-    }
+    },
+
+     setAdminData({commit}, payload) {
+
+         commit('updateAdminData', payload)
+     },
  }
 
  export default {state, getters, mutations, actions}

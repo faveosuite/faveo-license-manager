@@ -280,7 +280,7 @@ export default {
             return value ? moment(new Date()).format(value.js_format) : ''
         },
 
-        getProducts() {
+        getProducts(from) {
 
             this.loading = true;
 
@@ -289,6 +289,11 @@ export default {
             axios.get('/api/admin/common-setting/get').then(res => {
 
                 this.updateStatesWithData(res.data.data);
+
+                if(from === 'update') {
+
+                    this.$store.dispatch('setAdminData', res.data.data.admin_logo)
+                }
 
                 this.loading = false;
 
@@ -443,7 +448,7 @@ export default {
 
                 successHandler(res,'google-recaptcha');
 
-                this.getProducts()
+                this.getProducts('update');
 
             }).catch(err => {
 
