@@ -120,7 +120,7 @@
 								<span>
 
 									<img class="img-responsive img-circle img-sm" :src="basePath()+'/themes/default/img/authenticator.png'" alt="A"
-                                         id="auth_img">&nbsp;{{two_factor ? '2-Step Verification is ON since '+ google2fa_activation_date  : lang('authenticator_app')}}
+                                         id="auth_img">&nbsp;{{two_factor ? '2-Step Verification is ON since '+ getDate  : lang('authenticator_app')}}
 								</span>
                             </div>
 
@@ -165,7 +165,7 @@
 <script>
 
 import TextField from "../../components/Reusable/FormField/TextField.vue";
-import {lang} from "../../helpers/extraLogics";
+import {lang, formatDateTime} from "../../helpers/extraLogics";
 import NumberField from "../../components/Reusable/FormField/NumberField.vue";
 import ImageUpload from "../../components/Reusable/FormField/ImageUpload.vue";
 import PhoneWithCountryCode from "../../components/Reusable/FormField/PhoneWithCountryCode.vue";
@@ -189,6 +189,10 @@ export default {
         }
     },
 
+    props : {
+        generalSetting : {type : Object, default : () => {}},
+    },
+
     data() {
 
       return {
@@ -200,6 +204,12 @@ export default {
           isDisabled : false,
 
           passDisabled : false,
+
+          date_format: this.generalSetting.date_format.js_format,
+
+          time_format: this.generalSetting.time_format.js_format,
+
+          timezone: this.generalSetting.timezone.name,
 
           two_factor: false,
 
@@ -489,6 +499,13 @@ export default {
 
             this.$store.dispatch('unsetValidationError');
         },
+    },
+    computed: {
+
+        getDate() {
+
+            return formatDateTime(this.google2fa_activation_date, this.timezone, this.date_format, this.time_format)
+        }
     },
     beforeMount() {
         this.getData()
