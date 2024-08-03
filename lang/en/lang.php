@@ -600,6 +600,7 @@ return [
     'call_backs_count' => 'Callbacks Count',
     'installation_counts' => 'Installation Count',
     'columns' => 'Columns',
+    'apply' => 'Apply',
     'copy_license_code' => 'Copy License Code',
 
     //INSTALLATION VIEW PAGE

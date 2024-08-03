@@ -66,6 +66,8 @@
 
 			alertComponentName : { type : String, default : 'dataTableModal'},
 
+            redirectUrl : { type : String, default : ''},
+
 			componentTitle : { type : String, default : ''},
 
 			keyVal : {type : String, default : ''},
@@ -121,6 +123,13 @@
 			},
 
 			afterRespond(){
+
+                if(this.redirectUrl){
+
+                    setTimeout(()=>{
+                        this.$router.push({ path : this.redirectUrl })
+                    },3000);
+                }
 
                 window.emitter.emit('refreshData')
 

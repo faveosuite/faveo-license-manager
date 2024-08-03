@@ -19,15 +19,15 @@
 
                     <div class="card-tools">
 
-                        <router-link :to="'/licenses/'+ license_id +'/edit'" class="btn action-btn btn-tool">
+                        <router-link :to="'/licenses/'+ license_id +'/edit'" v-tooltip="lang('edit')" class="btn action-btn btn-tool">
 
                             <i class="fas text-md fa-edit"></i>
                         </router-link>
 
-                        <router-link :to="'/licenses/'+ license_id +'/edit'" class="btn action-btn btn-tool">
+                        <button class="btn btn-tool action-btn" v-tooltip="lang('delete_btn')" @click="showDeleteModal()">
 
-                            <i class="fas text-md fa-trash"></i>
-                        </router-link>
+                            <i class="fas fa-trash"></i>
+                        </button>
 
                     </div>
                 </div>
@@ -172,7 +172,7 @@
 
         <transition name="modal">
 
-            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal">
+            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" deleteUrl="/api/admin/license/delete" keyVal="license_id" :idVal="license_id">
 
             </delete-modal>
         </transition>
@@ -282,6 +282,11 @@ export default {
             this.showModal = false;
 
             this.$store.dispatch('unsetValidationError');
+        },
+
+        showDeleteModal(){
+
+            this.showModal = !this.showModal;
         },
 
 

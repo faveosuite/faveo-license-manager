@@ -79,12 +79,12 @@
 
                         <div class="card-tools col-md-2">
 
-                            <router-link :to="'/clients/'+ id +'/edit'" :v-tooltip="lang('edit')" class="btn mr-2 action-btn text-right">
+                            <router-link :to="'/clients/'+ id +'/edit'" v-tooltip="lang('edit')" class="btn mr-2 action-btn text-right">
 
                                 <i class="fas fa-edit"></i>
                             </router-link>
 
-                            <button class="btn action-btn delete-btn p-0" @click="showDeleteModal()">
+                            <button class="btn action-btn delete-btn p-0" v-tooltip="lang('delete_btn')" @click="showDeleteModal()">
 
                                 <i class="fas fa-trash"></i>
                             </button>

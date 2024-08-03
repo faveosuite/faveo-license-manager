@@ -328,7 +328,7 @@ export default {
 
                 license_expire_date: this.lang('license_expiry'),
 
-                license_updates_date: this.lang('license_expiry'),
+                license_updates_date: this.lang('updates_expiry'),
 
                 license_support_date: this.lang('support_expiry'),
 

@@ -12,12 +12,12 @@
 
                     <div class="card-tools">
 
-                        <router-link :to="'/versions/'+ id +'/edit'" class="btn btn-tool action-btn">
+                        <router-link :to="'/versions/'+ id +'/edit'" v-tooltip="lang('edit')" class="btn btn-tool action-btn">
 
                             <i class="fas fa-edit"></i>
                         </router-link>
 
-                        <button class="btn btn-tool action-btn" @click="showDeleteModal()">
+                        <button class="btn btn-tool action-btn" v-tooltip="lang('delete_btn')" @click="showDeleteModal()">
 
                             <i class="fas fa-trash"></i>
                         </button>
