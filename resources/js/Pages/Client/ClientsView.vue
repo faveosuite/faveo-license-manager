@@ -1,9 +1,14 @@
 <template>
     <div class="container-fluid">
 
-        <div class="col-md-12">
+        <div class="row" v-if="loading">
 
-            <alert componentName="client" />
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
+
+        <alert componentName="client-view" />
+
+        <div class="col-md-12">
 
             <div class="card card-header-tabs card-outline">
 
@@ -98,13 +103,6 @@
 
         <div class="col-sm-12">
 
-            <div class="row" v-if="loading">
-
-                <custom-loader :duration="4000"></custom-loader>
-            </div>
-
-            <alert componentName="dataTableModal" />
-
             <div class="card card-header-tabs">
 
                 <div class="card-header border-0 data-table-header p-0 pt-1">
@@ -131,7 +129,7 @@
 
         <transition name="modal">
 
-            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" deleteUrl="/api/admin/versions/delete" keyVal="product_id" :idVal="id">
+            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" alertComponentName="client-view" deleteUrl="/api/admin/clients/delete" redirectUrl="/clients/list" keyVal="client_id" :idVal="id">
 
             </delete-modal>
         </transition>

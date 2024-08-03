@@ -2,6 +2,13 @@
 
     <div class="container-fluid">
 
+        <div class="row" v-if="loading">
+
+            <custom-loader :duration="4000"></custom-loader>
+        </div>
+
+        <alert componentName="product-view" />
+
         <div class="container col-md-12">
 
             <div class="card card-header-tabs card-outline">
@@ -68,13 +75,6 @@
 
         <div class="container col-sm-12">
 
-            <div class="row" v-if="loading">
-
-                <custom-loader :duration="4000"></custom-loader>
-            </div>
-
-            <alert componentName="product" />
-
             <div class="card card-header-tabs">
 
                 <div class="card-header data-table-header border-0 p-0 pt-1">
@@ -111,7 +111,7 @@
 
         <transition name="modal">
 
-            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" deleteUrl="/api/admin/products/delete" keyVal="product_id" :idVal="id">
+            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" alertComponentName="product-view" deleteUrl="/api/admin/products/delete" redirectUrl="/products/list" keyVal="product_id" :idVal="id">
 
             </delete-modal>
         </transition>

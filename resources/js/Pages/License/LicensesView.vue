@@ -9,7 +9,7 @@
                 <custom-loader :duration="4000"></custom-loader>
             </div>
 
-            <alert componentName="licenses" />
+            <alert componentName="license-view" />
 
             <div class="card card-header-tabs card-outline">
 
@@ -172,7 +172,7 @@
 
         <transition name="modal">
 
-            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" deleteUrl="/api/admin/license/delete" keyVal="license_id" :idVal="license_id">
+            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" alertComponentName="license-view" deleteUrl="/api/admin/license/delete" redirectUrl="/licenses/list" keyVal="license_id" :idVal="license_id">
 
             </delete-modal>
         </transition>

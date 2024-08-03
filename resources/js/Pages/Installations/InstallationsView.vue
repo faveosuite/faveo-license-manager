@@ -4,6 +4,13 @@
 
         <div class="container col-md-12">
 
+            <div class="row" v-if="loading">
+
+                <custom-loader :duration="4000"></custom-loader>
+            </div>
+
+            <alert componentName="installations-view" />
+
             <div class="card card-header-tabs card-outline">
 
                 <div class="card-header card-header-dark card-light">
@@ -12,7 +19,7 @@
 
                     <div class="card-tools">
 
-                        <router-link :to="'/products/'+ id +'/edit'" v-tooltip="lang('edit')" class="btn btn-tool action-btn">
+                        <router-link :to="'/installations/'+ id +'/edit'" v-tooltip="lang('edit')" class="btn btn-tool action-btn">
 
                             <i class="fas fa-edit"></i>
                         </router-link>
@@ -91,7 +98,7 @@
 
         <transition name="modal">
 
-            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal">
+            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" alertComponentName="installations-view" deleteUrl="/api/admin/installations/delete" redirectUrl="/installations/list" keyVal="installation_id" :idVal="id">
 
             </delete-modal>
         </transition>

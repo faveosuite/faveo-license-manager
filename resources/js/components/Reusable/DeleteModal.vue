@@ -131,7 +131,10 @@
                     },3000);
                 }
 
-                window.emitter.emit('refreshData')
+                if(!this.redirectUrl) {
+
+                    window.emitter.emit('refreshData')
+                }
 
 				this.onClose();
 
