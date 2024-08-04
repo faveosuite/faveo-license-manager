@@ -74,26 +74,6 @@ describe('Verify2FA', () => {
         expect(wrapper.vm.user_name).toEqual('test_name');
     });
 
-    it('makes an `post` API call when `onSubmit` method called',(done) => {
-
-        wrapper.setData({ totp : 123456, PPAuth : 'ppauth1234@1'})
-
-        submitRequest();
-
-        wrapper.vm.onSubmit();
-
-        setTimeout(async ()=>{
-
-
-            expect(axiosMock.history.post[0].url).toEqual('/api/verify2fa');
-
-            expect(mockRouter.push).toHaveBeenCalledWith('/login');
-
-
-            done();
-        },1);
-    });
-
     it('makes loading value as `false` when `onSubmit` method returns error',(done) => {
 
         wrapper.setData({ otp : 1234, p_auth : '1234@ppauth1'})

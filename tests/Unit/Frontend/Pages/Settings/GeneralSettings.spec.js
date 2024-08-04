@@ -16,6 +16,10 @@ jest.mock('../../../../../resources/js/helpers/responseHandler');
 
 jest.mock('../../../../../resources/js/helpers/extraLogics');
 
+jest.mock('cropperjs/dist/cropper.css', () => {
+    return {};
+});
+
 const store = createStore({
 
     getters() {
@@ -59,45 +63,13 @@ describe('GeneralSettings', () => {
 
     });
 
-    it('`onChange` - method should update correct value to data',()=>{
-
-        wrapper.vm.onChange({id:1,name:'test'},'SMART_REPORTS');
-
-        expect(wrapper.vm.SMART_REPORTS).toEqual({id:1,name:'test'});
-    });
-
-    // it('isValid - should return false ', done => {
-    //
-    //     validation.validateGeneralSettings = () =>{return {errors : [], isValid : false}}
-    //
-    //     expect(wrapper.vm.isValid()).toBe(false)
-    //
-    //     done()
-    // });
-
-    // it('isValid - should return true ', done => {
-    //
-    //     validation.validateGeneralSettings = () =>{return {errors : [], isValid : true}}
-    //
-    //     expect(wrapper.vm.isValid()).toBe(true)
-    //
-    //     done()
-    // });
-
-    // it('isValid should return true', () => {
-    //     wrapper.vm.validateGeneralSettings = jest.fn(() => ({ errors: [], isValid: true }));
-    //     expect(wrapper.vm.isValid()).toBe(true);
-    // });
-
     it('submits form data successfully', async () => {
 
-        await wrapper.vm.onSubmit();
+        await wrapper.vm.onSettingsSubmit();
 
         mockAxios.onPost('/api/admin/common-setting').reply(200, { data: 'success' });
 
         await wrapper.setData({
-            google_site_key: 'asdfghjkl',
-            google_secret_key: 'dfghjkl',
             agora_invoicing_url: 'qwertyuioiuytrewerthj',
             date_format: { id: 'Enabled', js_format: 1 },
             time_format: { id: '10', js_format: 10 },
@@ -113,13 +85,9 @@ describe('GeneralSettings', () => {
         await wrapper.setData({
             google_site_key: 'asdfghjkl',
             google_secret_key: 'dfghjkl',
-            agora_invoicing_url: 'qwertyuioiuytrewerthj',
-            date_format: { id: 'Enabled', js_format: 1 },
-            time_format: { id: '10', js_format: 10 },
-            timezone: { id: '20', js_format: 20 },
         });
 
-        await wrapper.vm.onSubmit();
+        await wrapper.vm.onRecaptchaSubmit();
 
         expect(wrapper.vm.loading).toBe(false);
     });

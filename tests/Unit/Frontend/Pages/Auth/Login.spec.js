@@ -16,6 +16,9 @@ let axiosMock;
 
 jest.mock('../../../../../resources/js/helpers/responseHandler');
 
+window.axios = axios;
+axios.defaults.baseURL = 'http://localhost';
+
 const store = createStore({
 
     getters() {
@@ -53,7 +56,13 @@ describe('Login', () => {
                 mixins: [globalMixins],
                 stubs: ['text-field', 'loader', 'alert', 'router-link'],
                 mocks: {axios, $router: mockRouter, $route: {query: 'your-query'}}
-            }
+            },
+            props : {generalSetting : {
+                    time_format : {js_format:81},
+                    timezone : {name : 'Asia/Kolkata'},
+                    date_format : {js_format : 8765},
+                    client_logo: ''
+            }}
         })
     }
 
