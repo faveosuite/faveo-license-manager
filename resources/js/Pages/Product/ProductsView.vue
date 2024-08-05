@@ -121,9 +121,7 @@
 </template>
 
 <script>
-import {boolean, getIdFromUrl, lang} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
+import {boolean, getIdFromUrl, lang, formatDateTime} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import axios from "axios";
 import DeleteModal from "../../components/Reusable/DeleteModal.vue";
@@ -341,7 +339,7 @@ export default {
 
                             installation_date(h, row) {
 
-                                return row.installation_date ? moment(row.installation_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.installation_date, timezone, date_format, time_format)
                             },
 
                             client_email: (f, row) => {
@@ -487,27 +485,27 @@ export default {
 
                             license_date(h, row) {
 
-                                return row.license_date ? moment(row.license_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_date, timezone, date_format, time_format)
                             },
 
                             license_expire_date(h, row) {
 
-                                return row.license_expire_date ? moment(row.license_expire_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_expire_date, timezone, date_format, time_format)
                             },
 
                             license_updates_date(h, row) {
 
-                                return row.license_updates_date ? moment(row.license_updates_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_updates_date, timezone, date_format, time_format)
                             },
 
                             license_support_date(h, row) {
 
-                                return row.license_support_date ? moment(row.license_support_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_support_date, timezone, date_format, time_format)
                             },
 
                             latest_call_backs(h, row) {
 
-                                return row.latest_call_backs ? moment(row.latest_call_backs).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.latest_call_backs, timezone, date_format, time_format)
                             },
 
                             license_code: (f, row) => {
@@ -655,7 +653,7 @@ export default {
 
                         version_date(h, row) {
 
-                            return row.version_date ? moment(row.version_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                            return formatDateTime(row.version_date, timezone, date_format, time_format)
                         },
 
                         version_status: (f, row) => {

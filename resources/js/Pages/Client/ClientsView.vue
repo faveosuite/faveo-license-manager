@@ -141,7 +141,7 @@
 <script>
 
 import FaveoImageElement from "../../components/Reusable/FaveoImageElement.vue";
-import {getIdFromUrl, lang} from "../../helpers/extraLogics";
+import {formatDateTime, getIdFromUrl, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import axios from "axios";
 import copy from 'clipboard-copy'
@@ -280,7 +280,7 @@ export default {
 
             if(data.client_active_date) {
 
-                this.client_active_date = moment(data.client_active_date).tz(this.generalSetting.timezone.name).format(`${this.generalSetting.date_format.js_format} ${this.generalSetting.time_format.js_format}`)
+                this.client_active_date = formatDateTime(data.client_active_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
         },
 
@@ -375,7 +375,7 @@ export default {
 
                             installation_date(h, row) {
 
-                                return row.installation_date ? moment(row.installation_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.installation_date, timezone, date_format, time_format)
                             },
 
                             installation_domain: (f, row) => {
@@ -485,27 +485,27 @@ export default {
 
                             license_date(h, row) {
 
-                                return row.license_date ? moment(row.license_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_date, timezone, date_format, time_format)
                             },
 
                             license_expire_date(h, row) {
 
-                                return row.license_expire_date ? moment(row.license_expire_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_expire_date, timezone, date_format, time_format)
                             },
 
                             license_updates_date(h, row) {
 
-                                return row.license_updates_date ? moment(row.license_updates_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_updates_date, timezone, date_format, time_format)
                             },
 
                             license_support_date(h, row) {
 
-                                return row.license_support_date ? moment(row.license_support_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.license_support_date, timezone, date_format, time_format)
                             },
 
                             latest_call_backs(h, row) {
 
-                                return row.latest_call_backs ? moment(row.latest_call_backs).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                                return formatDateTime(row.latest_call_backs, timezone, date_format, time_format)
                             },
 
                             product_title: (f, row) => {

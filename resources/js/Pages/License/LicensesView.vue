@@ -154,7 +154,10 @@
                 <div class="card-header data-table-header border-0 p-0 pt-1">
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                         <li class="nav-item">
-                            <span class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('installations')}}</span>
+                            <span class="nav-link card-header-link cursor-pointer active" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('installations')" aria-controls="custom-tabs-one-home">{{lang('installations')}}</span>
+                        </li>
+                        <li class="nav-item">
+                            <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('callbacks')" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
                         </li>
                     </ul>
                 </div>
@@ -183,12 +186,10 @@
 
 <script>
 
-import {getIdFromUrl, lang} from "../../helpers/extraLogics";
+import {formatDateTime, getIdFromUrl, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import axios from "axios";
 import copy from "clipboard-copy";
-import moment from "moment";
-import 'moment-timezone'
 import DeleteModal from "../../components/Reusable/DeleteModal.vue";
 import {h} from "vue";
 
@@ -298,7 +299,7 @@ export default {
 
             this.getInitialValues(licenseId);
 
-            this.updateData(licenseId)
+            this.updateData('installations',licenseId)
         },
 
         getInitialValues(id) {
@@ -344,12 +345,12 @@ export default {
 
             if(data.latest_call_backs) {
 
-                this.latest_call_backs = moment(data.latest_call_backs).tz(this.generalSetting.timezone.name).format(`${this.generalSetting.date_format.js_format} ${this.generalSetting.time_format.js_format}`)
+                this.latest_call_backs = formatDateTime(data.latest_call_backs, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
 
             if(data.license_date) {
 
-                this.license_date = moment(data.license_date).tz(this.generalSetting.timezone.name).format(`${this.generalSetting.date_format.js_format} ${this.generalSetting.time_format.js_format}`)
+                this.license_date = formatDateTime(data.license_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
 
             if(data.license_limit >= 0) {
@@ -359,21 +360,21 @@ export default {
 
             if(data.license_expire_date) {
 
-                this.license_expire_date = moment(data.license_expire_date).tz(this.generalSetting.timezone.name).format(`${this.generalSetting.date_format.js_format} ${this.generalSetting.time_format.js_format}`)
+                this.license_expire_date = formatDateTime(data.license_expire_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
 
             if(data.license_updates_date) {
 
-                this.license_updates_date = moment(data.license_updates_date).tz(this.generalSetting.timezone.name).format(`${this.generalSetting.date_format.js_format} ${this.generalSetting.time_format.js_format}`)
+                this.license_updates_date = formatDateTime(data.license_updates_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
 
             if(data.license_support_date) {
 
-                this.license_support_date = moment(data.license_support_date).tz(this.generalSetting.timezone.name).format(`${this.generalSetting.date_format.js_format} ${this.generalSetting.time_format.js_format}`)
+                this.license_support_date = formatDateTime(data.license_support_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
         },
 
-        updateData(licenseId) {
+        updateData(value, licenseId) {
 
             const date_format = this.generalSetting.date_format.js_format
             const time_format = this.generalSetting.time_format.js_format
@@ -381,13 +382,15 @@ export default {
 
             this.id = licenseId ? licenseId : this.id
 
-            this.loading = true
+            if(value === 'installations') {
 
-            this.endPoint = '/api/admin/licenseInstallation/' + this.id
+                this.loading = true
 
-            this.columns = ['installation_domain', 'installation_ip', 'installation_date', 'installation_status', 'actions']
+                this.endPoint = '/api/admin/licenseInstallation/' + this.id
 
-            this.options = {
+                this.columns = ['installation_domain', 'installation_ip', 'installation_date', 'installation_status', 'actions']
+
+                this.options = {
 
                     sortIcon: {
 
@@ -462,12 +465,12 @@ export default {
 
                         installation_date(h, row) {
 
-                            return row.installation_date ? moment(row.installation_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                            return formatDateTime(row.installation_date, timezone, date_format, time_format)
                         },
 
                         license_date(h, row) {
 
-                            return row.license_date ? moment(row.license_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                            return formatDateTime(row.license_date, timezone, date_format, time_format)
                         },
 
                         installation_domain: (f, row) => {
@@ -510,7 +513,128 @@ export default {
                     },
                 }
 
-            this.loading = false
+                this.loading = false
+
+            } else if(value === 'callbacks') {
+
+                this.loading = true
+
+                this.endPoint = '/api/admin/licenseCallbacks/' + this.id
+
+                this.columns = ['callback_domain', 'callback_ip', 'callback_date_time', 'callback_status']
+
+                this.options = {
+
+                    sortIcon: {
+
+                        base: 'glyphicon',
+
+                        up: 'glyphicon-chevron-up',
+
+                        down: 'glyphicon-chevron-down'
+                    },
+
+                    texts: { filter: '', limit: '' },
+
+                    sortable:  ['callback_domain', 'callback_date', 'callback_status'],
+
+                    filterable : [ 'callback_domain' ],
+
+                    requestAdapter(data) {
+
+                        return {
+
+                            'sort_field' : data.orderBy ? data.orderBy : 'callback_id',
+
+                            'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                            'search_query' : data.query.trim(),
+
+                            perPage : data.limit,
+                        }
+                    },
+
+                    responseAdapter({data}) {
+
+                        return {
+
+                            data: data.data.data.map(data => {
+
+                                data.keyVal = 'callback_id';
+
+                                data.idVal = data.callback_id;
+
+                                return data;
+                            }),
+
+                            count: data.data.total
+                        }
+                    },
+
+                    columnsClasses: {
+
+                        callback_domain: 'callback_domain',
+
+                        callback_ip: 'callback_ip',
+
+                        callback_date_time: 'callback_date_time',
+
+                        callback_status: 'callback_status',
+
+                    },
+
+                    templates: {
+
+                        callback_ip(h, row) {
+
+                            return row.callback_ip ? row.callback_ip : '----'
+                        },
+
+                        callback_date_time(h, row) {
+
+                            return formatDateTime(row.callback_date_time, timezone, date_format, time_format)
+                        },
+
+                        callback_domain: (f, row) => {
+
+                            if(row.callback_domain) {
+
+                                return h('a', {
+
+                                    href: row.callback_domain,
+                                    target: '_blank'
+
+                                },[row.callback_domain])
+
+                            } else {
+                                return '----'
+                            }
+                        },
+
+                        callback_status: (f, row) => {
+
+                            return h('span', {
+                                'class': row.callback_status ? 'text-green' : 'text-red'
+                            }, row.callback_status ? this.lang('active'): this.lang('inactive'))
+                        },
+                    },
+
+                    pagination: { show : false },
+
+                    headings: {
+
+                        callback_domain: this.lang('domain'),
+
+                        callback_ip: this.lang('ip'),
+
+                        callback_date_time: this.lang('callback_date_time'),
+
+                        callback_status: this.lang('status'),
+                    },
+                }
+
+                this.loading = false
+            }
 
         },
 
@@ -531,6 +655,14 @@ export default {
 
 
 <style scoped>
+
+.card-header-link{
+    color: black;
+}
+.card-header-link:hover:not(.active){
+    color: #007bff;
+    cursor: pointer;
+}
 
 .card-header-dark {
     background-color: #f8f9fa;

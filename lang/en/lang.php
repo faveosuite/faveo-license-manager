@@ -591,6 +591,7 @@ return [
     'license_limit' => 'License Limit',
     'license_date' => 'License Date',
     'license_expiry' => 'License Expiry',
+    'callback_date_time' => 'Callback Date',
     'updates_expiry' => 'Updates Expiry',
     'support_expiry' => 'Support Expiry',
     'select_columns' => 'Select Columns',

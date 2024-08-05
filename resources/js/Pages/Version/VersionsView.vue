@@ -98,9 +98,7 @@
 </template>
 
 <script>
-import {boolean, getIdFromUrl, lang} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
+import {boolean, formatDateTime, getIdFromUrl, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import axios from "axios";
 import DeleteModal from "../../components/Reusable/DeleteModal.vue";
@@ -222,7 +220,7 @@ export default {
 
             if(data.version_date) {
 
-                this.version_date = moment(data.version_date).tz(this.generalSetting.timezone.name).format(`${this.generalSetting.date_format.js_format} ${this.generalSetting.time_format.js_format}`)
+                this.version_date = formatDateTime(data.version_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
         },
 
@@ -303,7 +301,7 @@ export default {
 
                         callback_date_time(h, row) {
 
-                            return row.callback_date_time ? moment(row.callback_date_time).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                            return formatDateTime(row.callback_date_time, timezone, date_format, time_format)
                         },
 
                         callback_status: (f, row) => {
