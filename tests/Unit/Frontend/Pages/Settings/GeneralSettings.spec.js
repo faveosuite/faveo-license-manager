@@ -65,11 +65,13 @@ describe('GeneralSettings', () => {
 
     it('submits form data successfully', async () => {
 
-        await wrapper.vm.onSettingsSubmit();
+        await wrapper.vm.onSubmit();
 
         mockAxios.onPost('/api/admin/common-setting').reply(200, { data: 'success' });
 
         await wrapper.setData({
+            google_site_key: 'asdfghjkl',
+            google_secret_key: 'dfghjkl',
             agora_invoicing_url: 'qwertyuioiuytrewerthj',
             date_format: { id: 'Enabled', js_format: 1 },
             time_format: { id: '10', js_format: 10 },
@@ -85,9 +87,13 @@ describe('GeneralSettings', () => {
         await wrapper.setData({
             google_site_key: 'asdfghjkl',
             google_secret_key: 'dfghjkl',
+            agora_invoicing_url: 'qwertyuioiuytrewerthj',
+            date_format: { id: 'Enabled', js_format: 1 },
+            time_format: { id: '10', js_format: 10 },
+            timezone: { id: '20', js_format: 20 },
         });
 
-        await wrapper.vm.onRecaptchaSubmit();
+        await wrapper.vm.onSubmit();
 
         expect(wrapper.vm.loading).toBe(false);
     });

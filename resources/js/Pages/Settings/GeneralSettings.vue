@@ -13,25 +13,25 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('google_recaptcha_settings')}}</h3>
+                <h3 class="card-title">{{lang('general_settings')}}</h3>
             </div>
 
             <div class="card-body">
 
                 <div class="row">
 
-                    <text-field :label="trans('google_site_key')" v-tooltip="lang('recaptcha')" :value="google_site_key"
+                    <text-field :label="trans('google_site_key')" :disabled="!recaptcha_status" v-tooltip="lang('recaptcha')" :value="google_site_key"
                                 :onChange="onChange" name="google_site_key" type="text" :required="true" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('google_secret_key')" v-tooltip="lang('recaptcha')" :value="google_secret_key"
+                    <text-field :label="trans('google_secret_key')" :disabled="!recaptcha_status" v-tooltip="lang('recaptcha')" :value="google_secret_key"
                                 :onChange="onChange" :required="true" name="google_secret_key" type="password" classname="col-sm-6">
 
                     </text-field>
 
-                    <radio-option :label="lang('status')" name="recaptcha_status" :value="recaptcha_status" :onChange="onChange"
-                                  :options="[{name:'active', value:1}, {name:'inactive', value:0}]" >
+                    <radio-option :label="lang('recaptcha_status')" name="recaptcha_status" :value="recaptcha_status" :onChange="onChange"
+                                  :options="[{name:'enable', value:1}, {name:'disable', value:0}]" >
 
                     </radio-option>
 
@@ -55,25 +55,6 @@
 
                     </recaptcha-field>
                 </div>
-            </div>
-
-            <div class="card-footer">
-
-                <button class="btn btn-primary mr-2" :disabled="!recaptchaVerified" @click="onRecaptchaSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
-            </div>
-
-        </div>
-
-        <div class="card card-light" v-if="hasDataPopulated">
-
-            <div class="card-header">
-
-                <h3 class="card-title">{{lang('general_settings')}}</h3>
-
-                <tool-tip :message="lang('general_settings_configuration')" size="medium"></tool-tip>
-            </div>
-
-            <div class="card-body">
 
                 <div class="row">
 
@@ -102,66 +83,59 @@
 
                     </dynamic-select>
                 </div>
-            </div>
 
-            <div class="card-footer">
+                <div class="card card-light" v-if="hasDataPopulated">
 
-                <button class="btn btn-primary mr-2" @click="onSettingsSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
+                    <div class="card-header">
 
-                <button class="btn btn-danger" @click="onReset"> <i :class="iconUndo"></i> {{ trans('Reset') }}</button>
-            </div>
+                        <h3 class="card-title">{{lang('logo_and_favicon')}}</h3>
 
-        </div>
+                        <tool-tip :message="lang('logo_icon_config')" size="medium"></tool-tip>
+                    </div>
 
-        <div class="card card-light" v-if="hasDataPopulated">
+                    <div class="card-body">
 
-            <div class="card-header">
+                        <div class="row">
 
-                <h3 class="card-title">{{lang('logo_and_favicon')}}</h3>
+                            <label class="label_align col-md-4 text-center">
+                                <input class="checkbox_align" type="checkbox" name="defaultIcon" v-model="defaultIcon">&nbsp;{{lang('use_default')}}
+                            </label>
 
-                <tool-tip :message="lang('logo_icon_config')" size="medium"></tool-tip>
-            </div>
+                            <label class="label_align col-md-4 text-center">
+                                <input class="checkbox_align" type="checkbox" name="defaultLogo" v-model="defaultLogo">&nbsp;{{lang('use_default')}}
+                            </label>
 
-            <div class="card-body">
+                            <label class="label_align col-md-4 text-center">
+                                <input class="checkbox_align" type="checkbox" name="useLogo" v-model="useLogo">&nbsp;{{lang('use_default')}}
+                            </label>
+                        </div>
 
-                <div class="row">
+                        <div class="row">
 
-                    <label class="label_align col-md-4 text-center">
-                        <input class="checkbox_align" type="checkbox" name="defaultIcon" v-model="defaultIcon">&nbsp;{{lang('use_default')}}
-                    </label>
+                            <image-upload :label="lang('favicon')" :labelStyle="logoStyle" :value="icon"
+                                          name="icon" :onChange="onChange" btnName="change_icon" componentName="google-recaptcha"
+                                          classname="col-sm-4 text-center" :is_default="defaultIcon">
+                            </image-upload>
 
-                    <label class="label_align col-md-4 text-center">
-                        <input class="checkbox_align" type="checkbox" name="defaultLogo" v-model="defaultLogo">&nbsp;{{lang('use_default')}}
-                    </label>
+                            <image-upload :label="lang('admin_logo')" :labelStyle="logoStyle"
+                                          :value="admin_logo" componentName="google-recaptcha"
+                                          name="admin_logo" :onChange="onChange"
+                                          classname="col-sm-4 text-center" :is_default="defaultLogo">
+                            </image-upload>
 
-                    <label class="label_align col-md-4 text-center">
-                        <input class="checkbox_align" type="checkbox" name="useLogo" v-model="useLogo">&nbsp;{{lang('use_default')}}
-                    </label>
-                </div>
+                            <image-upload :label="lang('client_logo')" :labelStyle="logoStyle" :value="client_logo"
+                                          name="client_logo" :onChange="onChange" componentName="google-recaptcha"
+                                          classname="col-sm-4 text-center" :is_default="useLogo">
+                            </image-upload>
+                        </div>
+                    </div>
 
-                <div class="row">
-
-                    <image-upload :label="lang('favicon')" :labelStyle="logoStyle" :value="icon"
-                                  name="icon" :onChange="onChange" btnName="change_icon" componentName="google-recaptcha"
-                                  classname="col-sm-4 text-center" :is_default="defaultIcon">
-                    </image-upload>
-
-                    <image-upload :label="lang('admin_logo')" :labelStyle="logoStyle"
-                                  :value="admin_logo" componentName="google-recaptcha"
-                                  name="admin_logo" :onChange="onChange"
-                                  classname="col-sm-4 text-center" :is_default="defaultLogo">
-                    </image-upload>
-
-                    <image-upload :label="lang('client_logo')" :labelStyle="logoStyle" :value="client_logo"
-                                  name="client_logo" :onChange="onChange" componentName="google-recaptcha"
-                                  classname="col-sm-4 text-center" :is_default="useLogo">
-                    </image-upload>
                 </div>
             </div>
 
             <div class="card-footer">
 
-                <button class="btn btn-primary mr-2" @click="onImageSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
+                <button class="btn btn-primary mr-2" :disabled="!recaptchaVerified && recaptcha_status" @click="onSubmit" > <i :class="iconClass"></i> {{ trans(btnName) }}</button>
             </div>
 
         </div>
@@ -189,8 +163,6 @@ import ImageUpload from "../../components/Reusable/FormField/ImageUpload.vue";
 import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
 
 import {validateGeneralSettings} from "../../helpers/validator/validateGeneralSettings";
-
-import {validateRecaptchaSettings} from "../../helpers/validator/validateRecaptchaSettings"
 
 export default {
 
@@ -307,48 +279,36 @@ export default {
 
         onChange(value, name) {
 
-            if(name === 'google_site_key' || name === 'google_secret_key') {
-
                 this.recaptchaVerified = '';
 
                 this.verified = false;
-
-                this[name] = value;
 
                 setTimeout(()=>{
 
                     this.verified = true;
                 },2000)
-            } else {
 
                 switch (name) {
                     case 'icon':
                         this.icon = value.image;
-                        // let icon = value;
-                        // this.selectedIcon = icon.file, icon.name;
                         this.selectedIcon = value;
                         break;
                     case 'admin_logo':
                         this.admin_logo = value.image;
-                        // let admin_logo = value;
-                        // this.selectedAdminLogo = admin_logo.file, admin_logo.name;
                         this.selectedAdminLogo = value;
                         break;
                     case 'client_logo':
                         this.client_logo = value.image;
-                        // let logo = value;
-                        // this.selectedClientLogo = logo.file, logo.name;
                         this.selectedClientLogo = value;
                         break;
                     default:
                         this[name] = value;
                 }
-            }
         },
 
-        onRecaptchaSubmit() {
+        onSubmit() {
 
-            if(this.isRecaptchaValid()) {
+            if(this.isValid()) {
 
                 this.loading = true;
 
@@ -362,34 +322,6 @@ export default {
 
                 fd.append('recaptcha_status', this.recaptcha_status);
 
-                axios.post('/api/admin/common-setting', fd).then(res => {
-
-                    this.loading = false;
-
-                    successHandler(res,'google-recaptcha');
-
-                    this.getProducts()
-
-                }).catch(err => {
-
-                    this.loading = false;
-
-                    errorHandler(err,'google-recaptcha');
-                });
-
-                this.loading = false;
-
-            }
-        },
-
-        onSettingsSubmit() {
-
-            if(this.isValid()) {
-
-                this.loading = true;
-
-                let fd = new FormData();
-
                 fd.append('agora_invoicing_url', this.agora_invoicing_url);
 
                 fd.append('date_format', this.date_format.id);
@@ -398,13 +330,31 @@ export default {
 
                 fd.append('timezone', this.timezone.id);
 
+                fd.append('icon_default', this.defaultIcon);
+
+                fd.append('admin_logo_default', this.defaultLogo);
+
+                fd.append('client_logo_default', this.useLogo);
+
+                if(this.selectedIcon){
+                    fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
+                }
+
+                if(this.selectedAdminLogo){
+                    fd.append('admin_logo', this.selectedAdminLogo.file,this.selectedAdminLogo.name);
+                }
+
+                if(this.selectedClientLogo){
+                    fd.append('client_logo', this.selectedClientLogo.file,this.selectedClientLogo.name);
+                }
+
                 axios.post('/api/admin/common-setting', fd).then(res => {
 
                     this.loading = false;
 
                     successHandler(res,'google-recaptcha');
 
-                    this.getProducts()
+                    this.getProducts('update');
 
                 }).catch(err => {
 
@@ -414,84 +364,13 @@ export default {
                 });
 
                 this.loading = false;
-
             }
-        },
-
-        onImageSubmit() {
-
-            this.loading = true;
-
-            let fd = new FormData();
-
-            fd.append('icon_default', this.defaultIcon);
-
-            fd.append('admin_logo_default', this.defaultLogo);
-
-            fd.append('client_logo_default', this.useLogo);
-
-            if(this.selectedIcon){
-                fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
-            }
-
-            if(this.selectedAdminLogo){
-                fd.append('admin_logo', this.selectedAdminLogo.file,this.selectedAdminLogo.name);
-            }
-
-            if(this.selectedClientLogo){
-                fd.append('client_logo', this.selectedClientLogo.file,this.selectedClientLogo.name);
-            }
-
-            axios.post('/api/admin/common-setting', fd).then(res => {
-
-                this.loading = false;
-
-                successHandler(res,'google-recaptcha');
-
-                this.getProducts('update');
-
-            }).catch(err => {
-
-                this.loading = false;
-
-                errorHandler(err,'google-recaptcha');
-            });
-
-            this.loading = false;
         },
 
         isValid() {
 
             const {errors, isValid} = validateGeneralSettings(this.$data);
             return isValid;
-        },
-
-        isRecaptchaValid() {
-
-            const {errors, isValid} = validateRecaptchaSettings(this.$data);
-            return isValid;
-        },
-
-        onReset() {
-
-            this.loading = true;
-
-            axios.post('/api/admin/common-setting/reset').then(res => {
-
-                this.loading = false;
-
-                successHandler(res,'google-recaptcha');
-
-                this.getProducts()
-
-            }).catch(err => {
-
-                this.loading = false;
-
-                errorHandler(err,'google-recaptcha');
-            });
-
-            this.loading = false;
         },
 
         updateStatesWithData(data) {

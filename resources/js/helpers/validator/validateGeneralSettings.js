@@ -6,7 +6,7 @@ import { lang } from '../extraLogics';
 
 export function validateGeneralSettings(data) {
 
-    const { agora_invoicing_url, timezone, date_format, time_format } = data
+    const { google_secret_key, google_site_key, recaptcha_status, agora_invoicing_url, timezone, date_format, time_format } = data
 
     let validatingData = {
 
@@ -19,6 +19,11 @@ export function validateGeneralSettings(data) {
         time_format: [time_format,'isRequired'],
 
     };
+
+    if(recaptcha_status) {
+        validatingData.google_site_key = [google_site_key, 'isRequired'];
+        validatingData.google_secret_key = [google_secret_key, 'isRequired'];
+    }
 
     const validator = new Validator(lang);
 
