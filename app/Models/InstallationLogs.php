@@ -18,6 +18,6 @@ class InstallationLogs extends Model
     ];
     public function version()
     {
-        return $this->belongsTo(AfuVersions::class,'version_id',';version_id');
+        return $this->belongsTo(AfuVersions::class,'version_id','version_id');
     }
 }
