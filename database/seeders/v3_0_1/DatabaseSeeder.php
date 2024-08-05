@@ -96,6 +96,7 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
             ['scenario' => 'crack-reports-cleanup', 'value' => 'everyMinute', 'command' => 'app:crack-reports-cleanup', 'status' => 1,  'icon' => 'glyphicon glyphicon-modal-window', 'job_info' => 'crack_cleanup_tooltip', 'created_at' => now(), 'updated_at' => now()],
             ['scenario' => 'license-reports-cleanup', 'value' => 'everyMinute', 'command' => 'app:license-reports-cleanup', 'status' => 1,  'icon' => 'glyphicon glyphicon-tags', 'job_info' => 'license_report_cleanup_tooltip', 'created_at' => now(), 'updated_at' => now()],
             ['scenario' => 'system-reports-cleanup', 'value' => 'everyMinute', 'command' => 'app:system-reports-cleanup', 'status' => 1,  'icon' => 'glyphicon glyphicon-wrench', 'job_info' => 'system_cleanup_tooltip', 'created_at' => now(), 'updated_at' => now()],
+            ['scenario' => 'installation-status-logs', 'value' => 'everyMinute', 'command' => 'installation:logs', 'status' => 1,  'icon' => 'glyphicon glyphicon-wrench', 'job_info' => 'installation_logs_tooltip', 'created_at' => now(), 'updated_at' => now()],
         ];
 
         foreach ($crons as $cron) {
@@ -2659,6 +2660,19 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder {
                 ['key' => $types['key']],
                 [
                     'value' => $types['value']
+                ]
+            );
+        }
+    }
+    public function installationLogs()
+    {
+        $installations = AflInstallations::distinct('installation_domain')->select('installation_domain', 'installation_status','installation_date','installation_ip')->latest('installation_date')->get();
+        foreach ($installations as $installation) {
+            InstallationLogs::updateOrInsert(
+                ['installation_domain' => $installation['installation_domain']],
+                [
+                    'installation_status' => $installation['installation_status'],
+                    'installation_last_active_date' => $installation['installation_date'],
                 ]
             );
         }

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AflCallbacks;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
+use App\Models\InstallationLogs;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 
@@ -84,5 +85,24 @@ class LicenseViewController extends Controller
         ->orderBy($sortField, $sortOrder)
         ->paginate($perPage, ['*'], 'page', $page);
         return successResponse(Lang::get('lang.license_callback'),$licenseCallBacks);
+    }
+    public function getLicenseInstallationLogs(Request $request,$license_id)
+    {
+        $perPage = $request->input('perPage', 10);
+        $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $sortField = $request->input('sort_field', 'id');
+        $licenseDomains = $this->getLicenseInstallations($request,$license_id);
+        $installations = json_decode($licenseDomains->getContent())->data->data;
+        $domains = array_column($installations, 'installation_domain');
+        $installationLogs = InstallationLogs::with('version:version_id,version_number')->whereIn('installation_domain', $domains)
+            ->when($searchQuery,function ($query,$searchQuery){
+                $query->where('installation_domain', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('installation_ip', 'LIKE', '%' . $searchQuery . '%');
+            })
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
+        return successResponse('',$installationLogs);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Console;
 
 use App\Console\Commands\CleanupCommand;
 use App\Console\Commands\CrackReportsCleanup;
+use App\Console\Commands\InstallationLogsCommand;
 use App\Console\Commands\licenseReportsCleanup;
 use App\Console\Commands\SystemReportsCleanup;
 use App\Console\Commands\VersionsCleanup;
@@ -34,6 +35,7 @@ class Kernel extends ConsoleKernel
         licenseReportsCleanup::class,
         SystemReportsCleanup::class,
         VersionsCleanup::class,
+        InstallationLogsCommand::class
     ];
 
     protected function schedule(Schedule $schedule)
@@ -46,10 +48,10 @@ class Kernel extends ConsoleKernel
         try{
             if (isInstall() && App::runningInConsole()) {
                 $cron = new ScheduleCron();
-    
+
                 $tasks = $cron->getAllActiveCron();
-    
-                
+
+
                 foreach ($tasks as $data) {
                     foreach ($data as $value => $command) {
                         $executionTime = $cron->getConditionValue($value);
@@ -62,7 +64,7 @@ class Kernel extends ConsoleKernel
         catch(Exception $e){
             return errorResponse($e, 404);
         }
-        
+
     }
 
     public function getCondition($schedule, $condition)
