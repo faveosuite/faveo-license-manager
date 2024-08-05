@@ -145,57 +145,22 @@ class ProductsController extends Controller
         $searchQuery = $request->input('search_query');
         $sortOrder= $request->input('sort_order','desc');
         $sortField = $request->input('sort_field','product_id');
-
-        // Fetch products with counts and related records, ordered by product title
-        $productsQuery = AflProducts::withCount(['licenses', 'installations', 'callbacks', 'reports'])
-            ->with(['licenses' => function ($query) {
-                $query->latest('license_date');
+        $products = AflProducts::select('product_id','product_title','product_sku','product_status')
+            ->with(['versions' => function($query) {
+                $query->select('version_id','product_id','version_number')->latest()->first();
             }])
-            ->with(['installations' => function ($query) {
-                $query->latest('installation_date');
-            }])
-            ->with(['callbacks' => function ($query) {
-                $query->latest('callback_date_time');
-            }])
-            ->with(['reports' => function ($query) {
-                $query->latest('report_date_time');
-            }])
+            ->withCount(['versions','licenses', 'installations'])
             ->when($searchQuery, function ($query) use ($searchQuery) {
-                $query->where('product_title', 'LIKE', '%'.$searchQuery.'%')
-                    ->orWhere('product_sku', 'LIKE', '%'.$searchQuery.'%')
-                    ->orWhere('product_url_homepage', 'LIKE','%'.$searchQuery.'%');
+                $query->where('product_title', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('product_sku', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhereHas('versions', function ($query) use ($searchQuery) {
+                        $query->where('version_number', 'LIKE', '%' . $searchQuery . '%');
+                    });
             })
-            ->orderBy($sortField, $sortOrder);
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
 
-        // Paginate the query
-        $paginatedProducts = $productsQuery->paginate($perPage, ['*'], 'page', $page);
-
-        // Modify the fetched data as needed
-        $root_array = $paginatedProducts->map(function ($product) {
-            // Format dates and other modifications
-            if (isset($product['licenses'][0]['license_date'])) {
-                $product['latest_license_date'] = $product['licenses'][0]['license_date'];
-                unset($product['licenses']);
-            }
-            if (isset($product['installations'][0]['installation_date'])) {
-                $product['latest_installation_date'] = $product['installations'][0]['installation_date'];
-                unset($product['installations']);
-            }
-            if (isset($product['callbacks'][0]['callback_date_time'])) {
-                $product['latest_callback_date_time'] = removeSeconds($product['callbacks'][0]['callback_date_time']);
-                unset($product['callbacks']);
-            }
-            if (isset($product['reports'][0]['report_date_time'])) {
-                $product['latest_report_date_time'] = removeSeconds($product['reports'][0]['report_date_time']);
-                unset($product['reports']);
-            }
-            $product['product_status_formatted'] = returnFormattedStatusArray($product['product_status']);
-
-            return $product;
-        });
-        $paginatedProducts->setCollection($root_array);
-
-        return successResponse(Lang::get('lang.Product_Show'), $paginatedProducts, 200);
+        return successResponse(Lang::get('lang.Product_Show'), $products, 200);
     }
 
     /**

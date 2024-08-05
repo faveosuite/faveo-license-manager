@@ -16,12 +16,6 @@ class AflLicenses extends Model
 
     public $timestamps = false;
 
-    public $appends = ['order_url'];
-
-    public function client()
-    {
-        return $this->belongsToMany(AflClients::class);
-    }
     public function clients(){
         return $this->belongsTo(AflClients::class, 'client_id', 'client_id');
     }
@@ -40,22 +34,6 @@ class AflLicenses extends Model
         })
         ->get();
     }
-
-    public function products()
-    {
-        return $this->belongsTo(AflProducts::class, 'product_id', 'product_id');
-    }
-
-    public function installations()
-    {
-        return $this->hasMany(AflInstallations::class, 'license_code', 'license_code');
-    }
-
-    public function callbacks()
-    {
-        return $this->hasMany(AflCallbacks::class, 'license_code', 'license_code')->select('callback_date_time')->latest('callback_date_time');
-    }
-
     public function getInstallationCountAttribute()
     {
         return $this->getInstallationAttribute()->count();
