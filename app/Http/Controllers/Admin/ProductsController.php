@@ -147,7 +147,7 @@ class ProductsController extends Controller
         $sortField = $request->input('sort_field','product_id');
         $products = AflProducts::select('product_id','product_title','product_sku','product_status')
             ->with(['versions' => function($query) {
-                $query->select('version_id','product_id','version_number')->latest()->first();
+                $query->select('version_id','product_id','version_number')->latest();
             }])
             ->withCount(['versions','licenses', 'installations'])
             ->when($searchQuery, function ($query) use ($searchQuery) {

@@ -69,7 +69,7 @@ class LicenseViewController extends Controller
         $license = AflLicenses::find($license_id);
         $licenseCallBacks = AflCallbacks::where('product_id',$license->product_id)
         ->where('client_id',$license->client_id)
-        ->orWhere('license_code',$license->license_code)
+        ->Where('license_code',$license->license_code)
             ->when($searchQuery,function ($query,$searchQuery){
                 $query->where('callback_domain', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('callback_date', 'LIKE', '%' . $searchQuery . '%');
