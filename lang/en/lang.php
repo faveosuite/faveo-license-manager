@@ -569,6 +569,7 @@ return [
     'column_saved' => 'Column Saved Successfully',
 
     //CONTACTS VIEW PAGE
+    'copy'=>'Copy',
     'copy_email' => 'Copy Email',
     'copy_name' => 'Copy Name',
     'copied' => 'Copied',

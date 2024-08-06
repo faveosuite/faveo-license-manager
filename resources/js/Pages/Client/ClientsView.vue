@@ -18,14 +18,14 @@
 
                         <div class="col-md-3 px-5 text-center">
 
-                            <image-element v-if="client_profile_pic" class="object-fit-cover" :class="['profile-user-img', 'img-responsive', 'img-circle', 'img-click']" alt="User Profile Picture" id="client_profile_pic" :sourceUrl="client_profile_pic" ></image-element>
+                            <image-element class="object-fit-cover" :class="['profile-user-img', 'img-responsive', 'img-circle', 'img-click']" alt="User Profile Picture" id="client_profile_pic" :sourceUrl="client_profile_pic" ></image-element>
 
                             <h3 class="profile-username">{{full_name}}</h3>
 
                             <p class="text-muted">
                                 {{client_email}}
-                                <span class="btn ml-1 btn-default" style="cursor: pointer" @click="copyCommand('email')">
-                                    <i :class="iconClassEmail" :title="titleChange('email')"></i>
+                                <span class="btn ml-1 btn-default" v-tooltip="lang('copy')" style="cursor: pointer" @click="copyCommand('email')">
+                                    <i :class="iconClassEmail"></i>
                                 </span>
                             </p>
 

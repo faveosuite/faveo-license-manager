@@ -136,8 +136,8 @@
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_code')}}:</label>
                         <div v-if="license_code && license_code !== '----'" class="col-sm-6 text-sm">
                             {{license_code.match(/.{1,4}/g).join('-')}}
-                            <span class="btn ml-2 btn-default" style="cursor: pointer" @click="copyCommand()">
-                                    <i :class="iconClass" :title="titleChange()"></i>
+                            <span class="btn ml-2 btn-default" v-tooltip="lang('copy')" style="cursor: pointer" @click="copyCommand()">
+                                    <i :class="iconClass"></i>
                             </span>
                         </div>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -637,11 +637,6 @@ export default {
             }
 
         },
-
-        titleChange() {
-
-            return this.iconClass === 'fas fa-copy' ? lang('copy_license_code') : lang('copied')
-        }
 
     },
 
