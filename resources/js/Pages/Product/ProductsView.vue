@@ -618,9 +618,9 @@ export default {
 
                     texts: { filter: '', limit: '' },
 
-                    sortable:  ['version_number','version_date', 'version_upgrade_count', 'version_status'],
+                    sortable:  ['version_date', 'version_upgrade_count', 'version_status'],
 
-                    filterable:  ['version_number'],
+                    filterable:  ['version_date'],
 
                     requestAdapter(data) {
 
