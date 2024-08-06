@@ -753,13 +753,13 @@ export default {
 
                         version: (f, row) => {
 
-                            if(row.version && row.version_number) {
+                            if(row.version && row.version.version_number) {
 
                                 return h(RouterLink, {
 
-                                    to: '/versions/' + row.version_id + '/view'
+                                    to: '/versions/' + row.version.version_id + '/view'
 
-                                },[row.version_number])
+                                },[row.version.version_number])
 
                             } else {
                                 return '----'
