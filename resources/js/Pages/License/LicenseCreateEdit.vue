@@ -436,8 +436,8 @@ export default {
                 this.product_title = value.product_title
             } else if(name === 'client') {
 
-                this.client_id = value.client_id
-                this.client_name = value.full_name
+                this.client_id = value ? value.client_id : this.client_id
+                this.client_name = value ? value.full_name : ''
             }
             else {
 
