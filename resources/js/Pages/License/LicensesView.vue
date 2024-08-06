@@ -159,6 +159,9 @@
                         <li class="nav-item">
                             <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('callbacks')" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
                         </li>
+                        <li class="nav-item">
+                            <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('logs')" aria-controls="custom-tabs-one-home">{{lang('installation_logs')}}</span>
+                        </li>
                     </ul>
                 </div>
 
@@ -192,6 +195,7 @@ import axios from "axios";
 import copy from "clipboard-copy";
 import DeleteModal from "../../components/Reusable/DeleteModal.vue";
 import {h} from "vue";
+import {RouterLink} from "vue-router";
 
 export default {
     name: "LicensesView",
@@ -644,6 +648,145 @@ export default {
                         callback_date_time: this.lang('callback_date_time'),
 
                         callback_status: this.lang('status'),
+                    },
+                }
+
+                this.loading = false
+
+            } else {
+
+                this.loading = true
+
+                this.endPoint = '/api/admin/installationLogs/' + this.id
+
+                this.columns = ['installation_domain', 'installation_ip', 'version', 'installation_last_active_date', 'installation_status']
+
+                this.options = {
+
+                    sortIcon: {
+
+                        base: 'glyphicon',
+
+                        up: 'glyphicon-chevron-up',
+
+                        down: 'glyphicon-chevron-down'
+                    },
+
+                    texts: { filter: '', limit: '' },
+
+                    sortable:  ['installation_domain', 'installation_last_active_date', 'installation_status'],
+
+                    filterable : [ 'installation_domain' ],
+
+                    requestAdapter(data) {
+
+                        return {
+
+                            'sort_field' : data.orderBy ? data.orderBy : 'callback_id',
+
+                            'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                            'search_query' : data.query.trim(),
+
+                            perPage : data.limit,
+                        }
+                    },
+
+                    responseAdapter({data}) {
+
+                        return {
+
+                            data: data.data.data.map(data => {
+
+                                data.keyVal = 'callback_id';
+
+                                data.idVal = data.callback_id;
+
+                                return data;
+                            }),
+
+                            count: data.data.total
+                        }
+                    },
+
+                    columnsClasses: {
+
+                        installation_domain: 'installation_domain',
+
+                        installation_ip: 'installation_ip',
+
+                        version: 'version',
+
+                        installation_last_active_date: 'installation_last_active_date',
+
+                        installation_status: 'installation_status',
+
+                    },
+
+                    templates: {
+
+                        installation_ip(h, row) {
+
+                            return row.installation_ip ? row.installation_ip : '----'
+                        },
+
+                        installation_last_active_date(h, row) {
+
+                            return formatDateTime(row.installation_last_active_date, timezone, date_format, time_format)
+                        },
+
+                        installation_domain: (f, row) => {
+
+                            if(row.installation_domain) {
+
+                                return h('a', {
+
+                                    href: row.installation_domain,
+                                    target: '_blank'
+
+                                },[row.installation_domain])
+
+                            } else {
+                                return '----'
+                            }
+                        },
+
+                        version: (f, row) => {
+
+                            if(row.version && row.version_number) {
+
+                                return h(RouterLink, {
+
+                                    to: '/versions/' + row.version_id + '/view'
+
+                                },[row.version_number])
+
+                            } else {
+                                return '----'
+                            }
+                        },
+
+                        installation_status: (f, row) => {
+
+                            return h('span', {
+                                'class': row.installation_status ? 'text-green' : 'text-red'
+                            }, row.installation_status ? this.lang('active'): this.lang('inactive'))
+                        },
+                    },
+
+                    pagination: { show : false },
+
+                    headings: {
+
+                        installation_domain: this.lang('domain'),
+
+                        installation_ip: this.lang('ip'),
+
+                        version: this.lang('version'),
+
+                        installation_last_active_date: this.lang('last_active_date'),
+
+                        installation_status: this.lang('status'),
                     },
                 }
 

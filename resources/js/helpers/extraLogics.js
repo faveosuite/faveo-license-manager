@@ -227,7 +227,8 @@ export const formatDateTime = (dateTime, timezone, dateFormat, timeFormat, forma
         const utcDate = moment.utc(dateTime, format);
         return formatDateTimeWithTimezone(utcDate, timezone, dateFormat, timeFormat);
     }
-    return moment(dateTime).format(dateFormat);
+
+    return moment(dateTime).format(dateFormat) === 'Invalid date' ? '0000-00-00' : moment(dateTime).format(dateFormat)
 };
 
 /**

@@ -599,6 +599,8 @@ return [
     'license_expiry' => 'License Expiry',
     'callback_date_time' => 'Callback Date',
     'updates_expiry' => 'Updates Expiry',
+    'installation_logs' => 'Installation Logs',
+    'last_active_date' => 'Last Active Date',
     'support_expiry' => 'Support Expiry',
     'select_columns' => 'Select Columns',
     'client_email_or_license_code' => 'Client Email/License',
