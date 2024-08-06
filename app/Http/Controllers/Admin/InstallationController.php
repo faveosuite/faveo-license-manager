@@ -147,16 +147,18 @@ class InstallationController extends Controller
             ->withAggregate(['product as product_title'], 'product_title')
             ->withAggregate(['clients as client_email'], 'client_email')
             ->when($searchQuery, function ($query) use ($searchQuery) {
-                $query->whereHas('clients', function ($query) use ($searchQuery) {
-                    $query->where('client_email', 'like', '%' . $searchQuery . '%');
-                })
-                    ->orWhereHas('product', function ($query) use ($searchQuery) {
-                        $query->where('product_title', 'like', '%' . $searchQuery . '%');
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->whereHas('clients', function ($query) use ($searchQuery) {
+                        $query->where('client_email', 'like', '%' . $searchQuery . '%');
                     })
-                    ->orWhere('license_code', 'like', '%' . str_replace("-", "", $searchQuery) . '%')
-                ->orWhere('installation_ip', 'like', '%' . $searchQuery . '%')
-                ->orWhere('installation_domain', 'like', '%' . $searchQuery . '%');
-
+                        ->orWhereHas('product', function ($query) use ($searchQuery) {
+                            $query->where('product_title', 'like', '%' . $searchQuery . '%');
+                        })
+                        ->orWhere('license_code', 'like', '%' . str_replace("-", "", $searchQuery) . '%')
+                        ->orWhere('installation_ip', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('installation_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                        ->orWhere('installation_domain', 'like', '%' . $searchQuery . '%');
+                });
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);

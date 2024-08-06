@@ -150,13 +150,12 @@ class ProductsController extends Controller
                 $query->select('version_id','product_id','version_number')->latest();
             }])
             ->withCount(['versions','licenses', 'installations'])
-            ->when($searchQuery, function ($query) use ($searchQuery) {
-                $query->where('product_title', 'LIKE', '%' . $searchQuery . '%')
+                ->where('product_title', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('product_sku', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('product_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
                     ->orWhereHas('versions', function ($query) use ($searchQuery) {
                         $query->where('version_number', 'LIKE', '%' . $searchQuery . '%');
-                    });
-            })
+                    })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 

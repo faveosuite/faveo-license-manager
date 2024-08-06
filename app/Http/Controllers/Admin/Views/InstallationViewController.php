@@ -27,9 +27,12 @@ class InstallationViewController extends Controller
         $callbacks = AflCallbacks::where('callback_domain', $installationDomain)
             ->select('callback_id','callback_ip','callback_domain','callback_date_time','callback_status')
             ->when($searchQuery, function ($query) use ($searchQuery) {
-                 $query->where('callback_ip', 'like', '%'.$searchQuery.'%')
-                     ->orWhere('callback_domain', 'like', '%'.$searchQuery.'%')
-                     ->orWhere('callback_date_time', 'like', '%'.$searchQuery.'%');
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('callback_ip', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('callback_domain', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('callback_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                        ->orWhere('callback_date_time', 'like', '%' . $searchQuery . '%');
+                });
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);

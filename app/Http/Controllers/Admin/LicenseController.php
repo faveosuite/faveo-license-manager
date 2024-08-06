@@ -362,7 +362,15 @@ class LicenseController extends Controller
                     });
                 foreach ($fields as $field) {
                         $query->when(in_array($field,$searchable), function ($query) use ($field, $searchQuery) {
-                            $query->orWhere($field, 'like', '%' . $searchQuery . '%');
+                            if($field == 'license_status'){
+                                $query->orWhere($field, 'like', '%' . statusFormatter($searchQuery) . '%');
+                            }
+                            else if($field == 'license_code'){
+                                $query->orWhere($field, 'like', '%' . str_replace('-','',$searchQuery) . '%');
+                            }
+                            else{
+                                $query->orWhere($field, 'like', '%' . $searchQuery . '%');
+                            }
                         });
                 }
             })

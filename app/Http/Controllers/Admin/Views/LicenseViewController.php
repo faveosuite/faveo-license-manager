@@ -52,8 +52,11 @@ class LicenseViewController extends Controller
                 $query->where('client_id', $license->client_id);
             })
             ->when($searchQuery,function ($query,$searchQuery){
-                $query->Where('installation_domain', 'LIKE', '%' . $searchQuery . '%')
-                ->orWhere('installation_date', 'LIKE', '%' . $searchQuery . '%');
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->Where('installation_domain', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('installation_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                        ->orWhere('installation_date', 'LIKE', '%' . $searchQuery . '%');
+                });
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
@@ -71,8 +74,11 @@ class LicenseViewController extends Controller
         ->where('client_id',$license->client_id)
         ->Where('license_code',$license->license_code)
             ->when($searchQuery,function ($query,$searchQuery){
-                $query->where('callback_domain', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('callback_date', 'LIKE', '%' . $searchQuery . '%');
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('callback_domain', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('callback_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                        ->orWhere('callback_date_time', 'LIKE', '%' . $searchQuery . '%');
+                });
             })
         ->orderBy($sortField, $sortOrder)
         ->paginate($perPage, ['*'], 'page', $page);

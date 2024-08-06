@@ -23,7 +23,7 @@ class VersionsController extends Controller
                 $query->where(function ($q) use ($searchQuery) {
                     $q->where('version_number', 'LIKE', '%' . $searchQuery . '%')
                         ->orWhere('version_date', 'LIKE', '%' . $searchQuery . '%')
-                        ->orWhere('version_status', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('version_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
                         ->orWhereHas('product', function ($q) use ($searchQuery) {
                             $q->where('product_title', 'LIKE', '%' . $searchQuery . '%');
                         });

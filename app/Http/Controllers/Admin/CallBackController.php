@@ -24,14 +24,17 @@ class CallBackController extends Controller
             ->withAggregate('product as product_title','product_title')
             ->withAggregate(['user as client_email'], 'client_email')
             ->when($searchQuery,function ($query) use ($searchQuery) {
-                $query->whereHas('product', function ($query) use ($searchQuery) {
-                    $query->where('product_title', 'LIKE', '%'.$searchQuery.'%');
-                })->orWhereHas('user', function ($query) use ($searchQuery) {
-                    $query->where('client_email', 'LIKE', '%'.$searchQuery.'%');
-                })
-                    ->orWhere('license_code', 'LIKE', '%'.$searchQuery.'%')
-                    ->orWhere('callback_ip', 'LIKE', '%'.$searchQuery.'%')
-                    ->orWhere('callback_domain', 'LIKE', '%'.$searchQuery.'%');
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->whereHas('product', function ($query) use ($searchQuery) {
+                        $query->where('product_title', 'LIKE', '%' . $searchQuery . '%');
+                    })->orWhereHas('user', function ($query) use ($searchQuery) {
+                        $query->where('client_email', 'LIKE', '%' . $searchQuery . '%');
+                    })
+                        ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('callback_ip', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('callback_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                        ->orWhere('callback_domain', 'LIKE', '%' . $searchQuery . '%');
+                });
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
@@ -51,17 +54,20 @@ class CallBackController extends Controller
            ->withAggregate('product as product_title','product_title')
            ->withAggregate('types as callback_types','value')
            ->when($searchQuery,function ($query) use ($searchQuery) {
-               $query->whereHas('product', function ($query) use ($searchQuery) {
-                   $query->where('product_title', 'LIKE', '%'.$searchQuery.'%');
-               })
-                   ->orWhereHas('version', function ($query) use ($searchQuery) {
-                       $query->where('version_number', 'LIKE', '%'.$searchQuery.'%');
+               $query->where(function ($query) use ($searchQuery) {
+                   $query->whereHas('product', function ($query) use ($searchQuery) {
+                       $query->where('product_title', 'LIKE', '%' . $searchQuery . '%');
                    })
-                   ->orWhereHas('type', function ($query) use ($searchQuery) {
-                       $query->where('keys', 'LIKE', '%'.$searchQuery.'%');
-                   })
-                   ->orWhere('callback_ip', 'LIKE', '%'.$searchQuery.'%')
-                   ->orWhere('callback_date_time', 'LIKE', '%'.$searchQuery.'%');
+                       ->orWhereHas('version', function ($query) use ($searchQuery) {
+                           $query->where('version_number', 'LIKE', '%' . $searchQuery . '%');
+                       })
+                       ->orWhereHas('type', function ($query) use ($searchQuery) {
+                           $query->where('keys', 'LIKE', '%' . $searchQuery . '%');
+                       })
+                       ->orWhere('callback_ip', 'LIKE', '%' . $searchQuery . '%')
+                       ->orWhere('callback_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                       ->orWhere('callback_date_time', 'LIKE', '%' . $searchQuery . '%');
+               });
            })
            ->orderBy($sortField, $sortOrder)
            ->paginate($perPage, ['*'], 'page', $page);

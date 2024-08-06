@@ -42,6 +42,7 @@ class ProductsViewController extends Controller
                         ->orWhere('license_code', 'like', '%' . str_replace("-", "",$searchQuery)  . '%')
                         ->orWhere('installation_domain', 'like', '%' . $searchQuery . '%')
                         ->orWhere('installation_ip', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('installation_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
                         ->orWhere('installation_date', 'like', '%' . $searchQuery . '%');
                 });
             })
@@ -68,6 +69,7 @@ class ProductsViewController extends Controller
                     $query->whereHas('clients', function ($query) use ($searchQuery) {
                         $query->where('client_email', 'like', '%' . $searchQuery . '%');
                     })
+                        ->orWhere('license_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
                         ->orWhere('license_code', 'like', '%' . str_replace("-", "",$searchQuery)  . '%');
                 });
             })
@@ -92,10 +94,9 @@ class ProductsViewController extends Controller
         $productVersions = AflProducts::find($productId)
             ->versions()
             ->select('version_id','product_id','version_number','version_date','version_upgrade_count','version_status')
-            ->when($searchQuery, function ($query, $searchQuery) {
-                $query->where('version_number', 'like', '%' . $searchQuery . '%')
-                    ->orWhere('version_date', 'like', '%' . $searchQuery . '%');
-            })
+                ->where('version_number', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('version_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                    ->orWhere('version_date', 'like', '%' . $searchQuery . '%')
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
         return successResponse(Lang::get('lang.product_versions'), $productVersions);

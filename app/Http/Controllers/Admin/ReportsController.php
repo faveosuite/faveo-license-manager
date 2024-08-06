@@ -91,11 +91,14 @@ class ReportsController extends Controller
             ->select("afl_reports.*")
             ->withUserFormatted()
             ->where('report_system', 1)
+            ->when($searchQuery, function ($query, $searchQuery) {
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%');
+                });
+            })
             ->orWhereHas('user', function ($query) {
                 $query->where('client_role', 'admin');
-            })
-            ->when($searchQuery, function ($query, $searchQuery) {
-                $query->where('report_text', 'like', '%' . $searchQuery . '%');
             })
             ->orderBy($sortField, $sortOrder);
 
@@ -128,6 +131,7 @@ class ReportsController extends Controller
             ->where('report_system', 0)
             ->where(function ($query) use ($searchQuery) {
                     $query->where('report_text', 'LIKE', '%' . $searchQuery . '%')
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%')
                     ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
             })
             ->orderBy($sortField, $sortOrder)
@@ -161,12 +165,15 @@ class ReportsController extends Controller
             ->where('license_code' , '!=', null)
             ->withAggregate('user as client_email','client_email')
             ->when($searchQuery, function ($query) use ($searchQuery) {
-                $query->where('report_text', 'like', '%' . $searchQuery . '%')
-                    ->orWhereHas('user', function ($query) use ($searchQuery) {
-                        $query->where('client_email', 'like', '%' . $searchQuery . '%');
-                    })
-                    ->orWhere('license_code', 'like', '%' . str_replace("-","",$searchQuery) . '%')
-                    ->orWhere('report_date_time', 'like', '%' . $searchQuery . '%');
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%')
+                        ->orWhereHas('user', function ($query) use ($searchQuery) {
+                            $query->where('client_email', 'like', '%' . $searchQuery . '%');
+                        })
+                        ->orWhere('license_code', 'like', '%' . str_replace("-", "", $searchQuery) . '%')
+                        ->orWhere('report_date_time', 'like', '%' . $searchQuery . '%');
+                });
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
@@ -187,17 +194,30 @@ class ReportsController extends Controller
             ->withAggregate('product','product_title')
             ->where('report_text', 'like', '%' ."upgrade" .'%')
             ->when($searchQuery, function ($query) use ($searchQuery) {
-                $query->where('report_text', 'like', '%' . $searchQuery . '%')
-                    ->orWhereHas('product', function ($query) use ($searchQuery) {
-                        $query->where('product_title', 'like', '%' . $searchQuery . '%');
-                    })
-                    ->orWhere('report_date_time', 'like', '%' . $searchQuery . '%');
+                $query->where(function ($query) use ($searchQuery) {
+                    $query->where('report_text', 'like', '%' . $searchQuery . '%')
+                        ->orWhereHas('product', function ($query) use ($searchQuery) {
+                            $query->where('product_title', 'like', '%' . $searchQuery . '%');
+                        })
+                        ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%')
+                        ->orWhere('report_date_time', 'like', '%' . $searchQuery . '%');
+                });
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
         return successResponse(Lang::get('lang.report_update'), $updateReports,200);
 
+    }
+    private function reportStatusFormatter($status)
+    {
+        if (strtolower($status) == 'success'){
+            $status = 1;
+        }
+        if (strtolower($status) == 'error' ){
+            $status = 0;
+        }
+        return $status;
     }
 }
 

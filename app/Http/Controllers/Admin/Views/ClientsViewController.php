@@ -30,6 +30,7 @@ class ClientsViewController extends Controller
                 $query->where(function ($query) use ($searchQuery) {
                     $query->where('installation_domain', 'like', '%' . $searchQuery . '%')
                         ->orWhere('installation_ip', 'like', '%' . $searchQuery . '%')
+                        ->orWhere('installation_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
                         ->orWhere('installation_date', 'like', '%' . $searchQuery . '%');
                 });
             })
@@ -55,7 +56,7 @@ class ClientsViewController extends Controller
                         ->orWhere('license_expire_date', 'like', '%' . $searchQuery . '%')
                         ->orWhere('license_updates_date', 'like', '%' . $searchQuery . '%')
                         ->orWhere('license_support_date', 'like', '%' . $searchQuery . '%')
-                        ->orWhere('license_status', 'like', '%' . $searchQuery . '%');
+                        ->orWhere('license_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%');
                 });
             })
             ->orderBy($sortField, $sortOrder)
