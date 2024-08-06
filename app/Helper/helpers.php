@@ -705,3 +705,13 @@ function statusFormatter($status)
     }
     return $status;
 }
+function statusFormatter($status)
+{
+    if (strtolower($status) == 'active'){
+        $status = 1;
+    }
+    if (strtolower($status) == 'inactive' ){
+        $status = 0;
+    }
+    return $status;
+}
