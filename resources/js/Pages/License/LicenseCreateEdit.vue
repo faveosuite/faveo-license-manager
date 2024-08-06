@@ -46,8 +46,8 @@
                     </dynamic-select>
 
                     <text-field :label="trans('license_code')" :value="license_code" type="text" name="license_code"
-                                :onChange="onChange" classname="col-sm-6" :required="true"
-                                :showNewButton="true" newBtnName="generate" :onNewButtonClick="generateCode">
+                                :onChange="onChange" classname="col-sm-6" :required="true" :disabled="Boolean(client_name)"
+                                :showNewButton="!client_name" newBtnName="generate" :onNewButtonClick="generateCode" hint="Either Client's Profile or License Code is Required">
 
                     </text-field>
                 </div>
@@ -55,7 +55,7 @@
                 <div class="row">
 
                     <dynamic-select name="client" :apiEndpoint="'/api/admin/viewClients/'+client_id" :multiple="false" :label="trans('client')" :onChange="onChange"
-                                    classname="col-sm-6" :value="client_name" optionLabel="full_name" :required="true">
+                                    classname="col-sm-6" :value="client_name" optionLabel="full_name" :disabled="Boolean(license_code)" hint="Either Client's Profile or License Code is Required" :required="true">
 
                     </dynamic-select>
 

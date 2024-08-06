@@ -368,7 +368,7 @@ export default {
             this.nextPageUrl = '';
             this.searchQuery = undefined;
             this.isLoading = false;
-            if(from != 'update') { this.selectedValue = null; }
+            // if(from != 'update') { this.selectedValue = null; }
         }
 
     },
