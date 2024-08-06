@@ -13,7 +13,7 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('versions')}}</h3>
+                <h3 class="card-title">{{lang('all_versions')}}</h3>
 
                 <div class="card-tools">
 
@@ -37,10 +37,8 @@
 
 <script>
 
-import {lang} from "../../helpers/extraLogics";
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-import moment from "moment";
-import 'moment-timezone'
 import {h} from "vue";
 import {RouterLink} from "vue-router";
 
@@ -156,7 +154,7 @@ export default {
 
                 version_date(h, row) {
 
-                    return row.version_date ? moment(row.version_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                    return formatDateTime(row.version_date, timezone, date_format, time_format)
                 },
 
                 product_title: (f, row) => {

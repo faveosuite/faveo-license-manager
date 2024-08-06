@@ -47,7 +47,7 @@
 
                     <div class="row pt-2 pb-2 border-bottom col-sm-6">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('installation_domain')}}:</label>
-                        <a :href="installation_domain" target="_blank" v-if="installation_domain" class="col-sm-6 text-sm">{{installation_domain}}</a>
+                        <a :href="'https://'+installation_domain" target="_blank" v-if="installation_domain" class="col-sm-6 text-sm">{{installation_domain}}</a>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
@@ -344,7 +344,7 @@ export default {
 
                                 return h('a', {
 
-                                    href: row.callback_domain,
+                                    href: 'https://'+row.callback_domain,
                                     target: '_blank'
 
                                 },[row.callback_domain])

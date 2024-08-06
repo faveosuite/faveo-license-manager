@@ -18,7 +18,7 @@
 
                         <div class="col-md-3 px-5 text-center">
 
-                            <img class="object-fit-cover" src="../../../../public/themes/default/img/avatar.png" :class="['profile-user-img', 'img-responsive', 'img-circle', 'img-click']" alt="User Profile Picture"/>
+                            <image-element v-if="client_profile_pic" class="object-fit-cover" :class="['profile-user-img', 'img-responsive', 'img-circle', 'img-click']" alt="User Profile Picture" id="client_profile_pic" :sourceUrl="client_profile_pic" ></image-element>
 
                             <h3 class="profile-username">{{full_name}}</h3>
 
@@ -30,8 +30,8 @@
                             </p>
 
                             <div class="client-status-btn">
-                                <button v-if="client_status" class="btn btn-xs btn-success w-50">Active</button>
-                                <button v-else class="btn btn-xs btn-danger w-50">Inactive</button>
+                                <span v-if="client_status" class="px-4 py-1 user-select-none bg-success">Active</span>
+                                <span v-else class="px-4 py-1 user-select-none bg-danger w-50">Inactive</span>
                             </div>
 
                         </div>
@@ -140,15 +140,14 @@
 
 <script>
 
-import FaveoImageElement from "../../components/Reusable/FaveoImageElement.vue";
 import {formatDateTime, getIdFromUrl, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import axios from "axios";
 import copy from 'clipboard-copy'
-import moment from "moment";
 import DeleteModal from "../../components/Reusable/DeleteModal.vue";
 import {h} from "vue";
 import {RouterLink} from "vue-router";
+import ImageElement from "../../components/Reusable/ImageElement.vue";
 export default {
     name: "client",
 
@@ -191,7 +190,7 @@ export default {
     },
 
     components: {
-        'faveo-image-element': FaveoImageElement,
+        'image-element': ImageElement,
         'data-table': DynamicDataTable,
         'delete-modal': DeleteModal
     },
@@ -384,7 +383,7 @@ export default {
 
                                     return h('a', {
 
-                                        href: row.installation_domain,
+                                        href: 'https://'+row.installation_domain,
                                         target: '_blank'
 
                                     },[row.installation_domain])

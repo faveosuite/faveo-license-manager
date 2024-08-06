@@ -53,8 +53,6 @@
 
 import {formatDateTime, lang} from "../../helpers/extraLogics";
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-import moment from "moment";
-import 'moment-timezone'
 import {h} from "vue";
 import {RouterLink} from "vue-router";
 
@@ -209,7 +207,7 @@ import {RouterLink} from "vue-router";
 
                                     return h('a', {
 
-                                        href: row.callback_domain,
+                                        href: 'https://'+row.callback_domain,
                                         target: '_blank'
 
                                     },[row.callback_domain])

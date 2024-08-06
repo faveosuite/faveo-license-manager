@@ -493,7 +493,7 @@
                     "hasCount": false,
                     "iconClass": "far fa-circle",
                     "order": 0,
-                    "routeString": "/Whitelist",
+                    "routeString": "/Whitelist/list",
                     "hasChildren": false,
                     "children": []
                 }

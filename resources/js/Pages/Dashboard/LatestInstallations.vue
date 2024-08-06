@@ -34,7 +34,7 @@
 
                         <template v-slot:installation_domain="props">
 
-                            <a v-if="props.row.installation_domain" :href="props.row.installation_domain" target="_blank">{{props.row.installation_domain}}</a>
+                            <a v-if="props.row.installation_domain" :href="'https://'+props.row.installation_domain" target="_blank">{{props.row.installation_domain}}</a>
 
                             <span v-else>----</span>
 
@@ -63,8 +63,6 @@
 <script>
 
 import {lang, formatDateTime} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
 
 export default {
     name: 'latest-installations',

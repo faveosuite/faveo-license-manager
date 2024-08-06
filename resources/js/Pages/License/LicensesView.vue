@@ -84,7 +84,7 @@
 
                     <div class="row p-1 col-sm-6">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_domain')}}:</label>
-                        <a v-if="license_domain" :href="license_domain" target="_blank" class="col-sm-6 text-sm">{{license_domain}}</a>
+                        <a v-if="license_domain" :href="'https://'+license_domain" target="_blank" class="col-sm-6 text-sm">{{license_domain}}</a>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
@@ -479,7 +479,7 @@ export default {
 
                                 return h('a', {
 
-                                    href: row.installation_domain,
+                                    href: 'https://'+row.installation_domain,
                                     target: '_blank'
 
                                 },[row.installation_domain])
@@ -601,7 +601,7 @@ export default {
 
                                 return h('a', {
 
-                                    href: row.callback_domain,
+                                    href: 'https://'+row.callback_domain,
                                     target: '_blank'
 
                                 },[row.callback_domain])

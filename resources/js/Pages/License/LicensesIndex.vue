@@ -13,7 +13,7 @@
 
             <div class="card-header">
 
-                <h3 class="card-title">{{lang('licenses')}}</h3>
+                <h3 class="card-title">{{lang('all_licenses')}}</h3>
 
                 <div class="card-tools">
 
@@ -263,7 +263,7 @@ export default {
 
                         return h('a', {
 
-                            href: row.license_domain,
+                            href: 'https://'+row.license_domain,
                             target: '_blank'
 
                         },[row.license_domain])

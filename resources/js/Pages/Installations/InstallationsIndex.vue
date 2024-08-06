@@ -13,7 +13,7 @@
 
 			<div class="card-header">
 
-				<h3 class="card-title">{{lang('installations')}}</h3>
+				<h3 class="card-title">{{lang('all_installations')}}</h3>
 			</div>
 
 			<div class="card-body" id="my_installations">
@@ -33,8 +33,6 @@ import {formatDateTime, lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
 import {useStore} from "vuex";
 import {computed, h} from "vue";
-import moment from "moment";
-import 'moment-timezone'
 import {RouterLink} from "vue-router";
 
 	export default {
@@ -213,7 +211,7 @@ import {RouterLink} from "vue-router";
 
                             return h('a', {
 
-                                href: row.installation_domain,
+                                href: 'https://'+row.installation_domain,
                                 target: '_blank'
 
                             },[row.installation_domain])

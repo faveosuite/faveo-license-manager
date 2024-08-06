@@ -32,7 +32,7 @@
 
                         <template v-slot:callback_domain="props">
 
-                            <a v-if="props.row.callback_domain" :href="props.row.callback_domain" target="_blank">{{props.row.callback_domain}}</a>
+                            <a v-if="props.row.callback_domain" :href="'https://'+props.row.callback_domain" target="_blank">{{props.row.callback_domain}}</a>
 
                             <span v-else>----</span>
 
@@ -46,8 +46,6 @@
 <script>
 
 import {lang, formatDateTime} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
 
 export default {
     name :'latest-callbacks',
