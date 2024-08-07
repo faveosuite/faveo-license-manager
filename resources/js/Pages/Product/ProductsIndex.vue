@@ -182,13 +182,13 @@
 
                     versions: (f, row) => {
 
-                        if(row.versions && Array.isArray(row.versions) && row.versions.length > 0 && row.versions[0].version_number) {
+                        if(row.versions && row.versions.version_number) {
 
                             return h(RouterLink, {
 
-                                to: '/versions/' + row.versions[0].version_id + '/view'
+                                to: '/versions/' + row.versions.version_id + '/view'
 
-                            },[row.versions[0].version_number])
+                            },[row.versions.version_number])
 
                         } else {
                             return '----'

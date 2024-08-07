@@ -277,6 +277,8 @@ export default {
 
         checkFile() {
 
+            this.endPoint = this.updateQueryParam(this.endPoint, "page", 1) // so when we search on any page it should default to page 1 on search
+
             this.$refs.table.setFilter(this.search_str)
         },
 
