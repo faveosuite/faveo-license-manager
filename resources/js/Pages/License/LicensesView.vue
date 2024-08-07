@@ -70,7 +70,7 @@
 
                     <div class="row p-1 col-sm-6">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('order_number')}}:</label>
-                        <a :href="'https://billing.faveohelpdesk.com/orders/license/'+license_order_number" target="_blank" v-if="license_order_number" class="col-sm-6 text-sm">{{license_order_number}}</a>
+                        <a :href="extractHref(license_order_url)" target="_blank" v-if="license_order_number" class="col-sm-6 text-sm">{{license_order_number}}</a>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
@@ -234,6 +234,8 @@ export default {
 
             license_order_number: '',
 
+            license_order_url: '',
+
             license_domain: '',
 
             license_date: '',
@@ -290,6 +292,20 @@ export default {
             this.showModal = !this.showModal;
         },
 
+        extractHref(orderUrl) {
+
+            const parser = new DOMParser();
+
+            // Parse the HTML string
+
+            const parsedHtml = parser.parseFromString(orderUrl, 'text/html');
+
+            // Get the root element of the parsed HTML
+
+            const htmlElement = parsedHtml.documentElement;
+
+            return htmlElement.querySelector('#href_link') ?? ''
+        },
 
         getValues(path) {
 
