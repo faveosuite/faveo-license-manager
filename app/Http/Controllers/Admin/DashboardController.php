@@ -37,7 +37,7 @@ class DashboardController extends Controller
         // Latest products
         $latestProducts = AflProducts::where('product_status', '1')
             ->withCount(['licenses', 'installations'])
-            ->orderBy('product_id','asc')
+            ->orderBy('product_id','desc')
             ->take(10)
             ->get()
             ->transform(function ($product) {
