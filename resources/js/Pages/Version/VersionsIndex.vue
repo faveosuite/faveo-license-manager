@@ -101,7 +101,7 @@ export default {
 
                 return {
 
-                    'sort_field' : data.orderBy ? data.orderBy : 'product_title',
+                    'sort_field' : data.orderBy ? data.orderBy : 'version_id',
 
                     'sort_order' : data.ascending ? 'asc' : 'desc',
 
