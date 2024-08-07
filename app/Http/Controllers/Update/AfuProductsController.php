@@ -183,4 +183,16 @@ class AfuProductsController extends Controller
             return errorResponse(Lang::get('lang.invalid'), 400);
         }
     }
+    public function getProducts(Request $request)
+    {
+        $perPage = $request->input('perPage', 10);
+        $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder= $request->input('sort_order','desc');
+        $sortField = $request->input('sort_field','product_id');
+        $product = AfuProducts::orderBy($sortField, $sortOrder)
+            ->where('product_title','LIKE', '%' . $searchQuery . '%')
+            ->paginate($perPage, ['*'], 'page', $page);
+        return successResponse('',$product);
+    }
 }

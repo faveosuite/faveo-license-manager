@@ -259,6 +259,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('products/UpdateAdd', [AfuProductsController::class, 'productUpdateAdd']);
     Route::post('products/UpdateDelete', [AfuProductsController::class, 'deleteUpdateProduct']);
     Route::post('products/UpdateEdit', [AfuProductsController::class, 'productUpdateUpdate']);
+    Route::get('afuProducts',[AfuProductsController::class,'getProducts']);
 
     //VERSIONS
     Route::post('versions/add', [AfuVersionsController::class, 'versionAdd']);
