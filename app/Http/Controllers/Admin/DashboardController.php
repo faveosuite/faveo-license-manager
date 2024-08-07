@@ -35,10 +35,16 @@ class DashboardController extends Controller
         $callbacksCount = AflCallbacks::where('callback_status', '1')->orWhere('callback_status', '1')->distinct('callback_ip')->count('callback_ip');
 
         // Latest products
-        $latestProducts = AflProducts::where('product_status', '1')->with(['versions' => function($query) {
-            $query->select('version_id','product_id','version_number')->latest()->first();
-        }])
-            ->withCount(['versions','licenses', 'installations'])->orderByDesc('product_date')->take(10)->get();
+        $latestProducts = AflProducts::where('product_status', '1')
+            ->withCount(['licenses', 'installations'])
+            ->orderBy('product_id','asc')
+            ->take(10)
+            ->get()
+            ->transform(function ($product) {
+                $product->versions = $product->product_latest_version;
+                $product->versions_count = $product->product_version_count;
+                return $product;
+            });
 
         // Latest versions
         $latestVersions = AfuVersions::where('version_status', '1')->with('product:product_id,product_title')->distinct('version_number')->orderByDesc('version_date')->take(10)->get();

@@ -17,10 +17,8 @@ class ProductsViewController extends Controller
     public function getProductDetails($id)
     {
         $product = AflProducts::select('product_id', 'product_title', 'product_sku', 'product_url_homepage', 'product_url_download', 'product_status')
-            ->with(['versions' => function($query) {
-                $query->select('version_id','product_id','version_number')->latest()->first();
-            }])
             ->find($id);
+            $product->versions = $product->product_latest_version;
         return successResponse(Lang::get('lang.product_details'),$product);
     }
     public function getProductInstallations(Request $request, $id)

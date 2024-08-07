@@ -146,19 +146,19 @@ class ProductsController extends Controller
         $sortOrder= $request->input('sort_order','desc');
         $sortField = $request->input('sort_field','product_id');
         $products = AflProducts::select('product_id','product_title','product_sku','product_status')
-            ->with(['versions' => function($query) {
-                $query->select('version_id','product_id','version_number')->latest();
-            }])
-            ->withCount(['versions','licenses', 'installations'])
-                ->where('product_title', 'LIKE', '%' . $searchQuery . '%')
+            ->withCount(['licenses', 'installations'])
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('product_title', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('product_sku', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('product_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
-                    ->orWhereHas('versions', function ($query) use ($searchQuery) {
-                        $query->where('version_number', 'LIKE', '%' . $searchQuery . '%');
-                    })
+                    ->orWhere('product_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%');
+            })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
-
+        $products->getCollection()->transform(function ($products) {
+            $products->versions = $products->product_latest_version;
+            $products->versions_count = $products->product_version_count;
+            return $products;
+        });
         return successResponse(Lang::get('lang.Product_Show'), $products, 200);
     }
 
