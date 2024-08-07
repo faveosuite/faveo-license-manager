@@ -84,7 +84,7 @@ class AuthController extends Controller
         if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
            return $this->handleFailedLoginAttempt($ipAddress, $failed_limit, $failed_check);
         }
-        Cache::forget($ipAddress);
+        Cache::forget('login_attempts:' .$ipAddress);
         // Check if 2FA is enabled for the user
         if ($admin->is_2fa_enabled) {
             return $this->handle2FactorLogin($admin);
