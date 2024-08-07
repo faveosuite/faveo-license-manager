@@ -20,18 +20,18 @@
 
                 <div class="row">
 
-                    <text-field :label="trans('google_site_key')" :disabled="!recaptcha_status" v-tooltip="lang('recaptcha')" :value="google_site_key"
+                    <text-field :label="trans('google_site_key')" :disabled="!recaptcha_status" :hint="lang('recaptcha')" :value="google_site_key"
                                 :onChange="onChange" name="google_site_key" type="text" :required="true" classname="col-sm-6">
 
                     </text-field>
 
-                    <text-field :label="trans('google_secret_key')" :disabled="!recaptcha_status" v-tooltip="lang('recaptcha')" :value="google_secret_key"
+                    <text-field :label="trans('google_secret_key')" :disabled="!recaptcha_status" :hint="lang('recaptcha')" :value="google_secret_key"
                                 :onChange="onChange" :required="true" name="google_secret_key" type="password" classname="col-sm-6">
 
                     </text-field>
 
-                    <radio-option :label="lang('recaptcha_status')" name="recaptcha_status" :value="recaptcha_status" :onChange="onChange"
-                                  :options="[{name:'enable', value:1}, {name:'disable', value:0}]" >
+                    <radio-option :label="lang('status')" :hint="lang('recaptcha_status')" name="recaptcha_status" :value="recaptcha_status" :onChange="onChange"
+                                  :options="[{name:'active', value:1}, {name:'inactive', value:0}]" >
 
                     </radio-option>
 
@@ -279,14 +279,17 @@ export default {
 
         onChange(value, name) {
 
-                this.recaptchaVerified = '';
+                if(this.recaptcha_status) {
 
-                this.verified = false;
+                    this.recaptchaVerified = '';
 
-                setTimeout(()=>{
+                    this.verified = false;
 
-                    this.verified = true;
-                },2000)
+                    setTimeout(()=>{
+
+                        this.verified = true;
+                    },2000)
+                }
 
                 switch (name) {
                     case 'icon':
@@ -314,11 +317,14 @@ export default {
 
                 let fd = new FormData();
 
-                fd.append('google_site_key', this.google_site_key);
+                if(this.recaptcha_status) {
 
-                fd.append('google_secret_key', this.google_secret_key);
+                    fd.append('google_site_key', this.google_site_key);
 
-                fd.append('g-recaptcha-response', this.recaptchaVerified);
+                    fd.append('google_secret_key', this.google_secret_key);
+
+                    fd.append('g-recaptcha-response', this.recaptchaVerified);
+                }
 
                 fd.append('recaptcha_status', this.recaptcha_status);
 
