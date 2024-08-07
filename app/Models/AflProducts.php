@@ -34,9 +34,4 @@ class AflProducts extends Model
     {
         return $this->hasMany(AflReports::class, 'product_id', 'product_id');
     }
-
-    public function versions()
-    {
-        return $this->hasMany(AfuVersions::class,'product_id','product_id');
-    }
 }

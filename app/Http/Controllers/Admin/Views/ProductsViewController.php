@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
+use App\Models\AfuProducts;
 use App\Models\AfuVersions;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -91,12 +92,15 @@ class ProductsViewController extends Controller
         $searchQuery = $request->input('search_query');
         $sortOrder = $request->input('sort_order', 'desc');
         $sortField = $request->input('sort_field', 'version_id');
-        $productVersions = AflProducts::find($productId)
-            ->versions()
-            ->select('version_id','product_id','version_number','version_date','version_upgrade_count','version_status')
-                ->where('version_number', 'like', '%' . $searchQuery . '%')
+        $aflProduct = AflProducts::find($productId);
+        $product = AfuProducts::where('product_sku',$aflProduct->product_sku)->value('product_id');
+        $productVersions = AfuVersions::where('product_id', $product)
+            ->where(function ($query) use ($searchQuery) {
+                $query->where('version_number', 'like', '%' . $searchQuery . '%')
                     ->orWhere('version_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
-                    ->orWhere('version_date', 'like', '%' . $searchQuery . '%')
+                    ->orWhere('version_date', 'like', '%' . $searchQuery . '%');
+            })
+            ->select('version_id', 'product_id', 'version_number', 'version_date', 'version_upgrade_count', 'version_status')
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
         return successResponse(Lang::get('lang.product_versions'), $productVersions);
