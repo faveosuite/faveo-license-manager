@@ -29,6 +29,7 @@ class LicenseViewController extends Controller
             'license_status'
         )
             ->find($license_id);
+        $license->license_order_url = $license->order_url;
         $license->installation_counts = $license->installation_count;
         $license->latest_call_backs = $license->latest_call_back;
         $license->call_backs_count = $license->call_backs->count();
