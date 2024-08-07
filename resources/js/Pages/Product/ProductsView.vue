@@ -240,8 +240,8 @@ export default {
                 }
             });
 
-            this.version_number = data.versions[0]?.version_number
-            this.version_id = data.versions[0]?.version_id
+            this.version_number = data.versions?.version_number
+            this.version_id = data.versions?.version_id
         },
 
         updateData(value, productId) {
@@ -703,7 +703,7 @@ export default {
 
                                 data.edit_url = '/licenses/' + data.license_id + '/edit';
 
-                                data.delete_url = '/api/admin/license/delete';
+                                data.delete_url = '/api/admin/versions/delete';
 
                                 data.view_url = '/versions/' + data.version_id + '/view';
 

@@ -36,7 +36,7 @@
                         </template>
 
                         <template v-slot:versions="props">
-                            <router-link v-if="props.row.versions && Array.isArray(props.row.versions) && props.row.versions[0] && props.row.versions[0].version_number" :to="'/versions/'+props.row.versions[0].version_id+'/view'">{{ props.row.versions[0].version_number }}</router-link>
+                            <router-link v-if="props.row.versions && props.row.versions.version_number" :to="'/versions/'+props.row.versions.version_id+'/view'">{{ props.row.versions.version_number }}</router-link>
                             <span v-else>----</span>
                         </template>
 
