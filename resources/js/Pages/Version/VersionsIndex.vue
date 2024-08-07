@@ -103,7 +103,7 @@ export default {
 
                     'sort_field' : data.orderBy ? data.orderBy : 'version_id',
 
-                    'sort_order' : data.ascending ? 'asc' : 'desc',
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
 
                     'search_query' : data.query.trim(),
 
