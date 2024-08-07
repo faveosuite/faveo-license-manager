@@ -470,7 +470,7 @@ export default {
 
                 data['license_require_domain'] = this.license_require_domain ? 1 : 0;
 
-                if(this.client_id) {
+                if(this.client_id && !this.license_code) {
                     data['client_id'] = this.client_id
                 }
 
