@@ -22,44 +22,50 @@ class CommonSettingController extends Controller
         // Get status from request or default to 1
         $status = $request->input('recaptcha_status', 1);
 
-        // Update or create general settings except for specific keys related to files
-        foreach ($request->except(['g-recaptcha-response', 'icon_default', 'admin_logo_default', 'client_logo_default', 'icon', 'client_logo', 'admin_logo']) as $key => $value) {
+        // Keys related to file uploads
+        $fileKeys = [
+            'icon' => 'common/images/icon',
+            'admin_logo' => 'common/images/admin_logo',
+            'client_logo' => 'common/images/client_logo'
+        ];
+
+        // Update or create general settings except for specific keys related to files and reCAPTCHA status
+        $excludedKeys = array_merge(array_keys($fileKeys), ['g-recaptcha-response', 'recaptcha_status']);
+        foreach ($request->except($excludedKeys) as $key => $value) {
             CommonSetting::updateOrCreate(
                 ['key' => $key],
                 ['value' => $value, 'status' => $status]
             );
         }
-        // Handle icon
-        if ($request->hasFile('icon')) {
-            $icon = $request->file('icon');
-            $iconPath = $request->input('icon_default') ? '' : ImageUpload::saveImageToStorage($icon, 'common/images/icon');
-            CommonSetting::updateOrCreate(['key' => 'icon'], ['value' => $iconPath]);
-        } else if ($request->input('icon_default')) {
-            CommonSetting::updateOrCreate(['key' => 'icon'], ['value' => '']);
+
+        // Handle reCAPTCHA keys if recaptcha_status is not set
+        if (!$request->input('recaptcha_status')) {
+            foreach (['google_site_key', 'google_secret_key'] as $key) {
+                CommonSetting::updateOrCreate(
+                    ['key' => $key],
+                    ['status' => 0]
+                );
+            }
         }
 
-        // Handle admin logo
-        if ($request->hasFile('admin_logo')) {
-            $logoAdmin = $request->file('admin_logo');
-            $adminLogoPath = $request->input('admin_logo_default') ? '' : ImageUpload::saveImageToStorage($logoAdmin, 'common/images/admin_logo');
-            CommonSetting::updateOrCreate(['key' => 'admin_logo'], ['value' => $adminLogoPath]);
-        } else if ($request->input('admin_logo_default')) {
-            CommonSetting::updateOrCreate(['key' => 'admin_logo'], ['value' => '']);
+        // Handle file uploads
+        foreach ($fileKeys as $key => $path) {
+            if ($request->hasFile($key)) {
+                $file = $request->file($key);
+                $filePath = $request->input("{$key}_default") ? '' : ImageUpload::saveImageToStorage($file, $path);
+                CommonSetting::updateOrCreate(['key' => $key], ['value' => $filePath]);
+            } elseif ($request->input("{$key}_default")) {
+                CommonSetting::updateOrCreate(['key' => $key], ['value' => '']);
+            }
         }
 
-        // Handle client logo
-        if ($request->hasFile('client_logo')) {
-            $logoClient = $request->file('client_logo');
-            $clientLogoPath = $request->input('client_logo_default') ? '' : ImageUpload::saveImageToStorage($logoClient, 'common/images/client_logo');
-            CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => $clientLogoPath]);
-        } else if ($request->input('client_logo_default')) {
-            CommonSetting::updateOrCreate(['key' => 'client_logo'], ['value' => '']);
-        }
-        if($request->input('recaptcha_status')){
+        // Update environment variables if recaptcha_status is set
+        if ($request->input('recaptcha_status')) {
             $this->anyEnvUpdate($request, $this->envKeys, $this->requestKeys);
-        }else{
+        } else {
             $this->clearSomeEnv();
         }
+
         return successResponse(Lang::get('lang.common_setting_svaed'));
     }
 
