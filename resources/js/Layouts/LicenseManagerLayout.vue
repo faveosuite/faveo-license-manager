@@ -90,3 +90,6 @@ export default {
 }
 
 </style>
+<style>
+.grecaptcha-badge{visibility: hidden}
+</style>
