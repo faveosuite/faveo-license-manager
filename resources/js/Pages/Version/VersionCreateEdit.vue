@@ -364,21 +364,28 @@ export default {
 
                 axios.post(this.apiEndpoint, data).then(res => {
 
-                    this.loading = false
+                    this.loading = false;
 
-                    successHandler(res, 'version')
+                    if (!res.data.api_error_detected) {
 
-                    if (!this.version_id) {
-
-                        setTimeout(() => {
-
-                            this.$router.push('/versions/list')
-
-                        }, 2000)
+                        errorHandler({ response: { status: 400, data: { message: res.data.page_message } } }, 'version');
 
                     } else {
 
-                        this.getInitialValues(this.version_id)
+                        successHandler({ status: 200, data: { message: res.data.page_message } }, 'version');
+
+                        if (!this.version_id) {
+
+                            setTimeout(() => {
+
+                                this.$router.push('/versions/list')
+
+                            }, 2000)
+
+                        } else {
+
+                            this.getInitialValues(this.version_id)
+                        }
                     }
 
                 }).catch(err => {

@@ -67,8 +67,5 @@ export const successHandler = (res, componentName = '') => {
         if (res.data.message !== undefined) {
             store.dispatch('setAlert', { type: 'success', message: res.data.message, component_name: componentName, data : res.data.data });
         }
-        if(res.data.page_message !== undefined && res.data.api_action_success) {
-            store.dispatch('setAlert', {type:'success', message: res.data.page_message, component_name: componentName, data: res.data})
-        }
     }
 };

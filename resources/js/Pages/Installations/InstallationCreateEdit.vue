@@ -40,11 +40,6 @@
 						:onChange="onChange" classname="form-group col-sm-3">
 
 					</radio-button>
-
-					<radio-button :options="radioOptions" :label="trans('delete_installation')" name="delete_record"
-						:value="delete_record" :onChange="onChange" classname="form-group col-sm-3">
-
-					</radio-button>
 				</div>
 			</div>
 
@@ -96,8 +91,6 @@
 				installation_status: 1,
 
 				installation_disable_ip_verification: 0,
-
-				delete_record: 0,
 			}
 		},
 
@@ -161,10 +154,7 @@
                     this[name] = value;
                 }else if (name == 'installation_status') {
                     this[name] = value ? 1 : 0;
-                }
-                else if (name == 'delete_record') {
-                    this[name] = value ? 1 : 0;
-                } else {
+                }else {
                     this[name] = value ? value : '';
                 }
             },
@@ -188,8 +178,6 @@
 					data['installation_status'] = this.installation_status ? 1 : 0;
 
 					data['installation_disable_ip'] = this.installation_disable_ip_verification ? 1 : 0;
-
-					data['delete_record'] = this.delete_record ? 1 : 0;
 
 					axios.post('/api/admin/installations/edit', data).then(res => {
 
