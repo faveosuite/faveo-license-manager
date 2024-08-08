@@ -65,6 +65,7 @@
     import TextField from "../../components/Reusable/FormField/TextField.vue";
 
     import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
+    import store from "../../store";
 
 	export default {
 
@@ -173,8 +174,6 @@
 
 					data['installation_ip'] = this.installation_ip;
 
-                    data['installation_domain'] = this.installation_domain;
-
 					data['installation_status'] = this.installation_status ? 1 : 0;
 
 					data['installation_disable_ip'] = this.installation_disable_ip_verification ? 1 : 0;
@@ -183,11 +182,11 @@
 
 						this.loading = false
 
-						if (res.data.api_error_detected || res.data.error_detected) {
+						if (!res.data.api_action_success || res.data.error_detected || res.data.api_error_detected) {
 
-							errorHandler({ response: { status: 400, data: { message: res.data.page_message } } }, 'installation');
+                            store.dispatch('setAlert', { type: 'danger', message: res.data.page_message, component_name: 'installation' });
 
-						} else if(res.data.api_action_success || res.data.action_success) {
+						} else if(res.data.api_action_success && res.data.action_success) {
 
 							successHandler({ status: 200, data: { message: res.data.page_message } }, 'installation');
 

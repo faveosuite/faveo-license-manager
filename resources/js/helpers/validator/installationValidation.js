@@ -11,8 +11,6 @@ export function validateInstallationSettings(data) {
   var validatingData = {
 
     installation_ip: [installation_ip, 'isRequired'],
-
-      installation_domain: [installation_domain, 'isRequired', 'isUrl']
   };
 
   const validator = new Validator(lang);
