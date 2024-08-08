@@ -322,7 +322,7 @@ export default {
             let apiParams = boolean(this.apiParameters) ? this.apiParameters : {};
 
             let params = JSON.parse(JSON.stringify(apiParams));
-            params['search'] = this.searchQuery;
+            params['search_query'] = this.searchQuery;
             params['page'] = this.page || undefined;
             params['paginate'] = 1;
             return params;

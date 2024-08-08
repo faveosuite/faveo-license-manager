@@ -54,7 +54,7 @@
 
                 <div class="row">
 
-                    <dynamic-select name="client" :apiEndpoint="'/api/admin/viewClients/'+client_id" :multiple="false" :label="trans('client')" :onChange="onChange"
+                    <dynamic-select name="client" apiEndpoint="/api/admin/viewClients/0" :multiple="false" :label="trans('client')" :onChange="onChange"
                                     classname="col-sm-6" :value="client_name" optionLabel="full_name" :disabled="Boolean(license_code)" hint="Either Client's Profile or License Code is Required" :required="true">
 
                     </dynamic-select>
