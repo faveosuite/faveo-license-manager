@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('installation_logs', function (Blueprint $table) {
             $table->id();
-            $table->string('license_code')->nullable();
-            $table->integer('version_id')->nullable();
+            $table->string('license_code')->nullable()->index();
+            $table->string('version_number')->nullable();
             $table->string('installation_ip', 125);
             $table->string('installation_domain');
             $table->dateTime('installation_last_active_date');

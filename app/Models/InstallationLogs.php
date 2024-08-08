@@ -12,13 +12,9 @@ class InstallationLogs extends Model
     protected $fillable = [
         'license_code',
         'installation_domain',
-        'version_id',
+        'version_number',
         'installation_ip',
         'installation_status',
         'installation_last_active_date',
     ];
-    public function version()
-    {
-        return $this->belongsTo(AfuVersions::class,'version_id','version_id');
-    }
 }

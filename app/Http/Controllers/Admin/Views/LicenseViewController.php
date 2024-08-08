@@ -95,7 +95,6 @@ class LicenseViewController extends Controller
         $sortField = $request->input('sort_field', 'installation_last_active_date');
         $installationLogs = AflLicenses::find($license_id)
             ->installationLogs()
-            ->with('version:version_id,version_number')
             ->when($searchQuery,function ($query,$searchQuery){
                 $query->where('installation_domain', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('installation_ip', 'LIKE', '%' . $searchQuery . '%');

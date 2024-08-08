@@ -39,7 +39,6 @@ class InstallationLogsController extends Controller
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
         if ($api_action_success) {
             $message = InstallationLogs::where('license_code',$licenseCode)
-                ->withAggregate(['version as version_number'],'version_number')
                 ->orderBy('installation_last_active_date','desc')
                 ->get()->toArray();
             $action_success = 1;
@@ -67,8 +66,8 @@ class InstallationLogsController extends Controller
         $api_error_details = '';
         $api_key_secret = $request->get('api_key_secret');
         $root_url = $request->get('root_url');
-        $installation_ip = $this->ip_address;
         $versionNumber = $request->get('version_number');
+        $installation_ip = $request->get('installation_ip');
         $api_key = new ApiKeysController();
         $message = '';
 
@@ -76,15 +75,13 @@ class InstallationLogsController extends Controller
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
         if (filter_var($this->ip_address, FILTER_VALIDATE_IP) && $api_action_success && $root_url) {
             $installation_domain = getRootUrl($root_url, 1, 1, 0, 1);
-            $installation = AflInstallations::where('installation_domain', $installation_domain)->first();
-            $version = AfuVersions::where('product_id', $installation->product_id)->where('version_number', $versionNumber)->first();
 
             // Check if the installation exists in license manager, then update or create in logs
-            if ($installation && $installation->product_id == $version->product_id) {
+            if ($installation_domain) {
                 InstallationLogs::updateOrCreate(
                     ['installation_domain' => $installation_domain],
                     [
-                        'version_id' => $version->version_id,
+                        'version_number' => $versionNumber,
                         'installation_ip' => $installation_ip,
                         'installation_status' => 1,
                         'installation_last_active_date' => date('Y-m-d H:i:s'),
@@ -94,7 +91,7 @@ class InstallationLogsController extends Controller
                 $message = "Installation Logs updated successfully";
             } else {
                 $error_detected = 1;
-                $message = "Installation or Product does not exist";
+                $message = "Installation does not exist";
             }
         } else {
             $api_error_detected = 1;
