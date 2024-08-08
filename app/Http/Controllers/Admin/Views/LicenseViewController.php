@@ -92,22 +92,10 @@ class LicenseViewController extends Controller
         $page = $request->input('page', 1);
         $searchQuery = $request->input('search_query');
         $sortOrder = $request->input('sort_order', 'desc');
-        $sortField = $request->input('sort_field', 'id');
-        $license = AflLicenses::find($license_id);
-        $installations = AflInstallations::where('product_id',$license->product_id)
-            ->select('installation_id','client_id','product_id','installation_domain','installation_ip','installation_date','installation_status')
-            ->when($license->license_code,function ($query) use ($license){
-                $query->where('license_code', $license->license_code);
-            })
-            ->when($license->client_id,function ($query) use ($license){
-                $query->where('client_id', $license->client_id);
-            })
-            ->when($searchQuery,function ($query,$searchQuery){
-                $query->Where('installation_domain', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('installation_date', 'LIKE', '%' . $searchQuery . '%');
-            })->get()->toArray();
-        $domains = array_column($installations, 'installation_domain');
-        $installationLogs = InstallationLogs::with('version:version_id,version_number')->whereIn('installation_domain', $domains)
+        $sortField = $request->input('sort_field', 'installation_last_active_date');
+        $installationLogs = AflLicenses::find($license_id)
+            ->installationLogs()
+            ->with('version:version_id,version_number')
             ->when($searchQuery,function ($query,$searchQuery){
                 $query->where('installation_domain', 'LIKE', '%' . $searchQuery . '%')
                     ->orWhere('installation_ip', 'LIKE', '%' . $searchQuery . '%');

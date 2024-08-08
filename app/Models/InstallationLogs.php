@@ -10,6 +10,7 @@ class InstallationLogs extends Model
     use HasFactory;
 
     protected $fillable = [
+        'license_code',
         'installation_domain',
         'version_id',
         'installation_ip',

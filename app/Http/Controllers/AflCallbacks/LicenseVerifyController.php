@@ -254,7 +254,7 @@ class LicenseVerifyController extends Controller
 
             $this->createLicenseCallback($SMART_REPORTS, $product_id, $client_id, $license_code, $this->ip_address, $installation_domain, $action_success);
 
-            $this->createInstallationLogs($installation_domain,$this->ip_address);
+            $this->createInstallationLogs($installation_domain,$this->ip_address,$license_code);
 
             return returnServerNotification($notification_case, $root_url, $this->ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data); //always return server notification when valid basic data was received from script
         } else { //possible cracking attempt, set variables required for reports function to null and generate cracking report
@@ -301,12 +301,13 @@ class LicenseVerifyController extends Controller
             ]);
         }
     }
-    public function createInstallationLogs($installation_domain,$ipaddress)
+    public function createInstallationLogs($installation_domain,$ipaddress,$license_code)
     {
         InstallationLogs::updateOrInsert(
             ['installation_domain' => $installation_domain],
             [
-               'installation_ip' => $ipaddress,
+                'license_code' => $license_code,
+                'installation_ip' => $ipaddress,
                 'installation_status' => 1,
                 'installation_last_active_date' => date('Y-m-d H:i:s'),
             ]);

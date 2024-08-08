@@ -13,11 +13,10 @@ return new class extends Migration
     {
         Schema::create('installation_logs', function (Blueprint $table) {
             $table->id();
-            $table->integer('version_id')
-                ->constrained('afu_versions', 'version_id')
-                ->onDelete('cascade');
+            $table->string('license_code')->nullable();
+            $table->integer('version_id')->nullable();
             $table->string('installation_ip', 125);
-            $table->string('installation_domain')->constrained('afl_installations', 'installation_domain')->onDelete('cascade');
+            $table->string('installation_domain');
             $table->dateTime('installation_last_active_date');
             $table->boolean('installation_status');
             $table->timestamps();

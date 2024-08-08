@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\AflInstallations;
+use App\Models\AflLicenses;
 use App\Models\AfuVersions;
 use App\Models\InstallationLogs;
 use Illuminate\Http\Request;
@@ -33,20 +34,14 @@ class InstallationLogsController extends Controller
         $api_key = new ApiKeysController();
         $api_key_secret = $request->get('api_key_secret');
         $licenseCode = $request->get('license_code');
-        $installationDomain = $request->get('installation_domain');
 
         // Check API key
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
         if ($api_action_success) {
-            $message = InstallationLogs::withAggregate(['version as version_number'],'version_number')->when($licenseCode || $installationDomain, function ($query) use ($licenseCode, $installationDomain) {
-                if ($licenseCode) {
-                    $installationDomain = AflInstallations::where('license_code', $licenseCode)->pluck('installation_domain');
-                    $query->orWhere('installation_domain', $installationDomain);
-                }
-                if ($installationDomain) {
-                    $query->orWhere('installation_domain', $installationDomain);
-                }
-            })->get()->toArray();
+            $message = InstallationLogs::where('license_code',$licenseCode)
+                ->withAggregate(['version as version_number'],'version_number')
+                ->orderBy('installation_last_active_date','desc')
+                ->get()->toArray();
             $action_success = 1;
         } else {
             $api_error_detected = 1;

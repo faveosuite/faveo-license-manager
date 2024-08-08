@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Models\InstallationLogs;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class InstallationLogsCommand extends Command
@@ -11,14 +13,14 @@ class InstallationLogsCommand extends Command
      *
      * @var string
      */
-    protected $signature = 'app:installation-logs-command';
+    protected $signature = 'installation:logs';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Logs every minute for installation status';
 
     /**
      * Execute the console command.
