@@ -355,6 +355,8 @@ export default {
 
                 data['version_change_log'] = this.version_change_log;
 
+                data['version_id'] = this.version_id;
+
                 if (this.version_expire_date) {
 
                     data['version_expire_date'] = moment(this.version_expire_date).format("YYYY-MM-DD");
