@@ -167,7 +167,7 @@ class CommonSettingController extends Controller
         $sortField = 'name';
         $sortOrder = 'asc';
         $page = $request->input('page', 1);
-        $search = $request->input('search', '');
+        $search = $request->input('search_query', '');
         $timezones = Timezone::whereRaw("concat(location, ' ', name) LIKE ?", ['%'.$search.'%'])
             ->select('id', 'name', 'location')
             ->orderBy($sortField,$sortOrder)
@@ -181,7 +181,7 @@ class CommonSettingController extends Controller
     public function getDropDownForDateFormat(Request $request)
     {
         $page = $request->input('page', 1);
-        $search = $request->input('search', '');
+        $search = $request->input('search_query', '');
         $date_formats = DateFormat::where('format', 'like', '%'.$search.'%')
             ->where('is_active', 1)
             ->paginate(10, ['*'], 'page', $page);
@@ -191,7 +191,7 @@ class CommonSettingController extends Controller
     public function getDropDownForTimeFormat(Request $request)
     {
         $page = $request->input('page', 1);
-        $search = $request->input('search', '');
+        $search = $request->input('search_query', '');
         $time_formats = TimeFormat::where('hours', 'like', '%'.$search.'%')
             ->where('is_active', 1)
             ->paginate(10, ['*'], 'page', $page);
