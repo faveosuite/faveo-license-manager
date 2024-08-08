@@ -369,11 +369,11 @@ export default {
 
                     this.loading = false;
 
-                    if (!res.data.api_action_success) {
+                    if (!res.data.api_action_success || res.data.error_detected || res.data.api_error_detected) {
 
                         store.dispatch('setAlert', { type: 'danger', message: res.data.page_message, component_name: 'version' });
 
-                    } else {
+                    } else if(res.data.api_action_success && res.data.action_success) {
 
                         successHandler({ status: 200, data: { message: res.data.page_message } }, 'version');
 

@@ -20,7 +20,7 @@
 
 				<div class="row">
 
-					<text-field :label="trans('domain')" required :value="installation_domain" type="text" name="installation_domain"
+					<text-field :label="trans('domain')" required :disabled="true" :value="installation_domain" type="text" name="installation_domain"
 						:onChange="onChange" classname="col-sm-3">
 
 					</text-field>
