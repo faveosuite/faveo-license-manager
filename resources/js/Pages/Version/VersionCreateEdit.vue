@@ -366,11 +366,11 @@ export default {
 
                     this.loading = false;
 
-                    if (!res.data.api_error_detected) {
+                    if (res.data.api_error_detected || res.data.error_detected) {
 
                         errorHandler({ response: { status: 400, data: { message: res.data.page_message } } }, 'version');
 
-                    } else {
+                    } else if(res.data.api_action_success || res.data.action_success) {
 
                         successHandler({ status: 200, data: { message: res.data.page_message } }, 'version');
 

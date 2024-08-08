@@ -183,11 +183,11 @@
 
 						this.loading = false
 
-						if (res.data.error_detected) {
+						if (res.data.api_error_detected || res.data.error_detected) {
 
 							errorHandler({ response: { status: 400, data: { message: res.data.page_message } } }, 'installation');
 
-						} else {
+						} else if(res.data.api_action_success || res.data.action_success) {
 
 							successHandler({ status: 200, data: { message: res.data.page_message } }, 'installation');
 
