@@ -149,6 +149,7 @@ import DateTimePicker from "../../components/Reusable/FormField/DateTimePicker.v
 import DatatableDynamicSelect from "../../components/Reusable/FormField/DatatableDynamicSelect.vue";
 
 import moment from "moment";
+import store from "../../store";
 
 export default {
 
@@ -368,11 +369,11 @@ export default {
 
                     this.loading = false;
 
-                    if (res.data.api_error_detected || res.data.error_detected) {
+                    if (!res.data.api_action_success) {
 
-                        errorHandler({ response: { status: 400, data: { message: res.data.page_message } } }, 'version');
+                        store.dispatch('setAlert', { type: 'danger', message: res.data.page_message, component_name: 'version' });
 
-                    } else if(res.data.api_action_success || res.data.action_success) {
+                    } else {
 
                         successHandler({ status: 200, data: { message: res.data.page_message } }, 'version');
 
