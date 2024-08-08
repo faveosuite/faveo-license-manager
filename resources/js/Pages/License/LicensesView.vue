@@ -682,7 +682,7 @@ export default {
 
                         return {
 
-                            'sort_field' : data.orderBy ? data.orderBy : 'id',
+                            'sort_field' : data.orderBy ? data.orderBy : 'installation_last_active_date',
 
                             'sort_order' : data.ascending ? 'desc' : 'asc',
 
