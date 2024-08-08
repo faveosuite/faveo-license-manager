@@ -659,7 +659,7 @@ export default {
 
                 this.endPoint = '/api/admin/installationLogs/' + this.id
 
-                this.columns = ['installation_domain', 'installation_ip', 'version', 'installation_last_active_date', 'installation_status']
+                this.columns = ['installation_domain', 'installation_ip', 'version_number', 'installation_last_active_date', 'installation_status']
 
                 this.options = {
 
@@ -730,6 +730,11 @@ export default {
                             return row.installation_ip ? row.installation_ip : '----'
                         },
 
+                        version_number(h, row) {
+
+                            return row.version_number ? row.version_number : '----'
+                        },
+
                         installation_last_active_date(h, row) {
 
                             return formatDateTime(row.installation_last_active_date, timezone, date_format, time_format)
@@ -745,21 +750,6 @@ export default {
                                     target: '_blank'
 
                                 },[row.installation_domain])
-
-                            } else {
-                                return '----'
-                            }
-                        },
-
-                        version: (f, row) => {
-
-                            if(row.version && row.version.version_number) {
-
-                                return h(RouterLink, {
-
-                                    to: '/versions/' + row.version.version_id + '/view'
-
-                                },[row.version.version_number])
 
                             } else {
                                 return '----'
@@ -782,7 +772,7 @@ export default {
 
                         installation_ip: this.lang('ip'),
 
-                        version: this.lang('version'),
+                        version_number: this.lang('version'),
 
                         installation_last_active_date: this.lang('last_active_date'),
 
