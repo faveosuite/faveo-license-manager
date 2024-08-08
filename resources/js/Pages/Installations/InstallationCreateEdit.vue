@@ -66,10 +66,21 @@
 
     import RadioButton from "../../components/Reusable/FormField/RadioButton.vue";
     import store from "../../store";
+    import {computed} from "vue";
 
 	export default {
 
 		name: 'installation-create-edit',
+
+        setup() {
+
+            const store = useStore();
+
+            return {
+                // getter
+                getApiKey: computed(() => store.getters.getApiKey)
+            };
+        },
 
 		data() {
 
