@@ -239,6 +239,11 @@ export default {
 
         verifyCaptcha(value) {
 
+            let element = document.getElementsByClassName('grecaptcha-badge');
+            element[0].setAttribute('id', 'grecaptcha_badge');
+            document.getElementById('grecaptcha_badge').style.visibility = 'visible';
+            document.getElementById('grecaptcha_badge').style.display = 'inline';
+
             this.recaptchaVerified = value;
         },
 
