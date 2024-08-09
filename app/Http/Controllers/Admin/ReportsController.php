@@ -93,27 +93,14 @@ class ReportsController extends Controller
             ->where('report_system', 1)
             ->when($searchQuery, function ($query, $searchQuery) {
                 $query->where(function ($query) use ($searchQuery) {
-                    $query->where('report_text', 'like', '%' . $searchQuery . '%')
+                    $query->where('report_text', 'LIKE', '%' . $searchQuery . '%')
                         ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%');
                 });
             })
-            ->orWhereHas('user', function ($query) {
-                $query->where('client_role', 'admin');
-            })
-            ->orderBy($sortField, $sortOrder);
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
 
-        $paginatedReports = $reportsQuery->paginate($perPage, ['*'], 'page', $page);
-
-        // Modify the fetched data as needed
-        $modifiedReports = $paginatedReports->map(function ($report) {
-            // report_date_time, and report_status
-            $report->report_date_time = removeSeconds($report->report_date_time);
-            $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
-
-            return $report;
-        });
-        $paginatedReports->setCollection($modifiedReports);
-        return successResponse(Lang::get('lang.SystemReport_Show'), $paginatedReports,200);
+        return successResponse(Lang::get('lang.SystemReport_Show'), $reportsQuery,200);
     }
 
     public function reportArrayCracking(Request $request)
@@ -125,30 +112,19 @@ class ReportsController extends Controller
         $sortField = $request->input('sort_field','report_id');
 
         // Fetch paginated cracking reports with related user and product data
-        $paginatedReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
+        $crakingReports = AflReports::with(['user:client_id,client_email,client_fname,client_lname,client_role', 'product'])
             ->where('account_id', 0)
             ->where('product_id', 0)
             ->where('report_system', 0)
             ->where(function ($query) use ($searchQuery) {
                     $query->where('report_text', 'LIKE', '%' . $searchQuery . '%')
                         ->orWhere('report_status', 'LIKE', '%' . $this->reportStatusFormatter($searchQuery) . '%')
-                    ->orWhere('license_code', 'LIKE', '%' . $searchQuery . '%');
+                    ->orWhere('license_code', 'LIKE', '%' . str_replace('-','',$searchQuery) . '%');
             })
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
-        // Modify the fetched data as needed
-        $modifiedReports = $paginatedReports->map(function ($report) {
-            // Format client, report_date_time, and report_status
-            $report->client_formatted = formatClient($report->license_code, optional($report->user)->client_email);
-            $report->report_date_time = removeSeconds($report->report_date_time);
-            $report->report_status_formatted = returnFormattedReportStatusArray($report->report_status);
-
-            return $report;
-        });
-
-        $paginatedReports->setCollection($modifiedReports);
-        return successResponse(Lang::get('lang.CrackingReport_Show'), $paginatedReports,200);
+        return successResponse(Lang::get('lang.CrackingReport_Show'), $crakingReports,200);
     }
 
     public function reportArrayLicense(Request $request)
