@@ -90,3 +90,10 @@ export default {
 }
 
 </style>
+<style>
+.grecaptcha-badge{
+    bottom: 25px !important;
+    right: 0;
+    display: inline;
+}
+</style>
