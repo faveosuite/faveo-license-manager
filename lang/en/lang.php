@@ -64,7 +64,7 @@ return [
 
     'banned_add' => 'A new Banned Host has been added from Auto Faveo Licenser',
     'banned_edit' => 'Banned Host details of Auto Faveo Licenser has been updated',
-    'delete' => 'The record you have selected has been deleted from the Auto Faveo License Manager Database',
+    'delete' => 'The record you have selected has been deleted successfully',
     'banned_empty' => 'Banned Host ip is not present or api key secret is invalid.',
     'banned_host_not_found' => 'Banned host you\'re looking for is not found',
 
