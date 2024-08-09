@@ -40,15 +40,9 @@
 import {useStore} from "vuex";
 import {computed, h} from "vue";
 import {formatDateTime, lang} from "../../helpers/extraLogics";
-import {h} from 'vue'
 import { RouterLink } from 'vue-router';
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-<<<<<<< HEAD
 import DataTableStatuses from "../../components/Reusable/DataTableStatuses.vue";
-=======
-import moment from 'moment'
-import 'moment-timezone'
->>>>>>> a55f642b (refactor fields)
 
 export default {
     setup() {
