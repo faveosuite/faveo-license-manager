@@ -95,5 +95,6 @@ export default {
     bottom: 25px !important;
     right: 0;
     display: inline;
+    z-index: 1000;
 }
 </style>
