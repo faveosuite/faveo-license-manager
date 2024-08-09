@@ -43,9 +43,9 @@ class CommonSettingRequest extends FormRequest
             'date_format' => 'sometimes|required|integer',
 
             // File uploads
-            'icon' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2048',
-            'admin_logo' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2048',
-            'client_logo' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2048',
+            'icon' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2097152',
+            'admin_logo' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2097152',
+            'client_logo' => 'sometimes|required|image|mimes:png,jpg,jpeg,gif|max:2097152',
 
             // Default status for logos and icon
             'icon_default' => 'sometimes|required',
