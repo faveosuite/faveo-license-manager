@@ -177,6 +177,9 @@ export default {
                             this.$store.dispatch('setUserInfo', res.data.data.user);
                             this.$store.dispatch('setAdminData', this.generalSetting.admin_logo);
                             this.$router.push(this.getUserToken ? '/dashboard' : '/login');
+                            let element = document.getElementsByClassName('grecaptcha-badge');
+                            element[0].setAttribute('id', 'grecaptcha_badge');
+                            document.getElementById('grecaptcha_badge').style.visibility = 'hidden';
                         }
                     })
                     .catch(async (err) => {
