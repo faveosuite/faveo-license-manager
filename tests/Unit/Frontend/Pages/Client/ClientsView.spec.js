@@ -5,10 +5,8 @@ import ClientsView from "../../../../../resources/js/Pages/Client/ClientsView.vu
 import {createStore} from "vuex";
 
 jest.mock('../../../../../public/themes/default/img/avatar.png', () => {})
-<<<<<<< HEAD
+
 jest.mock('../../../../../resources/js/components/Reusable/ImageElement.vue', ()=>{})
-=======
->>>>>>> a55f642b (refactor fields)
 describe('ClientsView', () => {
 
     let wrapper;

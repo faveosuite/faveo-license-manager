@@ -3,7 +3,10 @@ import { mount } from '@vue/test-utils';
 import LicensesView from "../../../../../resources/js/Pages/License/LicensesView.vue";
 
 import {createStore} from "vuex";
+import axios from "axios";
 
+window.axios = axios;
+axios.defaults.baseURL = 'http://localhost';
 describe('LicensesView', () => {
 
     let wrapper;
@@ -39,6 +42,7 @@ describe('LicensesView', () => {
     })
 
     it('data-table should exists when page created', async () => {
+        console.log(wrapper.html())
 
         await expect(wrapper.find('data-table-stub').exists()).toBe(true)
     });
