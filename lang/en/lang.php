@@ -624,7 +624,7 @@ return [
     'callbacks_count' => 'Callbacks Count',
 
     //VERSIONS VIEW PAGE
-    'create_versions' => 'Create Version',
+    'create_version' => 'Create Version',
     'version_status' => 'Version Status',
     'version_date' => 'Released Date',
     'version_upgrade_count' => 'Upgrades',
