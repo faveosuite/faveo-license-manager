@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header">
-                <h3 class="card-title">{{ 'Latest Products' }}</h3>
+                <h3 class="card-title">{{ this.lang('latest_product') }}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
                             <span :style="{ color: props.row.product_status ? 'green' : 'red' }">
 
-                            {{ props.row.product_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.product_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -102,17 +102,17 @@ export default {
 
             headings: {
 
-                product_title: 'Product',
+                product_title: this.lang('product'),
 
-                product_sku: 'SKU',
+                product_sku: this.lang('sku'),
 
-                versions: 'Versions',
+                versions: this.lang('versions'),
 
-                licenses_count: 'Licenses',
+                licenses_count:  this.lang('license'),
 
-                installations_count: 'Installations',
+                installations_count: this.lang('installations'),
 
-                product_status: 'Status'
+                product_status: this.lang('status')
             },
         }
     },

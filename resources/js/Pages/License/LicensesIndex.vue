@@ -380,14 +380,14 @@ export default {
 
                 successHandler(res, 'dataTableModal')
 
+                setTimeout(()=>{
+
+                    this.getColumns()
+
+                    this.loading = false;
+                },100)
+
             }).catch(err => errorHandler(err, 'dataTableModal'))
-
-            setTimeout(()=>{
-
-                this.getColumns()
-
-                this.loading = false;
-            },100)
         },
 
         extractHref(orderUrl) {

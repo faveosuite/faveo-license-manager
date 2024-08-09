@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header versions">
-                <h3 class="card-title">{{'Latest Versions'}}</h3>
+                <h3 class="card-title">{{lang('latest_versions')}}</h3>
                 <div class="card-tools">
 
                     <button type="button"  :disabled="loading" class="btn btn-tool" data-card-widget="refresh"
@@ -25,7 +25,7 @@
 
                                 <span :style="{ color: props.row.version_status ? 'green' : 'red' }">
 
-                            {{ props.row.version_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.version_status ? lang('active') : lang('inactive')}}
                         </span>
                             </template>
 
@@ -107,15 +107,15 @@ export default {
 
             headings: {
 
-                product: 'Product',
+                product: this.lang('product'),
 
-                version_date: 'Released Date',
+                version_date: this.lang('release_date'),
 
-                version_upgrade_count: 'Upgrades',
+                version_upgrade_count: this.lang('upgrades'),
 
-                version_number: "Version",
+                version_number: this.lang('version'),
 
-                version_status: "Status"
+                version_status: this.lang('status')
 
             },
         }

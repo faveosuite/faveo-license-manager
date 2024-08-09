@@ -47,7 +47,7 @@
 
                     <text-field :label="trans('license_code')" :value="license_code" type="text" name="license_code"
                                 :onChange="onChange" classname="col-sm-6" :required="true" :disabled="Boolean(client_name)"
-                                :showNewButton="!client_name" newBtnName="generate" :onNewButtonClick="generateCode" hint="Either Client's Profile or License Code is Required">
+                                :showNewButton="!client_name" newBtnName="generate" :onNewButtonClick="generateCode" hint="d">
 
                     </text-field>
                 </div>
@@ -150,7 +150,7 @@ import axios from 'axios'
 
 import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
-import { getIdFromUrl, generateRandomString } from '../../helpers/extraLogics';
+import {getIdFromUrl, generateRandomString, lang} from '../../helpers/extraLogics';
 
 import { validateLicenseSettings } from "../../helpers/validator/validateLicenseSettings.js";
 
@@ -247,6 +247,7 @@ export default {
     },
 
     methods: {
+        lang,
 
         loadData() {
 

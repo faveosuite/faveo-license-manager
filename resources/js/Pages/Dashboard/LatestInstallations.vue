@@ -4,7 +4,7 @@
 
             <div class="card-header licences">
 
-                <h3 class="card-title">{{'Latest Installations'}}</h3>
+                <h3 class="card-title">{{lang('latest_installations')}}</h3>
 
                 <div class="card-tools">
 
@@ -28,7 +28,7 @@
 
                         <span :class="props.row.product_status ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'">
 
-                            {{ props.row.product_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.product_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -51,7 +51,7 @@
 
                             <span :style="{ color: props.row.installation_status ? 'green' : 'red' }">
 
-                            {{ props.row.installation_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.installation_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
                     </v-client-table>
@@ -115,15 +115,15 @@ export default {
 
             headings: {
 
-                license: 'License Code',
+                license: this.lang('license_code'),
 
-                installation_date: 'Installation Date',
+                installation_date: this.lang('installation_date'),
 
-                installation_ip: 'IP',
+                installation_ip: this.lang('ip'),
 
-                installation_domain: 'Domain',
+                installation_domain: this.lang('domain'),
 
-                installation_status: 'Status'
+                installation_status: this.lang('status')
             },
         };
     },

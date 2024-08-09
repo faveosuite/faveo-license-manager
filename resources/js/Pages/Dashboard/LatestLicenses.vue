@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header callbacks">
-                <h3 class="card-title ">{{'Latest Licenses'}}</h3>
+                <h3 class="card-title ">{{lang('latest_license')}}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
                             <span :style="{ color: props.row.license_status ? 'green' : 'red' }">
 
-                            {{ props.row.license_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.license_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -104,13 +104,13 @@ export default {
 
             headings: {
 
-                license_code: 'License Code',
+                license_code: this.lang('license_code'),
 
-                product: 'Product',
+                product: this.lang('product'),
 
-                license_date: 'Activation Date',
+                license_date: this.lang('activation_date'),
 
-                license_status: 'Status'
+                license_status: this.lang('status')
 
             },
         }

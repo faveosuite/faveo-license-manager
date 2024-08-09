@@ -179,15 +179,15 @@ export default {
                 },
 
                 api_key_products(f, row) {
-                    return h('span', {}, [`${row.api_key_products_add ? 'Active' : 'Inactive'}/${row.api_key_products_edit ? 'Active' : 'Inactive'}`])
+                    return h('span', {}, [`${row.api_key_products_add ? this.lang('active') : this.lang('inactive')}/${row.api_key_products_edit ? this.lang('active') : this.lang('inactive')}`])
                 },
 
                 api_key_clients(f, row) {
-                    return h('span', {}, [`${row.api_key_clients_add ? 'Active' : 'Inactive'}/${row.api_key_clients_edit ? 'Active' : 'Inactive'}`])
+                    return h('span', {}, [`${row.api_key_clients_add ? this.lang('active') : this.lang('inactive')}/${row.api_key_clients_edit ? this.lang('active') : this.lang('inactive')}`])
                 },
 
                 api_key_licenses(f, row) {
-                    return h('span', {}, [`${row.api_key_licenses_add ? 'Active' : 'Inactive'}/${row.api_key_licenses_edit ? 'Active' : 'Inactive'}`])
+                    return h('span', {}, [`${row.api_key_licenses_add ? this.lang('active') : this.lang('inactive')}/${row.api_key_licenses_edit ? this.lang('active') : this.lang('inactive')}`])
                 },
 
                 api_key_installations_edit: (f, row) => {

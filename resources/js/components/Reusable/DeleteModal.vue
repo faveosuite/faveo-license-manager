@@ -129,9 +129,7 @@
                     setTimeout(()=>{
                         this.$router.push({ path : this.redirectUrl })
                     },3000);
-                }
-
-                if(!this.redirectUrl) {
+                } else {
 
                     window.emitter.emit('refreshData')
                 }

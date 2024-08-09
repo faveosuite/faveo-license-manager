@@ -34,13 +34,13 @@
 
                 <div class="row card-body">
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('client_email')}}:</label>
                         <router-link :to="'/clients/'+client_id+'/view'" v-if="client_email" class="col-sm-6 text-sm">{{client_email}}</router-link>
                         <span class="col-sm-6 text-sm" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_title')}}:</label>
                         <router-link v-if="product_title" :to="'/products/'+product_id+'/view'" class="col-sm-6 text-sm">{{product_title}}</router-link>
                         <span class="col-sm-6 text-sm" v-else >----</span>
@@ -48,13 +48,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('installations')}}:</label>
                         <div v-if="installation_counts" class="col-sm-6 text-sm">{{installation_counts}}</div>
                         <span class="col-sm-6 text-sm" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('callbacks')}}:</label>
                         <div v-if="call_backs_count" class="col-sm-6 text-sm">{{call_backs_count}}</div>
                         <span class="col-sm-6 text-sm" v-else >----</span>
@@ -62,13 +62,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('latest_callback')}}:</label>
                         <div v-if="latest_call_backs" class="col-sm-6 text-sm">{{latest_call_backs}}</div>
                         <span class="col-sm-6 text-sm" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('order_number')}}:</label>
                         <a :href="extractHref(license_order_url)" target="_blank" v-if="license_order_number" class="col-sm-6 text-sm">{{license_order_number}}</a>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -76,13 +76,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_ip')}}:</label>
                         <div v-if="license_ip" class="col-sm-6 text-sm">{{license_ip}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_domain')}}:</label>
                         <a v-if="license_domain" :href="'https://'+license_domain" target="_blank" class="col-sm-6 text-sm">{{license_domain}}</a>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -90,13 +90,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('installation_limit')}}:</label>
                         <div v-if="installation_limit >= 0" class="col-sm-6 text-sm">{{installation_limit}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_date')}}:</label>
                         <div v-if="license_date" class="col-sm-6 text-sm">{{license_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -104,13 +104,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_expiry')}}:</label>
                         <div v-if="license_expire_date" class="col-sm-6 text-sm">{{license_expire_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('updates_expiry')}}:</label>
                         <div v-if="license_updates_date" class="col-sm-6 text-sm">{{license_updates_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -118,13 +118,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('support_expiry')}}:</label>
                         <div v-if="license_support_date" class="col-sm-6 text-sm">{{license_support_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_status')}}:</label>
                         <div v-if="license_status" class="col-sm-6 text-sm text-success">Active</div>
                         <div v-else class="col-sm-6 text-sm text-danger">Inactive</div>
@@ -132,7 +132,7 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_code')}}:</label>
                         <div v-if="license_code && license_code !== '----'" class="col-sm-6 text-sm">
                             {{license_code.match(/.{1,4}/g).join('-')}}
@@ -817,11 +817,6 @@ export default {
 }
 .action-btn:hover{
     color: black;
-}
-
-hr{
-    height: 1%;
-    width: 100%;
 }
 
 </style>

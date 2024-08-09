@@ -254,7 +254,7 @@ export default {
 }
 
 .client_role {
-    text-langform: capitalize;
+    text-transform: capitalize;
 }
  #my_clients .VueTables .table-responsive>table {
  width: max-content;

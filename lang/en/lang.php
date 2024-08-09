@@ -688,6 +688,11 @@ return [
     'installation_details' => 'Installation details are displayed here',
     'installation_callbacks' => 'All installation callbacks are displayed here',
     'date' => 'Date',
-    'types' => 'Types'
+    'types' => 'Types',
+    'recaptcha_not_loaded' =>'Recaptcha Not Loaded',
+    'recaptcha_key_not_found' =>'Recaptcha Site Key is not found',
+    'callbacks_description' =>'View existing license verification callbacks. If any callback needs to be deleted, check the client or license code and click the \'Submit\' button.',
+    'latest_license' => 'Latest Licenses',
+    'clients_profile_or_license_code' =>'Either Client\'s Profile or License Code is Required'
 ];
 

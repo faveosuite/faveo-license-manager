@@ -14,8 +14,8 @@
 
                 <button v-tooltip="lang('select_columns')" class="btn btn-default ml-2 h-100 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-columns"></i> {{lang('columns')}}</button>
 
-                <div class="dropdown-menu p-3" aria-labelledby="dropdownMenuButton" style="">
-                    <div v-for="column in selectedColumns" :key="column" class="form-check dropdown-item">
+                <div class="dropdown-menu dropdown-column-menu p-3" aria-labelledby="dropdownMenuButton" style="">
+                    <div v-for="column in selectedColumns" :key="column" class="form-check dropdown-column-item dropdown-item">
                         <input
                             class="form-check-input"
                             :disabled="selectedColumnsArray.length===2 && selectedColumnsArray.includes(column)"
@@ -28,7 +28,7 @@
                         <label class="form-check-label" for="columnCheckbox">{{lang(column)}}</label>
                     </div>
 
-                    <div class="dropdown-item text-right">
+                    <div class="dropdown-item dropdown-column-item text-right">
 
                         <button @click="updateColumns" id="updateButton" class="btn btn-primary">{{lang('apply')}}</button>
                     </div>
@@ -520,10 +520,10 @@ table{
 .VueTables__limit-field label{
     display: none !important;
 }
-.dropdown-menu{
+.dropdown-column-menu{
     left: -150px;
 }
-.dropdown-item.active, .dropdown-item:active {
+.dropdown-column-item.active, .dropdown-column-item:active {
     color: black;
     text-decoration: none;
     background: none
