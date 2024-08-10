@@ -82,22 +82,22 @@
             <div class="container-fluid">
 
                 <div class="row">
-            <div class="shadow-none col-md-6">
-                <latest-product :data="latest_products" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product>
-            </div>
-            <div class="shadow-none col-md-6">
-                <latest-version :data="latest_versions" :generalSetting="generalSetting" v-on:refresh="getData"></latest-version>
-            </div>
-        </div>
+                    <div class="shadow-none col-md-6">
+                        <latest-product :data="latest_products" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product>
+                    </div>
+                    <div class="shadow-none col-md-6">
+                        <latest-version :data="latest_versions" :generalSetting="generalSetting" v-on:refresh="getData"></latest-version>
+                    </div>
+                </div>
 
                 <div class="row">
-            <div class="shadow-none col-md-6">
-                <latest-installations :data="latest_installations" :generalSetting="generalSetting" v-on:refresh="getData"></latest-installations>
-            </div>
-            <div class="shadow-none col-md-6">
-                <latest-callbacks :data="latest_callbacks" :generalSetting="generalSetting" v-on:refresh="getData"></latest-callbacks>
-            </div>
-        </div>
+                    <div class="shadow-none col-md-6">
+                        <latest-installations :data="latest_installations" :generalSetting="generalSetting" v-on:refresh="getData"></latest-installations>
+                    </div>
+                    <div class="shadow-none col-md-6">
+                        <latest-callbacks :data="latest_callbacks" :generalSetting="generalSetting" v-on:refresh="getData"></latest-callbacks>
+                    </div>
+                </div>
 
                 <div class="row">
                     <div class="shadow-none col-md-6">
@@ -305,5 +305,9 @@ export default {
 
 .word_wrap{
     font-size: 1.9rem;
+}
+.datatable-container {
+    max-height: 300px; /* Adjust the maximum height as per your needs */
+    overflow-y: auto;
 }
 </style>

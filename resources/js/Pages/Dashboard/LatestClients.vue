@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header callbacks">
-                <h3 class="card-title ">{{'Latest Clients'}}</h3>
+                <h3 class="card-title ">{{lang('latest_clients')}}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
                             <span :style="{ color: props.row.client_status ? 'green' : 'red' }">
 
-                            {{ props.row.client_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.client_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -51,9 +51,7 @@
 
 <script>
 
-import {lang} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
     name :'latest-clients',
@@ -99,22 +97,23 @@ export default {
             templates: {
 
                 client_active_date(h,row){
-                    return row.client_active_date ? moment(row.client_active_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+
+                    return formatDateTime(row.client_active_date, timezone, date_format, time_format)
                 },
 
             },
 
             headings: {
 
-                full_name: 'Name',
+                full_name: this.lang('name'),
 
-                client_email: 'Email',
+                client_email: this.lang('email'),
 
-                client_active_date: 'Activation Date',
+                client_active_date: this.lang('activation_date'),
 
-                license_count: 'Licenses',
+                license_count: this.lang('licenses'),
 
-                client_status: 'Status'
+                client_status: this.lang('status')
 
             },
         }
@@ -139,9 +138,3 @@ export default {
 };
 
 </script>
-<style>
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
-}
-</style>

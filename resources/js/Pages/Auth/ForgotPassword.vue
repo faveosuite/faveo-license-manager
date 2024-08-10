@@ -4,7 +4,7 @@
 
     <div class="login-logo">
 
-      {{lang('agora')}}&nbsp;<b>License</b>&nbsp;{{lang('manager')}}
+        <image-element id="profile-pic" width="100px" height="100px" :classes="['profile-user-img','object-fit-cover', 'img-responsive', 'img-circle', 'img-click']" :sourceUrl="admin"></image-element>
     </div>
 
     <div class="login-box">
@@ -66,6 +66,8 @@
 
   import {computed, onMounted, ref} from "vue";
 
+  import ImageElement from "../../components/Reusable/ImageElement.vue";
+
   export default {
 
     name: 'forgot-password',
@@ -111,7 +113,7 @@
                   await loadRecaptchaScript();
                   recaptchaToken.value = await generateRecaptchaToken();
               } catch (error) {
-                  store.dispatch('setAlert', {message: 'Recaptcha Not Loaded', type: 'danger', component_name: 'login'} )
+                  store.dispatch('setAlert', {message: lang('recaptcha_not_loaded'), type: 'danger', component_name: 'login'} )
               }
           });
 
@@ -123,11 +125,17 @@
           };
       },
 
+      props : {
+          generalSetting : {type : Object, default : () => {}},
+      },
+
     data() {
 
       return {
 
         email: '',
+
+        admin : this.generalSetting.client_logo,
 
         labelStyle: { display: 'none' },
 
@@ -207,7 +215,7 @@
                   try {
                       this.recaptchaToken = await this.generateRecaptchaToken();
                   } catch (error) {
-                      store.dispatch('setAlert', {message: 'Recaptcha Site Key is not found', type: 'danger', component_name: 'login'} )
+                      store.dispatch('setAlert', {message: lang('recaptcha_key_not_found'), type: 'danger', component_name: 'login'} )
                   }
               }
           });
@@ -216,6 +224,7 @@
     },
 
     components: {
+      "image-element": ImageElement,
 
       "text-field": TextField,
     }

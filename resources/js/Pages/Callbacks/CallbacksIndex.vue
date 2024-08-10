@@ -6,7 +6,7 @@
 
             <div class="alert alert-info">
 
-                <span>View existing license verification callbacks. If any callback needs to be deleted, check the client or license code and click the 'Submit' button.</span>
+                <span>{{lang('callbacks_description')}}</span>
             </div>
 
             <div class="row" v-if="loading">
@@ -73,6 +73,8 @@ import {RouterLink} from "vue-router";
                 columns: [],
 
                 counter : 0,
+
+                loading: true
 
             }
     },

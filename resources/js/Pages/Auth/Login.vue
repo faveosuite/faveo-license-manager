@@ -108,7 +108,7 @@ export default {
                 await loadRecaptchaScript();
                 recaptchaToken.value = await generateRecaptchaToken();
             } catch (error) {
-                store.dispatch('setAlert', {message: 'Recaptcha Not Loaded', type: 'danger', component_name: 'login'} )
+                store.dispatch('setAlert', {message: lang('recaptcha_not_loaded'), type: 'danger', component_name: 'login'} )
             }
         });
 
@@ -189,7 +189,7 @@ export default {
                             try {
                                 this.recaptchaToken = await this.generateRecaptchaToken();
                             } catch (error) {
-                                store.dispatch('setAlert', {message: 'Recaptcha Site Key is not found', type: 'danger', component_name: 'login'} )
+                                store.dispatch('setAlert', {message: lang('recaptcha_key_not_found'), type: 'danger', component_name: 'login'} )
                             }
                         }
                     });

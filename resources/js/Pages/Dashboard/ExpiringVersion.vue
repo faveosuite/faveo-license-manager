@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header versions">
-                <h3 class="card-title">{{'Expiring Version'}}</h3>
+                <h3 class="card-title">{{lang('expiring_version')}}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
                             <span :style="{ color: props.row.version_status ? 'green' : 'red' }">
 
-                            {{ props.row.version_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.version_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -44,8 +44,6 @@
 
 <script>
 
-import moment from "moment";
-import 'moment-timezone'
 import {lang, formatDateTime} from "../../helpers/extraLogics";
 
 export default {
@@ -92,24 +90,24 @@ export default {
 
                 version_date(h,row){
 
-                    return row.version_date ? moment(row.version_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                    return formatDateTime(row.version_date, timezone, date_format, time_format)
                 },
 
                 version_expire_date(h,row){
 
-                    return row.version_expire_date ? moment(row.version_expire_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                    return formatDateTime(row.version_expire_date, timezone, date_format, time_format)
                 },
             },
 
             headings: {
 
-                version_number: 'Version',
+                version_number: this.lang('version'),
 
-                version_date: 'Version Date',
+                version_date: this.lang('version_date'),
 
-                version_expire_date: 'Version Expire date',
+                version_expire_date: this.lang('version_expire_date'),
 
-                version_status: "Status"
+                version_status: this.lang('status')
             },
         }
     },
@@ -136,11 +134,6 @@ export default {
 <style>
 #afl_products .VueTables__limit {
 display :none;
-}
-
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
 }
 </style>
 

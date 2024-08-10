@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header callbacks">
-                <h3 class="card-title ">{{'Latest Licenses'}}</h3>
+                <h3 class="card-title ">{{lang('latest_licenses')}}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
                             <span :style="{ color: props.row.license_status ? 'green' : 'red' }">
 
-                            {{ props.row.license_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.license_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -51,9 +51,7 @@
 
 <script>
 
-import {lang} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
     name :'latest-licenses',
@@ -97,20 +95,21 @@ export default {
             templates: {
 
                 license_date(h,row){
-                    return row.license_date ? moment(row.license_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+
+                    return formatDateTime(row.license_date, timezone, date_format, time_format)
                 },
 
             },
 
             headings: {
 
-                license_code: 'License Code',
+                license_code: this.lang('license_code'),
 
-                product: 'Product',
+                product: this.lang('product'),
 
-                license_date: 'Activation Date',
+                license_date: this.lang('activation_date'),
 
-                license_status: 'Status'
+                license_status: this.lang('status')
 
             },
         }
@@ -135,9 +134,3 @@ export default {
 };
 
 </script>
-<style>
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
-}
-</style>
