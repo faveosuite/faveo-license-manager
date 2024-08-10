@@ -97,4 +97,17 @@ export default {
     display: inline;
     z-index: 1000;
 }
+
+.btn-primary{
+    color: #fff !important;
+    background-color: #3c8dbc !important;
+    border-color: #3c8dbc !important;
+    box-shadow: none !important;
+}
+
+.btn-primary:hover {
+    color: #fff !important;
+    background-color: #0069d9 !important;
+    border-color: #0062cc !important;
+}
 </style>

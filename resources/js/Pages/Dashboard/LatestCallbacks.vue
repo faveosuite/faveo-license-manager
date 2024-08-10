@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header callbacks">
-                <h3 class="card-title ">{{'Latest Callbacks'}}</h3>
+                <h3 class="card-title ">{{lang('latest_callbacks')}}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
                             <span :style="{ color: props.row.callback_status ? 'green' : 'red' }">
 
-                            {{ props.row.callback_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.callback_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -100,13 +100,13 @@ export default {
 
             headings: {
 
-                callback_domain: 'Domain',
+                callback_domain: this.lang('domain'),
 
-                callback_date_time: 'Date',
+                callback_date_time: this.lang('date'),
 
-                callback_ip: 'IP',
+                callback_ip: this.lang('ip'),
 
-                callback_status: 'Status'
+                callback_status: this.lang('status')
 
             },
         }
@@ -131,9 +131,3 @@ export default {
 };
 
 </script>
-<style>
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
-}
-</style>

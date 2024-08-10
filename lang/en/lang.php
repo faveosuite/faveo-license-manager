@@ -147,6 +147,8 @@ return [
     'email' => 'Email',
     'password' => 'Password',
     'forgot_password' => 'Forgot Password',
+    'recaptcha_not_loaded' => 'Recaptcha Not Loaded',
+    'recaptcha_key_not_found' => 'Recaptcha Site Key is not found',
     'know_password' => 'I know my password',
     'send' => 'Send',
     'home' => 'Home',
@@ -162,7 +164,6 @@ return [
     'homepage_url' => 'Homepage URL',
     'download_url' => 'Download URL',
     'envato_id' => 'Envato ID',
-    'version' => 'Version',
     'description' => 'Description',
     'status' => 'Status',
     'active' => 'Active',
@@ -364,6 +365,9 @@ return [
     'expiring_version'  => 'Expiring Version',
     'latest_product_report'  =>   'Latest Product Report',
     'latest_product'      =>    'Latest Product',
+    'latest_licenses' => 'Latest Licenses',
+    'expiring_support' => 'Expiring Support',
+    'latest_clients' => 'Latest Clients',
     'refresh' => 'Refresh' ,
 
     //API KEY
@@ -606,6 +610,8 @@ return [
     'license_order_number' => 'Order Number',
     'call_backs_count' => 'Callbacks Count',
     'installation_counts' => 'Installation Count',
+    'installation_logs' => 'Installation Logs',
+    'last_active_date'=> 'Last Active Date',
     'columns' => 'Columns',
     'apply' => 'Apply',
     'copy_license_code' => 'Copy License Code',
@@ -643,6 +649,9 @@ return [
 
     // Dashboard
     'dashboard_show' => 'All license manager analytics are displayed here',
+    'expiring_updates' => 'Expiring Updates',
+    'updates' => 'Updates',
+    'support' => 'Support',
 
     // Product View
     'product_details' => 'Product details are displayed here',
@@ -686,6 +695,7 @@ return [
     'installation_details' => 'Installation details are displayed here',
     'installation_callbacks' => 'All installation callbacks are displayed here',
     'date' => 'Date',
-    'types' => 'Types'
+    'types' => 'Types',
+    'callbacks_description' => 'View existing license verification callbacks. If any callback needs to be deleted, check the client or license code and click the \'Submit\' button.'
 ];
 

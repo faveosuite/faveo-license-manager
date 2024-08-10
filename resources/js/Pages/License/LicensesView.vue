@@ -34,13 +34,13 @@
 
                 <div class="row card-body">
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('client_email')}}:</label>
                         <router-link :to="'/clients/'+client_id+'/view'" v-if="client_email" class="col-sm-6 text-sm">{{client_email}}</router-link>
                         <span class="col-sm-6 text-sm" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_title')}}:</label>
                         <router-link v-if="product_title" :to="'/products/'+product_id+'/view'" class="col-sm-6 text-sm">{{product_title}}</router-link>
                         <span class="col-sm-6 text-sm" v-else >----</span>
@@ -48,13 +48,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('installations')}}:</label>
                         <div v-if="installation_counts" class="col-sm-6 text-sm">{{installation_counts}}</div>
                         <span class="col-sm-6 text-sm" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('callbacks')}}:</label>
                         <div v-if="call_backs_count" class="col-sm-6 text-sm">{{call_backs_count}}</div>
                         <span class="col-sm-6 text-sm" v-else >----</span>
@@ -62,13 +62,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('latest_callback')}}:</label>
                         <div v-if="latest_call_backs" class="col-sm-6 text-sm">{{latest_call_backs}}</div>
                         <span class="col-sm-6 text-sm" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('order_number')}}:</label>
                         <a :href="extractHref(license_order_url)" target="_blank" v-if="license_order_number" class="col-sm-6 text-sm">{{license_order_number}}</a>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -76,13 +76,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_ip')}}:</label>
                         <div v-if="license_ip" class="col-sm-6 text-sm">{{license_ip}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_domain')}}:</label>
                         <a v-if="license_domain" :href="'https://'+license_domain" target="_blank" class="col-sm-6 text-sm">{{license_domain}}</a>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -90,13 +90,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('installation_limit')}}:</label>
                         <div v-if="installation_limit >= 0" class="col-sm-6 text-sm">{{installation_limit}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_date')}}:</label>
                         <div v-if="license_date" class="col-sm-6 text-sm">{{license_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -104,13 +104,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_expiry')}}:</label>
                         <div v-if="license_expire_date" class="col-sm-6 text-sm">{{license_expire_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('updates_expiry')}}:</label>
                         <div v-if="license_updates_date" class="col-sm-6 text-sm">{{license_updates_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
@@ -118,13 +118,13 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('support_expiry')}}:</label>
                         <div v-if="license_support_date" class="col-sm-6 text-sm">{{license_support_date}}</div>
                         <div v-else class="col-sm-6 text-sm">----</div>
                     </div>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_status')}}:</label>
                         <div v-if="license_status" class="col-sm-6 text-sm text-success">Active</div>
                         <div v-else class="col-sm-6 text-sm text-danger">Inactive</div>
@@ -132,7 +132,8 @@
 
                     <hr>
 
-                    <div class="row p-1 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6">
+
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_code')}}:</label>
                         <div v-if="license_code && license_code !== '----'" class="col-sm-6 text-sm">
                             {{license_code.match(/.{1,4}/g).join('-')}}
@@ -152,12 +153,19 @@
             <div class="card card-header-tabs">
 
                 <div class="card-header data-table-header border-0 p-0 pt-1">
+
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
+
                         <li class="nav-item">
                             <span class="nav-link card-header-link cursor-pointer active" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('installations')" aria-controls="custom-tabs-one-home">{{lang('installations')}}</span>
                         </li>
+
                         <li class="nav-item">
                             <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('callbacks')" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
+                        </li>
+
+                        <li class="nav-item">
+                            <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('logs')" aria-controls="custom-tabs-one-home">{{lang('installation_logs')}}</span>
                         </li>
                     </ul>
                 </div>
@@ -275,7 +283,6 @@ export default {
             this.iconClass = 'fas fa-check'
 
             setTimeout(()=>{
-
                 this.iconClass = 'fas fa-copy'
             },2000)
         },
@@ -306,7 +313,6 @@ export default {
 
             return htmlElement.querySelector('#href_link') ?? ''
         },
-
         getValues(path) {
 
             const licenseId = getIdFromUrl(path)
@@ -355,45 +361,39 @@ export default {
             if(data.clients) {
 
                 this.client_email = data.clients.client_email
-
                 this.client_id = data.clients.client_id
             }
-
             if(data.latest_call_backs) {
 
                 this.latest_call_backs = formatDateTime(data.latest_call_backs, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
-
             if(data.license_date) {
 
                 this.license_date = formatDateTime(data.license_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
-
             if(data.license_limit >= 0) {
 
                 this.installation_limit = data.license_limit
             }
-
             if(data.license_expire_date) {
 
                 this.license_expire_date = formatDateTime(data.license_expire_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
-
             if(data.license_updates_date) {
 
                 this.license_updates_date = formatDateTime(data.license_updates_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
-
             if(data.license_support_date) {
 
                 this.license_support_date = formatDateTime(data.license_support_date, this.generalSetting.timezone.name, this.generalSetting.date_format.js_format, this.generalSetting.time_format.js_format)
             }
         },
-
         updateData(value, licenseId) {
 
             const date_format = this.generalSetting.date_format.js_format
+
             const time_format = this.generalSetting.time_format.js_format
+
             const timezone = this.generalSetting.timezone.name
 
             this.id = licenseId ? licenseId : this.id
@@ -421,7 +421,7 @@ export default {
 
                     sortable:  ['installation_domain', 'installation_date', 'installation_status'],
 
-                    filterable : [ 'installation_domain' ],
+                    filterable : [ 'installation_domain'],
 
                     requestAdapter(data) {
 
@@ -436,7 +436,6 @@ export default {
                             perPage : data.limit,
                         }
                     },
-
                     responseAdapter({data}) {
 
                         return {
@@ -459,7 +458,6 @@ export default {
                             count: data.data.total
                         }
                     },
-
                     columnsClasses: {
 
                         installation_domain: 'installation_domain',
@@ -469,7 +467,6 @@ export default {
                         installation_date: 'installation_date',
 
                         installation_status: 'installation_status',
-
                     },
 
                     templates: {
@@ -497,7 +494,6 @@ export default {
 
                                     href: 'https://'+row.installation_domain,
                                     target: '_blank'
-
                                 },[row.installation_domain])
 
                             } else {
@@ -511,6 +507,7 @@ export default {
                                 'class': row.installation_status ? 'text-green' : 'text-red'
                             }, row.installation_status ? this.lang('active'): this.lang('inactive'))
                         },
+
                     },
 
                     pagination: { show : false },
@@ -596,7 +593,6 @@ export default {
                         callback_date_time: 'callback_date_time',
 
                         callback_status: 'callback_status',
-
                     },
 
                     templates: {
@@ -614,14 +610,10 @@ export default {
                         callback_domain: (f, row) => {
 
                             if(row.callback_domain) {
-
                                 return h('a', {
-
                                     href: 'https://'+row.callback_domain,
                                     target: '_blank'
-
                                 },[row.callback_domain])
-
                             } else {
                                 return '----'
                             }
@@ -650,20 +642,140 @@ export default {
                 }
 
                 this.loading = false
+
+            } else {
+
+                this.loading = true
+
+                this.endPoint = '/api/admin/installationLogs/' + this.id
+
+                this.columns = ['installation_domain', 'installation_ip', 'version_number', 'installation_last_active_date', 'installation_status']
+
+                this.options = {
+
+                    sortIcon: {
+
+                        base: 'glyphicon',
+
+                        up: 'glyphicon-chevron-up',
+
+                        down: 'glyphicon-chevron-down'
+                    },
+
+                    texts: { filter: '', limit: '' },
+
+                    sortable:  ['installation_domain', 'installation_last_active_date', 'installation_status'],
+
+                    filterable : [ 'installation_domain' ],
+
+                    requestAdapter(data) {
+
+                        return {
+
+                            'sort_field' : data.orderBy ? data.orderBy : 'installation_last_active_date',
+
+                            'sort_order' : data.ascending ? 'desc' : 'asc',
+
+                            'search_query' : data.query.trim(),
+
+                            perPage : data.limit,
+                        }
+                    },
+
+                    responseAdapter({data}) {
+
+                        return {
+
+                            data: data.data.data.map(data => {
+
+                                data.keyVal = 'callback_id';
+
+                                data.idVal = data.callback_id;
+
+                                return data;
+                            }),
+
+                            count: data.data.total
+                        }
+                    },
+                    columnsClasses: {
+
+                        installation_domain: 'installation_domain',
+
+                        installation_ip: 'installation_ip',
+
+                        version: 'version',
+
+                        installation_last_active_date: 'installation_last_active_date',
+
+                        installation_status: 'installation_status',
+                    },
+
+                    templates: {
+
+                        installation_ip(h, row) {
+
+                            return row.installation_ip ? row.installation_ip : '----'
+                        },
+
+                        version_number(h, row) {
+
+                            return row.version_number ? row.version_number : '----'
+                        },
+
+                        installation_last_active_date(h, row) {
+
+                            return formatDateTime(row.installation_last_active_date, timezone, date_format, time_format)
+                        },
+                        installation_domain: (f, row) => {
+
+                            if(row.installation_domain) {
+
+                                return h('a', {
+                                    href: row.installation_domain,
+                                    target: '_blank'
+                                },[row.installation_domain])
+
+                            } else {
+                                return '----'
+                            }
+                        },
+                        installation_status: (f, row) => {
+
+                            return h('span', {
+                                'class': row.installation_status ? 'text-green' : 'text-red'
+                            }, row.installation_status ? this.lang('active'): this.lang('inactive'))
+                        },
+                    },
+
+                    pagination: { show : false },
+
+                    headings: {
+
+                        installation_domain: this.lang('domain'),
+
+                        installation_ip: this.lang('ip'),
+
+                        version_number: this.lang('version'),
+
+                        installation_last_active_date: this.lang('last_active_date'),
+
+                        installation_status: this.lang('status'),
+                    },
+                }
+
+                this.loading = false
             }
-
         },
-
     },
-
     components: {
+
         'delete-modal': DeleteModal,
 
         'data-table': DynamicDataTable,
     }
 }
 </script>
-
 
 <style scoped>
 
@@ -674,7 +786,6 @@ export default {
     color: #007bff;
     cursor: pointer;
 }
-
 .card-header-dark {
     background-color: #f8f9fa;
 }
@@ -687,10 +798,4 @@ export default {
 .action-btn:hover{
     color: black;
 }
-
-hr{
-    height: 1%;
-    width: 100%;
-}
-
 </style>

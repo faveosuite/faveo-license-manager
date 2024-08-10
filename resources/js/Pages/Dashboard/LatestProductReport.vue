@@ -2,7 +2,7 @@
 
         <div class="card card-light">
             <div class="card-header products">
-                <h3 class="card-title">{{'Latest Product Report'}}</h3>
+                <h3 class="card-title">{{lang('latest_product_report')}}</h3>
 
                 <div class="card-tools">
 
@@ -26,7 +26,7 @@
 
                             <span :style="{ color: props.row.report_status ? 'green' : 'red' }">
 
-                            {{ props.row.report_status ? 'Active' : 'Inactive'}}
+                            {{ props.row.report_status ? lang('active') : lang('inactive')}}
                         </span>
                         </template>
 
@@ -45,8 +45,6 @@
 <script>
 
 import {formatDateTime, lang} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
 export default {
     name: 'latest-product-report',
     data() {
@@ -83,14 +81,16 @@ export default {
                     return formatDateTime(row.report_date_time, timezone, date_format, time_format)
                 },
             },
+
             headings: {
-                report_text: 'Report',
 
-                report_date_time: 'Date',
+                report_text: this.lang('report'),
 
-                license:  'License Code',
+                report_date_time: this.lang('date'),
 
-                report_status:  'Status'
+                license: this.lang('license_code'),
+
+                report_status: this.lang('status')
             },
         }
     },
@@ -111,9 +111,3 @@ export default {
     }
 };
 </script>
-<style>
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
-}
-</style>
