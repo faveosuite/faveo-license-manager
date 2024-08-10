@@ -3,6 +3,10 @@ import LatestClients from "../../../../../resources/js/Pages/Dashboard/LatestCli
 import {mount, shallowMount} from '@vue/test-utils';
 import store from "../../../../../resources/js/store";
 
+jest.mock('../../../../../resources/js/helpers/extraLogics', ()=>({
+    formatDateTime: jest.fn((value)=>{ return value }),
+    lang: jest.fn()
+}));
 describe('LatestClients', () => {
 
     let wrapper;
@@ -71,7 +75,7 @@ describe('LatestClients', () => {
 
     it("return columns in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.client_active_date('test', {'client_active_date': '2020-10-22'})).toEqual("8765 81")
+        expect(wrapper.vm.options.templates.client_active_date('test', {'client_active_date': '2020-10-22'})).toEqual("2020-10-22")
     })
 
 });

@@ -3,6 +3,10 @@ import LatestLicenses from "../../../../../resources/js/Pages/Dashboard/LatestLi
 import {mount, shallowMount} from '@vue/test-utils';
 import store from "../../../../../resources/js/store";
 
+jest.mock('../../../../../resources/js/helpers/extraLogics', ()=>({
+    formatDateTime: jest.fn((value)=>{ return value }),
+    lang: jest.fn()
+}));
 describe('LatestLicenses', () => {
 
     let wrapper;
@@ -69,7 +73,7 @@ describe('LatestLicenses', () => {
 
     it("return columns in template option of datatable", () => {
 
-        expect(wrapper.vm.options.templates.license_date('test', {'license_date': '2020-10-22'})).toEqual("8765 81")
+        expect(wrapper.vm.options.templates.license_date('test', {'license_date': '2020-10-22'})).toEqual("2020-10-22")
     })
 
 });
