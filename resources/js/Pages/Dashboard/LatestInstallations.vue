@@ -63,8 +63,6 @@
 <script>
 
 import {lang, formatDateTime} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
 
 export default {
     name: 'latest-installations',
@@ -147,10 +145,6 @@ export default {
 };
 </script>
 <style>
-.my-table-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto !important;
-}
 .VueTables .table-responsive>table th {
     white-space: nowrap;
     width: 100px;

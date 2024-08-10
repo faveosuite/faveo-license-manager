@@ -44,10 +44,7 @@
 
 <script>
 
-import moment from "moment";
-import 'moment-timezone'
 import {lang, formatDateTime} from "../../helpers/extraLogics";
-
 export default {
     name :'expiring-version',
 
@@ -92,12 +89,12 @@ export default {
 
                 version_date(h,row){
 
-                    return row.version_date ? moment(row.version_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                    return formatDateTime(row.version_date, timezone, date_format, time_format)
                 },
 
                 version_expire_date(h,row){
 
-                    return row.version_expire_date ? moment(row.version_expire_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                    return formatDateTime(row.version_expire_date, timezone, date_format, time_format)
                 },
             },
 
@@ -136,11 +133,6 @@ export default {
 <style>
 #afl_products .VueTables__limit {
 display :none;
-}
-
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
 }
 </style>
 

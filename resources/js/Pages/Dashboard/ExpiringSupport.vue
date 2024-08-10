@@ -51,9 +51,7 @@
 
 <script>
 
-import {lang} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
     name :'expiring-support',
@@ -99,11 +97,13 @@ export default {
             templates: {
 
                 license_date(h,row){
-                    return row.license_date ? moment(row.license_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+
+                    return formatDateTime(row.license_date, timezone, date_format, time_format)
                 },
 
                 license_support_date(h,row){
-                    return row.license_support_date ? moment(row.license_support_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+
+                    return formatDateTime(row.license_support_date, timezone, date_format, time_format)
                 },
 
             },
@@ -143,9 +143,3 @@ export default {
 };
 
 </script>
-<style>
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
-}
-</style>

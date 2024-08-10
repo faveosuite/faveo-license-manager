@@ -51,9 +51,7 @@
 
 <script>
 
-import {lang} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
+import {formatDateTime, lang} from "../../helpers/extraLogics";
 
 export default {
     name :'latest-clients',
@@ -99,7 +97,8 @@ export default {
             templates: {
 
                 client_active_date(h,row){
-                    return row.client_active_date ? moment(row.client_active_date).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+
+                    return formatDateTime(row.client_active_date, timezone, date_format, time_format)
                 },
 
             },
@@ -139,9 +138,3 @@ export default {
 };
 
 </script>
-<style>
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
-}
-</style>

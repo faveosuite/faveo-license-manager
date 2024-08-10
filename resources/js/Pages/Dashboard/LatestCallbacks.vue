@@ -46,8 +46,6 @@
 <script>
 
 import {lang, formatDateTime} from "../../helpers/extraLogics";
-import moment from "moment";
-import 'moment-timezone'
 
 export default {
     name :'latest-callbacks',
@@ -133,9 +131,3 @@ export default {
 };
 
 </script>
-<style>
-.datatable-container {
-    max-height: 300px; /* Adjust the maximum height as per your needs */
-    overflow-y: auto;
-}
-</style>
