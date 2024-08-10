@@ -85,4 +85,21 @@ class LicenseViewController extends Controller
         ->paginate($perPage, ['*'], 'page', $page);
         return successResponse(Lang::get('lang.license_callback'),$licenseCallBacks);
     }
+    public function getLicenseInstallationLogs(Request $request,$license_id)
+    {
+        $perPage = $request->input('perPage', 10);
+        $page = $request->input('page', 1);
+        $searchQuery = $request->input('search_query');
+        $sortOrder = $request->input('sort_order', 'desc');
+        $sortField = $request->input('sort_field', 'installation_last_active_date');
+        $installationLogs = AflLicenses::find($license_id)
+            ->installationLogs()
+            ->when($searchQuery,function ($query,$searchQuery){
+                $query->where('installation_domain', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('installation_ip', 'LIKE', '%' . $searchQuery . '%');
+            })
+            ->orderBy($sortField, $sortOrder)
+            ->paginate($perPage, ['*'], 'page', $page);
+        return successResponse('',$installationLogs);
+    }
 }

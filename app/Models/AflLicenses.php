@@ -23,6 +23,10 @@ class AflLicenses extends Model
     {
         return $this->belongsTo(AflProducts::class, 'product_id', 'product_id');
     }
+    public function installationLogs()
+    {
+        return $this->hasMany(InstallationLogs::class,'license_code','license_code');
+    }
     public function getInstallationAttribute()
     {
     return AflInstallations::where('product_id',$this->product_id)

@@ -22,16 +22,16 @@
 
                 <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 
-        <span class="d-none d-md-inline mr-1" v-tooltip="user.client_fname +' '+ user.client_lname" dir="auto">
+                    <span class="d-none d-md-inline mr-1" v-tooltip="user.client_fname +' '+ user.client_lname" dir="auto">
 
-            {{ user.client_fname +' '+ user.client_lname }}
-            <image-element :sourceUrl="user.client_profile_pic" id="navbar-profile" class="user-image ml-2 img-circle elevation-2 d-none d-md-inline"
-                 alt="User Image"/>
-        </span>
+                        {{ user.client_fname +' '+ user.client_lname }}
+                        <image-element :sourceUrl="user.client_profile_pic" id="navbar-profile" class="user-image ml-2 img-circle elevation-2 d-none d-md-inline"
+                             alt="User Image"/>
+                    </span>
 
                 </a>
 
-                <ul class="dropdown-menu dropdown-menu-sm dropdown-menu-right rounded model-box rounded text-white dropdown-menu-arrow mt-2 rounded">
+                <ul class="dropdown-menu dropdown-profile dropdown-menu-sm dropdown-menu-right rounded model-box rounded text-white dropdown-menu-arrow mt-2 rounded">
                     <li>
                         <router-link class="dropdown-item dp-data " to="/profile/edit"><i
                             class="fa fa-user pr-2"></i>{{ trans('profile') }}
@@ -137,7 +137,7 @@
     color: #c2c7d0;
 }
 
-.dropdown-menu{
+.dropdown-profile{
     left: -20px !important;
 }
 </style>

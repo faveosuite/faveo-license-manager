@@ -22,6 +22,9 @@ jest.mock('../../../../../env', () => ({
     },
 }));
 
+window.axios = axios;
+axios.defaults.baseURL = 'http://localhost';
+
 const store = createStore({
 
     getters() {
@@ -55,7 +58,13 @@ describe('ForgotPassword', () => {
                 mixins: [globalMixins],
                 stubs : ['text-field','loader','alert','router-link'],
                 mocks: { axios, $router: mockRouter }
-            }
+            },
+            props : {generalSetting : {
+                    time_format : {js_format:81},
+                    timezone : {name : 'Asia/Kolkata'},
+                    date_format : {js_format : 8765},
+                    client_logo: ''
+                }}
         })
     }
 

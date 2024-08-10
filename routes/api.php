@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\BannedHostController;
 use App\Http\Controllers\Admin\Google2FAController;
+use App\Http\Controllers\Admin\InstallationLogsController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VersionsController;
 use App\Http\Controllers\Admin\Views\ClientsViewController;
@@ -165,6 +166,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('licenseCallbacks/{license_id}',[LicenseViewController::class,'getLicenseCallBacks']);
     Route::get('getLicenseColumn',[LicenseController::class,'getLicenseColumns']);
     Route::post('saveLicenseColumn',[LicenseController::class,'saveLicenseColumns']);
+    Route::get('installationLogs/{id}',[LicenseViewController::class,'getLicenseInstallationLogs']);
 
 
     //INSTALLATIONS
@@ -282,6 +284,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     //UPDATE INSTALLATION AFTER UPDATING THE VERSION
     Route::post('updatedInstallation/edit', [UpdateInstallationsController::class, 'updateInstallationEdit']);
     Route::get('showUpdateInstall', [UpdateInstallationsController::class, 'show']);
+
+    Route::post('updateInstallationLogs',[InstallationLogsController::class,'updateInstallationLogs']);
+    Route::post('getInstallationLogs',[InstallationLogsController::class,'getInstallationLogs']);
 
     Route::get('profile/info', [UserController::class, 'getProfileInfo']);
     Route::patch('profile', [UserController::class, 'updateProfile']);
