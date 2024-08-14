@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Update\AfuProductsController;
 use App\Http\Requests\ProductRequest;
 use App\Models\AflApiKeys;
 use App\Models\AflCallbacks;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
+use App\Models\AfuProducts;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -347,4 +349,92 @@ class ProductsController extends Controller
             }
         }
     }
+    public function addAflAndAfuProduct(ProductRequest $request)
+    {
+        try {
+            $response = $this->productAdd($request);
+            $productId = AflProducts::where('product_sku',$request->get('product_sku'))->pluck('product_id')->first();
+            // Check if the response indicates success
+            if ($productId) {
+                $this->addNewProductToAUS($request,$productId);
+                return successResponse(Lang::get('lang.Product_Add'));
+            } else {
+                // Return an error response if the API call was not successful
+                return errorResponse(Lang::get('lang.invalid'), 500);
+            }
+
+        } catch (\Exception $e) {
+            // Return an error response
+            return errorResponse(Lang::get('lang.invalid'), 500);
+        }
+    }
+
+    private function addNewProductToAUS($request,$productId)
+    {
+        try {
+            $key = str_random(16); // Generate a random product key
+
+            $customRequest = new Request(array_merge($request->all(), ['product_key' => $key,'product_id' => $productId]));
+
+            // Use dependency injection instead of creating a new instance
+            $afuProduct = app(AfuProductsController::class);
+            $response = $afuProduct->productUpdateAdd($customRequest);
+
+            return json_decode($response->getContent());
+
+        } catch (\Exception $ex) {
+            // Throw an exception with a specific error message
+            return errorResponse(Lang::get('lang.invalid'), 500);
+        }
+    }
+    public function updateAflAndAfuProduct(Request $request)
+    {
+        try {
+            $responseFromProduct = $this->productUpdate($request);
+            $response = json_decode($responseFromProduct->getContent());
+            // Check if the response indicates success
+            if ($response->success == true ) {
+                $this->updateProductToAUS($request);
+                return successResponse(Lang::get('lang.Product_Update'));
+            } else {
+                // Return an error response if the API call was not successful
+                return errorResponse($response->message, 500);
+            }
+
+        } catch (\Exception $e) {
+            // Return an error response
+            return errorResponse(Lang::get('lang.invalid'), 500);
+        }
+    }
+    private function updateProductToAUS($request)
+    {
+        try {
+            // Fetch the product key from the database
+            $key = AfuProducts::where('product_id', $request->get('product_id'))->pluck('product_key')->first();
+
+            // Prepare the data for the custom request
+            $data = $request->all(); // Get all request data
+
+            // Remove 'product_url_homepage' if it is empty
+            if(empty($request->get('product_url_homepage'))){
+                unset($data['product_url_homepage']);
+            }
+
+            // Merge the product key into the data array
+            $data['product_key'] = $key;
+
+            // Use dependency injection to resolve the controller instance
+            $afuProduct = app(AfuProductsController::class);
+
+            // Call the method on the controller
+            $response = $afuProduct->productUpdateUpdate(new Request($data));
+
+            // Return the response content as a JSON-decoded array
+            return json_decode($response->getContent());
+        } catch (\Exception $ex) {
+            // Handle the exception and return an error response
+            return errorResponse(Lang::get('lang.invalid'), 500);
+        }
+    }
+
 }

@@ -174,7 +174,7 @@
 
 					this.product_id = productId;
 
-					this.apiEndpoint = '/api/admin/products/edit';
+					this.apiEndpoint = '/api/admin/updateProduct';
 
 				} else {
 
@@ -182,7 +182,7 @@
 
 					this.hasDataPopulated = true;
 
-					this.apiEndpoint = '/api/admin/products/add';
+					this.apiEndpoint = '/api/admin/addProduct';
 				}
 			},
 

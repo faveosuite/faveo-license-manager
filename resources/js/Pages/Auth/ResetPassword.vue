@@ -4,7 +4,7 @@
 
         <div class="login-logo">
 
-            {{lang('agora')}}&nbsp;<b>License</b>&nbsp;{{lang('manager')}}
+            <image-element id="profile-pic" width="100px" height="100px" :classes="['object-fit-cover', 'img-responsive', 'img-click']" :sourceUrl="admin"></image-element>
         </div>
 
         <div class="login-box">
@@ -67,7 +67,10 @@
 
     import axios from 'axios'
 
+    import ImageElement from "../../components/Reusable/ImageElement.vue";
+
     import TextField from "../../components/Reusable/FormField/TextField.vue";
+    import {lang} from "../../helpers/extraLogics";
 
     export default {
 
@@ -83,6 +86,10 @@
             };
         },
 
+        props : {
+            generalSetting : {type : Object, default : () => {}},
+        },
+
         data() {
 
             return {
@@ -94,6 +101,12 @@
                 password_confirmation:'',
 
                 path:'',
+
+                siteKey: "",
+
+                recaptchaToken: "",
+
+                admin: this.generalSetting.client_logo,
 
                 labelStyle: { display: 'none' },
 
@@ -110,6 +123,9 @@
             if (this.getUserToken) {
 
                 this.$router.push({ name: 'Login' }).catch(err => { })
+            } else {
+
+                this.initializeRecaptcha();
             }
         },
 
@@ -147,6 +163,46 @@
                 }
             },
 
+            async initializeRecaptcha() {
+                try {
+                    await this.getSiteKey();
+                    await this.loadRecaptchaScript();
+                    this.recaptchaToken = await this.generateRecaptchaToken();
+                } catch (error) {
+                    this.$store.dispatch('setAlert', {
+                        message: lang('recaptcha_not_loaded'),
+                        type: 'danger',
+                        component_name: 'reset'
+                    });
+                }
+            },
+
+            loadRecaptchaScript() {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://www.google.com/recaptcha/api.js?render=' + this.siteKey;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            },
+
+            generateRecaptchaToken() {
+                return new Promise((resolve, reject) => {
+                    grecaptcha.ready(() => {
+                        grecaptcha.execute(this.siteKey, {action: 'submit'}).then(resolve).catch(reject);
+                    });
+                });
+            },
+
+            async getSiteKey() {
+                await axios.get('/api/recaptchaStatus')
+                    .then((res) => this.siteKey = res.data.site_key)
+                    .catch(() => {
+                        // handle error if needed
+                    });
+            },
+
             onSubmit() {
 
                 if(this.isValid()){
@@ -167,6 +223,10 @@
 
                         data['password_confirmation'] = this.password_confirmation
 
+                        if(this.siteKey){
+                            data['g-recaptcha-response'] = this.recaptchaToken
+                        }
+
                         axios.post('api/reset',data).then(res=>{
 
                             this.loading = false;
@@ -182,6 +242,8 @@
 
                             errorHandler(error,'reset');
 
+                            this.initializeRecaptcha();
+
                             this.loading = false;
                         })
                     }
@@ -196,6 +258,8 @@
         components: {
 
             "text-field": TextField,
+
+            "image-element": ImageElement
         }
     };
 </script>

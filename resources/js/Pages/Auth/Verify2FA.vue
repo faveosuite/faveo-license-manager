@@ -95,6 +95,10 @@
 
                 p_auth : "",
 
+                siteKey: "",
+
+                recaptchaToken: "",
+
 				isDisabled:false,
 
 				showRecovery : true
@@ -125,6 +129,9 @@
           } else {
               this.p_auth = this.pp ? JSON.parse(this.pp) : '';
           }
+
+          this.initializeRecaptcha();
+
 		},
 
 		watch : {
@@ -143,10 +150,50 @@
 
             lang,
 
-    	onChange(value, name) {
+            onChange(value, name) {
 
-      	this[name] = value;
-    	},
+                this[name] = value;
+            },
+
+            async initializeRecaptcha() {
+                try {
+                    await this.getSiteKey();
+                    await this.loadRecaptchaScript();
+                    this.recaptchaToken = await this.generateRecaptchaToken();
+                } catch (error) {
+                    this.$store.dispatch('setAlert', {
+                        message: lang('recaptcha_not_loaded'),
+                        type: 'danger',
+                        component_name: '2fa'
+                    });
+                }
+            },
+
+            loadRecaptchaScript() {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = 'https://www.google.com/recaptcha/api.js?render=' + this.siteKey;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.head.appendChild(script);
+                });
+            },
+
+            generateRecaptchaToken() {
+                return new Promise((resolve, reject) => {
+                    grecaptcha.ready(() => {
+                        grecaptcha.execute(this.siteKey, {action: 'submit'}).then(resolve).catch(reject);
+                    });
+                });
+            },
+
+            async getSiteKey() {
+                await axios.get('/api/recaptchaStatus')
+                    .then((res) => this.siteKey = res.data.site_key)
+                    .catch(() => {
+                        // handle error if needed
+                    });
+            },
 
     	onSubmit() {
 
@@ -164,6 +211,10 @@
 			data['totp'] = this.otp;
 
 			data['PPAuth'] = this.p_auth ? this.p_auth : '';
+
+            if(this.siteKey){
+                data['g-recaptcha-response'] = this.recaptchaToken
+            }
 
 			axios.post('/api/verify2fa',data).then(response =>{
 
@@ -186,6 +237,10 @@
           data['recovery_code'] = this.otp;
 
           data['PPAuth'] = this.p_auth;
+
+           if(this.siteKey){
+               data['g-recaptcha-response'] = this.recaptchaToken
+           }
 
           axios.post('/api/verify-recovery-code', data).then(response => {
 
@@ -212,7 +267,16 @@
 
            this.$store.dispatch('setAdminData', this.generalSetting.admin_logo);
 
+           this.$store.dispatch('setClientTimezone', response.data.data.user.timezone);
+
            this.$store.dispatch('setUserInfo', response.data.data.user);
+
+           //to hide recaptcha badge
+           if(this.siteKey) {
+               let element = document.getElementsByClassName('grecaptcha-badge');
+               element[0].setAttribute('id', 'grecaptcha_badge');
+               document.getElementById('grecaptcha_badge').style.visibility = 'hidden';
+           }
 
            this.$router.push(this.getUserToken ? '/dashboard' : '/login');
 
@@ -225,7 +289,10 @@
 			this.loading=false;
 
             store.dispatch('setAlert', { type: 'danger', message: error.response.data.message, component_name: '2fa' })
+
+            this.initializeRecaptcha();
 	  },
+
       triggerEvent(event) {
         var key = event.which || event.keyCode;
         if (key === 13) // 13 is enter

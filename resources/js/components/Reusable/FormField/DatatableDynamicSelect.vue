@@ -24,6 +24,8 @@
                 :label="optionLabel"
                 :multiple="multiple"
                 :placeholder="placeholder"
+                :filterable="false"
+                :loading="isLoading"
                 :disabled="disabled"
                 :clearable="clearable"
                 :searchable="searchable"
@@ -40,8 +42,8 @@
                 <template #no-options="{search, searching}">
                     <template v-if="searching">No results found for <em>{{ search }}</em>. </template>
                     <template v-else>
-                        <span v-if="!isLoading && !hasNextPage">No options found.</span>
-                        <loader v-if="isLoading && !hasNextPage" :duration="4000" :size="25"></loader>
+<!--                        <span v-if="!isLoading && !hasNextPage">No options found.</span>-->
+                        <loader v-if="!hasNextPage || isLoading" :duration="4000" :size="25"></loader>
                     </template>
                 </template>
 

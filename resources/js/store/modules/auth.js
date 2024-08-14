@@ -7,7 +7,9 @@ const state = {
 
     api_key : '',
 
-    admin_data: ''
+    admin_data: '',
+
+    clientTimezone: ''
  };
 
 
@@ -19,7 +21,9 @@ const state = {
 
     getAdminData: state => state.admin_data,
 
-    getApiKey : state => state.api_key
+    getApiKey : state => state.api_key,
+
+    getClientTimezone: (state) => state.clientTimezone,
  };
 
  const mutations = {
@@ -44,11 +48,19 @@ const state = {
          state.user_data.client_profile_pic = payload.profile_pic
          state.user_data.client_mobile_code = payload.client_mobile_code
          state.user_data.client_iso2 = payload.client_iso2
+         state.user_data.client_fname= payload.client_fname
+         state.user_data.client_lname= payload.client_lname
+         state.user_data.client_email= payload.client_email
+         state.user_data.client_timezone_id= payload.client_timezone_id
      },
 
      updateAdminData(state,payload) {
 
          state.admin_data = payload
+     },
+
+     setClientTimezone(state, timezone) {
+         state.clientTimezone = timezone;
      },
  }
 
@@ -83,6 +95,10 @@ const state = {
      setAdminData({commit}, payload) {
 
          commit('updateAdminData', payload)
+     },
+
+     setClientTimezone({ commit }, timezone) {
+         commit('setClientTimezone', timezone);
      },
  }
 

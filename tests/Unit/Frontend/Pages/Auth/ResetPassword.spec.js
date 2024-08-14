@@ -40,7 +40,13 @@ describe("ResetPassword",()=>{
                 mixins: [globalMixins],
                 stubs : ['text-field','loader','alert'],
                 mocks: { axios }
-            }
+            },
+            props : {generalSetting : {
+                    time_format : {js_format:81},
+                    timezone : {name : 'Asia/Kolkata'},
+                    date_format : {js_format : 8765},
+                    client_logo: ''
+                }}
         })
     }
 

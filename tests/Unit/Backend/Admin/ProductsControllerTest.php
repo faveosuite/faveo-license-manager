@@ -7,6 +7,7 @@ use App\Models\AflCallbacks;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
+use Illuminate\Support\Facades\Lang;
 use Tests\TestCase;
 
 class ProductsControllerTest extends TestCase
@@ -101,7 +102,7 @@ class ProductsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/products/add'), $data);
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.error_producturl']);
+        $response->assertJson(['message' => Lang::get('lang.error_producturl')]);
     }
 
     public function test_productAdd_whenProductIsAddedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
@@ -121,7 +122,7 @@ class ProductsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/products/add'), $data);
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.error_product_envato']);
+        $response->assertJson(['message' => Lang::get('lang.error_product_envato')]);
     }
 
     public function test_productAdd_whenProductIsAddedWithoutTitleOrSku_shouldRecieveResponseFalse()
@@ -181,7 +182,7 @@ class ProductsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/products/edit'), $data);
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.url_error']);
+        $response->assertJson(['message' => Lang::get('lang.url_error')]);
     }
 
     public function test_productUpdated_whenProductIsUpdatedWithFloatEnvatoIdValue_shouldRecieveResponseFalse()
@@ -203,7 +204,7 @@ class ProductsControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/products/edit'), $data);
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'lang.envato_error']);
+        $response->assertJson(['message' => Lang::get('lang.envato_error')]);
     }
 
     public function test_productUpdated_whenProductIsUpdatedWithoutTitleOrSku_shouldRecieveResponseFalse()

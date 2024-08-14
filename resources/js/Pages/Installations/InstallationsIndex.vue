@@ -63,7 +63,7 @@ import {RouterLink} from "vue-router";
 
 				data: '',
 
-				columns: ['product_title', 'license', 'client_email', 'installation_domain', 'installation_ip', 'latest_installation_date', 'installation_status', 'actions'],
+				columns: ['product_title', 'license', 'client_email', 'installation_domain', 'installation_ip', 'installation_date', 'installation_status', 'actions'],
 
 				options: {},
 
@@ -148,16 +148,16 @@ import {RouterLink} from "vue-router";
 
                     installation_ip: 'installation_ip',
 
-					latest_installation_date: 'i_latest_installation',
+					installation_date: 'i_latest_installation',
 
 					installation_status: 'i_installation_status',
 				},
 
 				templates: {
 
-                    latest_installation_date(h, row){
+                    installation_date(h, row){
 
-                        return formatDateTime(row.latest_installation_date, timezone, date_format, time_format)
+                        return formatDateTime(row.installation_date, timezone, date_format, time_format)
                     },
 
                     product_title: (f, row) => {
@@ -243,7 +243,7 @@ import {RouterLink} from "vue-router";
 
                     installation_ip: this.lang('ip'),
 
-					latest_installation_date: this.lang('installation_date'),
+					installation_date: this.lang('installation_date'),
 
 					installation_status: this.lang('status'),
 

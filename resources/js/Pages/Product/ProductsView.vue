@@ -48,13 +48,13 @@
 
                     <div class="row pt-2 pb-2 border-bottom col-sm-6">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('homepage_url')}}</label>
-                        <div v-if="product_url_homepage" class="col-sm-6 text-sm"><a :href="'https://'+product_url_homepage" target="_blank">{{product_url_homepage}}</a></div>
+                        <div v-if="product_url_homepage" class="col-sm-6 text-sm"><a :href="product_url_homepage" target="_blank">{{product_url_homepage}}</a></div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
                     <div class="row pt-2 pb-2 border-bottom col-sm-6">
                         <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_download_url')}}:</label>
-                        <div v-if="product_url_download" class="col-sm-6 text-sm"><a :href="'https://'+product_url_download" target="_blank">{{product_url_download}}</a></div>
+                        <div v-if="product_url_download" class="col-sm-6 text-sm"><a :href="product_url_download" target="_blank">{{product_url_download}}</a></div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 

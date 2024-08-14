@@ -577,7 +577,7 @@ return [
     'copy_email' => 'Copy Email',
     'copy_name' => 'Copy Name',
     'copied' => 'Copied',
-    'user_activation_date' => 'User Activation Date',
+    'contact_created_date' => 'Contact Created Date',
     'organization' => 'Organization',
     'address' => 'Address',
 
@@ -696,6 +696,37 @@ return [
     'installation_callbacks' => 'All installation callbacks are displayed here',
     'date' => 'Date',
     'types' => 'Types',
-    'callbacks_description' => 'View existing license verification callbacks. If any callback needs to be deleted, check the client or license code and click the \'Submit\' button.'
+    'callbacks_description' => 'View existing license verification callbacks. If any callback needs to be deleted, check the client or license code and click the \'Submit\' button.',
+
+    // User Profile
+    'client_fname.required' => 'First name is required.',
+    'client_fname.max' => 'First name may not be greater than 30 characters.',
+    'client_lname.required' => 'Last name is required.',
+    'client_lname.max' => 'Last name may not be greater than 30 characters.',
+    'client_username.required' => 'Username is required.',
+    'client_username.max' => 'Username may not be greater than 30 characters.',
+    'client_username.unique' => 'Username has already been taken.',
+    'client_email.required' => 'Email is required.',
+    'client_email.email' => 'Email must be a valid email address.',
+    'client_email.unique' => 'Email has already been taken.',
+    'client_mobile.numeric' => 'Mobile number must be numeric.',
+    'client_mobile.unique' => 'Mobile number has already been taken.',
+    'client_mobile_code.max' => 'Mobile code may not be greater than 5 characters.',
+    'client_profile_pic.mimes' => 'Profile picture must be a file of type: png, jpeg, jpg.',
+    'old_password.required' => 'Old password is required.',
+    'old_password.min' => 'Old password must be at least 6 characters.',
+    'new_password.required' => 'New password is required.',
+    'new_password.min' => 'New password must be at least 6 characters.',
+    'confirm_password.required' => 'Confirm password is required.',
+    'confirm_password.same' => 'Confirm password must match the new password.',
+    'client_timezone_id.required' => 'Timezone is required.',
+
+    // Products
+    'Api_Acess_not_allowed' => 'API access is denied',
+    'error_producturl' => 'The provided product URL is invalid',
+    'error_product_envato' => 'The provided Envato ID is invalid',
+    'url_error' => 'The provided URL is invalid',
+    'envato_error' => 'The Envato ID is not valid',
+
 ];
 

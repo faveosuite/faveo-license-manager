@@ -163,12 +163,6 @@ class InstallationController extends Controller
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
 
-        $installations->getCollection()->transform(function ($installation) {
-            $installation->installation_counts = $installation->installation_count;
-            $installation->latest_installation_date = $installation->install;
-            return $installation;
-        });
-
         return successResponse(Lang::get('lang.Install_show'), $installations);
     }
 

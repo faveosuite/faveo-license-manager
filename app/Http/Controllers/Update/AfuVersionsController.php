@@ -174,21 +174,21 @@ class AfuVersionsController extends Controller
                     } else {
                         $action_success = 1;
 
-                        if (! empty($version_install_file)) { //move uploaded version_install_file
-                            move_uploaded_file($_FILES['version_install_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_install_file");
-                        }
-
-                        if (! empty($version_upgrade_file)) { //move uploaded version_upgrade_file
-                            move_uploaded_file($_FILES['version_upgrade_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_upgrade_file");
-                        }
-
-                        if (! empty($version_install_query)) { //move uploaded version_install_query
-                            move_uploaded_file($_FILES['version_install_query']['tmp_name'], QUERIES_DIRECTORY."/$version_install_query");
-                        }
-
-                        if (! empty($version_upgrade_query)) { //move uploaded version_upgrade_query
-                            move_uploaded_file($_FILES['version_upgrade_query']['tmp_name'], QUERIES_DIRECTORY."/$version_upgrade_query");
-                        }
+//                        if (! empty($version_install_file)) { //move uploaded version_install_file
+//                            move_uploaded_file($_FILES['version_install_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_install_file");
+//                        }
+//
+//                        if (! empty($version_upgrade_file)) { //move uploaded version_upgrade_file
+//                            move_uploaded_file($_FILES['version_upgrade_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_upgrade_file");
+//                        }
+//
+//                        if (! empty($version_install_query)) { //move uploaded version_install_query
+//                            move_uploaded_file($_FILES['version_install_query']['tmp_name'], QUERIES_DIRECTORY."/$version_install_query");
+//                        }
+//
+//                        if (! empty($version_upgrade_query)) { //move uploaded version_upgrade_query
+//                            move_uploaded_file($_FILES['version_upgrade_query']['tmp_name'], QUERIES_DIRECTORY."/$version_upgrade_query");
+//                        }
 
                         $this->disableOldVersion($product_id, $product_max_active_versions, $version_number, $version_comments); //disable a specific number of old versions if needed
                     }
@@ -491,26 +491,26 @@ class AfuVersionsController extends Controller
                         $error_details .= 'Invalid record details, duplicated data, or database error.<br>';
                     } else {
                         $action_success = 1;
-
-                        if (! empty($_FILES['version_install_file']['tmp_name'])) { //move uploaded version_install_file
-                            move_uploaded_file($_FILES['version_install_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_install_file");
-                            $this->deleteFileDirectory(ARCHIVES_DIRECTORY, [$rows_array[0]['version_install_file']]); //delete old version_install_file (if any)
-                        }
-
-                        if (! empty($_FILES['version_upgrade_file']['tmp_name'])) { //move uploaded version_upgrade_file
-                            move_uploaded_file($_FILES['version_upgrade_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_upgrade_file");
-                            $this->deleteFileDirectory(ARCHIVES_DIRECTORY, [$rows_array[0]['version_upgrade_file']]); //delete old version_upgrade_file (if any)
-                        }
-
-                        if (! empty($_FILES['version_install_query']['tmp_name'])) { //move uploaded version_install_query
-                            move_uploaded_file($_FILES['version_install_query']['tmp_name'], QUERIES_DIRECTORY."/$version_install_query");
-                            $this->deleteFileDirectory(QUERIES_DIRECTORY, [$rows_array[0]['version_install_query']]); //delete old version_install_query (if any)
-                        }
-
-                        if (! empty($_FILES['version_upgrade_query']['tmp_name'])) { //move uploaded version_upgrade_query
-                            move_uploaded_file($_FILES['version_upgrade_query']['tmp_name'], QUERIES_DIRECTORY."/$version_upgrade_query");
-                            $this->deleteFileDirectory(QUERIES_DIRECTORY, [$rows_array[0]['version_upgrade_query']]); //delete old version_upgrade_query (if any)
-                        }
+//
+//                        if (! empty($_FILES['version_install_file']['tmp_name'])) { //move uploaded version_install_file
+//                            move_uploaded_file($_FILES['version_install_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_install_file");
+//                            $this->deleteFileDirectory(ARCHIVES_DIRECTORY, [$rows_array[0]['version_install_file']]); //delete old version_install_file (if any)
+//                        }
+//
+//                        if (! empty($_FILES['version_upgrade_file']['tmp_name'])) { //move uploaded version_upgrade_file
+//                            move_uploaded_file($_FILES['version_upgrade_file']['tmp_name'], ARCHIVES_DIRECTORY."/$version_upgrade_file");
+//                            $this->deleteFileDirectory(ARCHIVES_DIRECTORY, [$rows_array[0]['version_upgrade_file']]); //delete old version_upgrade_file (if any)
+//                        }
+//
+//                        if (! empty($_FILES['version_install_query']['tmp_name'])) { //move uploaded version_install_query
+//                            move_uploaded_file($_FILES['version_install_query']['tmp_name'], QUERIES_DIRECTORY."/$version_install_query");
+//                            $this->deleteFileDirectory(QUERIES_DIRECTORY, [$rows_array[0]['version_install_query']]); //delete old version_install_query (if any)
+//                        }
+//
+//                        if (! empty($_FILES['version_upgrade_query']['tmp_name'])) { //move uploaded version_upgrade_query
+//                            move_uploaded_file($_FILES['version_upgrade_query']['tmp_name'], QUERIES_DIRECTORY."/$version_upgrade_query");
+//                            $this->deleteFileDirectory(QUERIES_DIRECTORY, [$rows_array[0]['version_upgrade_query']]); //delete old version_upgrade_query (if any)
+//                        }
                     }
                 }
             } else {
@@ -688,7 +688,7 @@ class AfuVersionsController extends Controller
                         $this->deleteFileDirectory(ARCHIVES_DIRECTORY, [$version_install_file, $version_upgrade_file]); //remove version_install_file and version_upgrade_file (if any) from server
                         $this->deleteFileDirectory(QUERIES_DIRECTORY, [$version_install_query, $version_upgrade_query]); //remove version_install_query and version_upgrade_query (if any) from server
 
-                        return successResponse(Lang::get('lang.deleted'), $removed_records, 200);
+                        return successResponse(Lang::get('lang.delete'), $removed_records, 200);
                     }
                 }
             }

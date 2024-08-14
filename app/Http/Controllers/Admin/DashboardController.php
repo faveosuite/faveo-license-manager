@@ -47,7 +47,7 @@ class DashboardController extends Controller
             });
 
         // Latest versions
-        $latestVersions = AfuVersions::where('version_status', '1')->with('product:product_id,product_title')->distinct('version_number')->orderByDesc('version_date')->take(10)->get();
+        $latestVersions = AfuVersions::where('version_status', '1')->with('product:product_id,product_title')->distinct('version_number')->orderByDesc('version_date')->orderByDesc('version_id')->take(10)->get();
 
         // Latest installations (AFL and AFU combined)
         $latestInstallations = AflInstallations::with('license:license_id,license_code')->where('installation_status', '1')->orWhere('installation_status', '1')->distinct('installation_ip')->orderByDesc('installation_date')->take(10)->get();
@@ -72,10 +72,10 @@ class DashboardController extends Controller
         $latestLicenses = AflLicenses::with('product:product_id,product_title','clients:client_id,client_email')->select('license_id','client_id','product_id','license_code','license_date','license_status')->withClientEmailOrLicenseCode()->where('license_status', '1')->orderByDesc('license_date')->take(10)->get();
 
         //Expiring support
-        $expiringSupport = AflLicenses::with('product:product_id,product_title','clients:client_id,client_email')->withClientEmailOrLicenseCode()->select('license_id','client_id','product_id','license_code','license_date','license_support_date','license_status')->where('license_status',1)->where('license_support_date', '<', $currentDateTime)->take(10)->get();
+        $expiringSupport = AflLicenses::with('product:product_id,product_title','clients:client_id,client_email')->withClientEmailOrLicenseCode()->select('license_id','client_id','product_id','license_code','license_date','license_support_date','license_status')->where('license_status',1)->where('license_support_date', '>', $currentDateTime)->orderBy('license_support_date')->take(10)->get();
 
         //Expiring updates
-        $expiringUpdates = AflLicenses::with('product:product_id,product_title','clients:client_id,client_email')->withClientEmailOrLicenseCode()->select('license_id','client_id','product_id','license_code','license_date','license_updates_date','license_status')->where('license_status',1)->where('license_updates_date', '<', $currentDateTime)->take(10)->get();
+        $expiringUpdates = AflLicenses::with('product:product_id,product_title','clients:client_id,client_email')->withClientEmailOrLicenseCode()->select('license_id','client_id','product_id','license_code','license_date','license_updates_date','license_status')->where('license_status',1)->where('license_updates_date', '>', $currentDateTime)->orderBy('license_updates_date')->take(10)->get();
 
         return successResponse(Lang::get('lang.dashboard_show'), compact('productsCount', 'versionsCount','licenseCount', 'installationsCount', 'callbacksCount', 'latestProducts', 'latestVersions', 'latestInstallations', 'latestCallbacks', 'latestReports', 'expiredVersions','latestClients','latestLicenses','expiringSupport','expiringUpdates'));
     }

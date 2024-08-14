@@ -77,7 +77,7 @@ class LicenseViewController extends Controller
             ->when($searchQuery,function ($query,$searchQuery){
                 $query->where(function ($query) use ($searchQuery) {
                     $query->where('callback_domain', 'LIKE', '%' . $searchQuery . '%')
-                        ->orWhere('callback_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')
+                        ->orWhere('callback_status', 'LIKE', '%' . successErrorFormatter($searchQuery) . '%')
                         ->orWhere('callback_date_time', 'LIKE', '%' . $searchQuery . '%');
                 });
             })
