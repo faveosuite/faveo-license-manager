@@ -55,7 +55,7 @@
 
         <div v-if="loading && !disableLoader" class="row faveo-datatable-loader">
 
-            <loader :animation-duration="4000" :color="color" :size="60"/>
+            <loader :duration="4000" :color="color" :size="60"/>
         </div>
 
         <div class="pagination-container">
@@ -183,6 +183,8 @@ export default {
         url(newValue,oldValue){
 
             this.endPoint = newValue
+
+            this.counter++;
         },
 
         option(newValue,oldValue){
@@ -222,7 +224,7 @@ export default {
 
             self.optionsObj.texts = {
                 noResults: lang('no_matching_records'),
-                loading: lang('loading')
+                loading: this.loading = true
             };
 
             if(self.optionsObj.headings && self.optionsObj.headings.hasOwnProperty('id')){

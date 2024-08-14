@@ -1,5 +1,10 @@
 <template>
 
+    <div class="row" v-if="loading">
+
+        <loader :duration="4000"></loader>
+    </div>
+
         <div class="card card-light">
             <div class="card-header">
                 <h3 class="card-title">{{ 'Latest Products' }}</h3>
@@ -51,6 +56,7 @@
 import {formatDateTime, lang} from "../../helpers/extraLogics";
 import moment from "moment";
 import 'moment-timezone'
+import axios from "axios";
 
 export default {
     name :'latest-product',
@@ -120,7 +126,23 @@ export default {
 
         getData() {
 
-            this.$emit('refresh')
+            this.loading = true; // Set loading state to true before making the request
+
+            axios
+                .get('/api/admin/dashboarddropdown')
+                .then((res) => {
+                    this.loading = false; // Set loading state to false after the request is completed
+                    const { data } = res.data;
+
+                    if (data) {
+
+                        this.$emit('latestProducts', 'latestProducts', data)
+                    }
+                })
+                .catch((error) => {
+
+                    this.loading = false; // Set loading state to false if an error occurs
+                });
         },
     },
 

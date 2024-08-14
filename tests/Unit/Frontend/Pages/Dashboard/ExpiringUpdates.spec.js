@@ -79,7 +79,7 @@ describe('ExpiringUpdates', () => {
 
         expect(wrapper.vm.options.templates.license_date('test', {'license_date': '2020-10-22'})).toEqual("2020-10-22")
 
-        expect(wrapper.vm.options.templates.license_update_date('test', {'license_support_date': '2020-10-22'})).toEqual("2020-10-22")
+        expect(wrapper.vm.options.templates.license_updates_date('test', {'license_updates_date': '2020-10-22'})).toEqual("2020-10-22")
     })
 
 });

@@ -4,7 +4,7 @@
 
     <div class="login-logo">
 
-        <image-element id="profile-pic" width="100px" height="100px" :classes="['profile-user-img','object-fit-cover', 'img-responsive', 'img-circle', 'img-click']" :sourceUrl="admin"></image-element>
+        <image-element id="profile-pic" width="100px" height="100px" :classes="['object-fit-cover', 'img-responsive', 'img-click']" :sourceUrl="admin"></image-element>
     </div>
 
     <div class="login-box">

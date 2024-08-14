@@ -38,6 +38,10 @@
 
                     </text-field>
 
+                    <text-field :label="lang('user_name')" :value="client_username" type="text" name="client_username"
+                                :onChange="onChange" classname="col-sm-6">
+
+                    </text-field>
 
                 </div>
 
@@ -113,6 +117,8 @@ export default {
             client_fname: '',
 
             client_lname: '',
+
+            client_username: '',
 
             client_status: 1,
 
@@ -235,6 +241,8 @@ export default {
                 data['client_lname'] = this.client_lname;
 
                 data['client_email'] = this.client_email;
+
+                data['client_username'] = this.client_username;
 
                 data['client_status'] = this.client_status ? 1 : 0;
 

@@ -5,6 +5,7 @@ namespace App\Http\Requests;
 use App\Traits\RequestJsonValidation;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 
 class ProfileRequest extends FormRequest
 {
@@ -34,7 +35,7 @@ class ProfileRequest extends FormRequest
             'client_email' => 'required|email|unique:users,client_email,' . $userId. ',client_id',
             'client_mobile' => $this->checkMobile($userId),
             'client_mobile_code' => 'max:5',
-//            'client_timezone_id' => 'required',
+            'client_timezone_id' => 'required',
             'client_profile_pic' => 'sometimes|nullable',
         ];
 
@@ -65,26 +66,27 @@ class ProfileRequest extends FormRequest
     public function messages()
     {
         return [
-            'client_fname.required' => 'First name is required.',
-            'client_fname.max' => 'First name may not be greater than 30 characters.',
-            'client_lname.required' => 'Last name is required.',
-            'client_lname.max' => 'Last name may not be greater than 30 characters.',
-            'client_username.required' => 'Username is required.',
-            'client_username.max' => 'Username may not be greater than 30 characters.',
-            'client_username.unique' => 'Username has already been taken.',
-            'client_email.required' => 'Email is required.',
-            'client_email.email' => 'Email must be a valid email address.',
-            'client_email.unique' => 'Email has already been taken.',
-            'client_mobile.numeric' => 'Mobile number must be numeric.',
-            'client_mobile.unique' => 'Mobile number has already been taken.',
-            'client_mobile_code.max' => 'Mobile code may not be greater than 5 characters.',
-            'client_profile_pic.mimes' => 'Profile picture must be a file of type: png, jpeg, jpg.',
-            'old_password.required' => 'Old password is required.',
-            'old_password.min' => 'Old password must be at least 6 characters.',
-            'new_password.required' => 'New password is required.',
-            'new_password.min' => 'New password must be at least 6 characters.',
-            'confirm_password.required' => 'Confirm password is required.',
-            'confirm_password.same' => 'Confirm password must match the new password.',
+            'client_fname.required' => Lang::get('lang.client_fname.required'),
+            'client_fname.max' => Lang::get('lang.client_fname.max'),
+            'client_lname.required' => Lang::get('lang.client_lname.required'),
+            'client_lname.max' => Lang::get('lang.client_lname.max'),
+            'client_username.required' => Lang::get('lang.client_username.required'),
+            'client_username.max' => Lang::get('lang.client_username.max'),
+            'client_username.unique' => Lang::get('lang.client_username.unique'),
+            'client_email.required' => Lang::get('lang.client_email.required'),
+            'client_email.email' => Lang::get('lang.client_email.email'),
+            'client_email.unique' => Lang::get('lang.client_email.unique'),
+            'client_mobile.numeric' => Lang::get('lang.client_mobile.numeric'),
+            'client_mobile.unique' => Lang::get('lang.client_mobile.unique'),
+            'client_mobile_code.max' => Lang::get('lang.client_mobile_code.max'),
+            'client_profile_pic.mimes' => Lang::get('lang.client_profile_pic.mimes'),
+            'old_password.required' => Lang::get('lang.old_password.required'),
+            'old_password.min' => Lang::get('lang.old_password.min'),
+            'new_password.required' => Lang::get('lang.new_password.required'),
+            'new_password.min' => Lang::get('lang.new_password.min'),
+            'confirm_password.required' => Lang::get('lang.confirm_password.required'),
+            'confirm_password.same' => Lang::get('lang.confirm_password.same'),
+            'client_timezone_id.required' => Lang::get('lang.client_timezone_id.required'),
         ];
     }
 }

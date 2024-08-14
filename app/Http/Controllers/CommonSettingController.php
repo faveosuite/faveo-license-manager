@@ -32,7 +32,7 @@ class CommonSettingController extends Controller
         ];
 
         // Update or create general settings except for specific keys related to files and reCAPTCHA status
-        $excludedKeys = array_merge(array_keys($fileKeys), ['g-recaptcha-response', 'recaptcha_status']);
+        $excludedKeys = array_merge(array_keys($fileKeys), ['g-recaptcha-response', 'recaptcha_status','icon_default', 'admin_logo_default', 'client_logo_default']);
         foreach ($request->except($excludedKeys) as $key => $value) {
             CommonSetting::updateOrCreate(
                 ['key' => $key],
@@ -86,6 +86,11 @@ class CommonSettingController extends Controller
                 $settingsArray[$setting->key] = $setting->value;
             }
             $settingsArray['timezone']=  Timezone::find($settingsArray['timezone']);
+            $settingsArray['timezone'] = (object) [
+                'id' => $settingsArray['timezone']->id,
+                'location' => $settingsArray['timezone']->timezone_name,
+                'name' => $settingsArray['timezone']->name,
+            ];
             $settingsArray['date_format']= DateFormat::find($settingsArray['date_format']);
             $settingsArray['time_format'] = TimeFormat::find($settingsArray['time_format']);
             $settingsArray['icon'] = empty($settingsArray['icon']) ? asset($defaults['icon']) :  asset('storage/common/images/icon/'.$settingsArray['icon']);

@@ -1,5 +1,10 @@
 <template>
 
+    <div class="row" v-if="loading">
+
+        <loader :duration="4000"></loader>
+    </div>
+
         <div class="card card-light">
             <div class="card-header versions">
                 <h3 class="card-title">{{lang('expiring_version')}}</h3>
@@ -45,6 +50,7 @@
 <script>
 
 import {lang, formatDateTime} from "../../helpers/extraLogics";
+import axios from "axios";
 
 export default {
     name :'expiring-version',
@@ -118,7 +124,23 @@ export default {
 
         getData() {
 
-            this.$emit('refresh')
+            this.loading = true; // Set loading state to true before making the request
+
+            axios
+                .get('/api/admin/dashboarddropdown')
+                .then((res) => {
+                    this.loading = false; // Set loading state to false after the request is completed
+                    const { data } = res.data;
+
+                    if (data) {
+
+                        this.$emit('expiredVersions', 'expiredVersions', data)
+                    }
+                })
+                .catch((error) => {
+
+                    this.loading = false; // Set loading state to false if an error occurs
+                });
         },
     },
 

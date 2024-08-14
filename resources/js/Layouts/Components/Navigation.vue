@@ -7,8 +7,9 @@
 
 		    <i :class="'nav-icon '+menuItem.iconClass"></i>
 
-		    <p>{{ menuItem.name }}  <i v-if="isExpandable" class="right fas fa-angle-left"></i></p>
+		    <router-link :to="menuItem.routeString" exact exact-active-class="active"> {{ menuItem.name }} </router-link>
 
+            <i v-if="isExpandable" class="right fas fa-angle-left"></i>
 		</a>
 
     	<ul class="nav nav-treeview" v-for="item in menuItem.children">

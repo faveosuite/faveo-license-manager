@@ -4,7 +4,7 @@
 
         <div class="login-logo">
 
-            <image-element id="profile-pic" width="100px" height="100px" :classes="['profile-user-img','object-fit-cover', 'img-responsive', 'img-circle', 'img-click']" :sourceUrl="admin"></image-element>
+            <image-element id="profile-pic" width="100px" height="100px" :classes="['object-fit-cover', 'img-responsive', 'img-click']" :sourceUrl="admin"></image-element>
         </div>
 
 
@@ -61,6 +61,7 @@
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 import { errorHandler } from '../../helpers/responseHandler';
+import {lang} from '../../helpers/extraLogics'
 import { validateLoginSettings } from "../../helpers/validator/loginRules.js";
 import axios from 'axios';
 import TextField from "../../components/Reusable/FormField/TextField.vue";
@@ -140,6 +141,7 @@ export default {
         }
     },
     methods: {
+        lang,
         onChange(value, name) {
             this[name] = value;
         },
@@ -167,6 +169,7 @@ export default {
                 axios.post("/api/login", { ...data})
                     .then((res) => {
                         this.loading = false;
+
                         if(res.data.data.redirect_url === 'verify-2fa') {
                             this.$router.push({ name: 'Verify2FA', params : { pp :JSON.stringify(res.data.data.PPAuth)}});
                         } else {
@@ -174,12 +177,18 @@ export default {
                             const authToken = res.data.data.token;
                             axios.defaults.headers.common['Authorization'] = `Bearer ${authToken}`;
                             this.$store.dispatch('setLoggedInUserToken', authToken);
+                            this.$store.dispatch('setClientTimezone', res.data.data.user.timezone);
                             this.$store.dispatch('setUserInfo', res.data.data.user);
                             this.$store.dispatch('setAdminData', this.generalSetting.admin_logo);
+
+                            //to hide recaptcha badge
+                            if(this.siteKey) {
+                                let element = document.getElementsByClassName('grecaptcha-badge');
+                                element[0].setAttribute('id', 'grecaptcha_badge');
+                                document.getElementById('grecaptcha_badge').style.visibility = 'hidden';
+                            }
+
                             this.$router.push(this.getUserToken ? '/dashboard' : '/login');
-                            let element = document.getElementsByClassName('grecaptcha-badge');
-                            element[0].setAttribute('id', 'grecaptcha_badge');
-                            document.getElementById('grecaptcha_badge').style.visibility = 'hidden';
                         }
                     })
                     .catch(async (err) => {

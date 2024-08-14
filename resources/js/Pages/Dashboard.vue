@@ -83,46 +83,46 @@
 
                 <div class="row">
                     <div class="shadow-none col-md-6">
-                        <latest-product :data="latest_products" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product>
+                        <latest-product :data="latest_products" :generalSetting="generalSetting" @latestProducts="updateProp"></latest-product>
                     </div>
                     <div class="shadow-none col-md-6">
-                        <latest-version :data="latest_versions" :generalSetting="generalSetting" v-on:refresh="getData"></latest-version>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="shadow-none col-md-6">
-                        <latest-installations :data="latest_installations" :generalSetting="generalSetting" v-on:refresh="getData"></latest-installations>
-                    </div>
-                    <div class="shadow-none col-md-6">
-                        <latest-callbacks :data="latest_callbacks" :generalSetting="generalSetting" v-on:refresh="getData"></latest-callbacks>
+                        <latest-version :data="latest_versions" :generalSetting="generalSetting" @latestVersions="updateProp"></latest-version>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="shadow-none col-md-6">
-                        <latest-product-report :data="latest_reports" :generalSetting="generalSetting" v-on:refresh="getData"></latest-product-report>
+                        <latest-installations :data="latest_installations" :generalSetting="generalSetting" @latestInstallations="updateProp"></latest-installations>
                     </div>
                     <div class="shadow-none col-md-6">
-                        <expiring-version :data="expired_versions" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-version>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="shadow-none col-md-6">
-                        <latest-clients :data="latest_clients" :generalSetting="generalSetting" v-on:refresh="getData"></latest-clients>
-                    </div>
-                    <div class="shadow-none col-md-6">
-                        <latest-licenses :data="latest_licenses" :generalSetting="generalSetting" v-on:refresh="getData"></latest-licenses>
+                        <latest-callbacks :data="latest_callbacks" :generalSetting="generalSetting" @latestCallbacks="updateProp"></latest-callbacks>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="shadow-none col-md-6">
-                        <expiring-support :data="expiring_support" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-support>
+                        <latest-product-report :data="latest_reports" :generalSetting="generalSetting" @latestReports="updateProp"></latest-product-report>
                     </div>
                     <div class="shadow-none col-md-6">
-                        <expiring-updates :data="expiring_update" :generalSetting="generalSetting" v-on:refresh="getData"></expiring-updates>
+                        <expiring-version :data="expired_versions" :generalSetting="generalSetting" @expiredVersions="updateProp"></expiring-version>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="shadow-none col-md-6">
+                        <latest-clients :data="latest_clients" :generalSetting="generalSetting" @latestClients="updateProp"></latest-clients>
+                    </div>
+                    <div class="shadow-none col-md-6">
+                        <latest-licenses :data="latest_licenses" :generalSetting="generalSetting" @latestLicenses="updateProp"></latest-licenses>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="shadow-none col-md-6">
+                        <expiring-support :data="expiring_support" :generalSetting="generalSetting" @expiringSupport="updateProp"></expiring-support>
+                    </div>
+                    <div class="shadow-none col-md-6">
+                        <expiring-updates :data="expiring_update" :generalSetting="generalSetting" @expiringUpdates="updateProp"></expiring-updates>
                     </div>
                 </div>
             </div>
@@ -290,6 +290,40 @@ export default {
 
             });
         },
+
+        updateProp(type, data) {
+
+            if(type === 'latestProducts' ){
+                this.latest_products = data.latestProducts;
+            }
+            if(type === 'latestVersions' ){
+                this.latest_versions = data.latestVersions;
+            }
+            if(type === 'latestInstallations' ){
+                this.latest_installations = data.latestInstallations;
+            }
+            if(type === 'latestCallbacks' ){
+                this.latest_callbacks = data.latestCallbacks;
+            }
+            if(type === 'latestReports' ){
+                this.latest_reports = data.latestReports;
+            }
+            if(type === 'expiredVersions' ){
+                this.expired_versions = data.expiredVersions;
+            }
+            if(type === 'latestClients' ){
+                this.latest_clients = data.latestClients;
+            }
+            if(type === 'latestLicenses' ){
+                this.latest_licenses = data.latestLicenses;
+            }
+            if(type === 'expiringSupport' ){
+                this.expiring_support = data.expiringSupport;
+            }
+            if(type === 'expiringUpdates' ){
+                this.expiring_update = data.expiringUpdates
+            }
+        }
     },
 };
 </script>

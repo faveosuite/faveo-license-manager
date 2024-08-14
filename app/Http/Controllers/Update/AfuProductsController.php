@@ -39,6 +39,7 @@ class AfuProductsController extends Controller
         $api_error_detected = 0;
         $added_records = 0;
         $api_key_secret = $request->get('api_key_secret');
+        $product_id = $request->get('product_id');
         $product_title = $request->get('product_title');
         $product_sku = $request->get('product_sku');
         $product_short_description = $request->get('product_short_description');
@@ -70,6 +71,7 @@ class AfuProductsController extends Controller
                 $product_date = date('Y-m-d');
                 try {
                     $in = DB::table('afu_products')->insertOrIgnore([
+                        'product_id' => $product_id,
                         'product_title' => $product_title,
                         'product_sku' => $product_sku,
                         'product_short_description' => $product_short_description,
@@ -134,6 +136,7 @@ class AfuProductsController extends Controller
         $api_error_detected = 0;
         $updated_records = 0;
         $api_key_secret = $request->get('api_key_secret');
+        $product_id = $request->get('product_id');
         $product_title = $request->get('product_title');
         $product_sku = $request->get('product_sku');
         $product_short_description = $request->get('product_short_description');
@@ -174,7 +177,7 @@ class AfuProductsController extends Controller
 
                     ]);
                 if (! aflValidateIntegerValue($updated_records)) {
-                    return errorResponse(Lang::get('lang.error'), 400);
+                    return errorResponse(Lang::get('lang.nothing_updated'), 400);
                 } else {
                     return successResponse(Lang::get('lang.Product_Update'), $updated_records, 200);
                 }

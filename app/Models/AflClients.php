@@ -95,4 +95,9 @@ class AflClients extends Model
     {
         $query->addSelect(DB::raw("CONCAT(client_fname, ' ', client_lname) as full_name"));
     }
+
+    public function timezone()
+    {
+        return $this->belongsTo(Timezone::class, 'client_timezone_id', 'id');
+    }
 }
