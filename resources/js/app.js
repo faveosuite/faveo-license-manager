@@ -68,7 +68,6 @@ import mitt from 'mitt';
 const emitter = mitt();
 app.config.globalProperties.emitter = emitter;
 window.emitter = emitter;
-emitter.on('*', console.info.bind(console, 'event: '));
 
 import Alert from "./components/Reusable/Alert.vue";
 import Loader from "./components/Reusable/Loader.vue";

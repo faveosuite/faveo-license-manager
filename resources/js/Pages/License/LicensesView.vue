@@ -623,7 +623,7 @@ export default {
 
                             return h('span', {
                                 'class': row.callback_status ? 'text-green' : 'text-red'
-                            }, row.callback_status ? this.lang('active'): this.lang('inactive'))
+                            }, row.callback_status ? this.lang('success'): this.lang('error'))
                         },
                     },
 
@@ -732,7 +732,7 @@ export default {
                             if(row.installation_domain) {
 
                                 return h('a', {
-                                    href: row.installation_domain,
+                                    href: 'https://'+row.installation_domain,
                                     target: '_blank'
                                 },[row.installation_domain])
 

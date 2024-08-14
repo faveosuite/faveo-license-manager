@@ -53,29 +53,9 @@
                                 <div class="col-md-12 border-bottom mt-2">
                                     <div class="row">
                                         <div class="col-md-5 text-gray">
-                                            <label><strong>{{lang('user_activation_date')}}:</strong></label>
+                                            <label><strong>{{lang('contact_created_date')}}:</strong></label>
                                         </div>
                                         <div v-if="client_active_date" class="col-md-7">{{client_active_date}}</div>
-                                        <div v-else>----</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 border-bottom mt-2">
-                                    <div class="row">
-                                        <div class="col-md-5 text-gray">
-                                            <label><strong>{{lang('organization')}}:</strong></label>
-                                        </div>
-                                        <div v-if="client_organization" class="col-md-7">{{client_organization}}</div>
-                                        <div v-else>----</div>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-12 mt-2">
-                                    <div class="row">
-                                        <div class="col-md-5 text-gray">
-                                           <label><strong>{{lang('address')}}:</strong></label>
-                                        </div>
-                                        <div v-if="client_address" class="col-md-7">{{client_address}}</div>
                                         <div v-else>----</div>
                                     </div>
                                 </div>

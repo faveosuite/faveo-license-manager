@@ -51,6 +51,11 @@
 
                         </text-field>
 
+                        <dynamic-select name="client_timezone_id" apiEndpoint="/api/admin/timezones" :multiple="false" label="Client Timezone Settings" :onChange="onChange"
+                                        :value="timezone" optionLabel="location" :required="true">
+
+                        </dynamic-select>
+
                         <div class="row">
 
                             <phoneWithCountryCode id="phone_number" classname="col-sm-9" name="client_mobile" :onChange="onChange" :value="client_mobile" :countryCode="phone_country_code" :countryIso="client_iso2" @countCode="getPCountCode" @countIso="getPCountIso" labelName="phone_number" apiUrl="/api/admin/countryCode">
@@ -175,6 +180,7 @@ import {validateProfileSettings} from "../../helpers/validator/validateProfileSe
 import {errorHandler, successHandler} from "../../helpers/responseHandler";
 import {validatePasswordSettings} from "../../helpers/validator/passwordSettings";
 import {useStore} from "vuex";
+import DatatableDynamicSelect from "../../components/Reusable/FormField/DatatableDynamicSelect.vue";
 
 export default {
 
@@ -209,7 +215,7 @@ export default {
 
           time_format: this.generalSetting.time_format.js_format,
 
-          timezone: this.generalSetting.timezone.name,
+          settings_timezone: this.generalSetting.timezone.name,
 
           two_factor: false,
 
@@ -255,7 +261,11 @@ export default {
 
           new_password: '',
 
-          confirm_password: ''
+          confirm_password: '',
+
+          client_timezone_id: '',
+
+          timezone: ''
       }
     },
     methods: {
@@ -277,7 +287,11 @@ export default {
                     const payload = {
                         profile_pic: res.data.data.client_profile_pic,
                         client_mobile_code: res.data.data.client_mobile_code,
-                        client_iso2: res.data.data.client_iso2
+                        client_iso2: res.data.data.client_iso2,
+                        client_fname: res.data.data.client_fname,
+                        client_lname: res.data.data.client_lname,
+                        client_email: res.data.data.client_email,
+                        client_timezone_id: res.data.data.client_timezone_id,
                     }
 
                     this.$store.dispatch('setUserData', payload)
@@ -319,7 +333,9 @@ export default {
 
             this.phone_country_code = this.phone_country_code === '' ? 91 : this.phone_country_code;
 
-            this.two_factor = data.is_2fa_enabled
+            this.two_factor = data.is_2fa_enabled;
+
+            this.timezone = data.timezone.timezone_name;
         },
 
         onChange(value, name) {
@@ -384,6 +400,10 @@ export default {
                 fd.append('client_mobile_code', this.phone_country_code ? this.phone_country_code : null);
 
                 fd.append('client_mobile', this.client_mobile ? this.client_mobile : '');
+
+                fd.append('client_timezone_id', this.client_timezone_id.id);
+
+                this.$store.dispatch('setClientTimezone', this.client_timezone_id);
 
                 if(this.selectedImage){
                     fd.append('client_profile_pic', this.selectedImage.file,this.selectedImage.name);
@@ -504,7 +524,7 @@ export default {
 
         getDate() {
 
-            return formatDateTime(this.google2fa_activation_date, this.timezone, this.date_format, this.time_format)
+            return formatDateTime(this.google2fa_activation_date, this.settings_timezone, this.date_format, this.time_format)
         }
     },
     beforeMount() {
@@ -512,6 +532,7 @@ export default {
     },
 
     components: {
+        'dynamic-select' : DatatableDynamicSelect,
         'number-field' : NumberField,
         'text-field' : TextField,
         'image-upload' : ImageUpload,

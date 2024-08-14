@@ -1,5 +1,10 @@
 <template>
 
+    <div class="row" v-if="loading">
+
+        <loader :duration="4000"></loader>
+    </div>
+
         <div class="card card-light">
             <div class="card-header callbacks">
                 <h3 class="card-title ">{{lang('expiring_updates')}}</h3>
@@ -52,6 +57,7 @@
 <script>
 
 import {formatDateTime, lang} from "../../helpers/extraLogics";
+import axios from "axios";
 
 export default {
     name :'expiring-updates',
@@ -60,7 +66,7 @@ export default {
 
         return {
 
-            columns:['license_code','product','license_date','license_update_date', 'license_status'],
+            columns:['license_code','product','license_date','license_updates_date', 'license_status'],
 
             options : {},
 
@@ -88,7 +94,7 @@ export default {
 
                 license_date: 'license_date',
 
-                license_update_date: 'license_update_date',
+                license_updates_date: 'license_update_date',
 
                 license_status:   'license_status',
 
@@ -101,9 +107,9 @@ export default {
                     return formatDateTime(row.license_date, timezone, date_format, time_format)
                 },
 
-                license_update_date(h,row){
+                license_updates_date(h,row){
 
-                    return formatDateTime(row.license_support_date, timezone, date_format, time_format)
+                    return formatDateTime(row.license_updates_date, timezone, date_format, time_format)
                 },
 
             },
@@ -116,7 +122,7 @@ export default {
 
                 license_date: this.lang('activation_date'),
 
-                license_update_date: this.lang('updates'),
+                license_updates_date: this.lang('updates'),
 
                 license_status: this.lang('status')
 
@@ -129,7 +135,23 @@ export default {
 
         getData() {
 
-            this.$emit('refresh')
+            this.loading = true; // Set loading state to true before making the request
+
+            axios
+                .get('/api/admin/dashboarddropdown')
+                .then((res) => {
+                    this.loading = false; // Set loading state to false after the request is completed
+                    const { data } = res.data;
+
+                    if (data) {
+
+                        this.$emit('expiringUpdates', 'expiringUpdates', data)
+                    }
+                })
+                .catch((error) => {
+
+                    this.loading = false; // Set loading state to false if an error occurs
+                });
         },
     },
 

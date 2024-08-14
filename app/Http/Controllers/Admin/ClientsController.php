@@ -50,6 +50,7 @@ class ClientsController extends Controller
         $client_fname = $request->get('client_fname');
         $client_lname = $request->get('client_lname');
         $client_email = $request->get('client_email');
+        $client_username = $request->get('client_username');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
         $password = Str::random(8);
@@ -57,6 +58,12 @@ class ClientsController extends Controller
 
         $api_key = new ApiKeysController();
         $api_action_success =  $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
+        $optional_api_parameters_array = ['client_username']; //optional API parameters for this page
+        foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
+            if (! isset($$optional_api_parameter)) {
+                $$optional_api_parameter = '';
+            }
+        }
 
         if (
             !empty($client_fname) && !empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL)
@@ -78,6 +85,7 @@ class ClientsController extends Controller
                     'client_cancel_date' => $client_cancel_date,
                     'client_status' => $client_status,
                     'client_role' => $client_role,
+                    'client_username' => $client_username
                 ];
                 if ($client_status == '1') {
                     $dataToInsert['client_active_date'] = $client_active_date;
@@ -226,6 +234,7 @@ class ClientsController extends Controller
         $client_fname = $request->get('client_fname');
         $client_lname = $request->get('client_lname');
         $client_email = $request->get('client_email');
+        $client_username = $request->get('client_username');
         $client_status = $request->get('client_status');
         $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
         $password = Str::random(8);
@@ -239,6 +248,12 @@ class ClientsController extends Controller
         }
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
+        $optional_api_parameters_array = ['client_username']; //optional API parameters for this page
+        foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
+            if (! isset($$optional_api_parameter)) {
+                $$optional_api_parameter = '';
+            }
+        }
         if (!empty($client_fname) && !empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL) && aflValidateIntegerValue($client_status, 0, 2) && $api_action_success == 1) {
             if ($client_status == 1) {
                 $client_cancel_date = '0000-00-00';
@@ -256,6 +271,7 @@ class ClientsController extends Controller
                 'client_fname' => $client_fname,
                 'client_lname' => $client_lname,
                 'client_email' => $client_email,
+                'client_username' => $client_username,
                 'client_cancel_date' => $client_cancel_date,
                 'client_status' => $client_status,
                 'client_role' => $client_role,

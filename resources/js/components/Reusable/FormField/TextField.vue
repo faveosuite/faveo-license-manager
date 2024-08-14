@@ -177,4 +177,8 @@ export default {
     position: relative;
 }
 
+input[type="password"]::-ms-reveal {
+    display: none;
+}
+
 </style>

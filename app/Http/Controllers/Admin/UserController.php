@@ -19,7 +19,18 @@ class UserController extends Controller
     public function getProfileInfo()
     {
         try {
-            $userInfo = AflClients::where('client_id',getAuthUserID())->first();
+            $userInfo = AflClients::where('client_id',getAuthUserID())
+                ->with('timezone')
+                ->first();
+            if ($userInfo) {
+                $userInfo = $userInfo->toArray(); // Convert the object to an array
+
+                // Iterate over the array and replace null with an empty string
+                array_walk_recursive($userInfo, function (&$item) {
+                    $item = $item === null ? '' : $item;
+                });
+            }
+
             return successResponse('', $userInfo);
         } catch (Exception $e) {
             return errorResponse($e->getMessage());

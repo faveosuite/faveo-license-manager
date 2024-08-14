@@ -17,7 +17,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'version' => 'v3.0.0',
+    'version' => 'v3.0.1',
 
     /*
     |--------------------------------------------------------------------------
@@ -217,6 +217,7 @@ return [
         \App\Providers\LogServiceProvider::class,
         PragmaRX\Google2FALaravel\ServiceProvider::class,
         \App\Providers\LogServiceProvider::class,
+        'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
     ],
 
     /*

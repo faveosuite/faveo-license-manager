@@ -705,3 +705,14 @@ function statusFormatter($status)
     }
     return $status;
 }
+
+function successErrorFormatter($status)
+{
+    if (strtolower($status) == 'success'){
+        $status = 1;
+    }
+    if (strtolower($status) == 'error' ){
+        $status = 0;
+    }
+    return $status;
+}

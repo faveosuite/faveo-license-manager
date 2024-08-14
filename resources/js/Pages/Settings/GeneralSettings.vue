@@ -47,7 +47,7 @@
                         </div>
                     </div>
 
-                    <recaptcha-field v-if="verified && google_site_key" :node="{}"
+                    <recaptcha-field v-if="verified && google_site_key && recaptcha_status" :node="{}"
                                      name="recaptcha"
                                      :siteKeyValue="google_site_key"
                                      captchaVersion="v3"

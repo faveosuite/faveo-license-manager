@@ -55,8 +55,20 @@ const mockRouter = {
 describe('Login', () => {
 
     let wrapper;
+    let mockElement;
 
     const updateWrapper = () => {
+        mockElement = {
+            setAttribute: jest.fn(),
+            style: { visibility: '' }
+        };
+
+        // Mock document.getElementsByClassName
+        jest.spyOn(document, 'getElementsByClassName').mockReturnValue([mockElement]);
+
+        // Mock document.getElementById to return the same element
+        jest.spyOn(document, 'getElementById').mockReturnValue(mockElement);
+
         wrapper = mount(Login, {
             global: {
                 plugins: [store],

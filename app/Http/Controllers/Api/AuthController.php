@@ -98,7 +98,7 @@ private function findAdminUser($email)
             ->orWhereRaw('BINARY client_username = ?', [$email]);
     })
     ->where('client_role', 'admin')
-    ->where('client_status', 1)
+    ->where('client_status', 1)->with('timezone')
     ->first();
 }
     private function handleFailedLoginAttempt($ipAddress, $failedLimit, $failedCheck)
@@ -177,6 +177,7 @@ private function findAdminUser($email)
             'email' => 'required|email',
             'password' => 'required|confirmed',
             'token' => 'required',
+            'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))? new CaptchaValidation:['required',new CaptchaValidation],
         ]);
 
         if ($validator->fails()) {
@@ -234,13 +235,14 @@ private function findAdminUser($email)
     {
         $request->validate([
             'totp' => 'required|string',
+            'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))? new CaptchaValidation:['required',new CaptchaValidation],
         ]);
         $ppAuth = $request->input('PPAuth');
         $key = array_keys($ppAuth)[0];
         if (! Cache::has($key)) {
             return errorResponse('Login time expired login again',400);
         }
-        $user = AflClients::find(Crypt::decrypt(cache($key)));
+        $user = AflClients::with('timezone')->find(Crypt::decrypt(cache($key)));
         $secret = $user->google2fa_secret;
         if (! Google2FA::verifyKey($secret, $request->input('totp'))) {
             return errorResponse(Lang::get('lang.invalid_passcode'),400);
@@ -252,6 +254,7 @@ private function findAdminUser($email)
         try {
             $request->validate([
                 'recovery_code' => 'required|string',
+                'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))? new CaptchaValidation:['required',new CaptchaValidation],
             ]);
             $ppAuth = $request->input('PPAuth');
             $key = array_keys($ppAuth)[0];
@@ -259,7 +262,7 @@ private function findAdminUser($email)
                 return errorResponse('Login time expired login again',400);
             }
             $rec_code = $request->input('recovery_code');
-            $user = AflClients::find(Crypt::decrypt(cache($key)));
+            $user = AflClients::with('timezone')->find(Crypt::decrypt(cache($key)));
             $codes = UserBackupCode::where('client_id', $user->client_id)->pluck('backup_codes')->toArray();
 
             if (in_array($rec_code, $codes)) {

@@ -136,6 +136,8 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('productInstallations/{product_id}',[ProductsViewController::class,'getProductInstallations']);
     Route::get('productLicenses/{product_id}',[ProductsViewController::class,'getProductLicenses']);
     Route::get('productVersions/{product_id}',[ProductsViewController::class,'getProductVersions']);
+    Route::post('addProduct', [ProductsController::class, 'addAflAndAfuProduct']);
+    Route::post('updateProduct',[ProductsController::class,'updateAflAndAfuProduct']);
 
     //VERSIONS
     Route::get('viewVersions',[VersionsController::class,'show']);
