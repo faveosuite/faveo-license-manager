@@ -44,6 +44,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.9",
         "beyondcode/laravel-query-detector": "^1.8",
+        "brianium/paratest": "^6.11",
         "fakerphp/faker": "^1.23",
         "laravel/pint": "^1.4",
         "laravel/sail": "^1.26",

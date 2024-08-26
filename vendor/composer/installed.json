@@ -156,63 +156,6 @@
             "install-path": "../aws/aws-sdk-php"
         },
         {
-            "name": "bacon/bacon-qr-code",
-            "version": "v3.0.0",
-            "version_normalized": "3.0.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Bacon/BaconQrCode.git",
-                "reference": "510de6eca6248d77d31b339d62437cc995e2fb41"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Bacon/BaconQrCode/zipball/510de6eca6248d77d31b339d62437cc995e2fb41",
-                "reference": "510de6eca6248d77d31b339d62437cc995e2fb41",
-                "shasum": ""
-            },
-            "require": {
-                "dasprid/enum": "^1.0.3",
-                "ext-iconv": "*",
-                "php": "^8.1"
-            },
-            "require-dev": {
-                "phly/keep-a-changelog": "^2.12",
-                "phpunit/phpunit": "^10.5.11 || 11.0.4",
-                "spatie/phpunit-snapshot-assertions": "^5.1.5",
-                "squizlabs/php_codesniffer": "^3.9"
-            },
-            "suggest": {
-                "ext-imagick": "to generate QR code images"
-            },
-            "time": "2024-04-18T11:16:25+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "BaconQrCode\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ben Scholzen 'DASPRiD'",
-                    "email": "mail@dasprids.de",
-                    "homepage": "https://dasprids.de/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "BaconQrCode is a QR code generator for PHP.",
-            "homepage": "https://github.com/Bacon/BaconQrCode",
-            "support": {
-                "issues": "https://github.com/Bacon/BaconQrCode/issues",
-                "source": "https://github.com/Bacon/BaconQrCode/tree/v3.0.0"
-            },
-            "install-path": "../bacon/bacon-qr-code"
-        },
-        {
             "name": "barryvdh/laravel-debugbar",
             "version": "v3.9.2",
             "version_normalized": "3.9.2.0",
@@ -361,6 +304,101 @@
                 "source": "https://github.com/beyondcode/laravel-query-detector/tree/1.8.0"
             },
             "install-path": "../beyondcode/laravel-query-detector"
+        },
+        {
+            "name": "brianium/paratest",
+            "version": "v6.11.1",
+            "version_normalized": "6.11.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/paratestphp/paratest.git",
+                "reference": "78e297a969049ca7cc370e80ff5e102921ef39a3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/paratestphp/paratest/zipball/78e297a969049ca7cc370e80ff5e102921ef39a3",
+                "reference": "78e297a969049ca7cc370e80ff5e102921ef39a3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "ext-pcre": "*",
+                "ext-reflection": "*",
+                "ext-simplexml": "*",
+                "fidry/cpu-core-counter": "^0.4.1 || ^0.5.1 || ^1.0.0",
+                "jean85/pretty-package-versions": "^2.0.5",
+                "php": "^7.3 || ^8.0",
+                "phpunit/php-code-coverage": "^9.2.25",
+                "phpunit/php-file-iterator": "^3.0.6",
+                "phpunit/php-timer": "^5.0.3",
+                "phpunit/phpunit": "^9.6.4",
+                "sebastian/environment": "^5.1.5",
+                "symfony/console": "^5.4.28 || ^6.3.4 || ^7.0.0",
+                "symfony/process": "^5.4.28 || ^6.3.4 || ^7.0.0"
+            },
+            "require-dev": {
+                "doctrine/coding-standard": "^12.0.0",
+                "ext-pcov": "*",
+                "ext-posix": "*",
+                "infection/infection": "^0.27.6",
+                "squizlabs/php_codesniffer": "^3.7.2",
+                "symfony/filesystem": "^5.4.25 || ^6.3.1 || ^7.0.0",
+                "vimeo/psalm": "^5.7.7"
+            },
+            "time": "2024-03-13T06:54:29+00:00",
+            "bin": [
+                "bin/paratest",
+                "bin/paratest.bat",
+                "bin/paratest_for_phpstorm"
+            ],
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "ParaTest\\": [
+                        "src/"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Scaturro",
+                    "email": "scaturrob@gmail.com",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Filippo Tessarotto",
+                    "email": "zoeslam@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Parallel testing for PHP",
+            "homepage": "https://github.com/paratestphp/paratest",
+            "keywords": [
+                "concurrent",
+                "parallel",
+                "phpunit",
+                "testing"
+            ],
+            "support": {
+                "issues": "https://github.com/paratestphp/paratest/issues",
+                "source": "https://github.com/paratestphp/paratest/tree/v6.11.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/Slamdunk",
+                    "type": "github"
+                },
+                {
+                    "url": "https://paypal.me/filippotessarotto",
+                    "type": "paypal"
+                }
+            ],
+            "install-path": "../brianium/paratest"
         },
         {
             "name": "brick/math",
@@ -690,59 +728,6 @@
                 }
             ],
             "install-path": "./ca-bundle"
-        },
-        {
-            "name": "dasprid/enum",
-            "version": "1.0.5",
-            "version_normalized": "1.0.5.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/DASPRiD/Enum.git",
-                "reference": "6faf451159fb8ba4126b925ed2d78acfce0dc016"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/DASPRiD/Enum/zipball/6faf451159fb8ba4126b925ed2d78acfce0dc016",
-                "reference": "6faf451159fb8ba4126b925ed2d78acfce0dc016",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1 <9.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^7 | ^8 | ^9",
-                "squizlabs/php_codesniffer": "*"
-            },
-            "time": "2023-08-25T16:18:39+00:00",
-            "type": "library",
-            "installation-source": "dist",
-            "autoload": {
-                "psr-4": {
-                    "DASPRiD\\Enum\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "BSD-2-Clause"
-            ],
-            "authors": [
-                {
-                    "name": "Ben Scholzen 'DASPRiD'",
-                    "email": "mail@dasprids.de",
-                    "homepage": "https://dasprids.de/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "PHP 7.1 enum implementation",
-            "keywords": [
-                "enum",
-                "map"
-            ],
-            "support": {
-                "issues": "https://github.com/DASPRiD/Enum/issues",
-                "source": "https://github.com/DASPRiD/Enum/tree/1.0.5"
-            },
-            "install-path": "../dasprid/enum"
         },
         {
             "name": "defuse/php-encryption",
@@ -1701,6 +1686,70 @@
             "install-path": "../fakerphp/faker"
         },
         {
+            "name": "fidry/cpu-core-counter",
+            "version": "1.1.0",
+            "version_normalized": "1.1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/theofidry/cpu-core-counter.git",
+                "reference": "f92996c4d5c1a696a6a970e20f7c4216200fcc42"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/theofidry/cpu-core-counter/zipball/f92996c4d5c1a696a6a970e20f7c4216200fcc42",
+                "reference": "f92996c4d5c1a696a6a970e20f7c4216200fcc42",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "fidry/makefile": "^0.2.0",
+                "fidry/php-cs-fixer-config": "^1.1.2",
+                "phpstan/extension-installer": "^1.2.0",
+                "phpstan/phpstan": "^1.9.2",
+                "phpstan/phpstan-deprecation-rules": "^1.0.0",
+                "phpstan/phpstan-phpunit": "^1.2.2",
+                "phpstan/phpstan-strict-rules": "^1.4.4",
+                "phpunit/phpunit": "^8.5.31 || ^9.5.26",
+                "webmozarts/strict-phpunit": "^7.5"
+            },
+            "time": "2024-02-07T09:43:46+00:00",
+            "type": "library",
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Fidry\\CpuCoreCounter\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Théo FIDRY",
+                    "email": "theo.fidry@gmail.com"
+                }
+            ],
+            "description": "Tiny utility to get the number of CPU cores.",
+            "keywords": [
+                "CPU",
+                "core"
+            ],
+            "support": {
+                "issues": "https://github.com/theofidry/cpu-core-counter/issues",
+                "source": "https://github.com/theofidry/cpu-core-counter/tree/1.1.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/theofidry",
+                    "type": "github"
+                }
+            ],
+            "install-path": "../fidry/cpu-core-counter"
+        },
+        {
             "name": "filp/whoops",
             "version": "2.15.4",
             "version_normalized": "2.15.4.0",
@@ -2519,6 +2568,68 @@
                 }
             ],
             "install-path": "../itsgoingd/clockwork"
+        },
+        {
+            "name": "jean85/pretty-package-versions",
+            "version": "2.0.6",
+            "version_normalized": "2.0.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Jean85/pretty-package-versions.git",
+                "reference": "f9fdd29ad8e6d024f52678b570e5593759b550b4"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Jean85/pretty-package-versions/zipball/f9fdd29ad8e6d024f52678b570e5593759b550b4",
+                "reference": "f9fdd29ad8e6d024f52678b570e5593759b550b4",
+                "shasum": ""
+            },
+            "require": {
+                "composer-runtime-api": "^2.0.0",
+                "php": "^7.1|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.2",
+                "jean85/composer-provided-replaced-stub-package": "^1.0",
+                "phpstan/phpstan": "^1.4",
+                "phpunit/phpunit": "^7.5|^8.5|^9.4",
+                "vimeo/psalm": "^4.3"
+            },
+            "time": "2024-03-08T09:58:59+00:00",
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.x-dev"
+                }
+            },
+            "installation-source": "dist",
+            "autoload": {
+                "psr-4": {
+                    "Jean85\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Alessandro Lai",
+                    "email": "alessandro.lai85@gmail.com"
+                }
+            ],
+            "description": "A library to get pretty versions strings of installed dependencies",
+            "keywords": [
+                "composer",
+                "package",
+                "release",
+                "versions"
+            ],
+            "support": {
+                "issues": "https://github.com/Jean85/pretty-package-versions/issues",
+                "source": "https://github.com/Jean85/pretty-package-versions/tree/2.0.6"
+            },
+            "install-path": "../jean85/pretty-package-versions"
         },
         {
             "name": "laravel/framework",
@@ -11453,10 +11564,13 @@
     "dev-package-names": [
         "barryvdh/laravel-debugbar",
         "beyondcode/laravel-query-detector",
+        "brianium/paratest",
         "doctrine/instantiator",
         "fakerphp/faker",
+        "fidry/cpu-core-counter",
         "filp/whoops",
         "hamcrest/hamcrest-php",
+        "jean85/pretty-package-versions",
         "laravel/pint",
         "laravel/sail",
         "maximebf/debugbar",
