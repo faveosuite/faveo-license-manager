@@ -79,7 +79,7 @@ class LicenseInstallControllerTest extends TestCase
         $response = $this->json('POST', url('api/licenseInstall'), $data);
         $response->assertHeader('notification_case', 'notification_product_inactive');
         $response->assertHeader('notification-text', 'Product Helpdesk Product 2 is inactive');
-        AflProducts::where('product_id', $product->product_id)->delete();
+        AflProducts::where('product_id', $product->product_id)->forceDelete();
         AflLicenses::where('product_id', $product->product_id)->delete();
     }
 
@@ -290,7 +290,7 @@ class LicenseInstallControllerTest extends TestCase
         $response = $this->json('POST', url('api/licenseInstall'), $data);
         $response->assertHeader('notification_case', 'notification_license_limit');
         $response->assertHeader('notification_text', 'The maximum number of allowed  Helpdesk Product 2 installations (1 installation(s) total) reached');
-        AflProducts::where('product_id', $product->product_id)->delete();
+        AflProducts::where('product_id', $product->product_id)->forceDelete();
         AflLicenses::where('product_id', $product->product_id)->delete();
         AflInstallations::where('product_id', $product->product_id)->delete();
     }

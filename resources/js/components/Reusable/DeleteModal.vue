@@ -6,7 +6,7 @@
 
             <div>
 
-                <h4 class="modal-title">{{trans('delte')}}</h4>
+                <h4 class="modal-title">{{modalTitle ?  trans(modalTitle) : trans('delte')}}</h4>
             </div>
         </template>
 
@@ -19,7 +19,7 @@
 
             <div v-if="!loading">
 
-                <span>{{trans('are_you_sure')}}</span>
+                <span>{{modalMessage ? trans(modalMessage) : trans('are_you_sure')}}</span>
             </div>
         </template>
 
@@ -35,9 +35,9 @@
 
             <div>
 
-                <button type="button" @click = "onSubmit()" class="btn btn-danger" :disabled="isDisabled">
+                <button type="button" @click = "onSubmit()" :class="btnTitle === 'restore' ? 'btn btn-secondary' : 'btn btn-danger'" :disabled="isDisabled">
 
-                    <i class="fas fa-trash" aria-hidden="true"></i> {{trans('delte')}}
+                    <i :class="btnTitle === 'restore' ? 'fas fa-sync-alt' : 'fas fa-trash'" aria-hidden="true"></i> {{ btnTitle ? trans(btnTitle) :trans('delte')}}
                 </button>
             </div>
         </template>
@@ -68,11 +68,19 @@
 
             redirectUrl : { type : String, default : ''},
 
+            modalTitle : { type : String, default : ''},
+
+            modalMessage : { type : String, default : ''},
+
+            btnTitle : { type : String, default : ''},
+
 			componentTitle : { type : String, default : ''},
 
 			keyVal : {type : String, default : ''},
 
-			idVal : { type : [String, Number], default : '' }
+			idVal : { type : [String, Number], default : '' },
+
+            softDelete: {type : Boolean, default: false},
 
 		},
 
@@ -105,6 +113,11 @@
 				data[this.keyVal] = this.idVal;
 
 				data['api_key_secret']= this.getApiKey;
+
+                if(this.softDelete) {
+
+                    data['soft_delete'] = 0;
+                }
 
 				axios.post(this.apiUrl,data).then(res=>{
 

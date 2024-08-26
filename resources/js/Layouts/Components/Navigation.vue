@@ -3,7 +3,7 @@
 	<li :class="isMenuExtended ? 'menu-open nav-item' : 'nav-item'">
 
     	<a class="nav-link" :class="{'active': isMainActive || isOneOfChildrenActive}"
-    		@click="handleMainMenuAction">
+           :href="getLink(menuItem)" @click.prevent="handleMainMenuAction">
 
 		    <i :class="'nav-icon '+menuItem.iconClass"></i>
 
@@ -92,6 +92,23 @@
 
 		        this.isMenuExtended = !this.isMenuExtended;
 		    },
+
+            getLink(navigation){
+
+                if(!Boolean(navigation.hasChildren)){
+
+                    if(navigation.routeString === '/dashboard') {
+
+                        return this.basePath() + navigation.routeString;
+
+                    } else {
+
+                        return navigation.redirectUrl.replace(this.basePath(), '');
+
+                    }
+                }
+                return 'javascript:void(0);';
+            },
 
 		    calculateIsActive(url) {
 

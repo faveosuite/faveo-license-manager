@@ -24,7 +24,7 @@
 
                     <span class="d-none d-md-inline mr-1" v-tooltip="user.client_fname +' '+ user.client_lname" dir="auto">
 
-                        {{ user.client_fname +' '+ user.client_lname }}
+                        {{ subString(user.client_fname +' '+ user.client_lname) }}
                         <image-element :sourceUrl="user.client_profile_pic" id="navbar-profile" class="user-image ml-2 img-circle elevation-2 d-none d-md-inline"
                              alt="User Image"/>
                     </span>
@@ -54,7 +54,7 @@
 
 	import { errorHandler } from '../../helpers/responseHandler';
     import ImageElement from "../../components/Reusable/ImageElement.vue";
-    import {lang} from "../../helpers/extraLogics";
+    import {getSubStringValue, lang} from "../../helpers/extraLogics";
 
 	export default {
 
@@ -75,6 +75,11 @@
 
 		methods : {
             lang,
+
+            subString(value,length = 30){
+
+                return getSubStringValue(value,length)
+            },
 
 			signOut() {
 
@@ -138,6 +143,7 @@
 }
 
 .dropdown-profile{
-    left: -20px !important;
+    right: 0;
+    left: auto !important;
 }
 </style>

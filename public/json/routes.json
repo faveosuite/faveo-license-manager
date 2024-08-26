@@ -43,6 +43,17 @@
                     "routeString": "/products/list",
                     "hasChildren": false,
                     "children": []
+                },
+                {
+                    "name": "Suspended Products",
+                    "key": null,
+                    "count": 0,
+                    "hasCount": false,
+                    "iconClass": "far fa-circle",
+                    "order": 0,
+                    "routeString": "/products/suspended",
+                    "hasChildren": false,
+                    "children": []
                 }
             ]
         },
@@ -275,17 +286,6 @@
                     "iconClass": "far fa-circle",
                     "order": 0,
                     "routeString": "/server/notifications",
-                    "hasChildren": false,
-                    "children": []
-                },
-                {
-                    "name": "Customize Emails",
-                    "key": null,
-                    "count": 0,
-                    "hasCount": false,
-                    "iconClass": "far fa-circle",
-                    "order": 0,
-                    "routeString": "/server/emails",
                     "hasChildren": false,
                     "children": []
                 }

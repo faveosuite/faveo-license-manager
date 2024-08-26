@@ -88,7 +88,7 @@ class UpdateInstallationsControllerTest extends TestCase
         $response->assertStatus(404);
         $response->assertJson(['success' => false]);
         $response->assertJson(['message' => 'There are invalid details present in this request']);
-        AflProducts::where('product_sku', 'INSTALL-UPDATEE')->delete();
+        AflProducts::where('product_sku', 'INSTALL-UPDATEE')->forceDelete();
         AfuVersions::where('version_id', 8)->delete();
     }
 }

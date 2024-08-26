@@ -94,7 +94,7 @@ export default {
 
                 return {
 
-                    'sort_field' : data.orderBy ? data.orderBy : 'product_id',
+                    'sort_field' : data.orderBy ? data.orderBy : 'report_date_time',
 
                     'sort_order' : data.ascending ? 'desc' : 'asc',
 

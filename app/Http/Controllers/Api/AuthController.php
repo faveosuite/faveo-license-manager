@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
 use Google2FA;
 use Crypt;
-
+use function Laravel\Prompts\table;
 
 
 /**
@@ -78,7 +78,7 @@ class AuthController extends Controller
         $failed_limit = AflSettings::value('FAILED_LOGINS_LIMIT');
         $failed_check = AflSettings::value('FAILED_LOGINS');
         $admin = $this->findAdminUser($filled['client_email']);
-        if ($this->isThrottled($ipAddress)) {
+        if ($this->isThrottled('login:'.$ipAddress)) {
             return errorResponse(Lang::get('auth.throttle_login'), 400);
         }
         if (! $admin || ! Hash::check($filled['client_password'], $admin->client_password)) {
@@ -106,8 +106,9 @@ private function findAdminUser($email)
         $failedAttempts = Cache::increment('login_attempts:' . $ipAddress);
 
         Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed login attempts.');
-        if ($failedAttempts >= $failedLimit && $failedCheck == 1) {
-            Cache::put($ipAddress, true, now()->addMinutes(15));
+        if ($failedAttempts > $failedLimit && $failedCheck == 1) {
+            Cache::put('login:'.$ipAddress, true, now()->addMinutes(15));
+            Cache::forget('login_attempts:' .$ipAddress);
             return errorResponse(Lang::get('auth.throttle'), 400);
         }
         return errorResponse(Lang::get('auth.failed'), 400);
@@ -122,46 +123,41 @@ private function findAdminUser($email)
 
     public function forgot(Request $request)
     {
-        $request->validate([ 'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))? new CaptchaValidation:['required',new CaptchaValidation], ]);
-
-        $email = $request->input('admin_email');
-        $admin = AflClients::where('client_email', $email)
-            ->where('client_role', 'admin')
-            ->first();
-        $ipAddress = $request->ip();
-        $failed_limit = AflSettings::value('FAILED_FORGET_LIMIT');
-        if (!$admin) {
-            $failedAttempts = Cache::increment('forgot_attempts:' . $ipAddress);
-            $failed_check = AflSettings::value('FAILED_HOSTS_FORGET');
-            Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed forgot password attempts.');
-
-            if ($failedAttempts >= $failed_limit && $failed_check ==1 ) {
-                Cache::put($ipAddress .  $ipAddress, true, now()->addMinutes(15));
-                return errorResponse(Lang::get('lang.too_many_attempts'), 400);
-            }
-            return successResponse(Lang::get('lang.recieve_forgot').$email. Lang::get('lang.junk'), 200);
-
-        }
-
-        $token = Str::random(10);
-
         try {
-            DB::table('password_resets')->insert([
-
-                'email' => $email,
-                'token' => $token,
-            ]);
-            $token = [
-                'token' => $token,
-            ];
-            $title = Lang::get('passwords.password_reset');
-            $template ='emails.myTestMail';
-            postEmailSendConfig($email,$title,$template,$token);
-            return successResponse(Lang::get('passwords.sent'), $token, 200);
-        }  catch (\Exception $e) {
-            return  errorResponse($e->getMessage(), 400);
+            $request->validate(
+                [
+                    'admin_email' => 'required|email',
+                    'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))? new CaptchaValidation:['required',new CaptchaValidation],
+                ]);
+            $email = $request->input('admin_email');
+            $user = AflClients::where('client_email', $email)->first();
+            $ipAddress = $request->ip();
+            $failed_limit = AflSettings::value('FAILED_FORGET_LIMIT');
+            $failed_check = AflSettings::value('FAILED_HOSTS_FORGET');
+            if($user){
+                if(!$this->maxAttemptsExecuted($ipAddress,$failed_limit,$failed_check)){
+                    return errorResponse(Lang::get('lang.too_many_attempts'), 400);
+                }
+                $token = str_random(60);
+                $dataToStore =  [
+                    'token' => $token,
+                    'created_at' => date('Y-m-d H:i:s'),
+                    'expires_at' => now()->addHour(),
+                ];
+                DB::table('password_resets')->updateOrInsert(['email' => $email], $dataToStore);
+                $dataForEmail = [
+                    'username' => $user->client_username,
+                    'token' => $token,
+                ];
+                $title = Lang::get('passwords.password_reset');
+                $template ='emails.myTestMail';
+                postEmailSendConfig($email,$title,$template,$dataForEmail);
+            }
+            return successResponse(Lang::get('passwords.sent'), 200);
         }
-
+        catch (\Exception $e){
+             return errorResponse($e->getMessage(), 400);
+        }
     }
 
 
@@ -173,25 +169,24 @@ private function findAdminUser($email)
      */
     public function reset(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'email' => 'required|email',
-            'password' => 'required|confirmed',
+        $request->validate([
+            'password' => 'required|confirmed|regex:/^(?=\S*[a-z])(?=\S*[A-Z])(?=\S*\d)(?=\S*[^\w\s])\S{8,}/',
             'token' => 'required',
             'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))? new CaptchaValidation:['required',new CaptchaValidation],
         ]);
 
-        if ($validator->fails()) {
-            return errorResponse(Lang::get('lang.form'), 401);
-        }
-
+        $token = $request->input('token');
         $password = $request->password;
-        $tokenData = DB::table('password_resets')->where('token', $request->token)->first();
+        $tokenData = DB::table('password_resets')->where([
+            ['token', '=', $token], ['expires_at', '>', now()]
+        ])->first();
+
 
         if (! $tokenData) {
             return errorResponse(Lang::get('passwords.token'), 401);
         }
 
-        $admin = AflClients::where('client_email', $request->email)
+        $admin = AflClients::where('client_email', $tokenData->email)
             ->where('client_role','admin')
             ->first();
         if (! $admin) {
@@ -285,9 +280,10 @@ private function findAdminUser($email)
         ];
         return successResponse(Lang::get('lang.Login'), $response, 200);
     }
-    private function isThrottled($ipAddress)
+    private function isThrottled($status)
     {
-        return Cache::has($ipAddress) || Cache::get($ipAddress);
+        //check if the given value is in the catch or not
+        return Cache::has($status) || Cache::get($status);
     }
     public function handle2FactorLogin($user)
     {
@@ -298,5 +294,21 @@ private function findAdminUser($email)
         cache([$key => Crypt::encrypt($userId)], 300);
 
         return successResponse('', ['redirect_url' => 'verify-2fa', 'PPAuth' => [$key => $value]]);
+    }
+    private function maxAttemptsExecuted($ipAddress, $failed_limit, $failed_check): bool
+    {
+        if($this->isThrottled('forgot:' .  $ipAddress)){
+            return false;
+        }
+        $failedAttempts = Cache::increment('forgot_attempts:' . $ipAddress);
+        Log::info('IP ' . $ipAddress . ' has ' . $failedAttempts . ' failed forgot password attempts.');
+
+        if ($failedAttempts > $failed_limit && $failed_check ==1 ) {
+            Cache::put('forgot:' .  $ipAddress, true, now()->addMinutes(15));
+            Cache::forget('forgot_attempts:' .$ipAddress);
+            return false;
+        }
+        return true;
+
     }
 }

@@ -81,6 +81,6 @@ class InstallationControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/installations/edit'), $data);
         $response->assertStatus(200);
         $this->assertDatabaseMissing('afl_installations', ['license_code' => 'AKO094GD9NCK0DHJ']);
-        AflProducts::where('product_sku', 'INSTALL-UPDATE')->delete();
+        AflProducts::where('product_sku', 'INSTALL-UPDATE')->forceDelete();
     }
 }

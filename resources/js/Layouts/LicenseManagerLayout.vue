@@ -86,7 +86,7 @@ export default {
     opacity: 0;
 }
 .content-wrapper{
-    min-height: 795px!important;
+  overflow: hidden;
 }
 
 </style>

@@ -39,7 +39,7 @@
                     </text-field>
 
                     <text-field :label="lang('user_name')" :value="client_username" type="text" name="client_username"
-                                :onChange="onChange" classname="col-sm-6">
+                                :onChange="onChange" classname="col-sm-6" :required="true">
 
                     </text-field>
 

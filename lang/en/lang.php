@@ -26,7 +26,7 @@ return [
     'no_client' => 'No Contact was added to license manager',
     'not_found_client' => 'Contact does not exist',
     'recieve_forgot' => 'Reset instructions have been mailed to ',
-    'too_many_attempts' => 'Too many failed forgot password attempts. IP banned for 15 minutes.',
+    'too_many_attempts' => 'Too many forgot password attempts. IP banned for 15 minutes.',
     'junk' =>' Be sure to check your Junk folder if you do not see an email from us in your Inbox within a few minutes.',
     'no_client_update' => 'Contact details were not updated',
     'Destroy' => 'Record has been Deleted Successfully',
@@ -45,6 +45,7 @@ return [
     'Product_Update' => 'Product Details updated Successfully',
     'no_product' => 'No product was added.',
     'invalid_product' => 'This is an invalid product.',
+    'product_restored' => 'Product restored successfully',
 
     'Exit' => 'You are now exited from the page',
     'updated'       =>     'Value has been updated successfully',
@@ -112,6 +113,7 @@ return [
     'view' => 'View',
     'whitelist' => 'Whitelist',
     'default_field_is_not_deletable' => 'Default field is not deletable',
+    'default_field_is_not_restore' => 'Default field cannot be restored',
     'login_to_start_your_session' => 'Login to start your session',
     'remember_me' => 'Remember Me',
     'login' => 'Login',
@@ -169,7 +171,13 @@ return [
     'active' => 'Active',
     'inactive' => 'Inactive',
     'are_you_sure' => 'Do you want to Delete this record permanently?',
+    'are_you_sure_to_suspend' => 'Do you want to Suspend this record?',
+    'suspended_products' => 'Suspended Products',
     'delte' => 'Delete',
+    'restore_record' => 'Do you want to restore this record ?',
+    'delete_permanent' => 'Are you sure? Deleting the product permanently will delete all licenses, installations, callbacks, and installation logs related to the product.',
+    'restore' => 'Restore',
+    'suspend' => 'Suspend',
     'nothing_updated' => 'Nothing was updated.',
     'create_new_contact' => 'Create New Contact',
     'edit_client' => 'Edit Contact',
@@ -415,6 +423,7 @@ return [
     'crack-reports-cleanup' => 'Crack reports cleanup',
     'license-reports-cleanup' => 'License reports cleanup',
     'versions-cleanup' => 'Versions cleanup',
+    'installation-status-logs' => 'Installation status logs',
 
     //FOR SYSTEM CLEAN UP SETTINGS TOOLTIP
 
@@ -423,6 +432,7 @@ return [
     'license_cleanup_tooltip' =>  'Delete Expire license that are older than the specified days mentioned below',
     'license_report_cleanup_tooltip' => 'Delete License Reports that are older than the specified days mentioned below',
     'system_cleanup_tooltip' =>  'Delete System Reports that are older than the specified days mentioned below',
+    'installation_logs_tooltip' =>  'Update the Installation Logs status for the specified days mentioned below.',
     'version_cleanup_tooltip' =>  'Delete Versions data',
     'remove_versions' => 'Remove versions older than',
     'add_new_whitelist_ip'  =>  'Create',
@@ -727,6 +737,10 @@ return [
     'error_product_envato' => 'The provided Envato ID is invalid',
     'url_error' => 'The provided URL is invalid',
     'envato_error' => 'The Envato ID is not valid',
+    'go_to_login' => 'Go to login',
+
+    //reset password
+    'reset-token-expired-or-not-found' => 'Your reset password link has been expired or not found. Please try reset password again.',
 
 ];
 

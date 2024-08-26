@@ -78,7 +78,7 @@ class LicenseVerifyControllerTest extends TestCase
         $response = $this->json('POST', url('api/licenseVerify'), $data);
         $response->assertHeader('notification_case', 'notification_product_inactive');
         $response->assertHeader('notification-text', 'Product Helpdesk Product 2 is inactive');
-        AflProducts::where('product_id', $product->product_id)->delete();
+        AflProducts::where('product_id', $product->product_id)->forceDelete();
         AflLicenses::where('product_id', $product->product_id)->delete();
     }
 
@@ -288,10 +288,10 @@ class LicenseVerifyControllerTest extends TestCase
         ];
         $response = $this->json('POST', url('api/licenseVerify'), $data);
         $response->assertHeader('notification_case', 'notification_installation_not_found');
-        AflProducts::where('product_id', $product->product_id)->delete();
+        AflProducts::where('product_id', $product->product_id)->forceDelete();
         AflLicenses::where('product_id', $product->product_id)->delete();
         AflInstallations::where('product_id', $product->product_id)->delete();
-        AflProducts::where('product_id', 25)->delete();
+        AflProducts::where('product_id', 25)->forceDelete();
         AflLicenses::where('product_id', 25)->delete();
         AflInstallations::where('product_id', 25)->delete();
     }
