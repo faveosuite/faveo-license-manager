@@ -99,7 +99,7 @@ describe("ResetPassword",()=>{
 
             expect(axiosMock.history.post.length).toEqual(1);
 
-            expect(axiosMock.history.post[0].data).toEqual('{\"token\":\"\",\"password\":\"Password@1\",\"email\":\"\",\"password_confirmation\":\"Password@1\"}');
+            expect(axiosMock.history.post[0].data).toEqual('{\"token\":\"\",\"password\":\"Password@1\","password_confirmation\":\"Password@1\"}');
 
             expect(axiosMock.history.post[0].url).toEqual('api/reset');
 

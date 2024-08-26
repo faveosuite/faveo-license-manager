@@ -115,7 +115,7 @@ export default {
 
                 client_email: this.lang('email'),
 
-                client_active_date: this.lang('activation_date'),
+                client_active_date: this.lang('created_at'),
 
                 license_count: this.lang('licenses'),
 

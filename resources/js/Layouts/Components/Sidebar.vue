@@ -1,29 +1,13 @@
 <template>
 
-	<aside class="main-sidebar sidebar-dark-secondary elevation-4">
+	<aside class="main-sidebar sidebar-scroll sidebar-dark-secondary elevation-4">
 
     	<a href="javascript:;" class="brand-link text-center">
 
-            <image-element id="admin-pic" width="100px" height="100px" :classes="['profile-user-img', 'img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="getAdminLogo"></image-element>
+            <image-element id="admin-pic" width="100px" height="100px" :classes="['img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="getAdminLogo"></image-element>
     	</a>
 
     	<div class="sidebar" :key="counter">
-
-      		<div class="user-panel mt-3 pb-3 mb-3 d-flex" v-if="user">
-
-        		<div class="image">
-
-          			<img :src="user.client_profile_pic" class="img-fluid rounded-circle" alt="User Image">
-
-                </div>
-
-        		<div class="info">
-
-          			<router-link to="/profile/edit" class="d-block" v-tooltip="user.client_fname + ' ' + user.client_lname">
-          				{{subString(user.client_fname + ' ' + user.client_lname)}}
-          			</router-link>
-        		</div>
-      		</div>
 
       		<nav class="mt-2">
 
@@ -147,5 +131,9 @@
         height: 2.1rem;
         width: 2.1rem;
         object-fit: cover;
+    }
+    .sidebar-scroll{
+        max-height: 100vh!important;
+        bottom: 0!important;
     }
 </style>

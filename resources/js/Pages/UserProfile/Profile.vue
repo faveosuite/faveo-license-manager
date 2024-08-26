@@ -51,7 +51,7 @@
 
                         </text-field>
 
-                        <dynamic-select name="client_timezone_id" apiEndpoint="/api/admin/timezones" :multiple="false" label="Client Timezone Settings" :onChange="onChange"
+                        <dynamic-select name="client_timezone_id" apiEndpoint="/api/admin/timezones" :multiple="false" label="Timezone Settings" :onChange="onChange"
                                         :value="timezone" optionLabel="location" :required="true">
 
                         </dynamic-select>
@@ -401,7 +401,7 @@ export default {
 
                 fd.append('client_mobile', this.client_mobile ? this.client_mobile : '');
 
-                fd.append('client_timezone_id', this.client_timezone_id.id);
+                fd.append('client_timezone_id', this.client_timezone_id.id || this.client_timezone_id);
 
                 this.$store.dispatch('setClientTimezone', this.client_timezone_id);
 

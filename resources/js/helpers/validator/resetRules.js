@@ -6,11 +6,9 @@ import { lang } from '../../helpers/extraLogics';
 
 export function validateResetSettings(data) {
 
-    const { email, password, password_confirmation, token } = data;
+    const { password, password_confirmation, token } = data;
 
     let validatingData = {
-
-        email: [email, 'isRequired'],
 
         password: [password, 'isRequired', 'max(50)', 'min(2)'],
 

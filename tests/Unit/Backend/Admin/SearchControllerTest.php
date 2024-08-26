@@ -112,7 +112,7 @@ class SearchControllerTest extends TestCase
         $content = (array) json_decode($response->content());
         $callback_array = (array) $content['page_message']['0'];
         $this->assertArrayHasKey('callback_ip', $callback_array);
-        AflProducts::where('product_id', 14)->delete();
+        AflProducts::where('product_id', 14)->forceDelete();
         AflCallbacks::where('callback_id', 1)->delete();
     }
 
@@ -208,7 +208,7 @@ class SearchControllerTest extends TestCase
         $content = (array) json_decode($response->content());
         $install_array = (array) $content['page_message']['0'];
         $this->assertArrayHasKey('installation_ip', $install_array);
-        AflProducts::where('product_id', 15)->delete();
+        AflProducts::where('product_id', 15)->forceDelete();
         AflInstallations::where('installation_id', 3)->delete();
     }
 
@@ -248,7 +248,7 @@ class SearchControllerTest extends TestCase
     //     $content = (array) json_decode($response->content());
     //     $license_array = (array) $content['page_message']['0'];
     //     $this->assertArrayHasKey('license_comments', $license_array);
-    //     AflProducts::where('product_id', 16)->delete();
+    //     AflProducts::where('product_id', 16)->forceDelete();
     //     AflLicenses::where('product_id', 16)->delete();
     //     AflInstallations::where('product_id', 16)->delete();
     //     AflCallbacks::where('product_id', 16)->delete();

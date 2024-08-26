@@ -220,7 +220,7 @@ export default {
 
                 info: 'Info',
 
-                client_active_date: 'Activation Date',
+                client_active_date: 'Created At',
 
                 client_status: 'Status',
 

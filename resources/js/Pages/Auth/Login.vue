@@ -133,12 +133,29 @@ export default {
         }
     },
     beforeMount() {
+        // const queryParam = this.$route.query;
+        // if (!queryParam && !queryParam.fresh) {
+        //     if (this.getUserToken) {
+        //         this.$router.push({name: 'Dashboard'}).catch(err => {});
+        //     }
+        // }
+
         const queryParam = this.$route.query;
-        if (!queryParam && !queryParam.fresh) {
-            if (this.getUserToken) {
-                this.$router.push({name: 'Dashboard'}).catch(err => {});
-            }
+
+        if(queryParam && queryParam.error){
+
+            this.$store.dispatch('setAlert',{type:'danger',message:this.$route.query.error, component_name : 'login'});
+
+            setTimeout(()=>{
+
+                this.$router.replace({name:'login'})
+            },5000)
         }
+
+        if (this.getUserToken) {
+            this.$router.push({name: 'Dashboard'});
+        }
+
     },
     methods: {
         lang,

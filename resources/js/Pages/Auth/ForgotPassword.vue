@@ -29,7 +29,7 @@
 
             </text-field>
 
-            <p class="mb-1">
+            <div class="mb-1">
 
                 <div class="row">
 
@@ -45,7 +45,7 @@
                       <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;{{lang('send')}}</button>
                   </div>
                 </div>
-            </p>
+            </div>
           </template>
         </div>
       </div>

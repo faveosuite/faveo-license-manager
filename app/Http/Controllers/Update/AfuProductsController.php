@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\AfuCallbacks;
 use App\Models\AfuInstallations;
 use App\Models\AfuProducts;
+use App\Models\AfuVersions;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -108,22 +109,29 @@ class AfuProductsController extends Controller
         $removed_records = 0;
         $product_id = $request->get('product_id');
         $api_key_secret = $request->get('api_key_secret');
+        $soft_delete = $request->get('soft_delete');
         $api_key = new ApiKeysController();
         $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
         if (aflValidateIntegerValue($product_id) && $api_action_success == 1) {
-            DB::beginTransaction(); //mysqli_begin_transaction($GLOBALS["mysqli"]);
-            $transaction_errors_array = [];
-            try {
-                AfuCallbacks::where('product_id', $product_id)->delete(); //Delete all callback for that product
-                AfuInstallations::where('product_id', $product_id)->delete(); //Delete all installations for that product
-                $removed_records += AfuProducts::where('product_id', $product_id)->delete(); //Delete the product
-                DB::commit();
-            } catch (Exception $e) {
-                $transaction_errors_array[] = $e->getMessage();
-                DB::rollBack();
-                $removed_records = 0;
+            if($soft_delete === 0) {
+                DB::beginTransaction(); //mysqli_begin_transaction($GLOBALS["mysqli"]);
+                $transaction_errors_array = [];
+                try {
+                    AfuCallbacks::where('product_id', $product_id)->delete(); //Delete all callback for that product
+                    AfuInstallations::where('product_id', $product_id)->delete(); //Delete all installations for that product
+                    AfuVersions::where('product_id', $product_id)->delete(); //Delete all versions for that product
+                    $removed_records += AfuProducts::where('product_id', $product_id)->forceDelete(); //Delete the product
+                    DB::commit();
+                } catch (\Exception $e) {
+                    $transaction_errors_array[] = $e->getMessage();
+                    DB::rollBack();
+                    $removed_records = 0;
 
-                return errorResponse(Lang::get('lang.invalid'), 400);
+                    return errorResponse(Lang::get('lang.invalid'), 400);
+                }
+            }else{
+                AfuProducts::where('product_id', $product_id)->update(['product_status' => 0]);
+                $removed_records += AfuProducts::where('product_id', $product_id)->delete(); //Delete the product
             }
         }
 

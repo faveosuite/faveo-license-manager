@@ -79,7 +79,7 @@ class LicenseSchemeControllerTest extends TestCase
         $response = $this->json('POST', url('api/licenseScheme'), $data);
         $response->assertHeader('notification_case', 'notification_product_inactive');
         $response->assertHeader('notification-text', 'Product Helpdesk Product 2 is inactive');
-        AflProducts::where('product_id', $product->product_id)->delete();
+        AflProducts::where('product_id', $product->product_id)->forceDelete();
         AflLicenses::where('product_id', $product->product_id)->delete();
     }
 
@@ -289,7 +289,7 @@ class LicenseSchemeControllerTest extends TestCase
         ];
         $response = $this->json('POST', url('api/licenseScheme'), $data);
         $response->assertHeader('notification_case', 'notification_installation_not_found');
-        AflProducts::where('product_id', $product->product_id)->delete();
+        AflProducts::where('product_id', $product->product_id)->forceDelete();
         AflLicenses::where('product_id', $product->product_id)->delete();
         AflInstallations::where('product_id', $product->product_id)->delete();
     }

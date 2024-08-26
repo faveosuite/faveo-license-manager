@@ -25,7 +25,6 @@
                 :multiple="multiple"
                 :placeholder="placeholder"
                 :filterable="false"
-                :loading="isLoading"
                 :disabled="disabled"
                 :clearable="clearable"
                 :searchable="searchable"

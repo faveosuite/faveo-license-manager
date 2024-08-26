@@ -4,10 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LicenseRequest;
+use App\Models\AflCallbacks;
 use App\Models\AflClients;
 use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\CommonSetting;
+use App\Models\InstallationLogs;
 use App\Models\LicenseColumn;
 use App\Models\ReportColumn;
 use Illuminate\Http\Request;
@@ -299,16 +301,27 @@ class LicenseController extends Controller
      */
     public function deleteLicense(Request $request)
     {
-        $removed_records = 0;
         $license_id = $request->get('license_id');
         $api_key_secret = $request->get('api_key_secret');
         $api_key = new ApiKeysController();
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        if (aflValidateIntegerValue($license_id) && $api_action_success == 1) {
-            $removed_records += AflLicenses::where('license_id', $license_id)->delete();
+
+        if (!aflValidateIntegerValue($license_id) || !$api_key->apiKeyCheck($api_key_secret, $this->ip_address)) {
+            return errorResponse(Lang::get('lang.invalid'), 400);
         }
 
-        return successResponse(Lang::get('lang.delete'), $removed_records, 200);
+        $license_code = AflLicenses::where('license_id', $license_id)->value('license_code');
+
+        if (!$license_code) {
+            return successResponse(Lang::get('lang.delete'), 0, 200);
+        }
+        // Begin transaction
+        DB::transaction(function () use ($license_code, $license_id) {
+            AflCallbacks::where('license_code', $license_code)->delete();
+            AflInstallations::where('license_code', $license_code)->delete();
+            InstallationLogs::where('license_code', $license_code)->delete();
+            AflLicenses::where('license_id', $license_id)->delete();
+        });
+        return successResponse(Lang::get('lang.delete'), 1, 200);
     }
 
     public function show(Request $request)
@@ -351,12 +364,12 @@ class LicenseController extends Controller
             ->withAggregate(['clients as client_email'], 'client_email')
             ->when($searchQuery, function ($query) use ($searchQuery, $request,$fields,$searchable) {
                     $query->when(in_array('client_email', $fields), function ($query) use ($searchQuery) {
-                        $query->whereHas('clients', function ($query) use ($searchQuery) {
+                        $query->orWhereHas('clients', function ($query) use ($searchQuery) {
                             $query->where('client_email', 'like', '%' . $searchQuery . '%');
                         });
                     })
                     ->when(in_array('product_title', $fields), function ($query) use ($searchQuery) {
-                        $query->whereHas('product', function ($query) use ($searchQuery) {
+                        $query->orWhereHas('product', function ($query) use ($searchQuery) {
                             $query->where('product_title', 'like', '%' . $searchQuery . '%');
                         });
                     });
@@ -505,7 +518,7 @@ class LicenseController extends Controller
 
     public function getLicenseColumns()
     {
-        $userId = 1;
+        $userId = getAuthUserId();
         $userColumns = LicenseColumn::where('client_id', $userId)->where('type', 'license')->pluck('column_id');
         if ($userColumns->isEmpty()) {
             $defaultColumns = ReportColumn::where('type', 'license')->where('default', true)->pluck('key');
@@ -516,7 +529,7 @@ class LicenseController extends Controller
     }
     public function saveLicenseColumns(Request $request)
     {
-        $userId = 1;
+        $userId = getAuthUserId();
         $selectedColumns = $request->selected_columns;
         $reportColumns = ReportColumn::whereIn('key', $selectedColumns)
             ->where('type', 'license')

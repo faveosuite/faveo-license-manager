@@ -54,7 +54,7 @@ class AfuVersionsControllerTest extends TestCase
     //     ];
     //     $response = $this->json('POST', url('api/admin/versions/add'), $data);
     //     $response->assertStatus(500);
-    
+
     // }
 
 //     public function test_versionAdd_uploadAInvalidInstallLimit_returnReponseWithErrorMesssage()
@@ -63,7 +63,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
 //         $rootDirectory = config('test.SCRIPT_ROOT_DIRECTORY');
 //         $ARCHIVES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
-//         $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY'); 
+//         $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
 
 //         $data = [
 //             'api_key_secret' => '5hDuaXuTh9gTLfPL',
@@ -90,7 +90,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
 //         $rootDirectory = config('test.SCRIPT_ROOT_DIRECTORY');
 //         $ARCHIVES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
-//         $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY'); 
+//         $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
 //         $data = [
 //             'api_key_secret' => '5hDuaXuTh9gTLfPL',
 //             'product_id' => 81,
@@ -424,7 +424,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $content = (array) json_decode($response->content());
 //         $install_array = (array) $content['page_message'];
 //         $this->assertIsArray($install_array, 'Version could not be updated because of this reason:Invalid product, version number, or status.');
-  
+
 
 //     }
 
@@ -441,7 +441,7 @@ class AfuVersionsControllerTest extends TestCase
     //     $response->assertStatus(200);
     //     $response->assertJson(['success' => true]);
     //     $response->assertJson(['message' => 'lang.deleted']);
-    //     AflProducts::where('product_id', 81)->delete();
+    //     AflProducts::where('product_id', 81)->forceDelete();
     // }
 
     // public function test_deleteVersionsWithoutDetails_returnSuccessResponse()

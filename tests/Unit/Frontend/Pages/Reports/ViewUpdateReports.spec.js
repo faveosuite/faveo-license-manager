@@ -57,7 +57,7 @@ describe('UpdateReport', () => {
         }
         let reqAdptDataReturn = {
             "sort_field": "id",
-            "sort_order": "asc",
+            "sort_order": "desc",
             "search_query": "something",
             "perPage": 10,
         }

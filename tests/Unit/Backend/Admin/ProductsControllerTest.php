@@ -222,6 +222,6 @@ class ProductsControllerTest extends TestCase
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
         $response->assertJson(['message' => 'There are invalid details present in this request']);
-        AflProducts::where('product_id', 100)->delete();
+        AflProducts::where('product_id', 100)->forceDelete();
     }
 }

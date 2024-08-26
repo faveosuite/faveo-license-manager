@@ -111,7 +111,15 @@
 
                             data.edit_url = '/products/' + data.product_id + '/edit';
 
-                            data.delete_url = '/api/admin/products/delete';
+                            data.delete_url = '/api/admin/allProductDelete';
+
+                            data.tooltip = 'suspend';
+
+                            data.modalTitle = 'suspend';
+
+                            data.modalMessage = 'are_you_sure_to_suspend';
+
+                            data.btnTitle = 'suspend';
 
                             data.view_url = '/products/' + data.product_id + '/view';
 

@@ -24,12 +24,6 @@
 
                     <template v-if="!loading">
 
-                        <text-field :labelStyle="labelStyle" :label="lang('email')" :value="email" type="text"
-                            name="email" :keyupListener="triggerEvent" :onChange="onChange" placehold="Email"
-                            :required="true">
-
-                        </text-field>
-
                         <text-field :labelStyle="labelStyle" :label="lang('password')" :value="password" type="password"
                             name="password" :keyupListener="triggerEvent" :onChange="onChange" placehold="New Password"
                              :required="true">
@@ -49,6 +43,11 @@
                                 <i class="fas fa-sync"></i>&nbsp;&nbsp;{{lang('reset_password')}}
                             </a>
                         </div>
+
+                        <p class="mb-1">
+
+                            <router-link to="/login">{{lang('go_to_login')}}</router-link>
+                        </p>
 
                     </template>
                 </div>
@@ -93,8 +92,6 @@
         data() {
 
             return {
-
-                email: '',
 
                 password: '',
 
@@ -216,8 +213,6 @@
                         this.token = this.path[this.path.length-1];
 
                         const data = {token : this.token, password : this.password_confirmation}
-
-                        data['email'] = this.email
 
                         data['password'] = this.password
 

@@ -290,9 +290,9 @@ export default {
                             target: '_blank'
                         },[row.license_order_number])
 
-                    } else if(row.license_order_ur) {
+                    } else if(row.license_order_number) {
 
-                        return row.license_order_url
+                        return row.license_order_number
 
                     } else {
 

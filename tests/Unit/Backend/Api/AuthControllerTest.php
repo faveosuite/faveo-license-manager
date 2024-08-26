@@ -23,8 +23,8 @@ class AuthControllerTest extends TestCase
 
             $this->testUser = AflClients::factory()->create([
                 'client_email' => $faker->safeEmail,
-                'client_password' => Hash::make('Password@1'), 
-                'client_role' => 'admin', 
+                'client_password' => Hash::make('Password@1'),
+                'client_role' => 'admin',
             ]);
         }
 
@@ -38,7 +38,7 @@ class AuthControllerTest extends TestCase
      */
     public function testUserLoginWithValidCredentials()
     {
-        $user = $this->getTestUser(); 
+        $user = $this->getTestUser();
 
         $response = $this->post('/api/login', [
             'client_email' => $user->client_email,
@@ -59,7 +59,7 @@ class AuthControllerTest extends TestCase
     public function testUserLoginWithInvalidCredentials()
     {
         $response = $this->post('/api/login', [
-            'client_email' => 'invalidemail@gmail.com', 
+            'client_email' => 'invalidemail@gmail.com',
             'client_password' => 'invalidpassword',
         ]);
 
@@ -76,7 +76,7 @@ class AuthControllerTest extends TestCase
      */
     public function testUserLogout()
     {
-        $user = $this->getTestUser(); 
+        $user = $this->getTestUser();
 
         $token = $user->createToken('AFL')->accessToken;
 
@@ -97,7 +97,7 @@ class AuthControllerTest extends TestCase
      */
     public function testForgotPassword()
     {
-        $user = $this->getTestUser(); 
+        $user = $this->getTestUser();
 
         $response = $this->post('/api/forgot', [
             'admin_email' => $user->client_email,
@@ -117,24 +117,22 @@ class AuthControllerTest extends TestCase
      */
     public function testPasswordReset()
     {
-        $user = $this->getTestUser(); 
+        $user = $this->getTestUser();
 
-        $resetToken = Str::random(10);
-
-        DB::table('password_resets')->insert([
-            'email' => $user->client_email,
+        $resetToken = Str::random(60);
+        DB::table('password_resets')->updateOrInsert(['email' => $user->client_email], [
             'token' => $resetToken,
+            'created_at' => date('Y-m-d H:i:s'),
+            'expires_at' => now()->addHour(),
         ]);
 
-        $newPassword = 'newpassword123';
+        $newPassword = 'Newpassword@123';
 
         $response = $this->post('/api/reset', [
-            'email' => $user->client_email,
             'password' => $newPassword,
             'password_confirmation' => $newPassword,
             'token' => $resetToken,
         ]);
-
         $response->assertStatus(201)
             ->assertJson([
                 'message' => Lang::get('passwords.reset'),
