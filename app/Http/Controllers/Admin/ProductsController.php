@@ -11,6 +11,7 @@ use App\Models\AflInstallations;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
 use App\Models\AfuProducts;
+use App\Models\InstallationLogs;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -145,22 +146,20 @@ class ProductsController extends Controller
         $perPage = $request->input('perPage', 10);
         $page = $request->input('page', 1);
         $searchQuery = $request->input('search_query');
-        $sortOrder= $request->input('sort_order','desc');
-        $sortField = $request->input('sort_field','product_id');
-        $products = AflProducts::select('product_id','product_title','product_sku','product_status')
-            ->withCount(['licenses', 'installations'])
-            ->where(function ($query) use ($searchQuery) {
-                $query->where('product_title', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('product_sku', 'LIKE', '%' . $searchQuery . '%')
-                    ->orWhere('product_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%');
-            })
+        $sortOrder = $request->input('sort_order', 'desc');
+        $sortField = $request->input('sort_field', 'product_id');
+        $filter = $request->input('filter_field', 'active');
+
+        $products = $this->buildProductQuery($filter, $searchQuery)
             ->orderBy($sortField, $sortOrder)
             ->paginate($perPage, ['*'], 'page', $page);
-        $products->getCollection()->transform(function ($products) {
-            $products->versions = $products->product_latest_version;
-            $products->versions_count = $products->product_version_count;
-            return $products;
+
+        $products->getCollection()->transform(function ($product) {
+            $product->versions = $product->product_latest_version;
+            $product->versions_count = $product->product_version_count;
+            return $product;
         });
+
         return successResponse(Lang::get('lang.Product_Show'), $products, 200);
     }
 
@@ -178,6 +177,7 @@ class ProductsController extends Controller
         $removed_records = 0;
         $product_id = $request->get('product_id');
         $api_key_secret = $request->get('api_key_secret');
+        $soft_delete = $request->get('soft_delete');
 
         if (null !== (request()->server('REMOTE_ADDR'))) {
             $ip_address = request()->server('REMOTE_ADDR');
@@ -205,26 +205,36 @@ class ProductsController extends Controller
                     $api_action_success = 1;
                 }
             }
-
             if (aflValidateIntegerValue($product_id)) {
-                DB::beginTransaction(); //mysqli_begin_transaction($GLOBALS["mysqli"]);
-                $transaction_errors_array = [];
-                try {
-                    AFlCallbacks::where('product_id', $product_id)->delete(); //doMysqlQuery("DELETE FROM apl_callbacks WHERE product_id=?", array($product_id), array("i")); //delete callbacks
+                if($soft_delete === 0){
+                    DB::beginTransaction(); //mysqli_begin_transaction($GLOBALS["mysqli"]);
+                    $transaction_errors_array = [];
+                    try {
+                        $licenses = AFlLicenses::where('product_id', $product_id)->pluck('license_code');
 
-                    AFlInstallations::where('product_id', $product_id)->delete(); //doMysqlQuery("DELETE FROM apl_installations WHERE product_id=?", array($product_id), array("i")); //delete installations
+                        foreach ($licenses as $license_code) {
+                            InstallationLogs::where('license_code', $license_code)->delete();
+                        }
 
-                    AFlLicenses::where('product_id', $product_id)->delete(); //doMysqlQuery("DELETE FROM apl_licenses WHERE product_id=?", array($product_id), array("i")); //delete licenses
+                        AFlCallbacks::where('product_id', $product_id)->delete(); //doMysqlQuery("DELETE FROM apl_callbacks WHERE product_id=?", array($product_id), array("i")); //delete callbacks
 
-                    $removed_records += AFlProducts::where('product_id', $product_id)->delete(); //$removed_records+=doMysqlQuery("DELETE FROM apl_products WHERE product_id=?", array($product_id), array("i"));
+                        AFlInstallations::where('product_id', $product_id)->delete(); //doMysqlQuery("DELETE FROM apl_installations WHERE product_id=?", array($product_id), array("i")); //delete installations
 
-                    DB::commit();
-                } catch (Exception $e) {
-                    $transaction_errors_array[] = $e->getMessage();
-                    DB::rollBack();
-                    $removed_records = 0;
+                        AFlLicenses::where('product_id', $product_id)->delete(); //doMysqlQuery("DELETE FROM apl_licenses WHERE product_id=?", array($product_id), array("i")); //delete licenses
 
-                    return errorResponse(Lang::get('lang.invalid'), 400);
+                        $removed_records += AFlProducts::where('product_id', $product_id)->forceDelete(); //$removed_records+=doMysqlQuery("DELETE FROM apl_products WHERE product_id=?", array($product_id), array("i"));
+
+                        DB::commit();
+                    } catch (\Exception $e) {
+                        $transaction_errors_array[] = $e->getMessage();
+                        DB::rollBack();
+                        $removed_records = 0;
+                        return errorResponse(Lang::get('lang.invalid'), 400);
+                    }
+                }
+                else{
+                    AflProducts::where('product_id', $product_id)->update(['product_status' => 0]);
+                    $removed_records += AflProducts::where('product_id', $product_id)->delete();
                 }
             }
 
@@ -353,19 +363,26 @@ class ProductsController extends Controller
     {
         try {
             $response = $this->productAdd($request);
-            $productId = AflProducts::where('product_sku',$request->get('product_sku'))->pluck('product_id')->first();
-            // Check if the response indicates success
-            if ($productId) {
-                $this->addNewProductToAUS($request,$productId);
-                return successResponse(Lang::get('lang.Product_Add'));
-            } else {
-                // Return an error response if the API call was not successful
-                return errorResponse(Lang::get('lang.invalid'), 500);
+            $response = json_decode($response->getContent());
+            if($response->success == true) {
+                $productId = AflProducts::where('product_sku', $request->get('product_sku'))->pluck('product_id')->first();
+                if ($productId) {
+                    $afuResponse = $this->addNewProductToAUS($request, $productId);
+                    if($afuResponse->success == false){
+                        return errorResponse(Lang::get('lang.invalid'), 400);
+                    }
+                    return successResponse(Lang::get('lang.Product_Add'));
+                } else {
+                    return errorResponse(Lang::get('lang.invalid'), 400);
+                }
+            }
+            else{
+                return errorResponse($response->message, 400);
             }
 
         } catch (\Exception $e) {
             // Return an error response
-            return errorResponse(Lang::get('lang.invalid'), 500);
+            return errorResponse(Lang::get('lang.invalid'), 400);
         }
     }
 
@@ -384,7 +401,7 @@ class ProductsController extends Controller
 
         } catch (\Exception $ex) {
             // Throw an exception with a specific error message
-            return errorResponse(Lang::get('lang.invalid'), 500);
+            return errorResponse(Lang::get('lang.invalid'), 400);
         }
     }
     public function updateAflAndAfuProduct(Request $request)
@@ -398,12 +415,12 @@ class ProductsController extends Controller
                 return successResponse(Lang::get('lang.Product_Update'));
             } else {
                 // Return an error response if the API call was not successful
-                return errorResponse($response->message, 500);
+                return errorResponse($response->message, 400);
             }
 
         } catch (\Exception $e) {
             // Return an error response
-            return errorResponse(Lang::get('lang.invalid'), 500);
+            return errorResponse(Lang::get('lang.invalid'), 400);
         }
     }
     private function updateProductToAUS($request)
@@ -433,8 +450,96 @@ class ProductsController extends Controller
             return json_decode($response->getContent());
         } catch (\Exception $ex) {
             // Handle the exception and return an error response
-            return errorResponse(Lang::get('lang.invalid'), 500);
+            return errorResponse(Lang::get('lang.invalid'), 400);
         }
     }
+    public function deleteAflAndAfuProduct(Request $request)
+    {
+        try {
+            $responseFromProduct = $this->deleteProduct($request);
+            $response = json_decode($responseFromProduct->getContent());
+            // Check if the response indicates success
+            if ($response->success == true ) {
+                $afuProduct = app(AfuProductsController::class);
+                $afuProduct->deleteUpdateProduct($request);
+                return successResponse(Lang::get('lang.Product_Destroy'));
+            } else {
+                // Return an error response if the API call was not successful
+                return errorResponse($response->message, 400);
+            }
 
+        } catch (\Exception $e) {
+            // Return an error response
+            return errorResponse(Lang::get('lang.invalid'), 400);
+        }
+    }
+    private function buildProductQuery($filter, $searchQuery)
+    {
+        $products = AflProducts::select('product_id', 'product_title', 'product_sku', 'product_status')
+            ->withCount(['licenses', 'installations']);
+
+        // Filter products
+        if ($filter === 'suspended') {
+            $products->onlyTrashed();
+        } elseif ($filter === 'active') {
+            $products->whereNull('deleted_at');
+        }
+
+        // Apply search query
+        if ($searchQuery) {
+            $products->where(function ($query) use ($searchQuery) {
+                $query->where('product_title', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('product_sku', 'LIKE', '%' . $searchQuery . '%')
+                    ->orWhere('product_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%');
+            });
+        }
+
+        return $products;
+    }
+
+    /**
+     * Restore a suspended product (It restores the product from both AfuProducts and AflProducts)
+     *
+     * @param Request $request
+     * @return Response
+     */
+    public function restoreSuspendedProduct(Request $request)
+    {
+        $product_id = $request->input('product_id');
+        $api_key_secret = $request->input('api_key_secret');
+        $api_key = new ApiKeysController();
+
+        if (null !== (request()->server('REMOTE_ADDR'))) {
+            $ip_address = request()->server('REMOTE_ADDR');
+        } else {
+            $ip_address = $request->ip();
+        }
+
+        // Validate product_id and API key
+        if (!aflValidateIntegerValue($product_id) || !$api_key->apiKeyCheck($api_key_secret, $ip_address)) {
+            return errorResponse(Lang::get('lang.invalid'), 400);
+        }
+
+        // Retrieve the products including soft-deleted ones
+        $aflProduct = AflProducts::onlyTrashed()->find($product_id);
+        $afuProduct = AfuProducts::onlyTrashed()->find($product_id);
+
+        if (empty($aflProduct) || empty($afuProduct)) {
+            return errorResponse(Lang::get('lang.invalid_product'), 400);
+        }
+
+        // Restore the products
+        $aflProduct->restore();
+        $afuProduct->restore();
+
+        // Change the status after restoration
+        $aflProduct->product_status = 1;
+        $afuProduct->product_status = 1;
+
+        // Save the updated products
+        $aflProduct->save();
+        $afuProduct->save();
+
+        return successResponse(Lang::get('lang.product_restored'), 1, 200);
+    }
 }

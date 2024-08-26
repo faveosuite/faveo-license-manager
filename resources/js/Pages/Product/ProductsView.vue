@@ -24,7 +24,7 @@
                             <i class="fas fa-edit"></i>
                         </router-link>
 
-                        <button class="btn btn-tool action-btn" v-tooltip="lang('delete_btn')" @click="showDeleteModal()">
+                        <button class="btn btn-tool action-btn" v-tooltip="lang('suspend')" @click="showDeleteModal()">
 
                             <i class="fas fa-trash"></i>
                         </button>
@@ -111,7 +111,8 @@
 
         <transition name="modal">
 
-            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" alertComponentName="product-view" deleteUrl="/api/admin/products/delete" redirectUrl="/products/list" keyVal="product_id" :idVal="id">
+            <delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" alertComponentName="product-view" deleteUrl="/api/admin/allProductDelete"
+                          redirectUrl="/products/list" :modalTitle="lang('suspend')" :modalMessage="lang('are_you_sure_to_suspend')" :btnTitle="lang('suspend')" keyVal="product_id" :idVal="id">
 
             </delete-modal>
         </transition>

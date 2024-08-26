@@ -29,10 +29,8 @@
 
 <script>
 
-import {lang} from '../../helpers/extraLogics'
+import {formatDateTime,lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-import moment from "moment";
-import 'moment-timezone'
 import {h} from "vue";
 import {RouterLink} from "vue-router";
 export default {
@@ -101,7 +99,7 @@ export default {
 
                     'sort_field' : data.orderBy ? data.orderBy : 'report_date_time',
 
-                    'sort_order' : data.ascending ? 'asc' : 'desc',
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
 
                     'search_query' : data.query.trim(),
 
@@ -141,7 +139,7 @@ export default {
 
                 report_date_time(h, row) {
 
-                    return row.report_date_time ? moment(row.report_date_time).tz(timezone).format(`${date_format} ${time_format}`) : '----'
+                    return formatDateTime(row.report_date_time, timezone, date_format, time_format);
                 },
 
                 product: (f, row) => {

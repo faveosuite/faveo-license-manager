@@ -32,8 +32,6 @@
 
 import {formatDateTime, lang} from '../../helpers/extraLogics'
 import DynamicDataTable from "../../components/Reusable/DynamicDataTable.vue";
-import moment from "moment";
-import 'moment-timezone'
 import {h} from "vue";
 import {RouterLink} from "vue-router";
 
@@ -96,9 +94,9 @@ export default {
 
                 return {
 
-                    'sort_field' : data.orderBy ? data.orderBy : 'license_code',
+                    'sort_field' : data.orderBy ? data.orderBy : 'report_date_time',
 
-                    'sort_order' : data.ascending ? 'asc' : 'desc',
+                    'sort_order' : data.ascending ? 'desc' : 'asc',
 
                     'search_query' : data.query.trim(),
 

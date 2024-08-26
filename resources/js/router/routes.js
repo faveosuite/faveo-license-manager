@@ -20,6 +20,8 @@ import ProductCreateEdit from '../Pages/Product/ProductCreateEdit.vue';
 
 import ProductsIndex from '../Pages/Product/ProductsIndex.vue';
 
+import ProductsSuspended from "../Pages/Product/ProductsSuspended.vue";
+
 import ProductsView from "../Pages/Product/ProductsView.vue";
 
 let productsMenu = {
@@ -54,6 +56,17 @@ let productsMenu = {
             name: 'Product Create',
 
             component: ProductCreateEdit,
+
+            meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'create' } }
+        },
+
+        {
+
+            path: 'suspended',
+
+            name: 'Product Suspended',
+
+            component: ProductsSuspended,
 
             meta: { title : 'products', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'products', to : '/products' }, active : 'create' } }
         },

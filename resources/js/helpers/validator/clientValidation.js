@@ -6,7 +6,7 @@ import { lang } from '../extraLogics';
 
 export function validateClientSettings(data) {
 
-  const { client_fname, client_lname, client_email } = data
+  const { client_fname, client_lname, client_email, client_username } = data
 
   var validatingData = {
 
@@ -14,7 +14,9 @@ export function validateClientSettings(data) {
 
     client_lname: [client_lname, 'isRequired'],
 
-    client_email: [client_email, 'isRequired', 'isEmail']
+    client_email: [client_email, 'isRequired', 'isEmail'],
+
+      client_username: [client_username, 'isRequired']
 
   };
 

@@ -471,6 +471,6 @@ class LicenseControllerTest extends TestCase
         $response->assertJson(['success' => true]);
         $response->assertJson(['message' => 'The record you have selected has been deleted successfully']);
         $response->assertJson(['data' => 1]);
-        AflProducts::where('product_id', 13)->delete();
+        AflProducts::where('product_id', 13)->forceDelete();
     }
 }

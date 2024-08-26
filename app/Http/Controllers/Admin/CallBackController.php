@@ -61,8 +61,8 @@ class CallBackController extends Controller
                        ->orWhereHas('version', function ($query) use ($searchQuery) {
                            $query->where('version_number', 'LIKE', '%' . $searchQuery . '%');
                        })
-                       ->orWhereHas('type', function ($query) use ($searchQuery) {
-                           $query->where('keys', 'LIKE', '%' . $searchQuery . '%');
+                       ->orWhereHas('types', function ($query) use ($searchQuery) {
+                           $query->where('value', 'LIKE', '%' . $searchQuery . '%');
                        })
                        ->orWhere('callback_ip', 'LIKE', '%' . $searchQuery . '%')
                        ->orWhere('callback_status', 'LIKE', '%' . statusFormatter($searchQuery) . '%')

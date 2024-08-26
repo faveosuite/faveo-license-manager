@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ApiKeysController;
 use App\Http\Controllers\Admin\BannedHostController;
 use App\Http\Controllers\Admin\Google2FAController;
 use App\Http\Controllers\Admin\InstallationLogsController;
+use App\Http\Controllers\Admin\OrderController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\VersionsController;
 use App\Http\Controllers\Admin\Views\ClientsViewController;
@@ -138,6 +139,11 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('productVersions/{product_id}',[ProductsViewController::class,'getProductVersions']);
     Route::post('addProduct', [ProductsController::class, 'addAflAndAfuProduct']);
     Route::post('updateProduct',[ProductsController::class,'updateAflAndAfuProduct']);
+    Route::post('allProductDelete', [ProductsController::class, 'deleteAflAndAfuProduct']);
+    Route::post('restoreProduct', [ProductsController::class, 'restoreSuspendedProduct']);
+
+    //ORDERS
+    Route::post('deleteOrder',[OrderController::class,'deleteOrder']);
 
     //VERSIONS
     Route::get('viewVersions',[VersionsController::class,'show']);

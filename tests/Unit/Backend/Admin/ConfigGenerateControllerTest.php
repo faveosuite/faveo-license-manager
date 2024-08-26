@@ -49,6 +49,6 @@ class ConfigGenerateControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/config'), $data);
         $response->getOriginalContent();
         $response->assertStatus(404);
-        AflProducts::where('product_sku', 'ABCDEFG')->delete();
+        AflProducts::where('product_sku', 'ABCDEFG')->forceDelete();
     }
 }

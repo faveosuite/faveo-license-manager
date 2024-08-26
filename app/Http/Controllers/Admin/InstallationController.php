@@ -175,7 +175,7 @@ class InstallationController extends Controller
         $installation_domain = $request->get('installation_domain');
         $installation_date = $request->get('installation_date');
         $installation_status = $request->get('installation_status');
-        $installation_hash = $request->get('installation_status');
+        $installation_hash = $request->get('installation_hash');
         $api_key_secret = $request->get('api_key_secret');
         $api_action_success = 0;
         $api_error_detected = 0;

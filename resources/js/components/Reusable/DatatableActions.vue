@@ -7,7 +7,16 @@
 			<i class="fas fa-edit"></i>
 		</router-link> &nbsp;
 
-		<span v-tooltip="disabled ? trans('default_field_is_not_deletable') : trans('delte')">
+        <span v-tooltip="disabled ? trans('default_field_is_not_restore') : trans('restore')">
+
+			<button v-if="data.restore_url" class="btn btn-default btn-act mr-2" @click="showRestoreModalMethod"
+                    :disabled="disabled">
+
+				<i class="fas fa-sync-alt"></i>
+			</button>
+		</span>
+
+		<span v-tooltip="disabled ? trans('default_field_is_not_deletable') : data.tooltip ? trans(data.tooltip) : trans('delte')">
 
 			<button v-if="data.delete_url" class="btn btn-default btn-act" @click="showModalMethod"
 				:disabled="disabled">
@@ -24,10 +33,20 @@
 		<transition name="modal">
 
 		 	<delete-modal v-if="showModal" :onClose="onClose" :showModal="showModal" :deleteUrl="data.delete_url"
-		 		:alertComponentName="alert" :keyVal="data.keyVal" :idVal="data.idVal">
+		 		:alertComponentName="alert" :keyVal="data.keyVal" :idVal="data.idVal" :modalMessage="data.modalMessage"
+                :btnTitle="data.btnTitle" :softDelete="data.softDelete" :modalTitle="data.modalTitle">
 
 		 	</delete-modal>
 		</transition>
+
+        <transition name="modal">
+
+            <delete-modal v-if="showRestoreModal" :onClose="onClose" :showModal="showRestoreModal" :deleteUrl="data.restore_url"
+                          :alertComponentName="alert" :keyVal="data.keyVal" :idVal="data.idVal" :modalMessage="data.restoreModalMessage"
+                          :btnTitle="data.restoreBtnTitle" :modalTitle="data.restoreModalTitle">
+
+            </delete-modal>
+        </transition>
 	</div>
 </template>
 
@@ -54,6 +73,8 @@
 
 				showModal : false,
 
+                showRestoreModal : false,
+
 				alert : ''
 			}
 		},
@@ -78,6 +99,11 @@
 				this.alert = this.data.alertComponentName ? this.data.alertComponentName : 'dataTableModal';
 			},
 
+            showRestoreModalMethod() {
+
+                this.showRestoreModal = this.data.is_default ? false : true;
+            },
+
 			showModalMethod(){
 
 				this.showModal = this.data.is_default ? false : true;
@@ -86,6 +112,8 @@
 			onClose(){
 
 		    	this.showModal = false;
+
+                this.showRestoreModal = false;
 
 		    	this.$store.dispatch('unsetValidationError');
 		  	},
