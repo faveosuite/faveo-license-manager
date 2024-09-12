@@ -13,6 +13,8 @@ use App\Models\AfuInstallations;
 use App\Models\AfuVersions;
 // use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use App\Models\AflApiKeys;
+
 
 class SearchControllerTest extends TestCase
 {
@@ -28,7 +30,7 @@ class SearchControllerTest extends TestCase
         AflBannedHosts::factory()->create(['banned_host_id' => 1]);
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'banned_host',
             'search_keyword' => '109.89.89.22',
             'isLicenseSearchApi' => 1,
@@ -46,7 +48,7 @@ class SearchControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'banned_host',
             'search_keyword' => 'This is a search for a banned host',
             'isLicenseSearchApi' => 1,
@@ -66,7 +68,7 @@ class SearchControllerTest extends TestCase
         $product = AflCallbacks::factory()->create(['callback_id' => rand(100000, 999999), 'product_id' => rand(100000, 999999), 'license_code' => 'QWRT125SKOD87C6H', 'callback_domain' => 'faveotest.com']);
         AflProducts::factory()->create(['product_id' => $product->product_id, 'product_sku' => \Str::random(10)]);
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'callback',
             'search_keyword' => 'QWRT125SKOD87C6H',
             'isLicenseSearchApi' => 1,
@@ -83,7 +85,7 @@ class SearchControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'callback',
             'search_keyword' => 'faveotest.com',
             'isLicenseSearchApi' => 1,
@@ -101,7 +103,7 @@ class SearchControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'callback',
             'search_keyword' => '106.51.140.178',
             'isLicenseSearchApi' => 1,
@@ -122,7 +124,7 @@ class SearchControllerTest extends TestCase
         AflReports::factory()->create();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'report',
             'search_keyword' => 'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.',
             'isLicenseSearchApi' => 1,
@@ -141,7 +143,7 @@ class SearchControllerTest extends TestCase
         AflReports::factory()->create();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'report',
             'search_keyword' => 'AK12BJSI9OP3BDJ8',
             'isLicenseSearchApi' => 1,
@@ -161,7 +163,7 @@ class SearchControllerTest extends TestCase
         AflInstallations::factory()->create(['installation_id' => 3, 'product_id' => 15, 'license_code' => 'QWYDKO0D6NCLO5HN']);
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'installation',
             'search_keyword' => 'QWYDKO0D6NCLO5HN',
             'isLicenseSearchApi' => 1,
@@ -179,7 +181,7 @@ class SearchControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'installation',
             'search_keyword' => 'sandesh.com',
             'isLicenseSearchApi' => 1,
@@ -197,7 +199,7 @@ class SearchControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'installation',
             'search_keyword' => '106.51.140.178',
             'isLicenseSearchApi' => 1,
@@ -220,7 +222,7 @@ class SearchControllerTest extends TestCase
     //     AflInstallations::factory()->create(['installation_id' => 4, 'product_id' => $product->product_id, 'license_code' => 'ANKOSYU987NCKLO3']);
     //     AflCallbacks::factory()->create(['product_id' => $product->product_id, 'license_code' => 'ANKOSYU987NCKLO3']);
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'search_type' => 'license',
     //         'search_keyword' => 'ANKOSYU987NCKLO3',
     //         'isLicenseSearchApi' => 1,
@@ -237,7 +239,7 @@ class SearchControllerTest extends TestCase
     //     $this->withoutMiddleware();
     //     $data = [
 
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'search_type' => 'license',
     //         'search_keyword' => 'This is a license',
     //         'isLicenseSearchApi' => 1,
@@ -264,7 +266,7 @@ class SearchControllerTest extends TestCase
         AflReports::factory()->create(['product_id' => 17, 'license_code' => 'KODJKSOPIC6789EH']);
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'product',
             'search_keyword' => 'Faveo Test Product',
             'isLicenseSearchApi' => 1,
@@ -281,7 +283,7 @@ class SearchControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'product',
             'search_keyword' => 'SEARCH-PRO',
             'isLicenseSearchApi' => 1,
@@ -303,7 +305,7 @@ class SearchControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'license',
             'search_keyword' => 'This is a license that is not present',
             'isLicenseSearchApi' => 1,
@@ -323,7 +325,7 @@ class SearchControllerTest extends TestCase
         AflProducts::factory()->create(['product_id' => $callback->product_id, 'product_sku' => \Str::random(10)]);
         AfuVersions::factory()->create(['product_id' => $callback->product_id, 'version_id' => 1]);
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'callback',
             'search_keyword' => '127.0.0.1',
             'isLicenseSearchApi' => 0,
@@ -345,7 +347,7 @@ class SearchControllerTest extends TestCase
         AfuInstallations::factory()->create(['installation_id' => 1, 'product_id' => 15, 'version_id' => 11]);
         AfuVersions::factory()->create(['version_id' => 11, 'product_id' => 15]);
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'installation',
             'search_keyword' => 'Helpdesk Product 2',
             'isLicenseSearchApi' => 0,
@@ -362,7 +364,7 @@ class SearchControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'installation',
             'search_keyword' => '127.0.0.1',
             'isLicenseSearchApi' => 0,
@@ -387,7 +389,7 @@ class SearchControllerTest extends TestCase
     //     AflReports::factory()->create(['report_id' => rand(1000,9999), 'product_id' => $product->product_id]);
 
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'search_type' => 'product',
     //         'search_keyword' => 'Helpdesk Product 2',
     //         'isLicenseSearchApi' => 0,
@@ -401,7 +403,7 @@ class SearchControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'product',
             'search_keyword' => 'HSJK-SKSJ',
             'isLicenseSearchApi' => 0,
@@ -421,7 +423,7 @@ class SearchControllerTest extends TestCase
     //     AflProducts::factory()->create(['product_id'=>91,'product_sku'=>'HDJD-JCJCC','product_key'=>'dhsdsjshfhsd']);
     //     AflReports::factory()->create(['report_id'=>109,'product_id'=>91]);
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'search_type' => 'report',
     //         'search_keyword' => 'The configuration file could not be generated because of this reason: Invalid product, license verification period, license storage type, license file location or MySQL table name.',
     //         'isLicenseSearchApi' => 0,
@@ -440,7 +442,7 @@ class SearchControllerTest extends TestCase
         AfuVersions::factory()->create(['version_id' => 11, 'product_id' => 51]);
         AfuCallbacks::factory()->create(['callback_id' => 12, 'product_id' => 51, 'version_id' => 11]);
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'version',
             'search_keyword' => 'Helpdesk Product 2',
             'isLicenseSearchApi' => 0,
@@ -454,7 +456,7 @@ class SearchControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'version',
             'search_keyword' => 'SEARCH-INST',
             'isLicenseSearchApi' => 0,
@@ -467,7 +469,7 @@ class SearchControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'version',
             'search_keyword' => 'v7.1.1',
             'isLicenseSearchApi' => 0,
@@ -480,7 +482,7 @@ class SearchControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'search_type' => 'version',
             'search_keyword' => 'This is a version comment',
             'isLicenseSearchApi' => 0,

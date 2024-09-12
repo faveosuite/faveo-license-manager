@@ -6,6 +6,8 @@ use App\Models\AflProducts;
 use App\Models\AfuInstallations;
 use App\Models\AfuVersions;
 use Tests\TestCase;
+use App\Models\AflApiKeys;
+
 
 class UpdateInstallationsControllerTest extends TestCase
 {
@@ -21,7 +23,7 @@ class UpdateInstallationsControllerTest extends TestCase
         $version = AfuVersions::factory()->create(['version_id' => rand(1000,9999), 'product_id' => 6]);
         $install = AfuInstallations::factory()->create(['installation_id' => rand(1000,9999), 'version_id' => $version->version_id, 'product_id' => $product->product_id, 'installation_ip' => '109.0.0.2']);
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => $install->installation_id,
             'installation_ip' => '127.0.0.1',
             'installation_status' => 1,
@@ -37,7 +39,7 @@ class UpdateInstallationsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 6,
             'installation_ip' => '127.0.0.1',
             'installation_status' => 1,
@@ -52,7 +54,7 @@ class UpdateInstallationsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 1,
             'installation_ip' => '12sdssdds',
             'installation_status' => 1,
@@ -67,7 +69,7 @@ class UpdateInstallationsControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 1,
             'delete_record' => 1,
         ];
@@ -80,7 +82,7 @@ class UpdateInstallationsControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 1,
             'delete_record' => 1,
         ];

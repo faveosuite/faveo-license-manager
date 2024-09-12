@@ -31,7 +31,7 @@ class DatabaseSeeder extends  \Database\Seeders\DatabaseSeeder{
     public function api()
     {
         AflApiKeys::updateOrCreate([
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => str_random(),
             'api_key_ip' => '',
             'api_key_clients_add' => 1,
             'api_key_clients_edit' => 1,
@@ -121,7 +121,7 @@ class DatabaseSeeder extends  \Database\Seeders\DatabaseSeeder{
             'DATABASE_CLEANUP_VERSIONS' => '0',
             'DATABASE_CLEANUP_FILES' => '0',
             'DATABASE_CLEANUP_DATE' => '2021-08-04',
-            'NEWS_TEXT' => '[{"title":"phpmillion Scripts Receive New Features and Core Updates","full_url":"https:\/\/www.phpmillion.com\/blog\/phpmillion-scripts-receive-new-features-and-core-updates\/","date":"2019-08-19"},{"title":"Force User Input Validation with Auto PHP Licenser 2.5","full_url":"https:\/\/www.phpmillion.com\/blog\/force-user-input-validation-with-auto-php-licenser-2-5\/","date":"2019-04-18"},{"title":"Dead Man Switch 1.4 Gets Visual Emails Composer","full_url":"https:\/\/www.phpmillion.com\/blog\/dead-man-switch-1-4-gets-visual-emails-composer\/","date":"2019-01-28"}]',
+            'NEWS_TEXT' => '[{"title":"license manager Scripts Receive New Features and Core Updates","full_url":"https:\/\/www.license manager.com\/blog\/license manager-scripts-receive-new-features-and-core-updates\/","date":"2019-08-19"},{"title":"Force User Input Validation with Auto PHP Licenser 2.5","full_url":"https:\/\/www.license manager.com\/blog\/force-user-input-validation-with-auto-php-licenser-2-5\/","date":"2019-04-18"},{"title":"Dead Man Switch 1.4 Gets Visual Emails Composer","full_url":"https:\/\/www.license manager.com\/blog\/dead-man-switch-1-4-gets-visual-emails-composer\/","date":"2019-01-28"}]',
             'NEWS_DATE' => '2021-08-02',
             'ENVATO_API_TOKEN' => '',
             'DATABASE_VERSION' => config('app.version'),
@@ -132,7 +132,7 @@ class DatabaseSeeder extends  \Database\Seeders\DatabaseSeeder{
     {
        DB::table('oauth_clients')->updateOrInsert([
            'name' => 'Laravel Personal Access Client',
-            'secret' => 'YtYAWKxjvKk22NpQmrti8v7QXto3pgvG6XpPTkRi',
+            'secret' => str_random(40),
             'redirect' => 'http://localhost',
            'personal_access_client' => 1,
             'password_client' => 0,

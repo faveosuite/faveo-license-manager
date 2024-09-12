@@ -5,6 +5,8 @@ namespace Tests\Unit\Backend\Admin;
 use App\Models\AflInstallations;
 use App\Models\AflProducts;
 use Tests\TestCase;
+use App\Models\AflApiKeys;
+
 
 class InstallationControllerTest extends TestCase
 {
@@ -20,7 +22,7 @@ class InstallationControllerTest extends TestCase
         AflInstallations::factory()->create(['installation_id' => 5, 'product_id' => 6, 'license_code' => 'AKO094GD9NCK0DHJ']);
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 5,
             'installation_ip' => '127.0.0.1',
             'installation_status' => 1,
@@ -38,7 +40,7 @@ class InstallationControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 6,
             'installation_ip' => '127.0.0.1',
             'installation_status' => 1,
@@ -57,7 +59,7 @@ class InstallationControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 6,
             'delete_record' => 1,
         ];
@@ -74,7 +76,7 @@ class InstallationControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'installation_id' => 5,
             'delete_record' => 1,
         ];
