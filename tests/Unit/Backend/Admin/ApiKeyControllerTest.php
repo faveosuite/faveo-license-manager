@@ -17,7 +17,7 @@ class ApiKeyControllerTest extends TestCase
     // {
     //     $this->withoutMiddleware();
     //     AflSettings::factory()->create();
-    //     AflApiKeys::where('api_key_secret', '5hDuaXuTh9gTLfPL')->delete();
+    //     AflApiKeys::where('api_key_secret', AflApiKeys::first()->api_key_secret)->delete();
     //     $data = [
     //         'api_key_secret' => 'P5Zp2PmbOSPWOdc6',
     //         'api_key_ip' => '',
@@ -75,10 +75,10 @@ class ApiKeyControllerTest extends TestCase
     // public function test_apiKeyAdd_whenApiKeyIsAddedPermanently_shouldReturn200()
     // {
     //     $this->withoutMiddleware();
-    //     $api = AflApiKeys::where('api_key_secret', '5hDuaXuTh9gTLfPL')->get()->toArray();
+    //     $api = AflApiKeys::where('api_key_secret', AflApiKeys::first()->api_key_secret)->get()->toArray();
     //     if (empty($api)) {
     //         $data = [
-    //             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //             'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //             'api_key_ip' => '',
     //             'api_key_clients_add' => 1,
     //             'api_key_clients_edit' => 1,

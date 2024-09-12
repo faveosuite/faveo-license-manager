@@ -4,6 +4,9 @@ namespace Tests\Unit\Backend\Admin;
 
 use App\Models\AflBannedHosts;
 use Tests\TestCase;
+use App\Models\AflApiKeys;
+
+
 
 class BannedHostControllerTest extends TestCase
 {
@@ -16,7 +19,7 @@ class BannedHostControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'banned_host_ip' => '127.0.0.1',
             'banned_host_comments' => 'Testing by banning a host',
             'banned_host_blocks' => 2,
@@ -32,7 +35,7 @@ class BannedHostControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'banned_host_ip' => '127.0.0.2',
             'banned_host_comments' => 'Testing by banning a host',
@@ -48,7 +51,7 @@ class BannedHostControllerTest extends TestCase
         $this->withoutMiddleware();
         AflBannedHosts::factory()->create(['banned_host_id' => 100]);
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'banned_host_id' => 100,
             'banned_host_comments' => 'Testing by banning a host',
         ];
@@ -64,7 +67,7 @@ class BannedHostControllerTest extends TestCase
         $this->withoutMiddleware();
         $banned_id = AflBannedHosts::where('banned_host_ip', '127.0.0.1')->value('banned_host_id');
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'banned_host_id' => $banned_id,
             'banned_host_ip' => '127.0.0.2',
@@ -82,7 +85,7 @@ class BannedHostControllerTest extends TestCase
         $this->withoutMiddleware();
         $banned_id = AflBannedHosts::where('banned_host_ip', '127.0.0.2')->value('banned_host_id');
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'banned_host_id' => $banned_id,
         ];
@@ -97,7 +100,7 @@ class BannedHostControllerTest extends TestCase
     // {
     //     $this->withoutMiddleware();
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
     //         'banned_host_comments' => 'Testing by banning a host',
     //         'banned_host_blocks' => 2,

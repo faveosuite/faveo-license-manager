@@ -5,6 +5,8 @@ namespace Tests\Unit\Backend\Admin;
 use App\Models\AflLicenses;
 use App\Models\AflProducts;
 use Tests\TestCase;
+use App\Models\AflApiKeys;
+
 
 class LicenseControllerTest extends TestCase
 {
@@ -19,7 +21,7 @@ class LicenseControllerTest extends TestCase
         $product = AflProducts::factory()->create(['product_id' => rand(10000, 99999), 'product_sku' => \Str::random(6)]);
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'product_id' => $product->product_id,
             'license_code' => 'W23EDI98CJKO234M',
             'license_require_domain' => 1,
@@ -41,7 +43,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'product_id' => 13,
             'license_require_domain' => 1,
             'license_status' => 1,
@@ -63,7 +65,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
             'license_require_domain' => 1,
@@ -87,7 +89,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
             'license_require_domain' => 1,
@@ -111,7 +113,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
             'license_require_domain' => 1,
@@ -134,7 +136,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
             'license_require_domain' => 1,
@@ -158,7 +160,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
             'license_require_domain' => 1,
@@ -181,7 +183,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
             'license_require_domain' => 1,
@@ -204,7 +206,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13.1,
             'license_require_domain' => 1,
@@ -228,7 +230,7 @@ class LicenseControllerTest extends TestCase
         $license_id = AflLicenses::where('license_code', 'W23EDI98CJKO234M')->value('license_id');
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_id' => $license_id,
             'product_id' => 13,
             'license_code' => 'W23EDI98CJKO234M',
@@ -252,7 +254,7 @@ class LicenseControllerTest extends TestCase
         $this->withoutMiddleware();
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'product_id' => 13,
             'license_code' => 'W23EDI98CJKO234M',
             'license_require_domain' => 1,
@@ -278,7 +280,7 @@ class LicenseControllerTest extends TestCase
 
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'product_id' => 13,
             'license_id' => $license_id,
             'license_require_domain' => 1,
@@ -304,7 +306,7 @@ class LicenseControllerTest extends TestCase
 
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'product_id' => 13,
             'license_id' => $license_id,
             'license_require_domain' => 1,
@@ -332,7 +334,7 @@ class LicenseControllerTest extends TestCase
 
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'product_id' => 13,
             'license_id' => $license_id,
             'license_require_domain' => 1,
@@ -359,7 +361,7 @@ class LicenseControllerTest extends TestCase
 
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_id' => $license_id,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
@@ -385,7 +387,7 @@ class LicenseControllerTest extends TestCase
 
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_id' => $license_id,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
@@ -412,7 +414,7 @@ class LicenseControllerTest extends TestCase
 
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_code' => 'W23EDI98CJKO234M',
             'license_id' => $license_id,
             'product_id' => 13,
@@ -438,7 +440,7 @@ class LicenseControllerTest extends TestCase
 
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_id' => $license_id,
             'license_code' => 'W23EDI98CJKO234M',
             'product_id' => 13,
@@ -463,7 +465,7 @@ class LicenseControllerTest extends TestCase
         $license_id = AflLicenses::where('license_code', 'W23EDI98CJKO234M')->value('license_id');
         $data = [
 
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
             'license_id' => $license_id,
         ];
         $response = $this->json('POST', url('api/admin/license/delete'), $data);

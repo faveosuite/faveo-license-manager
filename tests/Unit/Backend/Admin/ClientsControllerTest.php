@@ -4,6 +4,8 @@ namespace Tests\Unit\Backend\Admin;
 
 use App\Models\AflClients;
 use Tests\TestCase;
+use App\Models\AflApiKeys;
+
 
 class ClientsControllerTest extends TestCase
 {
@@ -16,7 +18,7 @@ class ClientsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'client_fname' => 'Sandesh',
             'client_lname' => 'Menath',
@@ -35,7 +37,7 @@ class ClientsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'client_fname' => 'Sandesh',
             'client_lname' => 'Menath',
@@ -51,7 +53,7 @@ class ClientsControllerTest extends TestCase
         $this->withoutMiddleware();
         $id = AflClients::where('client_email', 'sandesh@gmail.com')->value('client_id');
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'client_id' => $id,
             'client_fname' => 'Sandesh',
@@ -71,7 +73,7 @@ class ClientsControllerTest extends TestCase
         $this->withoutMiddleware();
         $id = AflClients::where('client_email', 'sandesh123@gmail.com')->value('client_id');
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'client_id' => $id,
         ];
@@ -85,7 +87,7 @@ class ClientsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $data = [
-            'api_key_secret' => '5hDuaXuTh9gTLfPL',
+            'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'client_fname' => 'Sandesh',
             'client_lname' => 'Menath',

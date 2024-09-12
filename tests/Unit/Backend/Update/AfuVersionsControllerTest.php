@@ -6,6 +6,8 @@ use App\Models\AflProducts;
 use App\Models\AfuVersions;
 use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
+use App\Models\AflApiKeys;
+
 
 class AfuVersionsControllerTest extends TestCase
 {
@@ -20,7 +22,7 @@ class AfuVersionsControllerTest extends TestCase
     //     $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
     //     AflProducts::factory()->create(['product_id' => 81, 'product_sku' => 'SHJDK-CKJC']);
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'product_id' => 81,
     //         'version_number' => 'v7.1.1',
     //         'version_upgrade_file' => $path,
@@ -42,7 +44,7 @@ class AfuVersionsControllerTest extends TestCase
     //     $this->withoutMiddleware();
     //     $path = UploadedFile::fake()->create('download.zip', 1000, 'application/zip');
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'product_id' => 81,
     //         'version_number' => 'v7.1.1',
     //         'version_upgrade_file' => $path,
@@ -66,7 +68,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
 
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.1',
 //             'version_upgrade_file' => $path,
@@ -92,7 +94,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $ARCHIVES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
 //         $QUERIES_DIRECTORY = config('test.ARCHIVES_DIRECTORY');
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.1',
 //             'version_upgrade_file' => $path,
@@ -114,7 +116,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $this->withoutMiddleware();
 //         $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.1',
 //             'version_upgrade_file' => $path,
@@ -160,7 +162,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $this->withoutMiddleware();
 //         $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'product_id' => 8.9,
 //             'version_number' => 'v7.1.1',
 //             'version_upgrade_file' => $path,
@@ -183,7 +185,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $this->withoutMiddleware();
 //         $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'product_id' => 81,
 //             'version_upgrade_file' => $path,
 //             'version_install_limit' => 10,
@@ -206,7 +208,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 81,
 //             'product_title' => 'Faveo Helpdesk',
@@ -231,7 +233,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $path = UploadedFile::fake()->create('download.zip', 1000, 'application/zip');
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.2',
@@ -257,7 +259,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.2',
@@ -283,7 +285,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.2',
@@ -309,7 +311,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.2',
@@ -334,7 +336,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 81,
 //             'version_number' => 'v7.1.2',
@@ -385,7 +387,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 8.1,
 //             'version_number' => 'v7.1.2',
@@ -409,7 +411,7 @@ class AfuVersionsControllerTest extends TestCase
 //         $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
 //         $version_id = AfuVersions::where('product_id', 81)->value('version_id');
 //         $data = [
-//             'api_key_secret' => '5hDuaXuTh9gTLfPL',
+//             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 //             'version_id' => $version_id,
 //             'product_id' => 81,
 //             'version_upgrade_file' => $path,
@@ -434,7 +436,7 @@ class AfuVersionsControllerTest extends TestCase
     //     $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
     //     $version_id = AfuVersions::where('product_id', 81)->value('version_id');
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'version_id' => $version_id,
     //     ];
     //     $response = $this->json('POST', url('api/admin/versions/delete'), $data);
@@ -449,7 +451,7 @@ class AfuVersionsControllerTest extends TestCase
     //     $this->withoutMiddleware();
     //     $path = storage_path('app'.DIRECTORY_SEPARATOR.'public'.DIRECTORY_SEPARATOR.'test.zip');
     //     $data = [
-    //         'api_key_secret' => '5hDuaXuTh9gTLfPL',
+    //         'api_key_secret' => AflApiKeys::first()->api_key_secret,
     //         'version_id' => 8.2,
     //     ];
     //     $response = $this->json('POST', url('api/admin/versions/delete'), $data);
