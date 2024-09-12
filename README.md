@@ -54,7 +54,7 @@ Check-mark versions are supported with security patches.
 |----------|----------------------|  
 | 3.0.2   | :white_check_mark:   |  
 | 3.0.1   | :x:                  |  
-| < 3.0.0 | :x:                  |  
+| < 3.0.0 | :x:                  |
 
 ## Supported Updates
 
