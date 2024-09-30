@@ -14,7 +14,7 @@ Requirements
 --------------------------
 To run Agora License Manager your host just needs a couple of things:
 
-* PHP Version: 8.1+
+* PHP Version: 8.2+
 * Laravek Framework: 9.0+
 * Database: MySQL 8.0.x or Postgres or SQLite or SQL Server
 * Web Server: Apache / IIS / Nginx
@@ -51,11 +51,11 @@ You can still report the issues on our [Github Issue page](https://github.com/la
 
 Check mark versions are supported with security patches.
 
-| Version | Supported          |
-| ------- | ------------------ |
-| 3.0.0   | :white_check_mark: |
-| 2.1.1   | :x: |
-| < 2.1   | :x: |
+| Version  | Supported            |  
+|----------|----------------------|  
+| 3.0.2   | :white_check_mark:   |  
+| 3.0.1   | :x:                  |  
+| < 3.0.0 | :x:                  |  
 
 ## Supported Updates
 
