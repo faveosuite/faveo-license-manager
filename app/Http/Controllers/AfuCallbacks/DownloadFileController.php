@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\AfuCallbacks;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Update\DirectoryController;
 use App\Models\AfuProducts;
 use App\Models\AfuVersions;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -42,13 +44,17 @@ class DownloadFileController extends Controller
         $user_local_path = $request->get('user_local_path');
         $script_signature = $request->get('script_signature');
         $file_type = $request->get('file_type');
-        foreach ($rows_array = DB::table('directory')->where('id', 1)->get()->toArray() as $row) {
-            extract((array) $row);
+
+        $row = DB::table('directory')->first();
+        if ($row) {
+            $ARCHIVES_DIRECTORY = $row->ARCHIVES_DIRECTORY ?? null;
+            $QUERIES_DIRECTORY = $row->QUERIES_DIRECTORY ?? null;
+
+            // Define constants
+            define('SCRIPT_ROOT_DIRECTORY', __DIR__);
+            define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
+            define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
         }
-        $path = storage_path();
-        define('SCRIPT_ROOT_DIRECTORY', __DIR__);
-        define('ARCHIVES_DIRECTORY', $ARCHIVES_DIRECTORY);
-        define('QUERIES_DIRECTORY', $QUERIES_DIRECTORY);
         //check basic data
 
         if (filter_var($this->ip_address, FILTER_VALIDATE_IP) && aflValidateIntegerValue($product_id) && ! empty($product_key) && ! empty($user_local_path) && ! empty($script_signature)) {
@@ -123,7 +129,7 @@ class DownloadFileController extends Controller
                             $file_to_download_path = ARCHIVES_DIRECTORY;
                             $file_to_download_name = $version_install_file;
 
-                            if (! is_file("$file_to_download_path/$file_to_download_name")) { //file doesn't exist
+                            if (!$this->fileExists($file_to_download_path,$file_to_download_name)) { //file doesn't exist
                                 $error_detected = 1;
                                 $error_details = setValue($error_details, "installation archive $file_to_download_name not found");
                                 $notification_case = setValue($notification_case, 'notification_install_archive_not_found');
@@ -145,7 +151,7 @@ class DownloadFileController extends Controller
                             $file_to_download_path = QUERIES_DIRECTORY;
                             $file_to_download_name = $version_install_query;
 
-                            if (! is_file("$file_to_download_path/$file_to_download_name")) { //file doesn't exist
+                            if (!$this->fileExists($file_to_download_path,$file_to_download_name)) { //file doesn't exist
                                 $error_detected = 1;
                                 $error_details = setValue($error_details, "installation query $file_to_download_name not found");
                                 $notification_case = setValue($notification_case, 'notification_install_query_not_found');
@@ -158,7 +164,7 @@ class DownloadFileController extends Controller
                         if ($file_type == 'version_upgrade_file') {
                             $file_to_download_path = ARCHIVES_DIRECTORY;
                             $file_to_download_name = $version_upgrade_file;
-                            if (! is_file("$file_to_download_path".DIRECTORY_SEPARATOR."$file_to_download_name")) { //file doesn't exist
+                            if (!$this->fileExists($file_to_download_path,$file_to_download_name)) { //file doesn't exist
                                 $error_detected = 1;
                                 $error_details = setValue($error_details, "upgrade archive $file_to_download_name not found");
                                 $notification_case = setValue($notification_case, 'notification_upgrade_archive_not_found');
@@ -180,7 +186,7 @@ class DownloadFileController extends Controller
                             $file_to_download_path = QUERIES_DIRECTORY;
                             $file_to_download_name = $version_upgrade_query;
 
-                            if (! is_file("$file_to_download_path/$file_to_download_name")) { //file doesn't exist
+                            if (!$this->fileExists($file_to_download_path,$file_to_download_name)) { //file doesn't exist
                                 $error_detected = 1;
                                 $error_details = setValue($error_details, "upgrade query $file_to_download_name not found");
                                 $notification_case = setValue($notification_case, 'notification_upgrade_query_not_found');
@@ -226,17 +232,20 @@ class DownloadFileController extends Controller
             }
             createProductCallback($SMART_REPORTS, $product_id, $version_id, $this->ip_address, $user_local_path, $callback_type, $action_success, $version_install_count, $version_upgrade_count);
             returnUpdateServerNotification($ROOT_URL, $notification_case, $product_id, $product_title, $product_key, $product_short_description, $product_full_description, $product_url_homepage, $product_url_order, $version_number, $version_expire_date, $version_install_limit, $version_upgrade_limit, $this->ip_address, $notification_data);
-
             if ($action_success == 1) { //only output body content after returnServerNotification returned header with server signature. otherwise, "headers already sent" error will be displayed
-                $filename_to_download = "$file_to_download_path/$file_to_download_name";
+                $response = $this->generateDownloadFile($file_to_download_path, $file_to_download_name);
                 $filename_formatted = slugifyText("$product_title-$version_number-$file_to_download_suffix").'.'.pathinfo($file_to_download_name, PATHINFO_EXTENSION); //format name of downloaded file like product-title-version-number-$file_to_download_suffix.extension
-                header('Content-Description: File Transfer');
-                header('Content-Type: application/octet-stream');
-                header("Content-Disposition: attachment; filename=$filename_formatted");
-                header('Expires: 0');
-                header('Cache-Control: must-revalidate');
-                header('Content-Length: '.filesize($filename_to_download));
-                readfile($filename_to_download);
+                if ($response instanceof \Illuminate\Http\Response) {
+                    $fileContent = $response->getContent();
+                    $fileSize = strlen($fileContent);
+                    header('Content-Description: File Transfer');
+                    header('Content-Type: application/octet-stream');
+                    header("Content-Disposition: attachment; filename=$filename_formatted");
+                    header('Expires: 0');
+                    header('Cache-Control: must-revalidate');
+                    header('Content-Length: ' . $fileSize);
+                    return $fileContent;
+                }
             }
         } else { //possible cracking attempt, set variables required for reports function to null and generate cracking report
             $product_id = 0;
@@ -326,4 +335,90 @@ class DownloadFileController extends Controller
             }
         }
     }
+
+    /**
+     * Checks if a file exists in the specified storage.
+     *
+     * Determines whether the file exists either in S3 storage or local storage paths.
+     * For S3, it checks using the configured S3 disk. For local storage, it checks
+     * in the directory paths retrieved from the database.
+     *
+     * @param string $file_to_download_path The storage type (ARCHIVES_DIRECTORY or QUERIES_DIRECTORY).
+     * @param string $filename The name of the file to check.
+     * @return bool True if the file exists, otherwise false.
+     */
+    protected function fileExists($file_to_download_path, $filename)
+    {
+        $dirClass = new DirectoryController();
+
+        // Check if the storage is S3 and configure it if needed
+        if ($dirClass->isS3Storage()) {
+            $disk = $dirClass->configureS3();
+            // Check existence on S3 storage
+            return $disk->exists('products/' . $filename);
+        }
+
+        // Retrieve local paths from the database
+        $path = match ($file_to_download_path) {
+            ARCHIVES_DIRECTORY => DB::table('directory')->value('ARCHIVES_DIRECTORY'),
+            QUERIES_DIRECTORY => DB::table('directory')->value('QUERIES_DIRECTORY'),
+            default => null,
+        };
+
+        return $path && is_file($path . '/' . $filename);
+    }
+
+    /**
+     * Generates and returns a downloadable file response.
+     *
+     * Checks if the file exists in the specified storage (S3 or local). If found,
+     * it prepares and returns the file as a downloadable response. For S3, it uses
+     * a temporary URL to fetch the file. For local storage, it directly reads the file.
+     *
+     * @param string $file_to_download_path The storage type (ARCHIVES_DIRECTORY or QUERIES_DIRECTORY).
+     * @param string $filename The name of the file to download.
+     * @return \Illuminate\Http\Response|null A response containing the file for download, or null if the file doesn't exist.
+     */
+    protected function generateDownloadFile($file_to_download_path, $filename)
+    {
+        $dirClass = new DirectoryController();
+
+        // Handle S3 storage case
+        if ($dirClass->isS3Storage()) {
+            $disk = $dirClass->configureS3();
+            // Check if the file exists in S3
+            if ($disk->exists('products/' . $filename)) {
+                $fileUrl = $disk->temporaryUrl('products/' . $filename, now()->addHour());
+
+                $client = new Client();
+                $response = $client->get($fileUrl);
+
+                if ($response->getStatusCode() == 200) {
+                    return response($response->getBody()->getContents(), 200)
+                        ->header('Content-Type', $response->getHeader('Content-Type')[0])
+                        ->header('Content-Disposition', 'attachment; filename="' . basename($fileUrl) . '"');
+                }
+            }
+        } else {
+            // Fallback to local storage paths
+            $path = match ($file_to_download_path) {
+                ARCHIVES_DIRECTORY => DB::table('directory')->value('ARCHIVES_DIRECTORY'),
+                QUERIES_DIRECTORY => DB::table('directory')->value('QUERIES_DIRECTORY'),
+                default => null,
+            };
+
+            if ($path) {
+                $localFilePath = $path . '/' . $filename;
+
+                if (is_file($localFilePath)) {
+                    return response(file_get_contents($localFilePath), 200)
+                        ->header('Content-Type', 'application/octet-stream')
+                        ->header('Content-Disposition', 'attachment; filename="' . $filename . '"');
+                }
+            }
+        }
+
+        return null;
+    }
+
 }
