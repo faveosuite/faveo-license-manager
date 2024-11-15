@@ -742,5 +742,8 @@ return [
     //reset password
     'reset-token-expired-or-not-found' => 'Your reset password link has been expired or not found. Please try reset password again.',
 
+    'product_config_success' => 'The product configuration has been successfully saved.',
+    'directory_show' => 'All the directories config are displayed here',
+
 ];
 

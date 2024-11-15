@@ -279,6 +279,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     //TO SET PATH FOR ARCHIVES_DIRECTORY AND QUERSIES_DIRECTORY
 
     Route::post('/setPath', [DirectoryController::class, 'setDirectory']);
+    Route::get('/getDirectoryPath', [DirectoryController::class, 'getDirectory']);
 
     //NOTIFICATION HEADER RESPONSES FOR CALLBACKS APIs UPDATE MANAGER
     Route::post('/updateNotifications/{notification_id}', [UpdateNotificationsController::class, 'updateNotificationFields']);
