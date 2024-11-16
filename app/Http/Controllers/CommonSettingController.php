@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Facades\ImageUpload;
+use App\Http\Controllers\Update\DirectoryController;
 use App\Http\Requests\CommonSettingRequest;
 use App\Models\CommonSetting;
 use App\Models\DateFormat;
@@ -21,6 +22,10 @@ class CommonSettingController extends Controller
     }
 
     public function createOrUpdateCommonSetting(CommonSettingRequest $request){
+        $response = (new DirectoryController())->setDirectory($request);
+        if($response->getStatusCode() !== 200){
+            return $response;
+        }
         // Get status from request or default to 1
         $status = $request->input('recaptcha_status', 1);
 
@@ -100,6 +105,10 @@ class CommonSettingController extends Controller
             $googleSecretKeyStatus = CommonSetting::where('key', 'google_secret_key')->pluck('status')->first();
             $recaptchaStatus = ($googleSiteKeyStatus === '1' && $googleSecretKeyStatus === '1') ? 1 : 0;
             $settingsArray['recaptcha_status'] = $recaptchaStatus;
+
+            $storageSettings = (new DirectoryController())->getDirectory();
+
+            $settingsArray['storage'] = json_decode($storageSettings->getContent())->data;
 
             return successResponse('',$settingsArray);
 
