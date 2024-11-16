@@ -38,7 +38,7 @@
                 </div>
 
                 <div>
-                    <br>
+                    <hr>
                     <div v-if="!verified" class="row">
 
                         <div class="col-sm-6">
@@ -69,8 +69,6 @@
                     </dynamic-select>
                 </div>
 
-                <hr>
-
                 <div class="row">
 
                     <dynamic-select name="date_format" apiEndpoint="api/admin/date-formats" :multiple="false" label="Date Format Settings" :onChange="onChange"
@@ -83,6 +81,8 @@
 
                     </dynamic-select>
                 </div>
+
+                <hr>
 
                 <div class="card card-light" v-if="hasDataPopulated">
 
@@ -131,6 +131,62 @@
                     </div>
 
                 </div>
+
+                <hr>
+
+                <div class="card card-light" v-if="hasDataPopulated">
+
+                    <div class="card-header">
+
+                        <h3 class="card-title">{{lang('set_file_storage_path')}}</h3>
+
+<!--                        <tool-tip :message="lang('logo_icon_config')" size="medium"></tool-tip>-->
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <text-field :label="trans('storage_disk')" :value="storage_disk"
+                                        :onChange="onChange" name="storage_disk" type="text" :required="true" classname="col-sm-6">
+
+                            </text-field>
+
+                            <text-field :label="trans('s3_bucket')" :value="s3_bucket"
+                                        :onChange="onChange" :required="true" name="s3_bucket" type="text" classname="col-sm-6">
+
+                            </text-field>
+                        </div>
+
+                        <div class="row">
+
+                            <text-field :label="trans('s3_region')" :value="s3_region" :onChange="onChange" name="s3_region"
+                                        type="text" :required="true" classname="col-sm-6">
+
+                            </text-field>
+
+                            <text-field :label="trans('s3_access_key')" :value="s3_access_key" :onChange="onChange" :required="true"
+                                        name="s3_access_key" type="password" classname="col-sm-6">
+
+                            </text-field>
+                        </div>
+
+                        <div class="row">
+
+                            <text-field :label="trans('s3_secret_key')" :value="s3_secret_key" :onChange="onChange"
+                                        name="s3_secret_key" type="password" :required="true" classname="col-sm-6">
+
+                            </text-field>
+
+                            <text-field :label="trans('s3_endpoint_url')" :value="s3_endpoint_url"
+                                        :onChange="onChange" :required="true" name="s3_endpoint_url" type="text" classname="col-sm-6">
+
+                            </text-field>
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
 
             <div class="card-footer">
@@ -224,7 +280,19 @@ export default {
 
             selectedAdminLogo: '',
 
-            selectedClientLogo: ''
+            selectedClientLogo: '',
+
+            storage_disk: '',
+
+            s3_bucket: '',
+
+            s3_region: '',
+
+            s3_access_key: '',
+
+            s3_secret_key: '',
+
+            s3_endpoint_url: ''
 
         }
     },
@@ -346,6 +414,18 @@ export default {
                 fd.append('admin_logo_default', this.defaultLogo);
 
                 fd.append('client_logo_default', this.useLogo);
+
+                fd.append('storage_disk', this.storage_disk);
+
+                fd.append('s3_bucket', this.s3_bucket);
+
+                fd.append('s3_region', this.s3_region);
+
+                fd.append('s3_access_key', this.s3_access_key);
+
+                fd.append('s3_secret_key', this.s3_secret_key);
+
+                fd.append('s3_endpoint_url', this.s3_endpoint_url);
 
                 if(this.selectedIcon){
                     fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
