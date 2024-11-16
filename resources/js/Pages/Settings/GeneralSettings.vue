@@ -88,6 +88,71 @@
 
                     <div class="card-header">
 
+                        <h3 class="card-title">{{lang('agora_storage_path')}}</h3>
+
+                        <!--                        <tool-tip :message="lang('logo_icon_config')" size="medium"></tool-tip>-->
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="row">
+
+                            <dynamic-select :label="lang('disk')" :multiple="false" classname="col-sm-6"
+                                            :strlength="35" :required="true" name="disk" :elements="storageDiskElements"
+                                            :value="disk" :onChange="onChange">
+                            </dynamic-select>
+
+                            <text-field :label="trans('s3_bucket')" v-if="disk.value === 'S3'" :value="s3_bucket"
+                                        :onChange="onChange" :required="true" name="s3_bucket" type="text" classname="col-sm-6">
+
+                            </text-field>
+
+                            <text-field :label="trans('archives_path')" v-if="disk.value === 'System'" :value="archives_path"
+                                        :onChange="onChange" :required="true" name="archives_path" type="text" classname="col-sm-6">
+
+                            </text-field>
+                        </div>
+
+                        <div class="row">
+
+                            <text-field :label="trans('query_path')" v-if="disk.value === 'System'" :value="query_path"
+                                        :onChange="onChange" :required="true" name="query_path" type="text" classname="col-sm-6">
+
+                            </text-field>
+
+                            <text-field :label="trans('s3_region')" v-if="disk.value === 'S3'" :value="s3_region" :onChange="onChange" name="s3_region"
+                                        type="text" :required="true" classname="col-sm-6">
+
+                            </text-field>
+
+                            <text-field :label="trans('s3_access_key')" v-if="disk.value === 'S3'" :value="s3_access_key" :onChange="onChange" :required="true"
+                                        name="s3_access_key" type="password" classname="col-sm-6">
+
+                            </text-field>
+                        </div>
+
+                        <div class="row">
+
+                            <text-field :label="trans('s3_secret_key')" v-if="disk.value === 'S3'" :value="s3_secret_key" :onChange="onChange"
+                                        name="s3_secret_key" type="password" :required="true" classname="col-sm-6">
+
+                            </text-field>
+
+                            <text-field :label="trans('s3_endpoint_url')" v-if="disk.value === 'S3'" :value="s3_endpoint_url"
+                                        :onChange="onChange" :required="true" name="s3_endpoint_url" type="text" classname="col-sm-6">
+
+                            </text-field>
+                        </div>
+                    </div>
+
+                </div>
+
+                <hr>
+
+                <div class="card card-light" v-if="hasDataPopulated">
+
+                    <div class="card-header">
+
                         <h3 class="card-title">{{lang('logo_and_favicon')}}</h3>
 
                         <tool-tip :message="lang('logo_icon_config')" size="medium"></tool-tip>
@@ -132,61 +197,6 @@
 
                 </div>
 
-                <hr>
-
-                <div class="card card-light" v-if="hasDataPopulated">
-
-                    <div class="card-header">
-
-                        <h3 class="card-title">{{lang('set_file_storage_path')}}</h3>
-
-<!--                        <tool-tip :message="lang('logo_icon_config')" size="medium"></tool-tip>-->
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            <text-field :label="trans('storage_disk')" :value="storage_disk"
-                                        :onChange="onChange" name="storage_disk" type="text" :required="true" classname="col-sm-6">
-
-                            </text-field>
-
-                            <text-field :label="trans('s3_bucket')" :value="s3_bucket"
-                                        :onChange="onChange" :required="true" name="s3_bucket" type="text" classname="col-sm-6">
-
-                            </text-field>
-                        </div>
-
-                        <div class="row">
-
-                            <text-field :label="trans('s3_region')" :value="s3_region" :onChange="onChange" name="s3_region"
-                                        type="text" :required="true" classname="col-sm-6">
-
-                            </text-field>
-
-                            <text-field :label="trans('s3_access_key')" :value="s3_access_key" :onChange="onChange" :required="true"
-                                        name="s3_access_key" type="password" classname="col-sm-6">
-
-                            </text-field>
-                        </div>
-
-                        <div class="row">
-
-                            <text-field :label="trans('s3_secret_key')" :value="s3_secret_key" :onChange="onChange"
-                                        name="s3_secret_key" type="password" :required="true" classname="col-sm-6">
-
-                            </text-field>
-
-                            <text-field :label="trans('s3_endpoint_url')" :value="s3_endpoint_url"
-                                        :onChange="onChange" :required="true" name="s3_endpoint_url" type="text" classname="col-sm-6">
-
-                            </text-field>
-                        </div>
-                    </div>
-
-                </div>
-
             </div>
 
             <div class="card-footer">
@@ -203,6 +213,8 @@
 import axios from 'axios'
 
 import DatatableDynamicSelect from "../../components/Reusable/FormField/DatatableDynamicSelect.vue";
+
+import DynamicSelect from "../../components/Reusable/FormField/DynamicSelect.vue";
 
 import { successHandler, errorHandler } from '../../helpers/responseHandler';
 
@@ -235,6 +247,11 @@ export default {
             btnName: 'save',
 
             logoStyle : { visibility : 'hidden' },
+
+            storageDiskElements: [
+                { name: 'S3', value: 'S3' },
+                { name: 'System', value: 'System' }
+            ],
 
             verified: true,
 
@@ -282,7 +299,7 @@ export default {
 
             selectedClientLogo: '',
 
-            storage_disk: '',
+            disk: {"name": "S3", "value": "S3"},
 
             s3_bucket: '',
 
@@ -292,7 +309,11 @@ export default {
 
             s3_secret_key: '',
 
-            s3_endpoint_url: ''
+            s3_endpoint_url: '',
+
+            archives_path: '',
+
+            query_path: ''
 
         }
     },
@@ -415,7 +436,7 @@ export default {
 
                 fd.append('client_logo_default', this.useLogo);
 
-                fd.append('storage_disk', this.storage_disk);
+                fd.append('disk', this.disk.value);
 
                 fd.append('s3_bucket', this.s3_bucket);
 
@@ -490,7 +511,9 @@ export default {
 
         "image-upload": ImageUpload,
 
-        "radio-option": RadioButton
+        "radio-option": RadioButton,
+
+        "static-select": DynamicSelect
 
     }
 }
