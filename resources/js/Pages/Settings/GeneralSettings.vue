@@ -97,17 +97,17 @@
 
                         <div class="row">
 
-                            <dynamic-select :label="lang('disk')" :multiple="false" classname="col-sm-6"
-                                            :strlength="35" :required="true" name="disk" :elements="storageDiskElements"
-                                            :value="disk" :onChange="onChange">
+                            <dynamic-select :label="lang('storage_disk')" :multiple="false" classname="col-sm-6"
+                                            :strlength="35" :required="true" name="storage_disk" :elements="storageDiskElements"
+                                            :value="lang(storage_disk)" :onChange="onChange">
                             </dynamic-select>
 
-                            <text-field :label="trans('s3_bucket')" v-if="disk.value === 'S3'" :value="s3_bucket"
+                            <text-field :label="trans('s3_bucket')" v-if="storage_disk === 's3'" :value="s3_bucket"
                                         :onChange="onChange" :required="true" name="s3_bucket" type="text" classname="col-sm-6">
 
                             </text-field>
 
-                            <text-field :label="trans('archives_path')" v-if="disk.value === 'System'" :value="archives_path"
+                            <text-field :label="trans('archives_path')" v-if="storage_disk === 'system'" :value="archives_path"
                                         :onChange="onChange" :required="true" name="archives_path" type="text" classname="col-sm-6">
 
                             </text-field>
@@ -115,17 +115,17 @@
 
                         <div class="row">
 
-                            <text-field :label="trans('query_path')" v-if="disk.value === 'System'" :value="query_path"
+                            <text-field :label="trans('query_path')" v-if="storage_disk === 'system'" :value="query_path"
                                         :onChange="onChange" :required="true" name="query_path" type="text" classname="col-sm-6">
 
                             </text-field>
 
-                            <text-field :label="trans('s3_region')" v-if="disk.value === 'S3'" :value="s3_region" :onChange="onChange" name="s3_region"
+                            <text-field :label="trans('s3_region')" v-if="storage_disk === 's3'" :value="s3_region" :onChange="onChange" name="s3_region"
                                         type="text" :required="true" classname="col-sm-6">
 
                             </text-field>
 
-                            <text-field :label="trans('s3_access_key')" v-if="disk.value === 'S3'" :value="s3_access_key" :onChange="onChange" :required="true"
+                            <text-field :label="trans('s3_access_key')" v-if="storage_disk === 's3'" :value="s3_access_key" :onChange="onChange" :required="true"
                                         name="s3_access_key" type="password" classname="col-sm-6">
 
                             </text-field>
@@ -133,12 +133,12 @@
 
                         <div class="row">
 
-                            <text-field :label="trans('s3_secret_key')" v-if="disk.value === 'S3'" :value="s3_secret_key" :onChange="onChange"
+                            <text-field :label="trans('s3_secret_key')" v-if="storage_disk === 's3'" :value="s3_secret_key" :onChange="onChange"
                                         name="s3_secret_key" type="password" :required="true" classname="col-sm-6">
 
                             </text-field>
 
-                            <text-field :label="trans('s3_endpoint_url')" v-if="disk.value === 'S3'" :value="s3_endpoint_url"
+                            <text-field :label="trans('s3_endpoint_url')" v-if="storage_disk === 's3'" :value="s3_endpoint_url"
                                         :onChange="onChange" :required="true" name="s3_endpoint_url" type="text" classname="col-sm-6">
 
                             </text-field>
@@ -238,6 +238,11 @@ export default {
 
     data() {
 
+        const storageDiskOptions = [
+            { name: 'S3', value: 's3' },
+            { name: 'System', value: 'system' }
+        ];
+
         return {
 
             iconClass: 'fas fa-save',
@@ -247,11 +252,6 @@ export default {
             btnName: 'save',
 
             logoStyle : { visibility : 'hidden' },
-
-            storageDiskElements: [
-                { name: 'S3', value: 'S3' },
-                { name: 'System', value: 'System' }
-            ],
 
             verified: true,
 
@@ -299,7 +299,9 @@ export default {
 
             selectedClientLogo: '',
 
-            disk: {"name": "S3", "value": "S3"},
+            storageDiskElements: storageDiskOptions,
+
+            storage_disk: '',
 
             s3_bucket: '',
 
@@ -401,6 +403,10 @@ export default {
                     default:
                         this[name] = value;
                 }
+
+                if(name === 'storage_disk') {
+                    this.storage_disk = value ? value.value : '';
+                }
         },
 
         onSubmit() {
@@ -436,7 +442,7 @@ export default {
 
                 fd.append('client_logo_default', this.useLogo);
 
-                fd.append('disk', this.disk.value);
+                fd.append('disk', this.storage_disk);
 
                 fd.append('s3_bucket', this.s3_bucket);
 
@@ -447,6 +453,10 @@ export default {
                 fd.append('s3_secret_key', this.s3_secret_key);
 
                 fd.append('s3_endpoint_url', this.s3_endpoint_url);
+
+                fd.append('archives_path', this.archives_path);
+
+                fd.append('query_path', this.query_path);
 
                 if(this.selectedIcon){
                     fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
@@ -498,6 +508,34 @@ export default {
                     self[key] = data[key];
                 }
             });
+
+            if ('disk' in data.storage) {
+                this.storage_disk = data.storage.disk ? data.storage.disk : 'system'
+            }
+            if ('ARCHIVES_DIRECTORY' in data.storage) {
+                this.archives_path = data.storage.ARCHIVES_DIRECTORY
+            }
+            if ('QUERIES_DIRECTORY' in data.storage) {
+                this.query_path = data.storage.QUERIES_DIRECTORY
+            }
+            if ('QUERIES_DIRECTORY' in data.storage) {
+                this.query_path = data.storage.QUERIES_DIRECTORY
+            }
+            if ('s3_bucket' in data.storage) {
+                this.s3_bucket = data.storage.s3_bucket
+            }
+            if ('s3_region' in data.storage) {
+                this.s3_region = data.storage.s3_region
+            }
+            if ('s3_access_key' in data.storage) {
+                this.s3_access_key = data.storage.s3_access_key
+            }
+            if ('s3_secret_key' in data.storage) {
+                this.s3_secret_key = data.storage.s3_secret_key
+            }
+            if ('s3_endpoint_url' in data.storage) {
+                this.s3_endpoint_url = data.storage.s3_endpoint_url
+            }
         },
     },
 
