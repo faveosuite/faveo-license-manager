@@ -745,6 +745,8 @@ return [
     'product_config_success' => 'The product configuration has been successfully saved.',
     'directory_show' => 'All the directories config are displayed here',
 
+    's3' => 'S3',
+    'system' => 'System',
     'agora_storage_path' => 'Agora Storage Path',
     'storage_disk' => 'Storage Disk',
     's3_bucket' => 'S3 Bucket',
