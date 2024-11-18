@@ -101,7 +101,14 @@ class DirectoryController extends Controller
     public function getDirectory()
     {
         $directory = DB::table('directory')->first();
-        return successResponse(Lang::get('lang.directory_show'),$directory);
+
+        if ($directory) {
+            $directory = collect($directory)->map(function ($value) {
+                return $value === null ? '' : $value;
+            })->toArray();
+        }
+
+        return successResponse(Lang::get('lang.directory_show'), $directory);
     }
 
     /**
