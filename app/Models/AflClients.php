@@ -39,6 +39,7 @@ class AflClients extends Model
         'client_address',
         'client_organization',
         'client_status',
+        'client_password',
     ];
 
     protected $primaryKey = 'client_id';

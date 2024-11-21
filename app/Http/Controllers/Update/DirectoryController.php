@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Update;
 
 use App\Http\Controllers\Controller;
+use Aws\Exception\AwsException;
+use Aws\S3\S3Client;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -17,7 +20,7 @@ class DirectoryController extends Controller
      * Updates the database with the provided path or S3 credentials.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function setDirectory(Request $request)
     {
@@ -32,7 +35,7 @@ class DirectoryController extends Controller
             's3_endpoint_url' => 'nullable|string',
         ]);
 
-        match ($validated['disk']) {
+       $response = match ($validated['disk']) {
             's3' => $this->setS3path(
                 $validated['s3_bucket'],
                 $validated['s3_region'],
@@ -45,6 +48,10 @@ class DirectoryController extends Controller
                 $validated['query_path']
             )
         };
+
+       if($response->getStatusCode() !== 200) {
+           return $response;
+       }
 
         return successResponse(Lang::get('lang.product_config_success'));
     }
@@ -59,10 +66,15 @@ class DirectoryController extends Controller
      * @param string $s3AccessKey
      * @param string $s3SecretKey
      * @param string|null $s3EndpointUrl
-     * @return void
+     * @return JsonResponse
      */
     protected function setS3path($s3Bucket, $s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl)
     {
+        $response = $this->validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket);
+
+        if(!$response) {
+            return errorResponse(Lang::get('lang.s3_error'));
+        }
         DB::table('directory')->where('id', DB::table('directory')->min('id'))->update([
             'disk' => 's3',
             's3_bucket' => $s3Bucket,
@@ -71,6 +83,8 @@ class DirectoryController extends Controller
             's3_secret_key' => $s3SecretKey,
             's3_endpoint_url' => $s3EndpointUrl,
         ]);
+
+        return successResponse();
     }
 
     /**
@@ -80,7 +94,7 @@ class DirectoryController extends Controller
      *
      * @param string $archives
      * @param string $queries
-     * @return void
+     * @return JsonResponse
      */
     protected function setDirectoryPath($archives, $queries)
     {
@@ -89,6 +103,8 @@ class DirectoryController extends Controller
             'ARCHIVES_DIRECTORY' => $archives,
             'QUERIES_DIRECTORY' => $queries,
         ]);
+
+        return successResponse();
     }
 
     /**
@@ -96,7 +112,7 @@ class DirectoryController extends Controller
      *
      * Returns the current directory configuration from the database.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function getDirectory()
     {
@@ -145,5 +161,24 @@ class DirectoryController extends Controller
     {
         $config = DB::table('directory')->first();
         return $config->disk === 's3';
+    }
+
+    private function validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket)
+    {
+        try {
+            $s3Client = new S3Client([
+                'region' => $s3Region,
+                'version' => 'latest',
+                'credentials' => [
+                    'key' => $s3AccessKey,
+                    'secret' => $s3SecretKey,
+                ],
+                'endpoint' => $s3EndpointUrl,
+            ]);
+
+            return $s3Client->doesBucketExist($s3Bucket);
+        } catch (AwsException $e) {
+            return errorResponse($e->getMessage());
+        }
     }
 }

@@ -755,7 +755,8 @@ return [
     's3_secret_key' => 'S3 Secret Key',
     's3_endpoint_url' => 'S3 Endpoint URL',
     'archives_path' => 'Archive Path',
-    'query_path' => 'Query Path'
+    'query_path' => 'Query Path',
 
+    's3_error' => 'Invalid S3 details were provided.',
 ];
 
