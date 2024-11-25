@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('s3_access_key')->nullable();
             $table->string('s3_secret_key')->nullable();
             $table->string('s3_endpoint_url')->nullable();
+            $table->string('s3_url')->nullable();
+            $table->string('s3_path_style_endpoint')->nullable();
         });
     }
 
@@ -34,6 +36,8 @@ return new class extends Migration
                 's3_access_key',
                 's3_secret_key',
                 's3_endpoint_url',
+                's3_url',
+                's3_path_style_endpoint'
             ]);
         });
     }

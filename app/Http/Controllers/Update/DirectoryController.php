@@ -32,6 +32,8 @@ class DirectoryController extends Controller
             's3_region' => 'required_if:disk,s3|string',
             's3_access_key' => 'required_if:disk,s3|string',
             's3_secret_key' => 'required_if:disk,s3|string',
+            's3_path_style_endpoint' => 'required_if:disk,s3|string',
+            's3_url' => 'nullable|string',
             's3_endpoint_url' => 'nullable|string',
         ]);
 
@@ -41,7 +43,9 @@ class DirectoryController extends Controller
                 $validated['s3_region'],
                 $validated['s3_access_key'],
                 $validated['s3_secret_key'],
-                $validated['s3_endpoint_url'] ?? null
+                $validated['s3_endpoint_url'] ?? null,
+                $validated['s3_url'] ?? null,
+                $validated['s3_path_style_endpoint'] ?? 'false'
             ),
             'system' => $this->setDirectoryPath(
                 $validated['archives_path'],
@@ -68,9 +72,9 @@ class DirectoryController extends Controller
      * @param string|null $s3EndpointUrl
      * @return JsonResponse
      */
-    protected function setS3path($s3Bucket, $s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl)
+    protected function setS3path($s3Bucket, $s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Url, $s3PathStyleEndpoint)
     {
-        $response = $this->validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket);
+        $response = $this->validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket, $s3Url);
 
         if(!$response) {
             return errorResponse(Lang::get('lang.s3_error'));
@@ -82,6 +86,8 @@ class DirectoryController extends Controller
             's3_access_key' => $s3AccessKey,
             's3_secret_key' => $s3SecretKey,
             's3_endpoint_url' => $s3EndpointUrl,
+            's3_url' => $s3Url,
+            's3_path_style_endpoint' =>$s3PathStyleEndpoint,
         ]);
 
         return successResponse();
@@ -144,8 +150,8 @@ class DirectoryController extends Controller
             'region' => $config->s3_region,
             'bucket' => $config->s3_bucket,
             'endpoint' => $config->s3_endpoint_url,
-            'url' => null,
-            'use_path_style_endpoint' => false,
+            'url' => $config->s3_url,
+            'use_path_style_endpoint' => $config->s3_path_style_endpoint,
             'throw' => false,
         ]);
     }
@@ -163,7 +169,7 @@ class DirectoryController extends Controller
         return $config->disk === 's3';
     }
 
-    private function validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket)
+    private function validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket, $s3PathStyleEndpoint)
     {
         try {
             $s3Client = new S3Client([
@@ -174,6 +180,7 @@ class DirectoryController extends Controller
                     'secret' => $s3SecretKey,
                 ],
                 'endpoint' => $s3EndpointUrl,
+                'use_path_style_endpoint' => $s3PathStyleEndpoint,
             ]);
 
             return $s3Client->doesBucketExist($s3Bucket);
