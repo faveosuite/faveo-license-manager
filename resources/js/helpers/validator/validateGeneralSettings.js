@@ -6,7 +6,7 @@ import { lang } from '../extraLogics';
 
 export function validateGeneralSettings(data) {
 
-    const { google_secret_key, google_site_key, recaptcha_status, agora_invoicing_url, timezone, date_format, time_format, storage_disk, s3_bucket, s3_region, s3_access_key, s3_secret_key, s3_endpoint_url, archives_path, query_path } = data
+    const { google_secret_key, google_site_key, recaptcha_status, agora_invoicing_url, timezone, date_format, time_format, storage_disk, s3_bucket, s3_region, s3_access_key, s3_secret_key, s3_endpoint_url, archives_path, query_path, s3_path_style_endpoint, s3_url } = data
 
     let validatingData = {
 
@@ -33,6 +33,8 @@ export function validateGeneralSettings(data) {
         validatingData.s3_access_key = [s3_access_key, 'isRequired'];
         validatingData.s3_secret_key = [s3_secret_key, 'isRequired'];
         validatingData.s3_endpoint_url = [s3_endpoint_url, 'isRequired'];
+        validatingData.s3_path_style_endpoint = [s3_path_style_endpoint, 'isRequired'];
+        validatingData.s3_url = [s3_url, 'isRequired'];
     }
 
     if(storage_disk === 'system') {
