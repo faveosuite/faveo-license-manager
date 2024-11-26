@@ -74,7 +74,7 @@ class DirectoryController extends Controller
      */
     protected function setS3path($s3Bucket, $s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Url, $s3PathStyleEndpoint)
     {
-        $response = $this->validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket, $s3Url);
+        $response = $this->validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket, $s3Url, $s3PathStyleEndpoint);
 
         if(!$response) {
             return errorResponse(Lang::get('lang.s3_error'));
@@ -169,7 +169,7 @@ class DirectoryController extends Controller
         return $config->disk === 's3';
     }
 
-    private function validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket, $s3PathStyleEndpoint)
+    private function validateS3Credentials($s3Region, $s3AccessKey, $s3SecretKey, $s3EndpointUrl, $s3Bucket, $s3Url, $s3PathStyleEndpoint)
     {
         try {
             $s3Client = new S3Client([
@@ -180,7 +180,8 @@ class DirectoryController extends Controller
                     'secret' => $s3SecretKey,
                 ],
                 'endpoint' => $s3EndpointUrl,
-                'use_path_style_endpoint' => $s3PathStyleEndpoint,
+                'url' => $s3Url,
+                'use_path_style_endpoint' => $s3PathStyleEndpoint === 'true' ? true : false,
             ]);
 
             return $s3Client->doesBucketExist($s3Bucket);
