@@ -756,7 +756,8 @@ return [
     's3_endpoint_url' => 'S3 Endpoint URL',
     'archives_path' => 'Archive Path',
     'query_path' => 'Query Path',
-
+    's3_path_style_endpoint' => 'S3 Path Style Endpoint',
+    's3_url' => 'S3 URL',
     's3_error' => 'Invalid S3 details were provided.',
 ];
 

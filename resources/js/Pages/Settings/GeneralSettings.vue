@@ -143,6 +143,19 @@
 
                             </text-field>
                         </div>
+
+                        <div class="row">
+
+                            <dynamic-select :label="lang('s3_path_style_endpoint')" :multiple="false" classname="col-sm-6"
+                                            :strlength="35" :required="true" name="s3_path_style_endpoint" v-if="storage_disk === 's3'"
+                                            :elements="s3EndpointElements" :value="lang(s3_path_style_endpoint)" :onChange="onChange">
+                            </dynamic-select>
+
+                            <text-field :label="trans('s3_url')" v-if="storage_disk === 's3'" :value="s3_url"
+                                        :onChange="onChange" :required="true" name="s3_url" type="text" classname="col-sm-6">
+
+                            </text-field>
+                        </div>
                     </div>
 
                 </div>
@@ -243,6 +256,11 @@ export default {
             { name: 'System', value: 'system' }
         ];
 
+        const s3EndpointOptions = [
+            {name: 'True', value: 'true'},
+            {name: 'False', value: 'false'}
+        ];
+
         return {
 
             iconClass: 'fas fa-save',
@@ -301,7 +319,11 @@ export default {
 
             storageDiskElements: storageDiskOptions,
 
+            s3EndpointElements: s3EndpointOptions,
+
             storage_disk: '',
+
+            s3_path_style_endpoint: '',
 
             s3_bucket: '',
 
@@ -315,7 +337,9 @@ export default {
 
             archives_path: '',
 
-            query_path: ''
+            query_path: '',
+
+            s3_url: ''
 
         }
     },
@@ -407,6 +431,9 @@ export default {
                 if(name === 'storage_disk') {
                     this.storage_disk = value ? value.value : '';
                 }
+                if(name === 's3_path_style_endpoint') {
+                    this.s3_path_style_endpoint = value;
+                }
         },
 
         onSubmit() {
@@ -457,6 +484,10 @@ export default {
                 fd.append('archives_path', this.archives_path);
 
                 fd.append('query_path', this.query_path);
+
+                fd.append('s3_url', this.s3_url);
+
+                fd.append('s3_path_style_endpoint', this.s3_path_style_endpoint);
 
                 if(this.selectedIcon){
                     fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
@@ -535,6 +566,12 @@ export default {
             }
             if ('s3_endpoint_url' in data.storage) {
                 this.s3_endpoint_url = data.storage.s3_endpoint_url
+            }
+            if ('s3_url' in data.storage) {
+                this.s3_url = data.storage.s3_url
+            }
+            if ('s3_path_style_endpoint' in data.storage) {
+                this.s3_path_style_endpoint = data.storage.s3_path_style_endpoint
             }
         },
     },
