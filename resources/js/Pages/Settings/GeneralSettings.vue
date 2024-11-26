@@ -152,7 +152,7 @@
                             </dynamic-select>
 
                             <text-field :label="trans('s3_url')" v-if="storage_disk === 's3'" :value="s3_url"
-                                        :onChange="onChange" :required="true" name="s3_url" type="text" classname="col-sm-6">
+                                        :onChange="onChange" name="s3_url" type="text" classname="col-sm-6">
 
                             </text-field>
                         </div>
@@ -257,8 +257,8 @@ export default {
         ];
 
         const s3EndpointOptions = [
-            { name: 'Yes', value: true },
-            { name: 'No', value: false }
+            { name: 'Yes', value: "true" },
+            { name: 'No', value: "false" }
         ];
 
         return {
@@ -571,12 +571,15 @@ export default {
                 this.s3_url = data.storage.s3_url
             }
             if ('s3_path_style_endpoint' in data.storage) {
-                this.s3_path_style_endpoint = this.findOption('s3_path_style_endpoint', data.storage.s3_path_style_endpoint)
+                this.s3_path_style_endpoint = this.findOption(data.storage.s3_path_style_endpoint)
             }
         },
 
-        findOption(options, value) {
-            return this[options].find((option) => option.value === value)
+        findOption(value) {
+            if(value === "" || value === "false") {
+                return  { name: 'No', value: "false" };
+            }
+            return  { name: 'Yes', value: "true" };
         },
     },
 
