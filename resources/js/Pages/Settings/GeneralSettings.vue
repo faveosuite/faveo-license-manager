@@ -257,8 +257,8 @@ export default {
         ];
 
         const s3EndpointOptions = [
-            {name: 'True', value: 'true'},
-            {name: 'False', value: 'false'}
+            { name: 'Yes', value: true },
+            { name: 'No', value: false }
         ];
 
         return {
@@ -487,7 +487,7 @@ export default {
 
                 fd.append('s3_url', this.s3_url);
 
-                fd.append('s3_path_style_endpoint', this.s3_path_style_endpoint);
+                fd.append('s3_path_style_endpoint', this.s3_path_style_endpoint ? this.s3_path_style_endpoint.value : false);
 
                 if(this.selectedIcon){
                     fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
@@ -571,8 +571,12 @@ export default {
                 this.s3_url = data.storage.s3_url
             }
             if ('s3_path_style_endpoint' in data.storage) {
-                this.s3_path_style_endpoint = data.storage.s3_path_style_endpoint
+                this.s3_path_style_endpoint = this.findOption('s3_path_style_endpoint', data.storage.s3_path_style_endpoint)
             }
+        },
+
+        findOption(options, value) {
+            return this[options].find((option) => option.value === value)
         },
     },
 
