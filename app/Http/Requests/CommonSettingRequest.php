@@ -38,6 +38,7 @@ class CommonSettingRequest extends FormRequest
 
             // URL and time/date format fields
             'agora_invoicing_url' => 'sometimes|required|url',
+            'license_app_key' => 'sometimes|required',
             'timezone' => 'sometimes|required|integer',
             'time_format' => 'sometimes|required|integer',
             'date_format' => 'sometimes|required|integer',
