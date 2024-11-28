@@ -327,7 +327,7 @@ class DownloadFileController extends Controller
         $agoraUrl = CommonSetting::where('key', 'agora_invoicing_url')->value('value');
         $appKey = CommonSetting::where('key', 'license_app_key')->value('value');
 
-        $response = Http::post(rtrim($agoraUrl,'/') . '/downs', [
+        $response = Http::post(rtrim($agoraUrl,'/') . '/productExist', [
             'file_name' => $filename,
             'app_key' => $appKey,
         ]);
@@ -345,7 +345,7 @@ class DownloadFileController extends Controller
         $agoraUrl = CommonSetting::where('key', 'agora_invoicing_url')->value('value');
         $appKey = CommonSetting::where('key', 'license_app_key')->value('value');
 
-        $response = Http::post(rtrim($agoraUrl,'/') . '/down', [
+        $response = Http::post(rtrim($agoraUrl,'/') . '/productDownload', [
             'file_name' => $filename,
             'app_key' => $appKey,
         ]);
