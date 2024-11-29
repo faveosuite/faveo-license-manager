@@ -33,7 +33,7 @@ class CommonSettingController extends Controller
         ];
 
         // Update or create general settings except for specific keys related to files and reCAPTCHA status
-        $excludedKeys = array_merge(array_keys($fileKeys), ['g-recaptcha-response', 'recaptcha_status','icon_default', 'admin_logo_default', 'client_logo_default', 'license_app_key']);
+        $excludedKeys = array_merge(array_keys($fileKeys), ['g-recaptcha-response', 'recaptcha_status','icon_default', 'admin_logo_default', 'client_logo_default']);
         foreach ($request->except($excludedKeys) as $key => $value) {
             CommonSetting::updateOrCreate(
                 ['key' => $key],
