@@ -63,101 +63,31 @@
 
                     </text-field>
 
+                    <text-field :label="trans('license_app_key')" :value="license_app_key" :onChange="onChange"
+                                name="license_app_key" :required="true" type="text" classname="col-sm-6">
+
+                    </text-field>
+                </div>
+
+                <div class="row">
+
                     <dynamic-select name="timezone" apiEndpoint="/api/admin/timezones" :multiple="false" label="Timezone Settings" :onChange="onChange"
                                     classname="col-sm-6" :value="timezone" optionLabel="location" :required="true">
+
+                    </dynamic-select>
+
+                    <dynamic-select name="date_format" apiEndpoint="api/admin/date-formats" :multiple="false" label="Date Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" :value="date_format" optionLabel="format" :required="true" :showPreview="previewMethod(date_format)">
 
                     </dynamic-select>
                 </div>
 
                 <div class="row">
 
-                    <dynamic-select name="date_format" apiEndpoint="api/admin/date-formats" :multiple="false" label="Date Format Settings" :onChange="onChange"
-                                    classname="col-sm-6" :value="date_format" optionLabel="format" :required="true" :showPreview="previewMethod(date_format)">
-
-                    </dynamic-select>
-
                     <dynamic-select name="time_format" apiEndpoint="api/admin/time-formats" :multiple="false" label="Time Format Settings" :onChange="onChange"
                                     classname="col-sm-6" :showPreview="timeFormat(time_format)" :value="time_format" optionLabel="hours" :required="true">
 
                     </dynamic-select>
-                </div>
-
-                <hr>
-
-                <div class="card card-light" v-if="hasDataPopulated">
-
-                    <div class="card-header">
-
-                        <h3 class="card-title">{{lang('agora_storage_path')}}</h3>
-
-                        <!--                        <tool-tip :message="lang('logo_icon_config')" size="medium"></tool-tip>-->
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="row">
-
-                            <dynamic-select :label="lang('storage_disk')" :multiple="false" classname="col-sm-6"
-                                            :strlength="35" :required="true" name="storage_disk" :elements="storageDiskElements"
-                                            :value="lang(storage_disk)" :onChange="onChange">
-                            </dynamic-select>
-
-                            <text-field :label="trans('s3_bucket')" v-if="storage_disk === 's3'" :value="s3_bucket"
-                                        :onChange="onChange" :required="true" name="s3_bucket" type="text" classname="col-sm-6">
-
-                            </text-field>
-
-                            <text-field :label="trans('archives_path')" v-if="storage_disk === 'system'" :value="archives_path"
-                                        :onChange="onChange" :required="true" name="archives_path" type="text" classname="col-sm-6">
-
-                            </text-field>
-                        </div>
-
-                        <div class="row">
-
-                            <text-field :label="trans('query_path')" v-if="storage_disk === 'system'" :value="query_path"
-                                        :onChange="onChange" :required="true" name="query_path" type="text" classname="col-sm-6">
-
-                            </text-field>
-
-                            <text-field :label="trans('s3_region')" v-if="storage_disk === 's3'" :value="s3_region" :onChange="onChange" name="s3_region"
-                                        type="text" :required="true" classname="col-sm-6">
-
-                            </text-field>
-
-                            <text-field :label="trans('s3_access_key')" v-if="storage_disk === 's3'" :value="s3_access_key" :onChange="onChange" :required="true"
-                                        name="s3_access_key" type="password" classname="col-sm-6">
-
-                            </text-field>
-                        </div>
-
-                        <div class="row">
-
-                            <text-field :label="trans('s3_secret_key')" v-if="storage_disk === 's3'" :value="s3_secret_key" :onChange="onChange"
-                                        name="s3_secret_key" type="password" :required="true" classname="col-sm-6">
-
-                            </text-field>
-
-                            <text-field :label="trans('s3_endpoint_url')" v-if="storage_disk === 's3'" :value="s3_endpoint_url"
-                                        :onChange="onChange" :required="true" name="s3_endpoint_url" type="text" classname="col-sm-6">
-
-                            </text-field>
-                        </div>
-
-                        <div class="row">
-
-                            <dynamic-select :label="lang('s3_path_style_endpoint')" :multiple="false" classname="col-sm-6"
-                                            :strlength="35" :required="true" name="s3_path_style_endpoint" v-if="storage_disk === 's3'"
-                                            :elements="s3EndpointElements" :value="lang(s3_path_style_endpoint)" :onChange="onChange">
-                            </dynamic-select>
-
-                            <text-field :label="trans('s3_url')" v-if="storage_disk === 's3'" :value="s3_url"
-                                        :onChange="onChange" name="s3_url" type="text" classname="col-sm-6">
-
-                            </text-field>
-                        </div>
-                    </div>
-
                 </div>
 
                 <hr>
@@ -251,16 +181,6 @@ export default {
 
     data() {
 
-        const storageDiskOptions = [
-            { name: 'S3', value: 's3' },
-            { name: 'System', value: 'system' }
-        ];
-
-        const s3EndpointOptions = [
-            { name: 'Yes', value: "true" },
-            { name: 'No', value: "false" }
-        ];
-
         return {
 
             iconClass: 'fas fa-save',
@@ -317,29 +237,7 @@ export default {
 
             selectedClientLogo: '',
 
-            storageDiskElements: storageDiskOptions,
-
-            s3EndpointElements: s3EndpointOptions,
-
-            storage_disk: '',
-
-            s3_path_style_endpoint: '',
-
-            s3_bucket: '',
-
-            s3_region: '',
-
-            s3_access_key: '',
-
-            s3_secret_key: '',
-
-            s3_endpoint_url: '',
-
-            archives_path: '',
-
-            query_path: '',
-
-            s3_url: ''
+            license_app_key: ''
 
         }
     },
@@ -427,13 +325,6 @@ export default {
                     default:
                         this[name] = value;
                 }
-
-                if(name === 'storage_disk') {
-                    this.storage_disk = value ? value.value : '';
-                }
-                if(name === 's3_path_style_endpoint') {
-                    this.s3_path_style_endpoint = value;
-                }
         },
 
         onSubmit() {
@@ -469,25 +360,7 @@ export default {
 
                 fd.append('client_logo_default', this.useLogo);
 
-                fd.append('disk', this.storage_disk);
-
-                fd.append('s3_bucket', this.s3_bucket);
-
-                fd.append('s3_region', this.s3_region);
-
-                fd.append('s3_access_key', this.s3_access_key);
-
-                fd.append('s3_secret_key', this.s3_secret_key);
-
-                fd.append('s3_endpoint_url', this.s3_endpoint_url);
-
-                fd.append('archives_path', this.archives_path);
-
-                fd.append('query_path', this.query_path);
-
-                fd.append('s3_url', this.s3_url);
-
-                fd.append('s3_path_style_endpoint', this.s3_path_style_endpoint ? this.s3_path_style_endpoint.value : false);
+                fd.append('license_app_key', this.license_app_key);
 
                 if(this.selectedIcon){
                     fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
@@ -539,47 +412,6 @@ export default {
                     self[key] = data[key];
                 }
             });
-
-            if ('disk' in data.storage) {
-                this.storage_disk = data.storage.disk ? data.storage.disk : 'system'
-            }
-            if ('ARCHIVES_DIRECTORY' in data.storage) {
-                this.archives_path = data.storage.ARCHIVES_DIRECTORY
-            }
-            if ('QUERIES_DIRECTORY' in data.storage) {
-                this.query_path = data.storage.QUERIES_DIRECTORY
-            }
-            if ('QUERIES_DIRECTORY' in data.storage) {
-                this.query_path = data.storage.QUERIES_DIRECTORY
-            }
-            if ('s3_bucket' in data.storage) {
-                this.s3_bucket = data.storage.s3_bucket
-            }
-            if ('s3_region' in data.storage) {
-                this.s3_region = data.storage.s3_region
-            }
-            if ('s3_access_key' in data.storage) {
-                this.s3_access_key = data.storage.s3_access_key
-            }
-            if ('s3_secret_key' in data.storage) {
-                this.s3_secret_key = data.storage.s3_secret_key
-            }
-            if ('s3_endpoint_url' in data.storage) {
-                this.s3_endpoint_url = data.storage.s3_endpoint_url
-            }
-            if ('s3_url' in data.storage) {
-                this.s3_url = data.storage.s3_url
-            }
-            if ('s3_path_style_endpoint' in data.storage) {
-                this.s3_path_style_endpoint = this.findOption(data.storage.s3_path_style_endpoint)
-            }
-        },
-
-        findOption(value) {
-            if(value === "" || value === "false") {
-                return  { name: 'No', value: "false" };
-            }
-            return  { name: 'Yes', value: "true" };
         },
     },
 

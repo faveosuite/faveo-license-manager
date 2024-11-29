@@ -744,20 +744,6 @@ return [
 
     'product_config_success' => 'The product configuration has been successfully saved.',
     'directory_show' => 'All the directories config are displayed here',
-
-    's3' => 'S3',
-    'system' => 'System',
-    'agora_storage_path' => 'Agora Storage Path',
-    'storage_disk' => 'Storage Disk',
-    's3_bucket' => 'S3 Bucket',
-    's3_region' => 'S3 Region',
-    's3_access_key' => 'S3 Access Key',
-    's3_secret_key' => 'S3 Secret Key',
-    's3_endpoint_url' => 'S3 Endpoint URL',
-    'archives_path' => 'Archive Path',
-    'query_path' => 'Query Path',
-    's3_path_style_endpoint' => 'S3 Path Style Endpoint',
-    's3_url' => 'S3 URL',
-    's3_error' => 'Invalid S3 details were provided.',
+    'license_app_key' => 'License App Key'
 ];
 
