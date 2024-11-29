@@ -6,9 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\AfuProducts;
 use App\Models\AfuVersions;
 use App\Models\CommonSetting;
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DownloadFileController extends Controller
 {
@@ -219,19 +220,8 @@ class DownloadFileController extends Controller
             createProductCallback($SMART_REPORTS, $product_id, $version_id, $this->ip_address, $user_local_path, $callback_type, $action_success, $version_install_count, $version_upgrade_count);
             returnUpdateServerNotification($ROOT_URL, $notification_case, $product_id, $product_title, $product_key, $product_short_description, $product_full_description, $product_url_homepage, $product_url_order, $version_number, $version_expire_date, $version_install_limit, $version_upgrade_limit, $this->ip_address, $notification_data);
             if ($action_success == 1) { //only output body content after returnServerNotification returned header with server signature. otherwise, "headers already sent" error will be displayed
-                $response = $this->generateDownloadFile($file_to_download_name);
-                $filename_formatted = slugifyText("$product_title-$version_number-$file_to_download_suffix").'.'.pathinfo($file_to_download_name, PATHINFO_EXTENSION); //format name of downloaded file like product-title-version-number-$file_to_download_suffix.extension
-                if ($response instanceof \Illuminate\Http\Response) {
-                    $fileContent = $response->getContent();
-                    $fileSize = strlen($fileContent);
-                    header('Content-Description: File Transfer');
-                    header('Content-Type: application/octet-stream');
-                    header("Content-Disposition: attachment; filename=$filename_formatted");
-                    header('Expires: 0');
-                    header('Cache-Control: must-revalidate');
-                    header('Content-Length: ' . $fileSize);
-                    return $fileContent;
-                }
+                $filename_formatted = slugifyText("$product_title-$version_number-$file_to_download_suffix") . '.' . pathinfo($file_to_download_name, PATHINFO_EXTENSION); //format name of downloaded file like product-title-version-number-$file_to_download_suffix.extension
+                return $this->generateDownloadFile($file_to_download_name, $filename_formatted);
             }
         } else { //possible cracking attempt, set variables required for reports function to null and generate cracking report
             $product_id = 0;
@@ -326,37 +316,53 @@ class DownloadFileController extends Controller
     {
         $agoraUrl = CommonSetting::where('key', 'agora_invoicing_url')->value('value');
         $appKey = CommonSetting::where('key', 'license_app_key')->value('value');
-
-        $response = Http::post(rtrim($agoraUrl,'/') . '/productExist', [
-            'file_name' => $filename,
-            'app_key' => $appKey,
+        $client = new Client();
+        $response = $client->post(rtrim($agoraUrl, '/') . '/api/productExist', [
+            'json' => [
+                'file_name' => $filename,
+                'app_key' => $appKey,
+            ],
         ]);
 
-        if($response->getStatusCode() === 200 && json_decode($response)->success === true) {
+        if ($response->getStatusCode() === 200 && json_decode($response->getBody()->getContents())->success === true) {
             return true;
         }
 
         return false;
     }
 
-    protected function generateDownloadFile($filename)
+    protected function generateDownloadFile($filename, $formatedFilename)
     {
-
         $agoraUrl = CommonSetting::where('key', 'agora_invoicing_url')->value('value');
         $appKey = CommonSetting::where('key', 'license_app_key')->value('value');
+        $client = new Client();
 
-        $response = Http::post(rtrim($agoraUrl,'/') . '/productDownload', [
-            'file_name' => $filename,
-            'app_key' => $appKey,
+        $response = $client->post(rtrim($agoraUrl, '/') . '/api/productDownload', [
+            'json' => [
+                'file_name' => $filename,
+                'app_key' => $appKey,
+            ],
+            'timeout' => 0,
         ]);
 
-        if ($response->getStatusCode() === 200) {
-            return response($response->getBody()->getContents(), 200)
-                ->header('Content-Type', $response->getHeader('Content-Type')[0])
-                ->header('Content-Disposition', 'attachment; filename="' . basename($filename) . '"');
-        }
+        $stream = $response->getBody();
+        $contentType = $response->getHeader('Content-Type')[0] ?? 'application/octet-stream';
+        $fileSize = $response->getHeader('Content-Length')[0] ?? strlen($filename);
 
-        return json_decode($response);
+        return new StreamedResponse(function () use ($stream) {
+            while (!$stream->eof()) {
+                echo $stream->read(1024 * 8); // Read in 8KB chunks
+                ob_flush(); // Flush the output buffer
+                flush();    // Send output to the client
+            }
+        }, 200, [
+            'Content-Type' => $contentType,
+            'Content-Disposition' => 'attachment; filename="' . basename($formatedFilename) . '"',
+            'Content-Description' => 'File Transfer',
+            'Expires' => '0',
+            'Cache-Control' => 'must-revalidate',
+            'Content-Length' => $fileSize,
+        ]);
     }
 
 }
