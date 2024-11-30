@@ -321,6 +321,7 @@ class DownloadFileController extends Controller
                 'file_name' => $filename,
                 'app_key' => $appKey,
             ],
+            'http_errors' => false,
         ]);
 
         if ($response->getStatusCode() === 200 && json_decode($response->getBody()->getContents())->success === true) {
