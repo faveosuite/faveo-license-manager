@@ -9,7 +9,6 @@ use App\Models\CommonSetting;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DownloadFileController extends Controller
 {
@@ -343,26 +342,20 @@ class DownloadFileController extends Controller
                 'app_key' => $appKey,
             ],
             'timeout' => 0,
+            'sink' => storage_path($formatedFilename),
         ]);
 
-        $stream = $response->getBody();
-        $contentType = $response->getHeader('Content-Type')[0] ?? 'application/octet-stream';
-        $fileSize = $response->getHeader('Content-Length')[0] ?? strlen($filename);
+        $filePath = storage_path($formatedFilename);
 
-        return new StreamedResponse(function () use ($stream) {
-            while (!$stream->eof()) {
-                echo $stream->read(1024 * 8); // Read in 8KB chunks
-                ob_flush(); // Flush the output buffer
-                flush();    // Send output to the client
-            }
-        }, 200, [
+        $contentType = $response->getHeader('Content-Type')[0] ?? 'application/octet-stream';
+
+        // Return the downloaded file
+        return response()->download($filePath, $formatedFilename, [
             'Content-Type' => $contentType,
-            'Content-Disposition' => 'attachment; filename="' . basename($formatedFilename) . '"',
             'Content-Description' => 'File Transfer',
             'Expires' => '0',
             'Cache-Control' => 'must-revalidate',
-            'Content-Length' => $fileSize,
-        ]);
+        ])->deleteFileAfterSend();
     }
 
 }
