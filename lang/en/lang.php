@@ -744,6 +744,7 @@ return [
 
     'product_config_success' => 'The product configuration has been successfully saved.',
     'directory_show' => 'All the directories config are displayed here',
-    'license_app_key' => 'License App Key'
+    'license_app_key' => 'License App Key',
+    'license_app_secret' => 'License App Secret'
 ];
 
