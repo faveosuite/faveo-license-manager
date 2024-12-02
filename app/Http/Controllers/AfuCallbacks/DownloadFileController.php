@@ -315,11 +315,13 @@ class DownloadFileController extends Controller
     {
         $agoraUrl = CommonSetting::where('key', 'agora_invoicing_url')->value('value');
         $appKey = CommonSetting::where('key', 'license_app_key')->value('value');
+        $appSecret = CommonSetting::where('key', 'license_app_secret')->value('value');
         $client = new Client();
         $response = $client->post(rtrim($agoraUrl, '/') . '/api/productExist', [
             'json' => [
                 'file_name' => $filename,
                 'app_key' => $appKey,
+                'app_secret' => $appSecret,
             ],
             'http_errors' => false,
         ]);
@@ -335,12 +337,14 @@ class DownloadFileController extends Controller
     {
         $agoraUrl = CommonSetting::where('key', 'agora_invoicing_url')->value('value');
         $appKey = CommonSetting::where('key', 'license_app_key')->value('value');
+        $appSecret = CommonSetting::where('key', 'license_app_secret')->value('value');
         $client = new Client();
 
         $response = $client->post(rtrim($agoraUrl, '/') . '/api/productDownload', [
             'json' => [
                 'file_name' => $filename,
                 'app_key' => $appKey,
+                'app_secret' => $appSecret,
             ],
             'timeout' => 0,
             'sink' => storage_path($formatedFilename),

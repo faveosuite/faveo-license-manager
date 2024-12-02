@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
     {
         $settings = [
             'license_app_key' => '',
+            'license_app_secret' => '',
         ];
         foreach ($settings as $key => $value) {
             CommonSetting::updateOrCreate(
