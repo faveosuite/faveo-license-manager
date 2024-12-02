@@ -71,18 +71,23 @@
 
                 <div class="row">
 
+                    <text-field :label="trans('license_app_secret')" :value="license_app_secret" :onChange="onChange"
+                                name="license_app_secret" :required="true" type="password" classname="col-sm-6">
+
+                    </text-field>
+
                     <dynamic-select name="timezone" apiEndpoint="/api/admin/timezones" :multiple="false" label="Timezone Settings" :onChange="onChange"
                                     classname="col-sm-6" :value="timezone" optionLabel="location" :required="true">
-
-                    </dynamic-select>
-
-                    <dynamic-select name="date_format" apiEndpoint="api/admin/date-formats" :multiple="false" label="Date Format Settings" :onChange="onChange"
-                                    classname="col-sm-6" :value="date_format" optionLabel="format" :required="true" :showPreview="previewMethod(date_format)">
 
                     </dynamic-select>
                 </div>
 
                 <div class="row">
+
+                    <dynamic-select name="date_format" apiEndpoint="api/admin/date-formats" :multiple="false" label="Date Format Settings" :onChange="onChange"
+                                    classname="col-sm-6" :value="date_format" optionLabel="format" :required="true" :showPreview="previewMethod(date_format)">
+
+                    </dynamic-select>
 
                     <dynamic-select name="time_format" apiEndpoint="api/admin/time-formats" :multiple="false" label="Time Format Settings" :onChange="onChange"
                                     classname="col-sm-6" :showPreview="timeFormat(time_format)" :value="time_format" optionLabel="hours" :required="true">
@@ -237,7 +242,9 @@ export default {
 
             selectedClientLogo: '',
 
-            license_app_key: ''
+            license_app_key: '',
+
+            license_app_secret: ''
 
         }
     },
@@ -361,6 +368,8 @@ export default {
                 fd.append('client_logo_default', this.useLogo);
 
                 fd.append('license_app_key', this.license_app_key);
+
+                fd.append('license_app_secret', this.license_app_secret);
 
                 if(this.selectedIcon){
                     fd.append('icon', this.selectedIcon.file,this.selectedIcon.name);
