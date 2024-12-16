@@ -1,263 +1,263 @@
 <template>
-    <form-field-template  :classname="classname" :label="lang(labelName)" :name="name">
+    <!-- Form field template with a label and input for phone number with country code -->
+    <form-field-template :classname="classname" :label="lang(labelName)" :name="name">
 
-        <div class="intl-tel-input allow-dropdown separate-dial-code iti-sdc-3" style="width: 100%">
-            <input class="form-control"
-                   type="text"
-                   :placeholder="example"
-                   v-model="changedValue"
-                   v-on:input="onChange(changedValue, name)"
-                   @keypress="isNumber"
-                   :maxlength="getMaxLength(example)"
-                   :style="inputStyle"
-                   id="id"/>
+        <!-- Phone number input field with validation and error display -->
+        <div class="intl-tel-input allow-dropdown separate-dial-code iti-sdc-3 telephone-input">
 
-            <div @click="toggleList" class="flag-container" style="width: 5pc">
-                <div class="selected-flag" tabindex="0" >
-                    <div id="flag" :class="getClassByISO(iso)">
-                    </div>
-                    <div class="selected-dial-code"> {{phone_code}}
-                    </div>
-                    <div class="iti-arrow">
-                    </div>
-                </div>
-                <ul
-                    v-if="showList"
-                    class="country-list">
-                    <li
-                        v-for="code in country_codes.slice(231,233)"
-                        class="country preferred"
-                        @click="selectCountry(code)">
-                        <div
-                            class="flag-box">
-                            <div
-                                :class="getClassByISO(code.iso)">
-                            </div>
-                        </div>
-                        <span
-                            class="country-name">{{code.name}}
-						</span>
-                        <span
-                            class="dial-code">+{{code.phone_code}}
-						</span>
-                    </li>
-                    <li class="divider"></li>
-                    <!-- in dropdown -->
-                    <li
-                        v-for="country_code in country_codes"
-                        class="country preferred"
-                        @click="selectCountry(country_code)">
-                        <div
-                            class="flag-box">
-                            <div
-                                :class="getClassByISO(country_code.iso)">
-                            </div>
-                        </div>
-                        <span
-                            class="country-name">{{country_code.name}}
-						</span>
-                        <span
-                            class="dial-code">+{{country_code.phone_code}}
-						</span>
-                    </li>
-                </ul>
-            </div>
+            <input class="form-control telephone-input-field" ref="phoneInput" :class="{'has-error': showError}"
+                   type="tel" v-model="changedValue" v-on:input="onChange(changedValue, name)" @keypress="isNumber" :style="inputStyle" id="id"/>
+
+            <div v-if="showError" class="error-block is-danger">{{lang(errorMsg)}}</div>
         </div>
     </form-field-template>
 </template>
 
-<script>
+<script type="text/javascript">
 
-import axios from "axios";
-import {errorHandler} from "../../../helpers/responseHandler";
-import { findObjectByKey,flatten, getCountry} from "../../../helpers/extraLogics";
+import intlTelInput from "intl-tel-input/intlTelInputWithUtils"
 import FormFieldTemplate from "./FormFieldTemplate.vue";
-import '../../../../../public/themes/default/css/intlTelInput.min.css'
+import axios from 'axios';
+import {findObjectByKey} from "../../../helpers/extraLogics";
 
 export default {
-
-    name: "phoneWithCountryCode",
-    description: "",
-
-    components:{
-        'form-field-template' : FormFieldTemplate,
-    },
-
-    props:{
-
-        labelName : { type : String, default : 'mobile_number'},
-
-        language : { type : String, default : ''},
-        /**
-         * classname of the form field. It can be used to give this component any bootstrap class or a custom class
-         * whose css will be defined in parent class
-         * @type {String}
-         */
-        classname : {type: String, default:''},
-
-        value: { type: [String,null], required: true },
-
-        /**
-         * the name of the state in parent class
-         * @type {String}
-         */
-        name : {type: String, Required:true},
-
-        /**
-         * The function which will be called as soon as value of the field changes
-         * It should have two arguments `value` and `name`
-         *     `value` will be the updated value of the field
-         *     `name` will be thw name of the state in the parent class
-         *
-         * An example function :
-         *         onChange(value, name){
-         *             this[name]= selectedValue
-         *         }
-         *
-         * @type {Function}
-         */
-        onChange: { type: Function, Required: true },
-
-        countryCode: {type: [Number, null], Required: true},
-
-        countryIso: {type: String, default : ''},
-
-        inputStyle : { type : Object, default : ()=>{}},
-
-        apiUrl : { type : String, default : "/api/dependency/countryCodes" }
-
-    },
-
+    name: 'PhoneWithCountryCode',
     data() {
         return {
-            country_codes: [],// for country codes array
-            phone_code: this.countryCode,// phone code of the user
-            showList: false,// showing country code dropdown if showList is true
-            country: {},// getting country object with iso and flag by using user phonecode
-            iso: this.countryIso,// country iso
-            example: '99876 54321',// phone number example of the country
-            lang_locale: '',// locale of the user
-            contryData: null,
+            // Instance of intl-tel-input
+            iti: {},
+
+            // Phone number input value
+            phone: '',
+
+            // Changed value of the phone number input
             changedValue: this.value,
-            phone_country_code: 91,
-            country_code: 91,
+
+            // Default country code for the phone number input
+            defaultCountryCode: 'IN',
+
+            // Error message to display when the phone number is invalid
+            errorMsg: '',
+
+            // Flag to show or hide the error message
+            showError: false,
+
+            // Flag to show or hide the field
+            ShowField: false,
+
+            // Flag to indicate if the component is mounted
+            isMounted: false,
+
+        };
+    },
+    components: {
+
+        'form-field-template': FormFieldTemplate
+    },
+
+    props: {
+
+        // Label name for the form field
+        labelName: {type: String, default: 'phone_number'},
+
+        // Class name for the form field
+        classname: {type: String, default: ''},
+
+        // Value of the phone number input
+        value: {type: [String, Number, null], required: true},
+
+        // Name of the form field
+        name: {type: String, required: true},
+
+        // Function to call when the phone number input changes
+        onChange: {type: Function, required: true},
+
+        // ISO code of the country for the phone number input
+        countryIso: {type: String, default: ''},
+
+        // Country code for the phone number input
+        countryCode: {type: [Number, String ,null], required: true},
+
+        // Style object for the phone number input
+        inputStyle: { type: Object, default: () => {} },
+
+        /**
+         * Default field type is FIXED_LINE_OR_MOBILE and field type can be one of the following like
+         * FIXED_LINE, MOBILE, FIXED_LINE_OR_MOBILE, TOLL_FREE, PREMIUM_RATE, SHARED_COST, VOIP, PERSONAL_NUMBER, PAGER, UAN, VOICEMAIL
+         **/
+
+        fieldType: {type: String, default: 'FIXED_LINE_OR_MOBILE'},
+    },
+
+    mounted() {
+
+        // Initialize the intl-tel-input instance
+        const input = this.$refs.phoneInput;
+
+        if(input) {
+            this.iti = intlTelInput(input, {
+
+                initialCountry: this.countryIso ? this.countryIso : (this.countryCode ? this.getIsoByCountryCode(this.countryCode) : 'auto'),
+
+                geoIpLookup: this.fetchGeoIpCountryCode,
+
+                validationNumberType: this.fieldType,
+
+                placeholderNumberType: this.fieldType,
+
+                allowDropdown: true,
+
+                separateDialCode: true,
+
+                i18n: 'en',
+
+                showFlags: true,
+
+                formatAsYouType: false,
+
+                strictMode: true,
+
+                formatOnDisplay: false,
+
+                nationalMode: false,
+
+                excludeCountries: ['ax'],
+
+                customPlaceholder: (selectedCountryPlaceholder, selectedCountryData) => {
+
+                    return selectedCountryPlaceholder;
+                },
+            });
+
+            input.addEventListener('countrychange', this.updatePhone);
+
+            // Emit events if initialCountry is set to 'auto'
+            if (this.iti.options.initialCountry === 'auto') {
+
+                this.EmitIsoAndDailCodes();
+            }
         }
     },
 
     watch: {
+        // Watcher for the value prop to validate the phone number
         value(newVal) {
             this.changedValue = newVal;
+            if (!this.isMounted) return;
+            const isValid = newVal === '' || this.iti.isValidNumber();
+            this.$emit('validPhoneNumber', this.name, isValid);
+            this.showError = !isValid;
+            this.errorMsg = isValid ? '' : 'invalid_phone_number';
         }
     },
 
-    beforeMount() {
-
-        if (!this.countryCode && !this.countryIso) {
-            getCountry()
-                .then((res) => {
-                    this.iso = res;
-                    this.getCountryCodes();
-                })
-                .catch((error) => {
-                    this.iso = 'in';
-                    this.phone_code = 91;
-                    this.getCountryCodes();
-                })
-        } else {
-            this.getCountryCodes();
-        }
-        this.changedValue = this.value;
+    updated(){
+        this.ShowField = true;
+        this.isMounted = true;
     },
 
     methods: {
+        // Update the phone number input when the country changes
+        updatePhone() {
 
-        /* getting country code details from vuex store
-        * @param  {Array} codes - array of country details with iso phonecode and example phone number from vuex store
-        * @return {Void}
-        */
-        countryDetails(codes) {
-            this.country_codes = codes;
-            if (this.countryIso) { // If parent component has countryCode
-                this.country = findObjectByKey(codes, 'iso',this.iso);
-            } else if(this.countryCode) {
-                this.country = findObjectByKey(codes, 'phone_code',this.phone_code)
-            } else { // If parent component doesn't has countryCode, populate by client IP location
-                this.country = findObjectByKey(codes, 'iso', this.iso.toUpperCase());
+            if(this.ShowField){
+                this.changedValue = ''; // Clear the input field when the country changes
             }
-
-            this.selectCountry(this.country, false);
+            this.EmitIsoAndDailCodes();
         },
 
-        /**
-         * checking the values entered in the input field
-         * @param  {Event}
-         * @return {Boolean} returns true if values entered in input field only numbers
-         */
+        // Validate if the input is a number
         isNumber(evt) {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if ((charCode > 31 && (charCode < 48 || charCode > 57))) {
-                evt.preventDefault();;
+            evt = evt || window.event;
+            var charCode = evt.which || evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                evt.preventDefault();
             } else {
                 return true;
             }
         },
-        /**
-         * toggle showList variable
-         */
-        toggleList() {
-            this.showList = !this.showList;
-        },
 
-        getMaxLength(value) {
-
-            const str = '' + value;
-
-            return str.replace(/\s/g, '').length;
-        },
-
-        getClassByISO(iso) {
-
-            if(iso) {
-
-                return 'iti-flag '+ iso.toLowerCase();
-            }
-        },
-
-        /**
-         * Changing the country region that user wants
-         * @param  {Object} country is an object with iso and phonecode and example
-         * @return {Void}
-         */
-        selectCountry(country, isFromTemplate = true){
-            this.iso = country.iso;
-            this.phone_code = country.phone_code;
-            this.example  = country.example;
-            this.$emit('countCode',this.phone_code);
-            this.$emit('countIso',this.iso);
-            if (isFromTemplate) {
-                this.changedValue = '';
-            }
-        },
-
-        getCountryCodes() {
-            axios
-                .get(this.apiUrl).then(res => {
-                    this.contryData = flatten(res.data.data);
-                    this.countryDetails(this.contryData);
+        //Fetch the default country code based on the user's IP address
+        fetchGeoIpCountryCode(success = () => {
+        }) {
+            axios.get("https://ipapi.co/json")
+                .then(res => {
+                    this.defaultCountryCode = res.data.country_code;
+                    success(res.data.country_code);
                 })
-                .catch(err => {
-                    errorHandler(err, "contryCode");
+                .catch(() => {
+                    this.defaultCountryCode = 'IN';
+                    success('IN');
                 });
+        },
+
+        // Get ISO code by country code
+        getIsoByCountryCode(countryCode) {
+            let countryData = [];
+
+            countryData = intlTelInput.getCountryData();
+
+            let country = findObjectByKey(countryData, 'dialCode', countryCode);
+
+            return country ? country.iso2 : 'auto';
+        },
+
+        // Emit the country code and ISO code when the country changes
+        EmitIsoAndDailCodes(){
+            // Emit the country code and ISO code when the country changes
+            let selectedCountry = this.iti.getSelectedCountryData();
+            this.$emit('countCode', selectedCountry.dialCode);
+            this.$emit('countIso', selectedCountry.iso2);
         }
+    },
+
+    beforeUnmount() {
+
+        // Destroy the intl-tel-input instance before the component is unmounted
+        this.iti?.destroy();
+        this.iti = null;
+        this.showField = false;
     }
 };
 </script>
 
-<style scoped>
+<style>
 
-.mob_align{
-    padding-left: 0px !important;
-    padding-right: 84px !important;
+@import 'intl-tel-input/build/css/intlTelInput.css';
+
+.iti--allow-dropdown {
+    width: 100% !important;
+}
+
+.telephone-input {
+    width: 100%;
+}
+
+.iti__selected-country {
+    padding: 5px !important;
+    background-color: #F2F2F2 !important;
+    outline: none !important;
+    border-radius: 5% !important;
+}
+
+.iti__selected-country-primary:hover {
+    background-color: #F2F2F2 !important;
+}
+
+.iti--inline-dropdown .iti__dropdown-content {
+    max-width: 355px !important;
+    min-width: 270px !important;
+}
+
+.iti .iti__selected-dial-code {
+    margin-right: 4px;
+}
+
+.iti__search-input {
+    padding: 12px 9px 6px 9px !important;
+}
+
+.iti__arrow {
+    margin-right: 5px !important;
 }
 </style>

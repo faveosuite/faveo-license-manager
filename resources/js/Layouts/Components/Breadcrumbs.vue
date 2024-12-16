@@ -1,27 +1,27 @@
 <template>
-	
-	<div class="content-header">
-				
+
+	<div class="app-content-header">
+
 		<div class="container-fluid">
-			
-			<div class="row mb-2">
-				
+
+			<div class="row">
+
 				<div class="col-sm-6">
-					
-					<h1 class="m-0">{{trans(getTitle())}}</h1>
+
+					<h2 class="mb-0">{{trans(getTitle())}}</h2>
 				</div>
-				
+
 				<div v-if="$route.meta.crumb" class="col-sm-6">
-					
-					<ol class="breadcrumb float-sm-right">
-						
-						<li><i class="fas fa-home text-gray"></i>&nbsp;&nbsp;</li>
+
+					<ol class="breadcrumb float-sm-end">
+
+						<li><i class="fas fa-home text-muted"></i>&nbsp;&nbsp;</li>
 
 						<li v-if="$route.meta.crumb.link" class="breadcrumb-item">
 
 							<router-link :to="$route.meta.crumb.link.to">{{trans($route.meta.crumb.link.name)}}</router-link>
 						</li>
-						
+
 						<li v-if="$route.meta.crumb.root_link" class="breadcrumb-item">
 
 							<router-link :to="$route.meta.crumb.root_link.to">{{trans($route.meta.crumb.root_link.name)}}</router-link>
@@ -38,7 +38,7 @@
 </template>
 
 <script>
-	
+
 	export default {
 
 		name : 'bread-crumbs',
@@ -53,7 +53,7 @@
 			getActive(value) {
 
 				return value
-		
+
 			},
 		}
 	};

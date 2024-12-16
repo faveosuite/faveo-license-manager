@@ -67,6 +67,7 @@ class InstallDB extends Command
 
                     'client_email' => 'demo@gmail.com',
                     'client_password' => \Hash::make('demopass'),
+                    'client_role' => 'admin'
 
                 ]);
                 $user->save();
@@ -84,24 +85,33 @@ class InstallDB extends Command
     private function checkDBVersion(): void
     {
         try {
+            DB::purge('mysql'); // Ensure Laravel resets connection settings
             $pdo = DB::connection()->getPdo();
             $version = $pdo->query('select version()')->fetchColumn();
+
             if (strpos($version, 'Maria') === false) {
                 $this->checkMySQLVersion($version);
-
                 return;
             }
+
             $this->checkMariaDBVersion($version);
-        } catch(\Exception $e) {
-            if ($e->getCode() != 1049) {
+        } catch (\Exception $e) {
+            if ($e->getCode() != 1049) { // 1049: Unknown database error
                 throw $e;
             }
+
             $database = config('database.connections.mysql.database');
+
+            // Temporarily set database to null to allow DB creation
             config(['database.connections.mysql.database' => null]);
-            createDB($database);
+            DB::purge('mysql'); // Purge the connection before creating DB
+
+            createDB($database); // Create the database
+
             config(['database.connections.mysql.database' => $database]);
-            DB::reconnect();
-            $this->checkDBVersion();
+            DB::reconnect(); // Reconnect to the new database
+
+            $this->checkDBVersion(); // Retry the check
         }
     }
 

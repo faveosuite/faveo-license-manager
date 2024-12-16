@@ -47,6 +47,7 @@ class Kernel extends HttpKernel
 
         ],
         'installer' => [
+            \Illuminate\Session\Middleware\StartSession::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
 
         ],
@@ -78,5 +79,6 @@ class Kernel extends HttpKernel
         'installer' => \App\Http\Middleware\IsInstalled::class,
         'whitelist' => \App\Http\Middleware\WhitelistMiddleware::class,
         '2fa' => \PragmaRX\Google2FALaravel\Middleware::class,
+        'PulseManager' => \App\Http\Middleware\PulseManager::class,
     ];
 }

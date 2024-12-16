@@ -60,7 +60,7 @@ if (isWhiteLabelEnabled()) {
 <?php if ($envFound && ! $passwordMatched) { ?>
     <body>
     <div class="setup-content" style="padding: 10 0 10 0; margin-top: 20px">
-        <div style="height: auto; width: 500; margin: auto;  padding: 10 10 10 10;">
+        <div style="height: auto; width: 510; margin: auto;  padding: 10 10 10 10;">
             <h1 style="text-align: center; color: #71BEE3"><?php echo isWhiteLabelEnabled() ? '' : 'Faveo '; ?> Probe</h1>
             <?php if ($showError) { ?>
                 <h4><span style="color: red">The magic phrase you entered is not working.</span></h4>
@@ -92,13 +92,13 @@ if (isWhiteLabelEnabled()) {
                     </tr>
                     </tfoot>
                 </table>
-<!--                 .table-->
             </form>
         </div>
     </div>
     </body>
 <?php } else { ?>
     <body>
+
     <ol class="setup-steps" style = "margin-left: 70px;">
         <li class="active">Server Requirements</li>
         <!--<li class="@yield('license')">License Agreement</li>-->
@@ -128,8 +128,6 @@ if (isWhiteLabelEnabled()) {
 
     echo htmlspecialchars_decode($table);
     ?>
-
-
 
 
             <!-- table Requirement Check block-->
@@ -329,7 +327,7 @@ if (isWhiteLabelEnabled()) {
 
 <footer style="margin-top: 15px;">
     <span style="text-align: center;"><?=$footerString; ?></span>
-    <script src='themes/default/plugins/jquery/jquery-3.5.1.min.js' type="text/javascript"></script>
+    <script src='themes/default/plugins/jquery/jquery-3.7.1.min.js' type="text/javascript"></script>
     <script type="text/javascript">
         $('#submitme').click(function() {
             location.reload(true);

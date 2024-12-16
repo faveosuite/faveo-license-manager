@@ -278,7 +278,7 @@
                document.getElementById('grecaptcha_badge').style.visibility = 'hidden';
            }
 
-           this.$router.push(this.getUserToken ? '/dashboard' : '/login');
+           window.location.href = this.basePath() + (this.getUserToken ? '/dashboard' : '/login');
 
        },
 

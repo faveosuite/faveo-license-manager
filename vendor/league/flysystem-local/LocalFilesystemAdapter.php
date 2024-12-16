@@ -71,17 +71,21 @@ class LocalFilesystemAdapter implements FilesystemAdapter, ChecksumProvider
 
     public function __construct(
         string $location,
-        VisibilityConverter $visibility = null,
+        ?VisibilityConverter $visibility = null,
         private int $writeFlags = LOCK_EX,
         private int $linkHandling = self::DISALLOW_LINKS,
-        MimeTypeDetector $mimeTypeDetector = null,
+        ?MimeTypeDetector $mimeTypeDetector = null,
         bool $lazyRootCreation = false,
+        bool $useInconclusiveMimeTypeFallback = false,
     ) {
         $this->prefixer = new PathPrefixer($location, DIRECTORY_SEPARATOR);
         $visibility ??= new PortableVisibilityConverter();
         $this->visibility = $visibility;
         $this->rootLocation = $location;
-        $this->mimeTypeDetector = $mimeTypeDetector ?? new FallbackMimeTypeDetector(new FinfoMimeTypeDetector());
+        $this->mimeTypeDetector = $mimeTypeDetector ?? new FallbackMimeTypeDetector(
+            detector: new FinfoMimeTypeDetector(),
+            useInconclusiveMimeTypeFallback: $useInconclusiveMimeTypeFallback,
+        );
 
         if ( ! $lazyRootCreation) {
             $this->ensureRootDirectoryExists();
@@ -95,6 +99,7 @@ class LocalFilesystemAdapter implements FilesystemAdapter, ChecksumProvider
         }
 
         $this->ensureDirectoryExists($this->rootLocation, $this->visibility->defaultForDirectories());
+        $this->rootLocationIsSetup = true;
     }
 
     public function write(string $path, string $contents, Config $config): void
@@ -266,13 +271,13 @@ class LocalFilesystemAdapter implements FilesystemAdapter, ChecksumProvider
             $this->resolveDirectoryVisibility($config->get(Config::OPTION_DIRECTORY_VISIBILITY))
         );
 
-        if ( ! @copy($sourcePath, $destinationPath)) {
+        if ($sourcePath !== $destinationPath && ! @copy($sourcePath, $destinationPath)) {
             throw UnableToCopyFile::because(error_get_last()['message'] ?? 'unknown', $source, $destination);
         }
 
         $visibility = $config->get(
             Config::OPTION_VISIBILITY,
-            $config->get('retain_visibility', true)
+            $config->get(Config::OPTION_RETAIN_VISIBILITY, true)
                 ? $this->visibility($source)->visibility()
                 : null,
         );

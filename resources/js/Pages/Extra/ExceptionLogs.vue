@@ -83,9 +83,9 @@ export default {
 
                 base: 'glyphicon',
 
-                up: 'glyphicon-chevron-up',
+                up: 'glyphicon-chevron-down',
 
-                down: 'glyphicon-chevron-down'
+                down: 'glyphicon-chevron-up'
             },
 
             headings: {

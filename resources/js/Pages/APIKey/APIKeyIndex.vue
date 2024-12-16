@@ -22,9 +22,9 @@
 
                 <div class="card-tools">
 
-                    <router-link to="/apikeys/create" class="btn-tool" v-tooltip="lang('create_api_key')">
+                    <router-link to="/apikeys/create" class="btn btn-tool" v-tooltip="lang('create_api_key')">
 
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fas fa-plus fa-l"></i>
                     </router-link>
                 </div>
             </div>
@@ -81,7 +81,7 @@ export default {
         function createPermissionStatusLabel(h, hasPrmission) {
             return h('span', {
                 attrs: {
-                    'class': hasPrmission ? 'btn btn-success btn-xs' : 'btn btn-danger btn-xs'
+                    'class': hasPrmission ? 'btn btn-success btn-xs' : 'btn btn-secondary btn-xs'
                 }
             }, hasPrmission ? this.lang('active') : this.lang('inactive'))
         }
@@ -92,9 +92,9 @@ export default {
 
                 base: 'glyphicon',
 
-                up: 'glyphicon-chevron-up',
+                up: 'glyphicon-chevron-down',
 
-                down: 'glyphicon-chevron-down'
+                down: 'glyphicon-chevron-up'
             },
 
             texts: { filter: '', limit: '' },
@@ -193,21 +193,21 @@ export default {
                 api_key_installations_edit: (f, row) => {
 
                     return h('span', {
-                        'class': row.api_key_installations_edit ? 'text-green' : 'text-red'
+                        'class': row.api_key_installations_edit ? 'text-success' : 'text-danger'
                     }, row.api_key_installations_edit ? this.lang('active'): this.lang('inactive'))
                 },
 
                 api_key_search: (f, row) => {
 
                     return h('span', {
-                        'class': row.api_key_search ? 'text-green' : 'text-red'
+                        'class': row.api_key_search ? 'text-success' : 'text-danger'
                     }, row.api_key_search ? this.lang('active'): this.lang('inactive'))
                 },
 
                 api_key_status: (f, row) => {
 
                     return h('span', {
-                        'class': row.api_key_status ? 'text-green' : 'text-red'
+                        'class': row.api_key_status ? 'text-success' : 'text-danger'
                     }, row.api_key_status ? this.lang('active'): this.lang('inactive'))
                 },
 

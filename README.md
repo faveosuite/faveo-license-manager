@@ -2,7 +2,7 @@
 
 Agora License Manager is an all-in-one solution for managing licenses and updates for your web applications. It allows you to control and restrict the use of your applications in accordance with your licensing agreements.
 
-The Agora License Manager integrates seamlessly with [Agora Invoicing](https://www.agorainvoicing.com/), providing a unified platform for managing both invoicing and licensing.
+The Agora License Manager integrates seamlessly with [Agora Invoicing](https://www.agorainvoicing.com/), providing a unified platform for managing both invoicing and licensing. To explore the integration further, check out our [sample integration app](https://github.com/ladybirdweb/agora-integration-sample).
 
 Agora is developed by [Ladybird Web Solution Pvt Ltd](http://www.ladybirdweb.com/) and was launched in October 2021.
 
@@ -50,9 +50,9 @@ However, you can still report issues or share your customizations via our [GitHu
 
 | Version  | Supported            |  
 |----------|----------------------|  
-| 3.0.2.1  | :white_check_mark:   |  
-| 3.0.2    | :x:                  |  
-| < 3.0.1  | :x:                  |
+| 3.0.3.RC.1  | :white_check_mark:   |  
+| 3.0.2.1    | :x:                  |  
+| < 3.0.2  | :x:                  |
 
 ### Supported Updates
 

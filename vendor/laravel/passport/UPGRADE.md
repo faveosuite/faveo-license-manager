@@ -2,6 +2,27 @@
 
 ## General Notes
 
+## Upgrading To 12.0 From 11.x
+
+### Migration Changes
+
+Passport 12.0 no longer automatically loads migrations from its own migrations directory. Instead, you should run the following command to publish Passport's migrations to your application:
+
+```bash
+php artisan vendor:publish --tag=passport-migrations
+```
+
+### Password Grant Type
+
+The password grant type is disabled by default. You may enable it by calling the `enablePasswordGrant` method in the `boot` method of your application's `App\Providers\AppServiceProvider` class:
+
+```php
+public function boot(): void
+{
+    Passport::enablePasswordGrant();
+}
+```
+
 ## Upgrading To 11.0 From 10.x
 
 ### Minimum PHP Version
@@ -135,7 +156,7 @@ The minimum Laravel version is now v6.0 and the minimum PHP version is now 7.2. 
 
 PR: https://github.com/laravel/passport/pull/1065
 
-Passport now supports public clients and PCKE. To leverage this feature, you should update the the `secret` column of the `oauth_clients` table to be `nullable`:
+Passport now supports public clients and PCKE. To leverage this feature, you should update the `secret` column of the `oauth_clients` table to be `nullable`:
 
     Schema::table('oauth_clients', function (Blueprint $table) {
         $table->string('secret', 100)->nullable()->change();

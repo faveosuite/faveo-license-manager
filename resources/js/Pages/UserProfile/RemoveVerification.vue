@@ -26,7 +26,7 @@
 
 		<template #controls>
 
-			<button class="btn pull-right float-right" :class="showPasswordRequiredFrom ?  from === 'client'? 'btn-custom':'btn-primary' : 'btn-danger'"
+			<button class="btn pull-right float-start" :class="showPasswordRequiredFrom ?  from === 'client'? 'btn-custom':'btn-primary' : 'btn-danger'"
                     @click="submit()" :style="showPasswordRequiredFrom ? buttonStyle : ''">
 
 				<i class="fas" :class="showPasswordRequiredFrom ? 'fa-check' : 'fa-power-off'"></i> {{ showPasswordRequiredFrom ? lang('validate') : lang('turn_off')}}

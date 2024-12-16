@@ -8,68 +8,68 @@
             <div class="container-fluid">
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-6">
 
-                        <div class="small-box bg-info">
+                        <div class="small-box text-bg-info">
                             <div class="inner">
                                 <h3>{{products}}</h3>
                                 <p>{{lang('products')}}</p>
                             </div>
-                            <div class="icon">
+                            <div class="small-box-icon">
                                 <i class="fas fa-cart-arrow-down"></i>
                             </div>
-                            <router-link class="small-box-footer"  to="/products/list">
+                            <router-link class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"  to="/products/list">
                                 {{lang('view_all')}}
-                                <i class="far fa-arrow-alt-circle-right"></i>
+                                <i class="fas fa-arrow-alt-circle-right"></i>
                             </router-link>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-6">
 
-                        <div class="small-box bg-success">
+                        <div class="small-box text-bg-success">
                             <div class="inner">
                                 <h3> {{versions}}<sup style="font-size: 20px"></sup></h3>
                                 <p>{{lang('versions')}}</p>
                             </div>
-                            <div class="icon">
+                            <div class="small-box-icon">
                                 <i class="fas fa-users"></i>
                             </div>
-                            <router-link class="small-box-footer" to="/versions/list">
+                            <router-link class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover" to="/versions/list">
                                 {{lang('view_all')}}
                                 <i class="far fa-arrow-alt-circle-right"></i>
                             </router-link>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-6">
 
-                        <div class="small-box bg-warning">
+                        <div class="small-box text-bg-warning">
                             <div class="inner">
                                 <h3> {{licenses}}</h3>
                                 <p>{{lang('licenses')}}</p>
                             </div>
-                            <div class="icon">
+                            <div class="small-box-icon">
                                 <i class="fas fa-id-card" ></i>
                             </div>
-                            <router-link class="small-box-footer"  to="/licenses/list">
+                            <router-link class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"  to="/licenses/list">
                                 {{lang('view_all')}}
                                 <i class="far fa-arrow-alt-circle-right"></i>
                             </router-link>
                         </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-lg-3 col-6">
 
-                        <div class="small-box bg-danger">
+                        <div class="small-box text-bg-danger">
                             <div class="inner">
                                 <h3>{{callbacks}}</h3>
                                 <p>{{lang('callbacks')}}</p>
                             </div>
-                            <div class="icon">
+                            <div class="small-box-icon">
                                 <i class="fas fa-phone"></i>
                             </div>
-                            <router-link class="small-box-footer"  to="/callbacks/list">
+                            <router-link class="small-box-footer link-light link-underline-opacity-0 link-underline-opacity-50-hover"  to="/callbacks/list">
                                 {{lang('view_all')}}
                                 <i class="far fa-arrow-alt-circle-right"></i>
                             </router-link>
@@ -81,7 +81,7 @@
 
             <div class="container-fluid">
 
-                <div class="row">
+                <div class="row g-4 mb-4">
                     <div class="shadow-none col-md-6">
                         <latest-product :data="latest_products" :generalSetting="generalSetting" @latestProducts="updateProp"></latest-product>
                     </div>
@@ -90,7 +90,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row g-4 mb-4">
                     <div class="shadow-none col-md-6">
                         <latest-installations :data="latest_installations" :generalSetting="generalSetting" @latestInstallations="updateProp"></latest-installations>
                     </div>
@@ -99,7 +99,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row g-4 mb-4">
                     <div class="shadow-none col-md-6">
                         <latest-product-report :data="latest_reports" :generalSetting="generalSetting" @latestReports="updateProp"></latest-product-report>
                     </div>
@@ -108,7 +108,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row g-4 mb-4">
                     <div class="shadow-none col-md-6">
                         <latest-clients :data="latest_clients" :generalSetting="generalSetting" @latestClients="updateProp"></latest-clients>
                     </div>
@@ -117,7 +117,7 @@
                     </div>
                 </div>
 
-                <div class="row">
+                <div class="row g-4 mb-4">
                     <div class="shadow-none col-md-6">
                         <expiring-support :data="expiring_support" :generalSetting="generalSetting" @expiringSupport="updateProp"></expiring-support>
                     </div>

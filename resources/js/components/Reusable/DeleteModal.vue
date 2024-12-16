@@ -35,7 +35,7 @@
 
             <div>
 
-                <button type="button" @click = "onSubmit()" :class="btnTitle === 'restore' ? 'btn btn-secondary' : 'btn btn-danger'" :disabled="isDisabled">
+                <button type="button" @click = "onSubmit()" :class="btnTitle === 'restore' ? 'btn btn-secondary' : 'btn btn-secondary'" :disabled="isDisabled">
 
                     <i :class="btnTitle === 'restore' ? 'fas fa-sync-alt' : 'fas fa-trash'" aria-hidden="true"></i> {{ btnTitle ? trans(btnTitle) :trans('delte')}}
                 </button>

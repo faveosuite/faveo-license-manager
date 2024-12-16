@@ -462,7 +462,7 @@ class ProductsController extends Controller
             if ($response->success == true ) {
                 $afuProduct = app(AfuProductsController::class);
                 $afuProduct->deleteUpdateProduct($request);
-                return successResponse(Lang::get('lang.Product_Destroy'));
+                return successResponse(Lang::get('lang.product_suspended'));
             } else {
                 // Return an error response if the API call was not successful
                 return errorResponse($response->message, 400);

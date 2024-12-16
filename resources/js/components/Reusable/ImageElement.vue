@@ -113,4 +113,8 @@ export default {
 img {
     object-fit: contain;
 }
+
+.img-circle {
+    border-radius: 50%;
+}
 </style>

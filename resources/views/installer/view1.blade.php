@@ -23,23 +23,23 @@ active
             <div class="fail">
                 <span id="fail">{!! Lang::get('lang.fails') !!}! {{Cache::get('fails')}}</span><br/><br/>
             </div>
-        </div>        
-    </div>  
+        </div>
+    </div>
     <?php Cache::forget('fails')?>
     @endif
 
 
-    {!! Form::open(['url'=> '/config', 'id' => 'databaseform']) !!}
+    {!! html()->form('POST', url('/config'))->id('databaseform')->open() !!}
     <table ng-controller="MainController">
         <tr>
             <td>
                 <label for="box1">Host<span style="color: red;font-size:12px;">*</span></label>
             </td>
             <td>
-                {!! Form::text('host', 'localhost', ['required' => true]) !!}
+                {!! html()->text('host', 'localhost')->required() !!}
             </td>
             <td>
-                <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Hosttitle}}" data-content="@{{Hostcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;"><i class="fa fa-question-circle" style="padding: 0px;"></i>
+                <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Hosttitle}}" data-content="@{{Hostcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;"><i class="fa-solid fa-circle-question" style="padding: 0px;"></i>
                 </button>
             </td>
         </tr>
@@ -48,10 +48,10 @@ active
                 <label for="box2">MySQL port number</label>
             </td>
             <td>
-                {!! Form::text('port', null, ['onkeydown' => 'return CheckPortForInput(event)']) !!}
+                {!! html()->text('port')->attribute('onkeydown', 'return CheckPortForInput(event)') !!}
             </td>
             <td>
-                <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Porttitle}}" data-content="@{{Portcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;"><i class="fa fa-question-circle" style="padding: 0px;"></i>
+                <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Porttitle}}" data-content="@{{Portcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;"><i class="fa-solid fa-circle-question" style="padding: 0px;"></i>
                 </button>
             </td>
         </tr>
@@ -60,31 +60,31 @@ active
                 <label for="box3">Database Name<span style="color: red;font-size:12px;">*</span></label>
             </td>
             <td>
-                {!! Form::text('databasename', null, ['required' => true]) !!}
+                {!! html()->text('databasename')->required() !!}
             </td>
-           
+
         </tr>
         <tr>
             <td>
                 <label for="box4">Username<span style="color: red; font-size: 12px;">*</span></label>
             </td>
             <td>
-                {!! Form::text('username', null, ['required' => true]) !!}
+                {!! html()->text('username')->required() !!}
             </td>
-       
+
         </tr>
         <tr>
             <td>
                 <label for="box5">Password</label>
             </td>
             <td>
-                <input type="password" name="password"> 
+                <input type="password" name="password">
             </td>
-    
+
         </tr>
         </table>
-       
-   
+
+
     <br>
     <p class="setup-actions step">
         <input type="submit" id="submitme" class="button-primary button button-large button-next" value="Continue">

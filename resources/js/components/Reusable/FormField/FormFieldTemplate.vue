@@ -1,11 +1,11 @@
 <template>
 
-  <div :class="[classname, 'form-group', 'form-field-template', {'has-error': name in errors }, { 'row': isInlineForm } ]"
+  <div class="mb-3" :class="[classname, 'form-group', 'form-field-template', {'has-error': name in errors }, { 'row': isInlineForm } ]"
     v-bind:id="label">
 
     <div :class="{ 'col-md-2 flex break': isInlineForm }">
 
-      <label v-bind:for="label" :style="labelStyle">{{label}}</label>
+      <label class="form-label" v-bind:for="label" :style="labelStyle">{{label}}</label>
 
       <label class="is-danger" :style="labelStyle" v-if="required">*</label>
 
@@ -16,12 +16,12 @@
       <i v-if="isClearField && value && typeof(value) == 'object'" @click="clearField" class="fas fa-times clear-btn"
         title="Clear" aria-hidden="true"></i>
 
-      <a v-if="showNewButton" class="btn btn-default btn-xs float-right" href="javascript:;" @click="clickEvent(name)">
+      <a v-if="showNewButton" class="btn btn-light mb-2 float-end btn-xs pt-0 pb-0" href="javascript:;" @click="clickEvent(name)">
 
-        <i class="fas fa-plus"> </i> {{trans(newBtnName)}}
+        <i class="fas fa-plus plus-icon"> </i> {{trans(newBtnName)}}
       </a>
 
-      <i class="float-right" v-if="showPreview">(e.g {{showPreview}})</i>
+      <i class="float-end" v-if="showPreview">(e.g {{showPreview}})</i>
     </div>
 
     <div :class="[ isInlineForm ? 'col-md-10 flex' : '' ]">
@@ -39,7 +39,7 @@
 
       </div>
 
-      <button v-if="actionBtn" class="btn btn-default form-field-action-button" @click="() => actionBtn.action()">
+      <button v-if="actionBtn" class="btn btn-light form-field-action-button" @click="() => actionBtn.action()">
 
         <span>{{trans(actionBtn.text)}}</span>
       </button>
@@ -143,5 +143,10 @@ export default {
 .form-field-action-button {
   height: fit-content;
   white-space: nowrap;
+}
+
+.plus-icon{
+    font-size: 0.9rem;
+    font-weight: 900 !important;
 }
 </style>

@@ -38,7 +38,7 @@ final class Middleware
         ) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null)
+                ?RequestInterface $request = null)
             use (
                 $handler,
                 $api,
@@ -67,13 +67,13 @@ final class Middleware
      *
      * @return callable
      */
-    public static function validation(Service $api, Validator $validator = null)
+    public static function validation(Service $api, ?Validator $validator = null)
     {
         $validator = $validator ?: new Validator();
         return function (callable $handler) use ($api, $validator) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($api, $validator, $handler) {
                 if ($api->isModifiedModel()) {
                     $api = new Service(
@@ -101,15 +101,11 @@ final class Middleware
      * @param array $providerArgs
      * @return callable
      */
-    public static function requestBuilder(
-        $serializer,
-        $endpointProvider = null,
-        array $providerArgs = null
-    )
+    public static function requestBuilder($serializer)
     {
-        return function (callable $handler) use ($serializer, $endpointProvider, $providerArgs) {
-            return function (CommandInterface $command) use ($serializer, $handler, $endpointProvider, $providerArgs) {
-                return $handler($command, $serializer($command, $endpointProvider, $providerArgs));
+        return function (callable $handler) use ($serializer) {
+            return function (CommandInterface $command, $endpoint = null) use ($serializer, $handler) {
+                return $handler($command, $serializer($command, $endpoint));
             };
         };
     }
@@ -155,6 +151,12 @@ final class Middleware
                 return $credentialPromise->then(
                     function (CredentialsInterface $creds)
                     use ($handler, $command, $signer, $request) {
+                        // Capture credentials metric
+                        $command->getMetricsBuilder()->identifyMetricByValueAndAppend(
+                            'credentials',
+                            $creds
+                        );
+
                         return $handler(
                             $command,
                             $signer->signRequest($request, $creds)
@@ -182,7 +184,7 @@ final class Middleware
         return function (callable $handler) use ($fn) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($handler, $fn) {
                 $fn($command, $request);
                 return $handler($command, $request);
@@ -208,8 +210,8 @@ final class Middleware
      * @return callable
      */
     public static function retry(
-        callable $decider = null,
-        callable $delay = null,
+        ?callable $decider = null,
+        ?callable $delay = null,
         $stats = false
     ) {
         $decider = $decider ?: RetryMiddleware::createDefaultDecider();
@@ -257,7 +259,7 @@ final class Middleware
         return function (callable $handler) use ($operations) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($handler, $operations) {
                 if (!$request->hasHeader('Content-Type')
                     && in_array($command->getName(), $operations, true)
@@ -326,7 +328,7 @@ final class Middleware
         return function (callable $handler) use ($history) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($handler, $history) {
                 $ticket = $history->start($command, $request);
                 return $handler($command, $request)
@@ -358,7 +360,7 @@ final class Middleware
         return function (callable $handler) use ($f) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($handler, $f) {
                 return $handler($command, $f($request));
             };
@@ -379,7 +381,7 @@ final class Middleware
         return function (callable $handler) use ($f) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($handler, $f) {
                 return $handler($f($command), $request);
             };
@@ -399,7 +401,7 @@ final class Middleware
         return function (callable $handler) use ($f) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($handler, $f) {
                 return $handler($command, $request)->then($f);
             };
@@ -411,7 +413,7 @@ final class Middleware
         return function (callable $handler) {
             return function (
                 CommandInterface $command,
-                RequestInterface $request = null
+                ?RequestInterface $request = null
             ) use ($handler) {
                 $start = microtime(true);
                 return $handler($command, $request)

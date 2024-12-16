@@ -190,7 +190,7 @@ let profileMenu = {
 
             path: 'edit',
 
-            name: 'Profile',
+            name: 'Profile Edit',
 
             component: Profile,
 
@@ -768,7 +768,7 @@ let whitelistMenu = {
     children: [
         {
             path: 'list',
-            name: 'Whitelist',
+            name: 'Whitelist Index',
             component: WhiteList,
             meta: { title: 'Whitelist', crumb: { link: { name: 'dashboard', to: '/' }, active: 'Whitelist' } }
         },
@@ -780,7 +780,7 @@ let whitelistMenu = {
         },
         {
             path: ':id/edit',
-            name: 'Whitelist create',
+            name: 'Whitelist Edit',
             component: WhiteListCreate,
             meta: { title: 'Whitelist', crumb: { link: { name: 'dashboard', to: '/' }, root_link: { name: 'Whitelist', to: '/whitelist' }, active: 'edit' } }
         }

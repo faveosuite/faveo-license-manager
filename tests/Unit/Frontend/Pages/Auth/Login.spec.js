@@ -90,6 +90,11 @@ describe('Login', () => {
         updateWrapper();
 
         axiosMock = new MockAdapter(axios);
+
+        Object.defineProperty(window, 'location', {
+            writable: true,
+            value: { href: '' }
+        });
     });
 
     afterEach(() => {
@@ -131,13 +136,8 @@ describe('Login', () => {
         wrapper.vm.onSubmit();
 
         setTimeout(async ()=>{
-
-
             expect(axiosMock.history.post[0].url).toEqual('/api/login');
-
-            expect(mockRouter.push).toHaveBeenCalledWith('/login');
-
-
+            expect(window.location.href).toEqual('http://localhost/login');
             done();
         },1);
     });

@@ -1,13 +1,13 @@
 <template>
-    <div class="wrapper">
+    <div class="app-wrapper">
 
 
         <nav-bar :user="getUserData"></nav-bar>
         <side-bar :user="getUserData"></side-bar>
 
-        <div class="content-wrapper">
+        <div class="app-main">
             <bread-crumbs></bread-crumbs>
-            <div class="content">
+            <div class="app-content">
                 <div class="container-fluid">
                     <div class="row">
                         <router-view v-slot="{ Component }" :generalSetting="generalSetting" :key="$route.fullPath">

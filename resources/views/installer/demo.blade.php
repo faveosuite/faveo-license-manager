@@ -23,10 +23,9 @@ active
 
 <div ng-app="myApp">
         <h1 style="text-align: center;">Getting Started</h1>
-        
-          {!! Form::open(['url'=>route('final'), 'id' => 'postaccount']) !!}
-         
-        
+
+    {!! html()->form('POST', route('final'))->id('postaccount')->open() !!}
+
 
         <!-- checking if the form submit fails -->
         @if($errors->first('admin_fname')||$errors->first('admin_lname')||$errors->first('admin_email')||$errors->first('admin_password')||$errors->first('confirm_password'))
@@ -41,15 +40,15 @@ active
                     @if($errors->first('admin_email'))
                         <span id="fail">{!! $errors->first('admin_email', ':message') !!}</span><br/><br/>
                     @endif
-                   
+
                     @if($errors->first('admin_password'))
                         <span id="fail">{!! $errors->first('admin_password', ':message') !!}</span><br/><br/>
                     @endif
-                  
+
 
 
                 </div>
-            </div>  
+            </div>
              @endif
                <!-- checking if the system fails -->
         @if(Session::has('fails'))
@@ -60,8 +59,8 @@ active
             </div>
         @endif
 
-    <div ng-controller="MainController"> 
-            <table>                
+    <div ng-controller="MainController">
+            <table>
                 <h1>Sign up as Admin</h1>
                 <div>
                     <tr>
@@ -70,7 +69,7 @@ active
                                 : red;font-size:12px;">*</span></label>
                         </td>
                         <td>
-                            {!! Form::text('admin_fname',null,['style' =>'margin-left:250px', 'required' => true]) !!}
+                            {!! html()->text('admin_fname')->attribute('style', 'margin-left:250px')->required() !!}
                         </td>
                         <td>
                             <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Nametitle}}" data-content="@{{Namecontent}}" style="padding: 0px;border: 0px; border-radius: 5px;">
@@ -83,7 +82,7 @@ active
                                 : red;font-size:12px;">*</span></label>
                         </td>
                         <td>
-                            {!! Form::text('admin_lname',null,['style' =>'margin-left:250px', 'required' => true]) !!}
+                            {!! html()->text('admin_lname')->attribute('style', 'margin-left:250px')->required() !!}
                         </td>
                         <td>
                             <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Lasttitle}}" data-content="@{{Lastcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;">
@@ -96,7 +95,7 @@ active
                                 : red;font-size:12px;">*</span></label>
                         </td>
                         <td>
-                            {!! Form::text('admin_username',null,['style' =>'margin-left:250px', 'required' => true]) !!}
+                            {!! html()->text('admin_username')->attribute('style', 'margin-left:250px')->required() !!}
                         </td>
                         <td>
                             <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Lasttitle}}" data-content="@{{Lastcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;">
@@ -109,7 +108,7 @@ active
                                 : red;font-size:12px;">*</span></label>
                         </td>
                         <td>
-                            {!! Form::email('admin_email',null,['style' =>'margin-left:250px', 'required' => true]) !!}
+                            {!! html()->email('admin_email')->attribute('style', 'margin-left:250px')->required() !!}
                         </td>
                         <td>
                             <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Emailtitle}}" data-content="@{{Emailcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;">
@@ -133,14 +132,14 @@ active
                         </td>
                     </tr>
                     <tr>
-                      
+
                         <td>
                             <button type="button" data-toggle="popover" tabIndex="-1" data-placement="right" data-arrowcolor="#eeeeee" data-bordercolor="#bbbbbb" data-title-backcolor="#cccccc" data-title-bordercolor="#bbbbbb" data-title-textcolor="#444444" data-content-backcolor="#eeeeee" data-content-textcolor="#888888" title="@{{Confirmtitle}}" data-content="@{{Confirmcontent}}" style="padding: 0px;border: 0px; border-radius: 5px;"> </button>
                         </td>
                     </tr>
                 </div>
             </table>
-           
+
             <br><br>
             <p class="setup-actions step">
 
@@ -179,7 +178,7 @@ active
 
             }
         })
-        
+
         $('#driverSelect').change(function (){
             var value = $(this).val();
             if (value == 's3') {
@@ -217,14 +216,14 @@ active
             @if($errors->has('admin_email'))
                 addErrorClass('admin_email');
             @endif
-           
+
             @if($errors->has('admin_password'))
                 addErrorClass('admin_password');
             @endif
             @if($errors->has('confirmpassword'))
                 addErrorClass('confirmpassword');
             @endif
-         
+
         $('#postaccount').on('submit', function(e) {
             $empty_field = 0;
             $("#postaccount input").each(function() {

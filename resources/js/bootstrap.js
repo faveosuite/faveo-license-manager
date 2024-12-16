@@ -91,6 +91,8 @@ import 'vue-select/dist/vue-select.css';
 
 import 'vue-datepicker-next/index.css';
 
+import 'intl-tel-input/build/css/intlTelInput.css';
+
 import _ from 'lodash';
 
 window._ = _;

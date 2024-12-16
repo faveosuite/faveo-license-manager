@@ -12,11 +12,11 @@ done
 active
 @stop
 
-<script type="text/javascript"> 
+<script type="text/javascript">
     javascript:window.history.forward(1);
-</script> 
+</script>
 
-@section('content') 
+@section('content')
 
 <h1 style="text-align: center;">Database Setup</h1>
 This test will check prerequisites required to install Helpdesk<br/>
@@ -38,7 +38,7 @@ $dummy_install = Session::get('dummy_data_installation');
 $port = Session::get('port');
 $sslKey = Session::get('db_ssl_key');
 $sslCert = Session::get('db_ssl_cert');
-$sslCa = Session::get('db_ssl_ca'); 
+$sslCa = Session::get('db_ssl_ca');
 $sslVerify = Session::get('db_ssl_verify');
 define('DB_HOST', $host); // Address of your MySQL server (usually localhost)
 define('DB_USER', $username); // Username that is used to connect to the server
@@ -71,15 +71,15 @@ class TestResult{
  * check if DB is MySQL or MariaDB so we can focus on just to check compatible
  * version of MySQL and MariaDB instead of figuring out what DB server is running.
  * NOTE: This code snippet will work and will not require any modifications until
- *       MySQL releases version 10 which is unlikely to happen in near future. 
+ *       MySQL releases version 10 which is unlikely to happen in near future.
  *
  * @param   int  $version  MySQL/MariaDB version as in integer
- * @return  bool           true if $version satisfies minimum requirement else false  
+ * @return  bool           true if $version satisfies minimum requirement else false
  */
 function compareMySqlAndMariDB(int $version):bool
 {
     /**
-     * MySql version less than 5.6 are not compatible so if version is 
+     * MySql version less than 5.6 are not compatible so if version is
      * between 5.6 and 8(including minor and major tags for 8) then we return true
      */
     if($version >= 50600 && $version < 90000) return true;
@@ -101,12 +101,12 @@ function compareMySqlAndMariDB(int $version):bool
  * - Checks if connection can access the database
  * - Checks if database version is compatible
  * - Checks if given database is empty or not
- * 
+ *
  * @param   array   $results     variable linked for errors or success messages
  * @param   bool    $mysqli_ok   variable linked for mysql status
  * @param   object  $connection
  * @return  void
- * 
+ *
  * @author Manish Verma <manish.verma@ladybirdweb.com>
  */
 function checkDBPrerequisites(array &$results, bool &$mysqli_ok, object $connection):void
@@ -164,7 +164,7 @@ function setupConfig($host, $dbUsername, $dbPassword,$port='', $customOptions = 
 /**
  * Method attempts database connection after setting connection configurations and
  * returns mysqli connection object
- * 
+ *
  * @return object connection object
  */
 function getDBConnection()
@@ -238,14 +238,14 @@ if (DB_HOST && DB_USER && DB_NAME) {
 <?php if ($mysqli_ok !== null) { ?>
     <?php if ($mysqli_ok) { ?>
 
-     
+
 
         <!--<script src='themes/default/js/ajax-jquery.min.js'></script>-->
         <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jstimezonedetect/1.0.4/jstz.min.js"></script>
         <span id="wait"></span>
 
-        {!! Form::open( ['id'=>'form','method' => 'POST',] )!!}
-     <input type="hidden" name="_token" value="{{ csrf_token() }}"> 
+        {!! html()->form('POST')->id('form')->open() !!}
+     <input type="hidden" name="_token" value="{{ csrf_token() }}">
         <!-- <b>default</b><br> -->
         <input type="hidden" name="default" value="{!! $default !!}"/>
         <!-- <b>Host</b><br> -->
@@ -258,7 +258,7 @@ if (DB_HOST && DB_USER && DB_NAME) {
         <input type="hidden" name="password" value="{!! htmlspecialchars($password) !!}"/>
         <!-- <b>Port</b><br> -->
         <input type="hidden" name="port" value="{!! $port !!}"/>
-   
+
         <input type="submit" style="display:none;">
 
         </form>
@@ -274,7 +274,7 @@ if (DB_HOST && DB_USER && DB_NAME) {
         </div>
 
         <div style="border-bottom: 1px solid #eee;">
-          
+
                  <form action='{{URL::route('getting-started')}}' method="GET">
                     <p class="setup-actions step">
                          <input type="hidden" name="timezone" id="tz" value=""/>
@@ -283,11 +283,11 @@ if (DB_HOST && DB_USER && DB_NAME) {
                 <a href="db-setup" class="button button-large button-next" style="float: left" id="previous">Previous</a>
             </p>
             </form>
-           
+
         </div>
 
         <br/>
-        
+
         <script type="text/javascript">
         // submit a ticket
         $(document).ready(function () {
@@ -328,7 +328,7 @@ if (DB_HOST && DB_USER && DB_NAME) {
                     $('#next').find('#submitme').hide();
                     $('#retry').append('<input type="button" id="submitm" class="button-primary button button-large button-next" value="Retry" onclick="reload()">');
                     $("#previous").show();
-                    
+
                 }
             })
             return false;
@@ -400,17 +400,17 @@ if (DB_HOST && DB_USER && DB_NAME) {
                     $('#next').find('#submitme').hide();
                     $('#retry').append('<input type="button" id="submitm" class="button-primary button button-large button-next" value="Retry" onclick="reload()">');
                     $("#previous").show();
-                    
+
                 }
             })
-            
+
         }
         </script>
 
     <?php } else { ?>
-      
-            
-       
+
+
+
         <p>This either means that the username and password information is incorrect or your host is not reachable.</p>
         <ul>
             <li>Are you sure you have a database already existing with the Database name provided?</li>

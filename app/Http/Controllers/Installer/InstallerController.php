@@ -98,7 +98,7 @@ class InstallerController extends Controller
                 if (Cache::get('databasename') != env('DB_DATABASE')) {
                     throw new Exception('Database connection did not update.', 500);
                 }
-                $tableNames = \Schema::getConnection()->getDoctrineSchemaManager()->listTableNames();
+                $tableNames = \Schema::getTableListing();
                 //allowing migrations table in db as it does not get removed on "migrate:reset"
                 $tableNames = array_unique(array_merge(['migrations'], $tableNames));
                 if (count($tableNames) === 1) {
@@ -110,7 +110,7 @@ class InstallerController extends Controller
                         \DB::unprepared(file_get_contents($path));
                     }
                 }
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 // $this->rollBackMigration();
                 $result = ['error' => $ex->getMessage()];
 
@@ -129,7 +129,7 @@ class InstallerController extends Controller
             Artisan::call('migrate', ['--path' => 'vendor/laravel/passport/database/migrations', '--force' => true]);
                shell_exec('php ../artisan passport:install');
                // Artisan::call('passport:install', ['--force' => true]);
-           } catch (Exception $ex) {
+           } catch (\Exception $ex) {
                $result = ['error' => $ex->getMessage()];
 
                return response()->json(compact('result'), 500);
@@ -190,7 +190,7 @@ class InstallerController extends Controller
                     $sslVerify = Session::get('db_ssl_verify');
                 }
                 $this->env($default, $host, $port, $database, $dbusername, $dbpassword, null, $sslKey, $sslCert, $sslCa, $sslVerify);
-            } catch (Exception $ex) {
+            } catch (\Exception $ex) {
                 $result = [$ex->getMessage()];
 
                 return response()->json(compact('result'), 500);
@@ -269,7 +269,7 @@ class InstallerController extends Controller
     {
         $env = base_path().DIRECTORY_SEPARATOR.'.env';
         if (! is_file($env)) {
-            throw new Exception('.env not found');
+            throw new \Exception('.env not found');
         }
         $txt = 'DB_INSTALL=1';
         $txt1 = "APP_ENV=$environment";

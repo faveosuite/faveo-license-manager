@@ -394,7 +394,7 @@ export function Validator(getMessage) {
     function isUrl(value){
         value = decodeStringWithSpecialChars(value);
 
-        var regexQuery = "^(https?://)?(www\\.)?([-a-z0-9]{1,63}\\.)*?[a-z0-9][-a-z0-9]{0,61}[a-z0-9]\\.[a-z]{2,6}(/[-\\w@\\+\\.~#\\?&/=%]*)?$";
+        var regexQuery = "^(?:(?:https?|ftp):\\/\\/)?(?:\\S+(?::\\S*)?@)?(?:\\[((?:[a-fA-F0-9:]+))\\]|(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,})(?::\\d{1,5})?(?:[\\/?#]\\S*)?$";
         var url = new RegExp(regexQuery,"i");
 
         if(!url.test(value) && !NpmValidator.isEmpty(value)){

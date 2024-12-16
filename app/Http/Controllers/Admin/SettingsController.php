@@ -431,6 +431,9 @@ class SettingsController extends Controller
         if (File::exists($envFilePath)) {
             $envFileContents = File::get($envFilePath);
             $envFileContents = preg_replace('/^APP_DEBUG=.*$/m', 'APP_DEBUG=' . ($debug ? 'true' : 'false'), $envFileContents);
+            $envFileContents = preg_match('/^PULSE_ENABLED=.*$/m', $envFileContents)
+                ? preg_replace('/^PULSE_ENABLED=.*$/m', "PULSE_ENABLED=" . ($debug ? 'true' : 'false'), $envFileContents)
+                : $envFileContents . "\nPULSE_ENABLED=" . ($debug ? 'true' : 'false');
             File::put($envFilePath, $envFileContents);
             Artisan::call('config:clear');
             $dotenv = Dotenv::createImmutable(base_path());
