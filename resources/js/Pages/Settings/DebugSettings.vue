@@ -22,10 +22,14 @@
               Disable
             </label>
                     </div>
-                    <div class="col-6">
-                        <div v-if="showLink">
-                            <a :href="basePath() + '/clockwork/app?user_id=' + user_id" style="margin-left: 5px"><i
-                                    class="fas fa-clock fa-spin fa-lg"></i>&nbsp;&nbsp;Clockwork</a>
+                    <div class="col-6 d-flex justify-content-start">
+                        <div v-if="showLink" class="d-flex gap-3">
+                            <a :href="basePath() + '/clockwork/app?user_id=' + user_id" class="btn btn-outline-info btn-block btn-flat">
+                                <i class="fa-solid fa-clock fa-spin"></i>&nbsp; Clockwork
+                            </a>
+                            <a :href="basePath() + '/pulse'" class="btn btn-outline-danger btn-block btn-flat">
+                                <i class="fa-solid fa-heart-pulse fa-beat"></i>&nbsp; Pulse
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -58,7 +58,11 @@
 
                         <div class="row">
 
-                            <phoneWithCountryCode id="phone_number" classname="col-sm-9" name="client_mobile" :onChange="onChange" :value="client_mobile" :countryCode="phone_country_code" :countryIso="client_iso2" @countCode="getPCountCode" @countIso="getPCountIso" labelName="phone_number" apiUrl="/api/admin/countryCode">
+                            <phoneWithCountryCode id="client_mobile" classname="col-sm-9" name="client_mobile" :onChange="onChange"
+                                                  :value="client_mobile" :countryCode="phone_country_code" :countryIso="client_iso2"
+                                                  @countCode="getPCountCode" @countIso="getPCountIso" labelName="phone_number"
+                                                  @validPhoneNumber="checkValidity" fieldType="FIXED_LINE_OR_MOBILE">
+
                             </phoneWithCountryCode>
 
                         </div>
@@ -124,20 +128,20 @@
 
 								<span>
 
-									<img class="img-responsive img-circle img-sm" :src="basePath()+'/themes/default/img/authenticator.png'" alt="A"
+									<img class="img-responsive img-rounder img-sm" :src="basePath()+'/themes/default/img/authenticator.png'" alt="A"
                                          id="auth_img">&nbsp;{{two_factor ? '2-Step Verification is ON since '+ getDate  : lang('authenticator_app')}}
 								</span>
                             </div>
 
                             <div class="col-md-3">
 
-                                <button v-if="!two_factor" type="button" class="btn btn-primary float-right" @click="showModal = true">
+                                <button v-if="!two_factor" type="button" class="btn btn-primary float-end" @click="showModal = true">
 
                                     <i class="fas fa-toggle-on"></i> {{lang('turn_on')}}
 
                                 </button>
 
-                                <button v-if="two_factor" type="button" class="btn btn-danger float-right" @click="removeModal = true">
+                                <button v-if="two_factor" type="button" class="btn btn-secondary float-end" @click="removeModal = true">
 
                                     <i class="fas fa-power-off"></i> {{lang('turn_off')}}
 
@@ -251,8 +255,6 @@ export default {
 
           styleObj : { background : 'none' },
 
-          phone_iso: '',
-
           iso: '',
 
           selectedImage : '',
@@ -265,7 +267,9 @@ export default {
 
           client_timezone_id: '',
 
-          timezone: ''
+          timezone: '',
+
+          phoneValidityStatus: { client_mobile: true }
       }
     },
     methods: {
@@ -277,8 +281,6 @@ export default {
             this.loading = true;
 
             axios.get('/api/admin/profile/info').then(res=>{
-
-                this.profileData = res.data.data;
 
                 this.updateStatesWithData(res.data.data);
 
@@ -349,6 +351,11 @@ export default {
 
                this[name] = value
            }
+
+            // Validate client_timezone_id
+            if (name === 'client_timezone_id' && value === null) {
+                this.client_timezone_id = ''
+            }
         },
 
         getPCountCode(value){
@@ -359,7 +366,11 @@ export default {
         getPCountIso(value){
 
             this.client_iso2 = value;
-            this.phone_iso = value;
+        },
+
+        checkValidity(name, value) {
+
+            this.phoneValidityStatus[name] = value;
         },
 
         isValid(){
@@ -379,7 +390,7 @@ export default {
 
         onSubmit(){
 
-            if(this.isValid()){
+            if(this.isValid() && this.isPhoneValid){
 
                 this.isDisabled=true;
 
@@ -507,10 +518,6 @@ export default {
             }
         },
 
-        profileBoxVisible() {
-            window.emitter.emit('profile-box-mounted',{'alert' : 'edit_profile'});
-        },
-
         onClose(){
 
             this.showModal = false;
@@ -525,6 +532,11 @@ export default {
         getDate() {
 
             return formatDateTime(this.google2fa_activation_date, this.settings_timezone, this.date_format, this.time_format)
+        },
+
+        isPhoneValid() {
+
+            return this.phoneValidityStatus.client_mobile;
         }
     },
     beforeMount() {
@@ -545,5 +557,10 @@ export default {
 
 
 <style scoped>
+
+.img-sm{
+    height: 1.875rem;
+    width: 1.875rem;
+}
 
 </style>

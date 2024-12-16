@@ -27,9 +27,9 @@ $settingsArray = json_decode($commonSettings->getCommonSetting()->getContent())-
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
 
-    <link href="{{assetLink('css','adminlte-3')}}" rel='stylesheet' type='text/css'/>
+    <link href="{{assetLink('css','adminlte-4')}}" rel='stylesheet' type='text/css'/>
 
-    <link href="{{assetLink('css','font-awesome-5')}}" rel="stylesheet" type="text/css" />
+    <link href="{{assetLink('css','font-awesome-6')}}" rel="stylesheet" type="text/css" />
 
     <link href="{{assetLink('css','ionicons')}}" rel="stylesheet"  type="text/css" />
 
@@ -87,12 +87,35 @@ $settingsArray = json_decode($commonSettings->getCommonSetting()->getContent())-
           .form-group.has-error .vs__dropdown-toggle {
               border-color: #d73925 !important;
           }
+
+          a{
+              text-decoration: none !important;
+          }
+
+          body {
+              margin: 0;
+              font-family: "Source Sans Pro", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol" !important;
+              font-size: 1rem !important;
+              font-weight: 400 !important;
+              line-height: 1.5 !important;
+              color: #212529 !important;
+              text-align: left !important;
+              background-color: #fff !important;
+          }
+
+          .iti {
+              width: 100%;
+              --iti-path-flags-1x: url({{assetLink('image','mflags')}});
+              --iti-path-flags-2x: url({{assetLink('image','mflags2x')}});
+              --iti-path-globe-1x: url({{assetLink('image','mglobe')}});
+              --iti-path-globe-2x: url({{assetLink('image','mglobe2x')}});
+          }
       </style>
 
       @vite(['resources/css/app.scss', 'resources/js/app.js'])
   </head>
 
-  <body >
+  <body class="layout-fixed layout-navbar-fixed sidebar-expand-lg bg-body-tertiary app-loaded sidebar-collapse">
     <div id="app">
 
         <license-manager-renderer
@@ -106,9 +129,9 @@ $settingsArray = json_decode($commonSettings->getCommonSetting()->getContent())-
 
     <script type="text/javascript" src="{{assetLink('js','popper')}}"></script>
 
-    <script src="{{assetLink('js','bootstrap-4')}}" type="text/javascript"></script>
+    <script src="{{assetLink('js','bootstrap-5')}}" type="text/javascript"></script>
 
-    <script src="{{assetLink('js','adminlte-3')}}" type="text/javascript"></script>
+    <script src="{{assetLink('js','adminlte-4')}}" type="text/javascript"></script>
 
     <script src="{{assetLink('js','new-overlay')}}" type="text/javascript"></script>
 

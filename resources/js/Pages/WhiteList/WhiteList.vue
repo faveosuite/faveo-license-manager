@@ -18,9 +18,9 @@
 
                 <div class="card-tools">
 
-                    <router-link to="/whitelist/create" class="btn-tool" v-tooltip="lang('create_whitelist_ip')">
+                    <router-link to="/whitelist/create" class="btn btn-tool" v-tooltip="lang('create_whitelist_ip')">
 
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fas fa-plus fa-l"></i>
                     </router-link>
                 </div>
             </div>
@@ -81,9 +81,9 @@ export default {
 
                 base: 'glyphicon',
 
-                up: 'glyphicon-chevron-up',
+                up: 'glyphicon-chevron-down',
 
-                down: 'glyphicon-chevron-down'
+                down: 'glyphicon-chevron-up'
             },
 
             texts: { filter: '', limit: '' },

@@ -35,7 +35,7 @@
 
             <div>
 
-                <button type="button" @click="copyMethod" class="btn btn-default" :disabled="isDisabled">
+                <button type="button" @click="copyMethod" class="btn btn-light" :disabled="isDisabled">
 
                     <i class="fas fa-copy" aria-hidden="true"></i> {{trans('copy')}}
                 </button>

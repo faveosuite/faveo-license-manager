@@ -18,31 +18,31 @@
 
                         <div class="col-md-3 px-5 text-center">
 
-                            <image-element class="object-fit-cover" :class="['profile-user-img', 'img-responsive', 'img-circle', 'img-click']" alt="User Profile Picture" id="client_profile_pic" :sourceUrl="client_profile_pic" ></image-element>
+                            <image-element class="object-fit-cover" :class="['profile-user-img', 'img-responsive', 'img-rounder', 'img-click']" alt="User Profile Picture" id="client_profile_pic" :sourceUrl="client_profile_pic" ></image-element>
 
                             <h3 class="profile-username">{{full_name}}</h3>
 
                             <p class="text-muted">
                                 {{client_email}}
-                                <span class="btn ml-1 btn-default" v-tooltip="lang('copy')" style="cursor: pointer" @click="copyCommand('email')">
+                                <span class="btn ml-1 btn-light" v-tooltip="lang('copy')" style="cursor: pointer" @click="copyCommand('email')">
                                     <i :class="iconClassEmail"></i>
                                 </span>
                             </p>
 
                             <div class="client-status-btn">
-                                <span v-if="client_status" class="px-4 py-1 user-select-none bg-success">Active</span>
-                                <span v-else class="px-4 py-1 user-select-none bg-danger w-50">Inactive</span>
+                                <span v-if="client_status" class="px-4 py-1 user-select-none bg-success status-color">Active</span>
+                                <span v-else class="px-4 py-1 user-select-none bg-danger w-50 status-color">Inactive</span>
                             </div>
 
                         </div>
 
-                        <div class="col-md-7 border-left border-2 border-gray px-5">
+                        <div class="col-md-7 border-start border-2 border-gray px-5">
 
                             <div class="row mt-3 pb-3">
 
                                 <div class="col-md-12 border-bottom mt-2">
                                     <div class="row">
-                                        <div class="col-md-5 text-gray">
+                                        <div class="col-md-5 text-secondary">
                                             <label><strong>{{lang('role')}}:</strong></label>
                                         </div>
                                         <div v-if="client_role" class="col-md-7 client_role">{{client_role}}</div>
@@ -52,7 +52,7 @@
 
                                 <div class="col-md-12 border-bottom mt-2">
                                     <div class="row">
-                                        <div class="col-md-5 text-gray">
+                                        <div class="col-md-5 text-secondary">
                                             <label><strong>{{lang('contact_created_date')}}:</strong></label>
                                         </div>
                                         <div v-if="client_active_date" class="col-md-7">{{client_active_date}}</div>
@@ -64,12 +64,12 @@
 
                         <div class="card-tools col-md-2">
 
-                            <router-link :to="'/clients/'+ id +'/edit'" v-tooltip="lang('edit')" class="btn mr-2 action-btn text-right">
+                            <router-link :to="'/clients/'+ id +'/edit'" v-tooltip="lang('edit')" class="btn me-2 action-btn text-end">
 
                                 <i class="fas fa-edit"></i>
                             </router-link>
 
-                            <button class="btn action-btn delete-btn p-0" v-tooltip="lang('delete_btn')" @click="showDeleteModal()">
+                            <button class="btn action-btn delete-btn" v-tooltip="lang('delete_btn')" @click="showDeleteModal()">
 
                                 <i class="fas fa-trash"></i>
                             </button>
@@ -88,10 +88,10 @@
                 <div class="card-header border-0 data-table-header p-0 pt-1">
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                         <li class="nav-item">
-                            <a class="nav-link cursor-pointer card-header-link active" @click="updateData('installations')" id="custom-tabs-one-home-tab" data-toggle="pill" href="#" role="tab" aria-controls="custom-tabs-one-home">{{lang('installations')}}</a>
+                            <a class="nav-link cursor-pointer card-header-link" :class="{ active: activeTab === 'installations' }" @click="activeTab !== 'installations' && updateData('installations')" id="custom-tabs-one-home-tab" data-bs-toggle="pill" href="#" role="tab" aria-controls="custom-tabs-one-home">{{lang('installations')}}</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link card-header-link cursor-pointer" @click="updateData('licenses')" id="custom-tabs-one-profile-tab" data-toggle="pill" href="#" role="tab">{{lang('licenses')}}</a>
+                            <a class="nav-link card-header-link cursor-pointer" :class="{ active: activeTab === 'licenses' }" @click="activeTab !== 'licenses' && updateData('licenses')" id="custom-tabs-one-profile-tab" data-bs-toggle="pill" href="#" role="tab">{{lang('licenses')}}</a>
                         </li>
                     </ul>
                 </div>
@@ -165,7 +165,9 @@ export default {
 
             client_organization: '',
 
-            client_profile_pic: ''
+            client_profile_pic: '',
+
+            activeTab: 'installations',
         }
     },
 
@@ -265,6 +267,8 @@ export default {
 
         updateData(value, productId) {
 
+            this.activeTab = value;
+
             const date_format = this.generalSetting.date_format.js_format
             const time_format = this.generalSetting.time_format.js_format
             const timezone = this.generalSetting.timezone.name
@@ -285,9 +289,9 @@ export default {
 
                             base: 'glyphicon',
 
-                            up: 'glyphicon-chevron-up',
+                            up: 'glyphicon-chevron-down',
 
-                            down: 'glyphicon-chevron-down'
+                            down: 'glyphicon-chevron-up'
                         },
 
                         texts: { filter: '', limit: '' },
@@ -376,7 +380,7 @@ export default {
                             installation_status: (f, row) => {
 
                                 return h('span', {
-                                    'class': row.installation_status ? 'text-green' : 'text-red'
+                                    'class': row.installation_status ? 'text-success' : 'text-danger'
                                 }, row.installation_status ? this.lang('active'): this.lang('inactive'))
                             },
                         },
@@ -414,9 +418,9 @@ export default {
 
                             base: 'glyphicon',
 
-                            up: 'glyphicon-chevron-up',
+                            up: 'glyphicon-chevron-down',
 
-                            down: 'glyphicon-chevron-down'
+                            down: 'glyphicon-chevron-up'
                         },
 
                         texts: { filter: '', limit: '' },
@@ -505,7 +509,7 @@ export default {
                             license_status: (f, row) => {
 
                                 return h('span', {
-                                    'class': row.license_status ? 'text-green' : 'text-red'
+                                    'class': row.license_status ? 'text-success' : 'text-danger'
                                 }, row.license_status ? this.lang('active'): this.lang('inactive'))
                             },
 
@@ -574,7 +578,7 @@ export default {
 <style scoped>
 
 .data-table-header {
-    background-color: #ebebeb;
+    background-color: #ebebeb !important;
 }
 .action-btn{
     color: rgba(31, 45, 61, .8);
@@ -588,5 +592,20 @@ export default {
 .card-header-link:hover:not(.active){
     color: #007bff;
     cursor: pointer;
+}
+
+.profile-user-img {
+    border: 3px solid #adb5bd;
+    margin: 0 auto;
+    padding: 3px;
+    width: 100px;
+}
+
+.img-rounder{
+    border-radius: 50% !important;
+}
+
+.status-color{
+    color: #fff !important;
 }
 </style>

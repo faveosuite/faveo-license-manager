@@ -1,50 +1,47 @@
 <template>
 
-	<nav class="main-header navbar navbar-expand navbar-white navbar-light">
+	<nav class="app-header navbar navbar-expand bg-body">
 
-		<ul class="navbar-nav">
+        <div class="container-fluid">
 
-	  		<li class="nav-item">
+		    <ul class="navbar-nav">
 
-				<a class="nav-link" data-widget="pushmenu" href="javascript:;" role="button"><i class="fas fa-bars"></i></a>
-	  		</li>
+                <li class="nav-item">
 
-	  		<li class="nav-item d-none d-sm-inline-block">
+                    <a class="nav-link" data-lte-toggle="sidebar" href="javascript:;" role="button"><i class="fas fa-bars"></i></a>
+                </li>
 
-				<router-link to="/dashboard" v-tooltip="lang('home')" class="nav-link">{{trans('home')}}</router-link>
-	  		</li>
+                <li class="nav-item d-none d-sm-inline-block">
 
-		</ul>
+                    <router-link to="/dashboard" v-tooltip="lang('home')" class="nav-link">{{trans('home')}}</router-link>
+                </li>
 
-		<ul class="navbar-nav ml-auto" v-if="user">
+            </ul>
 
-            <li class="nav-item dropdown user-menu">
+            <ul class="navbar-nav ms-auto" v-if="user">
 
-                <a href="javascript:;" class="nav-link dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                <li class="nav-item dropdown user-menu">
 
-                    <span class="d-none d-md-inline mr-1" v-tooltip="user.client_fname +' '+ user.client_lname" dir="auto">
+                    <a href="javascript:;" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
 
-                        {{ subString(user.client_fname +' '+ user.client_lname) }}
-                        <image-element :sourceUrl="user.client_profile_pic" id="navbar-profile" class="user-image ml-2 img-circle elevation-2 d-none d-md-inline"
-                             alt="User Image"/>
-                    </span>
-
-                </a>
-
-                <ul class="dropdown-menu dropdown-profile dropdown-menu-sm dropdown-menu-right rounded model-box rounded text-white dropdown-menu-arrow mt-2 rounded">
-                    <li>
-                        <router-link class="dropdown-item dp-data " to="/profile/edit"><i
-                            class="fa fa-user pr-2"></i>{{ trans('profile') }}
-                        </router-link>
-                    </li>
-                    <li>
-                        <a href="javascript:;" class="dropdown-item dp-data mb-4 mt-1" @click="signOut">
-                            <i class="fas fa-sign-out-alt pr-2"></i>{{ trans('sign_out') }}
-                        </a>
-                    </li>
-                </ul>
-            </li>
-		</ul>
+                        <span class="d-none d-md-inline me-2" v-tooltip="user.client_fname + ' ' + user.client_lname" dir="auto">
+                             {{ subString(user.client_fname + ' ' + user.client_lname) }}
+                         </span>
+                        <image-element :sourceUrl="user.client_profile_pic" id="navbar-profile" class="user-image img-circle shadow d-none d-md-inline" alt="User Image"/>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-sm dropdown-profile dropdown-menu-end rounded model-box text-white dropdown-menu-arrow mt-2">
+                        <li>
+                            <router-link class="dropdown-item dp-data" to="/profile/edit"><i class="fa fa-user pe-2"></i>{{ trans('profile') }}</router-link>
+                        </li>
+                        <li>
+                            <a href="javascript:;" class="dropdown-item dp-data mb-4 mt-1" @click="signOut">
+                                <i class="fas fa-sign-out-alt pe-2"></i>{{ trans('sign_out') }}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
 
 	    <custom-loader v-if="loading"></custom-loader>
   	</nav>

@@ -17,7 +17,7 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'version' => 'v3.0.2.1',
+    'version' => 'v3.0.3.RC.1',
 
     /*
     |--------------------------------------------------------------------------
@@ -218,6 +218,7 @@ return [
         PragmaRX\Google2FALaravel\ServiceProvider::class,
         \App\Providers\LogServiceProvider::class,
         'Thomaswelton\LaravelGravatar\LaravelGravatarServiceProvider',
+        Spatie\Html\HtmlServiceProvider::class,
     ],
 
     /*
@@ -232,8 +233,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        'Form' => Collective\Html\FormFacade::class,
-        'Html' => Collective\Html\HtmlFacade::class,
+        'HTML' => Spatie\Html\Facades\Html::class,
         'Logger' => App\Facades\Log::class,
         'Gravatar' => Thomaswelton\LaravelGravatar\Facades\Gravatar::class,
         'Google2FA' => PragmaRX\Google2FALaravel\Facade::class,

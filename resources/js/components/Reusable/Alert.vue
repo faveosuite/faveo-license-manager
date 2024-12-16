@@ -4,11 +4,11 @@
 
 			<div v-bind:class="['alert', classname]">
 
-				<button type="button" v-on:click="dismiss" class="close" id="alert_close">×</button>
+				<button type="button" v-on:click="dismiss" class="btn close float-end" data-bs-dismiss="alert" aria-label="Close" id="alert_close">×</button>
 
 				<div id="alert-message">
 
-					<i v-if="classname=='alert-success'" class="fa  fa-check-circle alert-icon"></i>
+					<i v-if="classname=='alert-success'" class="fa fa-check-circle alert-icon"></i>
 
 					<i v-if="classname=='alert-danger'" class="fa fa-warning alert-icon"></i>&nbsp;
 
@@ -130,7 +130,9 @@
 
 #alert_close{
 	font-size: 1.5rem !important;
-	margin-top: -5px !important;
+	margin-top: -20px !important;
+    border: none;
+    padding: 5px;
 }
 
 #alert-message{ display: flex; }

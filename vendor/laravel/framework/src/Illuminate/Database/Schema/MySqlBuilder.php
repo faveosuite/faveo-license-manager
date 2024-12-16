@@ -31,6 +31,23 @@ class MySqlBuilder extends Builder
     }
 
     /**
+     * Determine if the given table exists.
+     *
+     * @param  string  $table
+     * @return bool
+     */
+    public function hasTable($table)
+    {
+        $table = $this->connection->getTablePrefix().$table;
+
+        $database = $this->connection->getDatabaseName();
+
+        return (bool) $this->connection->scalar(
+            $this->grammar->compileTableExists($database, $table)
+        );
+    }
+
+    /**
      * Get the tables for the database.
      *
      * @return array
@@ -59,34 +76,6 @@ class MySqlBuilder extends Builder
     }
 
     /**
-     * Get all of the table names for the database.
-     *
-     * @deprecated Will be removed in a future Laravel version.
-     *
-     * @return array
-     */
-    public function getAllTables()
-    {
-        return $this->connection->select(
-            $this->grammar->compileGetAllTables()
-        );
-    }
-
-    /**
-     * Get all of the view names for the database.
-     *
-     * @deprecated Will be removed in a future Laravel version.
-     *
-     * @return array
-     */
-    public function getAllViews()
-    {
-        return $this->connection->select(
-            $this->grammar->compileGetAllViews()
-        );
-    }
-
-    /**
      * Get the columns for a given table.
      *
      * @param  string  $table
@@ -101,6 +90,40 @@ class MySqlBuilder extends Builder
         );
 
         return $this->connection->getPostProcessor()->processColumns($results);
+    }
+
+    /**
+     * Get the indexes for a given table.
+     *
+     * @param  string  $table
+     * @return array
+     */
+    public function getIndexes($table)
+    {
+        $table = $this->connection->getTablePrefix().$table;
+
+        return $this->connection->getPostProcessor()->processIndexes(
+            $this->connection->selectFromWriteConnection(
+                $this->grammar->compileIndexes($this->connection->getDatabaseName(), $table)
+            )
+        );
+    }
+
+    /**
+     * Get the foreign keys for a given table.
+     *
+     * @param  string  $table
+     * @return array
+     */
+    public function getForeignKeys($table)
+    {
+        $table = $this->connection->getTablePrefix().$table;
+
+        return $this->connection->getPostProcessor()->processForeignKeys(
+            $this->connection->selectFromWriteConnection(
+                $this->grammar->compileForeignKeys($this->connection->getDatabaseName(), $table)
+            )
+        );
     }
 
     /**

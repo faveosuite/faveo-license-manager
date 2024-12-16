@@ -317,7 +317,7 @@ return [
     'apiUpdate' => 'The Current API Key Details Has Been Updated',
     'reset_password' => 'Reset Password',
     'invalid_token' => 'Your personal access Token is invalid',
-    'error_client_or_license_code' => 'The License code is manditory',
+    'error_client_or_license_code' => 'The License code is mandatory',
      'create_callbacks'           => 'Create CallBacks',
 //    'latest_callbacks'            =>  'Latest CallBacks',
 //    'callbacks'                   =>   'CallBacks',
@@ -745,6 +745,9 @@ return [
     'product_config_success' => 'The product configuration has been successfully saved.',
     'directory_show' => 'All the directories config are displayed here',
     'license_app_key' => 'License App Key',
-    'license_app_secret' => 'License App Secret'
+    'license_app_secret' => 'License App Secret',
+    'invalid_phone_number' => 'Invalid phone number',
+
+    'product_suspended' => 'Product suspended successfully',
 ];
 

@@ -4,6 +4,7 @@ namespace Illuminate\Foundation\Console;
 
 use Illuminate\Console\Concerns\CreatesMatchingTest;
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Input\InputInterface;
@@ -72,6 +73,8 @@ class ModelMakeCommand extends GeneratorCommand
 
         if ($this->option('controller') || $this->option('resource') || $this->option('api')) {
             $this->createController();
+        } elseif ($this->option('requests')) {
+            $this->createFormRequests();
         }
 
         if ($this->option('policy')) {
@@ -110,7 +113,6 @@ class ModelMakeCommand extends GeneratorCommand
         $this->call('make:migration', [
             'name' => "create_{$table}_table",
             '--create' => $table,
-            '--fullpath' => true,
         ]);
     }
 
@@ -147,6 +149,24 @@ class ModelMakeCommand extends GeneratorCommand
             '--test' => $this->option('test'),
             '--pest' => $this->option('pest'),
         ]));
+    }
+
+    /**
+     * Create the form requests for the model.
+     *
+     * @return void
+     */
+    protected function createFormRequests()
+    {
+        $request = Str::studly(class_basename($this->argument('name')));
+
+        $this->call('make:request', [
+            'name' => "Store{$request}Request",
+        ]);
+
+        $this->call('make:request', [
+            'name' => "Update{$request}Request",
+        ]);
     }
 
     /**
@@ -207,6 +227,53 @@ class ModelMakeCommand extends GeneratorCommand
     }
 
     /**
+     * Build the class with the given name.
+     *
+     * @param  string  $name
+     * @return string
+     *
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    protected function buildClass($name)
+    {
+        $replace = $this->buildFactoryReplacements();
+
+        return str_replace(
+            array_keys($replace), array_values($replace), parent::buildClass($name)
+        );
+    }
+
+    /**
+     * Build the replacements for a factory.
+     *
+     * @return array<string, string>
+     */
+    protected function buildFactoryReplacements()
+    {
+        $replacements = [];
+
+        if ($this->option('factory') || $this->option('all')) {
+            $modelPath = Str::of($this->argument('name'))->studly()->replace('/', '\\')->toString();
+
+            $factoryNamespace = '\\Database\\Factories\\'.$modelPath.'Factory';
+
+            $factoryCode = <<<EOT
+            /** @use HasFactory<$factoryNamespace> */
+                use HasFactory;
+            EOT;
+
+            $replacements['{{ factory }}'] = $factoryCode;
+            $replacements['{{ factoryImport }}'] = 'use Illuminate\Database\Eloquent\Factories\HasFactory;';
+        } else {
+            $replacements['{{ factory }}'] = '//';
+            $replacements["{{ factoryImport }}\n"] = '';
+            $replacements["{{ factoryImport }}\r\n"] = '';
+        }
+
+        return $replacements;
+    }
+
+    /**
      * Get the console command options.
      *
      * @return array
@@ -242,13 +309,13 @@ class ModelMakeCommand extends GeneratorCommand
             return;
         }
 
-        collect(multiselect('Would you like any of the following?', [
+        (new Collection(multiselect('Would you like any of the following?', [
             'seed' => 'Database Seeder',
             'factory' => 'Factory',
             'requests' => 'Form Requests',
             'migration' => 'Migration',
             'policy' => 'Policy',
             'resource' => 'Resource Controller',
-        ]))->each(fn ($option) => $input->setOption($option, true));
+        ])))->each(fn ($option) => $input->setOption($option, true));
     }
 }

@@ -1,19 +1,38 @@
 {
-  "resources/css/app.scss": {
-    "file": "assets/app-bbcaa4c9.css",
-    "isEntry": true,
-    "src": "resources/css/app.scss"
+  "node_modules/intl-tel-input/build/img/flags.webp": {
+    "file": "assets/flags-a2kmUSbF.webp",
+    "src": "node_modules/intl-tel-input/build/img/flags.webp"
   },
-  "resources/js/app.css": {
-    "file": "assets/app-6c06cada.css",
-    "src": "resources/js/app.css"
+  "node_modules/intl-tel-input/build/img/flags@2x.webp": {
+    "file": "assets/flags@2x-gR6KPp3x.webp",
+    "src": "node_modules/intl-tel-input/build/img/flags@2x.webp"
+  },
+  "node_modules/intl-tel-input/build/img/globe.webp": {
+    "file": "assets/globe-CKC-qWvL.webp",
+    "src": "node_modules/intl-tel-input/build/img/globe.webp"
+  },
+  "node_modules/intl-tel-input/build/img/globe@2x.webp": {
+    "file": "assets/globe@2x-CEs4Xftd.webp",
+    "src": "node_modules/intl-tel-input/build/img/globe@2x.webp"
+  },
+  "resources/css/app.scss": {
+    "file": "assets/app-BwJ3ScXn.css",
+    "src": "resources/css/app.scss",
+    "isEntry": true
   },
   "resources/js/app.js": {
-    "css": [
-      "assets/app-6c06cada.css"
-    ],
-    "file": "assets/app-08fc9265.js",
+    "file": "assets/app-BVzi80_P.js",
+    "name": "app",
+    "src": "resources/js/app.js",
     "isEntry": true,
-    "src": "resources/js/app.js"
+    "css": [
+      "assets/app-CEDIZ6BR.css"
+    ],
+    "assets": [
+      "assets/flags-a2kmUSbF.webp",
+      "assets/flags@2x-gR6KPp3x.webp",
+      "assets/globe-CKC-qWvL.webp",
+      "assets/globe@2x-CEs4Xftd.webp"
+    ]
   }
 }

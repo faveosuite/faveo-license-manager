@@ -19,7 +19,7 @@
 
                             <template v-if="showBarcode && !showPasscode">
 
-                                <ul class="col-sm-offset-3 offset-sm-2 text-left">
+                                <ul class="col-sm-offset-3 offset-sm-2 text-start">
 
                                     <li>Get the Authenticator App from the Play Store.</li>
 
@@ -41,7 +41,7 @@
 
                                 <div class="row">
 
-                                    <div class="col-sm-8 col-sm-offset-2 offset-sm-2 text-left">
+                                    <div class="col-sm-8 col-sm-offset-2 offset-sm-2 text-start">
 
                                         <ul>
 
@@ -59,7 +59,7 @@
                                         <input type="text" :value="factorData.secret"  :keyuplistener="triggerEvent" class="form-control" readonly>
                                     </div>
 
-                                    <div class="col-sm-8 col-sm-offset-2 offset-sm-2 text-left">
+                                    <div class="col-sm-8 col-sm-offset-2 offset-sm-2 text-start">
 
                                         <ul>
 
@@ -78,14 +78,14 @@
                                 <div class="row" v-if="!codeVerified">
 
                                     <text-field :label="lang('enter_the_code_you_see_in_the_app')" :value="pass_code" type="text" name="pass_code" id="pass"
-                                                placehold="Enter Passcode..." :keyupListener="triggerEvent" :onChange="onChange" classname="col-sm-9 text-left" :inputStyle="inputStyle">
+                                                placehold="Enter Passcode..." :keyupListener="triggerEvent" :onChange="onChange" classname="col-sm-9 text-start" :inputStyle="inputStyle">
 
                                     </text-field>
 
                                     <div class="col-sm-3">
 
                                         <button type="button" class="btn" id="pass_btn" :disabled="!pass_code" @click="validatePassCode()" :keyupListener="triggerEvent" :style="buttonStyle"
-                                                :class="[{'btn-primary  pull-right float-right': from !== 'client'}, {'btn-custom  pull-right float-right': from === 'client'}]">
+                                                :class="[{'btn-primary  pull-right float-start': from !== 'client'}, {'btn-custom  pull-right float-start': from === 'client'}]">
 
                                             <i class="fas fa-check"> </i> {{lang('verify')}}
 
@@ -102,14 +102,14 @@
 
                         <template v-else>
 
-                            <div class="text-left">
+                            <div class="text-start">
 
                                 <p>Recovery codes are used to access your account in the event you cannot receive two-factor authentication code.Copy your recovery code before continuing two-factor authentication setup.
                                 </p>
 
                                 <div class="row">
 
-                                    <div class="card card-light">
+                                    <div class="card card-light px-0">
 
                                         <div class="card-header">
 
@@ -176,7 +176,7 @@
             <template v-if="!passwordVerified && !codeVerified">
 
                 <button type="button" :disabled="!password" @click="validatePass()" :keyupListener="triggerEvent" :style="buttonStyle"
-                        class="btn btn-primary pull-right float-right">
+                        class="btn btn-primary pull-right float-start">
 
                     <i class="fas fa-check"> </i> {{lang('validate')}}
                 </button>
@@ -187,13 +187,13 @@
                 <template v-if="recoveryCopied">
 
                     <button v-if="showBarcode || showKeycode && !showPasscode" @click="passCode()"
-                            :style="buttonStyle" class="btn btn-primary pull-right float-right">
+                            :style="buttonStyle" class="btn btn-primary pull-right float-start">
 
                         {{lang('next')}} &nbsp;&nbsp;<i class="fas fa-arrow-right"> </i>
                     </button>
 
                     <button v-if="showPasscode && !codeVerified" @click="barCode()" id="prev_btn"
-                            :style="buttonStyle" class="btn btn-primary pull-right float-right">
+                            :style="buttonStyle" class="btn btn-primary pull-right float-start">
 
                         <i class="fas fa-arrow-left"> </i>&nbsp;&nbsp;{{lang('previous')}}
 
@@ -203,14 +203,14 @@
                 <template v-else>
 
                     <button :style="buttonStyle" :disabled="copied || downloaded ? false : true" @click="afterCopy"
-                            class="btn btn-primary pull-right float-right">
+                            class="btn btn-primary pull-right float-start">
 
                         {{lang('next')}} &nbsp;&nbsp;<i class="fas fa-arrow-right"> </i>
                     </button>
                 </template>
             </template>
 
-            <button v-if="codeVerified" @click="onDone()" :style="buttonStyle" class="btn btn-custom btn-primary float-right">
+            <button v-if="codeVerified" @click="onDone()" :style="buttonStyle" class="btn btn-custom btn-primary float-start">
                 <i class="fas fa-check"> </i> {{lang('done')}}</button>
         </template>
     </modal>
@@ -316,6 +316,10 @@ export default {
                     document.body.appendChild(link);
                     link.click();
                     document.body.removeChild(link);
+                    this.downloaded = true;
+                    setTimeout(() => {
+                        this.downloaded = false;
+                    }, 5000)
                 })
                 .catch(error => {
                     errorHandler(error, 'edit_profile')

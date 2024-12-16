@@ -10,20 +10,22 @@
           <title>LICENSE MANAGER</title>
           <!--<link href="{{assetLink('image','favicon')}}"  rel="shortcut icon" />-->
           @endif
-        
-        
-        <link href='themes/default/css/jquery.ui.latest.css' rel="stylesheet" type="text/css"/>
-        <link href='themes/default/css/loadstyles.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/css.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/admin.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/setup.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/activation.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/style.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/font-awesome.min.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/ggpopover.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/prism.css' rel="stylesheet" type="text/css" />
-        <link href='themes/default/css/chosen.css' rel="stylesheet" type="text/css" />
-        <script src='themes/default/plugins/jquery/jquery-3.5.1.min.js' type="text/javascript"></script>
+
+
+        <link href="{{ asset('themes/default/css/jquery.ui.latest.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/loadstyles.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/css.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/admin.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/setup.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/activation.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/style.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/plugins/font-awesome-6/css/all.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/ggpopover.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/prism.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/css/chosen.css') }}" rel="stylesheet" type="text/css"/>
+
+        <script src="{{ asset('themes/default/plugins/jquery/jquery-3.7.1.min.js') }}" type="text/javascript"></script>
+
     </head>
     <body class="setup wp-core-ui">
         <center><a href="http://www.faveohelpdesk.com" tabIndex="-1">
@@ -49,9 +51,9 @@
 
 
 
-   
+
     @if(file_exists(app_path('/Whitelabel/WhitelabelServiceProvider.php')))
-        <p style="text-align: center;"> Copyright &copy; 2015 - <?php echo date('Y')?> . 
+        <p style="text-align: center;"> Copyright &copy; 2015 - <?php echo date('Y')?> .
      {!! Lang::get('lang.all_rights_reserved') !!}
 
     @else
@@ -60,13 +62,13 @@
     Ladybird Web Solution Pvt Ltd.
     {!! Lang::get('lang.all_rights_reserved') !!}. {!! Lang::get('lang.powered_by') !!}
     <a target="_blank" href="http://www.faveohelpdesk.com">Faveo </a>
-</p>    
+</p>
     @endif
 
     <script src='themes/default/js/chosen.jquery.js' type="text/javascript"></script>
     <script src='themes/default/js/jquery.ui.latest.js' type="text/javascript"></script>
     <script src='themes/default/js/prism.js' type="text/javascript"></script>
-    <script src='themes/default/js/min/bootstrap4.min.js' type="text/javascript"></script>
+    <script src='themes/default/js/bootstrap5.min.js' type="text/javascript"></script>
     <script src='themes/default/js/ggpopover.js' type="text/javascript"></script>
     <script type="text/javascript">
         $('[data-toggle="popover"]').ggpopover();

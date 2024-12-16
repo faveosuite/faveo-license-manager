@@ -69,9 +69,9 @@ export default {
 
                 base: 'glyphicon',
 
-                up: 'glyphicon-chevron-up',
+                up: 'glyphicon-chevron-down',
 
-                down: 'glyphicon-chevron-down'
+                down: 'glyphicon-chevron-up'
             },
 
             texts: { filter: '', limit: '' },
@@ -187,7 +187,7 @@ export default {
                 product_status: (f, row) => {
 
                     return h('span', {
-                        'class': row.product_status ? 'text-green' : 'text-red'
+                        'class': row.product_status ? 'text-success' : 'text-danger'
                     }, row.product_status ? this.lang('active'): this.lang('inactive'))
                 },
             },

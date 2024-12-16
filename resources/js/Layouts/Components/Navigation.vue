@@ -1,31 +1,31 @@
 <template>
 
-	<li :class="isMenuExtended ? 'menu-open nav-item' : 'nav-item'">
+    <li :class="isMenuExtended ? 'menu-open nav-item' : 'nav-item'" :key="count">
 
-    	<a class="nav-link" :class="{'active': isMainActive || isOneOfChildrenActive}"
+        <a class="nav-link" :class="{'active-navigation-element active': isMainActive || isOneOfChildrenActive}"
            :href="getLink(menuItem)" @click.prevent="handleMainMenuAction">
 
-		    <i :class="'nav-icon '+menuItem.iconClass"></i>
+		    <i :class="'nav-icon '+menuItem.iconClass"></i> &nbsp;
 
-		    <router-link :to="menuItem.routeString" exact exact-active-class="active"> {{ menuItem.name }} </router-link>
+		    <router-link :to="menuItem.routeString" exact exact-active-class="active-navigation-element active"> {{ menuItem.name }} </router-link>
 
-            <i v-if="isExpandable" class="right fas fa-angle-left"></i>
+            <i v-if="isExpandable" class="nav-arrow fas fa-angle-left"></i>
 		</a>
 
     	<ul class="nav nav-treeview" v-for="item in menuItem.children">
 
         	<li class="nav-item">
 
-            	<router-link :to="item.routeString" v-tooltip="item.name" class="nav-link" exact exact-active-class="active">
+            	<router-link :to="item.routeString" v-tooltip="item.name" class="nav-link" exact exact-active-class="active-navigation-element active">
 
-                <i :class="'nav-icon '+item.iconClass"></i>
+                    <i :class="'nav-icon '+item.iconClass"></i>
 
-                <p>{{ subString(item.name) }}</p>
+                    <p>{{ subString(item.name) }}</p>
 
-            </router-link>
-        </li>
-    </ul>
-</li>
+                </router-link>
+            </li>
+        </ul>
+    </li>
 </template>
 
 <script>
@@ -50,6 +50,8 @@
     			isMainActive: false,
 
     			isOneOfChildrenActive: false,
+
+                count: 0
 			}
 		},
 
@@ -59,6 +61,8 @@
             this.menuItem &&
             this.menuItem.children &&
             this.menuItem.children.length > 0;
+
+            this.count = this.count + 1;
 
         	this.calculateIsActive(this.$route.path);
 
@@ -81,6 +85,8 @@
 		        if (this.isExpandable) {
 
 		            this.toggleMenu();
+
+                    this.count = this.count + 1;
 
 		            return;
 		        }

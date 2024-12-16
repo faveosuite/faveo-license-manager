@@ -38,9 +38,9 @@
                         </text-field>
 
 
-                        <div class="social-auth-links text-center mb-1">
+                        <div class="social-auth-links text-center d-grid mb-1">
 
-                            <a href="javascript:;" class="btn btn-block btn-primary" @click="onSubmit()">
+                            <a href="javascript:;" class="btn btn-primary" @click="onSubmit()">
 
                                 <i class="fas fa-sign-in-alt"></i>&nbsp;&nbsp;{{lang('login')}}
                             </a>
@@ -205,7 +205,8 @@ export default {
                                 document.getElementById('grecaptcha_badge').style.visibility = 'hidden';
                             }
 
-                            this.$router.push(this.getUserToken ? '/dashboard' : '/login');
+                            window.location.href = this.basePath() + (this.getUserToken ? '/dashboard' : '/login');
+
                         }
                     })
                     .catch(async (err) => {

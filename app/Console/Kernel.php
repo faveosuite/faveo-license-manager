@@ -6,6 +6,7 @@ use App\Console\Commands\CleanupCommand;
 use App\Console\Commands\CrackReportsCleanup;
 use App\Console\Commands\InstallationLogsCommand;
 use App\Console\Commands\licenseReportsCleanup;
+use App\Console\Commands\LinkLicenseToPlugin;
 use App\Console\Commands\SystemReportsCleanup;
 use App\Console\Commands\VersionsCleanup;
 use App\Console\Commands\SetupTestEnv;
@@ -36,6 +37,7 @@ class Kernel extends ConsoleKernel
         SystemReportsCleanup::class,
         VersionsCleanup::class,
         InstallationLogsCommand::class,
+        LinkLicenseToPlugin::class
     ];
 
     protected function schedule(Schedule $schedule)

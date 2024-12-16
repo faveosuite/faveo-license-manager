@@ -130,7 +130,7 @@ private function findAdminUser($email)
                     'g-recaptcha-response' => empty(env('RECAPTCHA_SITE_KEY'))? new CaptchaValidation:['required',new CaptchaValidation],
                 ]);
             $email = $request->input('admin_email');
-            $user = AflClients::where('client_email', $email)->first();
+            $user = AflClients::where('client_email', $email)->where('client_role','admin')->first();
             $ipAddress = $request->ip();
             $failed_limit = AflSettings::value('FAILED_FORGET_LIMIT');
             $failed_check = AflSettings::value('FAILED_HOSTS_FORGET');

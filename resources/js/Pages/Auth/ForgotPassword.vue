@@ -40,7 +40,7 @@
 
                   <div class="col-sm-6">
 
-                    <button type="button" class="btn btn-primary float-right" @click="onSubmit()">
+                    <button type="button" class="btn btn-primary float-end" @click="onSubmit()">
 
                       <i class="fas fa-paper-plane"></i>&nbsp;&nbsp;{{lang('send')}}</button>
                   </div>
