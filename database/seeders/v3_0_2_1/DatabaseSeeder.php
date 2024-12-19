@@ -49,18 +49,18 @@ class DatabaseSeeder extends \Database\Seeders\DatabaseSeeder
             INSERT INTO %APL_PLUGIN_DATABASE_TABLE% (ROOT_URL, CLIENT_EMAIL, LICENSE_CODE, LCD, LRD, INSTALLATION_KEY, INSTALLATION_HASH, PLUGIN_NAME)
             VALUES ('%ROOT_URL%', '%CLIENT_EMAIL%', '%LICENSE_CODE%', '%LCD%', '%LRD%', '%INSTALLATION_KEY%', '%INSTALLATION_HASH%', '%PLUGIN_NAME%');",
                 'scheme_status' => 1,
-                'id' => 2  // Added scheme_name
+                'scheme_id' => 2  // Added scheme_name
             ],
             [
                 'scheme_query' => "INSERT INTO %APL_PLUGIN_DATABASE_TABLE% (ROOT_URL, CLIENT_EMAIL, LICENSE_CODE, LCD, LRD, INSTALLATION_KEY, INSTALLATION_HASH, PLUGIN_NAME)
             VALUES ('%ROOT_URL%', '%CLIENT_EMAIL%', '%LICENSE_CODE%', '%LCD%', '%LRD%', '%INSTALLATION_KEY%', '%INSTALLATION_HASH%', '%PLUGIN_NAME%');",
                 'scheme_status' => 1,
-                'id' => 3  // Added scheme_name
+                'scheme_id' => 3  // Added scheme_name
             ]
         ];
 
         foreach ($schemes as $scheme) {
-            AflLicenseSchemes::updateOrcreate(['id' => $scheme['id']], $scheme);
+            AflLicenseSchemes::updateOrcreate(['scheme_id' => $scheme['scheme_id']], $scheme);
         }
     }
 }
