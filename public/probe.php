@@ -94,14 +94,14 @@ if (isWhiteLabelEnabled()) {
                     </tr>
                     </tfoot>
                 </table>
-                 .table 
+                 .table
             </form>
         </div>
     </div>
     </body>
 <?php } else { ?>
     <body>
-       
+
     <ol class="setup-steps" style = "margin-left: 70px;">
         <li class="active">Server Requirements</li>
         <!--<li class="@yield('license')">License Agreement</li>-->
@@ -113,7 +113,7 @@ if (isWhiteLabelEnabled()) {
     <div class="setup-content">
         <div style="width: 700; margin: auto;">
             <h1 style="text-align: center; color: #71BEE3">Server Requirements</h1>
-           
+
             <!-- table Directory Permission block-->
             <?php
         $errorCount = 0;
@@ -134,7 +134,7 @@ if (isWhiteLabelEnabled()) {
     ?>
 
 
-            
+
 
 
             <!-- table Requirement Check block-->
@@ -154,13 +154,13 @@ if (isWhiteLabelEnabled()) {
     ?>
 
 
-          
+
             <!-- .table -->
 
 
             <!-- table PHP Extension Check block-->
 
-            
+
                 <?php
     $details = (new LicenseDependencyController('probe'))->validatePHPExtensions($errorCount);
     $table = '<table class="t01">
@@ -190,10 +190,10 @@ if (isWhiteLabelEnabled()) {
     $table = $table.'</table>';
     echo htmlspecialchars_decode($table);
     ?>
-                    
 
-                    
-                 
+
+
+
             <!-- </table> -->
             <!-- .table -->
 
@@ -305,7 +305,7 @@ if (isWhiteLabelEnabled()) {
                         we are stuck to identify application version and support team needs to get login
                         details or ask client the app version.
                         -->
-                      
+
                     </td>
                     <td style="border: 1px solid #ffffff;">
                    <form action="db-setup" method="post">
@@ -339,7 +339,7 @@ if (isWhiteLabelEnabled()) {
 
 <footer style="margin-top: 15px;">
     <span style="text-align: center;"><?=$footerString; ?></span>
-    <script src='themes/default/plugins/jquery/jquery-3.5.1.min.js' type="text/javascript"></script>
+    <script src='themes/default/plugins/jquery/jquery-3.7.1.min.js' type="text/javascript"></script>
     <script type="text/javascript">
         $('#submitme').click(function() {
             location.reload(true);

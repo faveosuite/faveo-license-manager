@@ -1,29 +1,29 @@
 <template>
 
-	<aside class="main-sidebar sidebar-scroll sidebar-dark-secondary elevation-4">
+	<aside class="app-sidebar bg-body-secondary shadow" data-bs-theme="dark">
 
-    	<a href="javascript:;" class="brand-link text-center">
+    	<a href="javascript:;" class="sidebar-brand text-center">
 
-            <image-element id="admin-pic" width="100px" height="100px" :classes="['img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="getAdminLogo"></image-element>
+            <image-element class="brand-link" id="admin-pic" width="100px" height="100px" :classes="['img-responsive', 'img-circle', 'img-click', 'custom-img']" :sourceUrl="getAdminLogo"></image-element>
     	</a>
 
-    	<div class="sidebar" :key="counter">
+    	<div class="sidebar-wrapper sidebar-scroll" :key="counter">
 
-      		<nav class="mt-2">
+                <nav class="mt-2">
 
-        		<div v-if="loading" class="license-navigation">
+                    <div v-if="loading" class="license-navigation">
 
-					<loader :size="40"></loader>
-				</div>
+                        <loader :size="40"></loader>
+                    </div>
 
-				<ul class="nav nav-pills nav-sidebar flex-column nav-child-indent"
-	                role="menu" data-accordion="true">
+                    <ul class="nav sidebar-menu flex-column" data-lte-toggle="treeview"
+                        role="menu" data-accordion="false">
 
-	                <navigation v-for="(navigation, index) in navigations" :menuItem="navigation" :key="index">
+                        <navigation v-for="(navigation, index) in navigations" :menuItem="navigation" :key="index">
 
-	                </navigation>
-	            </ul>
-      		</nav>
+                        </navigation>
+                    </ul>
+                </nav>
      	</div>
     </aside>
 </template>
@@ -134,6 +134,6 @@
     }
     .sidebar-scroll{
         max-height: 100vh!important;
-        bottom: 0!important;
+        overflow-y: auto;
     }
 </style>

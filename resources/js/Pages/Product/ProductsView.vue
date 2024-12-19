@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container-fluid">
+    <div class="row">
 
         <div class="row" v-if="loading">
 
@@ -9,7 +9,7 @@
 
         <alert componentName="product-view" />
 
-        <div class="container col-md-12">
+        <div class="col-md-12 ms-2">
 
             <div class="card card-header-tabs card-outline">
 
@@ -34,38 +34,38 @@
 
                 <div class="row card-body col-md-12">
 
-                    <div class="row pt-2 pb-2 d-flex align-content-between border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_name')}}:</label>
-                        <div v-if="product_title" class="col-sm-6 text-sm">{{product_title}}</div>
+                    <div class="row pt-2 pb-2 d-flex align-content-between border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('product_name')}}:</label>
+                        <div v-if="product_title" class="col-sm-6 fs-7">{{product_title}}</div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('sku_id')}}:</label>
-                        <div v-if="product_sku" class="col-sm-6 text-sm">{{product_sku}}</div>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('sku_id')}}:</label>
+                        <div v-if="product_sku" class="col-sm-6 fs-7">{{product_sku}}</div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('homepage_url')}}</label>
-                        <div v-if="product_url_homepage" class="col-sm-6 text-sm"><a :href="product_url_homepage" target="_blank">{{product_url_homepage}}</a></div>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('homepage_url')}}:</label>
+                        <div v-if="product_url_homepage" class="col-sm-6 fs-7"><a :href="product_url_homepage" target="_blank">{{product_url_homepage}}</a></div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_download_url')}}:</label>
-                        <div v-if="product_url_download" class="col-sm-6 text-sm"><a :href="product_url_download" target="_blank">{{product_url_download}}</a></div>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('product_download_url')}}:</label>
+                        <div v-if="product_url_download" class="col-sm-6 fs-7"><a :href="product_url_download" target="_blank">{{product_url_download}}</a></div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_latest_version')}}:</label>
-                        <router-link :to="'/versions/'+version_id+'/view'" v-if="version_number" class="col-sm-6 text-sm">{{version_number}}</router-link>
+                    <div class="row pt-2 pb-2 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ">{{lang('product_latest_version')}}:</label>
+                        <router-link :to="'/versions/'+version_id+'/view'" v-if="version_number" class="col-sm-6 fs-7">{{version_number}}</router-link>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_status')}}:</label>
+                    <div class="row pt-2 pb-2 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('product_status')}}:</label>
                         <div v-if="product_status" class="col-sm-6 text-sm text-success">{{lang('active')}}</div>
                         <div v-else class="col-sm-6 text-sm text-danger">{{lang('inactive')}}</div>
                     </div>
@@ -73,7 +73,7 @@
             </div>
         </div>
 
-        <div class="container col-sm-12">
+        <div class="col-sm-12 ms-2">
 
             <div class="card card-header-tabs">
 
@@ -83,17 +83,17 @@
 
                         <li class="nav-item">
 
-                            <span class="nav-link card-header-link active" @click="updateData('installations')" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('installations')}}</span>
+                            <span class="nav-link card-header-link active" @click="updateData('installations')" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('installations')}}</span>
                         </li>
 
                         <li class="nav-item">
 
-                            <span class="nav-link card-header-link" @click="updateData('licenses')" id="custom-tabs-one-profile-tab" data-toggle="pill" role="tab">{{lang('licenses')}}</span>
+                            <span class="nav-link card-header-link" @click="updateData('licenses')" id="custom-tabs-one-profile-tab" data-bs-toggle="pill" role="tab">{{lang('licenses')}}</span>
                         </li>
 
                         <li class="nav-item">
 
-                            <span class="nav-link card-header-link" @click="updateData('versions')" id="custom-tabs-one-profile-tab" data-toggle="pill" role="tab">{{lang('versions')}}</span>
+                            <span class="nav-link card-header-link" @click="updateData('versions')" id="custom-tabs-one-profile-tab" data-bs-toggle="pill" role="tab">{{lang('versions')}}</span>
                         </li>
                     </ul>
                 </div>
@@ -376,7 +376,7 @@ export default {
                             installation_status: (f, row) => {
 
                                 return h('span', {
-                                    'class': row.installation_status ? 'text-green' : 'text-red'
+                                    'class': row.installation_status ? 'text-success' : 'text-danger'
                                 }, row.installation_status ? this.lang('active'): this.lang('inactive'))
                             },
 
@@ -527,7 +527,7 @@ export default {
                             license_status: (f, row) => {
 
                                 return h('span', {
-                                    'class': row.license_status ? 'text-green' : 'text-red'
+                                    'class': row.license_status ? 'text-success' : 'text-danger'
                                 }, row.license_status ? this.lang('active'): this.lang('inactive'))
                             },
 
@@ -660,7 +660,7 @@ export default {
                         version_status: (f, row) => {
 
                             return h('span', {
-                                'class': row.version_status ? 'text-green' : 'text-red'
+                                'class': row.version_status ? 'text-success' : 'text-danger'
                             }, row.version_status ? this.lang('active'): this.lang('inactive'))
                         },
 
@@ -734,7 +734,7 @@ export default {
     background-color: #f8f9fa;
 }
 .data-table-header {
-    background-color: #ebebeb;
+    background-color: #ebebeb !important;
 }
 .action-btn{
     color: rgba(31, 45, 61, .8);

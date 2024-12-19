@@ -17,9 +17,9 @@
 
 				<div class="card-tools">
 
-					<router-link to="/products/create" class="btn-tool" v-tooltip="lang('create_product')">
+					<router-link to="/products/create" class="btn btn-tool" v-tooltip="lang('create_product')">
 
-						<i class="fas fa-plus"></i>
+						<i class="fas fa-plus fa-l"></i>
 					</router-link>
 				</div>
 			</div>
@@ -206,7 +206,7 @@
                     product_status: (f, row) => {
 
                         return h('span', {
-                                'class': row.product_status ? 'text-green' : 'text-red'
+                                'class': row.product_status ? 'text-success' : 'text-danger'
                             }, row.product_status ? this.lang('active'): this.lang('inactive'))
                     },
 				},

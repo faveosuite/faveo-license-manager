@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
 
-        <div class="container col-md-12">
+        <div class="col-md-12">
 
             <div class="row" v-if="loading">
 
@@ -31,40 +31,40 @@
                     </div>
                 </div>
 
-                <div class="row card-body col-md-12">
+                <div class="row card-body col-md-12 ms-2 ps-0">
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_code')}}:</label>
-                        <router-link v-if="license_code" :to="'/licenses/' + license_id + '/view'" class="col-sm-6 text-sm">{{ license_code.match(/.{1,4}/g).join('-') }}</router-link>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-1">{{lang('license_code')}}:</label>
+                        <router-link v-if="license_code" :to="'/licenses/' + license_id + '/view'" class="col-sm-6 fs-7">{{ license_code.match(/.{1,4}/g).join('-') }}</router-link>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('installation_date')}}:</label>
-                        <div v-if="installation_date" class="col-sm-6 text-sm">{{installation_date}}</div>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-1">{{lang('installation_date')}}:</label>
+                        <div v-if="installation_date" class="col-sm-6 fs-7">{{installation_date}}</div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('installation_domain')}}:</label>
-                        <a :href="'https://'+installation_domain" target="_blank" v-if="installation_domain" class="col-sm-6 text-sm">{{installation_domain}}</a>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-1">{{lang('installation_domain')}}:</label>
+                        <a :href="'https://'+installation_domain" target="_blank" v-if="installation_domain" class="col-sm-6 fs-7">{{installation_domain}}</a>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('installation_ip')}}:</label>
-                        <div v-if="installation_ip" class="col-sm-6 text-sm">{{installation_ip}}</div>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-1">{{lang('installation_ip')}}:</label>
+                        <div v-if="installation_ip" class="col-sm-6 fs-7">{{installation_ip}}</div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('ip_address_verification')}}</label>
+                    <div class="row pt-2 pb-2 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-1">{{lang('ip_address_verification')}}</label>
                         <div v-if="installation_disable_ip_verification" class="col-sm-6 text-sm text-success">{{lang('enabled')}}</div>
                         <div v-else class="col-sm-6 text-sm text-danger">{{lang('disabled')}}</div>
                     </div>
 
-                    <div class="row pt-2 pb-2 col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('status')}}:</label>
+                    <div class="row pt-2 pb-2 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-1">{{lang('status')}}:</label>
                         <div v-if="installation_status" class="col-sm-6 text-sm text-success">{{lang('active')}}</div>
                         <div v-else class="col-sm-6 text-sm text-danger">{{lang('inactive')}}</div>
                     </div>
@@ -73,14 +73,14 @@
             </div>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-12 ms-2">
 
             <div class="card card-header-tabs">
 
                 <div class="card-header data-table-header border-0 p-0 pt-1">
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
                         <li class="nav-item">
-                            <span class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
+                            <span class="nav-link active" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
                         </li>
                     </ul>
                 </div>
@@ -334,7 +334,7 @@ export default {
                         callback_status: (f, row) => {
 
                             return h('span', {
-                                'class': row.callback_status ? 'text-green' : 'text-red'
+                                'class': row.callback_status ? 'text-success' : 'text-danger'
                             }, row.callback_status ? this.lang('active'): this.lang('inactive'))
                         },
 
@@ -380,7 +380,7 @@ export default {
 <style scoped>
 
 .data-table-header {
-    background-color: #ebebeb;
+    background-color: #ebebeb !important;
 }
 .card-header-dark{
     background-color: #f8f9fa;

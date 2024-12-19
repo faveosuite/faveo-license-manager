@@ -22,9 +22,9 @@
 
                 <div class="card-tools">
 
-                    <router-link to="/banned-hosts/create" class="btn-tool" v-tooltip="lang('create_banned_host')">
+                    <router-link to="/banned-hosts/create" class="btn btn-tool" v-tooltip="lang('create_banned_host')">
 
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fas fa-plus fa-l"></i>
                     </router-link>
                 </div>
             </div>

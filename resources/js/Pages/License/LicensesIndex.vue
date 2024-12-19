@@ -17,9 +17,9 @@
 
                 <div class="card-tools">
 
-                    <router-link to="/licenses/create" class="btn-tool" v-tooltip="lang('create_license')">
+                    <router-link to="/licenses/create" class="btn btn-tool" v-tooltip="lang('create_license')">
 
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fas fa-plus fa-l"></i>
                     </router-link>
                 </div>
             </div>
@@ -276,7 +276,7 @@ export default {
                 license_status: (f, row) => {
 
                     return h('span', {
-                        'class': row.license_status ? 'text-green' : 'text-red'
+                        'class': row.license_status ? 'text-success' : 'text-danger'
                     }, row.license_status ? this.lang('active'): this.lang('inactive'))
                 },
 

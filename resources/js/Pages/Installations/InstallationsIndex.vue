@@ -224,7 +224,7 @@ import {RouterLink} from "vue-router";
                     installation_status: (f, row) => {
 
                         return h('span', {
-                            'class': row.installation_status ? 'text-green' : 'text-red'
+                            'class': row.installation_status ? 'text-success' : 'text-danger'
                         }, row.installation_status ? this.lang('active'): this.lang('inactive'))
                     },
 				},

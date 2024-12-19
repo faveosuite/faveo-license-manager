@@ -17,9 +17,9 @@
 
                 <div class="card-tools">
 
-                    <router-link to="/versions/create" class="btn-tool" v-tooltip="lang('create_version')">
+                    <router-link to="/versions/create" class="btn btn-tool" v-tooltip="lang('create_version')">
 
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fas fa-plus fa-l"></i>
                     </router-link>
                 </div>
             </div>
@@ -190,7 +190,7 @@ export default {
                 version_status: (f, row) => {
 
                     return h('span', {
-                        'class': row.version_status ? 'text-green' : 'text-red'
+                        'class': row.version_status ? 'text-success' : 'text-danger'
                     }, row.version_status ? this.lang('active'): this.lang('inactive'))
                 },
 

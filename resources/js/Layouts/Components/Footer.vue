@@ -1,15 +1,15 @@
 <template>
 
-	<footer class="main-footer">
+	<footer class="app-footer">
 
-		<div class="d-none d-sm-inline float-right">
+		<div class="float-end d-none d-sm-inline">
 
 			<strong>{{trans('version')}}&nbsp;</strong> {{versioning}}
 		</div>
 
 		<strong> {{trans('copyright')}} &copy; {{new Date().getFullYear()}}
 
-			<a href="https://www.faveohelpdesk.com" target="_blank">Ladybird Web Solution.</a>
+			<a class="text-decoration-none" href="https://www.faveohelpdesk.com" target="_blank">Ladybird Web Solution.</a>
 
 		</strong>
 

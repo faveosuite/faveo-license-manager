@@ -176,7 +176,7 @@ export default {
                 report_status: (f, row) => {
 
                     return h('span', {
-                        'class': row.report_status ? 'text-green' : 'text-red'
+                        'class': row.report_status ? 'text-success' : 'text-danger'
                     }, row.report_status ? this.lang('success'): this.lang('error'))
                 },
 

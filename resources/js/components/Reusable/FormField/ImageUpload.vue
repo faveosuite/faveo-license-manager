@@ -6,7 +6,7 @@
 
         <div>
 
-            <image-element id="profile-pic" :classes="['profile-user-img', 'img-responsive', 'img-circle', 'img-click']" :sourceUrl="value" :title="lang(tooltip)" :style-object="styleObj"></image-element>
+            <image-element id="profile-pic" :classes="['profile-user-img', 'img-responsive', 'img-rounder', 'img-click']" :sourceUrl="value" :title="lang(tooltip)" :style-object="styleObj"></image-element>
 
             <h6 class="text-center font-weight-normal mt-2" :style="labelCss">{{label}}</h6>
         </div>
@@ -317,6 +317,17 @@ export default {
 }
 .profile-user-img:hover{
     border: 3px solid #3c8dbc;
+}
+
+.profile-user-img {
+    border: 3px solid #adb5bd;
+    margin: 0 auto;
+    padding: 3px;
+    width: 100px;
+}
+
+.img-rounder{
+    border-radius: 50% !important;
 }
 
 #rotate{

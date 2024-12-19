@@ -2,14 +2,14 @@
 
 	<div class="actions-row">
 
-		<router-link v-if="data.edit_url" class="btn btn-default btn-act" :to="data.edit_url" v-tooltip="trans('edit')">
+		<router-link v-if="data.edit_url" class="btn btn-light btn-act" :to="data.edit_url" v-tooltip="trans('edit')">
 
 			<i class="fas fa-edit"></i>
 		</router-link> &nbsp;
 
         <span v-tooltip="disabled ? trans('default_field_is_not_restore') : trans('restore')">
 
-			<button v-if="data.restore_url" class="btn btn-default btn-act mr-2" @click="showRestoreModalMethod"
+			<button v-if="data.restore_url" class="btn btn-light btn-act me-2" @click="showRestoreModalMethod"
                     :disabled="disabled">
 
 				<i class="fas fa-sync-alt"></i>
@@ -18,14 +18,14 @@
 
 		<span v-tooltip="disabled ? trans('default_field_is_not_deletable') : data.tooltip ? trans(data.tooltip) : trans('delte')">
 
-			<button v-if="data.delete_url" class="btn btn-default btn-act" @click="showModalMethod"
+			<button v-if="data.delete_url" class="btn btn-light btn-act" @click="showModalMethod"
 				:disabled="disabled">
 
 				<i class="fas fa-trash"></i>
 			</button>
 		</span>
 
-        <router-link v-if="data.view_url" class="btn btn-default btn-act ml-2" :to="data.view_url" v-tooltip="trans('view')">
+        <router-link v-if="data.view_url" class="btn btn-light btn-act ms-2" :to="data.view_url" v-tooltip="trans('view')">
 
             <i class="fas fa-eye"></i>
         </router-link>

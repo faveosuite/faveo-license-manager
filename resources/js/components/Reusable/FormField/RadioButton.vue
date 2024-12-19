@@ -106,7 +106,7 @@
         margin:0;
         vertical-align: bottom;
         position: relative;
-        top: -3px;
+        top: -5px;
         overflow: hidden;
     }
 </style>

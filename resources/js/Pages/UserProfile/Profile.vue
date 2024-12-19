@@ -124,7 +124,7 @@
 
 								<span>
 
-									<img class="img-responsive img-circle img-sm" :src="basePath()+'/themes/default/img/authenticator.png'" alt="A"
+									<img class="img-responsive img-rounder img-sm" :src="basePath()+'/themes/default/img/authenticator.png'" alt="A"
                                          id="auth_img">&nbsp;{{two_factor ? '2-Step Verification is ON since '+ getDate  : lang('authenticator_app')}}
 								</span>
                             </div>
@@ -545,5 +545,10 @@ export default {
 
 
 <style scoped>
+
+.img-sm{
+    height: 1.875rem;
+    width: 1.875rem;
+}
 
 </style>

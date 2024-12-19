@@ -1,8 +1,8 @@
 <template>
 
-    <div class="container-fluid">
+    <div class="row">
 
-        <div class="container col-md-12">
+        <div class="col-md-12 ms-2">
 
             <div class="row" v-if="loading">
 
@@ -11,9 +11,9 @@
 
             <alert componentName="license-view" />
 
-            <div class="card card-header-tabs card-outline">
+            <div class="card card-header-tabs">
 
-                <div class="card-header card-header-dark card-light border-bottom">
+                <div class="card-header card-header-dark card-light">
 
                     <h3 class="card-title">{{product_title}}</h3>
 
@@ -34,121 +34,121 @@
 
                 <div class="row card-body">
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('client_email')}}:</label>
-                        <router-link :to="'/clients/'+client_id+'/view'" v-if="client_email" class="col-sm-6 text-sm">{{client_email}}</router-link>
-                        <span class="col-sm-6 text-sm" v-else >----</span>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('client_email')}}:</label>
+                        <router-link :to="'/clients/'+client_id+'/view'" v-if="client_email" class="col-sm-6 fs-7">{{client_email}}</router-link>
+                        <span class="col-sm-6 fs-7" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_title')}}:</label>
-                        <router-link v-if="product_title" :to="'/products/'+product_id+'/view'" class="col-sm-6 text-sm">{{product_title}}</router-link>
-                        <span class="col-sm-6 text-sm" v-else >----</span>
-                    </div>
-
-                    <hr>
-
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('installations')}}:</label>
-                        <div v-if="installation_counts" class="col-sm-6 text-sm">{{installation_counts}}</div>
-                        <span class="col-sm-6 text-sm" v-else >----</span>
-                    </div>
-
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('callbacks')}}:</label>
-                        <div v-if="call_backs_count" class="col-sm-6 text-sm">{{call_backs_count}}</div>
-                        <span class="col-sm-6 text-sm" v-else >----</span>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('product_title')}}:</label>
+                        <router-link v-if="product_title" :to="'/products/'+product_id+'/view'" class="col-sm-6 fs-7">{{product_title}}</router-link>
+                        <span class="col-sm-6 fs-7" v-else >----</span>
                     </div>
 
                     <hr>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('latest_callback')}}:</label>
-                        <div v-if="latest_call_backs" class="col-sm-6 text-sm">{{latest_call_backs}}</div>
-                        <span class="col-sm-6 text-sm" v-else >----</span>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('installations')}}:</label>
+                        <div v-if="installation_counts" class="col-sm-6 fs-7">{{installation_counts}}</div>
+                        <span class="col-sm-6 fs-7" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('order_number')}}:</label>
-                        <a :href="extractHref(license_order_url)" target="_blank" v-if="license_order_number" class="col-sm-6 text-sm">{{license_order_number}}</a>
-                        <div v-else class="col-sm-6 text-sm">----</div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_ip')}}:</label>
-                        <div v-if="license_ip" class="col-sm-6 text-sm">{{license_ip}}</div>
-                        <div v-else class="col-sm-6 text-sm">----</div>
-                    </div>
-
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_domain')}}:</label>
-                        <a v-if="license_domain" :href="'https://'+license_domain" target="_blank" class="col-sm-6 text-sm">{{license_domain}}</a>
-                        <div v-else class="col-sm-6 text-sm">----</div>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('callbacks')}}:</label>
+                        <div v-if="call_backs_count" class="col-sm-6 fs-7">{{call_backs_count}}</div>
+                        <span class="col-sm-6 fs-7" v-else >----</span>
                     </div>
 
                     <hr>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('installation_limit')}}:</label>
-                        <div v-if="installation_limit >= 0" class="col-sm-6 text-sm">{{installation_limit}}</div>
-                        <div v-else class="col-sm-6 text-sm">----</div>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('latest_callback')}}:</label>
+                        <div v-if="latest_call_backs" class="col-sm-6 fs-7">{{latest_call_backs}}</div>
+                        <span class="col-sm-6 fs-7" v-else >----</span>
                     </div>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_date')}}:</label>
-                        <div v-if="license_date" class="col-sm-6 text-sm">{{license_date}}</div>
-                        <div v-else class="col-sm-6 text-sm">----</div>
-                    </div>
-
-                    <hr>
-
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_expiry')}}:</label>
-                        <div v-if="license_expire_date" class="col-sm-6 text-sm">{{license_expire_date}}</div>
-                        <div v-else class="col-sm-6 text-sm">----</div>
-                    </div>
-
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('updates_expiry')}}:</label>
-                        <div v-if="license_updates_date" class="col-sm-6 text-sm">{{license_updates_date}}</div>
-                        <div v-else class="col-sm-6 text-sm">----</div>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('order_number')}}:</label>
+                        <a :href="extractHref(license_order_url)" target="_blank" v-if="license_order_number" class="col-sm-6 fs-7">{{license_order_number}}</a>
+                        <div v-else class="col-sm-6 fs-7">----</div>
                     </div>
 
                     <hr>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('support_expiry')}}:</label>
-                        <div v-if="license_support_date" class="col-sm-6 text-sm">{{license_support_date}}</div>
-                        <div v-else class="col-sm-6 text-sm">----</div>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('license_ip')}}:</label>
+                        <div v-if="license_ip" class="col-sm-6 fs-7">{{license_ip}}</div>
+                        <div v-else class="col-sm-6 fs-7">----</div>
                     </div>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6 border-bottom">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_status')}}:</label>
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('license_domain')}}:</label>
+                        <a v-if="license_domain" :href="'https://'+license_domain" target="_blank" class="col-sm-6 fs-7">{{license_domain}}</a>
+                        <div v-else class="col-sm-6 fs-7">----</div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('installation_limit')}}:</label>
+                        <div v-if="installation_limit >= 0" class="col-sm-6 fs-7">{{installation_limit}}</div>
+                        <div v-else class="col-sm-6 fs-7">----</div>
+                    </div>
+
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('license_date')}}:</label>
+                        <div v-if="license_date" class="col-sm-6 fs-7">{{license_date}}</div>
+                        <div v-else class="col-sm-6 fs-7">----</div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('license_expiry')}}:</label>
+                        <div v-if="license_expire_date" class="col-sm-6 fs-7">{{license_expire_date}}</div>
+                        <div v-else class="col-sm-6 fs-7">----</div>
+                    </div>
+
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('updates_expiry')}}:</label>
+                        <div v-if="license_updates_date" class="col-sm-6 fs-7">{{license_updates_date}}</div>
+                        <div v-else class="col-sm-6 fs-7">----</div>
+                    </div>
+
+                    <hr>
+
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('support_expiry')}}:</label>
+                        <div v-if="license_support_date" class="col-sm-6 fs-7">{{license_support_date}}</div>
+                        <div v-else class="col-sm-6 fs-7">----</div>
+                    </div>
+
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('license_status')}}:</label>
                         <div v-if="license_status" class="col-sm-6 text-sm text-success">Active</div>
                         <div v-else class="col-sm-6 text-sm text-danger">Inactive</div>
                     </div>
 
                     <hr>
 
-                    <div class="row p-1 pb-3 pt-3 col-sm-6">
+                    <div class="row p-1 pb-3 pt-3 col-sm-6 ms-2 ps-0">
 
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('license_code')}}:</label>
-                        <div v-if="license_code && license_code !== '----'" class="col-sm-6 text-sm">
+                        <label class="col-sm-6 fs-7 fw-bold ps-0">{{lang('license_code')}}:</label>
+                        <div v-if="license_code && license_code !== '----'" class="col-sm-6 fs-7">
                             {{license_code.match(/.{1,4}/g).join('-')}}
-                            <span class="btn ml-2 btn-default" v-tooltip="lang('copy')" style="cursor: pointer" @click="copyCommand()">
+                            <span class="btn ml-2 btn-light" v-tooltip="lang('copy')" style="cursor: pointer" @click="copyCommand()">
                                     <i :class="iconClass"></i>
                             </span>
                         </div>
-                        <div v-else class="col-sm-6 text-sm">----</div>
+                        <div v-else class="col-sm-6 fs-7">----</div>
 
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-sm-12">
+        <div class="col-sm-12 ms-2">
 
             <div class="card card-header-tabs">
 
@@ -157,15 +157,15 @@
                     <ul class="nav nav-tabs" id="custom-tabs-one-tab" role="tablist">
 
                         <li class="nav-item">
-                            <span class="nav-link card-header-link cursor-pointer active" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('installations')" aria-controls="custom-tabs-one-home">{{lang('installations')}}</span>
+                            <span class="nav-link card-header-link cursor-pointer active" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" @click="updateData('installations')" aria-controls="custom-tabs-one-home">{{lang('installations')}}</span>
                         </li>
 
                         <li class="nav-item">
-                            <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('callbacks')" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
+                            <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" @click="updateData('callbacks')" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
                         </li>
 
                         <li class="nav-item">
-                            <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" @click="updateData('logs')" aria-controls="custom-tabs-one-home">{{lang('installation_logs')}}</span>
+                            <span class="nav-link card-header-link cursor-pointer" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" @click="updateData('logs')" aria-controls="custom-tabs-one-home">{{lang('installation_logs')}}</span>
                         </li>
                     </ul>
                 </div>
@@ -504,7 +504,7 @@ export default {
                         installation_status: (f, row) => {
 
                             return h('span', {
-                                'class': row.installation_status ? 'text-green' : 'text-red'
+                                'class': row.installation_status ? 'text-success' : 'text-danger'
                             }, row.installation_status ? this.lang('active'): this.lang('inactive'))
                         },
 
@@ -622,7 +622,7 @@ export default {
                         callback_status: (f, row) => {
 
                             return h('span', {
-                                'class': row.callback_status ? 'text-green' : 'text-red'
+                                'class': row.callback_status ? 'text-success' : 'text-danger'
                             }, row.callback_status ? this.lang('success'): this.lang('error'))
                         },
                     },
@@ -743,7 +743,7 @@ export default {
                         installation_status: (f, row) => {
 
                             return h('span', {
-                                'class': row.installation_status ? 'text-green' : 'text-red'
+                                'class': row.installation_status ? 'text-success' : 'text-danger'
                             }, row.installation_status ? this.lang('active'): this.lang('inactive'))
                         },
                     },
@@ -790,7 +790,7 @@ export default {
     background-color: #f8f9fa;
 }
 .data-table-header {
-    background-color: #ebebeb;
+    background-color: #ebebeb !important;
 }
 .action-btn{
     color: rgba(31, 45, 61, .8);

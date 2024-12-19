@@ -6,15 +6,13 @@
 
       <div class="modal-wrapper" :class="classname">
 
-        <div class="modal-container" :style="containerStyle">
+        <div class="modal-content" :style="containerStyle">
 
           <div class="modal-header">
 
             <slot name="title"></slot>
 
-            <button v-if="showCloseBtn" type="button" @click="onClose()" class="close">
-
-              <span aria-hidden="true" id="modal_close">&times;</span>
+            <button v-if="showCloseBtn" type="button" @click="onClose()" aria-label="Close" data-bs-dismiss="modal" class="btn-close mb-3">
 
             </button>
 
@@ -101,7 +99,7 @@
     vertical-align: middle;
   }
 
-  .modal-container {
+  .modal-content {
     width: 800px;
     max-width: 840px !important;
     margin: 0px auto;
@@ -126,6 +124,10 @@
     margin-bottom: 1rem;
   }
 
+  .modal-body{
+    padding: 1.5rem;
+  }
+
   .modal-enter .modal-container,
   .modal-leave-active .modal-container {
     -webkit-transform: scale(1.1);
@@ -139,6 +141,36 @@
   .body-scrollable {
     max-height: 500px;
     overflow-y: auto;
+  }
+
+  .modal-header {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
+      padding: 1rem;
+      border-bottom: 1px solid #e9ecef;
+      border-top-left-radius: calc(0.3rem - 1px);
+      border-top-right-radius: calc(0.3rem - 1px);
+  }
+
+  .modal-header .btn-close {
+        padding: 0.5rem 0.5rem;
+        margin: -0.5rem -0.5rem -0.5rem auto;
+        cursor: pointer;
+        background-color: transparent;
+        border: 0;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        font-size: xx-small;
+        font-weight: bold;
+  }
+
+  .modal-footer{
+    padding: 1rem;
+    border-top: 1px solid #e9ecef;
+    border-bottom-left-radius: calc(0.3rem - 1px);
+    border-bottom-right-radius: calc(0.3rem - 1px);
   }
 
   .modal-header h4 {

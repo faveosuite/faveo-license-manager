@@ -22,9 +22,9 @@
 
                 <div class="card-tools">
 
-                    <router-link to="/apikeys/create" class="btn-tool" v-tooltip="lang('create_api_key')">
+                    <router-link to="/apikeys/create" class="btn btn-tool" v-tooltip="lang('create_api_key')">
 
-                        <i class="fas fa-plus"></i>
+                        <i class="fas fas fa-plus fa-l"></i>
                     </router-link>
                 </div>
             </div>
@@ -193,21 +193,21 @@ export default {
                 api_key_installations_edit: (f, row) => {
 
                     return h('span', {
-                        'class': row.api_key_installations_edit ? 'text-green' : 'text-red'
+                        'class': row.api_key_installations_edit ? 'text-success' : 'text-danger'
                     }, row.api_key_installations_edit ? this.lang('active'): this.lang('inactive'))
                 },
 
                 api_key_search: (f, row) => {
 
                     return h('span', {
-                        'class': row.api_key_search ? 'text-green' : 'text-red'
+                        'class': row.api_key_search ? 'text-success' : 'text-danger'
                     }, row.api_key_search ? this.lang('active'): this.lang('inactive'))
                 },
 
                 api_key_status: (f, row) => {
 
                     return h('span', {
-                        'class': row.api_key_status ? 'text-green' : 'text-red'
+                        'class': row.api_key_status ? 'text-success' : 'text-danger'
                     }, row.api_key_status ? this.lang('active'): this.lang('inactive'))
                 },
 

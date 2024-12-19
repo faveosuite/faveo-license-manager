@@ -9,7 +9,7 @@
 
         <alert componentName="settings" />
 
-        <div class="card card-light">
+        <div class="card card-light mb-3">
 
             <div class="card-header">
 
@@ -20,7 +20,7 @@
 
                 <p>{{lang('copy-cron-command-description')}}</p>
 
-                <div class="card p-4 bg-light">
+                <div class="card p-4 bg-light mb-3">
 
                     <div class="row">
 

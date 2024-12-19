@@ -2,16 +2,16 @@
 
     <div class="datatable">
 
-        <div v-if="showTable" class="row float-right mr-0 mb-3">
+        <div v-if="showTable" class="row float-end me-0 mb-3">
 
-            <div v-if="option.filterable">
+            <div v-if="option.filterable" class="col-sm-auto pe-0">
 
                 <input type="text" class="form-control globe-search" v-model="search_str"
                        @keyup.enter="checkFile()" :style="inputStyle" :placeholder="trans('type_and_enter_to_search')">
             </div>
 
-            <div v-if="showColumn" class="dropdown">
-                <button v-tooltip="lang('select_columns')" class="btn btn-default ml-2 h-100 btn-sm dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-columns"></i> {{lang('columns')}}</button>
+            <div v-if="showColumn" class="dropdown col-sm-auto pf-0">
+                <button v-tooltip="lang('select_columns')" class="btn btn-light mf-2 h-100 btn-sm dropdown-toggle px-2" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-columns"></i> {{lang('columns')}}</button>
 
                 <div class="dropdown-menu dropdown-column-menu p-3" aria-labelledby="dropdownMenuButton" style="">
                     <div v-for="column in selectedColumns" :key="column" class="form-check dropdown-item">
@@ -27,7 +27,7 @@
                         <label class="form-check-label" for="columnCheckbox">{{lang(column)}}</label>
                     </div>
 
-                    <div class="dropdown-item text-right">
+                    <div class="dropdown-item text-end column-button">
                         <button @click="updateColumns" id="updateButton" class="btn btn-primary">{{lang('apply')}}</button>
                     </div>
                 </div>
@@ -72,7 +72,7 @@
                 </template>
             </div>
 
-            <div v-if="showTable && !loading && show_pagination && total > 10" class="float-right mr-0 pt-2">
+            <div v-if="showTable && !loading && show_pagination && total > 10" class="float-end mr-0 pt-2">
 
                 <simple-pagination :next_page="next_page" :prev_page="prev_page" :onPagination="onPagination">
 
@@ -515,6 +515,7 @@ table{
 
 .VueTables__limit-field .form-control{
     cursor: pointer!important;
+    appearance: auto!important;
 }
 
 .VueTables__limit-field label{

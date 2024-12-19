@@ -2,7 +2,7 @@
 
     <div class="simple-pagination">
 
-        <button class="btn mr-2 btn-primary" @click="onPagination('previous')" :disabled="!prev_page">
+        <button class="btn m-2 btn-primary" @click="onPagination('previous')" :disabled="!prev_page">
 
             <i class="fas fa-arrow-left"></i> &nbsp; {{ trans('previous') }}
         </button>

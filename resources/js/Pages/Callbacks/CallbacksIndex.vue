@@ -2,7 +2,7 @@
 
     <div class="container-fluid">
 
-        <div class="container col-sm-12">
+        <div class="col-sm-12">
 
             <div class="alert alert-info">
 
@@ -24,12 +24,11 @@
 
                         <li class="nav-item" @click="updateData('license')" >
 
-                            <span class="nav-link card-header-link active" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('license_callbacks')}}</span>
+                            <span class="nav-link card-header-link" :class="{ active: activeTab === 'license' }" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('license_callbacks')}}</span>
+
                         </li>
-
                         <li class="nav-item" @click="updateData('update')" >
-
-                            <span class="nav-link card-header-link" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('update_callbacks')}}</span>
+                            <span class="nav-link card-header-link" :class="{ active: activeTab === 'update' }" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('update_callbacks')}}</span>
                         </li>
                     </ul>
                 </div>
@@ -74,7 +73,9 @@ import {RouterLink} from "vue-router";
 
                 counter : 0,
 
-                loading: true
+                loading: true,
+
+                activeTab: 'license',
 
             }
     },
@@ -99,6 +100,7 @@ import {RouterLink} from "vue-router";
 
             updateData(value) {
 
+                this.activeTab = value; // Set the active tab
                 const date_format = this.generalSetting.date_format.js_format
                 const time_format = this.generalSetting.time_format.js_format
                 const timezone = this.generalSetting.timezone.name
@@ -199,7 +201,7 @@ import {RouterLink} from "vue-router";
                             callback_status: (f, row) => {
 
                                 return h('span', {
-                                    'class': row.callback_status ? 'text-green' : 'text-red'
+                                    'class': row.callback_status ? 'text-success' : 'text-danger'
                                 }, row.callback_status ? this.lang('active'): this.lang('inactive'))
                             },
 
@@ -366,7 +368,7 @@ import {RouterLink} from "vue-router";
                             callback_status: (f, row) => {
 
                                 return h('span', {
-                                    'class': row.callback_status ? 'text-green' : 'text-red'
+                                    'class': row.callback_status ? 'text-success' : 'text-success'
                                 }, row.callback_status ? this.lang('active'): this.lang('inactive'))
                             },
 

@@ -3,6 +3,7 @@
         <div v-if="shouldShowProgressBar" class="progress color-shift-progress-bar">
             <div class="progress-bar" role="progressbar" :style="{ width: progressBarWidth }"></div>
         </div>
+
         <router-view :versioning="versioning" :generalSetting="generalSetting"></router-view>
     </div>
 </template>

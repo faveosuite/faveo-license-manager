@@ -1,6 +1,6 @@
 <template>
 
-    <div class="container-fluid">
+    <div class="row">
 
         <div class="row" v-if="loading">
 
@@ -9,7 +9,7 @@
 
         <alert componentName="version-view" />
 
-        <div class="container col-md-12">
+        <div class="col-md-12 ms-2">
 
             <div class="card card-header-tabs card-outline">
 
@@ -33,26 +33,26 @@
 
                 <div class="row card-body col-md-12">
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('product_name')}}:</label>
-                        <router-link :to="'/products/' + product_id + '/view'" v-if="product_title" class="col-sm-6 text-sm">{{product_title}}</router-link>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('product_name')}}:</label>
+                        <router-link :to="'/products/' + product_id + '/view'" v-if="product_title" class="col-sm-6 fs-7">{{product_title}}</router-link>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 border-bottom col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('version_date')}}:</label>
-                        <div v-if="version_date" class="col-sm-6 text-sm">{{version_date}}</div>
+                    <div class="row pt-2 pb-2 border-bottom col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('version_date')}}:</label>
+                        <div v-if="version_date" class="col-sm-6 fs-7">{{version_date}}</div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('version_upgrade_count')}}:</label>
-                        <div v-if="version_upgrade_count" class="col-sm-6 text-sm">{{version_upgrade_count}}</div>
+                    <div class="row pt-2 pb-2 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('version_upgrade_count')}}:</label>
+                        <div v-if="version_upgrade_count" class="col-sm-6 fs-7">{{version_upgrade_count}}</div>
                         <span class="col-sm-6" v-else >----</span>
                     </div>
 
-                    <div class="row pt-2 pb-2 col-sm-6">
-                        <label class="col-sm-6 text-sm font-weight-bold">{{lang('version_status')}}:</label>
+                    <div class="row pt-2 pb-2 col-sm-6 ms-2 ps-0">
+                        <label class="col-sm-6 fs-7 fw-bold">{{lang('version_status')}}:</label>
                         <div v-if="version_status" class="col-sm-6 text-sm text-success">{{lang('active')}}</div>
                         <div v-else class="col-sm-6 text-sm text-danger">{{lang('inactive')}}</div>
                     </div>
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="container col-sm-12">
+        <div class="col-sm-12 ms-2">
 
             <div class="card card-header-tabs">
 
@@ -70,7 +70,7 @@
 
                         <li class="nav-item">
 
-                            <span class="nav-link active" id="custom-tabs-one-home-tab" data-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
+                            <span class="nav-link active" id="custom-tabs-one-home-tab" data-bs-toggle="pill" role="tab" aria-controls="custom-tabs-one-home">{{lang('callbacks')}}</span>
                         </li>
                     </ul>
                 </div>
@@ -307,7 +307,7 @@ export default {
                         callback_status: (f, row) => {
 
                             return h('span', {
-                                'class': row.callback_status ? 'text-green' : 'text-red'
+                                'class': row.callback_status ? 'text-success' : 'text-danger'
                             }, row.callback_status ? this.lang('active'): this.lang('inactive'))
                         },
                     },

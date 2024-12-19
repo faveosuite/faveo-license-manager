@@ -5,11 +5,11 @@
     	<a class="nav-link" :class="{'active': isMainActive || isOneOfChildrenActive}"
            :href="getLink(menuItem)" @click.prevent="handleMainMenuAction">
 
-		    <i :class="'nav-icon '+menuItem.iconClass"></i>
+		    <i :class="'nav-icon '+menuItem.iconClass"></i> &nbsp;
 
 		    <router-link :to="menuItem.routeString" exact exact-active-class="active"> {{ menuItem.name }} </router-link>
 
-            <i v-if="isExpandable" class="right fas fa-angle-left"></i>
+            <i v-if="isExpandable" class="nav-arrow fas fa-angle-left"></i>
 		</a>
 
     	<ul class="nav nav-treeview" v-for="item in menuItem.children">
