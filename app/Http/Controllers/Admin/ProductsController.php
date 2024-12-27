@@ -542,4 +542,10 @@ class ProductsController extends Controller
 
         return successResponse(Lang::get('lang.product_restored'), 1, 200);
     }
+
+    public function getProductIdbyKey(Request $request)
+    {
+        return AfuProducts::where('product_key', $request->product_key)->value('product_id');
+    }
+
 }

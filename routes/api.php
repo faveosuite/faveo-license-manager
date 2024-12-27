@@ -141,6 +141,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::post('updateProduct',[ProductsController::class,'updateAflAndAfuProduct']);
     Route::post('allProductDelete', [ProductsController::class, 'deleteAflAndAfuProduct']);
     Route::post('restoreProduct', [ProductsController::class, 'restoreSuspendedProduct']);
+    Route::get('getProductIdbyKey', [ProductsController::class, 'getProductIdbyKey']);
 
     //ORDERS
     Route::post('deleteOrder',[OrderController::class,'deleteOrder']);
