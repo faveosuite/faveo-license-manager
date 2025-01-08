@@ -1,69 +1,69 @@
-<h1>Agora License Manager</h1> 
+# Agora License Manager
 
+## About Agora Licensing
 
-<h3>About Agora Licensing</h3>
+Agora License Manager is an all-in-one solution for managing licenses and updates for your web applications. It allows you to control and restrict the use of your applications in accordance with your licensing agreements.
 
-Agora Licensing is managing licenses for Agora Invoicing and Faveo Helpdesk.
+The Agora License Manager integrates seamlessly with [Agora Invoicing](https://www.agorainvoicing.com/), providing a unified platform for managing both invoicing and licensing.
 
-This Open Software License applies to any original work of authorship whose owner has placed the following licensing notice adjacent to the copyright notice for the Original Work.
+Agora is developed by [Ladybird Web Solution Pvt Ltd](http://www.ladybirdweb.com/) and was launched in October 2021.
 
-Agora is designed and developed by <a href="http://www.ladybirdweb.com/" target="_blank">Ladybird Web Solution Pvt Ltd</a>, and launched in October 2021.
+## Requirements
 
-Requirements
---------------------------
-To run Agora License Manager, your host just needs a couple of things:
+To run Agora License Manager, your server should meet the following requirements:
 
 * PHP Version: 8.2+
-* Laravel Framework: 9.0+
+* Laravel Framework: 10+
 * Database: MySQL 8.0.x or Postgres or SQLite or SQL Server
 * Web Server: Apache / IIS / Nginx
 * PHP Extensions: Mcrypt, OpenSSL, Mbstring, Tokenizer
 * Web Server Extension: Pretty URLs or Search Engine Friendly URLs must be enabled in your web server configuration
 
-Installation Guide
---------------------------
-The installation steps for Agora License Manager are the same as those for Faveo. Please refer to our <a href="https://docs.faveohelpdesk.com/" target="_blank">Installation Guide</a> for steps.
+## Installation Guide
 
-Credits
---------------------------
+The installation process for Agora License Manager is identical to that of [Faveo Helpdesk](https://www.faveohelpdesk.com/). Please refer to the [Faveo Installation Guide](https://docs.faveohelpdesk.com/) for detailed instructions.
+
+## Credits
+
 * Laravel Framework
 * Admin LTE Theme
 
-Agora License Manager Features
---------------------------------
-* One installation for unlimited products, clients, and licenses
-* Lifetime, time-expiring, and feature-limited licenses
-* IP address and (sub)domain-based restrictions
-* Blocked installation for users without active licenses
-* Direct License Monitoring
-* Guaranteed protection from software piracy
+## Features of Agora License Manager
 
-Error Reporting
---------------------------
-Agora License Manager uses [Bugsnag](https://www.bugsnag.com/) to monitor application stability in a production environment. It helps us provide bug fixes and feature updates after analyzing the logs and crash reports for the application. **If you are customizing the application in a development environment, we request you to disable this error reporting.** It will allow us to ignore the errors that occur during your development cycle, and we can focus more on the exceptions/bugs occurring in the live system of other users in the Faveo community. It can be easily disabled from the "Error logs and debugging" option in the admin panel or by updating your app environment to development in `.env`.
+- **Single Installation**: Manage unlimited products, clients, and licenses with one installation.
+- **Flexible Licenses**: Supports lifetime, time-expiring, and feature-limited licenses.
+- **Restrictions**: IP address and (sub)domain-based restrictions to enforce license limits.
+- **License Enforcement**: Blocks installation for users without an active license.
+- **Real-Time License Monitoring**: Direct tracking of license status and usage.
+- **Piracy Protection**: Provides robust mechanisms to prevent software piracy.
 
-You can still report issues on our [GitHub Issue page](https://github.com/ladybirdweb/agora-license-manager/issues) by providing proper information about the changes you are trying to implement. We assure you that the Agora License Manager community will help you, and your customization can be a part of the Agora application if it follows our contributing guidelines.
+## Error Reporting
 
-# Security Policy
+Agora License Manager uses [Bugsnag](https://www.bugsnag.com/) to monitor application stability in production environments. This helps us quickly identify issues and release bug fixes and updates. 
 
-## Supported Versions
+**If you're customizing the application in a development environment**, we recommend disabling error reporting to prevent unnecessary alerts. You can easily disable it from the "Error Logs and Debugging" section in the admin panel, or by setting the environment to `development` in your `.env` file.
 
-Check-mark versions are supported with security patches.
+However, you can still report issues or share your customizations via our [GitHub Issues page](https://github.com/ladybirdweb/agora-license-manager/issues). If your changes follow our contributing guidelines, we may integrate them into the main application.
+
+## Security Policy
+
+### Supported Versions
+
 
 | Version  | Supported            |  
 |----------|----------------------|  
-| 3.0.2   | :white_check_mark:   |  
-| 3.0.1   | :x:                  |  
-| < 3.0.0 | :x:                  |
+| 3.0.2.1  | :white_check_mark:   |  
+| 3.0.2    | :x:                  |  
+| < 3.0.1  | :x:                  |
 
-## Supported Updates
+### Supported Updates
 
-Security updates will be released once a month. If it's high priority, we will make it twice a month.
+Security updates are released monthly. In case of critical vulnerabilities, updates may be released twice a month.
 
-## Reporting a Vulnerability
+### Reporting a Vulnerability
 
-Please report (suspected) security vulnerabilities to support@faveohelpdesk.com. You will receive a response from us within 48 hours. If the issue is confirmed, we will release a patch as soon as possible depending on complexity, but historically within a few days.
+If you suspect a security vulnerability, please report it to [support@faveohelpdesk.com](mailto:support@faveohelpdesk.com). You will receive a response within 48 hours. If the issue is confirmed, we will aim to release a patch as quickly as possible—usually within a few days, depending on the complexity of the issue.
 
-Help
---------------------------
-https://github.com/ladybirdweb/agora-license-manager/wiki
+## User Manual
+
+For a comprehensive user manual, visit the <a href="https://github.com/ladybirdweb/agora-license-manager/wiki" target="_blank">Agora License Manager Wiki</a>.
