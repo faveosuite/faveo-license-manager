@@ -1,4 +1,4 @@
-## Agora License Manager
+## About Agora License Manager
 
 Agora License Manager is an all-in-one solution for managing licenses and updates for your web applications. It allows you to control and restrict the use of your applications in accordance with your licensing agreements.
 
