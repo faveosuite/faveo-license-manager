@@ -13,7 +13,7 @@ $config = require_once '../config/app.php';
 $env = '../.env';
 $envFound = is_file($env);
 if ($envFound) {
-    $dotenv = Dotenv\Dotenv::create(__DIR__.'/..');
+    $dotenv = Dotenv\Dotenv::createImmutable(__DIR__.'/..');
     $dotenv->load();
 }
 
@@ -21,11 +21,9 @@ $passwordMatched = false;
 $showError = false;
 if (isset($_POST['submit'])) {
     $probePhrase = env('PROBE_PASS_PHRASE', '   ');
-    //Unique password incase support team requires access to probe.php
-    $password = '599fe9896c015afebff1789ea0078f61';
 
     $input = $_POST['passPhrase'];
-    if (! in_array($input, [$probePhrase, $password])) {
+    if ($input !== $probePhrase) {
         $showError = true;
     } else {
         $passwordMatched = true;
@@ -68,40 +66,39 @@ if (isWhiteLabelEnabled()) {
                 <h4><span style="color: red">The magic phrase you entered is not working.</span></h4>
             <?php } ?>
             <form method="POST" action="probe.php">
-                 table Mod Rewrite block
+<!--                table Mod Rewrite block-->
                 <table class="t01">
                     <label style="float: left;">What's the magic phrase</label>
                     <input  style="float: right; width: 300px; height: 25px; outline: none;" type="password" name="passPhrase" autofocus id="passPhrase">
                     <tfoot>
                     <tr>
                         <td style="border: 1px solid #ffffff;">
-                             Adding app version to make it easy to identify app version during troubleshooting client's system. As many of times if code is encoded
-                            we are stuck to identify application version and support team needs to get login
-                            details or ask client the app version.
-                            -->
+<!--                             Adding app version to make it easy to identify app version during troubleshooting client's system. As many of times if code is encoded
+                                 we are stuck to identify application version and support team needs to get login
+                                 details or ask client the app version.-->
+
                             <p style="font-size: .8em">
                                 <b>App Name:</b> <?= $appName; ?><br/>
-                                <b>App Version:</b> <?= $config['tags']; ?>
+                                <b>App Version:</b> <?= $config['version']; ?>
                             </p>
                         </td>
                         <td style="border: 1px solid #ffffff;">
                             <form action="pre-license" method="post"  class="border-line">
                                 <p class="setup-actions step">
-                                    <button type="submit" name="submit" id="passSubmit" class="button button-large" style="float: right;" disabled>Continue</button>
+                                    <button type="submit" name="submit" id="passSubmit" class="button button-large" style="float: right;" >Continue</button>
                                 </p>
                             </form>
                         </td>
                     </tr>
                     </tfoot>
                 </table>
-                 .table 
             </form>
         </div>
     </div>
     </body>
 <?php } else { ?>
     <body>
-       
+
     <ol class="setup-steps" style = "margin-left: 70px;">
         <li class="active">Server Requirements</li>
         <!--<li class="@yield('license')">License Agreement</li>-->
@@ -113,7 +110,7 @@ if (isWhiteLabelEnabled()) {
     <div class="setup-content">
         <div style="width: 700; margin: auto;">
             <h1 style="text-align: center; color: #71BEE3">Server Requirements</h1>
-           
+
             <!-- table Directory Permission block-->
             <?php
         $errorCount = 0;
@@ -134,7 +131,7 @@ if (isWhiteLabelEnabled()) {
     ?>
 
 
-            
+
 
 
             <!-- table Requirement Check block-->
@@ -154,13 +151,13 @@ if (isWhiteLabelEnabled()) {
     ?>
 
 
-          
+
             <!-- .table -->
 
 
             <!-- table PHP Extension Check block-->
 
-            
+
                 <?php
     $details = (new LicenseDependencyController('probe'))->validatePHPExtensions($errorCount);
     $table = '<table class="t01">
@@ -190,10 +187,10 @@ if (isWhiteLabelEnabled()) {
     $table = $table.'</table>';
     echo htmlspecialchars_decode($table);
     ?>
-                    
 
-                    
-                 
+
+
+
             <!-- </table> -->
             <!-- .table -->
 
@@ -305,7 +302,7 @@ if (isWhiteLabelEnabled()) {
                         we are stuck to identify application version and support team needs to get login
                         details or ask client the app version.
                         -->
-                      
+
                     </td>
                     <td style="border: 1px solid #ffffff;">
                    <form action="db-setup" method="post">
