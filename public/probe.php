@@ -85,20 +85,20 @@ if (isWhiteLabelEnabled()) {
                         <td style="border: 1px solid #ffffff;">
                             <form action="pre-license" method="post"  class="border-line">
                                 <p class="setup-actions step">
-                                    <button type="submit" name="submit" id="passSubmit" class="button button-large" style="float: right;" >Continue</button>
+                                    <button type="submit" name="submit" id="passSubmit" class="button button-large btn-primary" style="float: right;" >Continue</button>
                                 </p>
                             </form>
                         </td>
                     </tr>
                     </tfoot>
                 </table>
+<!--                 .table-->
             </form>
         </div>
     </div>
     </body>
 <?php } else { ?>
     <body>
-
     <ol class="setup-steps" style = "margin-left: 70px;">
         <li class="active">Server Requirements</li>
         <!--<li class="@yield('license')">License Agreement</li>-->
@@ -110,7 +110,6 @@ if (isWhiteLabelEnabled()) {
     <div class="setup-content">
         <div style="width: 700; margin: auto;">
             <h1 style="text-align: center; color: #71BEE3">Server Requirements</h1>
-
             <!-- table Directory Permission block-->
             <?php
         $errorCount = 0;
@@ -129,7 +128,6 @@ if (isWhiteLabelEnabled()) {
 
     echo htmlspecialchars_decode($table);
     ?>
-
 
 
 
@@ -156,7 +154,6 @@ if (isWhiteLabelEnabled()) {
 
 
             <!-- table PHP Extension Check block-->
-
 
                 <?php
     $details = (new LicenseDependencyController('probe'))->validatePHPExtensions($errorCount);
@@ -187,9 +184,6 @@ if (isWhiteLabelEnabled()) {
     $table = $table.'</table>';
     echo htmlspecialchars_decode($table);
     ?>
-
-
-
 
             <!-- </table> -->
             <!-- .table -->
@@ -302,7 +296,6 @@ if (isWhiteLabelEnabled()) {
                         we are stuck to identify application version and support team needs to get login
                         details or ask client the app version.
                         -->
-
                     </td>
                     <td style="border: 1px solid #ffffff;">
                    <form action="db-setup" method="post">
