@@ -98,6 +98,9 @@ class LicenseVerifyController extends Controller
                             : $license_array;
 
                         $license_array = $license_array ? array_merge($license_array, ['product_id' => $product_id]) : [];
+
+                        $license_array = array($license_array);
+
                     } else { //search for email-based license
                         $license_array = AflLicenses::join('users', 'afl_licenses.client_id', '=', 'users.client_id')
                             ->where('users.client_email', $client_email)
