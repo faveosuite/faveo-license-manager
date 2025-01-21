@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\InstallationRequest;
 use App\Models\AflApiKeys;
 use App\Models\AflInstallations;
+use App\Models\AflLicenses;
+use App\Models\LicensePlugin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
@@ -125,12 +127,28 @@ class InstallationController extends Controller
     private function deleteInstallation($installation_id)
     {
         $removed_records = 0;
-        if (aflValidateIntegerValue($installation_id)) {
-            $removed_records += AflInstallations::where('installation_id', $installation_id)->delete();
-        }
+
+        // Fetch license code associated with the given installation ID
+        $licenseCode = AflInstallations::where('installation_id', $installation_id)->value('license_code');
+
+        // Fetch license ID associated with the license code
+        $licenseId = AflLicenses::where('license_code', $licenseCode)->value('license_id');
+
+        // Fetch plugin IDs associated with the license ID
+        $pluginIds = LicensePlugin::where('license_id', $licenseId)->pluck('product_id');
+
+        // Fetch all installation IDs associated with the plugin IDs
+        $relatedInstallationIds = AflInstallations::whereIn('product_id', $pluginIds)->pluck('installation_id');
+
+        // Merge the provided installation ID with the related ones
+        $installationIdsToDelete = collect($relatedInstallationIds)->push($installation_id)->unique();
+
+        // Validate and delete all installations in the merged list
+        $removed_records += AflInstallations::whereIn('installation_id', $installationIdsToDelete)->delete();
 
         return $removed_records;
     }
+
 
     /**
      * Returns the list of all the instalaltions using license manager
