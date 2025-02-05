@@ -37,17 +37,17 @@ if (isset($_POST['submit'])) {
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <?php
     $appName = 'License Manager';
-// $logo = 'themes/default/common/images/installer/faveo.png';
+ $logo = 'themes/default/image/agoraLogo.png';
 // $ico = 'themes/default/common/images/favicon.ico';
 if (isWhiteLabelEnabled()) {
     $appName = str_replace('Faveo ', '', $appName);
-    // $logo = 'themes/default/common/images/whitelabel.png';
+     $logo = 'themes/default/images/whitelabel.png';
     // $ico = 'themes/default/common/images/whitefavicon.png';
 }
 
 ?>
     <title><?=$appName?></title>
-    <!--<img src="<?=$logo?>" alt="faveo" width="200px" height="130px">-->
+    <img src="<?=$logo?>" alt="faveo" width="200px" height="73px">
     <!-- links-->
     <!--<link href="<?=$ico?>"  rel="shortcut icon" />-->
     <link href='themes/default/css/bootstrap.min.css' rel="stylesheet" type="text/css"/>
