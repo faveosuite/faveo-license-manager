@@ -322,8 +322,10 @@ class LicenseVerifyController extends Controller
     public function createInstallationLogs($installation_domain,$ipaddress,$license_code)
     {
         InstallationLogs::updateOrInsert(
-            ['installation_domain' => $installation_domain],
+            ['installation_domain' => $installation_domain,
+                'license_code' => $license_code],
             [
+                'installation_domain' => $installation_domain,
                 'license_code' => $license_code,
                 'installation_ip' => $ipaddress,
                 'installation_status' => 1,

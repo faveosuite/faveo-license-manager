@@ -65,6 +65,7 @@ class InstallationLogsController extends Controller
         $root_url = $request->get('root_url');
         $versionNumber = $request->get('version_number');
         $installation_ip = $request->get('installation_ip');
+        $licenseCode = $request->get('license_code');
         $api_key = new ApiKeysController();
         $message = '';
 
@@ -76,7 +77,8 @@ class InstallationLogsController extends Controller
             // Check if the installation exists in license manager, then update or create in logs
             if ($installation_domain) {
                 InstallationLogs::updateOrCreate(
-                    ['installation_domain' => $installation_domain],
+                    ['installation_domain' => $installation_domain,
+                        'license_code' => $licenseCode],
                     [
                         'version_number' => $versionNumber,
                         'installation_ip' => $installation_ip,
