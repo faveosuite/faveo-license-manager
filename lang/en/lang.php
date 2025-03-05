@@ -375,7 +375,7 @@ return [
     'latest_product'      =>    'Latest Product',
     'latest_licenses' => 'Latest Licenses',
     'expiring_support' => 'Expiring Support',
-    'latest_clients' => 'Latest Clients',
+    'latest_clients' => 'Latest Contacts',
     'refresh' => 'Refresh' ,
 
     //API KEY

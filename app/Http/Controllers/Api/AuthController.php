@@ -146,6 +146,7 @@ private function findAdminUser($email)
                 ];
                 DB::table('password_resets')->updateOrInsert(['email' => $email], $dataToStore);
                 $dataForEmail = [
+                    'name' => $user->client_fname . ' ' . $user->client_lname,
                     'username' => $user->client_username,
                     'token' => $token,
                 ];

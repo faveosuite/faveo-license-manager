@@ -18,7 +18,7 @@
 
                         <div class="col-md-3 px-5 text-center">
 
-                            <image-element class="object-fit-cover" :class="['profile-user-img', 'img-responsive', 'img-rounder', 'img-click']" alt="User Profile Picture" id="client_profile_pic" :sourceUrl="client_profile_pic" ></image-element>
+                            <image-element :class="['profile-user-img', 'img-responsive', 'img-rounder', 'img-click']" alt="User Profile Picture" id="client_profile_pic" :sourceUrl="client_profile_pic" ></image-element>
 
                             <h3 class="profile-username">{{full_name}}</h3>
 
