@@ -57,7 +57,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/add'), $data);
         $response->assertStatus(200);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'The License code is manditory']);
+        $response->assertJson(['message' => 'The License code is mandatory']);
     }
 
     public function test_licenseAdd_whenLicenseIsAddedWithInvalidIp_shouldReciveResponse400()
@@ -296,7 +296,7 @@ class LicenseControllerTest extends TestCase
         $response = $this->json('POST', url('api/admin/license/edit'), $data);
         $response->assertStatus(400);
         $response->assertJson(['success' => false]);
-        $response->assertJson(['message' => 'The License code is manditory']);
+        $response->assertJson(['message' => 'The License code is mandatory']);
     }
 
     public function test_licenseUpdate_whenLicenseIsUpdatedWithInvalidIp_shouldRecieveResponse400()

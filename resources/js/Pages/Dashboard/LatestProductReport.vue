@@ -55,7 +55,7 @@ export default {
     name: 'latest-product-report',
     data() {
         return {
-            columns: ['report_text', 'report_date_time','license', 'report_status'],
+            columns: ['report_text', 'report_date_time', 'report_status'],
             options: {},
             counter: 0,
             loading: false
@@ -75,8 +75,6 @@ export default {
 
                 report_date_time: 'report_date_time',
 
-                license: 'license_code',
-
                 report_status: 'report_status'
             },
 
@@ -93,8 +91,6 @@ export default {
                 report_text: this.lang('report'),
 
                 report_date_time: this.lang('date'),
-
-                license: this.lang('license_code'),
 
                 report_status: this.lang('status')
             },

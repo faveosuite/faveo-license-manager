@@ -117,4 +117,20 @@ img {
 .img-circle {
     border-radius: 50%;
 }
+
+.profile-user-img {
+    border: 3px solid #adb5bd;
+    margin: 0 auto;
+    padding: 3px;
+    width: 100px;
+}
+
+.img-rounder{
+    border-radius: 50% !important;
+}
+
+.img-click {
+    width: 100px !important;
+    height: 100px !important;
+}
 </style>

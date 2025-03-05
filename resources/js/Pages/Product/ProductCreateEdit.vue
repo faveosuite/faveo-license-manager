@@ -51,20 +51,12 @@
 
 					</text-field>
 
-					<text-field :label="lang('product_version')" :value="product_version" type="text" name="product_version"
-						:onChange="onChange" classname="col-sm-6">
+                    <text-field :label="lang('product_description')" :value="product_description" type="textarea"
+                                name="product_description" :onChange="onChange" classname="col-sm-6">
 
-					</text-field>
-				</div>
+                    </text-field>
 
-				<div class="row">
-
-					<text-field :label="lang('product_description')" :value="product_description" type="textarea"
-						name="product_description" :onChange="onChange" classname="col-sm-6">
-
-					</text-field>
-
-				</div>
+                </div>
 			</div>
 
 			<div class="card-footer">
@@ -136,8 +128,6 @@
 				product_url_homepage: '',
 
 				product_url_download: '',
-
-				product_version: '',
 
 				product_envato_id: '',
 
@@ -264,8 +254,6 @@
 					data['product_url_homepage'] = this.product_url_homepage;
 
 					data['product_url_download'] = this.product_url_download;
-
-					data['product_version'] = this.product_version;
 
 					data['product_envato_id'] = this.product_envato_id;
 
