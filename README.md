@@ -1,14 +1,14 @@
-## About Agora License Manager
+## About Faveo License Manager
 
-Agora License Manager is an all-in-one solution for managing licenses and updates for your web applications. It allows you to control and restrict the use of your applications in accordance with your licensing agreements.
+Faveo License Manager is an all-in-one solution for managing licenses and updates for your web applications. It allows you to control and restrict the use of your applications in accordance with your licensing agreements.
 
-The Agora License Manager integrates seamlessly with [Agora Invoicing](https://www.agorainvoicing.com/), providing a unified platform for managing both invoicing and licensing. To explore the integration further, check out our [sample integration app](https://github.com/ladybirdweb/agora-integration-sample).
+The Faveo License Manager integrates seamlessly with [Faveo Invoicing](https://www.faveosuite.com/), providing a unified platform for managing both invoicing and licensing. To explore the integration further, check out our [sample integration app](https://github.com/ladybirdweb/faveo-integration-sample).
 
-Agora is developed by [Ladybird Web Solution Pvt Ltd](http://www.ladybirdweb.com/) and was launched in October 2021.
+Faveo License Manager is developed by [Ladybird Web Solution Pvt Ltd](http://www.ladybirdweb.com/) and was launched in October 2021.
 
 ## Requirements
 
-To run Agora License Manager, your server should meet the following requirements:
+To run Faveo License Manager, your server should meet the following requirements:
 
 * PHP Version: 8.2+
 * Laravel Framework: 10+
@@ -19,14 +19,14 @@ To run Agora License Manager, your server should meet the following requirements
 
 ## Installation Guide
 
-The installation process for Agora License Manager is identical to that of [Faveo Helpdesk](https://www.faveohelpdesk.com/). Please refer to the [Faveo Installation Guide](https://docs.faveohelpdesk.com/) for detailed instructions.
+The installation process for Faveo License Manager is identical to that of [Faveo Helpdesk](https://www.faveohelpdesk.com/). Please refer to the [Faveo Installation Guide](https://docs.faveohelpdesk.com/) for detailed instructions.
 
 ## Credits
 
 * Laravel Framework
 * Admin LTE Theme
 
-## Features of Agora License Manager
+## Features of Faveo License Manager
 
 - **Single Installation**: Manage unlimited products, clients, and licenses with one installation.
 - **Flexible Licenses**: Supports lifetime, time-expiring, and feature-limited licenses.
@@ -37,11 +37,11 @@ The installation process for Agora License Manager is identical to that of [Fave
 
 ## Error Reporting
 
-Agora License Manager uses [Bugsnag](https://www.bugsnag.com/) to monitor application stability in production environments. This helps us quickly identify issues and release bug fixes and updates. 
+Faveo License Manager uses [Bugsnag](https://www.bugsnag.com/) to monitor application stability in production environments. This helps us quickly identify issues and release bug fixes and updates.
 
 **If you're customizing the application in a development environment**, we recommend disabling error reporting to prevent unnecessary alerts. You can easily disable it from the "Error Logs and Debugging" section in the admin panel, or by setting the environment to `development` in your `.env` file.
 
-However, you can still report issues or share your customizations via our [GitHub Issues page](https://github.com/ladybirdweb/agora-license-manager/issues). If your changes follow our contributing guidelines, we may integrate them into the main application.
+However, you can still report issues or share your customizations via our [GitHub Issues page](https://github.com/ladybirdweb/faveo-license-manager/issues). If your changes follow our contributing guidelines, we may integrate them into the main application.
 
 ## Security Policy
 
@@ -64,4 +64,4 @@ If you suspect a security vulnerability, please report it to [support@faveohelpd
 
 ## User Manual
 
-For a comprehensive user manual, visit the <a href="https://github.com/ladybirdweb/agora-license-manager/wiki" target="_blank">Agora License Manager Wiki</a>.
+For a comprehensive user manual, visit the <a href="https://github.com/ladybirdweb/faveo-license-manager/wiki" target="_blank">Faveo License Manager Wiki</a>.
