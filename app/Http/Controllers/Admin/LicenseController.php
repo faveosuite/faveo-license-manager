@@ -668,7 +668,7 @@ class LicenseController extends Controller
     {
         $license_codes = collect(json_decode($request->input('license_code'), true));
         $licenses = AflLicenses::whereIn('license_code', $license_codes)->where(function ($q) {
-            $q->where('license_expire_date', '>', \Carbon\Carbon::now())->orWhere('license_expiry_date', '0000:00:00');
+            $q->where('license_expire_date', '>', \Carbon\Carbon::now())->orWhere('license_expire_date', '0000:00:00');
         })->get()->keyBy('license_code');
 
         $result = $license_codes->map(function ($license_code) use ($licenses) {
