@@ -76,7 +76,7 @@ pipeline {
                             """, returnStdout: true).trim()
                         }
 
-                        def uniqueDatabaseName = "helpdesk_${buildNumber}_${prNumber}"
+                        def uniqueDatabaseName = "license_${buildNumber}_${prNumber}"
 
                         withCredentials([
                             usernamePassword(credentialsId: MYSQL_CREDENTIALS_ID, usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS')
@@ -86,12 +86,7 @@ pipeline {
                             mysql -u ${DB_USER} -p${DB_PASS} -e "DROP DATABASE IF EXISTS ${uniqueDatabaseName}; CREATE DATABASE ${uniqueDatabaseName};" && \
                             php artisan optimize:clear && \
                             php artisan testing-setup --username=${DB_USER} --password=${DB_PASS} --database=${uniqueDatabaseName} && \
-                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --testsuite=admin,agent,auth,common,helper,middleware,model,sla,request,seeders,traits,utility,faveo-storage,client,plugins,modules && \
-                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --testsuite=ldap,azure-ad && \
-                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --testsuite=service-desk && \
-                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --testsuite=department-status-link && \
-                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --testsuite=faveo-report && \
-                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --testsuite=data-archive
+                            COMPOSER_MEMORY_LIMIT=-1 php artisan test
                             """
                         }
                     }
@@ -151,7 +146,7 @@ pipeline {
                         """, returnStdout: true).trim()
                     }
 
-                    def uniqueDatabaseName = "helpdesk_${buildNumber}_${prNumber}"
+                    def uniqueDatabaseName = "license_${buildNumber}_${prNumber}"
 
                     withCredentials([
                         usernamePassword(credentialsId: MYSQL_CREDENTIALS_ID, usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS')
