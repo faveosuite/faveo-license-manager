@@ -51,8 +51,8 @@ pipeline {
             }
             steps {
                 sh 'rm -rf node_modules'
-                sh 'npm install'
-                sh 'npm test'
+                sh 'yarn install'
+                sh 'yarn test'
             }
         }
 
