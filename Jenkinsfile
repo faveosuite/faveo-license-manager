@@ -14,7 +14,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: GITHUB_CREDENTIALS_ID, usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')]) {
                     checkout scm
                      script {
-                       sh 'git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/ladybirdweb/${REPO_ID}'
+                       sh 'git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/faveosuite/${REPO_ID}'
             }
                 }
             }
@@ -26,7 +26,7 @@ pipeline {
             script {
                 def repoName = scm.userRemoteConfigs[0].url.tokenize('/').last().replace('.git', '')
                 // Resetting the remote URL with credentials
-                sh 'git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/ladybirdweb/${REPO_ID}'
+                sh 'git remote set-url origin https://${GITHUB_USER}:${GITHUB_TOKEN}@github.com/faveosuite/${REPO_ID}'
                 sh 'git fetch origin development:refs/remotes/origin/development'
                 def changedFiles = sh(script: "git diff --name-only origin/development...HEAD", returnStdout: true).trim()
                 echo "Changed Files:\n${changedFiles}"
@@ -71,7 +71,7 @@ pipeline {
                         if (!prNumber) {
                             prNumber = sh(script: """
                                 curl -s -u ${GITHUB_USER}:${GITHUB_TOKEN} \
-                                "https://api.github.com/repos/ladybirdweb/${repoName}/pulls?head=${GITHUB_USER}:${env.BRANCH_NAME}" \
+                                "https://api.github.com/repos/faveosuite/${repoName}/pulls?head=${GITHUB_USER}:${env.BRANCH_NAME}" \
                                 | jq '.[0].number' | tr -d '"'
                             """, returnStdout: true).trim()
                         }
@@ -106,7 +106,7 @@ pipeline {
                     if (!prNumber) {
                         prNumber = sh(script: """
                             curl -s -u ${GITHUB_USER}:${GITHUB_TOKEN} \
-                            "https://api.github.com/repos/ladybirdweb/${repoName}/pulls?head=${GITHUB_USER}:${env.BRANCH_NAME}" \
+                            "https://api.github.com/repos/faveosuite/${repoName}/pulls?head=${GITHUB_USER}:${env.BRANCH_NAME}" \
                             | jq '.[0].number' | tr -d '"'
                         """, returnStdout: true).trim()
                     }
@@ -118,7 +118,7 @@ pipeline {
                     sh """
                     curl -u ${GITHUB_USER}:${GITHUB_TOKEN} \
                          -d '{"state": "${status}", "target_url": "${statusUrl}", "description": "${description}", "context": "Jenkins"}' \
-                         https://api.github.com/repos/ladybirdweb/${repoName}/statuses/${commitSha}
+                         https://api.github.com/repos/faveosuite/${repoName}/statuses/${commitSha}
                     """
 
                     if (currentBuild.currentResult != 'SUCCESS' && prNumber) {
@@ -126,7 +126,7 @@ pipeline {
                         sh """
                         curl -X PATCH -u ${GITHUB_USER}:${GITHUB_TOKEN} \
                              -d '{"state": "closed"}' \
-                             https://api.github.com/repos/ladybirdweb/${repoName}/pulls/${prNumber}
+                             https://api.github.com/repos/faveosuite/${repoName}/pulls/${prNumber}
                         """
                     }
                 }
@@ -141,7 +141,7 @@ pipeline {
                     if (!prNumber) {
                         prNumber = sh(script: """
                             curl -s -u ${GITHUB_USER}:${GITHUB_TOKEN} \
-                            "https://api.github.com/repos/ladybirdweb/${repoName}/pulls?head=${GITHUB_USER}:${env.BRANCH_NAME}" \
+                            "https://api.github.com/repos/faveosuite/${repoName}/pulls?head=${GITHUB_USER}:${env.BRANCH_NAME}" \
                             | jq '.[0].number' | tr -d '"'
                         """, returnStdout: true).trim()
                     }
