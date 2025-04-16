@@ -138,8 +138,9 @@ class InstallationController extends Controller
         $pluginIds = LicensePlugin::where('license_id', $licenseId)->pluck('product_id');
 
         // Fetch all installation IDs associated with the plugin IDs
-        $relatedInstallationIds = AflInstallations::whereIn('product_id', $pluginIds)
-            ->where('license_code', $licenseCode)->pluck('installation_id');
+        $relatedInstallationIds = AflInstallations::where('license_code', $licenseCode)
+            ->whereIn('product_id', $pluginIds)
+            ->pluck('installation_id');
 
         // Merge the provided installation ID with the related ones
         $installationIdsToDelete = collect($relatedInstallationIds)->push($installation_id)->unique();
