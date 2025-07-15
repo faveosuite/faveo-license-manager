@@ -6,6 +6,7 @@ pipeline {
         MYSQL_CREDENTIALS_ID = 'mysql_credentials_id'
         WORKSPACE_DIR = '/home/jenkins/workspace'
         REPO_ID = 'faveo-license-manager.git'
+        SONARQUBE_SERVER = 'SonarqubeFaveoLicenseManager'
     }
 
     stages {
@@ -86,10 +87,37 @@ pipeline {
                             mysql -u ${DB_USER} -p${DB_PASS} -e "DROP DATABASE IF EXISTS ${uniqueDatabaseName}; CREATE DATABASE ${uniqueDatabaseName};" && \
                             php artisan optimize:clear && \
                             php artisan testing-setup --username=${DB_USER} --password=${DB_PASS} --database=${uniqueDatabaseName} && \
-                            COMPOSER_MEMORY_LIMIT=-1 php artisan test
+                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --coverage-clover=storage/sonarqube/clover.xml
                             """
                         }
                     }
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv("${SONARQUBE_SERVER}") {
+                    sh """
+                        sonar-scanner \
+                          -Dsonar.projectKey=faveo-license-manager \
+                          -Dsonar.sources=. \
+                          -Dsonar.exclusions=**/storage/**,**/vendor/**,**/node_modules/**,**/.scannerwork/**,**/public/uploads/**,**/*.log,**/*.cache,**/*.html,**/*.md,**/*.xml,**/*.sh \
+                          -Dsonar.php.coverage.reportPaths=storage/sonarqube/clover.xml \
+                          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
+                          -Dsonar.host.url=$SONAR_HOST_URL \
+                          -Dsonar.token=$SONAR_AUTH_TOKEN \
+                          -Dsonar.sourceEncoding=UTF-8 \
+                          -Dsonar.inclusions=**/*.php,**/*.vue,**/*.js,**/*.css
+                    """
+                }
+            }
+        }
+
+        stage('Wait for SonarQube Quality Gate') {
+            steps {
+                timeout(time: 2, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
                 }
             }
         }
