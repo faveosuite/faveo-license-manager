@@ -35,7 +35,7 @@ class LogViewControllerTest extends TestCase
         }
     }
 
-    /** @group getExceptionLogs */
+    #[\PHPUnit\Framework\Attributes\Group('getExceptionLogs')]
     public function test_getExceptionLogs_whenSearchQueryIsPassed()
     {
         Logger::exception(new Exception('test_exception_1'));
@@ -48,7 +48,7 @@ class LogViewControllerTest extends TestCase
         $this->assertEquals('test_exception_1', $exceptions[0]->message);
     }
 
-    /** @group getExceptionLogs */
+    #[\PHPUnit\Framework\Attributes\Group('getExceptionLogs')]
     public function test_getExceptionLogs_whenLimitIsPassed()
     {
         Logger::exception(new Exception('test_exception_1'));
@@ -60,7 +60,7 @@ class LogViewControllerTest extends TestCase
         $this->assertCount(1, $exceptions);
     }
 
-    /** @group getExceptionLogs */
+    #[\PHPUnit\Framework\Attributes\Group('getExceptionLogs')]
     public function test_getExceptionLogs_whenStartTimeIsPassed()
     {
         Logger::exception(new Exception('test_exception_1'));
@@ -73,7 +73,7 @@ class LogViewControllerTest extends TestCase
         $this->assertCount(0, $exceptions);
     }
 
-    /** @group getExceptionLogs */
+    #[\PHPUnit\Framework\Attributes\Group('getExceptionLogs')]
     public function test_getExceptionLogs_whenSearchQueryForCategoryIsPassed()
     {
         $categoryOne = LogCategory::create(['name' => 'test_category_1']);
