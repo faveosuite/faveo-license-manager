@@ -6,7 +6,8 @@ pipeline {
         MYSQL_CREDENTIALS_ID = 'mysql_credentials_id'
         WORKSPACE_DIR = '/home/jenkins/workspace'
         REPO_ID = 'faveo-license-manager.git'
-        SONARQUBE_SERVER = 'SonarqubeFaveoLicenseManager'
+        SONAR_HOST_URL = 'https://sonarqube.faveotools.com'
+        SONAR_ADMIN_LOGIN = credentials('sonar-admin-login')
     }
 
     stages {
@@ -94,30 +95,138 @@ pipeline {
                 }
             }
         }
+        stage('Create SonarQube Project and Token') {
+            steps {
+                script {
+                    def prIdentifier = env.CHANGE_ID ?: env.BUILD_NUMBER
+                    def projectKey = "license-manager-${prIdentifier}"
+                    def projectName = "License Manager - Build #${prIdentifier}"
+
+                    withCredentials([string(credentialsId: 'sonar-admin-token', variable: 'SONAR_ADMIN_TOKEN')]) {
+                        sh """
+                            curl -X POST "${SONAR_HOST_URL}/api/projects/delete" \\
+                                 -u ${SONAR_ADMIN_TOKEN}: \\
+                                 -d "project=${projectKey}" || true
+                        """
+                        sh """
+                            curl -X POST "${SONAR_HOST_URL}/api/projects/create" \\
+                                 -u ${SONAR_ADMIN_TOKEN}: \\
+                                 -H "Content-Type: application/x-www-form-urlencoded" \\
+                                 -d "project=${projectKey}" \\
+                                 -d "name=${projectName}" \\
+                                 -d "visibility=private" \\
+                                 -d "mainBranch=development" \\
+                                 -d "creationMode=manual" \\
+                                 -d "newCodeDefinitionType=REFERENCE_BRANCH" \\
+                                 -d "newCodeDefinitionReferenceBranch=development"
+                        """
+                    }
+                }
+            }
+        }
 
         stage('SonarQube Analysis') {
             steps {
-                withSonarQubeEnv("${SONARQUBE_SERVER}") {
-                    sh """
-                        sonar-scanner \
-                          -Dsonar.projectKey=faveo-license-manager \
-                          -Dsonar.sources=. \
-                          -Dsonar.exclusions=**/storage/**,**/vendor/**,**/node_modules/**,**/.scannerwork/**,**/public/uploads/**,**/*.log,**/*.cache,**/*.html,**/*.md,**/*.xml,**/*.sh \
-                          -Dsonar.php.coverage.reportPaths=storage/sonarqube/clover.xml \
-                          -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \
-                          -Dsonar.host.url=$SONAR_HOST_URL \
-                          -Dsonar.token=$SONAR_AUTH_TOKEN \
-                          -Dsonar.sourceEncoding=UTF-8 \
-                          -Dsonar.inclusions=**/*.php,**/*.vue,**/*.js,**/*.css
-                    """
+                script {
+                    def prIdentifier = env.CHANGE_ID ?: env.BUILD_NUMBER
+                    def projectKey = "license-manager-${prIdentifier}"
+                    echo "Running SonarQube Analysis for ${projectKey}"
+
+                    withSonarQubeEnv('local-sonar') {
+                        withCredentials([string(credentialsId: 'sonar-admin-token', variable: 'SONAR_ADMIN_TOKEN')]) {
+                            sh """
+                                sonar-scanner \\
+                                  -Dsonar.projectKey=${projectKey} \\
+                                  -Dsonar.sources=. \\
+                                  -Dsonar.php.coverage.reportPaths=storage/sonarqube/clover.xml \\
+                                  -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \\
+                                  -Dsonar.token=${SONAR_ADMIN_TOKEN} \\
+                                  -Dsonar.branch.base=development \\
+                                  -Dsonar.exclusions=resources/css/app.css \\
+                                  -Dsonar.inclusions=app/**,resources/**,routes/** \\
+                                  -Dsonar.sourceEncoding=UTF-8 \\
+                                  -X
+                            """
+                        }
+                    }
                 }
             }
         }
 
         stage('Wait for SonarQube Quality Gate') {
             steps {
-                timeout(time: 2, unit: 'MINUTES') {
-                    waitForQualityGate abortPipeline: true
+                script {
+                    def prIdentifier = env.CHANGE_ID ?: env.BUILD_NUMBER
+                    def projectKey = "license-manager-${prIdentifier}"
+
+                    timeout(time: 2, unit: 'MINUTES') {
+                        def qualityGate = waitForQualityGate()
+                        if (qualityGate.status != 'OK') {
+                            echo "❌ Quality Gate failed: ${qualityGate.status}"
+
+                            withCredentials([
+                                string(credentialsId: 'sonar-admin-token', variable: 'SONAR_TOKEN'),
+                                usernamePassword(credentialsId: GITHUB_CREDENTIALS_ID, usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')
+                            ]) {
+                                // Construct SonarQube issues API URL
+                                def issuesUrl = "${SONAR_HOST_URL}/api/issues/search?componentKeys=${projectKey}&resolved=false&inNewCodePeriod=true"
+
+                                echo "Fetching issues from: ${issuesUrl}"
+
+                                // Fetch issues from SonarQube
+                                def response = sh(
+                                    script: "curl -s -u \"${SONAR_TOKEN}:\" \"${issuesUrl}\"",
+                                    returnStdout: true
+                                ).trim()
+
+                                // Parse the JSON response
+                                def issues = readJSON text: response
+
+                                // Format the issues using Markdown
+                                def formattedIssues = issues.issues.collect { issue ->
+                                    """
+                                    - [Issue Link](${SONAR_HOST_URL}/project/issues?id=${projectKey}&open=${issue.key})<br>
+                                      - **Issue:** ${issue.message} <br>
+                                      - **Severity:** ${issue.severity} <br>
+                                      - **File Path:** ${issue.component} <br>
+                                      - **Line Number:** ${issue.line} <br>
+                                      - **Rule:** ${issue.rule} <br>
+
+                                    """
+                                }.join('\n')
+
+                                // Construct the comment body
+                                def commentBody = "❌ SonarQube Quality Gate failed.\n\n**Issues:**\n\n${formattedIssues}"
+
+                                def jsonPayload = """
+                                    {
+                                        "body": "${commentBody.replaceAll('"', '\\\\"')}"
+                                    }
+                                """.stripIndent()
+
+                                writeFile file: 'comment.json', text: jsonPayload
+
+                                // Post comment to GitHub PR
+                                sh """
+                                    curl -s -X POST \\
+                                    -H "Authorization: token ${GITHUB_TOKEN}" \\
+                                    -H "Content-Type: application/json" \\
+                                    -d @comment.json \\
+                                    https://api.github.com/repos/faveosuite/${REPO_ID.replace('.git', '')}/issues/${env.CHANGE_ID}/comments
+                                """
+                            }
+
+                            error("Aborting pipeline due to failed quality gate.")
+                        } else {
+                            echo "Quality Gate passed. Deleting project from SonarQube..."
+                            withCredentials([string(credentialsId: 'sonar-admin-token', variable: 'SONAR_TOKEN')]) {
+                                sh """
+                                    curl -s -X POST -u "${SONAR_TOKEN}:" \\
+                                    "${SONAR_HOST_URL}/api/projects/delete?project=${projectKey}"
+                                """
+                            }
+                        }
+                    }
                 }
             }
         }
