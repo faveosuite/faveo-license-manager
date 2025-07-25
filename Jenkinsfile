@@ -117,8 +117,8 @@ pipeline {
                                  -d "visibility=private" \\
                                  -d "mainBranch=development" \\
                                  -d "creationMode=manual" \\
-                                 -d "newCodeDefinitionType=REFERENCE_BRANCH" \\
-                                 -d "newCodeDefinitionReferenceBranch=development"
+                                 -d "newCodeDefinitionType=VERSION" \\
+                                 -d "newCodeDefinitionReferenceBranch=PREVIOUS_VERSION"
                         """
                     }
                 }
@@ -134,6 +134,8 @@ pipeline {
 
                     withSonarQubeEnv('local-sonar') {
                         withCredentials([string(credentialsId: 'sonar-admin-token', variable: 'SONAR_ADMIN_TOKEN')]) {
+                            sh 'git fetch origin development:development'
+                            sh 'git checkout development'
                             sh """
                                 sonar-scanner \\
                                   -Dsonar.projectKey=${projectKey} \\
@@ -144,8 +146,22 @@ pipeline {
                                   -Dsonar.branch.base=development \\
                                   -Dsonar.exclusions=resources/css/app.css \\
                                   -Dsonar.inclusions=app/**,resources/**,routes/** \\
-                                  -Dsonar.sourceEncoding=UTF-8 \\
-                                  -X
+                                  -Dsonar.projectVersion="1.0.0" \\
+                                  -Dsonar.sourceEncoding=UTF-8
+                            """
+                            checkout scm
+                            sh """
+                                sonar-scanner \\
+                                  -Dsonar.projectKey=${projectKey} \\
+                                  -Dsonar.sources=. \\
+                                  -Dsonar.php.coverage.reportPaths=storage/sonarqube/clover.xml \\
+                                  -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info \\
+                                  -Dsonar.token=${SONAR_ADMIN_TOKEN} \\
+                                  -Dsonar.branch.base=development \\
+                                  -Dsonar.exclusions=resources/css/app.css \\
+                                  -Dsonar.inclusions=app/**,resources/**,routes/** \\
+                                  -Dsonar.projectVersion="1.1.1" \\
+                                  -Dsonar.sourceEncoding=UTF-8
                             """
                         }
                     }
@@ -162,29 +178,25 @@ pipeline {
                     timeout(time: 2, unit: 'MINUTES') {
                         def qualityGate = waitForQualityGate()
                         if (qualityGate.status != 'OK') {
-                            echo "❌ Quality Gate failed: ${qualityGate.status}"
+                            echo "Quality Gate failed: ${qualityGate.status}"
 
                             withCredentials([
                                 string(credentialsId: 'sonar-admin-token', variable: 'SONAR_TOKEN'),
                                 usernamePassword(credentialsId: GITHUB_CREDENTIALS_ID, usernameVariable: 'GITHUB_USER', passwordVariable: 'GITHUB_TOKEN')
                             ]) {
-                                // Construct SonarQube issues API URL
                                 def issuesUrl = "${SONAR_HOST_URL}/api/issues/search?componentKeys=${projectKey}&resolved=false&inNewCodePeriod=true"
 
                                 echo "Fetching issues from: ${issuesUrl}"
 
-                                // Fetch issues from SonarQube
                                 def response = sh(
                                     script: "curl -s -u \"${SONAR_TOKEN}:\" \"${issuesUrl}\"",
                                     returnStdout: true
                                 ).trim()
 
-                                // Parse the JSON response
                                 def issues = readJSON text: response
 
-                                // Format the issues using Markdown
                                 def formattedIssues = issues.issues.collect { issue ->
-                                    """
+                                    """<br>
                                     - [Issue Link](${SONAR_HOST_URL}/project/issues?id=${projectKey}&open=${issue.key})<br>
                                       - **Issue:** ${issue.message} <br>
                                       - **Severity:** ${issue.severity} <br>
@@ -195,8 +207,7 @@ pipeline {
                                     """
                                 }.join('\n')
 
-                                // Construct the comment body
-                                def commentBody = "❌ SonarQube Quality Gate failed.\n\n**Issues:**\n\n${formattedIssues}"
+                                def commentBody = "SonarQube Quality Gate failed.\n\n**Issues:**\n\n${formattedIssues}"
 
                                 def jsonPayload = """
                                     {
@@ -206,7 +217,6 @@ pipeline {
 
                                 writeFile file: 'comment.json', text: jsonPayload
 
-                                // Post comment to GitHub PR
                                 sh """
                                     curl -s -X POST \\
                                     -H "Authorization: token ${GITHUB_TOKEN}" \\
