@@ -135,7 +135,7 @@ pipeline {
                     withSonarQubeEnv('local-sonar') {
                         withCredentials([string(credentialsId: 'sonar-admin-token', variable: 'SONAR_ADMIN_TOKEN')]) {
                             sh 'git fetch origin development:development'
-                            sh 'git restore . && git clean -fd'
+                            sh 'git stash'
                             sh 'git checkout development'
                             sh """
                                 sonar-scanner \\
