@@ -135,6 +135,7 @@ pipeline {
                     withSonarQubeEnv('local-sonar') {
                         withCredentials([string(credentialsId: 'sonar-admin-token', variable: 'SONAR_ADMIN_TOKEN')]) {
                             sh 'git fetch origin development:development'
+                            sh 'git restore . && git clean -fd'
                             sh 'git checkout development'
                             sh """
                                 sonar-scanner \\
@@ -225,8 +226,8 @@ pipeline {
                                     https://api.github.com/repos/faveosuite/${REPO_ID.replace('.git', '')}/issues/${env.CHANGE_ID}/comments
                                 """
                             }
-
-                            error("Aborting pipeline due to failed quality gate.")
+// Commenting out the error to prevent build failure as per request don;t close the pr just post the issues as comment
+//                             error("Aborting pipeline due to failed quality gate.")
                         } else {
                             echo "Quality Gate passed. Deleting project from SonarQube..."
                             withCredentials([string(credentialsId: 'sonar-admin-token', variable: 'SONAR_TOKEN')]) {
