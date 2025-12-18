@@ -56,6 +56,7 @@ import VTooltip from "v-tooltip";
 app.use(VTooltip);
 
 import "v-tooltip/dist/v-tooltip.css";
+import "../css/cropper.css";
 
 app.component('tool-tip', Tooltip);
 

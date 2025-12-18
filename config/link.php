@@ -17,7 +17,7 @@ return [
     'css' => [
         'ionicons' => 'themes/default/css/ionicons.min.css',
         'select2' => 'themes/default/css/select2.min.css',
-        'font-awesome-6' => 'themes/default/plugins/font-awesome-6/css/all.css',
+        'font-awesome-7' => 'themes/default/plugins/font-awesome-7/css/all.css',
         'new-overlay' => 'themes/default/css/OverlayScrollbars.min.css',
         'adminlte-4' => 'themes/default/css/adminlte4.min.css',
         'pagination' => 'themes/default/css/pagination.min.css',

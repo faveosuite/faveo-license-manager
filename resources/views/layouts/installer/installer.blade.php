@@ -19,7 +19,7 @@
         <link href="{{ asset('themes/default/css/setup.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('themes/default/css/activation.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('themes/default/css/style.css') }}" rel="stylesheet" type="text/css"/>
-        <link href="{{ asset('themes/default/plugins/font-awesome-6/css/all.css') }}" rel="stylesheet" type="text/css"/>
+        <link href="{{ asset('themes/default/plugins/font-awesome-7/css/all.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('themes/default/css/ggpopover.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('themes/default/css/prism.css') }}" rel="stylesheet" type="text/css"/>
         <link href="{{ asset('themes/default/css/chosen.css') }}" rel="stylesheet" type="text/css"/>

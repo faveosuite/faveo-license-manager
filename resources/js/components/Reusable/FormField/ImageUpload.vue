@@ -75,7 +75,6 @@ import FormFieldTemplate from "./FormFieldTemplate.vue";
 import ImageElement from "../ImageElement.vue";
 import Modal from "../Modal.vue";
 import VueCropper from "vue-cropperjs";
-import 'cropperjs/dist/cropper.css';
 import tooltip from "../Tooltip.vue";
 import {lang} from "../../../helpers/extraLogics";
 
