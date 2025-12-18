@@ -16,10 +16,6 @@ jest.mock('../../../../../resources/js/helpers/responseHandler');
 
 jest.mock('../../../../../resources/js/helpers/extraLogics');
 
-jest.mock('cropperjs/dist/cropper.css', () => {
-    return {};
-});
-
 const store = createStore({
 
     getters() {

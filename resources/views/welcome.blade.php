@@ -29,7 +29,7 @@ $settingsArray = json_decode($commonSettings->getCommonSetting()->getContent())-
 
     <link href="{{assetLink('css','adminlte-4')}}" rel='stylesheet' type='text/css'/>
 
-    <link href="{{assetLink('css','font-awesome-6')}}" rel="stylesheet" type="text/css" />
+    <link href="{{assetLink('css','font-awesome-7')}}" rel="stylesheet" type="text/css" />
 
     <link href="{{assetLink('css','ionicons')}}" rel="stylesheet"  type="text/css" />
 

@@ -19,7 +19,7 @@
 
                     <router-link to="/versions/create" class="btn btn-tool" v-tooltip="lang('create_version')">
 
-                        <i class="fas fas fa-plus fa-l"></i>
+                        <i class="fas fas fa-plus"></i>
                     </router-link>
                 </div>
             </div>

@@ -20,7 +20,7 @@
 
                     <router-link to="/whitelist/create" class="btn btn-tool" v-tooltip="lang('create_whitelist_ip')">
 
-                        <i class="fas fas fa-plus fa-l"></i>
+                        <i class="fas fas fa-plus"></i>
                     </router-link>
                 </div>
             </div>
