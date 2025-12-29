@@ -16,6 +16,7 @@ use function version_compare;
 use PHPUnit\Event\Telemetry\HRTime;
 use PHPUnit\Event\Telemetry\Php81GarbageCollectorStatusProvider;
 use PHPUnit\Event\Telemetry\Php83GarbageCollectorStatusProvider;
+use PHPUnit\Runner\DeprecationCollector\Facade as DeprecationCollector;
 
 /**
  * @no-named-arguments Parameter names are not covered by the backward compatibility promise for PHPUnit
@@ -92,7 +93,11 @@ final class Facade
      */
     public function initForIsolation(HRTime $offset): CollectingDispatcher
     {
-        $dispatcher = new CollectingDispatcher;
+        DeprecationCollector::initForIsolation();
+
+        $dispatcher = new CollectingDispatcher(
+            new DirectDispatcher($this->typeMap()),
+        );
 
         $this->emitter = new DispatchingEmitter(
             $dispatcher,
@@ -177,13 +182,16 @@ final class Facade
             Test\DataProviderMethodFinished::class,
             Test\MarkedIncomplete::class,
             Test\AfterLastTestMethodCalled::class,
+            Test\AfterLastTestMethodErrored::class,
             Test\AfterLastTestMethodFinished::class,
             Test\AfterTestMethodCalled::class,
+            Test\AfterTestMethodErrored::class,
             Test\AfterTestMethodFinished::class,
             Test\BeforeFirstTestMethodCalled::class,
             Test\BeforeFirstTestMethodErrored::class,
             Test\BeforeFirstTestMethodFinished::class,
             Test\BeforeTestMethodCalled::class,
+            Test\BeforeTestMethodErrored::class,
             Test\BeforeTestMethodFinished::class,
             Test\ComparatorRegistered::class,
             Test\ConsideredRisky::class,
@@ -201,8 +209,10 @@ final class Facade
             Test\PhpunitWarningTriggered::class,
             Test\PhpWarningTriggered::class,
             Test\PostConditionCalled::class,
+            Test\PostConditionErrored::class,
             Test\PostConditionFinished::class,
             Test\PreConditionCalled::class,
+            Test\PreConditionErrored::class,
             Test\PreConditionFinished::class,
             Test\PreparationStarted::class,
             Test\Prepared::class,

@@ -24,7 +24,7 @@ class SettingsControllerTest extends TestCase
         ];
         $response = $this->call('POST', url('api/admin/saveLicenseExpireRange'), $data);
         $response->assertStatus(200);
-        $this->assertDatabaseHas('expire_updates_display', ['license_id' => 1]);
+        $this->assertDatabaseHas('expire_updates_display', ['license_id' => 10]);
     }
     public function test_getdata_from_expire_updates_displaytable()
     {
@@ -33,7 +33,7 @@ class SettingsControllerTest extends TestCase
         $this->assertDatabaseHas('expire_updates_display', ['license_id' => $licenseId]);
         $response = $this->call('GET', url("api/admin/getUpdatesExpirings"));
         $response->assertStatus(200);
-        $this->assertEquals(1, json_decode($response->getContent())->expiring_update[0]->license_id);
+        $this->assertEquals(10, json_decode($response->getContent())->expiring_update[0]->license_id);
     }
 
     public function test_saavelicenseId_if_supportexpiredate_fallsIntoCount()
@@ -45,7 +45,7 @@ class SettingsControllerTest extends TestCase
         $response = $this->call('POST', url('api/admin/saveSupportExpireRange'), $data);
         $response->assertStatus(200);
         // dd(json_decode($response->getContent()));
-        $this->assertDatabaseHas('expire_support_display', ['license_id' => 1]);
+        $this->assertDatabaseHas('expire_support_display', ['license_id' => 10]);
     }
     public function test_getdata_from_expire_support_displaytable()
     {
@@ -54,6 +54,6 @@ class SettingsControllerTest extends TestCase
         $this->assertDatabaseHas('expire_support_display', ['license_id' => $licenseId]);
         $response = $this->call('GET', url("api/admin/getSupportExpirings"));
         $response->assertStatus(200);
-        $this->assertEquals(1, json_decode($response->getContent())->expiring_support[0]->license_id);
+        $this->assertEquals(10, json_decode($response->getContent())->expiring_support[0]->license_id);
     }
 }

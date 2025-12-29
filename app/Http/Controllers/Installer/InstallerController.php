@@ -15,6 +15,7 @@ use Laravel\Passport\Passport;
 use Redirect;
 use Session;
 use View;
+use Illuminate\Support\Facades\Schema;
 
 class InstallerController extends Controller
 {
@@ -98,7 +99,8 @@ class InstallerController extends Controller
                 if (Cache::get('databasename') != env('DB_DATABASE')) {
                     throw new Exception('Database connection did not update.', 500);
                 }
-                $tableNames = \Schema::getTableListing();
+                $currentDb = Schema::getConnection()->getDatabaseName();
+                $tableNames = Schema::getTableListing(schema: $currentDb);
                 //allowing migrations table in db as it does not get removed on "migrate:reset"
                 $tableNames = array_unique(array_merge(['migrations'], $tableNames));
                 if (count($tableNames) === 1) {

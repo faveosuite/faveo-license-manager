@@ -1,10 +1,8 @@
 <?php namespace Clockwork\DataSource;
 
-use Clockwork\Helpers\Serializer;
-use Clockwork\Helpers\StackTrace;
+use Clockwork\Helpers\{Serializer, StackTrace};
 use Clockwork\Request\Request;
-use Clockwork\Support\Laravel\Eloquent\ResolveModelLegacyScope;
-use Clockwork\Support\Laravel\Eloquent\ResolveModelScope;
+use Clockwork\Support\Laravel\Eloquent\{ResolveModelLegacyScope, ResolveModelScope};
 
 use Illuminate\Database\ConnectionResolverInterface;
 use Illuminate\Contracts\Events\Dispatcher as EventDispatcher;
@@ -136,6 +134,23 @@ class EloquentDataSource extends DataSource
 			});
 		}
 
+		// Laravel 5.2 and up
+		if (class_exists(\Illuminate\Database\Events\TransactionBeginning::class)) {
+			$this->eventDispatcher->listen(\Illuminate\Database\Events\TransactionBeginning::class, function ($event) {
+				$this->registerTransactionQuery($event, 'START TRANSACTION');
+			});
+		}
+		if (class_exists(\Illuminate\Database\Events\TransactionCommitted::class)) {
+			$this->eventDispatcher->listen(\Illuminate\Database\Events\TransactionCommitted::class, function ($event) {
+				$this->registerTransactionQuery($event, 'COMMIT');
+			});
+		}
+		if (class_exists(\Illuminate\Database\Events\TransactionRolledBack::class)) {
+			$this->eventDispatcher->listen(\Illuminate\Database\Events\TransactionRolledBack::class, function ($event) {
+				$this->registerTransactionQuery($event, 'ROLLBACK');
+			});
+		}
+
 		// register all event listeners individually so we don't have to regex the event type and support Laravel <5.4
 		$this->listenToModelEvent('retrieved');
 		$this->listenToModelEvent('created');
@@ -194,6 +209,26 @@ class EloquentDataSource extends DataSource
 		]);
 	}
 
+	// Collect an executed transaction query
+	protected function registerTransactionQuery($event, $name)
+	{
+		$trace = StackTrace::get()->resolveViewName();
+
+		$query = [
+			'query'      => $name,
+			'duration'   => 0,
+			'connection' => $event->connectionName,
+			'time'       => microtime(true),
+			'trace'      => (new Serializer)->trace($trace),
+			'model'      => null,
+			'tags'       => []
+		];
+
+		if (! $this->collectQueries) return;
+
+		$this->queries[] = $query;
+	}
+
 	// Collect a model event and update stats
 	protected function collectModelEvent($event, $model)
 	{
@@ -204,7 +239,7 @@ class EloquentDataSource extends DataSource
 			'key'        => $this->getModelKey($model),
 			'action'     => $event,
 			'attributes' => $this->collectModelsRetrieved && $event == 'retrieved' ? $model->getOriginal() : [],
-			'changes'    => $this->collectModelsActions ? $model->getChanges() : [],
+			'changes'    => $this->collectModelsActions && method_exists($model, 'getChanges') ? $model->getChanges() : [],
 			'time'       => microtime(true) / 1000,
 			'query'      => $lastQuery ? $lastQuery['query'] : null,
 			'duration'   => $lastQuery ? $lastQuery['duration'] : null,
@@ -266,8 +301,9 @@ class EloquentDataSource extends DataSource
 
 		if ($pdo === null) return;
 
-		if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'odbc') {
-			// PDO_ODBC driver doesn't support the quote method, apply simple MSSQL style quoting instead
+		if ($pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'odbc' || $pdo->getAttribute(\PDO::ATTR_DRIVER_NAME) === 'crate') {
+			// PDO_ODBC and PDO Crate driver doesn't support the quote method, apply simple MSSQL style quoting instead - Crate sometimes uses a object as a binding - for json support
+			$binding = is_object($binding) ? json_encode($binding) : $binding;
 			return "'" . str_replace("'", "''", $binding) . "'";
 		}
 
@@ -322,6 +358,9 @@ class EloquentDataSource extends DataSource
 	// Returns model key without crashing when using Eloquent strict mode and it's not loaded
 	protected function getModelKey($model)
 	{
+		// Some applications use non-string primary keys, even when this is not supported by Laravel
+		if (! is_string($model->getKeyName())) return;
+
 		try {
 			return $model->getKey();
 		} catch (\Illuminate\Database\Eloquent\MissingAttributeException $e) {}

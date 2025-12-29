@@ -16,6 +16,7 @@ use function str_contains;
 use PHPUnit\Event\Code\TestMethod;
 use PHPUnit\Event\EventFacadeIsSealedException;
 use PHPUnit\Event\Facade;
+use PHPUnit\Event\Test\AfterLastTestMethodErrored;
 use PHPUnit\Event\Test\BeforeFirstTestMethodErrored;
 use PHPUnit\Event\Test\ConsideredRisky;
 use PHPUnit\Event\Test\DeprecationTriggered;
@@ -53,11 +54,10 @@ use PHPUnit\TestRunner\TestResult\Issues\Issue;
 final class Collector
 {
     private readonly IssueFilter $issueFilter;
-    private int $numberOfTests                       = 0;
-    private int $numberOfTestsRun                    = 0;
-    private int $numberOfAssertions                  = 0;
-    private bool $prepared                           = false;
-    private bool $currentTestSuiteForTestClassFailed = false;
+    private int $numberOfTests      = 0;
+    private int $numberOfTestsRun   = 0;
+    private int $numberOfAssertions = 0;
+    private bool $prepared          = false;
 
     /**
      * @var non-negative-int
@@ -65,7 +65,7 @@ final class Collector
     private int $numberOfIssuesIgnoredByBaseline = 0;
 
     /**
-     * @var list<BeforeFirstTestMethodErrored|Errored>
+     * @var list<AfterLastTestMethodErrored|BeforeFirstTestMethodErrored|Errored>
      */
     private array $testErroredEvents = [];
 
@@ -168,6 +168,7 @@ final class Collector
             new TestPreparedSubscriber($this),
             new TestFinishedSubscriber($this),
             new BeforeTestClassMethodErroredSubscriber($this),
+            new AfterTestClassMethodErroredSubscriber($this),
             new TestErroredSubscriber($this),
             new TestFailedSubscriber($this),
             new TestMarkedIncompleteSubscriber($this),
@@ -241,16 +242,10 @@ final class Collector
         if (!$testSuite->isForTestClass()) {
             return;
         }
-
-        $this->currentTestSuiteForTestClassFailed = false;
     }
 
     public function testSuiteFinished(TestSuiteFinished $event): void
     {
-        if ($this->currentTestSuiteForTestClassFailed) {
-            return;
-        }
-
         $testSuite = $event->testSuite();
 
         if ($testSuite->isWithName()) {
@@ -263,6 +258,12 @@ final class Collector
             $test = $testSuite->tests()->asArray()[0];
 
             assert($test instanceof TestMethod);
+
+            foreach ($this->testFailedEvents as $testFailedEvent) {
+                if ($testFailedEvent->test()->isTestMethod() && $testFailedEvent->test()->methodName() === $test->methodName()) {
+                    return;
+                }
+            }
 
             PassedTests::instance()->testMethodPassed($test, null);
 
@@ -295,11 +296,14 @@ final class Collector
         $this->numberOfTestsRun++;
     }
 
+    public function afterTestClassMethodErrored(AfterLastTestMethodErrored $event): void
+    {
+        $this->testErroredEvents[] = $event;
+    }
+
     public function testErrored(Errored $event): void
     {
         $this->testErroredEvents[] = $event;
-
-        $this->currentTestSuiteForTestClassFailed = true;
 
         /*
          * @todo Eliminate this special case
@@ -316,8 +320,6 @@ final class Collector
     public function testFailed(Failed $event): void
     {
         $this->testFailedEvents[] = $event;
-
-        $this->currentTestSuiteForTestClassFailed = true;
     }
 
     public function testMarkedIncomplete(MarkedIncomplete $event): void
