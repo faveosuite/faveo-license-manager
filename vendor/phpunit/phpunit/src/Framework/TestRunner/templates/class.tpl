@@ -87,9 +87,9 @@ function __phpunit_run_isolated_test()
     ini_set('xdebug.scream', '0');
 
     // Not every STDOUT target stream is rewindable
-    @rewind(STDOUT);
+    $hasRewound = @rewind(STDOUT);
 
-    if ($stdout = @stream_get_contents(STDOUT)) {
+    if ($hasRewound && $stdout = @stream_get_contents(STDOUT)) {
         $output         = $stdout . $output;
         $streamMetaData = stream_get_meta_data(STDOUT);
 
@@ -98,8 +98,6 @@ function __phpunit_run_isolated_test()
             @rewind(STDOUT);
         }
     }
-
-    Facade::emitter()->testRunnerFinishedChildProcess($output, '');
 
     file_put_contents(
         '{processResultFile}',

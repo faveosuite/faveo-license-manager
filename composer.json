@@ -21,39 +21,40 @@
     ],
 
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "ext-curl": "*",
         "ext-fileinfo": "*",
         "ext-json": "*",
-        "bacon/bacon-qr-code": "^3.0",
-        "bugsnag/bugsnag-laravel": "^2.26",
-        "doctrine/dbal": "^3.7",
-        "guzzlehttp/guzzle": "^7.2",
+        "bacon/bacon-qr-code": "^3.0.3",
+        "bugsnag/bugsnag-laravel": "^2.29.0",
+        "doctrine/dbal": "^4.4.1",
+        "guzzlehttp/guzzle": "^7.10",
         "itsgoingd/clockwork": "dev-master",
-        "laravel/framework": "^11.0",
-        "laravel/helpers": "^1.6",
-        "laravel/passport": "^12.0",
-        "laravel/pulse": "^1.4",
-        "laravel/tinker": "^2.7",
-        "laravel/ui": "^4.2.3",
-        "lcobucci/jwt": "^5.2",
-        "league/flysystem-aws-s3-v3": "^3.21",
-        "pragmarx/google2fa": "^8.0",
-        "pragmarx/google2fa-laravel": "^2.2",
-        "spatie/laravel-html": "^3.11.1",
+        "laravel/framework": "^12.0",
+        "laravel/helpers": "^1.8.2",
+        "laravel/passport": "^12.4.2",
+        "laravel/pulse": "^1.4.7",
+        "laravel/tinker": "^2.10.2",
+        "laravel/ui": "^4.6.1",
+        "lcobucci/jwt": "^5.6",
+        "league/flysystem-aws-s3-v3": "^3.30.1",
+        "pragmarx/google2fa": "^9.0",
+        "pragmarx/google2fa-laravel": "^2.3.0",
+        "spatie/laravel-html": "^3.12.3",
         "thomaswelton/laravel-gravatar": "dev-master"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.9",
-        "beyondcode/laravel-query-detector": "^2.0.0",
-        "fakerphp/faker": "^1.23",
-        "laravel/dusk": "^8.2",
-        "laravel/pint": "^1.4",
-        "laravel/sail": "^1.26",
-        "mockery/mockery": "^1.4.4",
-        "nunomaduro/collision": "^8.1",
-        "phpunit/phpunit": "^11.0",
-        "spatie/laravel-ignition": "^2.3"
+        "barryvdh/laravel-debugbar": "^3.16.3",
+        "beyondcode/laravel-query-detector": "^2.1.0",
+        "cyclonedx/cyclonedx-php-composer": "^6.0",
+        "fakerphp/faker": "^1.24.1",
+        "laravel/dusk": "^8.3.4",
+        "laravel/pint": "^1.26.0",
+        "laravel/sail": "^1.51.0",
+        "mockery/mockery": "^1.6.12",
+        "nunomaduro/collision": "^8.8.3",
+        "phpunit/phpunit": "^11.5.46",
+        "spatie/laravel-ignition": "^2.9.1"
     },
     "autoload": {
         "psr-4": {
@@ -94,7 +95,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "cyclonedx/cyclonedx-php-composer": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

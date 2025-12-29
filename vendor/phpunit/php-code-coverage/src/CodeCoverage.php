@@ -287,17 +287,11 @@ final class CodeCoverage
         $this->checkForUnintentionallyCoveredCode = false;
     }
 
-    /**
-     * @deprecated
-     */
     public function includeUncoveredFiles(): void
     {
         $this->includeUncoveredFiles = true;
     }
 
-    /**
-     * @deprecated
-     */
     public function excludeUncoveredFiles(): void
     {
         $this->includeUncoveredFiles = false;
@@ -384,6 +378,22 @@ final class CodeCoverage
     }
 
     /**
+     * @internal
+     */
+    public function driverIsPcov(): bool
+    {
+        return $this->driver->isPcov();
+    }
+
+    /**
+     * @internal
+     */
+    public function driverIsXdebug(): bool
+    {
+        return $this->driver->isXdebug();
+    }
+
+    /**
      * @throws ReflectionException
      * @throws UnintentionallyCoveredCodeException
      */
@@ -420,15 +430,15 @@ final class CodeCoverage
 
     private function applyFilter(RawCodeCoverageData $data): void
     {
-        if ($this->filter->isEmpty()) {
-            return;
-        }
-
-        foreach (array_keys($data->lineCoverage()) as $filename) {
-            if ($this->filter->isExcluded($filename)) {
-                $data->removeCoverageDataForFile($filename);
+        if (!$this->filter->isEmpty()) {
+            foreach (array_keys($data->lineCoverage()) as $filename) {
+                if ($this->filter->isExcluded($filename)) {
+                    $data->removeCoverageDataForFile($filename);
+                }
             }
         }
+
+        $data->skipEmptyLines();
     }
 
     private function applyExecutableLinesFilter(RawCodeCoverageData $data): void
