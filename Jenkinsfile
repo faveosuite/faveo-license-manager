@@ -84,16 +84,11 @@ pipeline {
                             usernamePassword(credentialsId: MYSQL_CREDENTIALS_ID, usernameVariable: 'DB_USER', passwordVariable: 'DB_PASS')
                         ]) {
                             sh """
-                                echo "Creating database ${uniqueDatabaseName}" && \
-                                mysql -u ${DB_USER} -p${DB_PASS} -e "DROP DATABASE IF EXISTS ${uniqueDatabaseName}; CREATE DATABASE ${uniqueDatabaseName};" && \
-                                php artisan optimize:clear && \
-                                php artisan testing-setup --username=${DB_USER} --password=${DB_PASS} --database=${uniqueDatabaseName} && \
-                                echo "=== PHP Version and Extensions ===" && \
-                                php -v && \
-                                php -m | grep -E 'xdebug|pcov' || true && \
-                                which phpdbg || true && \
-                                echo "=== Running tests with coverage ===" && \
-                                COMPOSER_MEMORY_LIMIT=-1 php artisan test --coverage-clover=storage/sonarqube/clover.xml
+                            echo "Creating database ${uniqueDatabaseName}" && \
+                            mysql -u ${DB_USER} -p${DB_PASS} -e "DROP DATABASE IF EXISTS ${uniqueDatabaseName}; CREATE DATABASE ${uniqueDatabaseName};" && \
+                            php artisan optimize:clear && \
+                            php artisan testing-setup --username=${DB_USER} --password=${DB_PASS} --database=${uniqueDatabaseName} && \
+                            COMPOSER_MEMORY_LIMIT=-1 php artisan test --coverage-clover=storage/sonarqube/clover.xml
                             """
                         }
                     }
