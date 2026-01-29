@@ -434,6 +434,9 @@ class SettingsController extends Controller
             $envFileContents = preg_match('/^PULSE_ENABLED=.*$/m', $envFileContents)
                 ? preg_replace('/^PULSE_ENABLED=.*$/m', "PULSE_ENABLED=" . ($debug ? 'true' : 'false'), $envFileContents)
                 : $envFileContents . "\nPULSE_ENABLED=" . ($debug ? 'true' : 'false');
+            $envFileContents = preg_match('/^CLOCKWORK_ENABLE=.*$/m', $envFileContents)
+                ? preg_replace('/^CLOCKWORK_ENABLE=.*$/m', 'CLOCKWORK_ENABLE=' . ($debug ? 'true' : 'false'), $envFileContents)
+                : $envFileContents . "\nCLOCKWORK_ENABLE=" . ($debug ? 'true' : 'false');
             File::put($envFilePath, $envFileContents);
             Artisan::call('config:clear');
             $dotenv = Dotenv::createImmutable(base_path());
