@@ -48,7 +48,7 @@ return [
     'product_restored' => 'Product restored successfully',
 
     'Exit' => 'You are now exited from the page',
-    'updated'       =>     'Value has been updated successfully',
+    'updated'       =>     'Debugger setting saved successfully',
     'Connection_OK' => 'The connection to the Auto Faveo license manager has been established successfully',
 
     'Login' => 'You have logged in successfully to Auto Faveo Licenser',
@@ -69,7 +69,7 @@ return [
     'banned_empty' => 'Banned Host ip is not present or api key secret is invalid.',
     'banned_host_not_found' => 'Banned host you\'re looking for is not found',
 
-    'settings_updated' => 'The above settings of Auto Faveo license manager has been updated ',
+    'settings_updated' => 'Security settings saved successfully',
     'settings_created' => 'The above settings of Auto Faveo license manager has been Saved Successfully ',
 
     'notifications' => 'The server notification details has been updated',
