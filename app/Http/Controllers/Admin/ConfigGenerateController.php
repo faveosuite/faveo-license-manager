@@ -115,13 +115,12 @@ class ConfigGenerateController extends Controller
     {
         $root_array = [];
 
-        foreach ($rows_array = AflProducts::orderBy('product_title') as $row) {
-            foreach ($row as $key => $value) {
-                $item_array[$key] = $value;
-            }
-            $item_array['value'] = $item_array['product_id'];
-            $item_array['title'] = $item_array['product_title'];
-            $item_array['selected'] = $this->returnOptionStatus($item_array['value'], $product_ids_array, $this->returnReadOnlyStatus($forced_readonly, $item_array['product_status']));
+        foreach (AflProducts::orderBy('product_title')->get() as $row) {
+            $item_array = $row->toArray();
+
+            $item_array['value']    = $row->product_id;
+            $item_array['title']    = $row->product_title;
+            $item_array['selected'] = $this->returnOptionStatus($row->product_id, $product_ids_array, $this->returnReadOnlyStatus($forced_readonly, $row->product_status));
 
             $root_array[] = $item_array;
         }
