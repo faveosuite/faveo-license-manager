@@ -138,7 +138,7 @@ let versionsMenu = {
 
             component: VersionCreateEdit,
 
-            meta: { title : 'versions', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'versions', to : '/version' }, active : 'create' } }
+            meta: { title : 'versions', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'versions', to : '/versions' }, active : 'create' } }
         },
 
         {
@@ -149,7 +149,7 @@ let versionsMenu = {
 
             component: VersionCreateEdit,
 
-            meta: { title : 'version', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'version', to : '/version' }, active : 'edit' } }
+            meta: { title : 'version', crumb : { link: { name : 'dashboard', to : '/' }, root_link: { name : 'version', to : '/versions' }, active : 'edit' } }
         },
 
         {

@@ -749,5 +749,7 @@ return [
     'invalid_phone_number' => 'Invalid phone number',
 
     'product_suspended' => 'Product suspended successfully',
+    'enter_valid_homepage_url' => 'Enter Valid Homepage URL',
+    'enter_valid_download_url' => 'Enter Valid Download URL',
 ];
 

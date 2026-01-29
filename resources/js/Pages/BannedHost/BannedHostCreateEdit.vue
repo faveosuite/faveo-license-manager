@@ -3,7 +3,7 @@
     <div class="col-sm-12">
 
         <div class="alert alert-info">
-            <span>Add new banned host to be blocked from using Auto PHP Licenser. Enter IP address and click the 'Submit'
+            <span>Add new banned host to be blocked from using Auto Faveo Licenser. Enter IP address and click the 'Submit'
                 button.</span>
         </div>
 
