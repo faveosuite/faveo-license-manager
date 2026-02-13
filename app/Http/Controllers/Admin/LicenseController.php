@@ -519,7 +519,7 @@ class LicenseController extends Controller
 
     public function updateTheLicenseCode(Request $request){
         return AflLicenses::where('license_code',$request->old_license_code)
-            ->update(['licnese_code'=> $request->license_code]);
+            ->update(['license_code'=> $request->license_code]);
     }
 
     public function getLicenseColumns()
