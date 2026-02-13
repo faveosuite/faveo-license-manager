@@ -1,43 +1,175 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>PHP UPDATE | 8.4</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@3.1/dist/css/adminlte.min.css">
-</head>
-<style>
-    p{
-        font-size: 14px;
-    }
-</style>
-<body>
-<div class='content'>
-    <div class=" container-fluid d-flex justify-content-center align-items-center" style="height: 100vh;">
-        <div class="card card-light" style="width: 100vh;">
+    <title>Faveo License Manager | PHP 8.4 Upgrade Required</title>
 
-            <div class="card-header">
-                <h1 >Update to PHP 8.4!</h1>
-            </div>
-            <div class="card-body text-lg main">
-                <div class="row">
-                    <div class="col-sm-12">
-                        <h2>PHP Version Update Needed</h2>
-                        <p class="par">It has been detected that your site is currently running an unsupported version of PHP.</p><br>
-                        <h2>What is PHP and how does it affect Faveo License Manager?</h2>
-                        <p class="par">PHP is the programming language we use to build and maintain Faveo License Manager. Newer versions of PHP are faster, more secure, and more stable, so updating will have a positive effect on the performance of your site. Also from this version onwards we have deprecated our support for any version of PHP which is lower than 8.4.
-                            <b><a target = 'blank' href="https://docs.faveohelpdesk.com/docs/installation/providers/enterprise/php82-upgrade/" style="color:#3c8dbc!important">More Info</a></b>
-                        </p>
-                        <hr class="link-space">
-                        <p><b>Note: Once you complete updating your PHP version to 8.4 and Ioncube loader to the recent version, please remove the updateToLatestPhp.html from your URL. After that, you will have to update your database.</b></p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --faveo-primary: #009aba;
+            --faveo-dark: #2f6f95;
+            --faveo-light: #eaf4fa;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #f4f9fc, #d9ecf7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .upgrade-wrapper {
+            max-width: 850px;
+            width: 95%;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: 18px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            animation: fadeIn 0.6s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from {opacity:0; transform: translateY(20px);}
+            to {opacity:1; transform: translateY(0);}
+        }
+
+        .upgrade-header {
+            background: linear-gradient(90deg, var(--faveo-primary), var(--faveo-dark));
+            color: #fff;
+            padding: 35px 30px;
+            text-align: center;
+        }
+
+        .upgrade-header i {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .upgrade-header h2 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .upgrade-body {
+            padding: 40px;
+        }
+
+        .section-title {
+            font-weight: 600;
+            color: var(--faveo-primary);
+            margin-top: 25px;
+        }
+
+        .info-highlight {
+            background: var(--faveo-light);
+            border-left: 5px solid var(--faveo-primary);
+            padding: 18px;
+            border-radius: 10px;
+            margin-top: 25px;
+            font-size: 14px;
+        }
+
+        .btn-faveo {
+            background: var(--faveo-primary);
+            color: #fff;
+            border-radius: 50px;
+            padding: 10px 28px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .btn-faveo:hover {
+            background: var(--faveo-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(60,141,188,0.3);
+        }
+
+        ul li {
+            margin-bottom: 6px;
+        }
+
+        .footer-note {
+            font-size: 13px;
+            color: #6c757d;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        @media (max-width: 576px) {
+            .upgrade-body {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="upgrade-wrapper">
+
+    <div class="upgrade-header">
+        <i class="fas fa-server"></i>
+        <h2>PHP 8.4 Upgrade Required</h2>
+        <p class="mb-0">Your Faveo License Manager installation requires PHP 8.4 or higher</p>
     </div>
+
+    <div class="upgrade-body">
+
+        <h5 class="section-title">
+            <i class="fas fa-circle-exclamation me-2"></i>Why Upgrade?
+        </h5>
+        <p>
+            Your server is currently running an outdated PHP version.
+            For security, stability, and optimal performance, Faveo License Manager now supports
+            <strong>PHP 8.4 and above only.</strong>
+        </p>
+
+        <ul>
+            <li>⚡ Improved system performance</li>
+            <li>🔐 Enhanced security patches</li>
+            <li>🚀 Better compatibility & stability</li>
+            <li>📈 Long-term support</li>
+        </ul>
+
+        <h5 class="section-title">
+            <i class="fas fa-code me-2"></i>Next Steps
+        </h5>
+        <p>
+            Update your server to <strong>PHP 8.4</strong> and install the latest
+            <strong>Ioncube Loader</strong>.
+        </p>
+
+        <div class="info-highlight">
+            <strong>Important:</strong><br>
+            After upgrading PHP and Ioncube, remove
+            <code>updateToLatestPhp.html</code> from your root directory.
+            Then proceed with the database upgrade process.
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="https://docs.faveohelpdesk.com/docs/installation/providers/enterprise/php84-upgrade/"
+               target="_blank"
+               class="btn btn-faveo">
+                <i class="fas fa-book me-2"></i>View Upgrade Guide
+            </a>
+        </div>
+
+        <p class="footer-note">
+            If you need assistance, please contact your hosting provider or system administrator.
+        </p>
+
+    </div>
+
 </div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
