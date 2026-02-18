@@ -299,4 +299,34 @@ class LicenseSchemeController extends Controller
             recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $this->ip_address);
         }
     }
+
+
+    public function getLicenseSchemas(Request $request)
+    {
+        $ip_address = $this->ip_address ?? $request->ip();
+        $apiKey = $request->get('api_key_secret');
+
+        $validate = validateApiKey($apiKey, $ip_address);
+
+        if (!is_null($validate)){
+            return errorResponse($validate);
+        }
+
+        $map = [
+            1 => 'product_schema',
+            2 => 'plugin_create_schema',
+            3 => 'plugin_update_schema',
+        ];
+
+        $schemas = AflLicenseSchemes::whereIn('scheme_id', array_keys($map))
+            ->where('scheme_status', 1)
+            ->pluck('scheme_query', 'scheme_id')
+            ->mapWithKeys(fn ($query, $id) => [
+                $map[$id] => base64_encode($query)
+            ])
+            ->toArray();
+
+        return successResponse('', $schemas);
+    }
+
 }

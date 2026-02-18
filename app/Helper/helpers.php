@@ -4,6 +4,7 @@ use App\Models\AflSettings;
 use App\Http\Controllers\PhpMailController;
 use App\Models\User;
 use App\Models\AflClients;
+use App\Models\AflApiKeys;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\File;
 use Laravel\Passport\Passport;
@@ -739,4 +740,38 @@ function createDB(string $dbName)
     } catch (\Exception $e) {
         throw new \Exception("Database creation failed: " . $e->getMessage());
     }
+}
+
+
+/**
+ * Validate API key and IP address.
+ *
+ * Returns null on success, or a error response if validation fails.
+ *
+ * @param string|null $api_key_secret
+ * @param string|null $ip_address
+ * @return string|null
+ */
+function validateApiKey(?string $api_key_secret, ?string $ip_address): ?string
+{
+    if (empty($api_key_secret)) {
+        return Lang::get('lang.invalid_api_key');
+    }
+
+    $apiKey = AflApiKeys::where('api_key_secret', $api_key_secret)
+        ->where('api_key_status', 1)
+        ->first();
+
+    if (empty($apiKey)) {
+        return Lang::get('lang.invalid_api_key');
+    }
+
+    if (! empty($apiKey->api_key_ip)) {
+        $allowedIps = array_map('trim', explode(',', $apiKey->api_key_ip));
+        if (! in_array($ip_address, $allowedIps)) {
+            return Lang::get('lang.Api_Acess_not_allowed');
+        }
+    }
+
+    return null;
 }

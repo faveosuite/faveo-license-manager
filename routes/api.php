@@ -308,6 +308,9 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::patch('profile', [UserController::class, 'updateProfile']);
     Route::patch('password', [UserController::class, 'updatePassword']);
     Route::get('countryCode',[UserController::class, 'getCountryCode']);
+
+    // Schema
+    Route::post('getLicenseSchema', [LicenseSchemeController::class, 'getLicenseSchemas']);
 });
 
 Route::get('admin/viewApiKeys',[ApiKeysController::class, 'show'])->middleware('manager');
