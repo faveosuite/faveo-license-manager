@@ -12,6 +12,9 @@ use App\Http\Controllers\Admin\Views\InstallationViewController;
 use App\Http\Controllers\Admin\Views\LicenseViewController;
 use App\Http\Controllers\Admin\Views\ProductsViewController;
 use App\Http\Controllers\Admin\Views\VersionsViewController;
+use App\Http\Controllers\AflCallbacks\LicenseInstallControllerV2;
+use App\Http\Controllers\AflCallbacks\LicenseSchemeControllerV2;
+use App\Http\Controllers\AflCallbacks\LicenseVerifyControllerV2;
 use App\Http\Controllers\WhitelistIpsController;
 use App\Http\Controllers\Admin\CallBackController;
 use App\Http\Controllers\Admin\ClientsController;
@@ -95,6 +98,13 @@ Route::get('/licenseInfo', [LicenseController::class, 'licenseInfo']);
 Route::get('/IndividuallicenseInfo', [LicenseController::class, 'individualLicenseInfo']);
 Route::get('/getOrder', [LicenseController::class, 'giveLicenseTakeOrder']);
 Route::get('/pluginLicense', [LicenseController::class, 'getPluginInfo']);
+
+    // v2 apis
+    Route::prefix('v2')->group(function () {
+        Route::post('/licenseInstall', [LicenseInstallControllerV2::class, 'licenseInstall']);
+        Route::post('/licenseVerify', [LicenseVerifyControllerV2::class, 'licenseVerify']);
+        Route::post('/licenseScheme', [LicenseSchemeControllerV2::class, 'licenseScheme']);
+    });
 
 //UPDATE MANAGER CALLBACKS
 Route::post('/getVersions', [GetVersionsController::class, 'getVersion']);

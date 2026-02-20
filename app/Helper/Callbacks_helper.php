@@ -80,7 +80,9 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
         $client_email="";
     }*/
     if (! empty($root_ips_array) && ! empty($license_signature)) {
-        if (hash('sha256', gmdate('Y-m-d').$root_url.$client_email.$license_code.$product_id.implode('', $root_ips_array)) == $license_signature) {
+        $hashWithProduct = hash('sha256', gmdate('Y-m-d').$root_url.$client_email.$license_code.$product_id.implode('', $root_ips_array));
+        $hashWithoutProduct = hash('sha256', gmdate('Y-m-d').$root_url.$client_email.$license_code.implode('', $root_ips_array));
+        if ($hashWithProduct == $license_signature || $hashWithoutProduct == $license_signature) {
             $result = true;
         }
     }
@@ -92,7 +94,7 @@ function verifyScriptSignature($license_signature, $product_id, $root_url, $clie
 function returnServerNotification($notification_case, $root_url, $ip_address, $client_email, $client_fname, $client_lname, $license_code, $product_id, $product_title, $product_description, $product_url_homepage, $product_url_download, $product_version, $license_expire_date, $license_cancel_date, $license_updates_date, $license_support_date, $license_limit, $notification_data = '')
 {
     $content_array = [];
-    $notification_server_signature = generateServerSignature($product_id, $root_url, $client_email, $license_code);
+    $notification_server_signature = generateServerSignature($root_url, $client_email, $license_code);
 
     $rows_array = AflNotifications::where('notification_id', 1)->get()->toArray(); //fetchRow("SELECT * FROM apl_notifications WHERE notification_id=?", array(1), array("i"));
 
@@ -192,7 +194,7 @@ function recordFailedLicensing($BANNED_HOSTS, $FAILED_LICENSINGS_LIMIT, $ip_addr
 }
 
 //generate signature to be sent to user's script
-function generateServerSignature($product_id, $root_url, $client_email, $license_code)
+function generateServerSignature($root_url, $client_email, $license_code)
 {
     global $ROOT_URL;
     $ROOT_URL = url('/');
@@ -200,7 +202,8 @@ function generateServerSignature($product_id, $root_url, $client_email, $license
     $root_ips_array = gethostbynamel(aflGetRawDomain($ROOT_URL));
 
     if (! empty($root_ips_array)) { //IP(s) resolved successfully
-        $license_signature = hash('sha256', implode('', $root_ips_array).$product_id.$license_code.$client_email.$root_url.gmdate('Y-m-d'));
+        // Support generating signature without product_id if $product_id is an empty string
+        $license_signature = hash('sha256', implode('', $root_ips_array).$license_code.$client_email.$root_url.gmdate('Y-m-d'));
     }
 
     return $license_signature;
@@ -405,7 +408,9 @@ function afuVerifyScriptSignature($ROOT_URL, $script_signature, $product_id, $pr
 
     //dd(hash("sha256", gmdate("Y-m-d").$product_id.$product_key.implode("", $root_ips_array)));
     if (! empty($script_signature) && ! empty($root_ips_array)) {
-        if (hash('sha256', gmdate('Y-m-d').$product_id.$product_key.implode('', $root_ips_array)) == $script_signature) {
+        $hashWithProduct = hash('sha256', gmdate('Y-m-d').$product_id.$product_key.implode('', $root_ips_array));
+        $hashWithoutProduct = hash('sha256', gmdate('Y-m-d').$product_key.implode('', $root_ips_array));
+        if ($hashWithProduct == $script_signature || $hashWithoutProduct == $script_signature) {
             $result = true;
         }
     }
