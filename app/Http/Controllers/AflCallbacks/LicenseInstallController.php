@@ -106,7 +106,7 @@ class LicenseInstallController extends Controller
 
                         $license_array = $license_array ? array_merge($license_array, ['product_id' => $product_id]) : [];
 
-                        $license_array = array($license_array);
+                        $license_array = $license_array ? [$license_array] : [];
 
 
                     } else { //search for email-based license
