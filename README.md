@@ -10,8 +10,8 @@ Faveo License Manager is developed by [Ladybird Web Solution Pvt Ltd](http://www
 
 To run Faveo License Manager, your server should meet the following requirements:
 
-* PHP Version: 8.2+
-* Laravel Framework: 10+
+* PHP Version: 8.4+
+* Laravel Framework: 12+
 * Database: MySQL 8.0.x or Postgres or SQLite or SQL Server
 * Web Server: Apache / IIS / Nginx
 * PHP Extensions: Mcrypt, OpenSSL, Mbstring, Tokenizer
