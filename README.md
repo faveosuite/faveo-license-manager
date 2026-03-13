@@ -51,7 +51,6 @@ However, you can still report issues or share your customizations via our [GitHu
 | Version | Supported            |  
 |-------|----------------------|  
 | 3.0.3 | :white_check_mark:   |  
-|  3.0.3.RC.1 | :x:                  |  
 | < 3.0.2.1 | :x:                  |
 
 ### Supported Updates
