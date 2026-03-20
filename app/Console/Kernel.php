@@ -10,6 +10,7 @@ use App\Console\Commands\LinkLicenseToPlugin;
 use App\Console\Commands\SystemReportsCleanup;
 use App\Console\Commands\VersionsCleanup;
 use App\Console\Commands\SetupTestEnv;
+use App\Streams\Console\ConsumeStreamCommand;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use Illuminate\Support\Facades\DB;
@@ -37,7 +38,8 @@ class Kernel extends ConsoleKernel
         SystemReportsCleanup::class,
         VersionsCleanup::class,
         InstallationLogsCommand::class,
-        LinkLicenseToPlugin::class
+        LinkLicenseToPlugin::class,
+        ConsumeStreamCommand::class,
     ];
 
     protected function schedule(Schedule $schedule)

@@ -664,29 +664,49 @@ class LicenseController extends Controller
     public function giveLicenseTakeOrder(Request $request){
         return successResponse('', AflLicenses::where('license_code', $request->input('license_code'))->value('license_order_number'));
     }
+
     public function getPluginInfo(Request $request)
     {
-        $license_codes = collect(json_decode($request->input('license_code'), true));
-        $licenses = AflLicenses::whereIn('license_code', $license_codes)->where(function ($q) {
-            $q->where('license_expire_date', '>', \Carbon\Carbon::now())->orWhere('license_expire_date', '0000:00:00');
-        })->get()->keyBy('license_code');
+        $licenseCodes = json_decode($request->input('license_code'), true);
 
-        $result = $license_codes->map(function ($license_code) use ($licenses) {
-            $license = $licenses->get($license_code);
-
-            if (!$license) {
-                return null; // Skip if the license is not found
-            }
-
-            $product_ids = LicensePlugin::where('license_id', $license->license_id)->pluck('product_id')->toArray();
-            $product_ids = !empty($product_ids) ? $product_ids : [$license->product_id];
-
-            return collect($product_ids)->unique()->map(function ($product_id) use ($license_code) {
-                return $this->generateLicenseData($product_id, $license_code);
-            })->filter();
-        })->filter()->values();
+        $result = $this->getLicensePluginData($licenseCodes);
 
         return successResponse('', $result->toJson());
+    }
+    public function getLicensePluginData(array $licenseCodes)
+    {
+        $licenseCodes = collect($licenseCodes);
+
+        $licenses = AflLicenses::whereIn('license_code', $licenseCodes)
+            ->where(function ($q) {
+                $q->where('license_expire_date', '>', \Carbon\Carbon::now())
+                    ->orWhere('license_expire_date', '0000:00:00');
+            })
+            ->get()
+            ->keyBy('license_code');
+
+        return $licenseCodes->map(function ($licenseCode) use ($licenses) {
+
+            $license = $licenses->get($licenseCode);
+
+            if (!$license) {
+                return null;
+            }
+
+            $productIds = LicensePlugin::where('license_id', $license->license_id)
+                ->pluck('product_id')
+                ->toArray();
+
+            $productIds = !empty($productIds) ? $productIds : [$license->product_id];
+
+            return collect($productIds)
+                ->unique()
+                ->map(function ($productId) use ($licenseCode) {
+                    return $this->generateLicenseData($productId, $licenseCode);
+                })
+                ->filter();
+
+        })->filter()->values();
     }
 
     private function generateLicenseData($product_id, $license_code)
