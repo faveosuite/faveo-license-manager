@@ -827,6 +827,13 @@ let extraMenu = {
 
             meta: { title : 'exception_logs', crumb : { link: { name : 'dashboard', to : '/' }, active : 'exception' } }
         },
+
+        {
+            path: '/:pathMatch(.*)*',
+            name:"404",
+            component: NotFound,
+            meta: { title : '', crumb : { link: { name : 'dashboard', to : '/' }, active : 'Not found' } }
+        }
 	]
 }
 
@@ -912,13 +919,7 @@ const routes = [
         path: '/reset/:id',
         name: 'reset-password',
         component: ResetPassword
-    },
-
-	{
-        path: '/:pathMatch(.*)*',
-		name:"404",
-		component: NotFound
-	}
+    }
 ];
 
 function requireAuth (to, from, next) {

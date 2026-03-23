@@ -47,6 +47,7 @@ use App\Http\Controllers\Update\UpdateNotificationsController;
 use App\Http\Middleware\Manager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\MonitoringController;
 
 /*
 |--------------------------------------------------------------------------
@@ -238,6 +239,7 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('cronTimeCommands', [SettingsController::class, 'cronTimeCommands']);
     Route::get('intervalTime', [SettingsController::class, 'intervalTime']);
     Route::post('verify-php-path', [SettingsController::class, 'checkPHPExecutablePath'])->name('verify-cron');
+    Route::get('monitoring/check', [MonitoringController::class, 'checkPulseHorizon']);
 
     //NOTIFICATIONS
     Route::post('notifications/{notification_id}', [NotificationsController::class, 'notifications']);

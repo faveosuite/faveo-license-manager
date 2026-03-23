@@ -1,6 +1,6 @@
 <template>
 
-    <div class="lockscreen-wrapper lockscreen-wraper">
+    <div class="d-flex align-items-center justify-content-center min-vh-80">
 
         <div class="error-page">
 
@@ -21,6 +21,9 @@
 
 </template>
 
+<script setup>
+</script>
+
 <style>
 
 body { background: #e9ecef !important; }
@@ -28,6 +31,6 @@ body { background: #e9ecef !important; }
 .lock_mt_25 { margin-top: -25px !important; }
 
 .lockscreen-wraper { margin-top: 16% !important; margin-left: 29% !important; }
+
+.min-vh-80 { min-height: 70vh; }
 </style>
-<script setup>
-</script>
