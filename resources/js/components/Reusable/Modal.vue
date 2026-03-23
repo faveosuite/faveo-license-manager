@@ -26,7 +26,7 @@
 
           </div>
 
-          <div class="modal-footer">
+          <div v-if="showFooter" class="modal-footer">
 
             <slot name="controls"></slot>
 
@@ -57,7 +57,9 @@
 
       modalBodyClass: { type: String, default: '' },
 
-      showCloseBtn: { type: Boolean, default: true }
+      showCloseBtn: { type: Boolean, default: true },
+
+      showFooter: { type: Boolean, default: true }
     },
 
       data() {
