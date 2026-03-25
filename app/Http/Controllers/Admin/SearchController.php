@@ -17,171 +17,164 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        $api_error_detected = 0;
-        $action_success = 0; //will be changed to 1 later only if everything OK
-        $error_detected = 0; //will be changed to 1 later if error occurs
-        $error_details = ''; //will be filled with errors (if any)
-        $api_error_details = '';
-        $api_key_secret = $request->get('api_key_secret');
-        $search_type = $request->get('search_type');
-        $search_keyword = $request->get('search_keyword');
-        $date_from = $request->get('date_from');
-        $date_to = $request->get('date_to');
         $isLicenseSearchApi = (bool) $request->get('isLicenseSearchApi');
-        $SUPPORTED_API_SEARCHES_ARRAY = ['banned_host', 'callback', 'client', 'installation', 'license', 'product', 'report', 'version'];
-        //get script settings
-        foreach ($rows_array = DB::table('afl_settings')->get()->toArray() as $row) {
+
+        $result = $this->searchByParams($request->all(), $this->ip_address);
+
+        if (! $result['success']) {
+            $errorMessages = [
+                'invalid_api_key' => 'Invalid details has been looked for here',
+                'invalid_search_type' => $isLicenseSearchApi
+                    ? Lang::get('invalid_search_type')
+                    : 'Invalid search type.<br>',
+                'invalid_search_term' => $isLicenseSearchApi
+                    ? Lang::get('invalid_search_term_min_3_characters')
+                    : 'Invalid search term (3 characters minimum).<br>',
+                'no_results' => $isLicenseSearchApi
+                    ? 'There was an error searching for the particular detail in license manager'
+                    : 'No results found.',
+            ];
+
+            $message = $errorMessages[$result['error']] ?? 'Unknown error';
+
+            if ($isLicenseSearchApi && in_array($result['error'], ['invalid_search_type', 'invalid_search_term'])) {
+                return errorResponse($message, 400);
+            }
+
+            $errorDetail = in_array($result['error'], ['invalid_search_type', 'invalid_search_term', 'no_results']) && ! $isLicenseSearchApi
+                ? ['error' => "Search could not be performed because of this reason: <br><br>$message"]
+                : $message;
+
+            return json_encode([
+                'api_action_success' => $result['error'] === 'invalid_api_key' ? 0 : 1,
+                'api_error_detected' => $isLicenseSearchApi ? 1 : 0,
+                'action_success' => 0,
+                'error_detected' => 1,
+                'page_message' => $errorDetail,
+            ]);
+        }
+
+        return json_encode([
+            'api_action_success' => 1,
+            'api_error_detected' => 0,
+            'action_success' => 1,
+            'error_detected' => 0,
+            'page_message' => $result['data'],
+        ]);
+    }
+
+    /**
+     * Core search logic — takes plain params, returns array (no HTTP response).
+     * Can be called from streams or other non-HTTP contexts.
+     *
+     * @return array{success: bool, data: mixed, error: string|null}
+     */
+    public function searchByParams(array $params, ?string $ipAddress = null): array
+    {
+        $apiKeySecret = $params['api_key_secret'] ?? null;
+        $searchType = $params['search_type'] ?? null;
+        $searchKeyword = $params['search_keyword'] ?? '';
+        $dateFrom = $params['date_from'] ?? null;
+        $dateTo = $params['date_to'] ?? null;
+        $isLicenseSearchApi = (bool) ($params['isLicenseSearchApi'] ?? false);
+
+        $supportedSearchTypes = ['banned_host', 'callback', 'client', 'installation', 'license', 'product', 'report', 'version'];
+
+        // Load settings
+        foreach (DB::table('afl_settings')->get()->toArray() as $row) {
             extract((array) $row);
         }
-        //set default values for essential variables (mostly submitted to dropdown functions) when no values are set or values need to be reset
-        if (! isset($date_from) || ! empty($date_from) && ! aflVerifyDateTime($date_from, 'Y-m-d')) { //set default start date depending on system settings if start date is not set or invalid
-            $date_from = setDefaultDateFrom($RECORDS_ARCHIVE_DAYS);
+
+        if (empty($dateFrom) || ! aflVerifyDateTime($dateFrom, 'Y-m-d')) {
+            $dateFrom = setDefaultDateFrom($RECORDS_ARCHIVE_DAYS ?? 365);
+        }
+        if (empty($dateTo) || ! aflVerifyDateTime($dateTo, 'Y-m-d')) {
+            $dateTo = '';
         }
 
-        if (! isset($date_to) || ! empty($date_to) && ! aflVerifyDateTime($date_to, 'Y-m-d')) { //set default end date empty (all records will be included) if end date is not set or invalid
-            $date_to = '';
+        // API key check — only when api_key_secret is provided
+        if (! empty($apiKeySecret)) {
+            $apiKey = new ApiKeysController();
+            $apiActionSuccess = $apiKey->apiKeyCheck($apiKeySecret, $ipAddress ?? '');
+
+            if ($apiActionSuccess != 1) {
+                return ['success' => false, 'data' => null, 'error' => 'invalid_api_key'];
+            }
         }
-        $api_key = new ApiKeysController();
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        if ($api_action_success == 1 && $isLicenseSearchApi) { //API check OK, continue with actual request
-            if (! in_array($search_type, $SUPPORTED_API_SEARCHES_ARRAY)) {
-                $api_error_detected = 1;
 
-                return errorResponse(Lang::get('invalid_search_type'), 400);
-            }
+        if (! in_array($searchType, $supportedSearchTypes)) {
+            return ['success' => false, 'data' => null, 'error' => 'invalid_search_type'];
+        }
 
-            if (mb_strlen(trim($search_keyword), 'UTF-8') < 3) {
-                $api_error_detected = 1;
+        if (mb_strlen(trim($searchKeyword), 'UTF-8') < 3) {
+            return ['success' => false, 'data' => null, 'error' => 'invalid_search_term'];
+        }
 
-                return errorResponse(Lang::get('invalid_search_term_min_3_characters'), 400);
-            }
+        $recordsLimit = $RECORDS_ON_SEARCH_PAGE ?? 50;
 
-            if ($api_error_detected != 1) {
-                if ($search_type == 'banned_host') {
-                    $elements_to_unset_array = []; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnBannedHostsArray($date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'callback') {
-                    $elements_to_unset_array = ['product_title', 'product_description', 'product_sku', 'product_url_homepage', 'product_url_download', 'product_date', 'product_version', 'product_envato_id', 'product_status', 'client_fname', 'client_lname', 'client_email',  'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'callback_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnCallbacksArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'client') {
-                    $elements_to_unset_array = ['client_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnClientsArray($search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'installation') {
-                    $elements_to_unset_array = ['product_title', 'product_description', 'product_sku', 'product_url_homepage', 'product_url_download', 'product_date', 'product_version', 'product_envato_id', 'product_status', 'client_fname', 'client_lname', 'client_email',  'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'installation_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnInstallationsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'license') {
-                    $elements_to_unset_array = ['product_title', 'product_description', 'product_sku', 'product_url_homepage', 'product_url_download', 'product_date', 'product_version', 'product_envato_id', 'product_status', 'client_fname', 'client_lname', 'client_email',  'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'license_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnLicensesArray(0, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'product') {
-                    $elements_to_unset_array = ['product_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnProductsArray($search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'report') {
-                    $elements_to_unset_array = ['account_id', 'client_fname', 'client_lname', 'client_email', 'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'report_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnLicenseReportsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if (empty($rows_array)) {
-                    $page_message = 'There was an error searching for the particular detail in license manager';
-                    $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => 1, 'action_success' => 0, 'error_detected' => 1, 'page_message' => $page_message]; //make array with response data
-
-                    return json_encode($api_response_array);
-                } else {
-                    $api_action_success = 1;
-                }
-            }
-
-            if ($api_action_success == 1) { //everything OK
-                $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
-                $page_message = $rows_array;
-                //return successResponse(Lang::get('lang.search_complete'),$page_message,200);
-                $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 1, 'error_detected' => 0, 'page_message' => $page_message]; //make array with response data
-
-                return json_encode($api_response_array);
-            } else { //display error message
-                $page_message = 'There was an error searching for the particular detail regarding id';
-                $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 0, 'error_detected' => 1, 'page_message' => $page_message]; //make array with response data
-
-                return json_encode($api_response_array);
-            }
-        } elseif ($api_action_success == 1 && ! $isLicenseSearchApi) { //API check OK, continue with actual request
-            if (! in_array($search_type, $SUPPORTED_API_SEARCHES_ARRAY)) {
-                $error_detected = 1;
-                $error_details .= 'Invalid search type.<br>';
-            }
-
-            if (mb_strlen(trim($search_keyword), 'UTF-8') < 3) {
-                $error_detected = 1;
-                $error_details .= 'Invalid search term (3 characters minimum).<br>';
-            }
-
-            if ($error_detected != 1) {
-                if ($search_type == 'banned_host') {
-                    $elements_to_unset_array = []; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnBannedHostsArray($date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'callback') {
-                    $elements_to_unset_array = ['product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_key', 'product_max_active_versions', 'product_date', 'product_status', 'version_install_file', 'version_install_query',  'version_raw_install_query', 'version_upgrade_file', 'version_upgrade_query', 'version_raw_upgrade_query', 'version_install_limit', 'version_install_count', 'version_upgrade_limit', 'version_upgrade_count', 'version_changelog', 'version_date', 'version_expire_date', 'version_comments', 'version_status', 'callback_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnUpdateCallbacksArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'installation') {
-                    $elements_to_unset_array = ['product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_key', 'product_max_active_versions', 'product_date', 'product_status', 'version_number', 'version_install_file', 'version_install_query',  'version_raw_install_query', 'version_upgrade_file', 'version_upgrade_query', 'version_raw_upgrade_query', 'version_install_limit', 'version_install_count', 'version_upgrade_limit', 'version_upgrade_count', 'version_changelog', 'version_date', 'version_expire_date', 'version_comments', 'version_status', 'installation_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnUpdateInstallationsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'product') {
-                    $elements_to_unset_array = ['product_key', 'product_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnUpdateProductsArray($search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'report') {
-                    $elements_to_unset_array = ['account_id', 'report_status_formatted', 'product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_key', 'product_max_active_versions', 'product_date', 'product_status']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnUpdateReportsArray(0, $date_from, $date_to, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if ($search_type == 'version') {
-                    $elements_to_unset_array = ['version_install_file', 'version_install_query',  'version_raw_install_query', 'version_upgrade_file', 'version_upgrade_query', 'version_raw_upgrade_query', 'product_key', 'product_max_active_versions', 'product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_date', 'product_status', 'total_callbacks', 'version_status_formatted']; //elements to be removed from final array because of security or other reasons for this search type
-                    $rows_array = $this->returnUpdateVersionsArray(0, $search_keyword, $RECORDS_ON_SEARCH_PAGE);
-                }
-
-                if (empty($rows_array)) {
-                    $error_details .= 'No results found.';
-                } else {
-                    $action_success = 1;
-                }
-            }
-
-            if ($action_success == 1) { //everything OK
-                $this->unsetArrayElements($rows_array, $elements_to_unset_array); //remove unneeded elements (if any). function modifies array directly, use it separately from other functions/arguments
-                $page_message = $rows_array;
-                $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 1, 'error_detected' => 0, 'page_message' => $page_message]; //make array with response data
-
-                return json_encode($api_response_array);
-            } else { //display error message
-                $page_message = ['error' => "Search could not be performed because of this reason: <br><br>$error_details"];
-                $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 0, 'error_detected' => 1, 'page_message' => $page_message]; //make array with response data
-
-                return json_encode($api_response_array);
-            }
+        if ($isLicenseSearchApi) {
+            [$rowsArray, $elementsToUnset] = $this->fetchLicenseSearchResults($searchType, $dateFrom, $dateTo, $searchKeyword, $recordsLimit);
         } else {
-            $page_message = 'Invalid details has been looked for here';
-            $api_response_array = ['api_action_success' => $api_action_success, 'api_error_detected' => $api_error_detected, 'action_success' => 0, 'error_detected' => 1, 'page_message' => $page_message]; //make array with response data
-
-            return json_encode($api_response_array);
+            [$rowsArray, $elementsToUnset] = $this->fetchUpdateSearchResults($searchType, $dateFrom, $dateTo, $searchKeyword, $recordsLimit);
         }
+
+        if (empty($rowsArray)) {
+            return ['success' => false, 'data' => null, 'error' => 'no_results'];
+        }
+
+        $this->unsetArrayElements($rowsArray, $elementsToUnset);
+
+        return ['success' => true, 'data' => $rowsArray, 'error' => null];
+    }
+
+    protected function fetchLicenseSearchResults(string $type, $dateFrom, $dateTo, $keyword, $limit): array
+    {
+        $unsetKeys = [
+            'banned_host' => [],
+            'callback' => ['product_title', 'product_description', 'product_sku', 'product_url_homepage', 'product_url_download', 'product_date', 'product_version', 'product_envato_id', 'product_status', 'client_fname', 'client_lname', 'client_email', 'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'callback_status_formatted'],
+            'client' => ['client_status_formatted'],
+            'installation' => ['product_title', 'product_description', 'product_sku', 'product_url_homepage', 'product_url_download', 'product_date', 'product_version', 'product_envato_id', 'product_status', 'client_fname', 'client_lname', 'client_email', 'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'installation_status_formatted'],
+            'license' => ['product_title', 'product_description', 'product_sku', 'product_url_homepage', 'product_url_download', 'product_date', 'product_version', 'product_envato_id', 'product_status', 'client_fname', 'client_lname', 'client_email', 'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'license_status_formatted'],
+            'product' => ['product_status_formatted'],
+            'report' => ['account_id', 'client_fname', 'client_lname', 'client_email', 'client_active_date', 'client_cancel_date', 'client_status', 'client_formatted', 'report_status_formatted'],
+        ];
+
+        $rows = match ($type) {
+            'banned_host' => $this->returnBannedHostsArray($dateFrom, $dateTo, $keyword, $limit),
+            'callback' => $this->returnCallbacksArray(0, $dateFrom, $dateTo, $keyword, $limit),
+            'client' => $this->returnClientsArray($keyword, $limit),
+            'installation' => $this->returnInstallationsArray(0, $dateFrom, $dateTo, $keyword, $limit),
+            'license' => $this->returnLicensesArray(0, $keyword, $limit),
+            'product' => $this->returnProductsArray($keyword, $limit),
+            'report' => $this->returnLicenseReportsArray(0, $dateFrom, $dateTo, $keyword, $limit),
+            default => [],
+        };
+
+        return [$rows, $unsetKeys[$type] ?? []];
+    }
+
+    protected function fetchUpdateSearchResults(string $type, $dateFrom, $dateTo, $keyword, $limit): array
+    {
+        $unsetKeys = [
+            'banned_host' => [],
+            'callback' => ['product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_key', 'product_max_active_versions', 'product_date', 'product_status', 'version_install_file', 'version_install_query', 'version_raw_install_query', 'version_upgrade_file', 'version_upgrade_query', 'version_raw_upgrade_query', 'version_install_limit', 'version_install_count', 'version_upgrade_limit', 'version_upgrade_count', 'version_changelog', 'version_date', 'version_expire_date', 'version_comments', 'version_status', 'callback_status_formatted'],
+            'installation' => ['product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_key', 'product_max_active_versions', 'product_date', 'product_status', 'version_number', 'version_install_file', 'version_install_query', 'version_raw_install_query', 'version_upgrade_file', 'version_upgrade_query', 'version_raw_upgrade_query', 'version_install_limit', 'version_install_count', 'version_upgrade_limit', 'version_upgrade_count', 'version_changelog', 'version_date', 'version_expire_date', 'version_comments', 'version_status', 'installation_status_formatted'],
+            'product' => ['product_key', 'product_status_formatted'],
+            'report' => ['account_id', 'report_status_formatted', 'product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_key', 'product_max_active_versions', 'product_date', 'product_status'],
+            'version' => ['version_install_file', 'version_install_query', 'version_raw_install_query', 'version_upgrade_file', 'version_upgrade_query', 'version_raw_upgrade_query', 'product_key', 'product_max_active_versions', 'product_title', 'product_sku', 'product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_date', 'product_status', 'total_callbacks', 'version_status_formatted'],
+        ];
+
+        $rows = match ($type) {
+            'banned_host' => $this->returnBannedHostsArray($dateFrom, $dateTo, $keyword, $limit),
+            'callback' => $this->returnUpdateCallbacksArray(0, $dateFrom, $dateTo, $keyword, $limit),
+            'installation' => $this->returnUpdateInstallationsArray(0, $dateFrom, $dateTo, $keyword, $limit),
+            'product' => $this->returnUpdateProductsArray($keyword, $limit),
+            'report' => $this->returnUpdateReportsArray(0, $dateFrom, $dateTo, $keyword, $limit),
+            'version' => $this->returnUpdateVersionsArray(0, $keyword, $limit),
+            default => [],
+        };
+
+        return [$rows, $unsetKeys[$type] ?? []];
     }
 
     /* LICENSE MANAGER APIS */
@@ -452,7 +445,7 @@ class SearchController extends Controller
     }
 
     //return products
-    private function returnProductsArray($search_keyword = '', $results_limit = 0)
+    public function returnProductsArray($search_keyword = '', $results_limit = 0)
     {
         $root_array = [];
 
@@ -559,7 +552,7 @@ class SearchController extends Controller
     /* UPDATE MANAGER APIS */
 
     //return callbacks
-    private function returnUpdateCallbacksArray($product_id, $date_from = '', $date_to = '', $search_keyword = '', $results_limit = 0)
+    public function returnUpdateCallbacksArray($product_id, $date_from = '', $date_to = '', $search_keyword = '', $results_limit = 0)
     {
         $root_array = [];
 
@@ -611,7 +604,7 @@ class SearchController extends Controller
     }
 
     //return installations
-    private function returnUpdateInstallationsArray($product_id, $date_from = '', $date_to = '', $search_keyword = '', $results_limit = 0)
+    public function returnUpdateInstallationsArray($product_id, $date_from = '', $date_to = '', $search_keyword = '', $results_limit = 0)
     {
         $root_array = [];
 
@@ -662,7 +655,7 @@ class SearchController extends Controller
     }
 
     //return products
-    private function returnUpdateProductsArray($search_keyword = '', $results_limit = 0)
+    public function returnUpdateProductsArray($search_keyword = '', $results_limit = 0)
     {
         $root_array = [];
 
@@ -719,7 +712,7 @@ class SearchController extends Controller
     }
 
     //return update reports
-    private function returnUpdateReportsArray($product_id, $date_from = '', $date_to = '', $search_keyword = '', $results_limit = 0)
+    public function returnUpdateReportsArray($product_id, $date_from = '', $date_to = '', $search_keyword = '', $results_limit = 0)
     {
         $root_array = [];
 
@@ -775,7 +768,7 @@ class SearchController extends Controller
     }
 
     //return versions
-    private function returnUpdateVersionsArray($product_id, $search_keyword = '', $results_limit = 0)
+    public function returnUpdateVersionsArray($product_id, $search_keyword = '', $results_limit = 0)
     {
         $root_array = [];
         if (! empty($search_keyword) && aflValidateIntegerValue($results_limit)) {

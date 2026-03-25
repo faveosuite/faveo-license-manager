@@ -24,87 +24,112 @@ class InstallationLogsController extends Controller
 
     public function getInstallationLogs(Request $request)
     {
-        $action_success = 0; // will be changed to 1 later only if everything OK
-        $error_detected = 0; // will be changed to 1 later if error occurs
-        $api_error_detected = 0;
-        $api_error_details = '';
-        $api_key = new ApiKeysController();
-        $api_key_secret = $request->get('api_key_secret');
-        $licenseCode = $request->get('license_code');
-
-        // Check API key
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        if ($api_action_success) {
-            $message = InstallationLogs::where('license_code',$licenseCode)
-                ->orderBy('installation_last_active_date','desc')
-                ->get()->toArray();
-            $action_success = 1;
-        } else {
-            $api_error_detected = 1;
-            $message = "The action could not be completed because of this reason: $api_error_details";
-        }
-
-        $api_response_array = [
-            'api_action_success' => $api_action_success,
-            'api_error_detected' => $api_error_detected,
-            'action_success' => $action_success,
-            'error_detected' => $error_detected,
-            'page_message' => $message,
+        $data = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'license_code' => $request->get('license_code'),
         ];
 
-        return json_encode($api_response_array);
+        $result = $this->processGetInstallationLogs($data, $this->ip_address);
+
+        if (! $result['success']) {
+            return json_encode([
+                'api_action_success' => 0, 'api_error_detected' => 1,
+                'action_success' => 0, 'error_detected' => 0,
+                'page_message' => $result['message'],
+            ]);
+        }
+
+        return json_encode([
+            'api_action_success' => 1, 'api_error_detected' => 0,
+            'action_success' => 1, 'error_detected' => 0,
+            'page_message' => $result['data'],
+        ]);
+    }
+
+    public function processGetInstallationLogs(array $data, string $ipAddress = ''): array
+    {
+        $apiKeySecret = $data['api_key_secret'] ?? null;
+        $licenseCode = $data['license_code'] ?? null;
+
+        if ($apiKeySecret) {
+            $apiKey = new ApiKeysController();
+            if (! $apiKey->apiKeyCheck($apiKeySecret, $ipAddress)) {
+                return ['success' => false, 'data' => [], 'message' => 'API key check failed'];
+            }
+        }
+
+        $logs = InstallationLogs::where('license_code', $licenseCode)
+            ->orderBy('installation_last_active_date', 'desc')
+            ->get()->toArray();
+
+        return ['success' => true, 'data' => $logs, 'message' => ''];
     }
 
     public function updateInstallationLogs(Request $request)
     {
-        $action_success = 0; // will be changed to 1 later only if everything OK
-        $error_detected = 0; // will be changed to 1 later if error occurs
-        $api_error_detected = 0;
-        $api_error_details = '';
-        $api_key_secret = $request->get('api_key_secret');
-        $root_url = $request->get('root_url');
-        $versionNumber = $request->get('version_number');
-        $installation_ip = $request->get('installation_ip');
-        $licenseCode = $request->get('license_code');
-        $api_key = new ApiKeysController();
-        $message = '';
-
-        // Check API key and other conditions
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        if (filter_var($this->ip_address, FILTER_VALIDATE_IP) && $api_action_success && $root_url) {
-            $installation_domain = getRootUrl($root_url, 1, 1, 0, 1);
-
-            // Check if the installation exists in license manager, then update or create in logs
-            if ($installation_domain) {
-                InstallationLogs::updateOrCreate(
-                    ['installation_domain' => $installation_domain,
-                        'license_code' => $licenseCode],
-                    [
-                        'version_number' => $versionNumber,
-                        'installation_ip' => $installation_ip,
-                        'installation_status' => 1,
-                        'installation_last_active_date' => date('Y-m-d H:i:s'),
-                    ]
-                );
-                $action_success = 1;
-                $message = "Installation Logs updated successfully";
-            } else {
-                $error_detected = 1;
-                $message = "Installation does not exist";
-            }
-        } else {
-            $api_error_detected = 1;
-            $message = "The action could not be completed because of this reason: $api_error_details";
-        }
-
-        $api_response_array = [
-            'api_action_success' => $api_action_success,
-            'api_error_detected' => $api_error_detected,
-            'action_success' => $action_success,
-            'error_detected' => $error_detected,
-            'page_message' => $message,
+        $data = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'root_url' => $request->get('root_url'),
+            'version_number' => $request->get('version_number'),
+            'installation_ip' => $request->get('installation_ip'),
+            'license_code' => $request->get('license_code'),
         ];
 
-        return json_encode($api_response_array);
+        $result = $this->processUpdateInstallationLogs($data, $this->ip_address);
+
+        if (! $result['success']) {
+            return json_encode([
+                'api_action_success' => 0, 'api_error_detected' => 1,
+                'action_success' => 0, 'error_detected' => 1,
+                'page_message' => $result['message'],
+            ]);
+        }
+
+        return json_encode([
+            'api_action_success' => 1, 'api_error_detected' => 0,
+            'action_success' => 1, 'error_detected' => 0,
+            'page_message' => $result['data'],
+        ]);
+    }
+
+    public function processUpdateInstallationLogs(array $data, string $ipAddress = ''): array
+    {
+        $apiKeySecret = $data['api_key_secret'] ?? null;
+        $rootUrl = $data['root_url'] ?? '';
+        $versionNumber = $data['version_number'] ?? null;
+        $installationIp = $data['installation_ip'] ?? null;
+        $licenseCode = $data['license_code'] ?? null;
+
+        if ($apiKeySecret) {
+            $apiKey = new ApiKeysController();
+            if (! filter_var($ipAddress, FILTER_VALIDATE_IP) || ! $apiKey->apiKeyCheck($apiKeySecret, $ipAddress)) {
+                return ['success' => false, 'data' => [], 'message' => 'API key check failed'];
+            }
+        }
+
+        if (empty($rootUrl)) {
+            return ['success' => false, 'data' => [], 'message' => 'Root URL is required'];
+        }
+
+        $installationDomain = getRootUrl($rootUrl, 1, 1, 0, 1);
+
+        if (! $installationDomain) {
+            return ['success' => false, 'data' => [], 'message' => 'Installation does not exist'];
+        }
+
+        InstallationLogs::updateOrCreate(
+            [
+                'installation_domain' => $installationDomain,
+                'license_code' => $licenseCode,
+            ],
+            [
+                'version_number' => $versionNumber,
+                'installation_ip' => $installationIp,
+                'installation_status' => 1,
+                'installation_last_active_date' => date('Y-m-d H:i:s'),
+            ]
+        );
+
+        return ['success' => true, 'data' => 'Installation Logs updated successfully', 'message' => ''];
     }
 }
