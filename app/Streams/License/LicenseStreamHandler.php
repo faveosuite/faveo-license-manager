@@ -78,7 +78,7 @@ class LicenseStreamHandler
     protected function addProduct(array $payload): array
     {
         AflProducts::insertOrIgnore([
-            'product_title' => $payload['product_name'],
+            'product_title' => $payload['product_title'],
             'product_sku' => $payload['product_sku'],
             'product_status' => $payload['product_status'] ?? 1,
             'product_date' => $payload['product_date'] ?? now(),
@@ -96,7 +96,7 @@ class LicenseStreamHandler
     {
        $updated = AflProducts::where('product_id', $payload['product_id'])
             ->update([
-                'product_title' => $payload['product_name'],
+                'product_title' => $payload['product_title'],
                 'product_sku' => $payload['product_sku'],
                 'product_status' => $payload['product_status'] ?? 1,
                 'product_date' => $payload['product_date'] ?? now(),
@@ -134,14 +134,14 @@ class LicenseStreamHandler
         $data = [
             'product_id' => $payload['product_id'],
             'license_code' => $payload['license_code'],
-            'license_order_number' => $payload['order_number'],
+            'license_order_number' => $payload['license_order_number'],
             'license_ip' => $payload['license_ip'],
             'license_domain' => $payload['license_domain'] ?? '',
             'license_require_domain' => $payload['license_require_domain'],
             'license_limit' => $payload['license_limit'] ?? 1,
-            'license_expire_date' => $payload['license_expiry'] ?? '',
-            'license_updates_date' => $payload['updates_expiry'] ?? '',
-            'license_support_date' => $payload['support_expiry'] ?? '',
+            'license_expire_date' => $payload['license_expire_date'] ?? '',
+            'license_updates_date' => $payload['license_updates_date'] ?? '',
+            'license_support_date' => $payload['license_support_date'] ?? '',
             'license_status' => $payload['license_status'] ?? 1,
             'client_id' => $payload['client_id'] ?? null,
             'license_comments' => $payload['license_comments'] ?? null,
@@ -155,14 +155,14 @@ class LicenseStreamHandler
         $data = [
             'product_id' => $payload['product_id'],
             'license_code' => $payload['license_code'],
-            'license_order_number' => $payload['order_number'],
+            'license_order_number' => $payload['license_order_number'],
             'license_ip' => $payload['license_ip'],
             'license_domain' => $payload['license_domain'] ?? '',
             'license_require_domain' => $payload['license_require_domain'],
             'license_limit' => $payload['license_limit'] ?? 1,
-            'license_expire_date' => $payload['license_expiry'] ?? '',
-            'license_updates_date' => $payload['updates_expiry'] ?? '',
-            'license_support_date' => $payload['support_expiry'] ?? '',
+            'license_expire_date' => $payload['license_expire_date'] ?? '',
+            'license_updates_date' => $payload['license_updates_date'] ?? '',
+            'license_support_date' => $payload['license_support_date'] ?? '',
             'license_status' => $payload['license_status'] ?? 1,
             'client_id' => $payload['client_id'] ?? null,
             'license_comments' => $payload['license_comments'] ?? null,
