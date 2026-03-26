@@ -64,6 +64,7 @@ return array(
     'App\\Http\\Controllers\\Admin\\LicenseController' => $baseDir . '/app/Http/Controllers/Admin/LicenseController.php',
     'App\\Http\\Controllers\\Admin\\LogViewController' => $baseDir . '/app/Http/Controllers/Admin/LogViewController.php',
     'App\\Http\\Controllers\\Admin\\LogWriteController' => $baseDir . '/app/Http/Controllers/Admin/LogWriteController.php',
+    'App\\Http\\Controllers\\Admin\\MonitoringController' => $baseDir . '/app/Http/Controllers/Admin/MonitoringController.php',
     'App\\Http\\Controllers\\Admin\\NotificationsController' => $baseDir . '/app/Http/Controllers/Admin/NotificationsController.php',
     'App\\Http\\Controllers\\Admin\\OrderController' => $baseDir . '/app/Http/Controllers/Admin/OrderController.php',
     'App\\Http\\Controllers\\Admin\\ProductsController' => $baseDir . '/app/Http/Controllers/Admin/ProductsController.php',

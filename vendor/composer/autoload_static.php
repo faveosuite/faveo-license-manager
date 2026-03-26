@@ -902,6 +902,7 @@ class ComposerStaticInit665e58ec24b08bc6ec1e13efdbf01307
         'App\\Http\\Controllers\\Admin\\LicenseController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LicenseController.php',
         'App\\Http\\Controllers\\Admin\\LogViewController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LogViewController.php',
         'App\\Http\\Controllers\\Admin\\LogWriteController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/LogWriteController.php',
+        'App\\Http\\Controllers\\Admin\\MonitoringController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/MonitoringController.php',
         'App\\Http\\Controllers\\Admin\\NotificationsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/NotificationsController.php',
         'App\\Http\\Controllers\\Admin\\OrderController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/OrderController.php',
         'App\\Http\\Controllers\\Admin\\ProductsController' => __DIR__ . '/../..' . '/app/Http/Controllers/Admin/ProductsController.php',
