@@ -3,8 +3,9 @@
 namespace App\Streams\Adapters;
 
 use Illuminate\Support\Facades\Redis;
+use Predis\Command\RawCommand;
 
-class PhpRedisAdapter implements RedisAdapterInterface
+class PredisAdapter implements RedisAdapterInterface
 {
     /**
      * Get the Redis connection.
@@ -18,6 +19,19 @@ class PhpRedisAdapter implements RedisAdapterInterface
     }
 
     /**
+     * Execute a raw Redis command on the streams connection.
+     *
+     * @param  array  $args  The command arguments
+     * @return mixed
+     */
+    protected function executeRaw(array $args): mixed
+    {
+        return $this->connection('streams')->client()->executeCommand(
+            RawCommand::create(...$args)
+        );
+    }
+
+    /**
      * Add a message to a stream.
      *
      * @param  string  $stream  The stream key
@@ -28,15 +42,24 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xadd(string $stream, string $id, array $message, array $options = []): string
     {
-        $maxLen = 0;
-        $approximate = false;
+        $args = ['XADD', $stream];
 
         if (isset($options['MAXLEN'])) {
-            $approximate = ($options['MAXLEN'][0] === '~');
-            $maxLen = (int) $options['MAXLEN'][1];
+            $args[] = 'MAXLEN';
+            if ($options['MAXLEN'][0] === '~') {
+                $args[] = '~';
+            }
+            $args[] = (string) $options['MAXLEN'][1];
         }
 
-        return $this->connection('streams')->xAdd($stream, $id, $message, $maxLen, $approximate);
+        $args[] = $id;
+
+        foreach ($message as $field => $value) {
+            $args[] = (string) $field;
+            $args[] = (string) $value;
+        }
+
+        return $this->executeRaw($args);
     }
 
     /**
@@ -47,7 +70,7 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function del(string $stream): int
     {
-        return $this->connection('streams')->del($stream);
+        return $this->executeRaw(['DEL', $stream]);
     }
 
     /**
@@ -61,9 +84,16 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xrange(string $stream, string $start, string $end, ?int $count = null): array
     {
-        $result = $this->connection('streams')->xRange($stream, $start, $end, $count ?? -1);
+        $args = ['XRANGE', $stream, $start, $end];
 
-        return $result ?: [];
+        if ($count !== null) {
+            $args[] = 'COUNT';
+            $args[] = (string) $count;
+        }
+
+        $result = $this->executeRaw($args);
+
+        return $this->parseStreamEntries($result);
     }
 
     /**
@@ -78,7 +108,13 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xgroup(string $command, string $stream, string $group, string $id, bool $mkstream = false)
     {
-        return $this->connection('streams')->xGroup($command, $stream, $group, $id, $mkstream);
+        $args = ['XGROUP', $command, $stream, $group, $id];
+
+        if ($mkstream) {
+            $args[] = 'MKSTREAM';
+        }
+
+        return $this->executeRaw($args);
     }
 
     /**
@@ -93,13 +129,39 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xreadgroup(string $group, string $consumer, array $streams, int $count, ?int $block = null): array
     {
+        $args = ['XREADGROUP', 'GROUP', $group, $consumer];
+
         if ($block !== null) {
-            $result = $this->connection('streams')->xReadGroup($group, $consumer, $streams, $count, $block);
-        } else {
-            $result = $this->connection('streams')->xReadGroup($group, $consumer, $streams, $count);
+            $args[] = 'BLOCK';
+            $args[] = (string) $block;
         }
 
-        return $result ?: [];
+        $args[] = 'COUNT';
+        $args[] = (string) $count;
+        $args[] = 'STREAMS';
+
+        foreach (array_keys($streams) as $name) {
+            $args[] = $name;
+        }
+        foreach (array_values($streams) as $streamId) {
+            $args[] = $streamId;
+        }
+
+        $result = $this->executeRaw($args);
+
+        if (! $result) {
+            return [];
+        }
+
+        // Raw response: [['stream', [['id', ['f1', 'v1', ...]], ...]], ...]
+        // Expected:     ['stream' => ['id' => ['f1' => 'v1', ...], ...], ...]
+        $parsed = [];
+        foreach ($result as $streamData) {
+            $streamName = $streamData[0];
+            $parsed[$streamName] = $this->parseStreamEntries($streamData[1]);
+        }
+
+        return $parsed;
     }
 
     /**
@@ -112,7 +174,7 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xack(string $stream, string $group, array $ids): int
     {
-        return $this->connection('streams')->xAck($stream, $group, $ids);
+        return $this->executeRaw(['XACK', $stream, $group, ...$ids]);
     }
 
     /**
@@ -128,7 +190,13 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xpending(string $stream, string $group, string $start, string $end, int $count, ?string $consumer = null): array
     {
-        $result = $this->connection('streams')->xPending($stream, $group, $start, $end, $count, $consumer);
+        $args = ['XPENDING', $stream, $group, $start, $end, (string) $count];
+
+        if ($consumer !== null) {
+            $args[] = $consumer;
+        }
+
+        $result = $this->executeRaw($args);
 
         return $result ?: [];
     }
@@ -146,9 +214,18 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xclaim(string $stream, string $group, string $consumer, int $minIdleTime, array $ids, array $options = []): array
     {
-        $result = $this->connection('streams')->xClaim($stream, $group, $consumer, $minIdleTime, $ids, $options);
+        $args = ['XCLAIM', $stream, $group, $consumer, (string) $minIdleTime, ...$ids];
 
-        return $result ?: [];
+        foreach ($options as $key => $value) {
+            $args[] = (string) $key;
+            if ($value !== null && $value !== true) {
+                $args[] = (string) $value;
+            }
+        }
+
+        $result = $this->executeRaw($args);
+
+        return $this->parseStreamEntries($result);
     }
 
     /**
@@ -160,7 +237,7 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xdel(string $stream, array $ids): int
     {
-        return $this->connection('streams')->xDel($stream, $ids);
+        return $this->executeRaw(['XDEL', $stream, ...$ids]);
     }
 
     /**
@@ -173,7 +250,15 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xtrim(string $stream, string $maxlen, int $count): int
     {
-        return $this->connection('streams')->xTrim($stream, $count, $maxlen === '~');
+        $args = ['XTRIM', $stream, 'MAXLEN'];
+
+        if ($maxlen === '~') {
+            $args[] = '~';
+        }
+
+        $args[] = (string) $count;
+
+        return $this->executeRaw($args);
     }
 
     /**
@@ -186,7 +271,13 @@ class PhpRedisAdapter implements RedisAdapterInterface
      */
     public function xinfo(string $command, string $stream, ...$args): array
     {
-        $result = $this->connection('streams')->xInfo($command, $stream, ...$args);
+        $rawArgs = ['XINFO', $command, $stream];
+
+        foreach ($args as $arg) {
+            $rawArgs[] = (string) $arg;
+        }
+
+        $result = $this->executeRaw($rawArgs);
 
         return $result ?: [];
     }
@@ -199,5 +290,35 @@ class PhpRedisAdapter implements RedisAdapterInterface
     public function pipeline()
     {
         return $this->connection('streams')->pipeline();
+    }
+
+    /**
+     * Parse raw Redis stream entries into associative arrays.
+     *
+     * Converts [['id', ['f1', 'v1', 'f2', 'v2']], ...] to ['id' => ['f1' => 'v1', 'f2' => 'v2'], ...]
+     *
+     * @param  array|null  $entries  The raw stream entries
+     * @return array The parsed entries
+     */
+    protected function parseStreamEntries(?array $entries): array
+    {
+        if (! $entries) {
+            return [];
+        }
+
+        $parsed = [];
+        foreach ($entries as $entry) {
+            $id = $entry[0];
+            $fields = $entry[1];
+            $message = [];
+
+            for ($i = 0, $len = count($fields); $i < $len; $i += 2) {
+                $message[$fields[$i]] = $fields[$i + 1];
+            }
+
+            $parsed[$id] = $message;
+        }
+
+        return $parsed;
     }
 }
