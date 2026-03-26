@@ -29,6 +29,7 @@ class LicenseStreamHandler
         $correlationId = $payload['correlation_id'] ?? null;
 
         $result = match ($event) {
+            'stream_ping' => $this->ping($payload),
             'license_add_product' => $this->addProduct($payload),
             'license_edit_product' => $this->editProduct($payload),
             'license_delete_product' => $this->deleteProduct($payload),
@@ -58,6 +59,11 @@ class LicenseStreamHandler
                 'result' => $result,
             ]);
         }
+    }
+
+    protected function ping(array $payload): array
+    {
+        return ['success' => true, 'data' => [], 'message' => 'pong'];
     }
 
     protected function getPluginInfo(array $payload): array
