@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Log;
 
 class LicenseStreamHandler
 {
+    private const int MAX_RESPONSE_STREAM_LEN = 10000;
+
     /**
      * Called by ConsumeStreamCommand for each message from the stream.
      * Handles correlation/reply_to dynamically for all events.
@@ -26,6 +28,9 @@ class LicenseStreamHandler
         $payload = $data['payload'] ?? [];
         $replyTo = $payload['reply_to'] ?? null;
         $correlationId = $payload['correlation_id'] ?? null;
+
+        // Strip stream metadata before passing to controllers
+        unset($payload['reply_to'], $payload['correlation_id']);
 
         $result = match ($event) {
             'stream_ping' => $this->ping($payload),
@@ -59,7 +64,7 @@ class LicenseStreamHandler
         }
 
         if ($replyTo && $correlationId) {
-            $responseProducer = new RedisStreamProducer($replyTo);
+            $responseProducer = new RedisStreamProducer($replyTo, self::MAX_RESPONSE_STREAM_LEN);
             $responseProducer->publish($event . '_response', [
                 'correlation_id' => $correlationId,
                 'result' => $result,
