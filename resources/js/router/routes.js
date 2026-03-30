@@ -573,6 +573,8 @@ import SystemCleanupSettings from '../Pages/Settings/SystemCleanupSettings.vue';
 
 import DebugSettings from '../Pages/Settings/DebugSettings.vue';
 
+import RedisStreamSettings from '../Pages/Settings/RedisStreamSettings.vue';
+
 let settingsMenu = {
 
 	path: '/settings',
@@ -639,6 +641,16 @@ let settingsMenu = {
             component: DebugSettings,
 
             meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'debug_settings' } }
+        },
+        {
+
+            path: 'redis-stream',
+
+            name: 'Redis Stream Settings',
+
+            component: RedisStreamSettings,
+
+            meta: { title : 'settings', crumb : { link: { name : 'dashboard', to : '/' }, active : 'redis_stream_settings' } }
         }
 
     ]

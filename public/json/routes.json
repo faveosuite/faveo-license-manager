@@ -356,6 +356,17 @@
                     "routeString": "/settings/debug",
                     "hasChildren": false,
                     "children": []
+                },
+                {
+                    "name": "Redis Stream Settings",
+                    "key": null,
+                    "count": 0,
+                    "hasCount": false,
+                    "iconClass": "far fa-circle",
+                    "order": 0,
+                    "routeString": "/settings/redis-stream",
+                    "hasChildren": false,
+                    "children": []
                 }
             ]
         },

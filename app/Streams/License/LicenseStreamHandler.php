@@ -5,14 +5,11 @@ namespace App\Streams\License;
 use App\Http\Controllers\Admin\InstallationController;
 use App\Http\Controllers\Admin\InstallationLogsController;
 use App\Http\Controllers\Admin\LicenseController;
-use App\Models\AflCallbacks;
-use App\Models\AflInstallations;
-use App\Models\AflLicenses;
-use App\Models\AflProducts;
-use App\Models\InstallationLogs;
+use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SearchController;
+use App\Http\Controllers\Update\AfuProductsController;
+use App\Http\Controllers\Update\AfuVersionsController;
 use App\Streams\RedisStreamProducer;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class LicenseStreamHandler
@@ -44,6 +41,11 @@ class LicenseStreamHandler
             'license_update_installation_logs' => $this->updateInstallationLogs($payload),
             'license_plugin_info' => $this->getPluginInfo($payload),
             'license_search' => $this->searchData($payload),
+            'update_add_product' => $this->addUpdateProduct($payload),
+            'update_edit_product' => $this->editUpdateProduct($payload),
+            'update_delete_product' => $this->deleteUpdateProduct($payload),
+            'update_add_version' => $this->addUpdateVersion($payload),
+            'update_edit_version' => $this->editUpdateVersion($payload),
             default => null,
         };
 
@@ -83,57 +85,17 @@ class LicenseStreamHandler
 
     protected function addProduct(array $payload): array
     {
-        AflProducts::insertOrIgnore([
-            'product_title' => $payload['product_title'],
-            'product_sku' => $payload['product_sku'],
-            'product_status' => $payload['product_status'] ?? 1,
-            'product_date' => $payload['product_date'] ?? now(),
-            'product_description' => $payload['product_description'] ?? null,
-            'product_url_homepage' => $payload['product_url_homepage'] ?? null,
-            'product_url_download' => $payload['product_url_download'] ?? null,
-            'product_version' => $payload['product_version'] ?? null,
-            'product_envato_id' => $payload['product_envato_id'] ?? null,
-        ]);
-
-        return ['success' => true, 'data' => [], 'message' => ''];
+        return new ProductsController()->processProductAdd($payload);
     }
 
     protected function editProduct(array $payload): array
     {
-       $updated = AflProducts::where('product_id', $payload['product_id'])
-            ->update([
-                'product_title' => $payload['product_title'],
-                'product_sku' => $payload['product_sku'],
-                'product_status' => $payload['product_status'] ?? 1,
-                'product_date' => $payload['product_date'] ?? now(),
-                'product_description' => $payload['product_description'] ?? null,
-                'product_url_homepage' => $payload['product_url_homepage'] ?? null,
-                'product_url_download' => $payload['product_url_download'] ?? null,
-                'product_version' => $payload['product_version'] ?? null,
-                'product_envato_id' => $payload['product_envato_id'] ?? null,
-            ]);
-
-        return ['success' => (bool) $updated, 'data' => [], 'message' => ''];
+        return new ProductsController()->processProductUpdate($payload);
     }
+
     protected function deleteProduct(array $payload): array
     {
-        $product = AflProducts::where('product_id', $payload['product_id'])->first();
-
-        if ($product) {
-            $productId = $product->product_id;
-            DB::transaction(function () use ($productId) {
-                $licenses = AflLicenses::where('product_id', $productId)->pluck('license_code');
-                foreach ($licenses as $licenseCode) {
-                    InstallationLogs::where('license_code', $licenseCode)->delete();
-                }
-                AflCallbacks::where('product_id', $productId)->delete();
-                AflInstallations::where('product_id', $productId)->delete();
-                AflLicenses::where('product_id', $productId)->delete();
-                AflProducts::where('product_id', $productId)->forceDelete();
-            });
-        }
-
-        return ['success' => true, 'data' => [], 'message' => ''];
+        return new ProductsController()->processProductDelete($payload);
     }
     protected function createLicense(array $payload): array
     {
@@ -222,5 +184,30 @@ class LicenseStreamHandler
         $result = new SearchController()->searchByParams($payload, $payload['ip_address'] ?? '');
 
         return ['success' => true, 'data' => $result, 'message' => ''];
+    }
+
+    protected function addUpdateProduct(array $payload): array
+    {
+        return new AfuProductsController()->processProductAdd($payload);
+    }
+
+    protected function editUpdateProduct(array $payload): array
+    {
+        return new AfuProductsController()->processProductUpdate($payload);
+    }
+
+    protected function deleteUpdateProduct(array $payload): array
+    {
+        return new AfuProductsController()->processProductDelete($payload);
+    }
+
+    protected function addUpdateVersion(array $payload): array
+    {
+        return new AfuVersionsController()->processVersionAdd($payload);
+    }
+
+    protected function editUpdateVersion(array $payload): array
+    {
+        return new AfuVersionsController()->processVersionUpdate($payload);
     }
 }

@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\ReportsController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Admin\SettingsController;
+use App\Http\Controllers\Admin\StreamSettingsController;
 use App\Http\Controllers\AFL\ConnectionController;
 use App\Http\Controllers\AflCallbacks\LicenseInstallController;
 use App\Http\Controllers\AflCallbacks\LicenseSchemeController;
@@ -226,6 +227,10 @@ Route::prefix('admin')->namespace('Admin')->middleware('manager')->group(functio
     Route::get('date-formats', [CommonSettingController::class, 'getDropDownForDateFormat']);
     Route::get('time-formats', [CommonSettingController::class, 'getDropDownForTimeFormat']);
 
+
+    //REDIS STREAM SETTINGS
+    Route::get('stream-settings', [StreamSettingsController::class, 'show']);
+    Route::post('stream-settings', [StreamSettingsController::class, 'update']);
 
     Route::get('cleanupSettings', [SettingsController::class, 'dropDownForCleanUpSettings']);
     Route::get('cleanSettings', [SettingsController::class, 'dropForCleanUpSettings']);

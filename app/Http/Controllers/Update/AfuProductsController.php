@@ -24,176 +24,213 @@ class AfuProductsController extends Controller
      * stores the product details into the database
      *
      * @param  Request  $request
-     * @param $api_key_secret
-     * @param $product_title
-     * @param $product_sku
-     * @param $product_status
-     * @param $product_description
-     * @param $product_url_homepage
-     * @param $product_url_download
-     * @param $product_version
-     * @param $product_envato_id
      * @return response that a product details is added with a success response
      */
     public function productUpdateAdd(Request $request)
     {
-        $api_error_detected = 0;
-        $added_records = 0;
-        $api_key_secret = $request->get('api_key_secret');
-        $product_id = $request->get('product_id');
-        $product_title = $request->get('product_title');
-        $product_sku = $request->get('product_sku');
-        $product_short_description = $request->get('product_short_description');
-        $product_full_description = $request->get('product_full_description');
-        $product_key = $request->get('product_key');
-        $product_status = $request->get('product_status');
-        $product_url_homepage = $request->get('product_url_homepage');
-        $product_url_order = $request->get('product_url_order');
-        $product_price = $request->get('product_price');
-        $product_max_active_versions = $request->get('product_max_active_versions');
+        $data = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'product_id' => $request->get('product_id'),
+            'product_title' => $request->get('product_title'),
+            'product_sku' => $request->get('product_sku'),
+            'product_short_description' => $request->get('product_short_description'),
+            'product_full_description' => $request->get('product_full_description'),
+            'product_key' => $request->get('product_key'),
+            'product_status' => $request->get('product_status'),
+            'product_url_homepage' => $request->get('product_url_homepage'),
+            'product_url_order' => $request->get('product_url_order'),
+            'product_price' => $request->get('product_price'),
+            'product_max_active_versions' => $request->get('product_max_active_versions'),
+        ];
 
-        $api_key = new ApiKeysController();
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        $optional_api_parameters_array = ['product_short_description', 'product_full_description', 'product_url_homepage', 'product_url_order', 'product_price', 'product_max_active_versions']; //optional API parameters for this page
-        foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
-            if (! isset($$optional_api_parameter)) {
-                $$optional_api_parameter = '';
-            }
+        $result = $this->processProductAdd($data, $this->ip_address);
+
+        if (! $result['success']) {
+            return errorResponse($result['message'], $result['status_code']);
         }
 
-        if (! empty($product_title) && ! empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2) && ! empty($product_key) && $api_action_success == 1) {
-            if (! empty($product_url_homepage) && ! filter_var($product_url_homepage, FILTER_VALIDATE_URL)) {
-                $api_error_detected = 1;
+        return successResponse(Lang::get('lang.Product_Add'), $result['data'], 200);
+    }
 
-                return errorResponse(Lang::get('lang.error_producturl'), 400);
+    public function processProductAdd(array $data, string $ipAddress = ''): array
+    {
+        $api_key_secret = $data['api_key_secret'] ?? null;
+        $product_title = $data['product_title'] ?? null;
+        $product_sku = $data['product_sku'] ?? null;
+        $product_key = $data['product_key'] ?? null;
+        $product_status = $data['product_status'] ?? null;
+        $product_url_homepage = $data['product_url_homepage'] ?? null;
+
+        if ($api_key_secret) {
+            $api_key = new ApiKeysController();
+            $api_key->apiKeyCheck($api_key_secret, $ipAddress);
+        }
+
+        if (empty($product_title) || empty($product_sku) || ! aflValidateIntegerValue($product_status, 0, 2)) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 400];
+        }
+
+        if (! empty($product_url_homepage) && ! filter_var($product_url_homepage, FILTER_VALIDATE_URL)) {
+            return ['success' => false, 'message' => Lang::get('lang.error_producturl'), 'data' => [], 'status_code' => 400];
+        }
+
+        $product_date = date('Y-m-d');
+
+        try {
+            $in = DB::table('afu_products')->insertOrIgnore([
+                'product_id' => $data['product_id'] ?? null,
+                'product_title' => $product_title,
+                'product_sku' => $product_sku,
+                'product_short_description' => $data['product_short_description'] ?? '',
+                'product_full_description' => $data['product_full_description'] ?? '',
+                'product_key' => $product_key ?? str_random(16),
+                'product_url_homepage' => $product_url_homepage ?? '',
+                'product_url_order' => $data['product_url_order'] ?? '',
+                'product_price' => $data['product_price'] ?? '',
+                'product_date' => $product_date,
+                'product_status' => $product_status,
+                'product_max_active_versions' => $data['product_max_active_versions'] ?? '',
+            ]);
+
+            if (! aflValidateIntegerValue($in)) {
+                return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 400];
             }
 
-            if ($api_error_detected != 1) {
-                $product_date = date('Y-m-d');
-                try {
-                    $in = DB::table('afu_products')->insertOrIgnore([
-                        'product_id' => $product_id,
-                        'product_title' => $product_title,
-                        'product_sku' => $product_sku,
-                        'product_short_description' => $product_short_description,
-                        'product_full_description' => $product_full_description,
-                        'product_key' => $product_key,
-                        'product_url_homepage' => $product_url_homepage,
-                        'product_url_order' => $product_url_order,
-                        'product_price' => $product_price,
-                        'product_date' => $product_date,
-                        'product_status' => $product_status,
-                        'product_max_active_versions' => $product_max_active_versions,
-                    ]);
-                    $added_records += 1;
-                } catch (Exception $e) {
-                    $added_records += 0;
-                }
-                if (! aflValidateIntegerValue($added_records)) {
-                    $api_error_detected = 1;
-
-                    return errorResponse(Lang::get('lang.invalid'), 400);
-                } else {
-                    $api_action_success = 1;
-
-                    return successResponse(Lang::get('lang.Product_Add'), $in, 200);
-                }
-            }
-        } else {
-            return errorResponse(Lang::get('lang.invalid'), 400);
+            return ['success' => true, 'data' => $in, 'message' => ''];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 400];
         }
     }
 
     public function deleteUpdateProduct(Request $request)
     {
-        $removed_records = 0;
-        $product_id = $request->get('product_id');
-        $api_key_secret = $request->get('api_key_secret');
-        $soft_delete = $request->get('soft_delete');
-        $api_key = new ApiKeysController();
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        if (aflValidateIntegerValue($product_id) && $api_action_success == 1) {
-            if($soft_delete === 0) {
-                DB::beginTransaction(); //mysqli_begin_transaction($GLOBALS["mysqli"]);
-                $transaction_errors_array = [];
-                try {
-                    AfuCallbacks::where('product_id', $product_id)->delete(); //Delete all callback for that product
-                    AfuInstallations::where('product_id', $product_id)->delete(); //Delete all installations for that product
-                    AfuVersions::where('product_id', $product_id)->delete(); //Delete all versions for that product
-                    $removed_records += AfuProducts::where('product_id', $product_id)->forceDelete(); //Delete the product
-                    DB::commit();
-                } catch (\Exception $e) {
-                    $transaction_errors_array[] = $e->getMessage();
-                    DB::rollBack();
-                    $removed_records = 0;
+        $data = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'product_id' => $request->get('product_id'),
+            'soft_delete' => $request->get('soft_delete'),
+        ];
 
-                    return errorResponse(Lang::get('lang.invalid'), 400);
-                }
-            }else{
-                AfuProducts::where('product_id', $product_id)->update(['product_status' => 0]);
-                $removed_records += AfuProducts::where('product_id', $product_id)->delete(); //Delete the product
-            }
+        $result = $this->processProductDelete($data, $this->ip_address);
+
+        if (! $result['success']) {
+            return errorResponse($result['message'], $result['status_code']);
         }
 
-        return successResponse(Lang::get('lang.delete'), $removed_records, 200);
+        return successResponse(Lang::get('lang.delete'), $result['data'], 200);
+    }
+
+    public function processProductDelete(array $data, string $ipAddress = ''): array
+    {
+        $api_key_secret = $data['api_key_secret'] ?? null;
+        $product_id = $data['product_id'] ?? null;
+        $soft_delete = $data['soft_delete'] ?? null;
+        $removed_records = 0;
+
+        if ($api_key_secret) {
+            $api_key = new ApiKeysController();
+            $api_key->apiKeyCheck($api_key_secret, $ipAddress);
+        }
+
+        if (! aflValidateIntegerValue($product_id)) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 400];
+        }
+
+        if ($soft_delete === 0) {
+            DB::beginTransaction();
+            try {
+                AfuCallbacks::where('product_id', $product_id)->delete();
+                AfuInstallations::where('product_id', $product_id)->delete();
+                AfuVersions::where('product_id', $product_id)->delete();
+                $removed_records += AfuProducts::where('product_id', $product_id)->forceDelete();
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+
+                return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 400];
+            }
+        } else {
+            AfuProducts::where('product_id', $product_id)->update(['product_status' => 0]);
+            $removed_records += AfuProducts::where('product_id', $product_id)->delete();
+        }
+
+        return ['success' => true, 'data' => $removed_records, 'message' => ''];
     }
 
     public function productUpdateUpdate(Request $request)
     {
-        $api_action_success = 0;
-        $api_error_detected = 0;
-        $updated_records = 0;
-        $api_key_secret = $request->get('api_key_secret');
-        $product_id = $request->get('product_id');
-        $product_title = $request->get('product_title');
-        $product_sku = $request->get('product_sku');
-        $product_short_description = $request->get('product_short_description');
-        $product_full_description = $request->get('product_full_description');
-        $product_key = $request->get('product_key');
-        $product_status = $request->get('product_status');
-        $product_url_homepage = $request->get('product_url_homepage');
-        $product_url_order = $request->get('product_url_order');
-        $product_price = $request->get('product_price');
-        $product_max_active_versions = $request->get('product_max_active_versions');
+        $data = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'product_id' => $request->get('product_id'),
+            'product_title' => $request->get('product_title'),
+            'product_sku' => $request->get('product_sku'),
+            'product_short_description' => $request->get('product_short_description'),
+            'product_full_description' => $request->get('product_full_description'),
+            'product_key' => $request->get('product_key'),
+            'product_status' => $request->get('product_status'),
+            'product_url_homepage' => $request->get('product_url_homepage'),
+            'product_url_order' => $request->get('product_url_order'),
+            'product_price' => $request->get('product_price'),
+            'product_max_active_versions' => $request->get('product_max_active_versions'),
+        ];
 
-        if (empty($product_id) || ! aflValidateIntegerValue($product_id) || empty($rows_array = AfuProducts::where('product_id', $product_id)->get()->toArray())) { //invalid record
-            return errorResponse(Lang::get('lang.invalid'), 404);
+        $result = $this->processProductUpdate($data, $this->ip_address);
+
+        if (! $result['success']) {
+            return errorResponse($result['message'], $result['status_code']);
         }
-        $api_key = new ApiKeysController();
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        if (! empty($product_title) && ! empty($product_sku) && ! empty($product_key) && aflValidateIntegerValue($product_status, 0, 2) && $api_action_success == 1) {
-            if (! empty($product_url_homepage) && ! filter_var($product_url_homepage, FILTER_VALIDATE_URL)) {
-                $api_error_detected = 1;
 
-                return errorResponse(Lang::get('lang.url_error'), 400);
-            }
-
-            if ($api_error_detected != 1) {
-                $updated_records += DB::table('afu_products')
-                    ->where('product_id', $product_id)
-                    ->update([
-                        'product_title' => $product_title,
-                        'product_sku' => $product_sku,
-                        'product_short_description' => $product_short_description,
-                        'product_full_description' => $product_full_description,
-                        'product_key' => $product_key,
-                        'product_url_homepage' => $product_url_homepage,
-                        'product_url_order' => $product_url_order,
-                        'product_price' => $product_price,
-                        'product_status' => $product_status,
-                        'product_max_active_versions' => $product_max_active_versions,
-
-                    ]);
-                if (! aflValidateIntegerValue($updated_records)) {
-                    return errorResponse(Lang::get('lang.nothing_updated'), 400);
-                } else {
-                    return successResponse(Lang::get('lang.Product_Update'), $updated_records, 200);
-                }
-            }
-        } else {
-            return errorResponse(Lang::get('lang.invalid'), 400);
-        }
+        return successResponse(Lang::get('lang.Product_Update'), $result['data'], 200);
     }
+
+    public function processProductUpdate(array $data, string $ipAddress = ''): array
+    {
+        $api_key_secret = $data['api_key_secret'] ?? null;
+        $product_id = $data['product_id'] ?? null;
+        $product_title = $data['product_title'] ?? null;
+        $product_sku = $data['product_sku'] ?? null;
+        $product_key = $data['product_key'] ?? null;
+        $product_status = $data['product_status'] ?? null;
+        $product_url_homepage = $data['product_url_homepage'] ?? null;
+
+        if (empty($product_id) || ! aflValidateIntegerValue($product_id) || empty(AfuProducts::where('product_id', $product_id)->get()->toArray())) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 404];
+        }
+
+        if ($api_key_secret) {
+            $api_key = new ApiKeysController();
+            $api_key->apiKeyCheck($api_key_secret, $ipAddress);
+        }
+
+        if (empty($product_title) || empty($product_sku) || ! aflValidateIntegerValue($product_status, 0, 2)) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 400];
+        }
+
+        if (! empty($product_url_homepage) && ! filter_var($product_url_homepage, FILTER_VALIDATE_URL)) {
+            return ['success' => false, 'message' => Lang::get('lang.url_error'), 'data' => [], 'status_code' => 400];
+        }
+
+        $updated_records = DB::table('afu_products')
+            ->where('product_id', $product_id)
+            ->update([
+                'product_title' => $product_title,
+                'product_sku' => $product_sku,
+                'product_short_description' => $data['product_short_description'] ?? '',
+                'product_full_description' => $data['product_full_description'] ?? '',
+                'product_key' => $product_key ?? '',
+                'product_url_homepage' => $product_url_homepage ?? '',
+                'product_url_order' => $data['product_url_order'] ?? '',
+                'product_price' => $data['product_price'] ?? '',
+                'product_status' => $product_status,
+                'product_max_active_versions' => $data['product_max_active_versions'] ?? '',
+            ]);
+
+        if (! aflValidateIntegerValue($updated_records)) {
+            return ['success' => false, 'message' => Lang::get('lang.nothing_updated'), 'data' => [], 'status_code' => 400];
+        }
+
+        return ['success' => true, 'data' => $updated_records, 'message' => ''];
+    }
+
     public function getProducts(Request $request)
     {
         $perPage = $request->input('perPage', 10);
