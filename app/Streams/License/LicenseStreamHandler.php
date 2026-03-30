@@ -2,6 +2,7 @@
 
 namespace App\Streams\License;
 
+use App\Http\Controllers\Admin\ClientsController;
 use App\Http\Controllers\Admin\InstallationController;
 use App\Http\Controllers\Admin\InstallationLogsController;
 use App\Http\Controllers\Admin\LicenseController;
@@ -9,6 +10,7 @@ use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\SearchController;
 use App\Http\Controllers\Update\AfuProductsController;
 use App\Http\Controllers\Update\AfuVersionsController;
+use App\Models\AflInstallations;
 use App\Streams\RedisStreamProducer;
 use Illuminate\Support\Facades\Log;
 
@@ -30,6 +32,8 @@ class LicenseStreamHandler
             'license_add_product' => $this->addProduct($payload),
             'license_edit_product' => $this->editProduct($payload),
             'license_delete_product' => $this->deleteProduct($payload),
+            'license_add_user' => $this->addUser($payload),
+            'license_edit_user' => $this->editUser($payload),
             'license_create' => $this->createLicense($payload),
             'license_update' => $this->updateLicense($payload),
             'license_installation' => $this->updateInstallation($payload),
@@ -70,9 +74,12 @@ class LicenseStreamHandler
 
     protected function getPluginInfo(array $payload): array
     {
-        $codes = collect($payload['license_codes'] ?? []);
+        $licenseCodes = $payload['license_codes'] ?? [];
+        if (is_string($licenseCodes)) {
+            $licenseCodes = json_decode($licenseCodes, true) ?: [];
+        }
 
-        return ['success' => true, 'data' => collect(new LicenseController()->getLicensePluginData($codes->toArray()))->toArray(), 'message' => ''];
+        return ['success' => true, 'data' => collect(new LicenseController()->getLicensePluginData($licenseCodes))->toArray(), 'message' => ''];
     }
 
     protected function reissueLicenses(array $payload): array
@@ -111,6 +118,7 @@ class LicenseStreamHandler
             'license_updates_date' => $payload['license_updates_date'] ?? '',
             'license_support_date' => $payload['license_support_date'] ?? '',
             'license_status' => $payload['license_status'] ?? 1,
+            'license_disable_ip_verification' => $payload['license_disable_ip_verification'] ?? 0,
             'client_id' => $payload['client_id'] ?? null,
             'license_comments' => $payload['license_comments'] ?? null,
         ];
@@ -121,10 +129,11 @@ class LicenseStreamHandler
     protected function updateLicense(array $payload): array
     {
         $data = [
+            'license_id' => $payload['license_id'] ?? null,
             'product_id' => $payload['product_id'],
             'license_code' => $payload['license_code'],
-            'license_order_number' => $payload['license_order_number'],
-            'license_ip' => $payload['license_ip'],
+            'license_order_number' => $payload['license_order_number'] ?? '',
+            'license_ip' => $payload['license_ip'] ?? '',
             'license_domain' => $payload['license_domain'] ?? '',
             'license_require_domain' => $payload['license_require_domain'],
             'license_limit' => $payload['license_limit'] ?? 1,
@@ -160,6 +169,16 @@ class LicenseStreamHandler
 
     protected function updateInstallation(array $payload): array
     {
+        if (! empty($payload['license_code'])) {
+            $query = AflInstallations::where('license_code', $payload['license_code']);
+            if (! empty($payload['product_id'])) {
+                $query->where('product_id', $payload['product_id']);
+            }
+            $query->delete();
+
+            return ['success' => true, 'data' => [], 'message' => ''];
+        }
+
         $data = [
             'installation_id' => $payload['installation_id'] ?? null,
             'installation_ip' => $payload['installation_ip'] ?? '',
@@ -209,5 +228,15 @@ class LicenseStreamHandler
     protected function editUpdateVersion(array $payload): array
     {
         return new AfuVersionsController()->processVersionUpdate($payload);
+    }
+
+    protected function addUser(array $payload): array
+    {
+        return new ClientsController()->processClientAdd($payload);
+    }
+
+    protected function editUser(array $payload): array
+    {
+        return new ClientsController()->processClientUpdate($payload);
     }
 }

@@ -26,7 +26,7 @@ use App\Http\Controllers\PhpMailController;
  */
 class ClientsController extends Controller
 {
-    public function __construct(Request $request)
+    public function __construct(?Request $request = null)
     {
         $this->ip_address = request()->server('REMOTE_ADDR');
     }
@@ -45,87 +45,23 @@ class ClientsController extends Controller
 
     public function clientAdd(ClientRequest $request)
     {
-        $added_records = 0;
-        $api_key_secret = $request->get('api_key_secret');
-        $client_fname = $request->get('client_fname');
-        $client_lname = $request->get('client_lname');
-        $client_email = $request->get('client_email');
-        $client_username = $request->get('client_username');
-        $client_status = $request->get('client_status');
-        $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
-        $password = Str::random(8);
-        $client_password = $client_role == 'admin' ? Hash::make($password) : null;
+        $data = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'client_fname' => $request->get('client_fname'),
+            'client_lname' => $request->get('client_lname'),
+            'client_email' => $request->get('client_email'),
+            'client_username' => $request->get('client_username'),
+            'client_status' => $request->get('client_status'),
+            'client_role' => $request->get('client_role'),
+        ];
 
-        $api_key = new ApiKeysController();
-        $api_action_success =  $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        $optional_api_parameters_array = ['client_username']; //optional API parameters for this page
-        foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
-            if (! isset($$optional_api_parameter)) {
-                $$optional_api_parameter = '';
-            }
+        $result = $this->processClientAdd($data, $this->ip_address);
+
+        if (! $result['success']) {
+            return errorResponse($result['message'], $result['status_code'] ?? 400);
         }
 
-        if (
-            !empty($client_fname) && !empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL)
-            && aflValidateIntegerValue($client_status, 0, 2) && $api_action_success == 1
-        ) {
-            $client_active_date = date('Y-m-d');
-            if ($client_status != 1) {
-                $client_cancel_date = '0000-00-00';
-            } else {
-                if (empty($client_cancel_date) || !aflVerifyDateTime($client_cancel_date, 'Y-m-d')) { //set cancel date to now only if client is inactive and no previous cancel date set
-                    $client_cancel_date = date('Y-m-d');
-                }
-            }
-            try {
-                $dataToInsert = [
-                    'client_fname' => $client_fname,
-                    'client_lname' => $client_lname,
-                    'client_email' => $client_email,
-                    'client_cancel_date' => $client_cancel_date,
-                    'client_status' => $client_status,
-                    'client_role' => $client_role,
-                    'client_username' => $client_username
-                ];
-                if ($client_status == '1') {
-                    $dataToInsert['client_active_date'] = $client_active_date;
-                }
-                try {
-                    if ($client_role == 'admin' && $client_status == '1') {
-                        $dataToInsert['client_password'] = $client_password;
-                        $add = AflClients::insertOrIgnore($dataToInsert);
-                        $added_records += 1;
-                        $client_name = $client_fname . ' ' . $client_lname;
-                        $data = [
-                            'client_name' => $client_name,
-                            'client_email' => $client_email,
-                            'password' => $password,
-                            'appUrl' => config('app.url'),
-                        ];
-                        $title = Lang::get('lang.login_credentials_agora');
-                        $template ='emails.welcomeEmail';
-
-                        postEmailSendConfig($client_email,$title,$template,$data);
-                    } else {
-                        $added_records += 1;
-                        $add = AflClients::insertOrIgnore($dataToInsert);
-                    }
-                } catch (\Exception $e) {
-                    return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
-                }
-            } catch (\Exception $e) {
-                $added_records += 0;
-            }
-
-            if (!aflValidateIntegerValue($added_records)) {
-                $api_error_detected = 1;
-
-                return errorResponse(Lang::get('lang.invalid'), 400);
-            }
-            return successResponse(Lang::get('lang.Client_Add'), $add, 201);
-        }
-
-        return errorResponse(Lang::get('lang.invalid'), 400);
+        return successResponse(Lang::get('lang.Client_Add'), $result['data'], 201);
     }
 
     /**
@@ -228,105 +164,182 @@ class ClientsController extends Controller
      */
     public function clientUpdate(Request $request)
     {
-        $updated_records = 0;
-        $api_key_secret = $request->get('api_key_secret');
-        $client_id = $request->get('client_id');
-        $client_fname = $request->get('client_fname');
-        $client_lname = $request->get('client_lname');
-        $client_email = $request->get('client_email');
-        $client_username = $request->get('client_username');
-        $client_status = $request->get('client_status');
-        $client_role = ($request->get('client_role') == 0) ? 'admin' : 'client';
+        $data = [
+            'api_key_secret' => $request->get('api_key_secret'),
+            'client_id' => $request->get('client_id'),
+            'client_fname' => $request->get('client_fname'),
+            'client_lname' => $request->get('client_lname'),
+            'client_email' => $request->get('client_email'),
+            'client_username' => $request->get('client_username'),
+            'client_status' => $request->get('client_status'),
+            'client_role' => $request->get('client_role'),
+        ];
+
+        $result = $this->processClientUpdate($data, $this->ip_address);
+
+        if (! $result['success']) {
+            return errorResponse($result['message'], $result['status_code'] ?? 400);
+        }
+
+        return successResponse(Lang::get('lang.Client_Update'), $result['data'], 200);
+    }
+
+    public function processClientAdd(array $data, string $ipAddress = ''): array
+    {
+        $api_key_secret = $data['api_key_secret'] ?? null;
+        $client_fname = $data['client_fname'] ?? '';
+        $client_lname = $data['client_lname'] ?? '';
+        $client_email = $data['client_email'] ?? '';
+        $client_username = $data['client_username'] ?? '';
+        $client_status = $data['client_status'] ?? 1;
+        $client_role = ($data['client_role'] ?? 1) == 0 ? 'admin' : 'client';
         $password = Str::random(8);
         $client_password = $client_role == 'admin' ? Hash::make($password) : null;
 
-        if (
-            empty($client_id) || !aflValidateIntegerValue($client_id) ||
-            empty($rows_array = AflClients::where('client_id', $client_id)->get())
-        ) { //invalid record
-            return errorResponse(Lang::get('lang.not_found_client'), 404);
+        $api_action_success = 1;
+        if ($api_key_secret) {
+            $api_key = new ApiKeysController();
+            $api_action_success = $api_key->apiKeyCheck($api_key_secret, $ipAddress);
         }
-        $api_key = new ApiKeysController();
-        $api_action_success = $api_key->apiKeyCheck($api_key_secret, $this->ip_address);
-        $optional_api_parameters_array = ['client_username']; //optional API parameters for this page
-        foreach ($optional_api_parameters_array as $optional_api_parameter) { //in case some required parameter was not submitted, set its value empty to prevent "undefined variable" errors
-            if (! isset($$optional_api_parameter)) {
-                $$optional_api_parameter = '';
-            }
-        }
-        if (!empty($client_fname) && !empty($client_lname) && filter_var($client_email, FILTER_VALIDATE_EMAIL) && aflValidateIntegerValue($client_status, 0, 2) && $api_action_success == 1) {
-            if ($client_status == 1) {
-                $client_cancel_date = '0000-00-00';
-            } else {
-                $client_cancel_date = $rows_array[0]['client_cancel_date']; //use old client_cancel_date if client was deactivated previously and its status wasn't changed now
-                if (empty($client_cancel_date) || !aflVerifyDateTime($client_cancel_date, 'Y-m-d')) { //set cancel date to now only if no previous cancel date set
-                    $client_cancel_date = date('Y-m-d');
-                }
-            }
-            $role = AflClients::where('client_id', $client_id)->value('client_role');
-            $status = AflClients::where('client_id', $client_id)->value('client_status');
-            $active_date = AflClients::where('client_id', $client_id)->value('client_active_date');
 
-            $dataToUpdate = [
+        if (empty($client_fname) || empty($client_lname) || ! filter_var($client_email, FILTER_VALIDATE_EMAIL) || ! aflValidateIntegerValue($client_status, 0, 2) || $api_action_success != 1) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid'), 'data' => [], 'status_code' => 400];
+        }
+
+        $client_active_date = date('Y-m-d');
+        if ($client_status != 1) {
+            $client_cancel_date = '0000-00-00';
+        } else {
+            $client_cancel_date = date('Y-m-d');
+        }
+
+        try {
+            $dataToInsert = [
                 'client_fname' => $client_fname,
                 'client_lname' => $client_lname,
                 'client_email' => $client_email,
-                'client_username' => $client_username,
                 'client_cancel_date' => $client_cancel_date,
                 'client_status' => $client_status,
                 'client_role' => $client_role,
+                'client_username' => $client_username,
             ];
-            if ($client_status == 1 && $active_date == '0000-00-00') {
-                $dataToUpdate['client_active_date'] = date('Y-m-d');
-            }
-            // The  below code controls the flow of providing credentials to users based on the condition email is fired to the particular user if are creating user with eole client or inactive status then he should not be recieving any credentials  the below code also controls the logic to send email only first the admin gets activated .
 
-            $changingroleCondition = ($client_role == 'admin' && $role == "client" && $client_status == '1');
-            $changingstatusCondition = ($client_role == 'admin' && $role == "admin"  && $status == '0' && $client_status == '1' && $active_date == '0000-00-00');
-
-            if ($changingroleCondition|| $changingstatusCondition ) {
-                try {
-                    $dataToUpdate['client_password'] = $client_password;
-                    $updated_records = AflClients::where('client_id', $client_id)
-                        ->update($dataToUpdate);
-                    $client_name = $client_fname . ' ' . $client_lname;
-                        $data = [
-                            'client_name' => $client_name,
-                            'client_email' => $client_email,
-                            'password' => $password,
-                            'appUrl' => config('app.url'),
-
-                        ];
-                        $title =Lang::get('lang.admin_privileges');
-                        $template ='emails.adminRoleMail';
-                        postEmailSendConfig($client_email,$title,$template,$data);
-
-                } catch (\Exception $e) {
-                    return errorResponse(Lang::get('lang.Client_Add_Failed'), 500);
-                }
-            }
-            else {
-                $updated_records = AflClients::where('client_id', $client_id)
-                    ->update($dataToUpdate);
+            if ($client_status == '1') {
+                $dataToInsert['client_active_date'] = $client_active_date;
             }
 
+            if ($client_role == 'admin' && $client_status == '1') {
+                $dataToInsert['client_password'] = $client_password;
+                $add = AflClients::insertOrIgnore($dataToInsert);
 
-            if ($client_role == "client" || $client_status == 0) {
-                (new AuthController())->logout(new Request, $client_id);
-                $logout = DB::table('oauth_access_tokens')
-                    ->where('user_id', $client_id)->delete();
-            }
-
-
-            if (!aflValidateIntegerValue($updated_records)) {
-                $error_detected = 1;
-
-                return errorResponse(Lang::get('lang.nothing_updated'), 400);
+                $client_name = $client_fname . ' ' . $client_lname;
+                $emailData = [
+                    'client_name' => $client_name,
+                    'client_email' => $client_email,
+                    'password' => $password,
+                    'appUrl' => config('app.url'),
+                ];
+                $title = Lang::get('lang.login_credentials_agora');
+                $template = 'emails.welcomeEmail';
+                postEmailSendConfig($client_email, $title, $template, $emailData);
             } else {
-                return successResponse(Lang::get('lang.Client_Update'), $updated_records, 200);
+                $add = AflClients::insertOrIgnore($dataToInsert);
+            }
+
+            $clientId = DB::getPdo()->lastInsertId();
+
+            return ['success' => true, 'data' => ['client_id' => $clientId], 'message' => ''];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => Lang::get('lang.Client_Add_Failed'), 'data' => [], 'status_code' => 500];
+        }
+    }
+
+    public function processClientUpdate(array $data, string $ipAddress = ''): array
+    {
+        $api_key_secret = $data['api_key_secret'] ?? null;
+        $client_id = $data['client_id'] ?? null;
+        $client_fname = $data['client_fname'] ?? '';
+        $client_lname = $data['client_lname'] ?? '';
+        $client_email = $data['client_email'] ?? '';
+        $client_username = $data['client_username'] ?? '';
+        $client_status = $data['client_status'] ?? 1;
+        $client_role = ($data['client_role'] ?? 1) == 0 ? 'admin' : 'client';
+        $password = Str::random(8);
+        $client_password = $client_role == 'admin' ? Hash::make($password) : null;
+
+        if (empty($client_id) || ! aflValidateIntegerValue($client_id) || empty(AflClients::where('client_id', $client_id)->get())) {
+            return ['success' => false, 'message' => Lang::get('lang.not_found_client'), 'data' => [], 'status_code' => 404];
+        }
+
+        $api_action_success = 1;
+        if ($api_key_secret) {
+            $api_key = new ApiKeysController();
+            $api_action_success = $api_key->apiKeyCheck($api_key_secret, $ipAddress);
+        }
+
+        if (empty($client_fname) || empty($client_lname) || ! filter_var($client_email, FILTER_VALIDATE_EMAIL) || ! aflValidateIntegerValue($client_status, 0, 2) || $api_action_success != 1) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid_client'), 'data' => [], 'status_code' => 400];
+        }
+
+        $rows_array = AflClients::where('client_id', $client_id)->get();
+
+        if ($client_status == 1) {
+            $client_cancel_date = '0000-00-00';
+        } else {
+            $client_cancel_date = $rows_array[0]['client_cancel_date'];
+            if (empty($client_cancel_date) || ! aflVerifyDateTime($client_cancel_date, 'Y-m-d')) {
+                $client_cancel_date = date('Y-m-d');
             }
         }
 
-        return errorResponse(Lang::get('lang.invalid_client'), 400);
+        $role = $rows_array[0]['client_role'];
+        $status = $rows_array[0]['client_status'];
+        $active_date = $rows_array[0]['client_active_date'];
+
+        $dataToUpdate = [
+            'client_fname' => $client_fname,
+            'client_lname' => $client_lname,
+            'client_email' => $client_email,
+            'client_username' => $client_username,
+            'client_cancel_date' => $client_cancel_date,
+            'client_status' => $client_status,
+            'client_role' => $client_role,
+        ];
+
+        if ($client_status == 1 && $active_date == '0000-00-00') {
+            $dataToUpdate['client_active_date'] = date('Y-m-d');
+        }
+
+        $changingroleCondition = ($client_role == 'admin' && $role == 'client' && $client_status == '1');
+        $changingstatusCondition = ($client_role == 'admin' && $role == 'admin' && $status == '0' && $client_status == '1' && $active_date == '0000-00-00');
+
+        try {
+            if ($changingroleCondition || $changingstatusCondition) {
+                $dataToUpdate['client_password'] = $client_password;
+                $updated_records = AflClients::where('client_id', $client_id)->update($dataToUpdate);
+
+                $client_name = $client_fname . ' ' . $client_lname;
+                $emailData = [
+                    'client_name' => $client_name,
+                    'client_email' => $client_email,
+                    'password' => $password,
+                    'appUrl' => config('app.url'),
+                ];
+                $title = Lang::get('lang.admin_privileges');
+                $template = 'emails.adminRoleMail';
+                postEmailSendConfig($client_email, $title, $template, $emailData);
+            } else {
+                $updated_records = AflClients::where('client_id', $client_id)->update($dataToUpdate);
+            }
+
+            if ($client_role == 'client' || $client_status == 0) {
+                (new AuthController())->logout(new Request, $client_id);
+                DB::table('oauth_access_tokens')->where('user_id', $client_id)->delete();
+            }
+
+            return ['success' => true, 'data' => $updated_records, 'message' => ''];
+        } catch (\Exception $e) {
+            return ['success' => false, 'message' => Lang::get('lang.Client_Add_Failed'), 'data' => [], 'status_code' => 500];
+        }
     }
 }
