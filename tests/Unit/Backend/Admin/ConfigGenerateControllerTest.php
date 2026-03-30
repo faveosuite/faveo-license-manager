@@ -3,10 +3,12 @@
 namespace Tests\Unit\Backend\Admin;
 
 use App\Models\AflProducts;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 
 class ConfigGenerateControllerTest extends TestCase
 {
+    use DatabaseTransactions;
     /**
      * A basic unit test example.
      *
@@ -15,7 +17,7 @@ class ConfigGenerateControllerTest extends TestCase
     public function test_configGenerate_configurationsIsRequested_shouldRecieveResponse200()
     {
         $this->withoutMiddleware();
-        $product = AflProducts::factory()->create(['product_id' => rand(10, 99), 'product_sku' => \Str::random(6)]);
+        $product = AflProducts::factory()->create(['product_sku' => \Str::random(6)]);
         $data = [
             'product_id' => $product->product_id,
             'License_Verification_Period' => '5',

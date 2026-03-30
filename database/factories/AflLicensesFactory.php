@@ -14,9 +14,9 @@ class AflLicensesFactory extends Factory
     public function definition()
     {
         return [
-            'product_id' => 100,
+            'product_id' => fake()->numberBetween(1, 1000),
             'client_id' => null,
-            'license_code' => 'CH2NW4MI0OTL0002',
+            'license_code' => \Str::upper(\Str::random(16)),
             'license_require_domain' => 0,
             'license_limit' => 2,
             'license_date' => now(),

@@ -22,6 +22,7 @@ class ProductsControllerTest extends TestCase
     public function test_productAdd_whenProductIsAdded_shouldRecieveResponseTrue()
     {
         $this->withoutMiddleware();
+        AflProducts::where('product_sku', 'FAVEO-HDFRR')->orWhere('product_sku', 'FAVEO-TESTHDFE')->forceDelete();
 
         $data = [
 
@@ -68,9 +69,10 @@ class ProductsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
         $product_id = AflProducts::where('product_sku', 'FAVEO-TESTHDFE')->value('product_id');
-        AflLicenses::factory()->create(['product_id' => $product_id, 'license_code' => 'KIOSXH890DH678DK']);
-        AflInstallations::factory()->create(['product_id' => $product_id, 'license_code' => 'KIOSXH890DH678DK']);
-        AflCallbacks::factory()->create(['product_id' => $product_id, 'license_code' => 'KIOSXH890DH678DK']);
+        $licenseCode = 'DEL' . \Str::random(13);
+        AflLicenses::factory()->create(['product_id' => $product_id, 'license_code' => $licenseCode]);
+        AflInstallations::factory()->create(['product_id' => $product_id, 'license_code' => $licenseCode]);
+        AflCallbacks::factory()->create(['product_id' => $product_id, 'license_code' => $licenseCode]);
         $data =
            [
 
@@ -91,8 +93,8 @@ class ProductsControllerTest extends TestCase
         $data = [
 
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
-            'product_title' => 'Helpdesk Product',
-            'product_sku' => 'FAVEO-HDFRR',
+            'product_title' => 'Helpdesk Product URL Test ' . \Str::random(5),
+            'product_sku' => 'FAVEO-URL-' . \Str::random(5),
             'product_status' => 1,
             'product_description' => 'This is a test product for license manager',
             'product_key' => 'ckjdjdfjfds',
@@ -113,8 +115,8 @@ class ProductsControllerTest extends TestCase
         $data = [
 
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
-            'product_title' => 'Helpdesk Product',
-            'product_sku' => 'FAVEO-HDFRR',
+            'product_title' => 'Helpdesk Product Envato Test ' . \Str::random(5),
+            'product_sku' => 'FAVEO-ENV-' . \Str::random(5),
             'product_status' => 1,
             'product_key' => 'skjnsdfjsfd',
             'product_description' => 'This is a test product for license manager',
@@ -166,6 +168,7 @@ class ProductsControllerTest extends TestCase
     {
         $this->withoutMiddleware();
 
+        AflProducts::where('product_id', 100)->forceDelete();
         AflProducts::factory()->create(['product_id' => 100]);
         $data = [
 

@@ -11,10 +11,13 @@ class VersionsControllerTest extends TestCase
 {
     use DatabaseTransactions;
 
+    protected $existingVersionCount;
+
     protected function setUp(): void
     {
         parent::setUp();
         $this->withoutMiddleware();
+        $this->existingVersionCount = AfuVersions::count();
         $this->createVersions();
     }
 
@@ -28,11 +31,11 @@ class VersionsControllerTest extends TestCase
 
     public function test_can_retrieve_versions_list()
     {
-        $response = $this->get('api/admin/viewVersions');
+        $response = $this->get('api/admin/viewVersions?perPage=100');
         $response->assertStatus(200);
         $versions = json_decode($response->content())->data;
         $this->assertNotNull($versions);
-        $this->assertCount(3, $versions->data);
+        $this->assertCount($this->existingVersionCount + 3, $versions->data);
     }
 
     public function test_can_search_versions()
@@ -67,10 +70,13 @@ class VersionsControllerTest extends TestCase
             AfuVersions::factory()->create();
         }
 
+        $totalVersions = $this->existingVersionCount + 3 + 15; // existing + setUp + this test
+        $expectedPage2 = min(10, $totalVersions - 10); // total minus first page, capped at perPage
+
         $response = $this->get('api/admin/viewVersions?perPage=10&page=2');
         $response->assertStatus(200);
         $versions = json_decode($response->content())->data;
         $this->assertNotNull($versions);
-        $this->assertCount(8, $versions->data);
+        $this->assertCount($expectedPage2, $versions->data);
     }
 }

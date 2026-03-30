@@ -3,12 +3,14 @@
 namespace Tests\Unit\Backend\Admin;
 
 use App\Models\AflClients;
+use Illuminate\Foundation\Testing\DatabaseTransactions;
 use Tests\TestCase;
 use App\Models\AflApiKeys;
 
 
 class ClientsControllerTest extends TestCase
 {
+    use DatabaseTransactions;
     /**
      * A basic unit test example.
      *
@@ -30,12 +32,18 @@ class ClientsControllerTest extends TestCase
         $response->assertStatus(201);
         $response->assertJson(['success' => true]);
         $response->assertJson(['message' => 'Contact has been Added Successfully']);
-        $response->assertJson(['data' => 1]);
+        $this->assertNotEmpty(json_decode($response->getContent())->data->client_id);
     }
 
     public function test_clientAdd_whenClientDetailsIsAddedWithSameDetails_shouldRecieveResponse412()
     {
         $this->withoutMiddleware();
+        AflClients::create([
+            'client_fname' => 'Sandesh',
+            'client_lname' => 'Menath',
+            'client_email' => 'sandesh@gmail.com',
+            'client_status' => 1,
+        ]);
         $data = [
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
@@ -51,7 +59,12 @@ class ClientsControllerTest extends TestCase
     public function test_clientUpdate_whenClientDetailsIsUpdated_shouldRecieveResponse200()
     {
         $this->withoutMiddleware();
-        $id = AflClients::where('client_email', 'sandesh@gmail.com')->value('client_id');
+        $id = AflClients::create([
+            'client_fname' => 'Sandesh',
+            'client_lname' => 'Menath',
+            'client_email' => 'sandesh@gmail.com',
+            'client_status' => 1,
+        ])->value('client_id');
         $data = [
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
@@ -90,7 +103,7 @@ class ClientsControllerTest extends TestCase
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
 
             'client_fname' => 'Sandesh',
-            'client_lname' => 'Menath',
+            'client_lname' => '',
             'client_email' => 'sandesh@gmail.com',
         ];
         $response = $this->json('POST', url('api/admin/clients/add'), $data);

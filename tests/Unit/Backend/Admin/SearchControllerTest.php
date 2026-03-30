@@ -27,6 +27,7 @@ class SearchControllerTest extends TestCase
     public function test_search_searchForBanpnedHostsUsingIp_shouldRespondWith200()
     {
         $this->withoutMiddleware();
+        AflBannedHosts::where('banned_host_id', 1)->delete();
         AflBannedHosts::factory()->create(['banned_host_id' => 1]);
         $data = [
 
@@ -159,6 +160,8 @@ class SearchControllerTest extends TestCase
     public function test_search_searchForInstallationUsingLicenseCode_shouldRespondWith200()
     {
         $this->withoutMiddleware();
+        AflInstallations::where('installation_id', 3)->delete();
+        AflProducts::where('product_id', 15)->forceDelete();
         AflProducts::factory()->create(['product_id' => 15, 'product_sku' => \Str::random(10)]);
         AflInstallations::factory()->create(['installation_id' => 3, 'product_id' => 15, 'license_code' => 'QWYDKO0D6NCLO5HN']);
         $data = [
@@ -179,6 +182,9 @@ class SearchControllerTest extends TestCase
     public function test_search_searchForInstallationUsingInstallationDomain_shouldRespondWith200()
     {
         $this->withoutMiddleware();
+        AflInstallations::factory()->create([
+            'installation_domain' => 'sandesh.com',
+        ]);
         $data = [
 
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
@@ -197,6 +203,9 @@ class SearchControllerTest extends TestCase
     public function test_search_searchForInstallationUsingInstallationIp_shouldRespondWith200()
     {
         $this->withoutMiddleware();
+        AflInstallations::factory()->create([
+            'installation_ip' => '106.51.140.178'
+        ]);
         $data = [
 
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
@@ -259,6 +268,9 @@ class SearchControllerTest extends TestCase
     public function test_search_searchForProductsUsingProductTitle_shouldRespondWith200()
     {
         $this->withoutMiddleware();
+        AflInstallations::where('installation_id', 5)->delete();
+        AflLicenses::where('license_id', 11)->delete();
+        AflProducts::where('product_id', 17)->forceDelete();
         AflProducts::factory()->create(['product_id' => 17, 'product_sku' => 'SEARCH-PRO', 'product_title' => 'Faveo Test Product']);
         AflLicenses::factory()->create(['license_id' => 11, 'license_code' => 'KODJKSOPIC6789EH', 'product_id' => 17]);
         AflInstallations::factory()->create(['installation_id' => 5, 'product_id' => 17, 'license_code' => 'KODJKSOPIC6789EH']);
@@ -323,6 +335,7 @@ class SearchControllerTest extends TestCase
         $this->withoutMiddleware();
         $callback = AfuCallbacks::factory()->create(['callback_id' => rand(100000, 999999), 'product_id' => rand(100000, 999999), 'callback_ip' => '127.0.0.1']);
         AflProducts::factory()->create(['product_id' => $callback->product_id, 'product_sku' => \Str::random(10)]);
+        AfuVersions::where('version_id', 1)->delete();
         AfuVersions::factory()->create(['product_id' => $callback->product_id, 'version_id' => 1]);
         $data = [
             'api_key_secret' => AflApiKeys::first()->api_key_secret,
@@ -343,6 +356,9 @@ class SearchControllerTest extends TestCase
     public function test_search_searchUsingUpdateInstallationProductTitle_shouldReturnResponseWithProductTitle()
     {
         $this->withoutMiddleware();
+        AfuVersions::where('version_id', 11)->delete();
+        AfuInstallations::where('installation_id', 1)->delete();
+        AflProducts::where('product_id', 15)->forceDelete();
         AflProducts::factory()->create(['product_id' => 15, 'product_sku' => \Str::random(10)]);
         AfuInstallations::factory()->create(['installation_id' => 1, 'product_id' => 15, 'version_id' => 11]);
         AfuVersions::factory()->create(['version_id' => 11, 'product_id' => 15]);
@@ -438,6 +454,9 @@ class SearchControllerTest extends TestCase
     public function test_search_searchUsingUpdateVersionsWithProductTitle_shouldReturnResponseWithVersionDetailsWithThatProductId()
     {
         $this->withoutMiddleware();
+        AfuCallbacks::where('callback_id', 12)->delete();
+        AfuVersions::where('version_id', 11)->delete();
+        AflProducts::where('product_id', 51)->forceDelete();
         AflProducts::factory()->create(['product_id' => 51, 'product_sku' => 'SEARCH-INST']);
         AfuVersions::factory()->create(['version_id' => 11, 'product_id' => 51]);
         AfuCallbacks::factory()->create(['callback_id' => 12, 'product_id' => 51, 'version_id' => 11]);

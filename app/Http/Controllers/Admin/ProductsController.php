@@ -79,6 +79,10 @@ class ProductsController extends Controller
             $api_action_success = $api_key->apiKeyCheck($api_key_secret, $ipAddress);
         }
 
+        if ($api_key_secret && ! $api_action_success) {
+            return ['success' => false, 'message' => Lang::get('lang.invalid_api_key'), 'data' => [], 'status_code' => 404];
+        }
+
         if (! empty($product_title) && ! empty($product_sku) && aflValidateIntegerValue($product_status, 0, 2)) {
             if (! empty($product_url_homepage) && ! filter_var($product_url_homepage, FILTER_VALIDATE_URL)) {
                 return ['success' => false, 'message' => Lang::get('lang.error_producturl'), 'data' => [], 'status_code' => 400];

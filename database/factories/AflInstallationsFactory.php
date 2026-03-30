@@ -14,14 +14,21 @@ class AflInstallationsFactory extends Factory
     public function definition()
     {
         return [
-            'product_id' => 100,
-            'license_code' => 'CH2NW4MI0OTL0002',
-            'installation_ip' => '106.51.140.178',
-            'installation_domain' => 'sandesh.com',
-            'installation_disable_ip_verification' => 0,
-            'installation_date' => now(),
-            'installation_status' => 1,
-            'installation_hash' => 'd991ff928bc03e7a60fee65ea0bb135f72744fde248761f6d266a6ff9e6941ce',
+            'product_id' => fake()->numberBetween(1, 1000),
+
+            'license_code' => \Str::upper(\Str::random(16)),
+
+            'installation_ip' => fake()->ipv4(),
+
+            'installation_domain' => fake()->domainName(),
+
+            'installation_disable_ip_verification' => fake()->boolean() ? 1 : 0,
+
+            'installation_date' => fake()->dateTimeBetween('-1 year', 'now'),
+
+            'installation_status' => fake()->randomElement([0, 1]),
+
+            'installation_hash' => hash('sha256', \Str::random(40)),
         ];
     }
 }
