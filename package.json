@@ -31,7 +31,7 @@
         "resolve-url-loader": "^5.0.0",
         "sass": "^1.97.0",
         "sass-loader": "^16.0.6",
-        "vite": "^7.3.0"
+        "vite": "^7.3.2"
     },
     "dependencies": {
         "clipboard-copy": "^4.0.1",
