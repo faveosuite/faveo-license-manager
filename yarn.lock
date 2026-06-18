@@ -5871,7 +5871,7 @@ __metadata:
     v-tables-3: "npm:^0.4.7"
     v-tooltip: "npm:^4.0.0-beta.17"
     validator: "npm:^13.15.23"
-    vite: "npm:^7.3.0"
+    vite: "npm:^7.3.5"
     vue: "npm:^3.5.25"
     vue-cropperjs: "npm:^5.0.0"
     vue-datepicker-next: "npm:^1.0.3"
@@ -6466,9 +6466,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"vite@npm:^7.3.0":
-  version: 7.3.0
-  resolution: "vite@npm:7.3.0"
+"vite@npm:^7.3.5":
+  version: 7.3.5
+  resolution: "vite@npm:7.3.5"
   dependencies:
     esbuild: "npm:^0.27.0"
     fdir: "npm:^6.5.0"
@@ -6517,7 +6517,7 @@ __metadata:
       optional: true
   bin:
     vite: bin/vite.js
-  checksum: 10c0/0457c196cdd5761ec351c0f353945430fbad330e615b9eeab729c8ae163334f18acdc1d9cd7d9d673dbf111f07f6e4f0b25d4ac32360e65b4a6df9991046f3ff
+  checksum: 10c0/4ad700649ed2ebd1e726d32f3f6e41eecbec4e29bcb5977805f3d43a5659280518aa431b0fc61adc1879df4fe1978d7cfc7dbbe54cdf014022385052967721e8
   languageName: node
   linkType: hard
 
