@@ -8,7 +8,7 @@
         "watch-test": "jest -- --watch --notify"
     },
     "devDependencies": {
-        "@babel/core": "^7.28.5",
+        "@babel/core": "^7.29.6",
         "@babel/preset-env": "^7.28.5",
         "@popperjs/core": "^2.11.8",
         "@vitejs/plugin-vue": "^6.0.3",
